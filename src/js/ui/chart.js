@@ -1,29 +1,40 @@
-import Chart from "chart.js/auto";
+/**
+ * src/js/ui/chart.js
+ * Beheert Chart.js en de HTML tabel.
+ */
+import Chart from 'chart.js/auto';
 import { formatEUR } from "../format.js";
 
-let chart = null;
+let chartInstance = null;
 
-function formatEUR0(n) {
-  return formatEUR(n);
-}
+// Light mode colors
+const COL_LINE = '#0ea5e9'; // Sky 500
+const COL_FILL = 'rgba(14, 165, 233, 0.1)';
+const COL_GRID = '#e2e8f0'; // Slate 200
+const COL_TEXT = '#64748b'; // Slate 500
 
 export function initChart() {
-  const canvas = document.getElementById("net-chart");
-  if (!canvas) return;
+  const ctx = document.getElementById('net-chart');
+  if (!ctx) return;
 
-  chart = new Chart(canvas, {
-    type: "line",
+  Chart.defaults.font.family = 'ui-sans-serif, system-ui, sans-serif';
+  Chart.defaults.color = COL_TEXT;
+
+  chartInstance = new Chart(ctx, {
+    type: 'line',
     data: {
       labels: [],
-      datasets: [
-        {
-          label: "Netto maandlast",
-          data: [],
-          tension: 0.25,
-          borderWidth: 2,
-          pointRadius: 0
-        }
-      ]
+      datasets: [{
+        label: 'Netto maandlast',
+        data: [],
+        borderColor: COL_LINE,
+        backgroundColor: COL_FILL,
+        borderWidth: 3,
+        pointRadius: 0,
+        pointHoverRadius: 6,
+        fill: true,
+        tension: 0.3
+      }]
     },
     options: {
       responsive: true,
@@ -31,15 +42,28 @@ export function initChart() {
       plugins: {
         legend: { display: false },
         tooltip: {
+          mode: 'index',
+          intersect: false,
           callbacks: {
-            label: (ctx) => ` ${formatEUR0(ctx.parsed.y)}`
-          }
+            label: (ctx) => ` Netto: ${formatEUR(ctx.parsed.y)}`
+          },
+          backgroundColor: '#fff',
+          titleColor: '#0f172a',
+          bodyColor: '#0f172a',
+          borderColor: '#e2e8f0',
+          borderWidth: 1,
+          padding: 10,
+          displayColors: false
         }
       },
       scales: {
-        x: { ticks: { maxTicksLimit: 8 } },
+        x: {
+          grid: { display: false, drawBorder: false },
+          ticks: { maxTicksLimit: 6 }
+        },
         y: {
-          ticks: { callback: (value) => formatEUR0(value) }
+          grid: { color: COL_GRID, borderDash: [4, 4], drawBorder: false },
+          beginAtZero: true
         }
       }
     }
@@ -47,51 +71,51 @@ export function initChart() {
 }
 
 export function updateChart(result) {
-  if (!chart || !result) return;
+  if (!chartInstance) return;
 
-  const labels = result.rows.map((r) => `M${r.month}`);
-  const data = result.rows.map((r) => Math.round(r.netMonth));
+  // Data mappen
+  const labels = result.rows.map(r => `Mnd ${r.month}`);
+  const data = result.rows.map(r => r.netMonth);
 
-  chart.data.labels = labels;
-  chart.data.datasets[0].data = data;
-  chart.update();
-
-  const badge = document.getElementById("chart-badge");
-  if (badge) badge.textContent = `Gemiddeld: ${formatEUR0(result.avgNet)}`;
+  chartInstance.data.labels = labels;
+  chartInstance.data.datasets[0].data = data;
+  chartInstance.update();
 }
 
 export function updateTable(result) {
   const tbody = document.getElementById("result-tbody");
   if (!tbody) return;
 
-  if (!result?.rows?.length) {
-    tbody.innerHTML = `<tr><td colspan="6" class="muted">Geen resultaat.</td></tr>`;
+  // Clear
+  tbody.innerHTML = "";
+
+  if (!result.rows || result.rows.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="muted">Geen data.</td></tr>`;
     return;
   }
 
-  const rowsHtml = result.rows
-    .map((r) => {
-      const depotStand = Math.max(0, r.depotRemaining);
-      return `
-        <tr>
-          <td>${r.month}</td>
-          <td>${formatEUR0(depotStand)}</td>
-          <td>${formatEUR0(r.mortgageInterest)}</td>
-          <td>${formatEUR0(r.depotInterest)}</td>
-          <td>${formatEUR0(r.taxBenefit)}</td>
-          <td><strong>${formatEUR0(r.netMonth)}</strong></td>
-        </tr>
-      `;
-    })
-    .join("");
+  // Build rows (max 12 of 24 tonen of alles, hier alles met scroll)
+  // Gebruik document fragment voor performance
+  const fragment = document.createDocumentFragment();
 
-  tbody.innerHTML = rowsHtml;
+  result.rows.forEach(row => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${row.month}</td>
+      <td class="muted">${formatEUR(row.depotRemaining)}</td>
+      <td class="muted">${formatEUR(row.mortgageInterest)}</td>
+      <td style="color:#10b981">+ ${formatEUR(row.depotInterest)}</td>
+      <td class="muted">${row.taxBenefit > 0 ? '-' : ''} ${formatEUR(row.taxBenefit)}</td>
+      <td style="font-weight:600; color:#0f172a">${formatEUR(row.netMonth)}</td>
+    `;
+    fragment.appendChild(tr);
+  });
+
+  tbody.appendChild(fragment);
 }
 
+// Nodig voor export
 export function getChartPngDataUrl() {
-  if (!chart) return null;
-  // Chart.js exposes canvas via chart.canvas
-  const canvas = chart.canvas;
-  if (!canvas) return null;
-  return canvas.toDataURL("image/png", 1.0);
+  if (!chartInstance) return null;
+  return chartInstance.toBase64Image();
 }

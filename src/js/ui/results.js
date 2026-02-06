@@ -1,11 +1,13 @@
 /**
  * src/js/ui/results.js
- * Beheert de tekstuele output (KPI's en samenvatting).
+ * UPDATE: Inclusief initResults export
  */
 import { formatEUR } from "../format.js";
 
-// DOM elementen cachen we niet globaal om errors bij laden te voorkomen, 
-// we zoeken ze 'lazy' of via een init (maar hier simpel via getElementById in functie).
+export function initResults() {
+  resetKPIs();
+  // Eventuele andere startup logica voor results
+}
 
 export function updateKPIs(result) {
   const elAvg = document.getElementById("kpi-avg");
@@ -16,19 +18,22 @@ export function updateKPIs(result) {
   if (elTotal) elTotal.textContent = formatEUR(result.totalNet);
   
   if (elDiff) {
-    const prefix = result.diff > 0 ? "+ " : ""; // plusje als het duurder wordt
+    const prefix = result.diff > 0 ? "+ " : ""; 
     elDiff.textContent = prefix + formatEUR(result.diff);
     
-    // Kleur indicatie (optioneel, via class)
-    if (result.diff > 0) elDiff.style.color = "#ef4444"; // Rood (duurder)
-    else elDiff.style.color = "#10b981"; // Groen (goedkoper)
+    // Kleur: Rood/Groen of neutraal (afhankelijk van CSS classes of inline style)
+    // Bij light mode: Rood = #ef4444, Groen = #10b981
+    if (result.diff > 0) elDiff.style.color = "#ef4444"; 
+    else elDiff.style.color = "#10b981"; 
   }
 
-  // Update badge boven grafiek
   const elBadge = document.getElementById("chart-badge");
   if (elBadge) {
     elBadge.textContent = `Totaal: ${formatEUR(result.totalNet)}`;
     elBadge.style.opacity = "1";
+    elBadge.style.background = "#e0f2fe"; // lichte blauwe tint
+    elBadge.style.borderColor = "#bae6fd";
+    elBadge.style.color = "#0284c7";
   }
 }
 
@@ -44,7 +49,10 @@ export function resetKPIs() {
   const elBadge = document.getElementById("chart-badge");
   if (elBadge) {
     elBadge.textContent = "—";
-    elBadge.style.opacity = "0.5";
+    elBadge.style.opacity = "0.6";
+    elBadge.style.background = "";
+    elBadge.style.borderColor = "";
+    elBadge.style.color = "";
   }
 }
 
@@ -52,7 +60,6 @@ export function setSummary(state) {
   const el = document.getElementById("summary-text");
   if (!el) return;
 
-  // Bouw een leesbare zin
   const parts = [];
   
   if (state.grondbedrag) parts.push(`Grond: <strong>${formatEUR(state.grondbedrag)}</strong>`);
