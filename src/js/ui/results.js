@@ -1,83 +1,142 @@
 /**
- * src/js/ui/results.js
- * UPDATE: Inclusief initResults export
+ * src/js/ui/downloads.js
+ * PDF generatie aangepast op nieuwe Cashflow model.
  */
+import { jsPDF } from "jspdf";
+import { getChartPngDataUrl } from "./chart.js";
 import { formatEUR } from "../format.js";
 
-export function initResults() {
-  resetKPIs();
-  // Eventuele andere startup logica voor results
-}
+let getLastResult = null;
+let getLastState = null;
 
-export function updateKPIs(result) {
-  const elAvg = document.getElementById("kpi-avg");
-  const elTotal = document.getElementById("kpi-total");
-  const elDiff = document.getElementById("kpi-diff");
+export function initDownloads(resultGetter, stateGetter, snackbarFn) {
+  getLastResult = resultGetter;
+  getLastState = stateGetter;
 
-  if (elAvg) elAvg.textContent = formatEUR(result.avgNet);
-  if (elTotal) elTotal.textContent = formatEUR(result.totalNet);
-  
-  if (elDiff) {
-    const prefix = result.diff > 0 ? "+ " : ""; 
-    elDiff.textContent = prefix + formatEUR(result.diff);
-    
-    // Kleur: Rood/Groen of neutraal (afhankelijk van CSS classes of inline style)
-    // Bij light mode: Rood = #ef4444, Groen = #10b981
-    if (result.diff > 0) elDiff.style.color = "#ef4444"; 
-    else elDiff.style.color = "#10b981"; 
+  // Let op: In nieuwe HTML heb ik de PNG knop weggehaald, alleen PDF over.
+  // Voor veiligheid checken we of btn-dl-png bestaat.
+  const btnPng = document.getElementById("btn-dl-png");
+  if (btnPng) {
+     btnPng.addEventListener("click", () => {
+        const url = getChartPngDataUrl();
+        if (url) {
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "cashflow-grafiek.png";
+            a.click();
+        }
+     });
   }
 
-  const elBadge = document.getElementById("chart-badge");
-  if (elBadge) {
-    elBadge.textContent = `Totaal: ${formatEUR(result.totalNet)}`;
-    elBadge.style.opacity = "1";
-    elBadge.style.background = "#e0f2fe"; // lichte blauwe tint
-    elBadge.style.borderColor = "#bae6fd";
-    elBadge.style.color = "#0284c7";
-  }
-}
-
-export function resetKPIs() {
-  ["kpi-avg", "kpi-total", "kpi-diff"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.textContent = "€ —";
-      el.style.color = "";
-    }
+  const btnPdf = document.getElementById("btn-dl-pdf");
+  btnPdf?.addEventListener("click", () => {
+    generatePDF(snackbarFn);
   });
-
-  const elBadge = document.getElementById("chart-badge");
-  if (elBadge) {
-    elBadge.textContent = "—";
-    elBadge.style.opacity = "0.6";
-    elBadge.style.background = "";
-    elBadge.style.borderColor = "";
-    elBadge.style.color = "";
-  }
 }
 
-export function setSummary(state) {
-  const el = document.getElementById("summary-text");
-  if (!el) return;
+export function enableDownloadButtons() {
+  const btnPdf = document.getElementById("btn-dl-pdf");
+  if (btnPdf) btnPdf.disabled = false;
+  
+  const btnPng = document.getElementById("btn-dl-png");
+  if (btnPng) btnPng.disabled = false;
+}
 
-  const parts = [];
-  
-  if (state.grondbedrag) parts.push(`Grond: <strong>${formatEUR(state.grondbedrag)}</strong>`);
-  if (state.bouwdepot) parts.push(`Depot: <strong>${formatEUR(state.bouwdepot)}</strong>`);
-  if (state.bouwtijd) parts.push(`Tijd: <strong>${state.bouwtijd} mnd</strong>`);
-  
-  if (parts.length === 0) {
-    el.innerHTML = "Vul links je gegevens in.";
+function generatePDF(snackbarFn) {
+  const result = getLastResult ? getLastResult() : null;
+  const state = getLastState ? getLastState() : null;
+
+  if (!result || !state) {
+    if (snackbarFn) snackbarFn("Geen data.");
     return;
   }
 
-  let html = parts.join(" • ");
+  const doc = new jsPDF();
+  let y = 20;
+
+  // Header
+  doc.setFontSize(18);
+  doc.text("Bouwdepot Cashflow Rapport", 14, y);
+  y += 10;
   
-  if (state.taxEnabled) {
-    html += `<br><small class="muted">Incl. belastingvoordeel (${state.taxRate * 100}%)</small>`;
-  } else {
-    html += `<br><small class="muted">Excl. belastingteruggave</small>`;
+  doc.setFontSize(10);
+  doc.setTextColor(100);
+  doc.text(`Datum: ${new Date().toLocaleDateString('nl-NL')}`, 14, y);
+  y += 10;
+
+  // Invoer
+  doc.setFontSize(12);
+  doc.setTextColor(0);
+  doc.text("Invoergegevens", 14, y);
+  y += 8;
+  
+  doc.setFontSize(10);
+  const inputs = [
+    `Totale Hypotheek: ${formatEUR(state.loanTotal)}`,
+    `Hypotheekrente: ${state.interestRate}%`,
+    `Maandelijkse aflossing: ${formatEUR(state.repayment)}`,
+    `Bouwdepot deel: ${formatEUR(state.depotTotal)}`,
+    `Depotrente vergoeding: ${state.depotRate}%`,
+    `Bouwtijd: ${state.duration} maanden`
+  ];
+
+  inputs.forEach(line => {
+    doc.text("- " + line, 14, y);
+    y += 6;
+  });
+
+  y += 6;
+
+  // Resultaten
+  doc.setFontSize(12);
+  doc.text("Resultaten", 14, y);
+  y += 8;
+  
+  doc.setFontSize(10);
+  doc.text(`Start maandlast (netto): ${formatEUR(result.startNet)}`, 14, y);
+  y += 6;
+  doc.text(`Eind maandlast (netto): ${formatEUR(result.endNet)}`, 14, y);
+  y += 6;
+  doc.text(`Totaal betaalde rente (over hele bouw): ${formatEUR(result.totalNetInterest)}`, 14, y);
+  
+  y += 15;
+
+  // Grafiek
+  const imgData = getChartPngDataUrl();
+  if (imgData) {
+    doc.addImage(imgData, 'PNG', 14, y, 180, 80);
+    y += 85;
   }
 
-  el.innerHTML = html;
+  // Tabel
+  doc.setFontSize(12);
+  doc.text("Maandoverzicht", 14, y);
+  y += 8;
+
+  doc.setFontSize(9);
+  doc.setTextColor(100);
+  // Nieuwe headers: Bruto, Vergoeding, Netto
+  const headers = ["Mnd", "Bruto Last", "Vergoeding", "Netto Te Betalen", "Depot Stand"];
+  let xArr = [14, 30, 60, 90, 130];
+  
+  headers.forEach((h, i) => doc.text(h, xArr[i], y));
+  y += 6;
+  doc.line(14, y-4, 180, y-4);
+
+  doc.setTextColor(0);
+  
+  // Max 24 rijen voor PDF zodat het op 1 pagina past
+  const rows = result.rows.slice(0, 24); 
+  
+  rows.forEach(r => {
+    doc.text(r.month.toString(), xArr[0], y);
+    doc.text(formatEUR(r.gross), xArr[1], y);
+    doc.text(formatEUR(r.reimbursement), xArr[2], y);
+    doc.text(formatEUR(r.net), xArr[3], y);
+    doc.text(formatEUR(r.depotStand), xArr[4], y);
+    y += 6;
+  });
+
+  doc.save("bouwdepot-cashflow.pdf");
+  if (snackbarFn) snackbarFn("PDF gegenereerd.");
 }

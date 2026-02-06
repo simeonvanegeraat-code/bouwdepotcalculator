@@ -1,3 +1,8 @@
+/**
+ * src/js/ui/chart.js
+ * Beheert de grafiek.
+ * FIX: Inclusief getChartPngDataUrl export.
+ */
 import Chart from 'chart.js/auto';
 import { formatEUR } from "../format.js";
 
@@ -16,22 +21,22 @@ export function initChart() {
       labels: [],
       datasets: [
         {
-          label: 'Bruto Maandlast (Rente + Aflossing)',
+          label: 'Bruto Maandlast',
           data: [],
           borderColor: '#ef4444', // Rood
           backgroundColor: 'transparent',
           borderWidth: 2,
-          borderDash: [5, 5], // Stippellijn want dit is "bruto"
+          borderDash: [5, 5],
           tension: 0.1,
           pointRadius: 0
         },
         {
           label: 'Netto van rekening',
           data: [],
-          borderColor: '#0ea5e9', // Blauw (Brand)
+          borderColor: '#0ea5e9', // Blauw
           backgroundColor: 'rgba(14, 165, 233, 0.1)',
           borderWidth: 3,
-          fill: true, // Vul het vlak onder de lijn
+          fill: true,
           tension: 0.3
         }
       ]
@@ -74,4 +79,10 @@ export function updateChart(result) {
   chartInstance.data.datasets[1].data = dataNet;
   
   chartInstance.update();
+}
+
+// DEZE FUNCTIE ONTBRAK EN VEROORZAAKTE DE ERROR:
+export function getChartPngDataUrl() {
+  if (!chartInstance) return null;
+  return chartInstance.toBase64Image();
 }
