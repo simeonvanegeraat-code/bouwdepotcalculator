@@ -12,7 +12,6 @@
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://bouwdepotcalculator.nl/" />
 
-    <!-- Open Graph -->
     <meta property="og:title" content="Nieuwbouw kosten overzicht (bouwdepot + hypotheek)" />
     <meta
       property="og:description"
@@ -22,9 +21,7 @@
     <meta property="og:url" content="https://bouwdepotcalculator.nl/" />
     <meta property="og:image" content="/og-1200x630.png" />
 
-    <!-- Favicon (placeholder) -->
     <link rel="icon" href="/favicon.svg" />
-
     <link rel="stylesheet" href="/styles/main.css" />
   </head>
 
@@ -95,7 +92,7 @@
           <div class="section-head">
             <h2>Rekentool</h2>
             <p class="muted">
-              Vul je bedragen en rentes in. In de volgende commits voegen we de berekening, grafiek en downloads toe.
+              Vul je bedragen en rentes in. De knop wordt actief zodra alles geldig is. In Commit 3 komt de echte berekening.
             </p>
           </div>
 
@@ -107,30 +104,65 @@
                 <p class="muted">Basisinstellingen voor nieuwbouw tijdens de bouwperiode.</p>
               </div>
 
-              <form class="form" id="calc-form">
+              <form class="form" id="calc-form" novalidate>
                 <div class="field">
                   <label for="grondbedrag">Grondbedrag (hypotheekdeel)</label>
-                  <input id="grondbedrag" name="grondbedrag" inputmode="decimal" placeholder="Bijv. 250000" />
+                  <input
+                    id="grondbedrag"
+                    name="grondbedrag"
+                    inputmode="decimal"
+                    placeholder="Bijv. 250000"
+                    autocomplete="off"
+                  />
+                  <div class="error" id="err-grondbedrag" aria-live="polite"></div>
                 </div>
 
                 <div class="field">
                   <label for="hypotheekrente">Hypotheekrente (% per jaar)</label>
-                  <input id="hypotheekrente" name="hypotheekrente" inputmode="decimal" placeholder="Bijv. 4.2" />
+                  <input
+                    id="hypotheekrente"
+                    name="hypotheekrente"
+                    inputmode="decimal"
+                    placeholder="Bijv. 4.2"
+                    autocomplete="off"
+                  />
+                  <div class="error" id="err-hypotheekrente" aria-live="polite"></div>
                 </div>
 
                 <div class="field">
                   <label for="bouwdepot">Bouwdepot bedrag</label>
-                  <input id="bouwdepot" name="bouwdepot" inputmode="decimal" placeholder="Bijv. 300000" />
+                  <input
+                    id="bouwdepot"
+                    name="bouwdepot"
+                    inputmode="decimal"
+                    placeholder="Bijv. 300000"
+                    autocomplete="off"
+                  />
+                  <div class="error" id="err-bouwdepot" aria-live="polite"></div>
                 </div>
 
                 <div class="field">
                   <label for="depotrente">Rentevergoeding bouwdepot (% per jaar)</label>
-                  <input id="depotrente" name="depotrente" inputmode="decimal" placeholder="Bijv. 1.0" />
+                  <input
+                    id="depotrente"
+                    name="depotrente"
+                    inputmode="decimal"
+                    placeholder="Bijv. 1.0"
+                    autocomplete="off"
+                  />
+                  <div class="error" id="err-depotrente" aria-live="polite"></div>
                 </div>
 
                 <div class="field">
                   <label for="bouwtijd">Bouwtijd (maanden)</label>
-                  <input id="bouwtijd" name="bouwtijd" inputmode="numeric" placeholder="Bijv. 18" />
+                  <input
+                    id="bouwtijd"
+                    name="bouwtijd"
+                    inputmode="numeric"
+                    placeholder="Bijv. 18"
+                    autocomplete="off"
+                  />
+                  <div class="error" id="err-bouwtijd" aria-live="polite"></div>
                 </div>
 
                 <div class="field field-row">
@@ -146,17 +178,19 @@
                     <option value="0.37">37%</option>
                     <option value="0.495">49,5%</option>
                   </select>
-                  <div class="hint">We maken dit later netjes met uitleg en aannames.</div>
+                  <div class="hint">Indicatief. In Commit 3+ maken we dit transparant met aannames.</div>
                 </div>
 
                 <div class="actions">
                   <button type="button" class="btn btn-primary" id="btn-calc" disabled>
-                    Bereken (komt zo)
+                    Bereken
                   </button>
                   <button type="reset" class="btn btn-ghost" id="btn-reset">
                     Reset
                   </button>
                 </div>
+
+                <div class="hint" id="form-status" aria-live="polite"></div>
               </form>
             </section>
 
@@ -164,33 +198,38 @@
             <section class="card" aria-label="Resultaten">
               <div class="card-head">
                 <h3>Resultaten</h3>
-                <p class="muted">Hier komen straks KPI’s, grafiek en download.</p>
+                <p class="muted">KPI’s worden live bijgewerkt zodra de berekening in Commit 3 komt.</p>
               </div>
 
-              <div class="kpi-grid">
+              <div class="kpi-grid" id="kpi-grid">
                 <div class="kpi">
                   <div class="kpi-label">Gemiddelde netto maandlast</div>
-                  <div class="kpi-value">€ —</div>
+                  <div class="kpi-value" id="kpi-avg">€ —</div>
                 </div>
                 <div class="kpi">
                   <div class="kpi-label">Totale netto kosten (bouwperiode)</div>
-                  <div class="kpi-value">€ —</div>
+                  <div class="kpi-value" id="kpi-total">€ —</div>
                 </div>
                 <div class="kpi">
                   <div class="kpi-label">Netto renteverschil</div>
-                  <div class="kpi-value">€ —</div>
+                  <div class="kpi-value" id="kpi-diff">€ —</div>
                 </div>
               </div>
 
               <div class="chart-placeholder" role="img" aria-label="Grafiek placeholder">
                 <div class="chart-placeholder-inner">
-                  <div class="muted">Grafiek komt in Commit 4</div>
+                  <div class="muted" id="chart-note">Grafiek komt in Commit 4</div>
                 </div>
               </div>
 
               <div class="download-row">
                 <button class="btn btn-ghost" type="button" disabled>Download grafiek (PNG)</button>
                 <button class="btn btn-ghost" type="button" disabled>Download overzicht (PDF)</button>
+              </div>
+
+              <div class="summary-card" id="summary-card" aria-live="polite">
+                <div class="summary-title">Invoer samenvatting</div>
+                <div class="summary-text" id="summary-text">Vul links je gegevens in.</div>
               </div>
             </section>
           </div>
@@ -253,9 +292,11 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="muted">© <span id="year"></span> Bouwdepotcalculator.nl</div>
-        <div class="muted">Versie: <span id="version">v0.1</span></div>
+        <div class="muted">Versie: <span id="version">v0.2</span></div>
       </div>
     </footer>
+
+    <div class="snackbar" id="snackbar" role="status" aria-live="polite"></div>
 
     <script type="module" src="/js/main.js"></script>
   </body>
