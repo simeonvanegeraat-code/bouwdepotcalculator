@@ -1,20 +1,15 @@
-/**
- * src/js/state.js
- * Update: Met withdrawalMode en customSchedule
- */
-
 export function createState() {
   return {
-    grondbedrag: null,     
-    hypotheekrente: null,  
-    bouwdepot: null,       
-    depotrente: null,      
-    bouwtijd: null,        
-    taxEnabled: false,     
-    taxRate: 0.37,
+    loanTotal: 0,      // Was grondbedrag, nu Totale Hypotheek
+    interestRate: 0,   // Hypotheekrente
+    repayment: 0,      // Nieuw: Aflossing per maand
     
-    // Nieuw: Opname strategie
-    withdrawalMode: 'linear', // 'linear' of 'custom'
-    customSchedule: []        // Array van getallen (percentages)
+    depotTotal: 0,     // Bouwdepot startbedrag
+    depotRate: 0,      // Depot rente
+    
+    duration: 12,      // Bouwtijd
+    
+    withdrawalMode: 'linear',
+    customSchedule: []
   };
 }

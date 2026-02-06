@@ -1,94 +1,77 @@
 /**
  * src/js/calc/model.js
- * Update: Ondersteuning voor niet-lineaire opnames
+ * Cashflow model: Bruto Last - Depot Vergoeding = Netto Cashflow
  */
 
 export function calculateScenario(state) {
-  const grondbedrag = Number(state.grondbedrag) || 0;
-  const hypotheekrente = Number(state.hypotheekrente) / 100 || 0;
-  const bouwdepot = Number(state.bouwdepot) || 0;
-  const depotrente = state.depotrente != null ? (Number(state.depotrente) / 100) : hypotheekrente; 
-  const bouwtijd = Number(state.bouwtijd) || 12;
+  const loanTotal = Number(state.loanTotal) || 0;
+  const rate = Number(state.interestRate) / 100 || 0;
+  const repayment = Number(state.repayment) || 0; // Vaste aflossing
   
-  const taxEnabled = state.taxEnabled || false;
-  const taxRate = Number(state.taxRate) / 100 || 0.37;
-
-  // Haal custom schedule op (en vul aan met 0 als de array te kort is)
+  const depotTotal = Number(state.depotTotal) || 0;
+  // Als depotrente 0 is ingevuld, nemen we aan dat het gelijk is aan hypotheekrente? 
+  // Nee, bij deze tool moet je specifiek zijn. Default 0.
+  const depotRate = (Number(state.depotRate) / 100) || 0;
+  
+  const duration = Number(state.duration) || 12;
   const isCustom = state.withdrawalMode === 'custom';
   const customSchedule = state.customSchedule || [];
 
   const result = {
-    avgNet: 0,
-    totalNet: 0,
-    diff: 0,
+    totalNetInterest: 0, // Totaal betaalde rente (netto)
+    startNet: 0,
+    endNet: 0,
     rows: []
   };
 
-  const monthlyGroundInterest = (grondbedrag * hypotheekrente) / 12;
+  // Vaste componenten
+  // Rente over de TOTALE lening per maand.
+  // We gaan ervan uit dat dit een vaste rente is.
+  const monthlyLoanInterest = (loanTotal * rate) / 12;
   
-  // Let op: Bij nieuwbouw betaal je vaak rente over het HELE depotbedrag (lening), 
-  // en krijg je rentevergoeding over wat er nog in kas zit.
-  // Dus de lasten van de lening blijven constant (indien aflossingsvrij in bouw), de vergoeding daalt.
-  const monthlyDepotLoanCost = (bouwdepot * hypotheekrente) / 12;
+  // De bruto maandlast die van de rekening gaat (Rente + Aflossing)
+  const grossMonthlyPayment = monthlyLoanInterest + repayment;
 
-  let currentDepot = bouwdepot;
-  let totalNetCost = 0;
+  let currentDepot = depotTotal;
+  let totalCost = 0;
 
-  // Loop
-  for (let month = 1; month <= bouwtijd; month++) {
+  for (let month = 1; month <= duration; month++) {
     
-    // Bepaal opname voor deze maand
+    // 1. Bepaal opname
     let withdrawAmount = 0;
-
     if (isCustom) {
-      // Haal percentage voor deze maand (index is month-1)
       const pct = customSchedule[month - 1] || 0;
-      withdrawAmount = bouwdepot * (pct / 100);
+      withdrawAmount = depotTotal * (pct / 100);
     } else {
-      // Lineair
-      withdrawAmount = bouwdepot / bouwtijd;
+      withdrawAmount = depotTotal / duration;
     }
 
-    // Rente vergoeding over wat er aan het BEGIN van de maand nog stond
-    const depotInterestInfo = (currentDepot * depotrente) / 12;
+    // 2. Bereken vergoeding over wat er aan BEGIN maand stond
+    const depotReimbursement = (currentDepot * depotRate) / 12;
 
-    const totalInterestPaid = monthlyGroundInterest + monthlyDepotLoanCost;
-    const grossMonth = totalInterestPaid - depotInterestInfo;
+    // 3. Netto Cashflow = Bruto Betaling - Vergoeding
+    const netCashflow = grossMonthlyPayment - depotReimbursement;
 
-    let taxBenefit = 0;
-    if (taxEnabled) {
-      // Fiscaal: Betaalde rente - Ontvangen rente = Aftrekpost
-      // Als ontvangen rente > betaalde rente (bijv bij 100% depot en gelijke rentes), is saldo 0 of positief.
-      // We nemen even aan dat grossMonth > 0 is voor aftrek.
-      const deductible = Math.max(0, grossMonth); 
-      taxBenefit = deductible * taxRate;
-    }
-
-    const netMonth = grossMonth - taxBenefit;
-    totalNetCost += netMonth;
+    totalCost += netCashflow;
 
     result.rows.push({
-      month: month,
-      depotRemaining: currentDepot,
-      mortgageInterest: totalInterestPaid,
-      depotInterest: depotInterestInfo,
-      taxBenefit: taxBenefit,
-      netMonth: netMonth,
-      withdraw: withdrawAmount // Voor debugging/tabel handig
+      month,
+      gross: grossMonthlyPayment,     // Wat je aan de bank moet betalen
+      reimbursement: depotReimbursement, // Wat je terugkrijgt (of niet hoeft te betalen)
+      net: netCashflow,               // Het verschil
+      depotStand: currentDepot
     });
 
-    // Depot afboeken voor VOLGENDE maand
+    // Depot afboeken voor volgende maand
     currentDepot -= withdrawAmount;
     if (currentDepot < 0) currentDepot = 0;
   }
 
-  result.totalNet = totalNetCost;
-  result.avgNet = bouwtijd > 0 ? totalNetCost / bouwtijd : 0;
+  result.totalNetInterest = totalCost - (repayment * duration); // Puur de rentekosten (totaal betaald - totaal afgelost)
   
   if (result.rows.length > 0) {
-    const firstMonth = result.rows[0].netMonth;
-    const lastMonth = result.rows[result.rows.length - 1].netMonth;
-    result.diff = lastMonth - firstMonth;
+    result.startNet = result.rows[0].net;
+    result.endNet = result.rows[result.rows.length - 1].net;
   }
 
   return result;
