@@ -12,7 +12,6 @@
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://bouwdepotcalculator.nl/" />
 
-    <!-- Open Graph -->
     <meta property="og:title" content="Nieuwbouw kosten overzicht (bouwdepot + hypotheek)" />
     <meta
       property="og:description"
@@ -25,7 +24,6 @@
     <link rel="icon" href="/favicon.svg" />
     <link rel="stylesheet" href="/styles/main.css" />
 
-    <!-- Structured Data: WebSite + FAQ -->
     <script type="application/ld+json">
       {
         "@context":"https://schema.org",
@@ -54,7 +52,7 @@
             "name":"Kan ik per maand aanpassen hoeveel bouwdepot ik opneem?",
             "acceptedAnswer":{
               "@type":"Answer",
-              "text":"Niet in de basisversie. Later komt er een advanced optie om een eigen opname-schema per maand in te voeren."
+              "text":"Ja. Kies bij 'Opnameverloop' voor de optie 'Aangepast'. Hier kun je per maand een percentage invoeren."
             }
           },
           {
@@ -142,7 +140,6 @@
           </div>
 
           <div class="grid tool-grid">
-            <!-- INPUTS -->
             <section class="card" aria-label="Invoer">
               <div class="card-head">
                 <h3>Invoer</h3>
@@ -180,6 +177,28 @@
                   <div class="error" id="err-bouwtijd" aria-live="polite"></div>
                 </div>
 
+                <div class="field">
+                  <label>Opnameverloop bouwdepot</label>
+                  <div class="radio-group">
+                    <label class="radio-opt">
+                      <input type="radio" name="withdrawal-mode" value="linear" checked>
+                      <span>Gelijkmatig</span>
+                    </label>
+                    <label class="radio-opt">
+                      <input type="radio" name="withdrawal-mode" value="custom">
+                      <span>Aangepast</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="field" id="field-custom-schedule" style="display:none;">
+                  <label for="custom-input">Percentages per maand (gescheiden door komma)</label>
+                  <input id="custom-input" name="custom-input" placeholder="Bijv: 10, 0, 20, 15..." autocomplete="off" />
+                  <div class="hint">
+                    Totaal moet 100% zijn. <span id="schedule-total">Huidig: 0%</span>
+                  </div>
+                  <div class="error" id="err-custom" aria-live="polite"></div>
+                </div>
                 <div class="field field-row">
                   <label class="check">
                     <input type="checkbox" id="tax-toggle" name="tax-toggle" />
@@ -207,7 +226,6 @@
               </form>
             </section>
 
-            <!-- OUTPUTS -->
             <section class="card" aria-label="Resultaten">
               <div class="card-head">
                 <h3>Resultaten</h3>
@@ -335,7 +353,7 @@
 
           <details class="faq">
             <summary>Kan ik per maand aanpassen hoeveel bouwdepot ik opneem?</summary>
-            <p>Niet in de basisversie. Later komt er een advanced optie om een eigen opname-schema per maand in te voeren.</p>
+            <p>Ja. Kies bij 'Opnameverloop' voor de optie 'Aangepast'. Hier kun je per maand een percentage invoeren (bijv. 10, 0, 20...).</p>
           </details>
 
           <details class="faq">
@@ -366,7 +384,7 @@
           <a class="footer-link" href="/privacy.html">Privacy</a>
           <a class="footer-link" href="/sitemap.xml">Sitemap</a>
         </div>
-        <div class="muted">Versie: <span id="version">v0.6</span></div>
+        <div class="muted">Versie: <span id="version">v0.7</span></div>
       </div>
     </footer>
 
