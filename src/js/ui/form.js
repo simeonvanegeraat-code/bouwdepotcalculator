@@ -3,6 +3,7 @@ import { toNumberLoose, formatEUR, formatPct, formatInt } from "../format.js";
 import { resetKPIs, setSummary, updateKPIs } from "./results.js";
 import { calculateScenario } from "../calc/model.js";
 import { updateChart, updateTable } from "./chart.js";
+import { initDownloads, enableDownloadButtons } from "./downloads.js";
 
 function snackbar(msg) {
   const el = document.getElementById("snackbar");
@@ -47,6 +48,15 @@ export function initForm() {
   if (!form) return;
 
   const state = createState();
+  let lastResult = null;
+  let lastState = null;
+
+  // downloads init (knoppen blijven disabled tot eerste berekening)
+  initDownloads(
+    () => lastResult,
+    () => lastState,
+    snackbar
+  );
 
   const inputs = {
     grondbedrag: document.getElementById("grondbedrag"),
@@ -110,7 +120,6 @@ export function initForm() {
     applyErrors(validate(state));
   };
 
-  // Format on blur (professioneel gevoel)
   const blurFormat = () => {
     read();
 
@@ -127,7 +136,6 @@ export function initForm() {
     validateAndUpdate();
   };
 
-  // Events
   form.addEventListener("input", validateAndUpdate);
   form.addEventListener("change", validateAndUpdate);
 
@@ -142,12 +150,14 @@ export function initForm() {
     el?.addEventListener("blur", blurFormat);
   });
 
-  // Reset
   form.addEventListener("reset", () => {
     setTimeout(() => {
       Object.assign(state, createState());
       if (inputs.taxRate) inputs.taxRate.value = "0.37";
       if (inputs.taxRate) inputs.taxRate.disabled = true;
+
+      lastResult = null;
+      lastState = null;
 
       resetKPIs();
       setSummary(state);
@@ -156,7 +166,6 @@ export function initForm() {
     }, 0);
   });
 
-  // Bereken
   inputs.btnCalc?.addEventListener("click", () => {
     validateAndUpdate();
     if (inputs.btnCalc?.disabled) return;
@@ -167,11 +176,16 @@ export function initForm() {
     updateChart(result);
     updateTable(result);
 
-    snackbar("Dashboard bijgewerkt.");
+    // store for downloads (deep clone not required: state is simple primitives)
+    lastResult = result;
+    lastState = { ...state };
+
+    enableDownloadButtons();
+
+    snackbar("Dashboard bijgewerkt. Downloads zijn beschikbaar.");
     document.querySelector(".chart-wrap")?.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
-  // Init
   syncTax();
   setSummary(state);
   validateAndUpdate();

@@ -7,15 +7,16 @@
     <title>Nieuwbouw kosten overzicht (bouwdepot + hypotheek) | Bouwdepotcalculator</title>
     <meta
       name="description"
-      content="Professionele rekentool voor nieuwbouw: inzicht in maandlasten tijdens de bouwperiode (hypotheekrente grond, bouwdepot rentevergoeding en indicatief belastingvoordeel)."
+      content="Professionele rekentool voor nieuwbouw: inzicht in maandlasten tijdens de bouwperiode (hypotheekrente grond, bouwdepot rentevergoeding en indicatief belastingeffect)."
     />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://bouwdepotcalculator.nl/" />
 
+    <!-- Open Graph -->
     <meta property="og:title" content="Nieuwbouw kosten overzicht (bouwdepot + hypotheek)" />
     <meta
       property="og:description"
-      content="Bereken je netto maandlasten tijdens de bouwperiode: hypotheekrente op grond, bouwdepot rentevergoeding en indicatief belastingvoordeel."
+      content="Bereken je netto maandlasten tijdens de bouwperiode: hypotheekrente op grond, bouwdepot rentevergoeding en indicatief belastingeffect."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://bouwdepotcalculator.nl/" />
@@ -23,6 +24,50 @@
 
     <link rel="icon" href="/favicon.svg" />
     <link rel="stylesheet" href="/styles/main.css" />
+
+    <!-- Structured Data: WebSite + FAQ -->
+    <script type="application/ld+json">
+      {
+        "@context":"https://schema.org",
+        "@type":"WebSite",
+        "name":"Bouwdepotcalculator",
+        "url":"https://bouwdepotcalculator.nl/",
+        "description":"Rekentool voor nieuwbouw: hypotheekrente op grond, bouwdepot rentevergoeding en indicatief belastingeffect."
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context":"https://schema.org",
+        "@type":"FAQPage",
+        "mainEntity":[
+          {
+            "@type":"Question",
+            "name":"Is dit financieel advies?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Nee. Dit is een indicatieve rekentool om je inzicht te geven. Voor advies: hypotheekadviseur of fiscalist."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"Kan ik per maand aanpassen hoeveel bouwdepot ik opneem?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Niet in de basisversie. Later komt er een advanced optie om een eigen opname-schema per maand in te voeren."
+            }
+          },
+          {
+            "@type":"Question",
+            "name":"Waarom is belasting 'indicatief'?",
+            "acceptedAnswer":{
+              "@type":"Answer",
+              "text":"Omdat aftrek en regels afhangen van jouw situatie. Deze tool gebruikt een eenvoudige benadering voor inzicht."
+            }
+          }
+        ]
+      }
+    </script>
   </head>
 
   <body>
@@ -41,8 +86,8 @@
         <nav class="nav" aria-label="Hoofdmenu">
           <a href="#tool">Tool</a>
           <a href="#uitleg">Uitleg</a>
+          <a href="#aannames">Aannames</a>
           <a href="#faq">FAQ</a>
-          <a href="#disclaimer">Disclaimer</a>
         </nav>
       </div>
     </header>
@@ -65,7 +110,7 @@
 
             <div class="hero-cta">
               <a class="btn btn-primary" href="#tool">Start de berekening</a>
-              <a class="btn btn-ghost" href="#uitleg">Hoe werkt dit?</a>
+              <a class="btn btn-ghost" href="#aannames">Bekijk aannames</a>
             </div>
           </div>
 
@@ -92,7 +137,7 @@
           <div class="section-head">
             <h2>Rekentool</h2>
             <p class="muted">
-              Vul je bedragen en rentes in. Klik op <strong>Bereken</strong> voor KPI’s, grafiek en tabel.
+              Vul je bedragen en rentes in. Klik op <strong>Bereken</strong> voor KPI’s, grafiek, tabel en downloads.
             </p>
           </div>
 
@@ -148,7 +193,9 @@
                     <option value="0.37">37%</option>
                     <option value="0.495">49,5%</option>
                   </select>
-                  <div class="hint">Indicatief. We maken dit later transparant met aannames.</div>
+                  <div class="hint">
+                    Indicatief. Lees onderaan bij <a href="#aannames"><u>Aannames</u></a> hoe dit verwerkt wordt.
+                  </div>
                 </div>
 
                 <div class="actions">
@@ -224,8 +271,8 @@
               </div>
 
               <div class="download-row">
-                <button class="btn btn-ghost" type="button" disabled>Download grafiek (PNG)</button>
-                <button class="btn btn-ghost" type="button" disabled>Download overzicht (PDF)</button>
+                <button class="btn btn-ghost" type="button" id="btn-dl-png" disabled>Download grafiek (PNG)</button>
+                <button class="btn btn-ghost" type="button" id="btn-dl-pdf" disabled>Download overzicht (PDF)</button>
               </div>
 
               <div class="summary-card" id="summary-card" aria-live="polite">
@@ -239,24 +286,45 @@
 
       <section id="uitleg" class="section section-alt">
         <div class="container prose">
-          <h2>Hoe dit werkt</h2>
+          <h2>Uitleg (kort)</h2>
           <p>
             Bij nieuwbouw betaal je vaak al rente over het hypotheekdeel (bijvoorbeeld de grond),
-            terwijl het bouwdepot geleidelijk wordt opgenomen voor termijnen en meerwerk. Tegelijk kun je
-            mogelijk (deels) hypotheekrente aftrekken. Het gevolg: je maandlasten tijdens de bouw kunnen
-            sterk verschillen per maand.
+            terwijl het bouwdepot geleidelijk wordt opgenomen. Tegelijk kun je (in veel situaties) hypotheekrente
+            aftrekken. Daardoor verandert je netto maandlast tijdens de bouw.
           </p>
           <p>
-            Deze tool bundelt die onderdelen in één overzicht. We tonen duidelijk welke aannames gebruikt worden.
+            Deze tool bundelt die onderdelen in één overzicht zodat je sneller begrijpt “wat gebeurt er per maand”.
           </p>
-
-          <div class="notice">
-            <strong>Transparant:</strong> dit is een indicatieve tool. Controleer je exacte voorwaarden bij je bank en de Belastingdienst.
-          </div>
         </div>
       </section>
 
-      <section id="faq" class="section">
+      <section id="aannames" class="section">
+        <div class="container prose">
+          <h2>Aannames & rekenmethode</h2>
+
+          <div class="notice">
+            <strong>Belangrijk:</strong> dit is een indicatieve tool. Banken hanteren soms andere rekenmethodes
+            (bijv. rente over een andere depotstand of voorwaarden per maand).
+          </div>
+
+          <h3 class="h3">Wat nemen we aan in de basisversie?</h3>
+          <ul class="list">
+            <li><strong>Grondbedrag</strong>: hypotheekrente wordt berekend over het volledige grondbedrag, elke maand hetzelfde.</li>
+            <li><strong>Bouwdepot opname</strong>: we verdelen het depot gelijkmatig over de bouwtijd (1/N per maand).</li>
+            <li><strong>Depot rentevergoeding</strong>: rente wordt berekend over de <em>gemiddelde</em> depotstand in de maand (benadering).</li>
+            <li><strong>Belastingeffect</strong>: als je dit aanzet, berekenen we een eenvoudige indicatie: hypotheekrente × gekozen tarief.</li>
+            <li><strong>Geen aflossing / annuïteit</strong>: deze tool focust op het kostenoverzicht tijdens de bouw (rente + depot rente + indicatief belastingeffect).</li>
+          </ul>
+
+          <h3 class="h3">Waarom dit tóch nuttig is</h3>
+          <p>
+            Voor veel mensen is het lastig om te zien hoe alle onderdelen samenkomen. Dit model geeft een helder “maand-voor-maand” beeld,
+            zodat je sneller begrijpt waar de maandlast vandaan komt en hoe die verandert tijdens de bouw.
+          </p>
+        </div>
+      </section>
+
+      <section id="faq" class="section section-alt">
         <div class="container prose">
           <h2>FAQ</h2>
 
@@ -267,22 +335,25 @@
 
           <details class="faq">
             <summary>Kan ik per maand aanpassen hoeveel bouwdepot ik opneem?</summary>
-            <p>Dat komt als “advanced” optie in een latere update (handmatig opname-schema).</p>
+            <p>Niet in de basisversie. Later komt er een advanced optie om een eigen opname-schema per maand in te voeren.</p>
           </details>
 
           <details class="faq">
             <summary>Waarom is belasting “indicatief”?</summary>
-            <p>Omdat aftrek en regels afhangen van jouw situatie. We maken dit later transparant met aannames.</p>
+            <p>Omdat aftrek en regels afhangen van jouw situatie. Deze tool gebruikt een eenvoudige benadering voor inzicht.</p>
           </details>
         </div>
       </section>
 
-      <section id="disclaimer" class="section section-alt">
+      <section id="disclaimer" class="section">
         <div class="container prose">
           <h2>Disclaimer</h2>
           <p>
             De uitkomsten zijn indicatief en bedoeld voor inzicht. Er kunnen geen rechten aan worden ontleend.
             Controleer bedragen en voorwaarden bij je bank/hypotheekverstrekker en de Belastingdienst.
+          </p>
+          <p>
+            Privacy policy: zie <a href="/privacy.html"><u>/privacy.html</u></a>.
           </p>
         </div>
       </section>
@@ -291,12 +362,15 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="muted">© <span id="year"></span> Bouwdepotcalculator.nl</div>
-        <div class="muted">Versie: <span id="version">v0.4</span></div>
+        <div class="footer-links">
+          <a class="footer-link" href="/privacy.html">Privacy</a>
+          <a class="footer-link" href="/sitemap.xml">Sitemap</a>
+        </div>
+        <div class="muted">Versie: <span id="version">v0.6</span></div>
       </div>
     </footer>
 
     <div class="snackbar" id="snackbar" role="status" aria-live="polite"></div>
-
     <script type="module" src="/js/main.js"></script>
   </body>
 </html>

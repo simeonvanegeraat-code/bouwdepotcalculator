@@ -4,14 +4,13 @@ import { formatEUR } from "../format.js";
 let chart = null;
 
 function formatEUR0(n) {
-  return formatEUR(n); // in format.js is maxFractionDigits 0
+  return formatEUR(n);
 }
 
 export function initChart() {
   const canvas = document.getElementById("net-chart");
   if (!canvas) return;
 
-  // init lege chart
   chart = new Chart(canvas, {
     type: "line",
     data: {
@@ -38,13 +37,9 @@ export function initChart() {
         }
       },
       scales: {
-        x: {
-          ticks: { maxTicksLimit: 8 }
-        },
+        x: { ticks: { maxTicksLimit: 8 } },
         y: {
-          ticks: {
-            callback: (value) => formatEUR0(value)
-          }
+          ticks: { callback: (value) => formatEUR0(value) }
         }
       }
     }
@@ -61,7 +56,6 @@ export function updateChart(result) {
   chart.data.datasets[0].data = data;
   chart.update();
 
-  // Badge (gemiddelde)
   const badge = document.getElementById("chart-badge");
   if (badge) badge.textContent = `Gemiddeld: ${formatEUR0(result.avgNet)}`;
 }
@@ -92,4 +86,12 @@ export function updateTable(result) {
     .join("");
 
   tbody.innerHTML = rowsHtml;
+}
+
+export function getChartPngDataUrl() {
+  if (!chart) return null;
+  // Chart.js exposes canvas via chart.canvas
+  const canvas = chart.canvas;
+  if (!canvas) return null;
+  return canvas.toDataURL("image/png", 1.0);
 }
