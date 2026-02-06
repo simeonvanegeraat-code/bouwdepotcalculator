@@ -92,7 +92,7 @@
           <div class="section-head">
             <h2>Rekentool</h2>
             <p class="muted">
-              Vul je bedragen en rentes in. De knop wordt actief zodra alles geldig is. In Commit 3 komt de echte berekening.
+              Vul je bedragen en rentes in. Klik op <strong>Bereken</strong> voor KPI’s, grafiek en tabel.
             </p>
           </div>
 
@@ -107,61 +107,31 @@
               <form class="form" id="calc-form" novalidate>
                 <div class="field">
                   <label for="grondbedrag">Grondbedrag (hypotheekdeel)</label>
-                  <input
-                    id="grondbedrag"
-                    name="grondbedrag"
-                    inputmode="decimal"
-                    placeholder="Bijv. 250000"
-                    autocomplete="off"
-                  />
+                  <input id="grondbedrag" name="grondbedrag" inputmode="decimal" placeholder="Bijv. 250000" autocomplete="off" />
                   <div class="error" id="err-grondbedrag" aria-live="polite"></div>
                 </div>
 
                 <div class="field">
                   <label for="hypotheekrente">Hypotheekrente (% per jaar)</label>
-                  <input
-                    id="hypotheekrente"
-                    name="hypotheekrente"
-                    inputmode="decimal"
-                    placeholder="Bijv. 4.2"
-                    autocomplete="off"
-                  />
+                  <input id="hypotheekrente" name="hypotheekrente" inputmode="decimal" placeholder="Bijv. 4.2" autocomplete="off" />
                   <div class="error" id="err-hypotheekrente" aria-live="polite"></div>
                 </div>
 
                 <div class="field">
                   <label for="bouwdepot">Bouwdepot bedrag</label>
-                  <input
-                    id="bouwdepot"
-                    name="bouwdepot"
-                    inputmode="decimal"
-                    placeholder="Bijv. 300000"
-                    autocomplete="off"
-                  />
+                  <input id="bouwdepot" name="bouwdepot" inputmode="decimal" placeholder="Bijv. 300000" autocomplete="off" />
                   <div class="error" id="err-bouwdepot" aria-live="polite"></div>
                 </div>
 
                 <div class="field">
                   <label for="depotrente">Rentevergoeding bouwdepot (% per jaar)</label>
-                  <input
-                    id="depotrente"
-                    name="depotrente"
-                    inputmode="decimal"
-                    placeholder="Bijv. 1.0"
-                    autocomplete="off"
-                  />
+                  <input id="depotrente" name="depotrente" inputmode="decimal" placeholder="Bijv. 1.0" autocomplete="off" />
                   <div class="error" id="err-depotrente" aria-live="polite"></div>
                 </div>
 
                 <div class="field">
                   <label for="bouwtijd">Bouwtijd (maanden)</label>
-                  <input
-                    id="bouwtijd"
-                    name="bouwtijd"
-                    inputmode="numeric"
-                    placeholder="Bijv. 18"
-                    autocomplete="off"
-                  />
+                  <input id="bouwtijd" name="bouwtijd" inputmode="numeric" placeholder="Bijv. 18" autocomplete="off" />
                   <div class="error" id="err-bouwtijd" aria-live="polite"></div>
                 </div>
 
@@ -178,16 +148,12 @@
                     <option value="0.37">37%</option>
                     <option value="0.495">49,5%</option>
                   </select>
-                  <div class="hint">Indicatief. In Commit 3+ maken we dit transparant met aannames.</div>
+                  <div class="hint">Indicatief. We maken dit later transparant met aannames.</div>
                 </div>
 
                 <div class="actions">
-                  <button type="button" class="btn btn-primary" id="btn-calc" disabled>
-                    Bereken
-                  </button>
-                  <button type="reset" class="btn btn-ghost" id="btn-reset">
-                    Reset
-                  </button>
+                  <button type="button" class="btn btn-primary" id="btn-calc" disabled>Bereken</button>
+                  <button type="reset" class="btn btn-ghost" id="btn-reset">Reset</button>
                 </div>
 
                 <div class="hint" id="form-status" aria-live="polite"></div>
@@ -198,7 +164,7 @@
             <section class="card" aria-label="Resultaten">
               <div class="card-head">
                 <h3>Resultaten</h3>
-                <p class="muted">KPI’s worden live bijgewerkt zodra de berekening in Commit 3 komt.</p>
+                <p class="muted">KPI’s + grafiek + tabel worden gevuld na Bereken.</p>
               </div>
 
               <div class="kpi-grid" id="kpi-grid">
@@ -216,9 +182,44 @@
                 </div>
               </div>
 
-              <div class="chart-placeholder" role="img" aria-label="Grafiek placeholder">
-                <div class="chart-placeholder-inner">
-                  <div class="muted" id="chart-note">Grafiek komt in Commit 4</div>
+              <div class="chart-wrap">
+                <div class="chart-head">
+                  <div>
+                    <div class="chart-title">Netto maandlast per maand</div>
+                    <div class="muted chart-sub">Na Bereken verschijnt hier je maandlijn.</div>
+                  </div>
+                  <div class="chart-badge" id="chart-badge">—</div>
+                </div>
+
+                <div class="chart-canvas">
+                  <canvas id="net-chart" aria-label="Grafiek netto maandlast"></canvas>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <div class="table-head">
+                  <div class="table-title">Maandoverzicht</div>
+                  <div class="muted">Rente/voordeel/netto per maand.</div>
+                </div>
+
+                <div class="table-scroll">
+                  <table class="data-table" id="result-table">
+                    <thead>
+                      <tr>
+                        <th>Maand</th>
+                        <th>Depotstand</th>
+                        <th>Hypotheekrente</th>
+                        <th>Depot rente</th>
+                        <th>Belasting</th>
+                        <th>Netto</th>
+                      </tr>
+                    </thead>
+                    <tbody id="result-tbody">
+                      <tr>
+                        <td colspan="6" class="muted">Nog geen resultaat. Vul links in en klik Bereken.</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
@@ -246,13 +247,11 @@
             sterk verschillen per maand.
           </p>
           <p>
-            Deze tool bundelt die onderdelen in één overzicht. In de volgende stappen voegen we de volledige berekening,
-            grafiek en exports toe.
+            Deze tool bundelt die onderdelen in één overzicht. We tonen duidelijk welke aannames gebruikt worden.
           </p>
 
           <div class="notice">
-            <strong>Transparant:</strong> dit wordt een indicatieve tool. We tonen straks duidelijk welke aannames gebruikt
-            worden en hoe de berekening is opgebouwd.
+            <strong>Transparant:</strong> dit is een indicatieve tool. Controleer je exacte voorwaarden bij je bank en de Belastingdienst.
           </div>
         </div>
       </section>
@@ -292,7 +291,7 @@
     <footer class="site-footer">
       <div class="container footer-inner">
         <div class="muted">© <span id="year"></span> Bouwdepotcalculator.nl</div>
-        <div class="muted">Versie: <span id="version">v0.2</span></div>
+        <div class="muted">Versie: <span id="version">v0.4</span></div>
       </div>
     </footer>
 

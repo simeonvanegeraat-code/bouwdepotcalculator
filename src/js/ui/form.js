@@ -1,6 +1,8 @@
 import { createState } from "../state.js";
 import { toNumberLoose, formatEUR, formatPct, formatInt } from "../format.js";
-import { resetKPIs, setSummary } from "./results.js";
+import { resetKPIs, setSummary, updateKPIs } from "./results.js";
+import { calculateScenario } from "../calc/model.js";
+import { updateChart, updateTable } from "./chart.js";
 
 function snackbar(msg) {
   const el = document.getElementById("snackbar");
@@ -24,7 +26,6 @@ function setError(inputEl, errEl, message) {
 
 function validate(state) {
   const errors = {};
-
   const pos = (v) => v != null && Number.isFinite(v) && v > 0;
 
   if (!pos(state.grondbedrag)) errors.grondbedrag = "Vul een positief bedrag in.";
@@ -106,20 +107,20 @@ export function initForm() {
     read();
     syncTax();
     setSummary(state);
-    resetKPIs();
     applyErrors(validate(state));
   };
 
   // Format on blur (professioneel gevoel)
   const blurFormat = () => {
-    // eerst lezen zodat we numbers hebben
     read();
 
     if (inputs.grondbedrag && state.grondbedrag != null) inputs.grondbedrag.value = formatEUR(state.grondbedrag);
     if (inputs.bouwdepot && state.bouwdepot != null) inputs.bouwdepot.value = formatEUR(state.bouwdepot);
 
-    if (inputs.hypotheekrente && state.hypotheekrente != null) inputs.hypotheekrente.value = formatPct(state.hypotheekrente);
-    if (inputs.depotrente && state.depotrente != null) inputs.depotrente.value = formatPct(state.depotrente);
+    if (inputs.hypotheekrente && state.hypotheekrente != null)
+      inputs.hypotheekrente.value = formatPct(state.hypotheekrente);
+    if (inputs.depotrente && state.depotrente != null)
+      inputs.depotrente.value = formatPct(state.depotrente);
 
     if (inputs.bouwtijd && state.bouwtijd != null) inputs.bouwtijd.value = formatInt(state.bouwtijd);
 
@@ -130,10 +131,12 @@ export function initForm() {
   form.addEventListener("input", validateAndUpdate);
   form.addEventListener("change", validateAndUpdate);
 
-  inputs.taxToggle?.addEventListener("change", syncTax);
+  inputs.taxToggle?.addEventListener("change", () => {
+    syncTax();
+    validateAndUpdate();
+  });
   inputs.taxRate?.addEventListener("change", validateAndUpdate);
 
-  // Blur formatting for key fields
   ["grondbedrag", "bouwdepot", "hypotheekrente", "depotrente", "bouwtijd"].forEach((id) => {
     const el = document.getElementById(id);
     el?.addEventListener("blur", blurFormat);
@@ -141,11 +144,11 @@ export function initForm() {
 
   // Reset
   form.addEventListener("reset", () => {
-    // kleine delay zodat form echt reset
     setTimeout(() => {
       Object.assign(state, createState());
       if (inputs.taxRate) inputs.taxRate.value = "0.37";
       if (inputs.taxRate) inputs.taxRate.disabled = true;
+
       resetKPIs();
       setSummary(state);
       validateAndUpdate();
@@ -153,12 +156,19 @@ export function initForm() {
     }, 0);
   });
 
-  // Calc button (nog geen model)
+  // Bereken
   inputs.btnCalc?.addEventListener("click", () => {
     validateAndUpdate();
     if (inputs.btnCalc?.disabled) return;
-    snackbar("Rekenmodel komt in Commit 3 (volgende stap).");
-    document.querySelector("#kpi-grid")?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    const result = calculateScenario(state);
+
+    updateKPIs(result);
+    updateChart(result);
+    updateTable(result);
+
+    snackbar("Dashboard bijgewerkt.");
+    document.querySelector(".chart-wrap")?.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
   // Init

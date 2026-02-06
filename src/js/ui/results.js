@@ -1,4 +1,4 @@
-import { formatEUR, formatPct } from "../format.js";
+import { formatEUR } from "../format.js";
 
 let els = null;
 
@@ -11,28 +11,34 @@ export function initResults() {
   };
 }
 
+export function updateKPIs(result) {
+  if (!result || !els) return;
+
+  els.avg.textContent = formatEUR(result.avgNet);
+  els.total.textContent = formatEUR(result.totalNet);
+  els.diff.textContent = formatEUR(result.diff);
+}
+
+export function resetKPIs() {
+  if (!els) return;
+  els.avg.textContent = "€ —";
+  els.total.textContent = "€ —";
+  els.diff.textContent = "€ —";
+}
+
 export function setSummary(state) {
   if (!els?.summary) return;
 
   const parts = [];
 
-  if (state.grondbedrag != null) parts.push(`Grond: <strong>${formatEUR(state.grondbedrag)}</strong>`);
-  if (state.hypotheekrente != null) parts.push(`Hypotheekrente: <strong>${formatPct(state.hypotheekrente)}</strong>`);
-  if (state.bouwdepot != null) parts.push(`Bouwdepot: <strong>${formatEUR(state.bouwdepot)}</strong>`);
-  if (state.depotrente != null) parts.push(`Depot rente: <strong>${formatPct(state.depotrente)}</strong>`);
-  if (state.bouwtijd != null) parts.push(`Bouwtijd: <strong>${state.bouwtijd} mnd</strong>`);
+  if (state.grondbedrag)
+    parts.push(`Grond: €${Math.round(state.grondbedrag).toLocaleString("nl-NL")}`);
+  if (state.hypotheekrente)
+    parts.push(`Rente: ${state.hypotheekrente}%`);
+  if (state.bouwdepot)
+    parts.push(`Depot: €${Math.round(state.bouwdepot).toLocaleString("nl-NL")}`);
+  if (state.bouwtijd)
+    parts.push(`Bouwtijd: ${state.bouwtijd} mnd`);
 
-  parts.push(
-    state.taxEnabled
-      ? `Belasting: <strong>aan</strong> (${Math.round(state.taxRate * 1000) / 10}%)`
-      : `Belasting: <strong>uit</strong>`
-  );
-
-  els.summary.innerHTML = parts.length ? parts.join(" · ") : "Vul links je gegevens in.";
-}
-
-export function resetKPIs() {
-  if (els?.avg) els.avg.textContent = "€ —";
-  if (els?.total) els.total.textContent = "€ —";
-  if (els?.diff) els.diff.textContent = "€ —";
+  els.summary.innerHTML = parts.join(" · ") || "Vul gegevens in.";
 }
