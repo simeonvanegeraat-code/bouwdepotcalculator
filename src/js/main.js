@@ -1,18 +1,21 @@
-/**
- * src/js/main.js
- * Entry point. Initialiseert modules.
- */
-import { initForm } from "./ui/form.js";
-import { initResults } from "./ui/results.js";
-import { initChart } from "./ui/chart.js";
+import { initForm } from './ui/form.js';
 
-// Update jaar in footer
-const yearEl = document.getElementById("year");
-if (yearEl) {
-  yearEl.textContent = new Date().getFullYear();
-}
+// We laden Chart.js in via een script tag in de index.html voor de MVP, 
+// of we gaan ervan uit dat het beschikbaar is via Vite/npm.
 
-// Initialiseer componenten
-initResults(); // Zorgt voor default state in summary
-initChart();   // Tekent lege grafiek
-initForm();    // Koppelt events en start logica
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Bouwdepot Calculator geïnitialiseerd...');
+
+    // Start de formulier logica
+    initForm();
+
+    // Smooth scroll voor de nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+});

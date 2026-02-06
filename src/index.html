@@ -3,12 +3,25 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bouwdepot Calculator | Bereken Netto Maandlasten Nieuwbouw</title>
-    <meta name="description" content="Bereken gratis de maandlasten van je nieuwbouwwoning tijdens de bouw. Inclusief bouwdepot rentevergoeding en belastingvoordeel." />
+    
+    <title>Bouwdepot Calculator | Bereken Dubbele Lasten Nieuwbouw (2025)</title>
+    <meta name="description" content="Gratis tool voor het berekenen van maandlasten tijdens de bouw. Inzicht in bouwdepot rente, renteverlies tijdens bouw en netto kosten nieuwbouw." />
+    <meta name="keywords" content="bouwdepot berekenen, renteverlies tijdens bouw, dubbele lasten nieuwbouw, kosten bouwdepot, nieuwbouw hypotheek" />
+    <meta name="author" content="Bouwdepotcalculator.nl" />
+
+    <meta property="og:title" content="Bouwdepot Kosten Calculator" />
+    <meta property="og:description" content="Wat kost je nieuwbouwhuis écht tijdens de bouw? Bereken het direct." />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:type" content="website" />
+
     <link rel="stylesheet" href="/styles/main.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -19,9 +32,9 @@
                 <div class="brand-name">Bouwdepot<span>calculator.nl</span></div>
             </div>
             <nav class="header-nav">
-                <a href="#uitleg">Hoe werkt het?</a>
+                <a href="#uitleg">Uitleg</a>
                 <a href="#faq">Veelgestelde vragen</a>
-            </div>
+            </nav>
         </div>
     </header>
 
@@ -29,115 +42,180 @@
         
         <section class="hero-section">
             <h1>Wat kost je nieuwbouwhuis <em>tijdens</em> de bouw?</h1>
-            <p>Bereken direct je netto maandlasten, rentevergoeding en het verloop van je bouwdepot.</p>
+            <p>Bereken in één oogopslag je netto maandlasten, renteverlies en het verloop van je depot.</p>
         </section>
 
         <div class="tool-grid">
+            
             <aside class="calculator-sidebar">
                 <form id="calc-form" class="card">
+                    
                     <div class="input-section">
-                        <h3>1. Financiering</h3>
+                        <h3>1. Koopsom & Depot</h3>
                         <div class="field">
-                            <label for="landPrice">Grond / Reeds gepasseerd (€)</label>
-                            <input type="number" id="landPrice" value="175000" step="1000" />
-                            <small>Het bedrag dat je al bij de notaris hebt betaald.</small>
+                            <label for="landPrice">Grond / Reeds betaald (€)</label>
+                            <input type="number" id="landPrice" value="150000" step="1000" placeholder="Bijv. 150000" />
+                            <small>Het bedrag dat al bij de notaris is gepasseerd.</small>
                         </div>
                         <div class="field">
-                            <label for="depotAmount">Bouwdepot / Bouwsom (€)</label>
-                            <input type="number" id="depotAmount" value="275000" step="1000" />
-                            <small>Het resterende deel van je hypotheek.</small>
+                            <label for="depotAmount">Bouwdepot Bedrag (€)</label>
+                            <input type="number" id="depotAmount" value="300000" step="1000" placeholder="Bijv. 300000" />
+                            <small>Het deel van de hypotheek voor de bouw.</small>
                         </div>
                     </div>
 
                     <div class="input-section">
-                        <h3>2. Rente & Tijd</h3>
+                        <h3>2. Rente & Looptijd</h3>
                         <div class="field-row">
                             <div class="field">
                                 <label for="interestRate">Hypotheekrente (%)</label>
-                                <input type="number" id="interestRate" value="4.1" step="0.1" />
+                                <input type="number" id="interestRate" value="3.8" step="0.01" />
                             </div>
                             <div class="field">
-                                <label for="depotRate">Depotrente (%)</label>
-                                <input type="number" id="depotRate" value="4.1" step="0.1" />
+                                <label for="depotInterestRate">Depotrente (%)</label>
+                                <input type="number" id="depotInterestRate" value="3.8" step="0.01" />
                             </div>
                         </div>
                         <div class="field">
-                            <label for="constructionMonths">Bouwtijd (maanden)</label>
-                            <input type="range" id="constructionMonths" min="6" max="36" value="18" />
-                            <div class="range-value"><span id="months-display">18</span> maanden</div>
+                            <label for="constructionTime">Bouwtijd (maanden)</label>
+                            <div class="range-wrapper">
+                                <input type="range" id="constructionTime" min="6" max="36" value="18" />
+                                <span class="range-value"><span id="months-display">18</span> mnd</span>
+                            </div>
                         </div>
                     </div>
 
                     <div class="input-section">
                         <h3>3. Fiscaal</h3>
                         <div class="field">
-                            <label for="taxRate">Belastingvoordeel (%)</label>
+                            <label for="taxRate">Belastingvoordeel (HRA)</label>
                             <select id="taxRate">
-                                <option value="36.97">36,97% (Standaard)</option>
+                                <option value="36.97">36,97% (Standaard 2025)</option>
                                 <option value="49.50">49,50% (Hoog inkomen)</option>
-                                <option value="0">Geen (Bruto berekening)</option>
+                                <option value="0">0% (Geen aftrek)</option>
                             </select>
                         </div>
                     </div>
+
                 </form>
+                
+                <div class="ad-slot-mobile" style="margin-top: 1rem; text-align:center; min-height: 100px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+                    <span style="color: #cbd5e1; font-size: 0.8rem;">Advertentie ruimte</span>
+                </div>
             </aside>
 
             <section class="results-main">
+                
                 <div class="kpi-grid">
                     <div class="kpi-card">
                         <span class="kpi-label">Gem. Netto Maandlast</span>
                         <span class="kpi-value" id="kpi-net">€ 0</span>
+                        <span class="kpi-sub">Gemiddelde over hele periode</span>
                     </div>
                     <div class="kpi-card highlight">
-                        <span class="kpi-label">Rente over de Grond</span>
-                        <span class="kpi-value" id="kpi-ground-interest">€ 0</span>
+                        <span class="kpi-label">Totale Rentekosten</span>
+                        <span class="kpi-value" id="kpi-total-interest">€ 0</span>
+                        <span class="kpi-sub">Bruto rente aan de bank</span>
                     </div>
                     <div class="kpi-card">
-                        <span class="kpi-label">Totaal Netto Kosten</span>
+                        <span class="kpi-label">Netto "Verlies"</span>
                         <span class="kpi-value" id="kpi-total-cost">€ 0</span>
+                        <span class="kpi-sub">Na aftrek rentevergoeding & belasting</span>
                     </div>
                 </div>
 
                 <div class="chart-card card">
                     <div class="card-header">
-                        <h3>Verloop maandlasten</h3>
+                        <h3>Verloop netto maandlasten</h3>
                     </div>
                     <div class="chart-container">
                         <canvas id="net-chart"></canvas>
                     </div>
+                    <div class="chart-legend">
+                        <small>De lasten stijgen naarmate het depot leger raakt.</small>
+                    </div>
                 </div>
 
                 <div class="actions">
-                    <button class="btn-primary" id="btn-pdf">Download PDF Rapport</button>
-                    <button class="btn-secondary" id="btn-share">Kopieer Link</button>
+                    <button class="btn-primary" id="btn-pdf">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right:8px; vertical-align: middle;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Download PDF Rapport
+                    </button>
+                </div>
+                
+                <p class="disclaimer-text">
+                    * Deze berekening is indicatief. Er wordt uitgegaan van een lineaire opname van het bouwdepot en gelijkblijvende rente. Aan deze berekening kunnen geen rechten worden ontleend.
+                </p>
+            </section>
+        </div>
+
+        <div class="ad-slot-desktop container" style="margin: 2rem auto; min-height: 90px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; border-radius: 8px;">
+             <span style="color: #cbd5e1; font-size: 0.8rem;">Advertentie ruimte</span>
+        </div>
+
+        <div class="content-wrapper card">
+            <section id="uitleg" class="content-block">
+                <h2>Hoe werkt de rente tijdens nieuwbouw?</h2>
+                <article>
+                    <p>Bij het kopen van een nieuwbouwwoning krijg je te maken met een <strong>bouwdepot</strong>. Dit is een speciale rekening waarop het deel van de hypotheek staat dat gereserveerd is voor de bouw van je huis.</p>
+                    <p>Het principe is simpel:</p>
+                    <ol>
+                        <li>Je betaalt hypotheekrente over het <strong>hele bedrag</strong> (grond + bouw).</li>
+                        <li>Je ontvangt rentevergoeding over het bedrag dat nog <strong>in het depot</strong> staat.</li>
+                    </ol>
+                    <p>In het begin is je depot vol en is de rentevergoeding hoog. Naarmate de aannemer facturen stuurt, raakt het depot leger. Je ontvangt minder rentevergoeding, waardoor je netto maandlasten langzaam stijgen naar het volledige hypotheekbedrag.</p>
+                </article>
+            </section>
+
+            <section id="faq" class="content-block">
+                <h2>Veelgestelde vragen</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h3>Is de rente tijdens de bouw aftrekbaar?</h3>
+                        <p>Ja, de hypotheekrente die je betaalt is fiscaal aftrekbaar (Box 1). De rentevergoeding die je ontvangt over het depot moet je hier wel van aftrekken (bijleenregeling). Deze tool berekent dat automatisch.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Wat is renteverlies tijdens de bouw?</h3>
+                        <p>Dit is het verschil tussen de rente die je aan de bank betaalt en de rente die je van de bank ontvangt over je depot. Vaak is de depotrente gelijk aan je hypotheekrente, maar sommige banken (zoals Rabobank of ING) hanteren soms een korting van 1% op de depotrente.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Hoeveel dubbele lasten kan ik verwachten?</h3>
+                        <p>Dit hangt af van je bouwtijd. Gemiddeld betaal je over de hele bouwperiode ongeveer 50% tot 60% van je uiteindelijke maandlasten extra, bovenop je huidige huur of hypotheek.</p>
+                    </div>
                 </div>
             </section>
         </div>
 
-        <section id="uitleg" class="content-block card">
-            <h2>Hoe werkt de rente tijdens de bouw?</h2>
-            <p>Wanneer je een nieuwbouwwoning koopt, betaal je de hypotheek in stappen. Het deel dat je nog niet hebt gebruikt, staat in een <strong>bouwdepot</strong>. Over dit bedrag ontvang je rente van de bank (depotrente). Tegelijkertijd betaal je rente over de volledige hypotheeksom.</p>
-            <p>Naarmate de bouw vordert, raakt je depot leger. Je ontvangt dan minder rente, waardoor je netto maandlasten elke maand iets stijgen.</p>
-        </section>
-
-        <section id="faq" class="content-block">
-            <h2>Veelgestelde vragen</h2>
-            <div class="faq-item">
-                <h3>Is de rente tijdens de bouw aftrekbaar?</h3>
-                <p>Ja, de hypotheekrente die je betaalt over de grond en de bouwtermijnen is in de meeste gevallen fiscaal aftrekbaar in Box 1.</p>
-            </div>
-            <div class="faq-item">
-                <h3>Wat als mijn depotrente lager is dan mijn hypotheekrente?</h3>
-                <p>Sommige banken hanteren een verschil van 1%. Dit betekent dat je meer rente betaalt dan je ontvangt over je depot, wat de kosten tijdens de bouw verhoogt.</p>
-            </div>
-        </section>
-
     </main>
 
-    <footer class="site-footer container">
-        <p>&copy; 2026 Bouwdepotcalculator.nl - <a href="/privacy.html">Privacy & Disclaimer</a></p>
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Bouwdepotcalculator.nl</p>
+            <div class="footer-links">
+                <a href="/privacy.html">Privacyverklaring</a>
+                <a href="/cookies.html">Cookiebeleid</a>
+                <a href="/contact.html">Contact</a>
+            </div>
+            <p class="small-text">Wij geven geen financieel advies. Raadpleeg altijd een hypotheekadviseur voor een exacte berekening.</p>
+        </div>
     </footer>
 
     <script type="module" src="/js/main.js"></script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Bouwdepot Calculator",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "description": "Bereken direct de rentelasten en het verloop van je bouwdepot tijdens de nieuwbouw."
+    }
+    </script>
 </body>
 </html>

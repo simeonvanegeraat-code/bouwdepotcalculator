@@ -1,30 +1,51 @@
-/**
- * src/js/ui/results.js
- * Updates de KPI blokken met de Cashflow data.
- */
-import { formatEUR } from "../format.js";
+import { formatEuro } from '../format.js';
 
-// Init functie (wordt aangeroepen door main.js)
-export function initResults() {
-  resetKPIs();
+// We houden een referentie naar de chart bij om deze te kunnen updaten
+let myChart = null;
+
+export function updateKPIs(results) {
+    document.getElementById('kpi-net').textContent = formatEuro(results.avgNet);
+    document.getElementById('kpi-ground-interest').textContent = formatEuro(results.rows[0].mortgageInterest);
+    document.getElementById('kpi-total-cost').textContent = formatEuro(results.totalNet);
 }
 
-// Update de getallen op het scherm
-export function updateKPIs(result) {
-  const elStart = document.getElementById("kpi-start");
-  const elEnd = document.getElementById("kpi-end");
-  const elTotal = document.getElementById("kpi-total-interest");
+export function updateChart(results) {
+    const ctx = document.getElementById('net-chart').getContext('2d');
+    
+    const labels = results.rows.map(r => `Mnd ${r.month}`);
+    const dataNet = results.rows.map(r => r.netMonth.toFixed(2));
 
-  if (elStart) elStart.textContent = formatEUR(result.startNet);
-  if (elEnd) elEnd.textContent = formatEUR(result.endNet);
-  if (elTotal) elTotal.textContent = formatEUR(result.totalNetInterest);
-}
+    // Als de chart al bestaat, vernietig hem dan voor een schone update
+    if (myChart) {
+        myChart.destroy();
+    }
 
-// Reset de getallen naar streepjes
-// DEZE FUNCTIE VEROORZAAKTE DE ERROR OMDAT 'export' MOGELIJK ONTBRAK
-export function resetKPIs() {
-  ["kpi-start", "kpi-end", "kpi-total-interest"].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = "€ —";
-  });
+    // Gebruik Chart.js (zorg dat je de library in index.html hebt of via npm)
+    myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Netto Maandlast (€)',
+                data: dataNet,
+                borderColor: '#2563eb',
+                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    ticks: { callback: (val) => '€' + val }
+                }
+            }
+        }
+    });
 }
