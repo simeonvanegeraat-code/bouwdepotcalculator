@@ -182,18 +182,20 @@
                   <div class="radio-group">
                     <label class="radio-opt">
                       <input type="radio" name="withdrawal-mode" value="linear" checked>
-                      <span>Gelijkmatig</span>
+                      <span>Gelijkmatig (lineair)</span>
                     </label>
                     <label class="radio-opt">
                       <input type="radio" name="withdrawal-mode" value="custom">
-                      <span>Aangepast</span>
+                      <span>Aangepast schema</span>
                     </label>
                   </div>
                 </div>
 
                 <div class="field" id="field-custom-schedule" style="display:none;">
-                  <label for="custom-input">Percentages per maand (gescheiden door komma)</label>
-                  <input id="custom-input" name="custom-input" placeholder="Bijv: 10, 0, 20, 15..." autocomplete="off" />
+                  <label>Vul percentages in per maand</label>
+                  
+                  <div id="custom-month-grid" class="month-grid"></div>
+                  
                   <div class="hint">
                     Totaal moet 100% zijn. <span id="schedule-total">Huidig: 0%</span>
                   </div>
@@ -384,7 +386,7 @@
           <a class="footer-link" href="/privacy.html">Privacy</a>
           <a class="footer-link" href="/sitemap.xml">Sitemap</a>
         </div>
-        <div class="muted">Versie: <span id="version">v0.7</span></div>
+        <div class="muted">Versie: <span id="version">v0.8</span></div>
       </div>
     </footer>
 
