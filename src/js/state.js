@@ -1,13 +1,16 @@
-export const DEFAULT_STATE = {
-  grondbedrag: null,
-  hypotheekrente: null,
-  bouwdepot: null,
-  depotrente: null,
-  bouwtijd: null,
-  taxEnabled: false,
-  taxRate: 0.37
-};
+/**
+ * src/js/state.js
+ * Definieert de standaard state structuur.
+ */
 
 export function createState() {
-  return structuredClone(DEFAULT_STATE);
+  return {
+    grondbedrag: null,     // Number (euro)
+    hypotheekrente: null,  // Number (percentage, bijv 4.5)
+    bouwdepot: null,       // Number (euro)
+    depotrente: null,      // Number (percentage)
+    bouwtijd: null,        // Integer (maanden)
+    taxEnabled: false,     // Boolean
+    taxRate: 0.37          // Number (decimaal, 0.37 of 0.495)
+  };
 }
