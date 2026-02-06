@@ -3,141 +3,174 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Nieuwbouw kosten (Bruto vs Netto) | Bouwdepotcalculator</title>
+    <title>Bouwdepotcalculator | Stap voor stap inzicht</title>
     <meta name="robots" content="index,follow" />
     <link rel="stylesheet" href="/styles/main.css" />
   </head>
   <body>
+    
     <header class="site-header">
       <div class="container header-inner">
         <div class="brand">
           <div class="logo-dot"></div>
-          <div>
-            <div class="brand-name">Bouwdepotcalculator</div>
-            <div class="brand-sub">Cashflow tijdens de bouw</div>
-          </div>
+          <div class="brand-name">Bouwdepotcalculator</div>
+        </div>
+        <div class="step-indicator" id="step-indicator" style="display:none;">
+          Stap <span id="current-step-num">1</span> van 2
         </div>
       </div>
     </header>
 
-    <main>
-      <section id="tool" class="section">
-        <div class="container">
-          <div class="grid tool-grid">
-            
-            <section class="card">
-              <div class="card-head">
-                <h3>Hypotheekgegevens</h3>
-                <p class="muted">Vul je leningdelen en depot in.</p>
-              </div>
+    <main class="container main-content">
+      
+      <section id="step-start" class="step-section active">
+        <div class="hero-center">
+          <h1>Wat kost je nieuwbouwhuis <br><em>tijdens</em> de bouw?</h1>
+          <p class="lead">
+            Veel mensen verkijken zich op de dubbele lasten. <br>
+            Bereken in 3 stappen je exacte netto maandlasten.
+          </p>
+          
+          <div class="features-list">
+            <div class="feat">✓ Inclusief rentevergoeding</div>
+            <div class="feat">✓ Annuïteit of Lineair</div>
+            <div class="feat">✓ Direct PDF rapport</div>
+          </div>
 
-              <form class="form" id="calc-form">
-                <div class="field">
-                  <label for="grondbedrag">Totale Hypotheeksom (Grond + Bouw)</label>
-                  <input id="grondbedrag" placeholder="Bijv. 550000" inputmode="decimal" />
-                  <div class="hint">Het totale bedrag dat je leent bij de bank.</div>
-                </div>
+          <button class="btn btn-primary btn-lg" id="btn-start">Start Berekening</button>
+        </div>
+      </section>
 
-                <div class="field">
-                  <label for="hypotheekrente">Hypotheekrente (%)</label>
-                  <input id="hypotheekrente" placeholder="Bijv. 4.2" inputmode="decimal" />
-                </div>
+      <section id="step-1" class="step-section">
+        <div class="card wizard-card">
+          <div class="card-head">
+            <h3>Fase 1: De Hypotheek</h3>
+            <p class="muted">Hoe heb je de financiering geregeld?</p>
+          </div>
+          
+          <form class="form">
+            <div class="field">
+              <label>Totale Hypotheeksom</label>
+              <input id="grondbedrag" placeholder="€ 450.000" inputmode="decimal" />
+              <div class="hint">Grond + Aanneemsom bij elkaar.</div>
+            </div>
 
-                <div class="field">
-                  <label for="aflossing">Aflossing (per maand, optioneel)</label>
-                  <input id="aflossing" placeholder="Bijv. 800" inputmode="decimal" />
-                  <div class="hint">Vul 0 in bij aflossingsvrij. Dit bedrag komt bovenop de rente.</div>
-                </div>
+            <div class="field">
+              <label>Hypotheekrente (%)</label>
+              <input id="hypotheekrente" placeholder="4.2%" inputmode="decimal" />
+            </div>
 
-                <hr style="border:0; border-top:1px solid var(--line); margin: 16px 0;">
-
-                <div class="field">
-                  <label for="bouwdepot">Waarvan in Bouwdepot</label>
-                  <input id="bouwdepot" placeholder="Bijv. 300000" inputmode="decimal" />
-                </div>
-
-                <div class="field">
-                  <label for="depotrente">Rente vergoeding depot (%)</label>
-                  <input id="depotrente" placeholder="Bijv. 3.2" inputmode="decimal" />
-                  <div class="hint">Vaak 1% lager dan je hypotheekrente.</div>
-                </div>
-
-                <div class="field">
-                  <label for="bouwtijd">Bouwtijd (maanden)</label>
-                  <input id="bouwtijd" placeholder="Bijv. 12" inputmode="numeric" />
-                </div>
-
-                <div class="field">
-                  <label>Opnameverloop</label>
-                  <div class="radio-group">
-                    <label class="radio-opt"><input type="radio" name="withdrawal-mode" value="linear" checked> Gelijkmatig</label>
-                    <label class="radio-opt"><input type="radio" name="withdrawal-mode" value="custom"> Aangepast</label>
+            <div class="field">
+              <label>Hypotheekvorm</label>
+              <div class="radio-group vertical">
+                <label class="radio-opt box-opt">
+                  <input type="radio" name="hypotheekvorm" value="aflossingsvrij" checked>
+                  <div>
+                    <strong>Aflossingsvrij / Bouw</strong>
+                    <div class="small">Alleen rente betalen (standaard tijdens bouw)</div>
                   </div>
-                </div>
-
-                <div class="field" id="field-custom-schedule" style="display:none;">
-                   <label>Vul percentages in per maand</label>
-                   <div id="custom-month-grid" class="month-grid"></div>
-                   <div class="hint">Totaal: <span id="schedule-total">0%</span> (moet 100% zijn)</div>
-                   <div class="error" id="err-custom"></div>
-                </div>
-
-                <div class="actions">
-                  <button type="button" class="btn btn-primary" id="btn-calc">Bereken Dashboard</button>
-                  <button type="reset" class="btn btn-ghost">Reset</button>
-                </div>
-                <div class="hint" id="form-status"></div>
-              </form>
-            </section>
-
-            <section class="card">
-              <div class="card-head">
-                <h3>Cashflow Overzicht</h3>
-                <p class="muted">Wat schrijf je daadwerkelijk over per maand?</p>
+                </label>
+                <label class="radio-opt box-opt">
+                  <input type="radio" name="hypotheekvorm" value="annuiteit">
+                  <div>
+                    <strong>Annuïteit / Lineair</strong>
+                    <div class="small">Direct aflossen tijdens de bouw</div>
+                  </div>
+                </label>
               </div>
+            </div>
 
-              <div class="kpi-grid">
-                <div class="kpi">
-                  <div class="kpi-label">Start Maandlast</div>
-                  <div class="kpi-value" id="kpi-start">€ —</div>
-                </div>
-                <div class="kpi">
-                  <div class="kpi-label">Eind Maandlast</div>
-                  <div class="kpi-value" id="kpi-end">€ —</div>
-                </div>
-                <div class="kpi">
-                  <div class="kpi-label">Totaal aan Rente betaald</div>
-                  <div class="kpi-value" id="kpi-total-interest">€ —</div>
-                  <div class="mini-note" style="font-size:11px; color:var(--muted)">Na aftrek vergoeding</div>
-                </div>
+            <div class="field" id="field-aflossing" style="display:none;">
+              <label>Geschatte aflossing (per maand)</label>
+              <input id="aflossing" placeholder="€ 0" inputmode="decimal" />
+              <div class="hint">Vul hier het aflossingsdeel in (bovenop de rente).</div>
+            </div>
+
+            <div class="actions split">
+              <button type="button" class="btn btn-ghost" id="btn-back-0">Terug</button>
+              <button type="button" class="btn btn-primary" id="btn-to-2">Volgende stap</button>
+            </div>
+            <div class="error" id="err-step-1"></div>
+          </form>
+        </div>
+      </section>
+
+      <section id="step-2" class="step-section">
+        <div class="card wizard-card">
+          <div class="card-head">
+            <h3>Fase 2: Het Bouwdepot</h3>
+            <p class="muted">Welk deel gebruik je voor de bouw?</p>
+          </div>
+
+          <form class="form">
+            <div class="field">
+              <label>Bedrag in Bouwdepot</label>
+              <input id="bouwdepot" placeholder="€ 300.000" inputmode="decimal" />
+            </div>
+
+            <div class="field">
+              <label>Rentevergoeding op depot (%)</label>
+              <input id="depotrente" placeholder="3.2%" inputmode="decimal" />
+              <div class="hint">Vaak 1% lager dan je hypotheekrente.</div>
+            </div>
+
+            <div class="field">
+              <label>Verwachte bouwtijd (maanden)</label>
+              <input id="bouwtijd" placeholder="12" inputmode="numeric" />
+            </div>
+
+            <div class="actions split">
+              <button type="button" class="btn btn-ghost" id="btn-back-1">Terug</button>
+              <button type="button" class="btn btn-primary" id="btn-calc">Toon Resultaat</button>
+            </div>
+            <div class="error" id="err-step-2"></div>
+          </form>
+        </div>
+      </section>
+
+      <section id="step-dashboard" class="step-section">
+        
+        <div class="dashboard-header">
+          <h2>Jouw Overzicht</h2>
+          <button class="btn btn-ghost btn-sm" id="btn-restart">Nieuwe berekening</button>
+        </div>
+
+        <div class="grid tool-grid">
+          <div class="kpi-grid full-width">
+             <div class="kpi">
+               <div class="kpi-label">Bruto Hypotheeklast</div>
+               <div class="kpi-value" id="kpi-gross">€ —</div>
+               <div class="mini-note">Wat je aan de bank betaalt</div>
+             </div>
+             <div class="kpi">
+               <div class="kpi-label">Gem. Depot Voordeel</div>
+               <div class="kpi-value highlight-green" id="kpi-benefit">€ —</div>
+               <div class="mini-note">Wat je terugkrijgt</div>
+             </div>
+             <div class="kpi highlight-bg">
+               <div class="kpi-label">Gem. Netto Maandlast</div>
+               <div class="kpi-value highlight-blue" id="kpi-net">€ —</div>
+               <div class="mini-note">Wat je echt kwijt bent</div>
+             </div>
+          </div>
+
+          <div class="card full-width">
+            <div class="chart-wrap">
+              <div class="chart-head">
+                <div class="chart-title">Verloop van kosten</div>
               </div>
-
-              <div class="chart-wrap">
-                <div class="chart-head">
-                  <div class="chart-title">Verloop Maandlasten</div>
-                  <div class="chart-badge">Blauw = Wat je betaalt</div>
-                </div>
-                <div class="chart-canvas">
-                  <canvas id="net-chart"></canvas>
-                </div>
+              <div class="chart-canvas">
+                <canvas id="net-chart"></canvas>
               </div>
+            </div>
+          </div>
 
-              <div class="download-row">
-                 <button class="btn btn-ghost" id="btn-dl-pdf" disabled>Download PDF Rapport</button>
-              </div>
-            </section>
-
+          <div class="download-section">
+             <button class="btn btn-ghost" id="btn-dl-pdf">Download PDF Rapport</button>
           </div>
         </div>
       </section>
-      
-      <section class="section section-alt">
-        <div class="container prose">
-           <h2>Hoe werkt dit?</h2>
-           <p>Je betaalt elke maand rente (en aflossing) over je <strong>volledige hypotheek</strong>. Zolang er geld in je bouwdepot zit, krijg je daarover rente terug. Dit wordt met elkaar verrekend.</p>
-           <p>In de grafiek zie je de <strong>Rode lijn</strong> (je bruto verplichting aan de bank) en de <strong>Blauwe lijn</strong> (wat je netto betaalt na de vergoeding uit het depot).</p>
-        </div>
-      </section>
+
     </main>
 
     <div class="snackbar" id="snackbar"></div>

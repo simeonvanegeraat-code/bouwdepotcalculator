@@ -1,335 +1,156 @@
 /**
  * src/js/ui/form.js
- * Regelt input, validatie, het dynamische grid en de koppeling naar het model.
+ * Wizard Controller & Logic
  */
 import { createState } from "../state.js";
-import { toNumberLoose, formatEUR, formatPct, formatInt } from "../format.js";
-import { resetKPIs, updateKPIs } from "./results.js"; // setSummary is niet meer nodig in nieuwe opzet of optioneel
+import { toNumberLoose, formatEUR } from "../format.js";
+import { updateKPIs } from "./results.js"; 
 import { calculateScenario } from "../calc/model.js";
-import { updateChart } from "./chart.js"; // updateTable evt ook als je die nog gebruikt
+import { updateChart } from "./chart.js";
 import { initDownloads, enableDownloadButtons } from "./downloads.js";
-
-// --- HELPERS ---
 
 function snackbar(msg) {
   const el = document.getElementById("snackbar");
-  if (!el) return;
-  el.textContent = msg;
-  el.classList.add("show");
-  window.clearTimeout(snackbar._t);
-  snackbar._t = window.setTimeout(() => el.classList.remove("show"), 2200);
+  if (el) {
+    el.textContent = msg;
+    el.classList.add("show");
+    setTimeout(() => el.classList.remove("show"), 3000);
+  }
 }
 
-function setError(inputEl, errEl, message) {
-  if (!errEl) return;
+// Navigatie Helpers
+function showStep(stepId) {
+  // Verberg alles
+  document.querySelectorAll('.step-section').forEach(el => el.classList.remove('active'));
+  // Toon gewenste step
+  document.getElementById(stepId)?.classList.add('active');
   
-  if (message) {
-    if (inputEl) inputEl.setAttribute("aria-invalid", "true");
-    errEl.textContent = message;
-    errEl.style.display = "block";
+  // Update indicator (alleen zichtbaar in stap 1 en 2)
+  const indicator = document.getElementById("step-indicator");
+  if (stepId === 'step-1') {
+      indicator.style.display = 'block';
+      document.getElementById("current-step-num").textContent = "1";
+  } else if (stepId === 'step-2') {
+      indicator.style.display = 'block';
+      document.getElementById("current-step-num").textContent = "2";
   } else {
-    if (inputEl) inputEl.removeAttribute("aria-invalid");
-    errEl.textContent = "";
-    errEl.style.display = "none";
+      indicator.style.display = 'none';
   }
 }
-
-// --- VALIDATIE ---
-
-function validate(state) {
-  const errors = {};
-  const pos = (v) => v != null && Number.isFinite(v) && v > 0;
-  const zeroOrPos = (v) => v != null && Number.isFinite(v) && v >= 0;
-
-  // loanTotal (was grondbedrag in HTML ID)
-  if (!pos(state.loanTotal)) errors.loanTotal = "Vul een positief totaalbedrag in.";
-  
-  // Rente
-  if (!zeroOrPos(state.interestRate) || state.interestRate > 15) 
-    errors.interestRate = "Vul een percentage in (0-15).";
-
-  // Aflossing (mag 0 zijn)
-  if (!zeroOrPos(state.repayment)) errors.repayment = "Ongeldig bedrag.";
-
-  // Depot
-  if (!zeroOrPos(state.depotTotal)) errors.depotTotal = "Vul een bedrag in.";
-  if (state.depotTotal > state.loanTotal) errors.depotTotal = "Depot kan niet hoger zijn dan de hypotheek.";
-
-  // Depot rente
-  if (!zeroOrPos(state.depotRate) || state.depotRate > 15)
-    errors.depotRate = "Vul een percentage in.";
-
-  // Bouwtijd
-  if (!pos(state.duration) || !Number.isInteger(state.duration) || state.duration > 60)
-    errors.duration = "Vul een aantal maanden in (1-60).";
-
-  // Custom Schedule Validatie
-  if (state.withdrawalMode === 'custom') {
-    const total = state.customSchedule.reduce((a, b) => a + b, 0);
-    // Marge voor afronding (99.9 tot 100.1 is ok)
-    if (total < 99 || total > 101) {
-      errors.custom = `Totaal is ${Math.round(total * 10) / 10}%. Dit moet 100% zijn.`;
-    }
-  }
-
-  return errors;
-}
-
-// --- INIT FORM ---
 
 export function initForm() {
-  const form = document.getElementById("calc-form");
-  if (!form) return;
-
   const state = createState();
-  
-  // Opslag voor export functies
   let lastResult = null;
   let lastState = null;
 
   initDownloads(() => lastResult, () => lastState, snackbar);
 
-  // Input Referenties (HTML IDs mappen)
+  // --- Elementen ---
   const inputs = {
-    // HTML ID 'grondbedrag' -> State 'loanTotal'
     loanTotal: document.getElementById("grondbedrag"),
     interestRate: document.getElementById("hypotheekrente"),
-    repayment: document.getElementById("aflossing"),
+    aflossingContainer: document.getElementById("field-aflossing"),
+    aflossingInput: document.getElementById("aflossing"),
     
-    // HTML ID 'bouwdepot' -> State 'depotTotal'
-    depotTotal: document.getElementById("bouwdepot"), 
+    depotTotal: document.getElementById("bouwdepot"),
     depotRate: document.getElementById("depotrente"),
     duration: document.getElementById("bouwtijd"),
-    
-    // Radio & Custom logic
-    radios: document.getElementsByName("withdrawal-mode"),
-    customContainer: document.getElementById("field-custom-schedule"),
-    customGrid: document.getElementById("custom-month-grid"),
-    scheduleTotal: document.getElementById("schedule-total"),
-
-    // Knoppen
-    btnCalc: document.getElementById("btn-calc"),
-    status: document.getElementById("form-status")
   };
 
-  // Error Elementen Referenties
-  // Let op: In je nieuwe HTML heb je de <div class="error"> misschien niet overal meer een ID gegeven?
-  // Voor zekerheid selecteren we ze via sibling selectie of specifieke IDs als ze bestaan.
-  // Ik ga er hier vanuit dat de IDs uit de vorige iteratie er nog zijn of dat we ze via nextElementSibling vinden.
-  const getErrEl = (inputEl) => inputEl?.parentNode?.querySelector(".error");
-
-  const errs = {
-    loanTotal: getErrEl(inputs.loanTotal),
-    interestRate: getErrEl(inputs.interestRate),
-    repayment: getErrEl(inputs.repayment),
-    depotTotal: getErrEl(inputs.depotTotal),
-    depotRate: getErrEl(inputs.depotRate),
-    duration: getErrEl(inputs.duration),
-    custom: document.getElementById("err-custom") // Die heeft wel een ID in de nieuwe HTML
+  const buttons = {
+    start: document.getElementById("btn-start"),
+    backToStart: document.getElementById("btn-back-0"),
+    toStep2: document.getElementById("btn-to-2"),
+    backTo1: document.getElementById("btn-back-1"),
+    calc: document.getElementById("btn-calc"),
+    restart: document.getElementById("btn-restart")
   };
 
-  // --- GRID LOGICA (Render & Read) ---
+  // --- Logic ---
 
-  const renderMonthGrid = (months) => {
-    if (!inputs.customGrid) return;
-    
-    // Alleen opnieuw renderen als aantal maanden verandert
-    if (inputs.customGrid.children.length === months) return;
+  // Stap 0 -> 1
+  buttons.start?.addEventListener("click", () => showStep("step-1"));
+  buttons.backToStart?.addEventListener("click", () => showStep("step-start"));
 
-    inputs.customGrid.innerHTML = "";
-
-    for (let i = 1; i <= months; i++) {
-      const wrap = document.createElement("div");
-      wrap.className = "month-input-wrap";
-
-      const label = document.createElement("label");
-      label.className = "month-label";
-      label.textContent = `Mnd ${i}`;
-      
-      const input = document.createElement("input");
-      input.className = "month-input";
-      input.type = "text"; 
-      input.inputMode = "decimal";
-      input.placeholder = "0";
-      input.dataset.idx = i - 1;
-
-      // Event listener voor live update van het totaal-percentage
-      input.addEventListener("input", () => validateAndUpdate());
-
-      wrap.appendChild(label);
-      wrap.appendChild(input);
-      inputs.customGrid.appendChild(wrap);
-    }
-  };
-
-  const readMonthGrid = (months) => {
-    if (!inputs.customGrid) return [];
-    const arr = new Array(months).fill(0);
-    const fields = inputs.customGrid.querySelectorAll("input");
-    
-    fields.forEach(field => {
-      const idx = parseInt(field.dataset.idx, 10);
-      const val = toNumberLoose(field.value);
-      if (val != null && !isNaN(val)) {
-        arr[idx] = val;
-      }
-    });
-    return arr;
-  };
-
-  // --- SYNC & READ ---
-
-  const syncUI = () => {
-    const isCustom = state.withdrawalMode === 'custom';
-    
-    if (inputs.customContainer) {
-        inputs.customContainer.style.display = isCustom ? 'grid' : 'none';
-        
-        if (isCustom) {
-           let months = state.duration || 12;
-           if (months < 1) months = 1;
-           if (months > 60) months = 60;
-           renderMonthGrid(months);
-        }
-    }
-
-    // Update Totaal Label (Huidig: X%)
-    if (isCustom && inputs.scheduleTotal) {
-        const total = state.customSchedule.reduce((a, b) => a + b, 0);
-        const rounded = Math.round(total * 10) / 10;
-        inputs.scheduleTotal.textContent = `${rounded}%`;
-        
-        // Kleur feedback
-        if (rounded >= 99 && rounded <= 101) {
-            inputs.scheduleTotal.style.color = "var(--brand2)"; // Groen
+  // Toggle Aflossing veld op basis van radio
+  document.querySelectorAll('input[name="hypotheekvorm"]').forEach(radio => {
+    radio.addEventListener("change", (e) => {
+        if (e.target.value === "annuiteit") {
+            inputs.aflossingContainer.style.display = "block";
+            // Auto focus
+            inputs.aflossingInput.focus();
         } else {
-            inputs.scheduleTotal.style.color = "#ef4444"; // Rood
+            inputs.aflossingContainer.style.display = "none";
+            inputs.aflossingInput.value = ""; // Reset aflossing bij aflossingsvrij
         }
-    }
-  };
-
-  const read = () => {
-    // Mapping HTML -> State
-    state.loanTotal = toNumberLoose(inputs.loanTotal?.value);
-    state.interestRate = toNumberLoose(inputs.interestRate?.value);
-    state.repayment = toNumberLoose(inputs.repayment?.value);
-    
-    state.depotTotal = toNumberLoose(inputs.depotTotal?.value);
-    state.depotRate = toNumberLoose(inputs.depotRate?.value);
-    
-    const d = toNumberLoose(inputs.duration?.value);
-    state.duration = d == null ? null : Math.round(d);
-
-    // Radio
-    inputs.radios.forEach(r => {
-        if (r.checked) state.withdrawalMode = r.value;
     });
-
-    // Custom Schedule
-    if (state.withdrawalMode === 'custom' && state.duration) {
-       state.customSchedule = readMonthGrid(state.duration);
-    } else {
-       state.customSchedule = [];
-    }
-  };
-
-  const applyErrors = (errors) => {
-    setError(inputs.loanTotal, errs.loanTotal, errors.loanTotal);
-    setError(inputs.interestRate, errs.interestRate, errors.interestRate);
-    setError(inputs.repayment, errs.repayment, errors.repayment);
-    setError(inputs.depotTotal, errs.depotTotal, errors.depotTotal);
-    setError(inputs.depotRate, errs.depotRate, errors.depotRate);
-    setError(inputs.duration, errs.duration, errors.duration);
-    setError(null, errs.custom, errors.custom); // Custom error op container
-
-    const ok = Object.keys(errors).length === 0;
-    if (inputs.btnCalc) inputs.btnCalc.disabled = !ok;
-
-    if (inputs.status) {
-      inputs.status.textContent = ok
-        ? "✓ Gereed voor berekening"
-        : "Vul alle velden correct in.";
-      inputs.status.style.color = ok ? "var(--brand2)" : "var(--muted)";
-    }
-  };
-
-  const validateAndUpdate = () => {
-    read();
-    syncUI();
-    const errors = validate(state);
-    applyErrors(errors);
-  };
-
-  const blurFormat = () => {
-    read();
-    if (inputs.loanTotal && state.loanTotal != null) inputs.loanTotal.value = formatEUR(state.loanTotal);
-    if (inputs.repayment && state.repayment != null) inputs.repayment.value = formatEUR(state.repayment);
-    if (inputs.depotTotal && state.depotTotal != null) inputs.depotTotal.value = formatEUR(state.depotTotal);
-    
-    if (inputs.interestRate && state.interestRate != null) inputs.interestRate.value = formatPct(state.interestRate);
-    if (inputs.depotRate && state.depotRate != null) inputs.depotRate.value = formatPct(state.depotRate);
-    
-    if (inputs.duration && state.duration != null) inputs.duration.value = formatInt(state.duration);
-    
-    validateAndUpdate();
-  };
-
-  // --- EVENT LISTENERS ---
-
-  form.addEventListener("input", (e) => {
-      // Voorkom dat typen in grid de focus reset
-      if (!e.target.classList.contains("month-input")) {
-         validateAndUpdate();
-      }
-  });
-  
-  form.addEventListener("change", validateAndUpdate);
-
-  inputs.radios.forEach(r => r.addEventListener("change", validateAndUpdate));
-
-  // Blur events voor formatting
-  [inputs.loanTotal, inputs.interestRate, inputs.repayment, inputs.depotTotal, inputs.depotRate, inputs.duration]
-    .forEach(el => el?.addEventListener("blur", blurFormat));
-
-  // Reset
-  form.addEventListener("reset", () => {
-    setTimeout(() => {
-      Object.assign(state, createState());
-      
-      const radioLinear = document.querySelector('input[name="withdrawal-mode"][value="linear"]');
-      if (radioLinear) radioLinear.checked = true;
-
-      if (inputs.customGrid) inputs.customGrid.innerHTML = "";
-      
-      lastResult = null;
-      lastState = null;
-      resetKPIs();
-      validateAndUpdate();
-      snackbar("Formulier gereset.");
-    }, 0);
   });
 
-  // Calculate
-  inputs.btnCalc?.addEventListener("click", () => {
-    validateAndUpdate();
-    if (inputs.btnCalc?.disabled) return;
+  // Stap 1 -> 2 (Validatie)
+  buttons.toStep2?.addEventListener("click", () => {
+    const loan = toNumberLoose(inputs.loanTotal.value);
+    const rate = toNumberLoose(inputs.interestRate.value);
+    
+    const err = document.getElementById("err-step-1");
+    if (!loan || loan <= 0) { err.textContent = "Vul een geldig hypotheekbedrag in."; return; }
+    if (rate === null || rate < 0) { err.textContent = "Vul een geldig rentepercentage in."; return; }
+    
+    err.textContent = "";
+    
+    // Save state
+    state.loanTotal = loan;
+    state.interestRate = rate;
+    state.repayment = toNumberLoose(inputs.aflossingInput.value) || 0;
+    
+    showStep("step-2");
+  });
 
+  buttons.backTo1?.addEventListener("click", () => showStep("step-1"));
+
+  // Stap 2 -> Dashboard (Berekening)
+  buttons.calc?.addEventListener("click", () => {
+    const depot = toNumberLoose(inputs.depotTotal.value);
+    const dRate = toNumberLoose(inputs.depotRate.value);
+    const time = toNumberLoose(inputs.duration.value);
+
+    const err = document.getElementById("err-step-2");
+    if (!depot || depot < 0) { err.textContent = "Vul een depotbedrag in."; return; }
+    if (!time || time < 1) { err.textContent = "Vul een bouwtijd in."; return; }
+    
+    err.textContent = "";
+
+    // Save state
+    state.depotTotal = depot;
+    state.depotRate = (dRate !== null) ? dRate : state.interestRate; // Fallback naar hypotheekrente
+    state.duration = Math.round(time);
+    state.withdrawalMode = 'linear'; // Simpel houden voor de wizard
+    
+    // Calculate
     const result = calculateScenario(state);
-
-    updateKPIs(result);
-    updateChart(result);
-    // updateTable(result); // Aanzetten als je de tabel weer toevoegt
-
-    lastResult = result;
-    lastState = { ...state, customSchedule: [...(state.customSchedule || [])] };
-
-    enableDownloadButtons();
-    snackbar("Berekening voltooid.");
     
-    // Scrollen naar resultaten
-    document.querySelector(".kpi-grid")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    // Update Dashboard UI
+    document.getElementById("kpi-gross").textContent = formatEUR(result.rows[0].gross);
+    
+    // Gemiddeld voordeel
+    const avgBenefit = result.rows.reduce((sum, r) => sum + r.reimbursement, 0) / result.rows.length;
+    document.getElementById("kpi-benefit").textContent = formatEUR(avgBenefit);
+    
+    // Gemiddeld netto
+    const avgNet = result.rows.reduce((sum, r) => sum + r.net, 0) / result.rows.length;
+    document.getElementById("kpi-net").textContent = formatEUR(avgNet);
+
+    updateChart(result);
+    
+    lastResult = result;
+    lastState = state;
+    enableDownloadButtons();
+
+    showStep("step-dashboard");
   });
 
-  // Start
-  validateAndUpdate();
+  buttons.restart?.addEventListener("click", () => {
+    // Reset alles
+    document.querySelectorAll("input").forEach(i => i.value = "");
+    showStep("step-start");
+  });
 }
