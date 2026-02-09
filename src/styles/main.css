@@ -362,4 +362,24 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     .amount.highlight {
         color: var(--color-primary) !important;
     }
+/* Styling voor de termijn editor */
+.term-editor input {
+    transition: all 0.2s;
+}
+.term-editor input:focus {
+    outline: 2px solid var(--color-accent);
+    background: #fff;
+}
+
+/* Zorg dat de tabel inputs er strak uitzien */
+.term-month, .term-percent {
+    border: 1px solid #cbd5e1;
+    background-color: white;
+}
+
+/* Grafiek container */
+#costChart {
+    max-height: 300px;
+    width: 100%;
+}
 }
