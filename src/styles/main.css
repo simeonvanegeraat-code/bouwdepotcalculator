@@ -295,4 +295,52 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     .amount.highlight {
         color: var(--color-primary) !important;
     }
+/* ... Je bestaande CSS code ... */
+
+/* NIEUW: Table Styling voor Nieuwbouw */
+.table-wrapper {
+    overflow-x: auto;
+    margin-top: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.schedule-table th, .schedule-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.schedule-table th {
+    background-color: #f9fafb;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.schedule-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Om en om kleuren voor leesbaarheid */
+.schedule-table tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.text-xs { font-size: 0.75rem; }
+.text-gray-400 { color: #9CA3AF; }
+.text-orange-600 { color: #ea580c; }
+.font-normal { font-weight: 400; }
+.block { display: block; }
+
+/* Flex helper voor result row met subtekst */
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
 }

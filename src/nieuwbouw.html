@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nieuwbouw Hypotheek & Bouwrente | Calculator 2026</title>
+    <meta name="description" content="Bereken uw maandlasten tijdens de bouw van een nieuwbouwwoning. Inzicht in renteverlies en dubbele lasten.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="logo">
+                Bouwdepot<span class="text-accent">Calculator</span>.nl
+            </div>
+            <nav class="main-nav">
+                <a href="index.html">Verbouwen</a>
+                <a href="nieuwbouw.html" class="active">Nieuwbouw</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-grid">
+        
+        <section class="calculator-section">
+            <div class="card calculator-card" id="nieuwbouw-calc">
+                <h1>Nieuwbouw Maandlasten</h1>
+                <p class="subtitle">Bereken uw dubbele lasten en renteverlies tijdens de bouw.</p>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>Grondprijs (Vrij op Naam)</label>
+                        <span class="input-value" id="val-land">€ 150.000</span>
+                    </div>
+                    <input type="range" id="range-land" min="50000" max="1000000" step="5000" value="150000" class="slider">
+                </div>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>Aanneemsom (Bouwdepot)</label>
+                        <span class="input-value" id="val-construction">€ 350.000</span>
+                    </div>
+                    <input type="range" id="range-construction" min="50000" max="1000000" step="5000" value="350000" class="slider">
+                </div>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>Verwachte Bouwtijd</label>
+                        <span class="input-value" id="val-months">12 Maanden</span>
+                    </div>
+                    <input type="range" id="range-months" min="6" max="36" step="1" value="12" class="slider">
+                </div>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>Hypotheekrente</label>
+                        <div class="number-input-wrapper">
+                            <input type="number" id="input-interest" value="3.8" step="0.01">
+                            <span class="suffix">%</span>
+                        </div>
+                    </div>
+                    <input type="range" id="range-interest" min="0.1" max="10" step="0.1" value="3.8" class="slider">
+                </div>
+
+                <div class="details-toggle">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="show-schedule">
+                        <span class="checkmark"></span>
+                        Toon betalingsschema per maand
+                    </label>
+                </div>
+            </div>
+
+            <div id="schedule-container" class="card" style="display:none; margin-top: 2rem;">
+                <h3>Verloop Maandlasten</h3>
+                <p class="text-sm text-gray-500 mb-4">Dit is een indicatie op basis van lineaire opname uit het depot.</p>
+                <div class="table-wrapper">
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Maand</th>
+                                <th>In Depot</th>
+                                <th>Netto Maandlast</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-body">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <article class="seo-content">
+                <h2>Wat is renteverlies tijdens de bouw?</h2>
+                <p>Bij nieuwbouw koopt u eerst de grond. Daarna betaalt u de aannemer in termijnen. Over het bedrag dat u al heeft betaald, betaalt u hypotheekrente. Over het bedrag dat nog in het depot staat, ontvangt u rente.</p>
+                
+                <div class="ad-placeholder banner">
+                    <span>Advertentie (Hypotheekvergelijker)</span>
+                </div>
+
+                <h3>Dubbele lasten meefinancieren</h3>
+                <p>Omdat u tijdens de bouw vaak ook nog huur of een oude hypotheek betaalt, kunt u het 'renteverlies' vaak meefinancieren in uw hypotheek. Onze tool berekent dit bedrag hiernaast.</p>
+            </article>
+        </section>
+
+        <aside class="sidebar">
+            
+            <div class="card result-card sticky-box" id="print-area">
+                <h2>Kosten Nieuwbouw</h2>
+                
+                <div class="result-row">
+                    <span>Totale Hypotheek:</span>
+                    <span id="res-total-loan" class="amount">€ 500.000</span>
+                </div>
+
+                <hr>
+
+                <div class="result-row discount">
+                    <span class="flex-col">
+                        Totaal Renteverlies
+                        <small class="text-xs font-normal text-gray-400 block">(Kosten tijdens bouw)</small>
+                    </span>
+                    <span id="res-loss" class="amount text-orange-600">€ 0</span>
+                </div>
+
+                <div class="result-row total">
+                    <span class="flex-col">
+                        Gemiddelde Maandlast
+                        <small class="text-xs font-normal text-gray-400 block">(Tijdens de bouw)</small>
+                    </span>
+                    <span id="res-avg-monthly" class="amount highlight">€ 0</span>
+                </div>
+
+                <div class="result-row" style="margin-top:0.5rem; opacity: 0.7;">
+                    <span class="text-sm">Maandlast ná oplevering:</span>
+                    <span id="res-final-monthly" class="text-sm font-bold">€ 0</span>
+                </div>
+
+                <div class="cta-button-wrapper no-print">
+                    <button id="btn-download" class="btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download Rapport (PDF)
+                    </button>
+                    <p class="disclaimer">*Indicatie o.b.v. lineaire opname.</p>
+                </div>
+            </div>
+
+            <div class="ad-placeholder rectangle">
+                <span>Advertentie (Aannemer / Bank)</span>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 BouwdepotCalculator.nl</p>
+        </div>
+    </footer>
+
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
