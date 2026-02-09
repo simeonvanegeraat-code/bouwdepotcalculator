@@ -106,15 +106,21 @@ label { font-weight: 600; font-size: 0.95rem; }
 /* Number Input Styling */
 .number-input-wrapper {
     position: relative;
-    width: 100px;
+    width: 110px; /* Iets breder voor bedragen */
 }
 .number-input-wrapper input {
     width: 100%;
-    padding: 6px 30px 6px 10px;
+    padding: 6px 10px; /* Default padding */
     border: 1px solid #d1d5db;
     border-radius: 6px;
     font-weight: 700;
     color: var(--color-primary);
+    font-size: 0.95rem;
+}
+
+/* Input met Suffix (rechts, bijv %) */
+.number-input-wrapper.has-suffix input {
+    padding-right: 30px;
 }
 .number-input-wrapper .suffix {
     position: absolute;
@@ -122,6 +128,27 @@ label { font-weight: 600; font-size: 0.95rem; }
     top: 6px;
     color: var(--color-text-light);
     font-weight: 600;
+    pointer-events: none;
+}
+
+/* Input met Prefix (links, bijv €) - NIEUW */
+.number-input-wrapper.has-prefix input {
+    padding-left: 25px;
+}
+.number-input-wrapper .prefix {
+    position: absolute;
+    left: 10px;
+    top: 6px;
+    color: var(--color-text-light);
+    font-weight: 600;
+    pointer-events: none;
+}
+
+/* Verberg spinner pijltjes in input number */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
 /* --- 5. SLIDERS (MODERN LOOK) --- */
@@ -235,69 +262,7 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .seo-content ul { padding-left: 1.5rem; margin-top: 1rem; color: var(--color-text); }
 .seo-content li { margin-bottom: 0.5rem; }
 
-/* --- 8. PRINT / PDF STYLING --- */
-@media print {
-    /* Verberg alles wat niet nodig is op de PDF */
-    .site-header, 
-    .input-group, 
-    .slider, 
-    .details-toggle, 
-    .ad-placeholder, 
-    .seo-content,
-    .no-print,
-    footer {
-        display: none !important;
-    }
-
-    /* Reset layout voor A4 papier */
-    body, .main-grid, .sidebar {
-        background: white;
-        display: block;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-    }
-
-    /* Maak de resultaat kaart mooi groot en centraal */
-    .result-card {
-        border: 2px solid var(--color-primary);
-        box-shadow: none;
-        max-width: 600px;
-        margin: 2rem auto;
-        padding: 4rem;
-    }
-    
-    /* Voeg een titel toe aan de print versie via CSS */
-    .result-card::before {
-        content: "Overzicht Bouwdepot";
-        display: block;
-        font-size: 24px;
-        font-weight: bold;
-        color: var(--color-primary);
-        margin-bottom: 0.5rem;
-        text-align: center;
-    }
-    
-    .result-card::after {
-        content: "Gegenereerd op BouwdepotCalculator.nl";
-        display: block;
-        font-size: 12px;
-        color: #999;
-        margin-top: 4rem;
-        text-align: center;
-    }
-
-    /* Zorg dat teksten zwart zijn (bespaart inkt) */
-    .amount, h2, span {
-        color: black !important;
-    }
-    
-    .amount.highlight {
-        color: var(--color-primary) !important;
-    }
-/* ... Je bestaande CSS code ... */
-
-/* NIEUW: Table Styling voor Nieuwbouw */
+/* Table Styling voor Nieuwbouw */
 .table-wrapper {
     overflow-x: auto;
     margin-top: 1rem;
@@ -327,7 +292,6 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     border-bottom: none;
 }
 
-/* Om en om kleuren voor leesbaarheid */
 .schedule-table tr:nth-child(even) {
     background-color: #f9fafb;
 }
@@ -338,9 +302,64 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .font-normal { font-weight: 400; }
 .block { display: block; }
 
-/* Flex helper voor result row met subtekst */
 .flex-col {
     display: flex;
     flex-direction: column;
 }
+
+/* --- 8. PRINT / PDF STYLING --- */
+@media print {
+    .site-header, 
+    .input-group, 
+    .slider, 
+    .details-toggle, 
+    .ad-placeholder, 
+    .seo-content,
+    .no-print,
+    footer {
+        display: none !important;
+    }
+
+    body, .main-grid, .sidebar {
+        background: white;
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    .result-card {
+        border: 2px solid var(--color-primary);
+        box-shadow: none;
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 4rem;
+    }
+    
+    .result-card::before {
+        content: "Overzicht Bouwdepot";
+        display: block;
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--color-primary);
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+    
+    .result-card::after {
+        content: "Gegenereerd op BouwdepotCalculator.nl";
+        display: block;
+        font-size: 12px;
+        color: #999;
+        margin-top: 4rem;
+        text-align: center;
+    }
+
+    .amount, h2, span {
+        color: black !important;
+    }
+    
+    .amount.highlight {
+        color: var(--color-primary) !important;
+    }
 }

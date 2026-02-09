@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bouwdepot Calculator 2026 | Bereken uw Maandlasten</title>
-    <meta name="description" content="Bereken direct uw maandlasten voor een bouwdepot. Onafhankelijke rekentool voor verbouwing en nieuwbouw tot € 1.000.000.">
+    <meta name="description" content="Bereken direct uw maandlasten voor een bouwdepot. Onafhankelijke rekentool voor verbouwing en nieuwbouw.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -31,20 +31,23 @@
         <section class="calculator-section">
             <div class="card calculator-card">
                 <h1>Bereken uw Bouwdepot</h1>
-                <p class="subtitle">Zie direct wat uw verbouwing of nieuwbouw per maand kost.</p>
+                <p class="subtitle">Zie direct wat uw verbouwing per maand kost.</p>
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label for="range-amount">Bedrag Bouwdepot</label>
-                        <span class="input-value" id="val-amount">€ 25.000</span>
+                        <label for="input-amount">Bedrag Bouwdepot</label>
+                        <div class="number-input-wrapper has-prefix" style="width: 130px;">
+                            <span class="prefix">€</span>
+                            <input type="number" id="input-amount" value="25000" step="500">
+                        </div>
                     </div>
-                    <input type="range" id="range-amount" min="5000" max="1000000" step="2500" value="25000" class="slider">
+                    <input type="range" id="range-amount" min="5000" max="150000" step="500" value="25000" class="slider">
                 </div>
 
                 <div class="input-group">
                     <div class="label-row">
                         <label for="input-interest">Hypotheekrente</label>
-                        <div class="number-input-wrapper">
+                        <div class="number-input-wrapper has-suffix">
                             <input type="number" id="input-interest" value="3.8" step="0.01">
                             <span class="suffix">%</span>
                         </div>
