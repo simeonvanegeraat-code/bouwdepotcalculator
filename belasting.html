@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Berekening Belastingteruggave 2026 | BouwdepotCalculator.nl</title>
+    <meta name="description" content="Hoe wordt uw belastingvoordeel berekend? Bekijk de exacte fiscale berekening voor uw bouwdepot inclusief eigenwoningforfait.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
+     crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="logo">Bouwdepot<span class="text-accent">Calculator</span>.nl</div>
+            <nav class="main-nav">
+                <a href="index.html">Verbouwen</a>
+                <a href="nieuwbouw.html">Nieuwbouw</a>
+                <a href="belasting.html" class="active">Fiscale Check</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-grid">
+        
+        <section class="calculator-section">
+            <div class="card calculator-card" id="belasting-calc">
+                <h1>Fiscale Berekening</h1>
+                <p class="subtitle">Controleer de opbouw van uw belastingvoordeel.</p>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>Hypotheek / Depot Bedrag</label>
+                        <div class="number-input-wrapper has-prefix">
+                            <span class="prefix">€</span>
+                            <input type="number" id="fiscal-amount" value="25000">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>Rentepercentage</label>
+                        <div class="number-input-wrapper has-suffix">
+                            <input type="number" id="fiscal-interest" value="3.80" step="0.01">
+                            <span class="suffix">%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>WOZ-Waarde (Optioneel)</label>
+                        <div class="number-input-wrapper has-prefix">
+                            <span class="prefix">€</span>
+                            <input type="number" id="fiscal-woz" value="0" placeholder="0">
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-1">Vul in om het effect van eigenwoningforfait te zien.</p>
+                </div>
+                
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>Belastingtarief (Schijf 1)</label>
+                        <div class="number-input-wrapper has-suffix">
+                            <input type="number" id="fiscal-tax-rate" value="36.97" disabled style="background:#f3f4f6; color:#6b7280;">
+                            <span class="suffix">%</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-1">Vast tarief voor aftrek eigen woning (2025/2026).</p>
+                </div>
+
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <div class="card result-card sticky-box">
+                <h2>De Rekensom</h2>
+                
+                <div class="result-row">
+                    <span>Bruto Jaarrente:</span>
+                    <span id="calc-bruto-year" class="amount">€ 0</span>
+                </div>
+                <p class="text-xs text-gray-400 mb-4" style="margin-top:-10px;">(Hypotheek × Rente)</p>
+
+                <div class="result-row discount">
+                    <span>- Eigenwoningforfait:</span>
+                    <span id="calc-ewf" class="amount">€ 0</span>
+                </div>
+                <p class="text-xs text-gray-400 mb-4" style="margin-top:-10px;">(Invloed WOZ waarde)</p>
+
+                <hr>
+
+                <div class="result-row">
+                    <span>Aftrekpost:</span>
+                    <span id="calc-deductible" class="amount">€ 0</span>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 mt-4" style="background:#eff6ff; border:1px solid #dbeafe; padding:1rem; border-radius:8px;">
+                    <div class="result-row total mb-0">
+                        <span style="color:#1e40af;">Jaarlijks Voordeel:</span>
+                        <span id="res-fiscal-year" class="amount highlight" style="color:#1e40af;">€ 0</span>
+                    </div>
+                    <div class="result-row mt-2" style="font-size:0.9rem;">
+                        <span>Per maand:</span>
+                        <span id="res-fiscal-month" class="amount">€ 0</span>
+                    </div>
+                </div>
+
+                <div class="cta-button-wrapper">
+                    <a href="index.html" class="btn-primary" style="text-decoration:none; text-align:center;">
+                        Terug naar Verbouw Calculator
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <footer>
+        <div class="container text-center text-sm text-gray-400 py-8">
+            <p>&copy; 2026 BouwdepotCalculator.nl</p>
+        </div>
+    </footer>
+    
+    <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>

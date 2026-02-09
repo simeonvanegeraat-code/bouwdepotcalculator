@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
+     crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 <body>
@@ -21,6 +24,7 @@
             <nav class="main-nav">
                 <a href="index.html" class="active">Verbouwen</a>
                 <a href="nieuwbouw.html">Nieuwbouw</a>
+                <a href="belasting.html">Fiscale Check</a>
                 <a href="#">Contact</a>
             </nav>
         </div>
@@ -99,8 +103,8 @@
                     <span id="res-bruto" class="amount">€ 116,49</span>
                 </div>
                 
-                <div class="result-row discount">
-                    <span>Belastingvoordeel:</span>
+                <div class="result-row discount" id="row-voordeel" style="cursor: pointer; padding: 4px; border-radius: 4px; transition: background 0.2s;" title="Bekijk berekening">
+                    <span style="border-bottom: 1px dashed currentColor;">Belastingvoordeel (?):</span>
                     <span id="res-voordeel" class="amount">- € 29,32</span>
                 </div>
 
