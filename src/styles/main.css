@@ -1,4 +1,4 @@
-/* --- 1. VARIABELEN (Rabo Kleuren + Modern Fintech) --- */
+/* --- 1. VARIABELEN --- */
 :root {
     --color-primary: #000066;   /* Donkerblauw (Rabo-achtig) */
     --color-accent: #FF6200;    /* Oranje (Actiekleur) */
@@ -7,7 +7,7 @@
     --color-text: #1F2937;      /* Antraciet */
     --color-text-light: #6B7280;
     --font-family: 'Inter', sans-serif;
-    --radius: 12px;             /* Afgeronde hoeken */
+    --radius: 12px;
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
@@ -70,7 +70,6 @@ body {
     padding-bottom: 4rem;
 }
 
-/* Op desktop: 2 kolommen (Links 2/3, Rechts 1/3) */
 @media (min-width: 768px) {
     .main-grid {
         grid-template-columns: 1.8fr 1.2fr;
@@ -86,8 +85,15 @@ body {
     border: 1px solid #f0f0f0;
 }
 
+/* Margin helpers */
+.mt-4 { margin-top: 1rem; }
+.mt-8 { margin-top: 2rem; }
+.mb-4 { margin-bottom: 1rem; }
+.my-6 { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+
 h1 { font-size: 1.8rem; color: var(--color-primary); margin-bottom: 0.5rem; }
 h2 { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 1rem; }
+h3 { font-size: 1.1rem; color: var(--color-primary); margin-bottom: 0.5rem; font-weight: 700; }
 .subtitle { color: var(--color-text-light); margin-bottom: 2rem; }
 
 /* Input Groups */
@@ -106,11 +112,12 @@ label { font-weight: 600; font-size: 0.95rem; }
 /* Number Input Styling */
 .number-input-wrapper {
     position: relative;
-    width: 110px; /* Iets breder voor bedragen */
+    width: 100%; 
+    max-width: 140px;
 }
 .number-input-wrapper input {
     width: 100%;
-    padding: 6px 10px; /* Default padding */
+    padding: 8px 10px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
     font-weight: 700;
@@ -118,103 +125,58 @@ label { font-weight: 600; font-size: 0.95rem; }
     font-size: 0.95rem;
 }
 
-/* Input met Suffix (rechts, bijv %) */
-.number-input-wrapper.has-suffix input {
-    padding-right: 30px;
-}
+/* Suffix & Prefix */
+.number-input-wrapper.has-suffix input { padding-right: 30px; }
 .number-input-wrapper .suffix {
-    position: absolute;
-    right: 10px;
-    top: 6px;
-    color: var(--color-text-light);
-    font-weight: 600;
-    pointer-events: none;
+    position: absolute; right: 10px; top: 8px;
+    color: var(--color-text-light); font-weight: 600; pointer-events: none;
 }
 
-/* Input met Prefix (links, bijv €) - NIEUW */
-.number-input-wrapper.has-prefix input {
-    padding-left: 25px;
-}
+.number-input-wrapper.has-prefix input { padding-left: 25px; }
 .number-input-wrapper .prefix {
-    position: absolute;
-    left: 10px;
-    top: 6px;
-    color: var(--color-text-light);
-    font-weight: 600;
-    pointer-events: none;
+    position: absolute; left: 10px; top: 8px;
+    color: var(--color-text-light); font-weight: 600; pointer-events: none;
 }
 
-/* Verberg spinner pijltjes in input number */
+/* Spinner verbergen */
 input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
-}
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
-/* --- 5. SLIDERS (MODERN LOOK) --- */
+/* --- 5. SLIDERS --- */
 .slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 6px;
-    border-radius: 5px;
-    background: #e5e7eb; /* Grijs track */
-    outline: none;
+    -webkit-appearance: none; width: 100%; height: 6px;
+    border-radius: 5px; background: #e5e7eb; outline: none;
     transition: background 0.2s;
 }
 
-/* Slider Thumb (Het knopje) */
 .slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--color-accent); /* Oranje knop */
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    border: 2px solid #fff;
+    -webkit-appearance: none; appearance: none;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--color-accent); cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); border: 2px solid #fff;
 }
-
 .slider::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--color-accent);
-    cursor: pointer;
-    border: 2px solid #fff;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--color-accent); cursor: pointer; border: 2px solid #fff;
 }
 
-/* Checkbox container */
+/* Checkbox */
 .checkbox-container {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 0.9rem;
-    color: var(--color-text);
+    display: flex; align-items: center; cursor: pointer;
+    font-size: 0.9rem; color: var(--color-text);
 }
 .checkbox-container input { margin-right: 0.5rem; accent-color: var(--color-accent); }
 
-/* --- 6. RESULTATEN BOX --- */
+/* --- 6. SIDEBAR & RESULTS --- */
 .sidebar { display: flex; flex-direction: column; gap: 2rem; }
-
-.result-card {
-    background: #fff;
-    border-top: 5px solid var(--color-primary);
-}
-
-.sticky-box {
-    position: sticky;
-    top: 2rem; /* Blijft plakken tijdens scrollen */
-}
+.result-card { background: #fff; border-top: 5px solid var(--color-primary); }
+.sticky-box { position: sticky; top: 2rem; }
 
 .result-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    font-size: 1rem;
+    display: flex; justify-content: space-between;
+    margin-bottom: 1rem; font-size: 1rem;
 }
-
-.result-row.discount { color: #10B981; /* Groen voor voordeel */ }
+.result-row.discount { color: #10B981; }
 .result-row.total { font-weight: 700; font-size: 1.2rem; margin-top: 1rem; color: var(--color-primary); }
 
 .amount { font-weight: 700; }
@@ -223,92 +185,102 @@ input[type=number]::-webkit-outer-spin-button {
 hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 
 .btn-primary {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-accent);
-    color: white;
-    border: none;
-    padding: 1rem;
-    border-radius: var(--radius);
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s;
-    margin-top: 1rem;
+    width: 100%; display: flex; align-items: center; justify-content: center;
+    background: var(--color-accent); color: white; border: none;
+    padding: 1rem; border-radius: var(--radius);
+    font-weight: 700; font-size: 1rem; cursor: pointer;
+    transition: background 0.2s; margin-top: 1rem;
 }
 .btn-primary:hover { background: #e05600; }
-
 .disclaimer { font-size: 0.75rem; color: #9CA3AF; text-align: center; margin-top: 0.5rem; }
 
-/* --- 7. ADSENSE PLACEHOLDERS --- */
+/* --- 7. ADSENSE --- */
 .ad-placeholder {
-    background: #F9FAFB;
-    border: 2px dashed #D1D5DB;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #9CA3AF;
-    font-weight: 600;
-    font-size: 0.9rem;
+    background: #F9FAFB; border: 2px dashed #D1D5DB;
+    display: flex; align-items: center; justify-content: center;
+    color: #9CA3AF; font-weight: 600; font-size: 0.9rem;
     border-radius: var(--radius);
 }
-
 .ad-placeholder.rectangle { height: 300px; width: 100%; }
 .ad-placeholder.banner { height: 100px; width: 100%; margin: 2rem 0; }
 
-/* Content styling */
+/* SEO Content */
 .seo-content ul { padding-left: 1.5rem; margin-top: 1rem; color: var(--color-text); }
 .seo-content li { margin-bottom: 0.5rem; }
 
-/* Table Styling voor Nieuwbouw */
-.table-wrapper {
-    overflow-x: auto;
-    margin-top: 1rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-}
 
-.schedule-table {
+/* --- 8. NIEUWBOUW STYLING (GRAFIEK & EDITOR) --- */
+
+/* Grafiek container */
+#costChart {
+    max-height: 300px;
     width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
-    text-align: left;
 }
 
-.schedule-table th, .schedule-table td {
-    padding: 12px 16px;
-    border-bottom: 1px solid #e5e7eb;
+/* Styling voor de termijn editor inputs */
+.term-editor input:focus {
+    outline: 2px solid var(--color-accent);
+    background: #fff;
 }
 
-.schedule-table th {
-    background-color: #f9fafb;
-    font-weight: 700;
-    color: var(--color-primary);
+/* Dit zorgt dat de Javascript inputs er goed uitzien */
+.term-month, .term-percent, .term-desc {
+    border: 1px solid #cbd5e1;
+    background-color: white;
+    border-radius: 4px;
+    padding: 6px;
 }
 
-.schedule-table tr:last-child td {
-    border-bottom: none;
-}
 
-.schedule-table tr:nth-child(even) {
-    background-color: #f9fafb;
-}
-
-.text-xs { font-size: 0.75rem; }
-.text-gray-400 { color: #9CA3AF; }
-.text-orange-600 { color: #ea580c; }
-.font-normal { font-weight: 400; }
+/* --- 9. UTILITIES (Nodig voor de Nieuwbouw Planner JS) --- */
+/* De JS genereert HTML met deze classnamen */
+.flex { display: flex; }
+.flex-1 { flex: 1; }
+.gap-2 { gap: 0.5rem; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.w-full { width: 100%; }
+.w-16 { width: 4rem; }
+.w-20 { width: 5rem; }
+.relative { position: relative; }
+.absolute { position: absolute; }
 .block { display: block; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.bg-slate-50 { background-color: #f8fafc; }
+.bg-orange-50 { background-color: #fff7ed; }
+.p-4 { padding: 1rem; }
+.p-3 { padding: 0.75rem; }
+.p-1 { padding: 0.25rem; }
+.pr-6 { padding-right: 1.5rem; }
+.rounded-xl { border-radius: 0.75rem; }
+.rounded-lg { border-radius: 0.5rem; }
+.rounded { border-radius: 0.25rem; }
+.border { border-width: 1px; border-style: solid; }
+.border-slate-200 { border-color: #e2e8f0; }
+.border-orange-100 { border-color: #ffedd5; }
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+.font-bold { font-weight: 700; }
+.uppercase { text-transform: uppercase; }
+.text-gray-400 { color: #9ca3af; }
+.text-blue-600 { color: #2563eb; }
+.text-red-400 { color: #f87171; }
+.text-red-600 { color: #dc2626; }
+.text-green-600 { color: #16a34a; }
+.text-orange-600 { color: #ea580c; }
+.text-orange-800 { color: #9a3412; }
+.hover\:underline:hover { text-decoration: underline; }
+.space-y-3 > * + * { margin-top: 0.75rem; } /* Ruimte tussen de rijen */
+.top-6 { top: 1.5rem; }
+.right-2 { right: 0.5rem; }
+.bg-transparent { background: transparent; }
+.flex-col { display: flex; flex-direction: column; }
 
-.flex-col {
-    display: flex;
-    flex-direction: column;
-}
 
-/* --- 8. PRINT / PDF STYLING --- */
+/* --- 10. PRINT / PDF STYLING (MOET ONDERAAN) --- */
 @media print {
+    /* Verberg elementen */
     .site-header, 
     .input-group, 
     .slider, 
@@ -316,7 +288,9 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     .ad-placeholder, 
     .seo-content,
     .no-print,
-    footer {
+    footer,
+    .term-editor, /* Verberg editor, toon alleen grafiek/resultaat */
+    button {
         display: none !important;
     }
 
@@ -334,52 +308,24 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
         max-width: 600px;
         margin: 2rem auto;
         padding: 4rem;
+        page-break-inside: avoid;
     }
     
     .result-card::before {
         content: "Overzicht Bouwdepot";
         display: block;
-        font-size: 24px;
-        font-weight: bold;
-        color: var(--color-primary);
-        margin-bottom: 0.5rem;
-        text-align: center;
+        font-size: 24px; font-weight: bold;
+        color: var(--color-primary); margin-bottom: 0.5rem; text-align: center;
     }
     
     .result-card::after {
         content: "Gegenereerd op BouwdepotCalculator.nl";
         display: block;
-        font-size: 12px;
-        color: #999;
-        margin-top: 4rem;
-        text-align: center;
+        font-size: 12px; color: #999;
+        margin-top: 4rem; text-align: center;
     }
 
-    .amount, h2, span {
-        color: black !important;
-    }
-    
-    .amount.highlight {
-        color: var(--color-primary) !important;
-    }
-/* Styling voor de termijn editor */
-.term-editor input {
-    transition: all 0.2s;
-}
-.term-editor input:focus {
-    outline: 2px solid var(--color-accent);
-    background: #fff;
-}
-
-/* Zorg dat de tabel inputs er strak uitzien */
-.term-month, .term-percent {
-    border: 1px solid #cbd5e1;
-    background-color: white;
-}
-
-/* Grafiek container */
-#costChart {
-    max-height: 300px;
-    width: 100%;
-}
+    /* Zwart/wit voor print */
+    .amount, h2, span, p, label { color: black !important; }
+    .amount.highlight { color: var(--color-primary) !important; }
 }
