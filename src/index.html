@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bouwdepot Calculator | Bereken uw Maandlasten</title>
-    <meta name="description" content="Bereken direct uw maandlasten voor een bouwdepot. Onafhankelijke rekentool voor verbouwing en nieuwbouw.">
+    <title>Bouwdepot Calculator 2026 | Bereken uw Maandlasten</title>
+    <meta name="description" content="Bereken direct uw maandlasten voor een bouwdepot. Onafhankelijke rekentool voor verbouwing en nieuwbouw tot € 1.000.000.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -31,19 +31,19 @@
         <section class="calculator-section">
             <div class="card calculator-card">
                 <h1>Bereken uw Bouwdepot</h1>
-                <p class="subtitle">Zie direct wat uw verbouwing per maand kost.</p>
+                <p class="subtitle">Zie direct wat uw verbouwing of nieuwbouw per maand kost.</p>
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label for="amount">Bedrag Bouwdepot</label>
+                        <label for="range-amount">Bedrag Bouwdepot</label>
                         <span class="input-value" id="val-amount">€ 25.000</span>
                     </div>
-                    <input type="range" id="range-amount" min="5000" max="150000" step="1000" value="25000" class="slider">
+                    <input type="range" id="range-amount" min="5000" max="1000000" step="2500" value="25000" class="slider">
                 </div>
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label for="interest">Hypotheekrente</label>
+                        <label for="input-interest">Hypotheekrente</label>
                         <div class="number-input-wrapper">
                             <input type="number" id="input-interest" value="3.8" step="0.01">
                             <span class="suffix">%</span>
@@ -54,7 +54,7 @@
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label for="duration">Looptijd Hypotheek</label>
+                        <label for="range-duration">Looptijd Hypotheek</label>
                         <span class="input-value" id="val-duration">30 Jaar</span>
                     </div>
                     <input type="range" id="range-duration" min="10" max="30" step="5" value="30" class="slider">
@@ -88,7 +88,7 @@
 
         <aside class="sidebar">
             
-            <div class="card result-card sticky-box">
+            <div class="card result-card sticky-box" id="print-area">
                 <h2>Uw Maandlasten</h2>
                 
                 <div class="result-row">
@@ -108,8 +108,11 @@
                     <span id="res-netto" class="amount highlight">€ 87,17</span>
                 </div>
 
-                <div class="cta-button-wrapper">
-                    <button class="btn-primary">Vraag offerte aan</button>
+                <div class="cta-button-wrapper no-print">
+                    <button id="btn-download" class="btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download Overzicht (PDF)
+                    </button>
                     <p class="disclaimer">*Indicatieve berekening, geen advies.</p>
                 </div>
             </div>

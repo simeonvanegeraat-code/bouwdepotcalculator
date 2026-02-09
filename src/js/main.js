@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputInterest = document.getElementById('input-interest'); // Nummer vakje
     const rangeDuration = document.getElementById('range-duration');
     const checkAftrek = document.getElementById('check-aftrek');
+    const btnDownload = document.getElementById('btn-download');
 
     // Display values (Naast de sliders)
     const valAmount = document.getElementById('val-amount');
@@ -72,6 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         resNetto.textContent = formatEuro(netMonthly);
+    }
+
+    // --- PDF / PRINT FUNCTIE ---
+    if(btnDownload) {
+        btnDownload.addEventListener('click', () => {
+            // Dit opent het standaard print-venster van de browser.
+            // Dankzij de @media print CSS ziet dit eruit als een PDF rapport.
+            window.print();
+        });
     }
 
     // --- SYNCHRONISEER SLIDER EN NUMMER INPUT VOOR RENTE ---

@@ -157,6 +157,16 @@ label { font-weight: 600; font-size: 0.95rem; }
     border: 2px solid #fff;
 }
 
+/* Checkbox container */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--color-text);
+}
+.checkbox-container input { margin-right: 0.5rem; accent-color: var(--color-accent); }
+
 /* --- 6. RESULTATEN BOX --- */
 .sidebar { display: flex; flex-direction: column; gap: 2rem; }
 
@@ -187,6 +197,9 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 
 .btn-primary {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--color-accent);
     color: white;
     border: none;
@@ -221,3 +234,65 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 /* Content styling */
 .seo-content ul { padding-left: 1.5rem; margin-top: 1rem; color: var(--color-text); }
 .seo-content li { margin-bottom: 0.5rem; }
+
+/* --- 8. PRINT / PDF STYLING --- */
+@media print {
+    /* Verberg alles wat niet nodig is op de PDF */
+    .site-header, 
+    .input-group, 
+    .slider, 
+    .details-toggle, 
+    .ad-placeholder, 
+    .seo-content,
+    .no-print,
+    footer {
+        display: none !important;
+    }
+
+    /* Reset layout voor A4 papier */
+    body, .main-grid, .sidebar {
+        background: white;
+        display: block;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    /* Maak de resultaat kaart mooi groot en centraal */
+    .result-card {
+        border: 2px solid var(--color-primary);
+        box-shadow: none;
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 4rem;
+    }
+    
+    /* Voeg een titel toe aan de print versie via CSS */
+    .result-card::before {
+        content: "Overzicht Bouwdepot";
+        display: block;
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--color-primary);
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+    
+    .result-card::after {
+        content: "Gegenereerd op BouwdepotCalculator.nl";
+        display: block;
+        font-size: 12px;
+        color: #999;
+        margin-top: 4rem;
+        text-align: center;
+    }
+
+    /* Zorg dat teksten zwart zijn (bespaart inkt) */
+    .amount, h2, span {
+        color: black !important;
+    }
+    
+    .amount.highlight {
+        color: var(--color-primary) !important;
+    }
+}
