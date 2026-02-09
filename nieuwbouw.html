@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="/src/styles/main.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -15,7 +16,9 @@
 
     <header class="site-header">
         <div class="container header-inner">
-            <div class="logo">Bouwdepot<span class="text-accent">Calculator</span>.nl</div>
+            <div class="logo">
+                Bouwdepot<span class="text-accent">Calculator</span>.nl
+            </div>
             <nav class="main-nav">
                 <a href="index.html">Verbouwen</a>
                 <a href="nieuwbouw.html" class="active">Nieuwbouw</a>
@@ -33,45 +36,51 @@
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label>Grondkosten (Direct te betalen)</label>
-                        <div class="number-input-wrapper has-prefix">
+                        <label for="input-land">Grondkosten (Direct)</label>
+                        <div class="number-input-wrapper has-prefix" style="width: 140px;">
                             <span class="prefix">€</span>
                             <input type="number" id="input-land" value="150000" step="1000">
                         </div>
                     </div>
+                    <input type="range" id="range-land" min="50000" max="500000" step="1000" value="150000" class="slider">
                 </div>
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label>Aanneemsom (In termijnen)</label>
-                        <div class="number-input-wrapper has-prefix">
+                        <label for="input-construction">Aanneemsom (Bouw)</label>
+                        <div class="number-input-wrapper has-prefix" style="width: 140px;">
                             <span class="prefix">€</span>
                             <input type="number" id="input-construction" value="350000" step="1000">
                         </div>
                     </div>
+                    <input type="range" id="range-construction" min="50000" max="800000" step="1000" value="350000" class="slider">
                 </div>
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label>Hypotheekrente</label>
+                        <label for="input-interest">Hypotheekrente</label>
                         <div class="number-input-wrapper has-suffix">
-                            <input type="number" id="input-interest" value="3.8" step="0.01">
+                            <input type="number" id="input-interest" value="3.80" step="0.01">
                             <span class="suffix">%</span>
                         </div>
                     </div>
+                    <input type="range" id="range-interest" min="0.1" max="10" step="0.1" value="3.8" class="slider">
                 </div>
 
-                <hr class="my-6">
+                <hr>
 
-                <h3 class="font-bold text-lg mb-4 text-primary">Bouwtermijnen Schema</h3>
-                <div class="term-editor bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <div id="terms-container" class="space-y-3">
-                        </div>
+                <h3>Bouwtermijnen Schema</h3>
+                <p style="font-size: 0.9rem; color: var(--color-text-light); margin-bottom: 1rem;">
+                    Verdeel de aanneemsom over de bouwperiodes.
+                </p>
+
+                <div class="term-editor">
+                    <div id="terms-container"></div>
                     
-                    <div class="flex justify-between items-center mt-4">
-                        <button id="add-term-btn" class="text-sm text-blue-600 font-bold hover:underline">+ Termijn toevoegen</button>
-                        <div class="text-right text-sm">
-                            <span id="total-percent" class="font-bold text-green-600">100%</span> toegewezen
+                    <div class="editor-footer">
+                        <button id="add-term-btn" class="btn-text">+ Termijn toevoegen</button>
+                        <div class="status-text">
+                            <strong id="total-percent">100%</strong> toegewezen
                         </div>
                     </div>
                 </div>
@@ -79,23 +88,24 @@
 
             <div class="card mt-8">
                 <h3>Verloop Maandlasten</h3>
-                <div style="position: relative; height:300px; width:100%">
+                <div class="chart-container">
                     <canvas id="costChart"></canvas>
                 </div>
-                <div class="flex justify-center gap-6 mt-4 text-xs font-bold text-gray-600">
-                    <div class="flex items-center gap-2">
-                        <span class="block w-3 h-3 rounded-full" style="background-color: #000066;"></span>
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="dot" style="background-color: #000066;"></span>
                         Uw Netto Maandlast
                     </div>
-                    <div class="flex items-center gap-2">
-                        <span class="block w-3 h-3 rounded-full" style="background-color: #4ade80;"></span>
-                        Rente vergoeding (Depot)
+                    <div class="legend-item">
+                        <span class="dot" style="background-color: #4ade80;"></span>
+                        Rente uit Depot
                     </div>
                 </div>
             </div>
         </section>
 
         <aside class="sidebar">
+            
             <div class="card result-card sticky-box">
                 <h2>Financieel Overzicht</h2>
                 
@@ -108,7 +118,7 @@
 
                 <div class="result-row">
                     <span class="flex-col">Start Maandlast <small>(Alleen grond)</small></span>
-                    <span id="res-start-monthly" class="amount text-sm">€ 0</span>
+                    <span id="res-start-monthly" class="amount">€ 0</span>
                 </div>
 
                 <div class="result-row total">
@@ -116,29 +126,35 @@
                     <span id="res-max-monthly" class="amount highlight">€ 0</span>
                 </div>
 
-                <div class="bg-orange-50 p-3 rounded-lg border border-orange-100 mt-4">
+                <div class="callout">
                     <div class="result-row discount mb-0">
-                        <span class="text-orange-800 font-bold">Totaal Renteverlies:</span>
-                        <span id="res-loss" class="amount text-orange-600">€ 0</span>
+                        <span class="callout-title">Totaal Renteverlies:</span>
+                        <span id="res-loss" class="amount" style="color:#ea580c">€ 0</span>
                     </div>
-                    <p class="text-xs text-orange-800 mt-1">Dit bedrag betaalt u aan rente tijdens de bouw zonder dat u er woont.</p>
+                    <p class="callout-text mt-4">
+                        Dit bedrag betaalt u aan rente tijdens de bouw zonder dat u er al woont.
+                    </p>
                 </div>
 
                 <div class="cta-button-wrapper">
-                    <button id="btn-download" class="btn-primary">Download Rapport (PDF)</button>
+                    <button id="btn-download" class="btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Download Rapport (PDF)
+                    </button>
                 </div>
             </div>
             
              <div class="ad-placeholder rectangle">
                 <span>Advertentie</span>
             </div>
+
         </aside>
 
     </main>
 
     <footer>
-        <div class="container text-center text-sm text-gray-400 py-8">
-            &copy; 2026 BouwdepotCalculator.nl
+        <div class="container" style="text-align:center; padding: 2rem 0; font-size: 0.85rem; color: #9CA3AF;">
+            <p>&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
         </div>
     </footer>
 

@@ -6,6 +6,7 @@
     --color-white: #FFFFFF;
     --color-text: #1F2937;      /* Antraciet */
     --color-text-light: #6B7280;
+    --color-border: #E5E7EB;
     --font-family: 'Inter', sans-serif;
     --radius: 12px;
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -31,7 +32,7 @@ body {
 /* Header */
 .site-header {
     background: var(--color-white);
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--color-border);
     padding: 1rem 0;
     margin-bottom: 2rem;
 }
@@ -85,12 +86,7 @@ body {
     border: 1px solid #f0f0f0;
 }
 
-/* Margin helpers */
-.mt-4 { margin-top: 1rem; }
-.mt-8 { margin-top: 2rem; }
-.mb-4 { margin-bottom: 1rem; }
-.my-6 { margin-top: 1.5rem; margin-bottom: 1.5rem; }
-
+/* Typography Helpers */
 h1 { font-size: 1.8rem; color: var(--color-primary); margin-bottom: 0.5rem; }
 h2 { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 1rem; }
 h3 { font-size: 1.1rem; color: var(--color-primary); margin-bottom: 0.5rem; font-weight: 700; }
@@ -179,6 +175,10 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
 .result-row.discount { color: #10B981; }
 .result-row.total { font-weight: 700; font-size: 1.2rem; margin-top: 1rem; color: var(--color-primary); }
 
+/* Flex Column Helper voor sidebar items */
+.flex-col { display: flex; flex-direction: column; }
+.flex-col small { font-weight: 400; color: var(--color-text-light); }
+
 .amount { font-weight: 700; }
 .amount.highlight { color: var(--color-accent); font-size: 1.5rem; }
 
@@ -193,6 +193,17 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 }
 .btn-primary:hover { background: #e05600; }
 .disclaimer { font-size: 0.75rem; color: #9CA3AF; text-align: center; margin-top: 0.5rem; }
+
+/* Callout Box (voor waarschuwingen/info in sidebar) */
+.callout {
+    background-color: #FFF7ED; /* lichte oranje achtergrond */
+    border: 1px solid #FFEDD5;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+.callout-title { font-weight: 700; color: #9A3412; font-size: 0.9rem; display: block; margin-bottom: 0.25rem;}
+.callout-text { font-size: 0.8rem; color: #9A3412; line-height: 1.4; }
 
 /* --- 7. ADSENSE --- */
 .ad-placeholder {
@@ -209,123 +220,113 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .seo-content li { margin-bottom: 0.5rem; }
 
 
-/* --- 8. NIEUWBOUW STYLING (GRAFIEK & EDITOR) --- */
+/* --- 8. NIEUWBOUW PLANNER SPECIFICS --- */
 
-/* Grafiek container */
-#costChart {
-    max-height: 300px;
+/* Grafiek Container */
+.chart-container {
+    position: relative; 
+    height: 300px; 
     width: 100%;
 }
 
-/* Styling voor de termijn editor inputs */
-.term-editor input:focus {
-    outline: 2px solid var(--color-accent);
-    background: #fff;
+/* Legenda onder grafiek */
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-light);
+}
+.legend-item { display: flex; align-items: center; gap: 0.5rem; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: block; }
+
+/* Termijn Editor Container */
+.term-editor {
+    background-color: #F8FAFC;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-top: 1rem;
 }
 
-/* Dit zorgt dat de Javascript inputs er goed uitzien */
-.term-month, .term-percent, .term-desc {
-    border: 1px solid #cbd5e1;
-    background-color: white;
-    border-radius: 4px;
-    padding: 6px;
+/* Editor Header / Footer */
+.editor-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #E2E8F0;
 }
 
+.btn-text {
+    background: none; border: none;
+    color: #2563EB; font-weight: 700; font-size: 0.9rem;
+    cursor: pointer;
+}
+.btn-text:hover { text-decoration: underline; }
 
-/* --- 9. UTILITIES (Nodig voor de Nieuwbouw Planner JS) --- */
-/* De JS genereert HTML met deze classnamen */
-.flex { display: flex; }
-.flex-1 { flex: 1; }
-.gap-2 { gap: 0.5rem; }
-.items-center { align-items: center; }
-.justify-between { justify-content: space-between; }
-.w-full { width: 100%; }
-.w-16 { width: 4rem; }
-.w-20 { width: 5rem; }
-.relative { position: relative; }
-.absolute { position: absolute; }
-.block { display: block; }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.bg-slate-50 { background-color: #f8fafc; }
-.bg-orange-50 { background-color: #fff7ed; }
-.p-4 { padding: 1rem; }
-.p-3 { padding: 0.75rem; }
-.p-1 { padding: 0.25rem; }
-.pr-6 { padding-right: 1.5rem; }
-.rounded-xl { border-radius: 0.75rem; }
-.rounded-lg { border-radius: 0.5rem; }
-.rounded { border-radius: 0.25rem; }
-.border { border-width: 1px; border-style: solid; }
-.border-slate-200 { border-color: #e2e8f0; }
-.border-orange-100 { border-color: #ffedd5; }
-.text-sm { font-size: 0.875rem; }
-.text-xs { font-size: 0.75rem; }
-.font-bold { font-weight: 700; }
-.uppercase { text-transform: uppercase; }
-.text-gray-400 { color: #9ca3af; }
-.text-blue-600 { color: #2563eb; }
-.text-red-400 { color: #f87171; }
-.text-red-600 { color: #dc2626; }
-.text-green-600 { color: #16a34a; }
-.text-orange-600 { color: #ea580c; }
-.text-orange-800 { color: #9a3412; }
-.hover\:underline:hover { text-decoration: underline; }
-.space-y-3 > * + * { margin-top: 0.75rem; } /* Ruimte tussen de rijen */
-.top-6 { top: 1.5rem; }
-.right-2 { right: 0.5rem; }
-.bg-transparent { background: transparent; }
-.flex-col { display: flex; flex-direction: column; }
+.status-text { font-size: 0.9rem; color: var(--color-text); }
+.status-text strong { color: #16A34A; } /* Groen voor 100% */
+.status-text strong.error { color: #DC2626; } /* Rood voor error */
+
+/* Dynamische Rijen (worden via JS toegevoegd) */
+.term-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    align-items: center;
+}
+
+.term-input {
+    padding: 8px;
+    border: 1px solid #CBD5E1;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+/* Input breedtes in de editor */
+.input-desc { flex: 2; }    /* Omschrijving */
+.input-pct { width: 70px; } /* Percentage */
+.input-amt { flex: 1; background-color: #F1F5F9; color: #64748B; cursor: not-allowed; } /* Bedrag (automatisch) */
+
+.btn-remove {
+    background: none; border: none;
+    color: #9CA3AF; cursor: pointer; font-size: 1.2rem;
+    padding: 0 0.5rem;
+}
+.btn-remove:hover { color: #DC2626; }
 
 
-/* --- 10. PRINT / PDF STYLING (MOET ONDERAAN) --- */
+/* --- 9. PRINT STYLES --- */
 @media print {
-    /* Verberg elementen */
-    .site-header, 
-    .input-group, 
-    .slider, 
-    .details-toggle, 
-    .ad-placeholder, 
-    .seo-content,
-    .no-print,
-    footer,
-    .term-editor, /* Verberg editor, toon alleen grafiek/resultaat */
-    button {
+    .site-header, .input-group, .slider, .details-toggle, 
+    .ad-placeholder, .seo-content, footer, button, .term-editor {
         display: none !important;
     }
 
     body, .main-grid, .sidebar {
-        background: white;
-        display: block;
-        margin: 0;
-        padding: 0;
-        width: 100%;
+        background: white; display: block; width: 100%; margin: 0; padding: 0;
     }
 
     .result-card {
         border: 2px solid var(--color-primary);
-        box-shadow: none;
-        max-width: 600px;
-        margin: 2rem auto;
-        padding: 4rem;
-        page-break-inside: avoid;
+        box-shadow: none; max-width: 600px; margin: 2rem auto; padding: 4rem;
     }
     
     .result-card::before {
         content: "Overzicht Bouwdepot";
-        display: block;
-        font-size: 24px; font-weight: bold;
+        display: block; font-size: 24px; font-weight: bold;
         color: var(--color-primary); margin-bottom: 0.5rem; text-align: center;
     }
     
     .result-card::after {
         content: "Gegenereerd op BouwdepotCalculator.nl";
-        display: block;
-        font-size: 12px; color: #999;
+        display: block; font-size: 12px; color: #999;
         margin-top: 4rem; text-align: center;
     }
 
-    /* Zwart/wit voor print */
     .amount, h2, span, p, label { color: black !important; }
-    .amount.highlight { color: var(--color-primary) !important; }
 }
