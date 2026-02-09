@@ -8,9 +8,10 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       input: {
-        // Hier definiëren we de twee pagina's
+        // Hier definiëren we nu ALLE drie de pagina's
         main: resolve(__dirname, 'index.html'),
         nieuwbouw: resolve(__dirname, 'nieuwbouw.html'),
+        belasting: resolve(__dirname, 'belasting.html'), // <-- DEZE IS TOEGEVOEGD!
       },
     },
   },
