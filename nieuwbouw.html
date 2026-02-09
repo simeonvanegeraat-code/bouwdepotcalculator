@@ -79,7 +79,19 @@
 
             <div class="card mt-8">
                 <h3>Verloop Maandlasten</h3>
-                <canvas id="costChart"></canvas>
+                <div style="position: relative; height:300px; width:100%">
+                    <canvas id="costChart"></canvas>
+                </div>
+                <div class="flex justify-center gap-6 mt-4 text-xs font-bold text-gray-600">
+                    <div class="flex items-center gap-2">
+                        <span class="block w-3 h-3 rounded-full" style="background-color: #000066;"></span>
+                        Uw Netto Maandlast
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="block w-3 h-3 rounded-full" style="background-color: #4ade80;"></span>
+                        Rente vergoeding (Depot)
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -100,7 +112,7 @@
                 </div>
 
                 <div class="result-row total">
-                    <span class="flex-col">Maximale Maandlast <small>(Bij oplevering)</small></span>
+                    <span class="flex-col">Maximale Maandlast <small>(Volledige Hypotheek)</small></span>
                     <span id="res-max-monthly" class="amount highlight">€ 0</span>
                 </div>
 

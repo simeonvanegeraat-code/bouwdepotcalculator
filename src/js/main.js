@@ -14,25 +14,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ----------------------------------------------
-    // 1. VERBOUW CALCULATOR (De oude code voor index.html)
+    // 1. VERBOUW CALCULATOR
     // ----------------------------------------------
     function initVerbouwCalculator() {
-        // (Plak hier de oude verbouw code uit je vorige versie terug als je wilt, 
-        // voor de volledigheid laat ik hem hier even kort om de focus op nieuwbouw te houden).
-        // Zie vorige antwoord voor de volledige verbouw-functie.
         const rangeAmount = document.getElementById('range-amount');
         const inputAmount = document.getElementById('input-amount');
-        // ... rest van initialisatie ...
-        // Voor nu even placeholder zodat index.html niet crasht:
-        if(rangeAmount) {
-             // ... voer hier je oude logica in ...
-             console.log("Verbouw calc actief");
+        const rangeInterest = document.getElementById('range-interest');
+        const inputInterest = document.getElementById('input-interest');
+        const rangeDuration = document.getElementById('range-duration');
+        const checkAftrek = document.getElementById('check-aftrek');
+
+        const valDuration = document.getElementById('val-duration');
+        const resBruto = document.getElementById('res-bruto');
+        const resVoordeel = document.getElementById('res-voordeel');
+        const resNetto = document.getElementById('res-netto');
+
+        function calculate() {
+            const amount = parseFloat(inputAmount.value);
+            const interest = parseFloat(inputInterest.value);
+            const years = parseInt(rangeDuration.value);
+            
+            valDuration.textContent = `${years} Jaar`;
+
+            const monthlyRate = (interest / 100) / 12;
+            const totalMonths = years * 12;
+            
+            let grossMonthly = 0;
+            if (interest === 0 || isNaN(interest)) {
+                grossMonthly = amount / totalMonths;
+            } else {
+                grossMonthly = amount * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -totalMonths)));
+            }
+
+            const taxRate = 0.3697;
+            const firstMonthInterest = amount * monthlyRate; 
+            const taxBenefit = checkAftrek.checked ? (firstMonthInterest * taxRate) : 0;
+            const netMonthly = grossMonthly - taxBenefit;
+
+            resBruto.textContent = formatEuro(grossMonthly);
+            
+            if (checkAftrek.checked) {
+                resVoordeel.parentElement.style.display = 'flex';
+                resVoordeel.textContent = '-' + formatEuro(taxBenefit);
+            } else {
+                resVoordeel.parentElement.style.display = 'none';
+            }
+            resNetto.textContent = formatEuro(netMonthly);
         }
+
+        rangeAmount.addEventListener('input', (e) => { inputAmount.value = e.target.value; calculate(); });
+        inputAmount.addEventListener('input', (e) => { rangeAmount.value = e.target.value; calculate(); });
+        rangeInterest.addEventListener('input', (e) => { inputInterest.value = e.target.value; calculate(); });
+        inputInterest.addEventListener('input', (e) => { rangeInterest.value = e.target.value; calculate(); });
+        rangeDuration.addEventListener('input', calculate);
+        checkAftrek.addEventListener('change', calculate);
+        
+        if(rangeAmount) calculate();
     }
 
 
     // ----------------------------------------------
-    // 2. NIEUWBOUW CALCULATOR (MET TERMIJNEN)
+    // 2. NIEUWBOUW CALCULATOR (MET GESTAPELDE GRAFIEK)
     // ----------------------------------------------
     function initNieuwbouwCalculator() {
         // Inputs
@@ -52,8 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Chart
         let costChart = null;
 
-        // --- DATA MODEL ---
-        // Standaard schema: (Voorbeeld Woningborg)
+        // Standaard schema
         let terms = [
             { month: 1, percent: 15, desc: "Ruwbouw begane grond" },
             { month: 3, percent: 20, desc: "Ruwbouw verdiepingen" },
@@ -62,14 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
             { month: 12, percent: 20, desc: "Oplevering" }
         ];
 
-        // --- RENDER DE RIJEN ---
         function renderTerms() {
             termsContainer.innerHTML = '';
             let totalP = 0;
 
             terms.forEach((term, index) => {
                 totalP += term.percent;
-                
                 const row = document.createElement('div');
                 row.className = 'flex gap-2 items-center';
                 row.innerHTML = `
@@ -91,7 +130,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 termsContainer.appendChild(row);
             });
 
-            // Update Totaal check
             totalPercentEl.textContent = totalP + '%';
             if(totalP !== 100) {
                 totalPercentEl.classList.remove('text-green-600');
@@ -101,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalPercentEl.classList.add('text-green-600');
             }
 
-            // Bind events aan nieuwe inputs
             document.querySelectorAll('.term-month').forEach(el => el.addEventListener('change', updateTermData));
             document.querySelectorAll('.term-percent').forEach(el => el.addEventListener('change', updateTermData));
             document.querySelectorAll('.remove-term').forEach(el => el.addEventListener('click', removeTerm));
@@ -111,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const idx = e.target.dataset.idx;
             const field = e.target.classList.contains('term-month') ? 'month' : 'percent';
             terms[idx][field] = parseInt(e.target.value) || 0;
-            // Sorteer op maand zodat de grafiek klopt
             terms.sort((a, b) => a.month - b.month);
             calculate();
         }
@@ -129,36 +165,32 @@ document.addEventListener('DOMContentLoaded', () => {
             renderTerms();
         });
 
-        // --- DE BEREKENING ---
         function calculate() {
             const landPrice = parseFloat(inputLand.value) || 0;
             const constructPrice = parseFloat(inputConstruction.value) || 0;
             const interest = parseFloat(inputInterest.value) || 0;
             const monthlyRate = (interest / 100) / 12;
 
-            // Totale lening
             const totalLoan = landPrice + constructPrice;
-            
-            // Maximale annuïteit (als alles klaar is) - o.b.v. 30 jaar
             const n = 30 * 12;
+            
+            // 1. De VOLLEDIGE Annuïteit (constante bruto maandlast als alles af is)
             let fullAnnuity = 0;
             if(interest !== 0) {
                 fullAnnuity = totalLoan * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -n)));
             }
 
-            // Simulatie per maand
-            // We zoeken de laatste bouwmaand om de loop te bepalen
             const maxMonth = terms.length > 0 ? Math.max(...terms.map(t => t.month)) : 12;
             
             let currentDepot = constructPrice;
             let totalLoss = 0;
             
             const chartLabels = [];
-            const chartData = [];
+            const dataUserPays = [];
+            const dataDepotPays = [];
 
-            // Loop van maand 1 tot oplevering
             for(let m = 1; m <= maxMonth; m++) {
-                // Is er een termijn in deze maand?
+                // Termijn afboeken
                 const term = terms.find(t => t.month === m);
                 if(term) {
                     const amount = (term.percent / 100) * constructPrice;
@@ -166,30 +198,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     if(currentDepot < 0) currentDepot = 0;
                 }
 
-                // Rente berekening van deze maand
-                // Je betaalt rente over (Totale Lening - Wat nog in depot zit)
-                // Of anders gezegd: Je betaalt alles, maar krijgt rente terug over depot.
-                
-                const interestPayable = totalLoan * monthlyRate;
+                // Rente vergoeding van de bank (Het "Cadeautje")
+                // = Saldo in depot * maandrente
                 const interestReceivable = currentDepot * monthlyRate;
                 
-                // Netto rente lasten (dit is het "renteverlies")
-                const netInterest = interestPayable - interestReceivable;
+                // Wat jij zelf moet betalen (Netto maandlast)
+                // = Volledige Annuïteit - Rente Vergoeding
+                // Let op: Bij lineaire bouwrente berekeningen betaal je rente over het opgenomen deel. 
+                // Maar bij annuïteiten betaal je bruto het hele bedrag en krijg je depotrente terug.
+                // Dit komt op hetzelfde neer, maar visualiseert mooier in een stacked chart.
                 
-                // Totale maandlast (incl aflossing op het reeds opgenomen deel is complex, 
-                // we houden het hier op: Volledige Annuïteit min RenteVergoeding)
-                const currentMonthlyPayment = fullAnnuity - interestReceivable;
+                const netPayment = fullAnnuity - interestReceivable;
 
-                totalLoss += netInterest;
+                // Renteverlies teller (alleen het rente-deel, niet aflossing)
+                const interestPayableTotal = totalLoan * monthlyRate;
+                const netInterestLoss = interestPayableTotal - interestReceivable;
+                totalLoss += netInterestLoss;
 
                 chartLabels.push(`Mnd ${m}`);
-                chartData.push(currentMonthlyPayment);
+                dataUserPays.push(netPayment);      // Blauw
+                dataDepotPays.push(interestReceivable); // Groen
             }
 
-            // Update UI
             resTotalLoan.textContent = formatEuro(totalLoan);
             
-            // Start maandlast (Maand 0/1: alleen grond is betaald, depot is nog vol)
+            // Start situatie (Alleen grond betaald)
             const startDepot = constructPrice;
             const startInterestReceivable = startDepot * monthlyRate;
             resStartMonthly.textContent = formatEuro(fullAnnuity - startInterestReceivable);
@@ -197,52 +230,64 @@ document.addEventListener('DOMContentLoaded', () => {
             resMaxMonthly.textContent = formatEuro(fullAnnuity);
             resLoss.textContent = formatEuro(totalLoss);
 
-            updateChart(chartLabels, chartData);
+            updateChart(chartLabels, dataUserPays, dataDepotPays);
         }
 
-        // --- CHARTJS ---
-        function updateChart(labels, data) {
+        function updateChart(labels, dataUser, dataDepot) {
             const ctx = document.getElementById('costChart');
             
             if(costChart) {
                 costChart.data.labels = labels;
-                costChart.data.datasets[0].data = data;
+                costChart.data.datasets[0].data = dataUser;
+                costChart.data.datasets[1].data = dataDepot;
                 costChart.update();
             } else {
                 costChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: labels,
-                        datasets: [{
-                            label: 'Netto Maandlasten',
-                            data: data,
-                            backgroundColor: '#FF6200', // Rabo oranje
-                            borderRadius: 4
-                        }]
+                        datasets: [
+                            {
+                                label: 'Uw Netto Maandlast',
+                                data: dataUser,
+                                backgroundColor: '#000066', // Blauw (Onderop)
+                                borderRadius: 2
+                            },
+                            {
+                                label: 'Rente Vergoeding (Depot)',
+                                data: dataDepot,
+                                backgroundColor: '#4ade80', // Groen (Bovenop)
+                                borderRadius: 2
+                            }
+                        ]
                     },
                     options: {
                         responsive: true,
+                        maintainAspectRatio: false,
                         scales: {
-                            y: { beginAtZero: true }
+                            x: { stacked: true }, // DIT ZORGT VOOR HET STAPELEN
+                            y: { 
+                                stacked: true,    // DIT OOK
+                                beginAtZero: true 
+                            }
                         },
                         plugins: {
-                            legend: { display: false }
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            },
+                            legend: { display: false } // We hebben onze eigen legenda gemaakt
                         }
                     }
                 });
             }
         }
 
-        // Events
         inputLand.addEventListener('input', calculate);
-        inputConstruction.addEventListener('input', () => {
-             renderTerms(); // Percentages herberekenen naar bedragen
-             calculate(); 
-        });
+        inputConstruction.addEventListener('input', () => { renderTerms(); calculate(); });
         inputInterest.addEventListener('input', calculate);
 
-        // Init
-        renderTerms(); // Bouwt de eerste DOM elementen
-        setTimeout(calculate, 100); // Wacht even tot DOM klaar is voor Chart
+        renderTerms();
+        setTimeout(calculate, 100);
     }
 });
