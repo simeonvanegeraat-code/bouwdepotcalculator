@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnDownload = document.getElementById('btn-download');
     if(btnDownload) btnDownload.addEventListener('click', () => window.print());
 
-    // Routing
+    // Routing: Checkt welke calculator op de pagina staat
     if (document.getElementById('range-amount')) initVerbouwCalculator();
     if (document.getElementById('nieuwbouw-calc')) initNieuwbouwCalculator();
-    if (document.getElementById('belasting-calc')) initBelastingCalculator(); // NIEUW
+    if (document.getElementById('belasting-calc')) initBelastingCalculator();
 
 
     // ----------------------------------------------
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputInterest = document.getElementById('input-interest');
         const rangeDuration = document.getElementById('range-duration');
         const checkAftrek = document.getElementById('check-aftrek');
-        const rowVoordeel = document.getElementById('row-voordeel'); // NIEUW: De klikbare rij
+        const rowVoordeel = document.getElementById('row-voordeel');
 
         const valDuration = document.getElementById('val-duration');
         const resBruto = document.getElementById('res-bruto');
@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 grossMonthly = amount * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -totalMonths)));
             }
 
+            // Indicatief tarief voor homepage (snelle check)
             const taxRate = 0.3697;
             const firstMonthInterest = amount * monthlyRate; 
             const taxBenefit = checkAftrek.checked ? (firstMonthInterest * taxRate) : 0;
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resBruto.textContent = formatEuro(grossMonthly);
             
             if (checkAftrek.checked) {
-                if(rowVoordeel) rowVoordeel.style.display = 'flex'; // Zorg dat de rij zichtbaar is
+                if(rowVoordeel) rowVoordeel.style.display = 'flex';
                 resVoordeel.textContent = '-' + formatEuro(taxBenefit);
             } else {
                 if(rowVoordeel) rowVoordeel.style.display = 'none';
@@ -65,22 +66,19 @@ document.addEventListener('DOMContentLoaded', () => {
             resNetto.textContent = formatEuro(netMonthly);
         }
 
-        // --- NIEUW: Klik event voor doorverwijzing ---
+        // Klik event voor doorverwijzing naar fiscale check
         if(rowVoordeel) {
             rowVoordeel.addEventListener('click', () => {
-                // Pak de huidige waarden
                 const amt = inputAmount.value;
                 const int = inputInterest.value;
-                // Stuur door naar belasting pagina met parameters
                 window.location.href = `belasting.html?amount=${amt}&interest=${int}`;
             });
             
-            // Hover effect toevoegen via JS (optioneel, kan ook CSS)
             rowVoordeel.addEventListener('mouseenter', () => rowVoordeel.style.backgroundColor = '#ecfdf5');
             rowVoordeel.addEventListener('mouseleave', () => rowVoordeel.style.backgroundColor = 'transparent');
         }
 
-        // Event Listeners (Sync sliders & inputs)
+        // Listeners
         rangeAmount.addEventListener('input', (e) => { inputAmount.value = e.target.value; calculate(); });
         inputAmount.addEventListener('input', (e) => { rangeAmount.value = e.target.value; calculate(); });
         rangeInterest.addEventListener('input', (e) => { inputInterest.value = e.target.value; calculate(); });
@@ -96,10 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. NIEUWBOUW CALCULATOR
     // ----------------------------------------------
     function initNieuwbouwCalculator() {
-        // ... (Kopieer hier de volledige Nieuwbouw functie uit het vorige bericht) ...
-        // (Om de code hier kort te houden heb ik hem ingekort, maar laat de jouwe staan!)
-        
-        // ZORG DAT DE VOLLEDIGE 'Two-Way Binding' VERSIE HIER STAAT
         const inputLand = document.getElementById('input-land');
         const rangeLand = document.getElementById('range-land');
         const inputConstruction = document.getElementById('input-construction');
@@ -283,63 +277,120 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ----------------------------------------------
-    // 3. BELASTING CALCULATOR (NIEUW)
+    // 3. BELASTING CALCULATOR (HUIDIGE REGELS 2026)
     // ----------------------------------------------
     function initBelastingCalculator() {
+        // Inputs
+        const inputIncome = document.getElementById('fiscal-income');
         const inputAmount = document.getElementById('fiscal-amount');
         const inputInterest = document.getElementById('fiscal-interest');
         const inputWoz = document.getElementById('fiscal-woz');
-        const inputRate = document.getElementById('fiscal-tax-rate');
 
+        // Outputs
+        const outTaxRate = document.getElementById('display-tax-rate');
+        const outHillenPct = document.getElementById('display-hillen');
+        
         const outBrutoYear = document.getElementById('calc-bruto-year');
         const outEwf = document.getElementById('calc-ewf');
-        const outDeductible = document.getElementById('calc-deductible');
+        const outHillen = document.getElementById('calc-hillen');
+        const rowHillen = document.getElementById('row-hillen');
+        
         const outFiscalYear = document.getElementById('res-fiscal-year');
         const outFiscalMonth = document.getElementById('res-fiscal-month');
 
-        // 1. Check URL Parameters bij laden pagina
+        // URL Params checken (voor doorverwijzing vanaf home)
         const params = new URLSearchParams(window.location.search);
         if(params.has('amount')) inputAmount.value = params.get('amount');
         if(params.has('interest')) inputInterest.value = params.get('interest');
 
+        // --- HARDE CONFIGURATIE VOOR 2026 ---
+        const RULES_2026 = {
+            // Aftrekpercentage is gelijk aan basistarief in schijf 1
+            rateBracket1: 36.93, // Geschatte indexatie 2026 (was 36.97 in 2025)
+            rateLimit: 38000,    // Schijfgrens (indicatief)
+            ewfRate: 0.0035,     // 0.35% Standaard EWF
+            villataksLimit: 1350000, // Villataks grens (geïndexeerd voor 2026)
+            hillenFactor: 0.7333 // Wet Hillen aftrek in 2026 is nog maar 73.33% (afbouw)
+        };
+
         function calculateFiscal() {
+            const income = parseFloat(inputIncome.value) || 0;
             const amount = parseFloat(inputAmount.value) || 0;
             const interestPct = parseFloat(inputInterest.value) || 0;
             const woz = parseFloat(inputWoz.value) || 0;
-            const taxRate = parseFloat(inputRate.value) || 36.97;
 
-            // Stap 1: Bruto Jaarrente
-            const yearlyInterest = amount * (interestPct / 100);
+            // 1. Bepaal Aftrektarief
+            // In 2026 is de aftrek voor IEDEREEN beperkt tot het tarief van de 1e schijf.
+            // Zelfs als je in de hoogste schijf zit (49.5%), krijg je maar ~37% terug.
+            const applicableRate = RULES_2026.rateBracket1;
+
+            outTaxRate.textContent = applicableRate.toFixed(2).replace('.', ',') + '%';
+            if(outHillenPct) outHillenPct.textContent = (RULES_2026.hillenFactor * 100).toFixed(2).replace('.', ',') + '%';
+
+            // 2. Betaalde Rente
+            const paidInterest = amount * (interestPct / 100);
+
+            // 3. Eigenwoningforfait (EWF)
+            let ewfAmount = 0;
+            if (woz > RULES_2026.villataksLimit) {
+                 // Villataks: 0.35% over het deel tot de grens + 2.35% over het meerdere
+                 const excess = woz - RULES_2026.villataksLimit;
+                 ewfAmount = (RULES_2026.villataksLimit * RULES_2026.ewfRate) + (excess * 0.0235);
+            } else {
+                 ewfAmount = woz * RULES_2026.ewfRate;
+            }
+
+            // 4. Saldo & Wet Hillen (Afbouw)
+            let deductible = paidInterest - ewfAmount;
+            let hillenAddition = 0;
+
+            if (deductible < 0) {
+                // Je hebt een "negatief saldo" (EWF is hoger dan rente).
+                // Vroeger was dit 0. Nu moet je een deel bijtellen.
+                const diff = Math.abs(deductible);
+                
+                // Hillen aftrek 2026 = 73.33% van het verschil
+                const hillenDeduction = diff * RULES_2026.hillenFactor;
+                
+                // Wat je netto moet bijtellen bij je inkomen
+                hillenAddition = diff - hillenDeduction; 
+                
+                // Voor de berekening van voordeel is dit dus negatief (je betaalt belasting)
+                deductible = -hillenAddition; 
+                
+                if(rowHillen) {
+                    rowHillen.style.display = 'flex';
+                    outHillen.textContent = '-' + formatEuro(hillenAddition);
+                }
+            } else {
+                if(rowHillen) rowHillen.style.display = 'none';
+            }
+
+            // 5. Fiscaal Voordeel Berekenen
+            const taxBenefitYear = deductible * (applicableRate / 100);
+            const taxBenefitMonth = taxBenefitYear / 12;
+
+            // 6. UI Updaten
+            outBrutoYear.textContent = formatEuro(paidInterest);
+            outEwf.textContent = '-' + formatEuro(ewfAmount);
             
-            // Stap 2: Eigenwoningforfait (0.35% is standaard voor meeste huizen in 2024/2025)
-            // Simpele aanname voor calculator, in het echt zijn er grenzen
-            const ewfPct = 0.0035; 
-            let ewfAmount = woz * ewfPct;
-
-            // Als EWF hoger is dan rente, is aftrek 0 (Wet Hillen afbouw, maar simpel houden: min 0)
-            let deductible = yearlyInterest - ewfAmount;
-            if(deductible < 0) deductible = 0;
-
-            // Stap 3: Voordeel berekenen
-            const benefitYear = deductible * (taxRate / 100);
-            const benefitMonth = benefitYear / 12;
-
-            // Output bijwerken
-            outBrutoYear.textContent = formatEuro(yearlyInterest);
-            outEwf.textContent = formatEuro(ewfAmount);
-            outDeductible.textContent = formatEuro(deductible);
-            
-            outFiscalYear.textContent = formatEuro(benefitYear);
-            outFiscalMonth.textContent = formatEuro(benefitMonth);
+            if (taxBenefitYear >= 0) {
+                outFiscalYear.textContent = '+ ' + formatEuro(taxBenefitYear);
+                outFiscalYear.style.color = '#16a34a'; // Groen
+            } else {
+                outFiscalYear.textContent = formatEuro(taxBenefitYear); // Minteken zit al in formatEuro
+                outFiscalYear.style.color = '#ef4444'; // Rood
+            }
+            outFiscalMonth.textContent = formatEuro(taxBenefitMonth);
         }
 
         // Listeners
+        inputIncome.addEventListener('input', calculateFiscal);
         inputAmount.addEventListener('input', calculateFiscal);
         inputInterest.addEventListener('input', calculateFiscal);
         inputWoz.addEventListener('input', calculateFiscal);
 
-        // Direct starten
+        // Init
         calculateFiscal();
     }
-
 });
