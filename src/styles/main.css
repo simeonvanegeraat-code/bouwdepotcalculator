@@ -1,44 +1,39 @@
-/* --- Basis & Variabelen --- */
+/* --- 1. VARIABELEN (Rabo Kleuren + Modern Fintech) --- */
 :root {
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --secondary: #10b981;
-    --bg-gray: #f8fafc;
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-    --card-bg: #ffffff;
-    --border: #e2e8f0;
-    --radius: 12px;
-    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --color-primary: #000066;   /* Donkerblauw (Rabo-achtig) */
+    --color-accent: #FF6200;    /* Oranje (Actiekleur) */
+    --color-bg: #F3F4F6;        /* Lichtgrijs (Achtergrond) */
+    --color-white: #FFFFFF;
+    --color-text: #1F2937;      /* Antraciet */
+    --color-text-light: #6B7280;
+    --font-family: 'Inter', sans-serif;
+    --radius: 12px;             /* Afgeronde hoeken */
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+/* --- 2. GLOBAL RESET --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg-gray);
-    color: var(--text-main);
+    font-family: var(--font-family);
+    background-color: var(--color-bg);
+    color: var(--color-text);
     line-height: 1.6;
 }
 
+/* --- 3. LAYOUT --- */
 .container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 1rem;
 }
 
-/* --- Header --- */
+/* Header */
 .site-header {
-    background: var(--card-bg);
-    border-bottom: 1px solid var(--border);
+    background: var(--color-white);
+    border-bottom: 1px solid #e5e7eb;
     padding: 1rem 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    margin-bottom: 2rem;
 }
 
 .header-inner {
@@ -47,176 +42,182 @@ body {
     align-items: center;
 }
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.logo {
+    font-size: 1.5rem;
     font-weight: 700;
-    font-size: 1.25rem;
+    color: var(--color-primary);
 }
 
-.logo-dot {
-    width: 12px;
-    height: 12px;
-    background: var(--primary);
-    border-radius: 50%;
-}
+.text-accent { color: var(--color-accent); }
 
-.brand span { color: var(--primary); }
-
-.header-nav a {
+.main-nav a {
     text-decoration: none;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    margin-left: 20px;
+    color: var(--color-text-light);
+    margin-left: 1.5rem;
+    font-weight: 600;
     transition: color 0.2s;
 }
 
-.header-nav a:hover { color: var(--primary); }
-
-/* --- Hero --- */
-.hero-section {
-    text-align: center;
-    padding: 3rem 0 2rem;
+.main-nav a.active, .main-nav a:hover {
+    color: var(--color-primary);
 }
 
-.hero-section h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 1rem;
-}
-
-.hero-section h1 em {
-    font-style: normal;
-    color: var(--primary);
-}
-
-.hero-section p {
-    color: var(--text-muted);
-    font-size: 1.125rem;
-}
-
-/* --- Layout Grid --- */
-.tool-grid {
+/* Main Grid */
+.main-grid {
     display: grid;
-    grid-template-columns: 380px 1fr;
+    grid-template-columns: 1fr;
     gap: 2rem;
-    margin-bottom: 3rem;
+    padding-bottom: 4rem;
 }
 
-@media (max-width: 900px) {
-    .tool-grid { grid-template-columns: 1fr; }
+/* Op desktop: 2 kolommen (Links 2/3, Rechts 1/3) */
+@media (min-width: 768px) {
+    .main-grid {
+        grid-template-columns: 1.8fr 1.2fr;
+    }
 }
 
-/* --- Forms & Inputs --- */
+/* --- 4. CARDS & COMPONENTS --- */
 .card {
-    background: var(--card-bg);
+    background: var(--color-white);
     border-radius: var(--radius);
-    border: 1px solid var(--border);
-    padding: 1.5rem;
     box-shadow: var(--shadow);
+    padding: 2rem;
+    border: 1px solid #f0f0f0;
 }
 
-.input-section {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border);
+h1 { font-size: 1.8rem; color: var(--color-primary); margin-bottom: 0.5rem; }
+h2 { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 1rem; }
+.subtitle { color: var(--color-text-light); margin-bottom: 2rem; }
+
+/* Input Groups */
+.input-group { margin-bottom: 2rem; }
+
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
 }
 
-.input-section:last-child { border: none; }
+label { font-weight: 600; font-size: 0.95rem; }
+.input-value { font-weight: 700; color: var(--color-primary); font-size: 1.1rem; }
 
-.input-section h3 {
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
+/* Number Input Styling */
+.number-input-wrapper {
+    position: relative;
+    width: 100px;
 }
-
-.field { margin-bottom: 1.25rem; }
-
-.field label {
-    display: block;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-}
-
-input[type="number"], select {
+.number-input-wrapper input {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--border);
-    border-radius: 8px;
+    padding: 6px 30px 6px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+.number-input-wrapper .suffix {
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    color: var(--color-text-light);
+    font-weight: 600;
+}
+
+/* --- 5. SLIDERS (MODERN LOOK) --- */
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 5px;
+    background: #e5e7eb; /* Grijs track */
+    outline: none;
+    transition: background 0.2s;
+}
+
+/* Slider Thumb (Het knopje) */
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-accent); /* Oranje knop */
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    border: 2px solid #fff;
+}
+
+.slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    cursor: pointer;
+    border: 2px solid #fff;
+}
+
+/* --- 6. RESULTATEN BOX --- */
+.sidebar { display: flex; flex-direction: column; gap: 2rem; }
+
+.result-card {
+    background: #fff;
+    border-top: 5px solid var(--color-primary);
+}
+
+.sticky-box {
+    position: sticky;
+    top: 2rem; /* Blijft plakken tijdens scrollen */
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
     font-size: 1rem;
 }
 
-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
+.result-row.discount { color: #10B981; /* Groen voor voordeel */ }
+.result-row.total { font-weight: 700; font-size: 1.2rem; margin-top: 1rem; color: var(--color-primary); }
 
-small { color: var(--text-muted); font-size: 0.75rem; }
+.amount { font-weight: 700; }
+.amount.highlight { color: var(--color-accent); font-size: 1.5rem; }
 
-.field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-}
+hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 
-/* --- KPI's --- */
-.kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.kpi-card {
-    background: var(--card-bg);
-    padding: 1.25rem;
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-}
-
-.kpi-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
-.kpi-value { font-size: 1.5rem; font-weight: 700; margin-top: 5px; }
-.kpi-card.highlight { border-left: 4px solid var(--primary); }
-
-/* --- Chart --- */
-.chart-card { min-height: 350px; }
-.chart-container { position: relative; height: 300px; width: 100%; }
-
-/* --- Buttons --- */
-.actions { display: flex; gap: 1rem; margin-top: 1.5rem; }
-
-button {
-    cursor: pointer;
-    font-weight: 600;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
-    transition: all 0.2s;
+.btn-primary {
+    width: 100%;
+    background: var(--color-accent);
+    color: white;
     border: none;
+    padding: 1rem;
+    border-radius: var(--radius);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 1rem;
 }
+.btn-primary:hover { background: #e05600; }
 
-.btn-primary { background: var(--primary); color: white; width: 100%; }
-.btn-primary:hover { background: var(--primary-dark); }
-.btn-secondary { background: white; color: var(--primary); border: 1px solid var(--primary); }
+.disclaimer { font-size: 0.75rem; color: #9CA3AF; text-align: center; margin-top: 0.5rem; }
 
-/* --- Content & FAQ --- */
-.content-block { margin-bottom: 2rem; }
-.content-block h2 { margin-bottom: 1rem; }
-.faq-item { margin-bottom: 1.5rem; }
-.faq-item h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
-
-/* --- Footer --- */
-.site-footer {
-    text-align: center;
-    padding: 2rem 0;
-    border-top: 1px solid var(--border);
-    color: var(--text-muted);
+/* --- 7. ADSENSE PLACEHOLDERS --- */
+.ad-placeholder {
+    background: #F9FAFB;
+    border: 2px dashed #D1D5DB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9CA3AF;
+    font-weight: 600;
     font-size: 0.9rem;
+    border-radius: var(--radius);
 }
+
+.ad-placeholder.rectangle { height: 300px; width: 100%; }
+.ad-placeholder.banner { height: 100px; width: 100%; margin: 2rem 0; }
+
+/* Content styling */
+.seo-content ul { padding-left: 1.5rem; margin-top: 1rem; color: var(--color-text); }
+.seo-content li { margin-bottom: 0.5rem; }
