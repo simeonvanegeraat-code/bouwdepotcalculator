@@ -251,6 +251,83 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     margin-top: 1rem;
 }
 
+/* De Rijen (GRID Layout voor nette uitlijning) */
+.term-row {
+    display: grid;
+    /* Grid layout: Maand - Omschrijving - Euro - Procent - Verwijder */
+    grid-template-columns: 50px 1fr 110px 80px 30px; 
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    align-items: center;
+}
+
+/* Mobiele aanpassing: op klein scherm onder elkaar */
+@media (max-width: 600px) {
+    .term-row {
+        grid-template-columns: 50px 1fr 30px; /* Maand, Omschrijving, Delete */
+        gap: 0.5rem;
+        background: white;
+        padding: 10px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+    }
+    /* De bedragen op een nieuwe regel zetten op mobiel */
+    .term-row .input-wrapper-euro, 
+    .term-row .input-wrapper-pct {
+        grid-column: 1 / -1; /* Volledige breedte */
+    }
+}
+
+/* Input Wrappers met iconen (€ en %) */
+.input-icon-wrapper {
+    position: relative;
+    width: 100%;
+}
+.input-icon-wrapper input {
+    width: 100%;
+    padding: 8px 8px 8px 25px; /* Ruimte links voor icoon */
+    border: 1px solid #CBD5E1;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-primary);
+}
+.input-icon-wrapper .icon {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9CA3AF;
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+
+/* Specifiek voor percentage (icoon rechts) */
+.input-icon-wrapper.pct input {
+    padding: 8px 25px 8px 8px; /* Ruimte rechts */
+    text-align: center;
+}
+.input-icon-wrapper.pct .icon {
+    left: auto; 
+    right: 8px;
+}
+
+/* Omschrijving en Maand inputs */
+.term-desc-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #CBD5E1;
+    border-radius: 6px;
+}
+.term-month-input {
+    width: 100%;
+    padding: 8px 4px;
+    text-align: center;
+    border: 1px solid #CBD5E1;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
 /* Editor Header / Footer */
 .editor-footer {
     display: flex;
@@ -270,32 +347,11 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 
 .status-text { font-size: 0.9rem; color: var(--color-text); }
 .status-text strong { color: #16A34A; } /* Groen voor 100% */
-.status-text strong.error { color: #DC2626; } /* Rood voor error */
-
-/* Dynamische Rijen (worden via JS toegevoegd) */
-.term-row {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-    align-items: center;
-}
-
-.term-input {
-    padding: 8px;
-    border: 1px solid #CBD5E1;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 0.9rem;
-}
-/* Input breedtes in de editor */
-.input-desc { flex: 2; }    /* Omschrijving */
-.input-pct { width: 70px; } /* Percentage */
-.input-amt { flex: 1; background-color: #F1F5F9; color: #64748B; cursor: not-allowed; } /* Bedrag (automatisch) */
 
 .btn-remove {
     background: none; border: none;
-    color: #9CA3AF; cursor: pointer; font-size: 1.2rem;
-    padding: 0 0.5rem;
+    color: #9CA3AF; cursor: pointer; font-size: 1.5rem;
+    display: flex; align-items: center; justify-content: center;
 }
 .btn-remove:hover { color: #DC2626; }
 

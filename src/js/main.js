@@ -79,33 +79,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ----------------------------------------------
-    // 2. NIEUWBOUW CALCULATOR (Met Termijn Editor & Grafiek)
+    // 2. NIEUWBOUW CALCULATOR (Met Two-Way Binding: € <-> %)
     // ----------------------------------------------
     function initNieuwbouwCalculator() {
         // Inputs & Sliders
         const inputLand = document.getElementById('input-land');
-        const rangeLand = document.getElementById('range-land'); // Toegevoegd
-
+        const rangeLand = document.getElementById('range-land');
         const inputConstruction = document.getElementById('input-construction');
-        const rangeConstruction = document.getElementById('range-construction'); // Toegevoegd
-
+        const rangeConstruction = document.getElementById('range-construction');
         const inputInterest = document.getElementById('input-interest');
-        const rangeInterest = document.getElementById('range-interest'); // Toegevoegd
+        const rangeInterest = document.getElementById('range-interest');
 
+        // Container & Output elements
         const termsContainer = document.getElementById('terms-container');
         const addTermBtn = document.getElementById('add-term-btn');
         const totalPercentEl = document.getElementById('total-percent');
 
-        // Results
+        // Results Sidebar
         const resTotalLoan = document.getElementById('res-total-loan');
         const resStartMonthly = document.getElementById('res-start-monthly');
         const resMaxMonthly = document.getElementById('res-max-monthly');
         const resLoss = document.getElementById('res-loss');
 
-        // Chart
+        // Chart instance
         let costChart = null;
 
-        // Standaard schema (Data Model)
+        // Data Model
         let terms = [
             { month: 1, percent: 15, desc: "Ruwbouw begane grond" },
             { month: 3, percent: 20, desc: "Ruwbouw verdiepingen" },
@@ -114,77 +113,170 @@ document.addEventListener('DOMContentLoaded', () => {
             { month: 12, percent: 20, desc: "Oplevering" }
         ];
 
-        // --- FUNCTIES ---
+        // --- CORE FUNCTIONS ---
 
         function renderTerms() {
             termsContainer.innerHTML = '';
             let totalP = 0;
+            const totalConstruction = parseFloat(inputConstruction.value) || 0;
 
             terms.forEach((term, index) => {
                 totalP += term.percent;
                 
-                // Hier bouwen we de HTML voor 1 rij in de editor
+                // Bereken het Euro bedrag voor weergave
+                const euroAmount = Math.round((term.percent / 100) * totalConstruction);
+
                 const row = document.createElement('div');
-                row.className = 'term-row'; // Gebruikt nu de CSS class uit main.css
+                row.className = 'term-row';
+                
+                // Nieuwe HTML structuur: Maand | Omschrijving | € Input | % Input | Delete
                 row.innerHTML = `
-                    <div style="width: 50px;">
-                        <input type="number" min="1" max="36" value="${term.month}" data-idx="${index}" class="term-input term-month" style="width:100%; text-align:center;">
+                    <div>
+                        <input type="number" min="1" max="36" value="${term.month}" data-idx="${index}" class="term-month-input term-trigger-sort">
                     </div>
-                    <div class="input-desc">
-                         <input type="text" value="${term.desc}" class="term-input" style="width:100%;">
+
+                    <div>
+                        <input type="text" value="${term.desc}" data-idx="${index}" class="term-desc-input term-trigger-desc">
                     </div>
-                    <div class="input-pct relative">
-                        <input type="number" min="0" max="100" value="${term.percent}" data-idx="${index}" class="term-input term-percent" style="width:100%;">
+
+                    <div class="input-icon-wrapper input-wrapper-euro">
+                        <span class="icon">€</span>
+                        <input type="number" value="${euroAmount}" data-idx="${index}" class="term-amount-input">
                     </div>
+
+                    <div class="input-icon-wrapper input-wrapper-pct pct">
+                        <input type="number" min="0" max="100" step="0.1" value="${parseFloat(term.percent.toFixed(2))}" data-idx="${index}" class="term-percent-input">
+                        <span class="icon">%</span>
+                    </div>
+
                     <button class="btn-remove" data-idx="${index}">×</button>
                 `;
                 termsContainer.appendChild(row);
             });
 
-            // Update Totaal Percentage indicator
-            totalPercentEl.textContent = totalP + '%';
-            if(totalP !== 100) {
-                totalPercentEl.classList.remove('text-green-600');
+            // Update Totalen Indicator
+            // Afronden op 1 decimaal om floating point errors (99.999%) te voorkomen
+            const displayTotal = Math.round(totalP * 10) / 10;
+            totalPercentEl.textContent = displayTotal + '%';
+            
+            if(Math.abs(displayTotal - 100) > 0.1) {
                 totalPercentEl.style.color = '#dc2626'; // Rood
-                totalPercentEl.innerHTML = `${totalP}% <span style="font-size:0.7em; font-weight:400; color:#666">(moet 100% zijn)</span>`;
+                totalPercentEl.innerHTML = `${displayTotal}% <span style="font-size:0.7em; font-weight:400; color:#666">(moet 100% zijn)</span>`;
             } else {
                 totalPercentEl.style.color = '#16a34a'; // Groen
+                totalPercentEl.innerHTML = `100% <span style="font-size:0.7em; font-weight:400; color:#666">toegewezen</span>`;
             }
 
-            // Listeners toevoegen aan de nieuwe inputs
-            document.querySelectorAll('.term-month').forEach(el => el.addEventListener('change', updateTermData));
-            document.querySelectorAll('.term-percent').forEach(el => el.addEventListener('change', updateTermData));
-            document.querySelectorAll('.btn-remove').forEach(el => el.addEventListener('click', removeTerm));
+            // Event Listeners koppelen
+            bindRowEvents();
         }
 
-        function updateTermData(e) {
-            const idx = e.target.dataset.idx;
-            const field = e.target.classList.contains('term-month') ? 'month' : 'percent';
-            terms[idx][field] = parseInt(e.target.value) || 0;
+        function bindRowEvents() {
+            // Maand update (sorteren)
+            document.querySelectorAll('.term-trigger-sort').forEach(el => {
+                el.addEventListener('change', (e) => {
+                    const idx = e.target.dataset.idx;
+                    terms[idx].month = parseInt(e.target.value) || 1;
+                    terms.sort((a, b) => a.month - b.month);
+                    renderTerms();
+                    calculate();
+                });
+            });
+
+            // Omschrijving update (geen re-render nodig)
+            document.querySelectorAll('.term-trigger-desc').forEach(el => {
+                el.addEventListener('input', (e) => {
+                    terms[e.target.dataset.idx].desc = e.target.value;
+                });
+            });
+
+            // Verwijder knop
+            document.querySelectorAll('.btn-remove').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    // Zoek de knop, soms klik je op het icoon
+                    const btn = e.target.closest('.btn-remove');
+                    if(btn) {
+                        terms.splice(btn.dataset.idx, 1);
+                        renderTerms();
+                        calculate();
+                    }
+                });
+            });
+
+            // --- DE MAGIE: EURO & PROCENT BEREKENING ---
             
-            // Sorteer lijst op maand (zodat maand 1 altijd bovenaan staat)
-            terms.sort((a, b) => a.month - b.month);
-            
-            // Herrenderen en herberekenen
-            renderTerms(); // Opnieuw renderen om de volgorde visueel te updaten
-            calculate();
+            // 1. Gebruiker typt EURO
+            document.querySelectorAll('.term-amount-input').forEach(el => {
+                el.addEventListener('input', (e) => {
+                    const idx = e.target.dataset.idx;
+                    const val = parseFloat(e.target.value) || 0;
+                    const total = parseFloat(inputConstruction.value) || 1; // Vermijd delen door 0
+
+                    // Bereken percentage: (Bedrag / Totaal) * 100
+                    const newPercent = (val / total) * 100;
+                    
+                    // Update data model
+                    terms[idx].percent = newPercent;
+
+                    // Update DIRECT het veld ernaast (Percentage)
+                    // We zoeken de % input in dezelfde rij
+                    const row = e.target.closest('.term-row');
+                    const pctInput = row.querySelector('.term-percent-input');
+                    pctInput.value = parseFloat(newPercent.toFixed(2)); // Max 2 decimalen zichtbaar
+
+                    updateTotalsOnly(); // Update de tekst onderaan zonder harde re-render
+                    calculate(); // Update grafiek
+                });
+            });
+
+            // 2. Gebruiker typt PERCENTAGE
+            document.querySelectorAll('.term-percent-input').forEach(el => {
+                el.addEventListener('input', (e) => {
+                    const idx = e.target.dataset.idx;
+                    const val = parseFloat(e.target.value) || 0;
+                    const total = parseFloat(inputConstruction.value) || 0;
+
+                    // Update data model
+                    terms[idx].percent = val;
+
+                    // Bereken euro: (Percentage / 100) * Totaal
+                    const newAmount = Math.round((val / 100) * total);
+
+                    // Update DIRECT het veld ernaast (Euro)
+                    const row = e.target.closest('.term-row');
+                    const amtInput = row.querySelector('.term-amount-input');
+                    amtInput.value = newAmount;
+
+                    updateTotalsOnly();
+                    calculate();
+                });
+            });
         }
 
-        function removeTerm(e) {
-            const idx = e.target.dataset.idx;
-            terms.splice(idx, 1);
-            renderTerms();
-            calculate();
+        // Helper: Update alleen de "100% toegewezen" tekst (voor performance tijdens typen)
+        function updateTotalsOnly() {
+            let totalP = terms.reduce((sum, t) => sum + t.percent, 0);
+            const displayTotal = Math.round(totalP * 10) / 10;
+            
+            totalPercentEl.textContent = displayTotal + '%';
+            if(Math.abs(displayTotal - 100) > 0.1) {
+                totalPercentEl.style.color = '#dc2626';
+                totalPercentEl.innerHTML = `${displayTotal}% <span style="font-size:0.7em; font-weight:400; color:#666">(moet 100% zijn)</span>`;
+            } else {
+                totalPercentEl.style.color = '#16a34a';
+                totalPercentEl.innerHTML = `100% <span style="font-size:0.7em; font-weight:400; color:#666">toegewezen</span>`;
+            }
         }
 
         addTermBtn.addEventListener('click', () => {
             const lastMonth = terms.length > 0 ? terms[terms.length-1].month : 0;
+            // Voeg lege termijn toe
             terms.push({ month: lastMonth + 1, percent: 0, desc: "Nieuwe fase" });
             renderTerms();
         });
 
+        // --- BEREKENING & GRAFIEK (Dezelfde logica als voorheen) ---
         function calculate() {
-            // Haal waarden uit inputs
             const landPrice = parseFloat(inputLand.value) || 0;
             const constructPrice = parseFloat(inputConstruction.value) || 0;
             const interest = parseFloat(inputInterest.value) || 0;
@@ -193,15 +285,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalLoan = landPrice + constructPrice;
             const n = 30 * 12; // 30 jaar
             
-            // 1. Bereken de MAXIMALE bruto maandlast (als alles klaar is)
             let fullAnnuity = 0;
             if(interest !== 0) {
                 fullAnnuity = totalLoan * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -n)));
             }
 
-            // Bepaal de lengte van de bouw voor de grafiek
             const maxMonth = terms.length > 0 ? Math.max(...terms.map(t => t.month)) + 2 : 12;
-            
             let currentDepot = constructPrice;
             let totalLoss = 0;
             
@@ -209,9 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dataUserPays = [];
             const dataDepotPays = [];
 
-            // Loop door de maanden heen voor de grafiek data
             for(let m = 1; m <= maxMonth; m++) {
-                // Kijk of er in deze maand een termijn betaald wordt
                 const term = terms.find(t => t.month === m);
                 if(term) {
                     const amount = (term.percent / 100) * constructPrice;
@@ -219,47 +306,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     if(currentDepot < 0) currentDepot = 0;
                 }
 
-                // Rente vergoeding (wat nog in depot zit * rente)
                 const interestReceivable = currentDepot * monthlyRate;
-                
-                // Wat betaal jij? (Volledige last - vergoeding)
-                // We cappen dit op 0, je krijgt nooit geld toe.
                 let netPayment = fullAnnuity - interestReceivable;
                 if(netPayment < 0) netPayment = 0;
 
-                // Renteverlies berekening (wat betaal je aan rente vs wat krijg je)
-                const interestPayableTotal = totalLoan * monthlyRate; // Rente over totale lening
+                const interestPayableTotal = totalLoan * monthlyRate;
                 const netInterestLoss = interestPayableTotal - interestReceivable;
                 totalLoss += netInterestLoss;
 
                 chartLabels.push(`Mnd ${m}`);
-                dataUserPays.push(netPayment);       // Blauw
-                dataDepotPays.push(interestReceivable); // Groen
+                dataUserPays.push(netPayment);
+                dataDepotPays.push(interestReceivable);
             }
 
-            // Update UI Tekst
-            resTotalLoan.textContent = formatEuro(totalLoan);
+            resTotalLoan.textContent = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(totalLoan);
             
-            // Start situatie: Rente over Grond
-            const startInterest = landPrice * monthlyRate; 
-            // Bij annuïteit is het iets complexer, maar voor indicatie startlast:
-            // Startlast is (Annuïteit Totaal) - (Rente over volledig depot)
             const startDepotInterest = constructPrice * monthlyRate;
             let startMonthly = fullAnnuity - startDepotInterest;
-            if(startMonthly < 0) startMonthly = 0; // Mocht rente heel hoog zijn
+            if(startMonthly < 0) startMonthly = 0;
 
-            resStartMonthly.textContent = formatEuro(startMonthly);
-            resMaxMonthly.textContent = formatEuro(fullAnnuity);
-            resLoss.textContent = formatEuro(totalLoss);
+            resStartMonthly.textContent = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(startMonthly);
+            resMaxMonthly.textContent = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(fullAnnuity);
+            resLoss.textContent = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(totalLoss);
 
-            // Update Grafiek
             updateChart(chartLabels, dataUserPays, dataDepotPays);
         }
 
         function updateChart(labels, dataUser, dataDepot) {
-            // Check of Chart.js geladen is via CDN
             if(typeof Chart === 'undefined') return;
-
             const ctx = document.getElementById('costChart');
             if(!ctx) return;
             
@@ -274,46 +348,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     data: {
                         labels: labels,
                         datasets: [
-                            {
-                                label: 'Uw Netto Maandlast',
-                                data: dataUser,
-                                backgroundColor: '#000066', 
-                                borderRadius: 2
-                            },
-                            {
-                                label: 'Rente Vergoeding (Depot)',
-                                data: dataDepot,
-                                backgroundColor: '#4ade80', 
-                                borderRadius: 2
-                            }
+                            { label: 'Uw Netto Maandlast', data: dataUser, backgroundColor: '#000066', borderRadius: 2 },
+                            { label: 'Rente Vergoeding (Depot)', data: dataDepot, backgroundColor: '#4ade80', borderRadius: 2 }
                         ]
                     },
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        scales: {
-                            x: { stacked: true, grid: { display: false } },
-                            y: { stacked: true, beginAtZero: true }
-                        },
-                        plugins: {
-                            tooltip: { mode: 'index', intersect: false },
-                            legend: { display: false } 
-                        }
+                        scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, beginAtZero: true } },
+                        plugins: { tooltip: { mode: 'index', intersect: false }, legend: { display: false } }
                     }
                 });
             }
         }
 
-        // --- EVENT LISTENERS VOOR SLIDERS & INPUTS ---
-        
-        // Land (Grond)
+        // Global Listeners
         rangeLand.addEventListener('input', (e) => { inputLand.value = e.target.value; calculate(); });
         inputLand.addEventListener('input', (e) => { rangeLand.value = e.target.value; calculate(); });
 
-        // Construction (Bouw)
         rangeConstruction.addEventListener('input', (e) => { 
             inputConstruction.value = e.target.value; 
-            renderTerms(); // Termijn bedragen moeten herberekend worden als totaal wijzigt
+            renderTerms(); // Belangrijk: bedragen in de lijst updaten als totaal verandert!
             calculate(); 
         });
         inputConstruction.addEventListener('input', (e) => { 
@@ -322,11 +377,9 @@ document.addEventListener('DOMContentLoaded', () => {
             calculate(); 
         });
 
-        // Interest (Rente)
         rangeInterest.addEventListener('input', (e) => { inputInterest.value = e.target.value; calculate(); });
         inputInterest.addEventListener('input', (e) => { rangeInterest.value = e.target.value; calculate(); });
 
-        // Initialisatie
         renderTerms();
         setTimeout(calculate, 100);
     }
