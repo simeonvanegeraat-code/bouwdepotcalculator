@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fiscale Check Hypotheekrenteaftrek | BouwdepotCalculator.nl</title>
-    <meta name="description" content="Bereken exact uw belastingteruggave met de regels van 2026. Inclusief eigenwoningforfait, afbouw Wet Hillen en eenmalige aftrekposten.">
+    <title>Fiscale Check & Maandlasten 2026 | BouwdepotCalculator.nl</title>
+    <meta name="description" content="Bereken uw netto maandlasten over 30 jaar. Vergelijk Annuïteiten vs Lineair met de fiscale regels van 2026.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -15,13 +15,40 @@
     <link rel="stylesheet" href="/src/styles/main.css">
     
     <style>
-        /* Specifieke styling voor checkboxes en chart container */
+        /* Specifieke styling voor de nieuwe dropdowns en resultaten */
         .checkbox-group { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
         .checkbox-label { display: flex; align-items: center; font-size: 0.9rem; color: #374151; cursor: pointer; }
         .checkbox-label input { margin-right: 0.75rem; accent-color: #000066; width: 16px; height: 16px; }
-        .chart-container { position: relative; height: 200px; width: 100%; margin-top: 1.5rem; margin-bottom: 1rem; }
-        .legal-footer { font-size: 0.75rem; color: #9ca3af; line-height: 1.5; border-top: 1px solid #e5e7eb; margin-top: 2rem; padding-top: 1rem; }
+        
+        .chart-container { position: relative; height: 250px; width: 100%; margin-top: 1.5rem; margin-bottom: 1rem; }
+        
         .alert-box { background-color: #fff7ed; border-left: 4px solid #f97316; padding: 1rem; margin-top: 1rem; border-radius: 4px; font-size: 0.9rem; color: #9a3412; display: none; }
+        
+        .legal-footer { font-size: 0.75rem; color: #9ca3af; line-height: 1.5; border-top: 1px solid #e5e7eb; margin-top: 2rem; padding-top: 1rem; }
+
+        /* Select styling om te matchen met inputs */
+        .select-wrapper { position: relative; width: 100%; }
+        .select-wrapper select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+            color: #1f2937;
+            appearance: none;
+            background-color: white;
+            cursor: pointer;
+        }
+        .select-wrapper::after {
+            content: "▼";
+            font-size: 0.8rem;
+            color: #6b7280;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -42,18 +69,30 @@
         
         <section class="calculator-section">
             <div class="card calculator-card" id="belasting-calc">
-                <h1>Fiscale Check 2026</h1>
-                <p class="subtitle">Exacte berekening volgens de regels van 2026.</p>
+                <h1>Netto Maandlasten & Fiscus</h1>
+                <p class="subtitle">Bereken het verloop van uw lasten over 30 jaar (Regels 2026).</p>
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label>Bruto Jaarinkomen (Box 1)</label>
+                        <label>Hypotheekvorm</label>
+                        <div class="select-wrapper" style="width: 200px;">
+                            <select id="fiscal-type">
+                                <option value="annuity">Annuïteiten</option>
+                                <option value="linear">Lineair</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-1">Invloed op verloop van lasten.</p>
+                </div>
+
+                <div class="input-group">
+                    <div class="label-row">
+                        <label>Bruto Jaarinkomen</label>
                         <div class="number-input-wrapper has-prefix" style="width:140px;">
                             <span class="prefix">€</span>
                             <input type="number" id="fiscal-income" value="65000" step="1000">
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 mt-1">Max. aftrekpercentage 2026: <span id="label-max-rate">37,56%</span>.</p>
                 </div>
 
                 <div class="input-group">
@@ -74,11 +113,12 @@
                             <span class="suffix">%</span>
                         </div>
                     </div>
+                    <input type="range" id="range-fiscal-interest" min="0.1" max="8" step="0.01" value="3.80" class="slider">
                 </div>
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label>WOZ-Waarde (peildatum 1-1-2025)</label>
+                        <label>WOZ-Waarde</label>
                         <div class="number-input-wrapper has-prefix">
                             <span class="prefix">€</span>
                             <input type="number" id="fiscal-woz" value="400000" step="5000">
@@ -91,7 +131,7 @@
                 </div>
                 
                 <div class="input-group mt-6">
-                    <label style="margin-bottom:0.5rem; display:block; font-weight:600;">Eenmalige Aftrekposten (2026)</label>
+                    <label style="margin-bottom:0.5rem; display:block; font-weight:600;">Eenmalige Aftrekposten (Jaar 1)</label>
                     <div class="checkbox-group">
                         <label class="checkbox-label">
                             <input type="checkbox" id="cost-advice" value="2500"> Advies- & Afsluitkosten (~€ 2.500)
@@ -106,16 +146,15 @@
                             <input type="checkbox" id="cost-nhg" value="0"> Nationale Hypotheek Garantie (0,6%)
                         </label>
                     </div>
-                    <p class="text-xs text-gray-400 mt-2">Deze kosten mag u eenmalig aftrekken in het jaar van afsluiten.</p>
                 </div>
 
                 <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-6 text-sm">
                     <div class="flex justify-between mb-1">
-                        <span class="text-gray-600">Toegepast tarief aftrek:</span>
+                        <span class="text-gray-600">Max aftrek (2026):</span>
                         <strong id="display-tax-rate">37,56%</strong>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Afbouw Wet Hillen:</span>
+                        <span class="text-gray-600">Vrijstelling Wet Hillen:</span>
                         <strong id="display-hillen">71,87%</strong>
                     </div>
                 </div>
@@ -125,51 +164,50 @@
 
         <aside class="sidebar">
             <div class="card result-card sticky-box">
-                <h2>Uw Belastingvoordeel</h2>
+                <h2>Verloop Maandlasten</h2>
                 
                 <div class="chart-container">
                     <canvas id="fiscalChart"></canvas>
                 </div>
+                
+                <div class="flex justify-center gap-4 text-xs text-gray-500 mb-4">
+                    <div class="flex items-center"><span style="width:10px;height:10px;background:#ef4444;border-radius:50%;margin-right:5px;"></span> Bruto</div>
+                    <div class="flex items-center"><span style="width:10px;height:10px;background:#16a34a;border-radius:50%;margin-right:5px;"></span> Netto</div>
+                </div>
 
                 <div class="result-row">
-                    <span>Bruto Rente (Jaar):</span>
-                    <span id="calc-bruto-year" class="amount">€ 0</span>
+                    <span>Bruto maandlast (Jaar 1):</span>
+                    <span id="res-bruto-month" class="amount">€ 0</span>
                 </div>
                 
                 <div class="result-row discount">
-                    <span>- Eigenwoningforfait:</span>
-                    <span id="calc-ewf" class="amount" style="color:#ef4444">€ 0</span>
+                    <span>- Fiscale Teruggave:</span>
+                    <span id="res-benefit-month" class="amount" style="color:#16a34a">€ 0</span>
                 </div>
 
-                <div class="result-row discount" id="row-costs" style="display:none;">
-                    <span>- Eenmalige Kosten:</span>
-                    <span id="calc-costs" class="amount" style="color:#000066">€ 0</span>
-                </div>
-
-                <div class="result-row" id="row-hillen" style="display:none; color:#f97316;">
-                    <span>+ Bijtelling Wet Hillen:</span>
-                    <span id="calc-hillen" class="amount">€ 0</span>
+                <div class="result-row discount" id="row-costs-month" style="display:none;">
+                    <span>- Teruggave kosten (eenmalig):</span>
+                    <span id="res-costs-benefit" class="amount" style="color:#3b82f6">€ 0</span>
                 </div>
 
                 <hr>
 
                 <div class="result-row total">
-                    <span class="flex-col">Teruggave (Jaar)</span>
-                    <span id="res-fiscal-year" class="amount highlight" style="color:#16a34a;">€ 0</span>
+                    <span class="flex-col">Netto Maandlast (Jaar 1)</span>
+                    <span id="res-netto-month" class="amount highlight" style="color:#000066;">€ 0</span>
                 </div>
-                <div class="result-row mt-2">
-                    <span>Per maand (gemiddeld):</span>
-                    <span id="res-fiscal-month" class="amount">€ 0</span>
+                <div class="text-center mt-2">
+                    <small class="text-gray-400" id="netto-trend-text">Stijgt naar € ... in jaar 30</small>
                 </div>
 
                 <div class="cta-button-wrapper">
                     <a href="index.html" class="btn-primary" style="text-decoration:none; text-align:center;">
-                        Start Nieuwe Berekening
+                        Bereken Verbouwing
                     </a>
                 </div>
 
                 <div class="legal-footer">
-                    <strong>Disclaimer 2026:</strong> Berekening o.b.v. regels per 1-1-2026. Maximaal aftrektarief 37,56% en afbouw Wet Hillen (71,87% vrijstelling) zijn toegepast. Villataks (2,35%) geldt boven €1.350.000. Aan deze berekening kunnen geen rechten worden ontleend.
+                    <strong>Disclaimer 2026:</strong> Projectie over 30 jaar o.b.v. belastingregels 2026. Aanname: gelijkblijvende rente en WOZ. Werkelijke lasten kunnen afwijken door wetswijzigingen.
                 </div>
             </div>
             
