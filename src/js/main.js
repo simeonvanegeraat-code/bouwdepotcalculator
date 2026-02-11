@@ -100,13 +100,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const rangeConstruction = document.getElementById('range-construction');
         const inputInterest = document.getElementById('input-interest');
         const rangeInterest = document.getElementById('range-interest');
+        // NIEUW: Discount input
+        const inputDiscount = document.getElementById('input-depot-discount');
+
         const termsContainer = document.getElementById('terms-container');
         const addTermBtn = document.getElementById('add-term-btn');
         const totalPercentEl = document.getElementById('total-percent');
+        
         const resTotalLoan = document.getElementById('res-total-loan');
         const resStartMonthly = document.getElementById('res-start-monthly');
         const resMaxMonthly = document.getElementById('res-max-monthly');
         const resLoss = document.getElementById('res-loss');
+        
+        // NIEUW: Table Elements
+        const tableWrapper = document.getElementById('table-wrapper');
+        const tableBody = document.getElementById('details-table-body');
+        const toggleTableBtn = document.getElementById('toggle-table-btn');
+
         let costChart = null;
 
         let terms = [
@@ -192,11 +202,28 @@ document.addEventListener('DOMContentLoaded', () => {
             renderTerms();
         });
 
+        // Toggle Table Visibility
+        toggleTableBtn.addEventListener('click', () => {
+            if(tableWrapper.style.display === 'none') {
+                tableWrapper.style.display = 'block';
+                toggleTableBtn.textContent = 'Verberg overzicht ▲';
+            } else {
+                tableWrapper.style.display = 'none';
+                toggleTableBtn.textContent = 'Toon gedetailleerd overzicht ▼';
+            }
+        });
+
         function calculate() {
             const landPrice = parseFloat(inputLand.value) || 0;
             const constructPrice = parseFloat(inputConstruction.value) || 0;
             const interest = parseFloat(inputInterest.value) || 0;
+            const discount = parseFloat(inputDiscount.value) || 0; // NIEUW: Depot korting
+
             const monthlyRate = (interest / 100) / 12;
+            // Rente op depot = (Hypotheekrente - Korting)
+            let depotRate = (interest - discount) / 100 / 12;
+            if (depotRate < 0) depotRate = 0;
+
             const totalLoan = landPrice + constructPrice;
             const n = 30 * 12;
             
@@ -207,31 +234,67 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentDepot = constructPrice;
             let totalLoss = 0;
             const chartLabels = []; const dataUserPays = []; const dataDepotPays = [];
+            
+            // Voor de tabel data
+            let tableHTML = '';
 
             for(let m = 1; m <= maxMonth; m++) {
                 const term = terms.find(t => t.month === m);
+                let withdrawnAmount = 0;
                 if(term) {
                     const amount = (term.percent / 100) * constructPrice;
                     currentDepot -= amount;
+                    withdrawnAmount = amount;
                     if(currentDepot < 0) currentDepot = 0;
                 }
-                const interestReceivable = currentDepot * monthlyRate;
+                
+                // Berekening rente
+                const interestReceivable = currentDepot * depotRate; // Gebruik de discounted rate
+                const grossInterest = totalLoan * monthlyRate; // Bruto te betalen aan bank
+                
+                // Bij annuïteit betaal je rente + aflossing. Tijdens bouw vaak alleen rente over opgenomen deel?
+                // Voor de 'Netto Maandlast' berekening in deze tool gaan we uit van:
+                // Volledige annuïteit - Rente vergoeding uit depot.
+                // Dit is de "bruto maandlast methodiek" die gangbaar is bij nieuwbouw calculators.
+                
                 let netPayment = fullAnnuity - interestReceivable;
                 if(netPayment < 0) netPayment = 0;
-                totalLoss += (totalLoan * monthlyRate) - interestReceivable;
+                
+                // Rente verlies = Bruto Rente - Rente Vergoeding
+                totalLoss += (grossInterest - interestReceivable);
+
                 chartLabels.push(`Mnd ${m}`);
                 dataUserPays.push(netPayment);
                 dataDepotPays.push(interestReceivable);
+
+                // Tabel Rij Toevoegen
+                tableHTML += `
+                    <tr>
+                        <td>${m}</td>
+                        <td class="col-amount">${formatEuro(currentDepot)}</td>
+                        <td class="col-amount" style="color:#9ca3af;">${formatEuro(fullAnnuity)}</td>
+                        <td class="col-amount" style="color:#4ade80;">-${formatEuro(interestReceivable)}</td>
+                        <td class="col-amount netto-column">${formatEuro(netPayment)}</td>
+                    </tr>
+                `;
             }
 
+            // Update UI
             resTotalLoan.textContent = formatEuro(totalLoan);
-            const startDepotInterest = constructPrice * monthlyRate;
+            
+            const startDepotInterest = constructPrice * depotRate;
             let startMonthly = fullAnnuity - startDepotInterest;
             if(startMonthly < 0) startMonthly = 0;
             resStartMonthly.textContent = formatEuro(startMonthly);
+            
             resMaxMonthly.textContent = formatEuro(fullAnnuity);
             resLoss.textContent = formatEuro(totalLoss);
+            
+            // Update Chart
             updateChart(chartLabels, dataUserPays, dataDepotPays);
+
+            // Update Table
+            tableBody.innerHTML = tableHTML;
         }
 
         function updateChart(labels, dataUser, dataDepot) {
@@ -270,6 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
         inputConstruction.addEventListener('input', (e) => { rangeConstruction.value = e.target.value; renderTerms(); calculate(); });
         rangeInterest.addEventListener('input', (e) => { inputInterest.value = e.target.value; calculate(); });
         inputInterest.addEventListener('input', (e) => { rangeInterest.value = e.target.value; calculate(); });
+        
+        // NIEUW: Listener voor korting
+        inputDiscount.addEventListener('input', calculate);
 
         renderTerms();
         setTimeout(calculate, 100);
@@ -317,12 +383,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- HARDE CONFIGURATIE VOOR 2026 (Bron: PDF) ---
         const RULES_2026 = {
-            // PDF: 37,56% max aftrek in 2026
             maxRate: 37.56, 
-            ewfRate: 0.0035,     // 0.35% Standaard EWF
+            ewfRate: 0.0035,     
             villataksLimit: 1350000, 
-            villataksRate: 0.0235, // 2.35% boven grens
-            // PDF: Hillen afbouw, nog 71,87% vrijstelling
+            villataksRate: 0.0235, 
             hillenFactor: 0.7187 
         };
 
@@ -337,7 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(checkAdvice.checked) oneTimeCosts += parseFloat(checkAdvice.value);
             if(checkNotary.checked) oneTimeCosts += parseFloat(checkNotary.value);
             if(checkValuation.checked) oneTimeCosts += parseFloat(checkValuation.value);
-            if(checkNhg.checked) oneTimeCosts += (amount * 0.006); // 0.6% NHG kosten
+            if(checkNhg.checked) oneTimeCosts += (amount * 0.006); 
 
             // 2. Tarief en Weergave
             outTaxRate.textContent = RULES_2026.maxRate.toString().replace('.', ',') + '%';
@@ -349,7 +413,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // 4. Eigenwoningforfait (EWF)
             let ewfAmount = 0;
             if (woz > RULES_2026.villataksLimit) {
-                 // Villataks: 0.35% tot grens + 2.35% daarboven
                  const excess = woz - RULES_2026.villataksLimit;
                  ewfAmount = (RULES_2026.villataksLimit * RULES_2026.ewfRate) + (excess * RULES_2026.villataksRate);
                  alertVillataks.style.display = 'block';
@@ -359,24 +422,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // 5. Saldo & Wet Hillen Logic
-            // Aftrekpost = Rente + Kosten - EWF
-            // Let op: Kosten zijn ook aftrekbaar in box 1
             const totalDeductibleItems = paidInterest + oneTimeCosts;
             let netDeductible = totalDeductibleItems - ewfAmount;
             let hillenAddition = 0;
 
             if (netDeductible < 0) {
-                // "Bijtelling": EWF is hoger dan kosten.
-                // Vroeger 0, nu betalen over (100% - Hillen%) van het verschil
                 const diff = Math.abs(netDeductible);
-                
-                // Vrijstelling (Hillen Aftrek)
                 const hillenDeduction = diff * RULES_2026.hillenFactor;
-                
-                // Wat overblijft is belastbare bijtelling
                 hillenAddition = diff - hillenDeduction; 
-                
-                // Voor de som is de aftrek dus negatief (je betaalt)
                 netDeductible = -hillenAddition; 
                 
                 if(rowHillen) {
@@ -420,13 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if(!ctx) return;
 
             const chartData = [interest, -ewf, costs, result];
-            // Kleuren logic
-            const bgColors = [
-                '#e2e8f0', // Rente (Neutraal grijs)
-                '#ef4444', // EWF (Rood)
-                '#3b82f6', // Kosten (Blauw)
-                '#16a34a'  // Resultaat (Groen)
-            ];
+            const bgColors = ['#e2e8f0', '#ef4444', '#3b82f6', '#16a34a'];
 
             if(fiscalChart) {
                 fiscalChart.data.datasets[0].data = chartData;
@@ -456,18 +503,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Listeners
         inputIncome.addEventListener('input', calculateFiscal);
         inputAmount.addEventListener('input', calculateFiscal);
         inputInterest.addEventListener('input', calculateFiscal);
         inputWoz.addEventListener('input', calculateFiscal);
-        
-        // Checkbox listeners
         [checkAdvice, checkNotary, checkValuation, checkNhg].forEach(box => {
             box.addEventListener('change', calculateFiscal);
         });
 
-        // Init
         calculateFiscal();
     }
 });

@@ -4,16 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nieuwbouw Termijnen & Rente | Calculator 2026</title>
-    <meta name="description" content="Bereken exact uw maandlasten per bouwtermijn. Inclusief grondrente en bouwrente verlies.">
+    <meta name="description" content="Bereken exact uw maandlasten per bouwtermijn. Inclusief grondrente, depotrente afslag en gedetailleerde tabel.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
-     crossorigin="anonymous"></script>
+      crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="/src/styles/main.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Specifieke styling voor de nieuwe detailtabel */
+        .details-table-wrapper {
+            margin-top: 2rem;
+            overflow-x: auto;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+        .details-table th {
+            background-color: #f8fafc;
+            padding: 12px 16px;
+            font-weight: 600;
+            color: #334155;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .details-table td {
+            padding: 10px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #475569;
+            white-space: nowrap;
+        }
+        .details-table tr:last-child td { border-bottom: none; }
+        .details-table tr:nth-child(even) { background-color: #fcfcfc; }
+        .details-table .col-amount { font-family: 'Inter', monospace; text-align: right; }
+        .details-table .netto-column { font-weight: 700; color: #000066; }
+        
+        /* Styling voor het extra input veld (korting) */
+        .secondary-input-label {
+            font-size: 0.85rem; 
+            color: #64748b; 
+            margin-bottom: 4px; 
+            display: block;
+        }
+    </style>
 </head>
 <body>
 
@@ -24,7 +65,7 @@
             </div>
             <nav class="main-nav">
                 <a href="index.html">Verbouwen</a> 
-                <a href="nieuwbouw.html">Nieuwbouw</a>
+                <a href="nieuwbouw.html" class="active">Nieuwbouw</a>
                 <a href="belasting.html">Belastingvoordeel</a> <a href="#">Contact</a>
             </nav>
         </div>
@@ -70,6 +111,19 @@
                     <input type="range" id="range-interest" min="0.1" max="10" step="0.1" value="3.8" class="slider">
                 </div>
 
+                <div class="input-group" style="margin-top: -10px; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #f1f5f9;">
+                    <div class="label-row">
+                        <label for="input-depot-discount" style="font-size:0.9rem;">Korting op depotrente</label>
+                        <div class="number-input-wrapper has-suffix" style="width: 100px; height: 36px;">
+                            <input type="number" id="input-depot-discount" value="0.00" step="0.1" min="0" max="5">
+                            <span class="suffix">%</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-1">
+                        Sommige banken geven bijv. 1% minder rente op het depot dan u betaalt.
+                    </p>
+                </div>
+
                 <hr>
 
                 <h3>Bouwtermijnen Schema</h3>
@@ -104,6 +158,26 @@
                         Rente uit Depot
                     </div>
                 </div>
+
+                <div class="details-table-wrapper" style="display:none;" id="table-wrapper">
+                    <table class="details-table">
+                        <thead>
+                            <tr>
+                                <th>Mnd</th>
+                                <th>Restant Depot</th>
+                                <th class="col-amount">Bruto Last</th>
+                                <th class="col-amount">Depot Rente</th>
+                                <th class="col-amount">Netto Betalen</th>
+                            </tr>
+                        </thead>
+                        <tbody id="details-table-body">
+                            </tbody>
+                    </table>
+                </div>
+                <button id="toggle-table-btn" class="btn-text mt-4" style="width:100%; text-align:center;">
+                    Toon gedetailleerd overzicht ▼
+                </button>
+
             </div>
         </section>
 
