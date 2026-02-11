@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. VERBOUW CALCULATOR (Homepage)
     // ----------------------------------------------
     function initVerbouwCalculator() {
+        const inputType = document.getElementById('input-type'); // NIEUW: Dropdown lezen
         const rangeAmount = document.getElementById('range-amount');
         const inputAmount = document.getElementById('input-amount');
         const rangeInterest = document.getElementById('range-interest');
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const resNetto = document.getElementById('res-netto');
 
         function calculate() {
+            const type = inputType ? inputType.value : 'annuity'; // Default fallback
             const amount = parseFloat(inputAmount.value);
             const interest = parseFloat(inputInterest.value);
             const years = parseInt(rangeDuration.value);
@@ -43,12 +45,23 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalMonths = years * 12;
             
             let grossMonthly = 0;
+
             if (interest === 0 || isNaN(interest)) {
                 grossMonthly = amount / totalMonths;
             } else {
-                grossMonthly = amount * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -totalMonths)));
+                if (type === 'linear') {
+                    // Lineair: (Bedrag / Looptijd) + (Bedrag * Maandrente)
+                    // Dit toont de lasten van de 1e maand (de hoogste maand)
+                    const redemption = amount / totalMonths;
+                    const interestPart = amount * monthlyRate;
+                    grossMonthly = redemption + interestPart;
+                } else {
+                    // Annuïteit: Standaard formule
+                    grossMonthly = amount * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -totalMonths)));
+                }
             }
 
+            // Fiscaal (Maand 1 is voor Lineair en Annuïteit rente-technisch gelijk: Hoofdsom * Rente)
             const taxRate = 0.3756; 
             const firstMonthInterest = amount * monthlyRate; 
             const taxBenefit = checkAftrek.checked ? (firstMonthInterest * taxRate) : 0;
@@ -75,6 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
             rowVoordeel.addEventListener('mouseleave', () => rowVoordeel.style.backgroundColor = 'transparent');
         }
 
+        // Event Listeners
+        if(inputType) inputType.addEventListener('change', calculate); // NIEUW
         rangeAmount.addEventListener('input', (e) => { inputAmount.value = e.target.value; calculate(); });
         inputAmount.addEventListener('input', (e) => { rangeAmount.value = e.target.value; calculate(); });
         rangeInterest.addEventListener('input', (e) => { inputInterest.value = e.target.value; calculate(); });
