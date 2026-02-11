@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nieuwbouw Termijnen & Rente | Calculator 2026</title>
-    <meta name="description" content="Bereken exact uw maandlasten per bouwtermijn. Inclusief grondrente, depotrente afslag en gedetailleerde tabel.">
+    <meta name="description" content="Bereken exact uw maandlasten per bouwtermijn. Inclusief grondrente, depotrente afslag en gedetailleerde tabel van uw bouwdepot.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -14,47 +14,6 @@
 
     <link rel="stylesheet" href="/src/styles/main.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <style>
-        /* Specifieke styling voor de nieuwe detailtabel */
-        .details-table-wrapper {
-            margin-top: 2rem;
-            overflow-x: auto;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-        }
-        .details-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-            text-align: left;
-        }
-        .details-table th {
-            background-color: #f8fafc;
-            padding: 12px 16px;
-            font-weight: 600;
-            color: #334155;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        .details-table td {
-            padding: 10px 16px;
-            border-bottom: 1px solid #f1f5f9;
-            color: #475569;
-            white-space: nowrap;
-        }
-        .details-table tr:last-child td { border-bottom: none; }
-        .details-table tr:nth-child(even) { background-color: #fcfcfc; }
-        .details-table .col-amount { font-family: 'Inter', monospace; text-align: right; }
-        .details-table .netto-column { font-weight: 700; color: #000066; }
-        
-        /* Styling voor het extra input veld (korting) */
-        .secondary-input-label {
-            font-size: 0.85rem; 
-            color: #64748b; 
-            margin-bottom: 4px; 
-            display: block;
-        }
-    </style>
 </head>
 <body>
 
@@ -66,7 +25,8 @@
             <nav class="main-nav">
                 <a href="index.html">Verbouwen</a> 
                 <a href="nieuwbouw.html" class="active">Nieuwbouw</a>
-                <a href="belasting.html">Belastingvoordeel</a> <a href="#">Contact</a>
+                <a href="belasting.html">Belastingvoordeel</a>
+                <a href="contact.html">Contact</a>
             </nav>
         </div>
     </header>
@@ -177,8 +137,46 @@
                 <button id="toggle-table-btn" class="btn-text mt-4" style="width:100%; text-align:center;">
                     Toon gedetailleerd overzicht ▼
                 </button>
-
             </div>
+
+            <article class="prose-content">
+                <h2>Financiering Nieuwbouw: Grip op Dubbele Lasten</h2>
+                <p>
+                    Bij het kopen van een nieuwbouwwoning werkt de financiering anders dan bij bestaande bouw. U betaalt de woning namelijk niet in één keer, maar in termijnen. 
+                    Dit proces brengt specifieke financiële vraagstukken met zich mee, zoals het bouwdepot, renteverlies tijdens de bouw en de gevreesde 'dubbele maandlasten'. 
+                    Deze calculator helpt u dit traject exact in kaart te brengen.
+                </p>
+
+                <h3>1. Hoe werkt het Bouwdepot?</h3>
+                <p>
+                    De hypotheek voor een nieuwbouwhuis bestaat uit twee delen: de grondkosten en de aanneemsom. De grond betaalt u direct bij de notaris. 
+                    De aanneemsom wordt op een speciale rekening gezet: het bouwdepot. Vanuit dit depot betaalt u de aannemer telkens wanneer een bouwfase is afgerond (bijv. "gereedkomen ruwbouw").
+                </p>
+
+                <h3>2. Grondrente vs. Bouwrente</h3>
+                <p>
+                    Vanaf dag één betaalt u hypotheekrente over het volledige hypotheekbedrag. Echter, over het geld dat nog in uw bouwdepot zit, ontvangt u rentevergoeding van de bank.
+                    In het begin is uw depot nog vol en streept de ontvangen rente grotendeels weg tegen de te betalen rente. Naarmate de bouw vordert, raakt het depot leeg, ontvangt u minder rentevergoeding, en stijgen uw netto maandlasten.
+                </p>
+                <ul>
+                    <li><strong>Depotrente:</strong> De vergoeding die u krijgt over het bedrag in depot.</li>
+                    <li><strong>Renteverlies:</strong> Het verschil tussen de rente die u aan de bank betaalt en de rente die u uit het depot ontvangt.</li>
+                </ul>
+
+                <h3>3. De valkuil: Depotrente-afslag</h3>
+                <p>
+                    Let goed op de voorwaarden van uw geldverstrekker. Veel banken hanteren een zogeheten 'afslag' op de depotrente (vaak -1%). 
+                    Dit betekent dat als u 4% hypotheekrente betaalt, u slechts 3% vergoeding ontvangt over uw depot. Dit verschil zorgt voor direct renteverlies, zelfs als de bouw nog niet begonnen is. 
+                    In onze calculator kunt u dit percentage invoeren bij "Korting op depotrente" om een realistisch beeld te krijgen.
+                </p>
+
+                <h3>4. Beheersing van Dubbele Lasten</h3>
+                <p>
+                    Tijdens de bouw van uw nieuwe woning lopen de kosten van uw huidige huur- of koopwoning gewoon door. Omdat de lasten van de nieuwe woning langzaam oplopen (naarmate het depot leger raakt), worden de totale maandlasten aan het einde van de bouwperiode het hoogst.
+                    Gebruik de tabel in deze tool om precies te zien wat uw maximale maandlast is in de laatste maand voor oplevering, zodat u voldoende financiële buffers kunt reserveren.
+                </p>
+            </article>
+
         </section>
 
         <aside class="sidebar">
@@ -230,8 +228,14 @@
     </main>
 
     <footer>
-        <div class="container text-center text-sm text-gray-400 py-8">
-            <p>&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
+        <div class="container text-center py-8">
+            <div class="footer-links">
+                <a href="privacy.html">Privacybeleid</a>
+                <a href="voorwaarden.html">Algemene Voorwaarden</a>
+                <a href="cookies.html">Cookiebeleid</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
         </div>
     </footer>
 

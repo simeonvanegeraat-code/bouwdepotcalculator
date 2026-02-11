@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bouwdepot Calculator 2026 | Bereken uw Maandlasten</title>
-    <meta name="description" content="Bereken direct uw maandlasten voor een bouwdepot. Onafhankelijke rekentool voor verbouwing en nieuwbouw.">
+    <meta name="description" content="Bereken direct de maandlasten van uw bouwdepot. Onafhankelijke rekentool voor verbouwingen, inclusief belastingvoordeel en fiscale regels 2026.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
-     crossorigin="anonymous"></script>
+      crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="/src/styles/main.css">
 </head>
@@ -22,9 +22,10 @@
                 Bouwdepot<span class="text-accent">Calculator</span>.nl
             </div>
             <nav class="main-nav">
-                <a href="index.html">Verbouwen</a> 
+                <a href="index.html" class="active">Verbouwen</a> 
                 <a href="nieuwbouw.html">Nieuwbouw</a>
-                <a href="belasting.html">Belastingvoordeel</a> <a href="#">Contact</a>
+                <a href="belasting.html">Belastingvoordeel</a>
+                <a href="contact.html">Contact</a>
             </nav>
         </div>
     </header>
@@ -51,7 +52,7 @@
                     <div class="label-row">
                         <label for="input-interest">Hypotheekrente</label>
                         <div class="number-input-wrapper has-suffix">
-                            <input type="number" id="input-interest" value="3.8" step="0.01">
+                            <input type="number" id="input-interest" value="3.80" step="0.01">
                             <span class="suffix">%</span>
                         </div>
                     </div>
@@ -66,29 +67,49 @@
                     <input type="range" id="range-duration" min="10" max="30" step="5" value="30" class="slider">
                 </div>
 
-                <div class="details-toggle">
-                    <label class="checkbox-container">
+                <div class="checkbox-group mt-4">
+                    <label class="checkbox-label">
                         <input type="checkbox" id="check-aftrek" checked>
-                        <span class="checkmark"></span>
                         Bereken inclusief belastingteruggave (indicatie)
                     </label>
                 </div>
             </div>
 
-            <article class="seo-content">
-                <h2>Hoe werkt een bouwdepot?</h2>
-                <p>Een bouwdepot is een aparte rekening bij uw hypotheek waaruit u verbouwingskosten betaalt. U betaalt rente over het bedrag dat u opneemt, maar u ontvangt ook rente over het bedrag dat nog in het depot staat.</p>
-                
+            <article class="prose-content">
+                <h2>Alles over het Bouwdepot voor Verbouwingen</h2>
+                <p>
+                    Wilt u uw woning uitbouwen, verduurzamen of moderniseren? Vaak wordt dit gefinancierd middels een bouwdepot. 
+                    Dit is een aparte rekening binnen uw hypotheek waaruit de facturen van aannemers en bouwmarkten worden betaald. 
+                    Op deze pagina leest u precies wat de spelregels zijn en berekent u direct uw nieuwe maandlasten.
+                </p>
+
                 <div class="ad-placeholder banner">
-                    <span>Advertentie (Banner)</span>
+                    <span>Advertentie</span>
                 </div>
 
-                <h3>Wat mag u betalen uit het depot?</h3>
+                <h3>1. Wat mag u betalen uit het depot?</h3>
+                <p>
+                    De Belastingdienst stelt strikte eisen: het geld moet besteed worden aan verbetering of onderhoud van de eigen woning. 
+                    Dit wordt ook wel 'nagelvast' genoemd. Alles wat u bij een verhuizing niet mee kunt nemen, valt hier meestal onder.
+                </p>
                 <ul>
-                    <li>Vaste verbeteringen (Keuken, Badkamer, Uitbouw)</li>
-                    <li>Achterstallig onderhoud (Schilderwerk, Dakreparatie)</li>
-                    <li>Energiebesparende maatregelen (Isolatie, Zonnepanelen)</li>
+                    <li><strong>Wel toegestaan:</strong> Nieuwe keuken, badkamer, dakkapel, uitbouw, isolatie, zonnepanelen, schilderwerk en vaste vloeren (zoals parket of gelijmd PVC).</li>
+                    <li><strong>Niet toegestaan:</strong> Losse inrichting, gordijnen, meubels en gereedschap dat u zelf koopt.</li>
                 </ul>
+
+                <h3>2. Looptijd en Rente</h3>
+                <p>
+                    Een bouwdepot voor een verbouwing heeft doorgaans een looptijd van 2 jaar. Gedurende deze periode ontvangt u rentevergoeding over het bedrag dat nog in het depot staat. 
+                    Bij de meeste banken is deze vergoeding gelijk aan de hypotheekrente die u betaalt (of 1% lager). 
+                    Let op: na 6 maanden wordt de rentevergoeding bij sommige geldverstrekkers lager. Zorg dus dat u de verbouwing vlot plant.
+                </p>
+
+                <h3>3. Fiscaal Voordeel 2026</h3>
+                <p>
+                    De rente die u betaalt over het bouwdepot is fiscaal aftrekbaar in Box 1, mits u het geld daadwerkelijk gebruikt voor de woning. 
+                    Onze calculator houdt rekening met het basistarief voor hypotheekrenteaftrek in 2026 (37,56%). 
+                    Houd er rekening mee dat het eigenwoningforfait omhoog gaat als de WOZ-waarde van uw woning stijgt door de verbouwing.
+                </p>
             </article>
         </section>
 
@@ -99,19 +120,19 @@
                 
                 <div class="result-row">
                     <span>Bruto maandlast:</span>
-                    <span id="res-bruto" class="amount">€ 116,49</span>
+                    <span id="res-bruto" class="amount">€ 0</span>
                 </div>
                 
                 <div class="result-row discount" id="row-voordeel" style="cursor: pointer; padding: 4px; border-radius: 4px; transition: background 0.2s;" title="Bekijk berekening">
                     <span style="border-bottom: 1px dashed currentColor;">Belastingvoordeel (?):</span>
-                    <span id="res-voordeel" class="amount">- € 29,32</span>
+                    <span id="res-voordeel" class="amount" style="color:#16a34a">€ 0</span>
                 </div>
 
                 <hr>
 
                 <div class="result-row total">
                     <span>Netto per maand:</span>
-                    <span id="res-netto" class="amount highlight">€ 87,17</span>
+                    <span id="res-netto" class="amount highlight" style="color:#000066">€ 0</span>
                 </div>
 
                 <div class="cta-button-wrapper no-print">
@@ -124,7 +145,7 @@
             </div>
 
             <div class="ad-placeholder rectangle">
-                <span>Advertentie (Vierkant)</span>
+                <span>Advertentie</span>
             </div>
 
         </aside>
@@ -132,8 +153,14 @@
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
+        <div class="container text-center py-8">
+            <div class="footer-links">
+                <a href="privacy.html">Privacybeleid</a>
+                <a href="voorwaarden.html">Algemene Voorwaarden</a>
+                <a href="cookies.html">Cookiebeleid</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
         </div>
     </footer>
 

@@ -138,6 +138,16 @@ label { font-weight: 600; font-size: 0.95rem; }
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
+/* Select / Dropdown Styling (Toegevoegd voor Belastingmodule) */
+.select-wrapper { position: relative; width: 100%; }
+.select-wrapper select {
+    width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px;
+    font-size: 1rem; color: #1f2937; appearance: none; background-color: white; cursor: pointer;
+}
+.select-wrapper::after {
+    content: "▼"; font-size: 0.8rem; color: #6b7280; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;
+}
+
 /* --- 5. SLIDERS --- */
 .slider {
     -webkit-appearance: none; width: 100%; height: 6px;
@@ -162,6 +172,15 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
     font-size: 0.9rem; color: var(--color-text);
 }
 .checkbox-container input { margin-right: 0.5rem; accent-color: var(--color-accent); }
+
+/* Compatibility classes voor Belasting/Nieuwbouw HTML */
+.checkbox-group { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+.checkbox-label { display: flex; align-items: center; font-size: 0.9rem; color: #374151; cursor: pointer; }
+.checkbox-label input { margin-right: 0.75rem; accent-color: #000066; width: 16px; height: 16px; }
+
+/* Alerts */
+.alert-box { background-color: #fff7ed; border-left: 4px solid #f97316; padding: 1rem; margin-top: 1rem; border-radius: 4px; font-size: 0.9rem; color: #9a3412; display: none; }
+
 
 /* --- 6. SIDEBAR & RESULTS --- */
 .sidebar { display: flex; flex-direction: column; gap: 2rem; }
@@ -194,9 +213,12 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .btn-primary:hover { background: #e05600; }
 .disclaimer { font-size: 0.75rem; color: #9CA3AF; text-align: center; margin-top: 0.5rem; }
 
-/* Callout Box (voor waarschuwingen/info in sidebar) */
+/* Footer in Sidebar */
+.legal-footer { font-size: 0.75rem; color: #9ca3af; line-height: 1.5; border-top: 1px solid #e5e7eb; margin-top: 2rem; padding-top: 1rem; }
+
+/* Callout Box */
 .callout {
-    background-color: #FFF7ED; /* lichte oranje achtergrond */
+    background-color: #FFF7ED; 
     border: 1px solid #FFEDD5;
     border-radius: 8px;
     padding: 1rem;
@@ -215,34 +237,35 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .ad-placeholder.rectangle { height: 300px; width: 100%; }
 .ad-placeholder.banner { height: 100px; width: 100%; margin: 2rem 0; }
 
-/* SEO Content */
-.seo-content ul { padding-left: 1.5rem; margin-top: 1rem; color: var(--color-text); }
-.seo-content li { margin-bottom: 0.5rem; }
-
-
-/* --- 8. NIEUWBOUW PLANNER SPECIFICS --- */
+/* --- 8. NIEUWBOUW & DETAILS TABLES --- */
 
 /* Grafiek Container */
 .chart-container {
     position: relative; 
     height: 300px; 
     width: 100%;
+    margin-top: 1.5rem; margin-bottom: 1rem;
 }
 
-/* Legenda onder grafiek */
+/* Legenda */
 .chart-legend {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-top: 1rem;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-text-light);
+    display: flex; justify-content: center; gap: 1.5rem;
+    margin-top: 1rem; font-size: 0.8rem; font-weight: 600; color: var(--color-text-light);
 }
 .legend-item { display: flex; align-items: center; gap: 0.5rem; }
 .dot { width: 10px; height: 10px; border-radius: 50%; display: block; }
 
-/* Termijn Editor Container */
+/* Detail Tabellen (Toegevoegd voor Belastingmodule) */
+.details-table-wrapper { margin-top: 2rem; overflow-x: auto; border: 1px solid #e5e7eb; border-radius: 8px; }
+.details-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+.details-table th { background-color: #f8fafc; padding: 12px 16px; font-weight: 600; color: #334155; border-bottom: 2px solid #e2e8f0; }
+.details-table td { padding: 10px 16px; border-bottom: 1px solid #f1f5f9; color: #475569; white-space: nowrap; }
+.details-table tr:last-child td { border-bottom: none; }
+.details-table tr:nth-child(even) { background-color: #fcfcfc; }
+.details-table .col-amount { font-family: 'Inter', monospace; text-align: right; }
+.details-table .netto-column { font-weight: 700; color: #000066; }
+
+/* Termijn Editor (Nieuwbouw) */
 .term-editor {
     background-color: #F8FAFC;
     border: 1px solid var(--color-border);
@@ -251,112 +274,75 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     margin-top: 1rem;
 }
 
-/* De Rijen (GRID Layout voor nette uitlijning) */
 .term-row {
     display: grid;
-    /* Grid layout: Maand - Omschrijving - Euro - Procent - Verwijder */
     grid-template-columns: 50px 1fr 110px 80px 30px; 
     gap: 0.75rem;
     margin-bottom: 0.75rem;
     align-items: center;
 }
 
-/* Mobiele aanpassing: op klein scherm onder elkaar */
 @media (max-width: 600px) {
     .term-row {
-        grid-template-columns: 50px 1fr 30px; /* Maand, Omschrijving, Delete */
+        grid-template-columns: 50px 1fr 30px;
         gap: 0.5rem;
-        background: white;
-        padding: 10px;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
+        background: white; padding: 10px;
+        border: 1px solid #e5e7eb; border-radius: 8px;
     }
-    /* De bedragen op een nieuwe regel zetten op mobiel */
     .term-row .input-wrapper-euro, 
     .term-row .input-wrapper-pct {
-        grid-column: 1 / -1; /* Volledige breedte */
+        grid-column: 1 / -1;
     }
 }
 
-/* Input Wrappers met iconen (€ en %) */
-.input-icon-wrapper {
-    position: relative;
-    width: 100%;
-}
+.input-icon-wrapper { position: relative; width: 100%; }
 .input-icon-wrapper input {
-    width: 100%;
-    padding: 8px 8px 8px 25px; /* Ruimte links voor icoon */
-    border: 1px solid #CBD5E1;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-primary);
+    width: 100%; padding: 8px 8px 8px 25px;
+    border: 1px solid #CBD5E1; border-radius: 6px;
+    font-size: 0.9rem; font-weight: 600; color: var(--color-primary);
 }
 .input-icon-wrapper .icon {
-    position: absolute;
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #9CA3AF;
-    font-size: 0.85rem;
-    pointer-events: none;
+    position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
+    color: #9CA3AF; font-size: 0.85rem; pointer-events: none;
 }
+.input-icon-wrapper.pct input { padding: 8px 25px 8px 8px; text-align: center; }
+.input-icon-wrapper.pct .icon { left: auto; right: 8px; }
 
-/* Specifiek voor percentage (icoon rechts) */
-.input-icon-wrapper.pct input {
-    padding: 8px 25px 8px 8px; /* Ruimte rechts */
-    text-align: center;
-}
-.input-icon-wrapper.pct .icon {
-    left: auto; 
-    right: 8px;
-}
+.term-desc-input { width: 100%; padding: 8px; border: 1px solid #CBD5E1; border-radius: 6px; }
+.term-month-input { width: 100%; padding: 8px 4px; text-align: center; border: 1px solid #CBD5E1; border-radius: 6px; font-weight: bold; }
 
-/* Omschrijving en Maand inputs */
-.term-desc-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #CBD5E1;
-    border-radius: 6px;
-}
-.term-month-input {
-    width: 100%;
-    padding: 8px 4px;
-    text-align: center;
-    border: 1px solid #CBD5E1;
-    border-radius: 6px;
-    font-weight: bold;
-}
-
-/* Editor Header / Footer */
 .editor-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #E2E8F0;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #E2E8F0;
 }
 
-.btn-text {
-    background: none; border: none;
-    color: #2563EB; font-weight: 700; font-size: 0.9rem;
-    cursor: pointer;
-}
+.btn-text { background: none; border: none; color: #2563EB; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
 .btn-text:hover { text-decoration: underline; }
 
 .status-text { font-size: 0.9rem; color: var(--color-text); }
-.status-text strong { color: #16A34A; } /* Groen voor 100% */
+.status-text strong { color: #16A34A; }
 
 .btn-remove {
-    background: none; border: none;
-    color: #9CA3AF; cursor: pointer; font-size: 1.5rem;
+    background: none; border: none; color: #9CA3AF;
+    cursor: pointer; font-size: 1.5rem;
     display: flex; align-items: center; justify-content: center;
 }
 .btn-remove:hover { color: #DC2626; }
 
+/* --- 9. SEO CONTENT (Toegevoegd voor Belastingmodule) --- */
+.prose-content { padding: 2rem; margin-top: 2rem; background: white; border-radius: 0.5rem; border: 1px solid #e5e7eb; }
+.prose-content h2 { color: #000066; font-size: 1.5rem; margin-bottom: 1rem; border-bottom: 2px solid #f97316; display: inline-block; padding-bottom: 5px; }
+.prose-content h3 { color: #1f2937; font-size: 1.2rem; margin-top: 1.5rem; margin-bottom: 0.5rem; font-weight: 600; }
+.prose-content p { color: #4b5563; line-height: 1.7; margin-bottom: 1rem; font-size: 0.95rem; }
+.prose-content ul { margin-bottom: 1rem; padding-left: 1.5rem; color: #4b5563; }
+.prose-content li { margin-bottom: 0.5rem; line-height: 1.6; }
 
-/* --- 9. PRINT STYLES --- */
+/* --- 10. SITE FOOTER --- */
+.footer-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.footer-links a { color: #9ca3af; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+.footer-links a:hover { color: #f97316; }
+
+/* --- 11. PRINT STYLES --- */
 @media print {
     .site-header, .input-group, .slider, .details-toggle, 
     .ad-placeholder, .seo-content, footer, button, .term-editor {
