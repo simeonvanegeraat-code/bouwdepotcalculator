@@ -15,40 +15,34 @@
     <link rel="stylesheet" href="/src/styles/main.css">
     
     <style>
-        /* Specifieke styling voor de nieuwe dropdowns en resultaten */
+        /* Styling gelijkgetrokken met Nieuwbouw pagina */
         .checkbox-group { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
         .checkbox-label { display: flex; align-items: center; font-size: 0.9rem; color: #374151; cursor: pointer; }
         .checkbox-label input { margin-right: 0.75rem; accent-color: #000066; width: 16px; height: 16px; }
         
-        .chart-container { position: relative; height: 250px; width: 100%; margin-top: 1.5rem; margin-bottom: 1rem; }
-        
+        .chart-container { position: relative; height: 300px; width: 100%; margin-top: 1.5rem; margin-bottom: 1rem; }
         .alert-box { background-color: #fff7ed; border-left: 4px solid #f97316; padding: 1rem; margin-top: 1rem; border-radius: 4px; font-size: 0.9rem; color: #9a3412; display: none; }
-        
         .legal-footer { font-size: 0.75rem; color: #9ca3af; line-height: 1.5; border-top: 1px solid #e5e7eb; margin-top: 2rem; padding-top: 1rem; }
 
-        /* Select styling om te matchen met inputs */
+        /* Dropdown styling */
         .select-wrapper { position: relative; width: 100%; }
         .select-wrapper select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 1rem;
-            color: #1f2937;
-            appearance: none;
-            background-color: white;
-            cursor: pointer;
+            width: 100%; padding: 10px 12px; border: 1px solid #d1d5db; border-radius: 6px;
+            font-size: 1rem; color: #1f2937; appearance: none; background-color: white; cursor: pointer;
         }
         .select-wrapper::after {
-            content: "▼";
-            font-size: 0.8rem;
-            color: #6b7280;
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
+            content: "▼"; font-size: 0.8rem; color: #6b7280; position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;
         }
+
+        /* Tabel Styling (Identiek aan nieuwbouw) */
+        .details-table-wrapper { margin-top: 2rem; overflow-x: auto; border: 1px solid #e5e7eb; border-radius: 8px; }
+        .details-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+        .details-table th { background-color: #f8fafc; padding: 12px 16px; font-weight: 600; color: #334155; border-bottom: 2px solid #e2e8f0; }
+        .details-table td { padding: 10px 16px; border-bottom: 1px solid #f1f5f9; color: #475569; white-space: nowrap; }
+        .details-table tr:last-child td { border-bottom: none; }
+        .details-table tr:nth-child(even) { background-color: #fcfcfc; }
+        .details-table .col-amount { font-family: 'Inter', monospace; text-align: right; }
+        .details-table .netto-column { font-weight: 700; color: #000066; }
     </style>
 </head>
 <body>
@@ -82,7 +76,6 @@
                             </select>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 mt-1">Invloed op verloop van lasten.</p>
                 </div>
 
                 <div class="input-group">
@@ -131,20 +124,12 @@
                 </div>
                 
                 <div class="input-group mt-6">
-                    <label style="margin-bottom:0.5rem; display:block; font-weight:600;">Eenmalige Aftrekposten (Jaar 1)</label>
+                    <label style="margin-bottom:0.5rem; display:block; font-weight:600;">Eenmalige Aftrekposten</label>
                     <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="cost-advice" value="2500"> Advies- & Afsluitkosten (~€ 2.500)
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="cost-notary" value="900"> Notaris Hypotheekakte (~€ 900)
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="cost-valuation" value="500"> Taxatiekosten (~€ 500)
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="cost-nhg" value="0"> Nationale Hypotheek Garantie (0,6%)
-                        </label>
+                        <label class="checkbox-label"><input type="checkbox" id="cost-advice" value="2500"> Advies & Afsluit (~€ 2.500)</label>
+                        <label class="checkbox-label"><input type="checkbox" id="cost-notary" value="900"> Notaris Hypotheekakte (~€ 900)</label>
+                        <label class="checkbox-label"><input type="checkbox" id="cost-valuation" value="500"> Taxatie (~€ 500)</label>
+                        <label class="checkbox-label"><input type="checkbox" id="cost-nhg" value="0"> NHG (0,6%)</label>
                     </div>
                 </div>
 
@@ -158,25 +143,44 @@
                         <strong id="display-hillen">71,87%</strong>
                     </div>
                 </div>
+            </div>
 
+            <div class="card mt-8">
+                <h3>Verloop over 30 Jaar</h3>
+                <div class="chart-container">
+                    <canvas id="fiscalChart"></canvas>
+                </div>
+                <div class="flex justify-center gap-4 text-xs text-gray-500 mb-4">
+                    <div class="flex items-center"><span style="width:10px;height:10px;background:#ef4444;border-radius:50%;margin-right:5px;"></span> Bruto Last</div>
+                    <div class="flex items-center"><span style="width:10px;height:10px;background:#16a34a;border-radius:50%;margin-right:5px;"></span> Netto Last</div>
+                </div>
+
+                <div class="details-table-wrapper" style="display:none;" id="table-wrapper">
+                    <table class="details-table">
+                        <thead>
+                            <tr>
+                                <th>Jaar</th>
+                                <th class="col-amount">Bruto /mnd</th>
+                                <th class="col-amount">Voordeel /mnd</th>
+                                <th class="col-amount netto-column">Netto /mnd</th>
+                            </tr>
+                        </thead>
+                        <tbody id="details-table-body">
+                            </tbody>
+                    </table>
+                </div>
+                <button id="toggle-table-btn" class="btn-text mt-4" style="width:100%; text-align:center;">
+                    Toon details per jaar ▼
+                </button>
             </div>
         </section>
 
         <aside class="sidebar">
             <div class="card result-card sticky-box">
-                <h2>Verloop Maandlasten</h2>
+                <h2>Resultaat (Jaar 1)</h2>
                 
-                <div class="chart-container">
-                    <canvas id="fiscalChart"></canvas>
-                </div>
-                
-                <div class="flex justify-center gap-4 text-xs text-gray-500 mb-4">
-                    <div class="flex items-center"><span style="width:10px;height:10px;background:#ef4444;border-radius:50%;margin-right:5px;"></span> Bruto</div>
-                    <div class="flex items-center"><span style="width:10px;height:10px;background:#16a34a;border-radius:50%;margin-right:5px;"></span> Netto</div>
-                </div>
-
                 <div class="result-row">
-                    <span>Bruto maandlast (Jaar 1):</span>
+                    <span>Bruto maandlast:</span>
                     <span id="res-bruto-month" class="amount">€ 0</span>
                 </div>
                 
@@ -193,11 +197,15 @@
                 <hr>
 
                 <div class="result-row total">
-                    <span class="flex-col">Netto Maandlast (Jaar 1)</span>
+                    <span class="flex-col">Netto Maandlast</span>
                     <span id="res-netto-month" class="amount highlight" style="color:#000066;">€ 0</span>
                 </div>
-                <div class="text-center mt-2">
-                    <small class="text-gray-400" id="netto-trend-text">Stijgt naar € ... in jaar 30</small>
+                
+                <div class="callout mt-4">
+                     <p class="callout-text">
+                        <strong>Lange termijn trend:</strong><br>
+                        <span id="netto-trend-text">...</span>
+                     </p>
                 </div>
 
                 <div class="cta-button-wrapper">
@@ -207,7 +215,7 @@
                 </div>
 
                 <div class="legal-footer">
-                    <strong>Disclaimer 2026:</strong> Projectie over 30 jaar o.b.v. belastingregels 2026. Aanname: gelijkblijvende rente en WOZ. Werkelijke lasten kunnen afwijken door wetswijzigingen.
+                    <strong>Disclaimer 2026:</strong> Projectie over 30 jaar o.b.v. belastingregels 2026. Aanname: gelijkblijvende rente en WOZ. Werkelijke lasten kunnen afwijken.
                 </div>
             </div>
             

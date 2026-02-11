@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 grossMonthly = amount * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -totalMonths)));
             }
 
-            // Indicatief tarief voor homepage (2026 regel)
             const taxRate = 0.3756; 
             const firstMonthInterest = amount * monthlyRate; 
             const taxBenefit = checkAftrek.checked ? (firstMonthInterest * taxRate) : 0;
@@ -310,17 +309,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputIncome = document.getElementById('fiscal-income');
         const inputAmount = document.getElementById('fiscal-amount');
         const inputInterest = document.getElementById('fiscal-interest');
-        const rangeInterest = document.getElementById('range-fiscal-interest'); // Slider
+        const rangeInterest = document.getElementById('range-fiscal-interest');
         const inputWoz = document.getElementById('fiscal-woz');
         const alertVillataks = document.getElementById('villataks-alert');
 
-        // Checkboxes
         const checkAdvice = document.getElementById('cost-advice');
         const checkNotary = document.getElementById('cost-notary');
         const checkValuation = document.getElementById('cost-valuation');
         const checkNhg = document.getElementById('cost-nhg');
 
-        // Outputs
         const outTaxRate = document.getElementById('display-tax-rate');
         const outHillenPct = document.getElementById('display-hillen');
         
@@ -330,6 +327,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const rowCostsMonth = document.getElementById('row-costs-month');
         const outNettoMonth = document.getElementById('res-netto-month');
         const txtTrend = document.getElementById('netto-trend-text');
+        
+        // NIEUW: Tabel elementen
+        const tableWrapper = document.getElementById('table-wrapper');
+        const tableBody = document.getElementById('details-table-body');
+        const toggleTableBtn = document.getElementById('toggle-table-btn');
 
         let fiscalChart = null;
 
@@ -347,21 +349,32 @@ document.addEventListener('DOMContentLoaded', () => {
             villataksRate: 0.0235, 
             hillenFactor: 0.7187 
         };
+        
+        // Tabel Toggle Logic
+        if(toggleTableBtn) {
+            toggleTableBtn.addEventListener('click', () => {
+                if(tableWrapper.style.display === 'none') {
+                    tableWrapper.style.display = 'block';
+                    toggleTableBtn.textContent = 'Verberg details per jaar ▲';
+                } else {
+                    tableWrapper.style.display = 'none';
+                    toggleTableBtn.textContent = 'Toon details per jaar ▼';
+                }
+            });
+        }
 
         function calculateFiscalPro() {
-            const type = inputType.value; // annuity or linear
+            const type = inputType.value; 
             const amount = parseFloat(inputAmount.value) || 0;
             const interestPct = parseFloat(inputInterest.value) || 0;
             const woz = parseFloat(inputWoz.value) || 0;
             
-            // Eenmalige kosten
             let oneTimeCosts = 0;
             if(checkAdvice.checked) oneTimeCosts += parseFloat(checkAdvice.value);
             if(checkNotary.checked) oneTimeCosts += parseFloat(checkNotary.value);
             if(checkValuation.checked) oneTimeCosts += parseFloat(checkValuation.value);
             if(checkNhg.checked) oneTimeCosts += (amount * 0.006); 
 
-            // Berekening EWF (Jaarbasis)
             let ewfYear = 0;
             if (woz > RULES_2026.villataksLimit) {
                  const excess = woz - RULES_2026.villataksLimit;
@@ -372,14 +385,12 @@ document.addEventListener('DOMContentLoaded', () => {
                  alertVillataks.style.display = 'none';
             }
 
-            // Loop parameters
             const monthlyRate = (interestPct / 100) / 12;
             const totalMonths = 30 * 12;
             let currentDebt = amount;
             const linearRedemption = amount / totalMonths;
             const annuityPayment = (interestPct === 0) ? (amount/totalMonths) : (amount * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -totalMonths))));
 
-            // Data arrays voor grafiek (Jaar 1 t/m 30)
             const labels = [];
             const dataBruto = [];
             const dataNetto = [];
@@ -388,13 +399,13 @@ document.addEventListener('DOMContentLoaded', () => {
             let firstYearBruto = 0;
             let firstYearBenefit = 0;
             let lastYearNetto = 0;
+            
+            let tableHTML = '';
 
-            // Loop per jaar (voor de grafiek)
             for (let year = 1; year <= 30; year++) {
                 let yearInterest = 0;
                 let yearGrossPayment = 0;
 
-                // Loop per maand binnen het jaar
                 for (let m = 1; m <= 12; m++) {
                     const interestAmount = currentDebt * monthlyRate;
                     yearInterest += interestAmount;
@@ -402,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     let monthlyPayment = 0;
                     if (type === 'annuity') {
                         monthlyPayment = annuityPayment;
-                        currentDebt -= (annuityPayment - interestAmount); // Aflossing
+                        currentDebt -= (annuityPayment - interestAmount);
                     } else {
                         monthlyPayment = interestAmount + linearRedemption;
                         currentDebt -= linearRedemption;
@@ -410,23 +421,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     yearGrossPayment += monthlyPayment;
                 }
 
-                // Fiscale berekening voor dit jaar
                 let deductible = yearInterest - ewfYear;
-                
-                // Wet Hillen Check (simpel toegepast op elk jaar)
                 if (deductible < 0) {
                     const diff = Math.abs(deductible);
                     const hillenDeduction = diff * RULES_2026.hillenFactor;
-                    deductible = -(diff - hillenDeduction); // Bijtelling
+                    deductible = -(diff - hillenDeduction); 
                 }
 
                 const taxBenefit = deductible * (RULES_2026.maxRate / 100);
                 const yearNetto = yearGrossPayment - taxBenefit;
 
-                // Opslaan voor grafiek (Gemiddelde maandlast in dat jaar)
                 labels.push(`Jaar ${year}`);
                 dataBruto.push(yearGrossPayment / 12);
                 dataNetto.push(yearNetto / 12);
+                
+                // Vullen van de tabel
+                tableHTML += `
+                    <tr>
+                        <td>${year}</td>
+                        <td class="col-amount">${formatEuro(yearGrossPayment / 12)}</td>
+                        <td class="col-amount" style="color:#16a34a;">${formatEuro(taxBenefit / 12)}</td>
+                        <td class="col-amount netto-column">${formatEuro(yearNetto / 12)}</td>
+                    </tr>
+                `;
 
                 if (year === 1) {
                     firstYearBruto = yearGrossPayment / 12;
@@ -436,17 +453,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (year === 30) lastYearNetto = yearNetto / 12;
             }
 
-            // Eenmalige kosten voordeel (in maand 1 verwerkt voor display, niet in grafiek)
             const oneTimeBenefit = oneTimeCosts * (RULES_2026.maxRate / 100);
 
-            // UI Updates
             outTaxRate.textContent = RULES_2026.maxRate.toString().replace('.', ',') + '%';
             if(outHillenPct) outHillenPct.textContent = (RULES_2026.hillenFactor * 100).toFixed(2).replace('.', ',') + '%';
 
             outBrutoMonth.textContent = formatEuro(firstYearBruto);
             outBenefitMonth.textContent = '-' + formatEuro(firstYearBenefit);
             
-            // Netto Maandlast (excl eenmalig voordeel voor eerlijk beeld)
             outNettoMonth.textContent = formatEuro(firstYearNetto);
             txtTrend.textContent = `Stijgt naar ${formatEuro(lastYearNetto)} in jaar 30`;
 
@@ -458,6 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             updateFiscalProChart(labels, dataBruto, dataNetto);
+            if(tableBody) tableBody.innerHTML = tableHTML;
         }
 
         function updateFiscalProChart(labels, dataBruto, dataNetto) {
