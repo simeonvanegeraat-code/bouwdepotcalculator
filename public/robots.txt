@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap locatie
+Sitemap: https://www.bouwdepotcalculator.nl/sitemap.xml
