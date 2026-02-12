@@ -242,12 +242,20 @@ document.addEventListener('DOMContentLoaded', () => {
             let tableHTML = '';
 
             for(let m = 1; m <= maxMonth; m++) {
-                const term = terms.find(t => t.month === m);
-                if(term) {
-                    const amount = (term.percent / 100) * constructPrice;
-                    currentDepot -= amount;
-                    if(currentDepot < 0) currentDepot = 0;
-                }
+                
+                // --- FIX: Gebruik filter om ALLE betalingen in deze maand te vinden ---
+                const monthlyTerms = terms.filter(t => t.month === m);
+                
+                // Loop door alle gevonden termijnen voor deze maand
+                monthlyTerms.forEach(term => {
+                     const amount = (term.percent / 100) * constructPrice;
+                     currentDepot -= amount;
+                });
+                
+                // Veiligheid: depot kan niet negatief zijn
+                if(currentDepot < 0) currentDepot = 0;
+                // --- EINDE FIX ---
+
                 const interestReceivable = currentDepot * depotRate;
                 const grossInterest = totalLoan * monthlyRate;
                 let netPayment = fullAnnuity - interestReceivable;
@@ -359,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const RULES_2026 = {
             maxRate: 37.56, 
-            ewfRate: 0.0035,     
+            ewfRate: 0.0035,      
             villataksLimit: 1350000, 
             villataksRate: 0.0235, 
             hillenFactor: 0.7187 
