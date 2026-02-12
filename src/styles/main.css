@@ -372,3 +372,29 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 
     .amount, h2, span, p, label { color: black !important; }
 }
+
+/* --- MOBIELE HEADER FIX --- */
+@media (max-width: 768px) {
+    .header-inner {
+        flex-direction: column; /* Zet logo en menu onder elkaar */
+        text-align: center;
+        padding-bottom: 0.5rem;
+    }
+
+    .logo {
+        margin-bottom: 1rem; /* Ruimte onder het logo */
+    }
+
+    .main-nav {
+        display: flex;
+        flex-wrap: wrap; /* Laat linkjes netjes naar de volgende regel gaan */
+        justify-content: center; /* Centreer de linkjes */
+        gap: 0.8rem 1.2rem; /* Ruimte tussen de linkjes (boven/onder en links/rechts) */
+    }
+
+    .main-nav a {
+        margin-left: 0; /* Reset de oude marge */
+        font-size: 0.95rem; /* Ietsje kleiner voor mobiel */
+        display: inline-block;
+    }
+}
