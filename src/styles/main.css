@@ -431,3 +431,63 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
         display: inline-block;
     }
 }
+
+/* --- SNELKEUZE MODULE (Index) --- */
+.quick-costs-card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+}
+
+.cost-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+}
+
+.cost-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #F3F4F6;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    padding: 0.8rem 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.cost-btn:hover {
+    background: #fff;
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.cost-btn:active {
+    transform: translateY(0);
+}
+
+.cost-btn .icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.cost-btn .label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+}
+
+.cost-btn .price {
+    font-size: 0.8rem;
+    color: var(--color-accent);
+    font-weight: 700;
+    background: #fff7ed;
+    padding: 2px 6px;
+    border-radius: 4px;
+}

@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. VERBOUW CALCULATOR (Homepage)
     // ----------------------------------------------
     function initVerbouwCalculator() {
-        const inputType = document.getElementById('input-type'); // NIEUW: Dropdown lezen
+        const inputType = document.getElementById('input-type'); // Dropdown lezen
         const rangeAmount = document.getElementById('range-amount');
         const inputAmount = document.getElementById('input-amount');
         const rangeInterest = document.getElementById('range-interest');
@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const resBruto = document.getElementById('res-bruto');
         const resVoordeel = document.getElementById('res-voordeel');
         const resNetto = document.getElementById('res-netto');
+
+        // --- NIEUW: Snelkeuze Knoppen Selecteren ---
+        const costBtns = document.querySelectorAll('.cost-btn');
 
         function calculate() {
             const type = inputType ? inputType.value : 'annuity'; // Default fallback
@@ -51,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 if (type === 'linear') {
                     // Lineair: (Bedrag / Looptijd) + (Bedrag * Maandrente)
-                    // Dit toont de lasten van de 1e maand (de hoogste maand)
                     const redemption = amount / totalMonths;
                     const interestPart = amount * monthlyRate;
                     grossMonthly = redemption + interestPart;
@@ -61,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Fiscaal (Maand 1 is voor Lineair en Annuïteit rente-technisch gelijk: Hoofdsom * Rente)
+            // Fiscaal (Maand 1 is voor Lineair en Annuïteit rente-technisch gelijk)
             const taxRate = 0.3756; 
             const firstMonthInterest = amount * monthlyRate; 
             const taxBenefit = checkAftrek.checked ? (firstMonthInterest * taxRate) : 0;
@@ -88,8 +90,28 @@ document.addEventListener('DOMContentLoaded', () => {
             rowVoordeel.addEventListener('mouseleave', () => rowVoordeel.style.backgroundColor = 'transparent');
         }
 
-        // Event Listeners
-        if(inputType) inputType.addEventListener('change', calculate); // NIEUW
+        // --- NIEUW: Event Listeners voor Snelkeuze Knoppen ---
+        costBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const amount = btn.getAttribute('data-amount');
+                
+                // Update de input velden
+                if(inputAmount) inputAmount.value = amount;
+                if(rangeAmount) rangeAmount.value = amount;
+                
+                // Trigger de berekening
+                calculate();
+
+                // Scroll soepel naar boven (voor betere UX op mobiel)
+                const calculatorCard = document.querySelector('.calculator-card');
+                if(calculatorCard) {
+                    calculatorCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        });
+
+        // Event Listeners Inputs
+        if(inputType) inputType.addEventListener('change', calculate);
         rangeAmount.addEventListener('input', (e) => { inputAmount.value = e.target.value; calculate(); });
         inputAmount.addEventListener('input', (e) => { rangeAmount.value = e.target.value; calculate(); });
         rangeInterest.addEventListener('input', (e) => { inputInterest.value = e.target.value; calculate(); });
@@ -243,18 +265,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             for(let m = 1; m <= maxMonth; m++) {
                 
-                // --- FIX: Gebruik filter om ALLE betalingen in deze maand te vinden ---
+                // Gebruik filter om ALLE betalingen in deze maand te vinden
                 const monthlyTerms = terms.filter(t => t.month === m);
                 
-                // Loop door alle gevonden termijnen voor deze maand
                 monthlyTerms.forEach(term => {
-                     const amount = (term.percent / 100) * constructPrice;
-                     currentDepot -= amount;
+                      const amount = (term.percent / 100) * constructPrice;
+                      currentDepot -= amount;
                 });
                 
-                // Veiligheid: depot kan niet negatief zijn
                 if(currentDepot < 0) currentDepot = 0;
-                // --- EINDE FIX ---
 
                 const interestReceivable = currentDepot * depotRate;
                 const grossInterest = totalLoan * monthlyRate;
@@ -351,7 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const outNettoMonth = document.getElementById('res-netto-month');
         const txtTrend = document.getElementById('netto-trend-text');
         
-        // NIEUW: Tabel elementen
         const tableWrapper = document.getElementById('table-wrapper');
         const tableBody = document.getElementById('details-table-body');
         const toggleTableBtn = document.getElementById('toggle-table-btn');
@@ -373,7 +391,6 @@ document.addEventListener('DOMContentLoaded', () => {
             hillenFactor: 0.7187 
         };
         
-        // Tabel Toggle Logic
         if(toggleTableBtn) {
             toggleTableBtn.addEventListener('click', () => {
                 if(tableWrapper.style.display === 'none') {
@@ -458,7 +475,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 dataBruto.push(yearGrossPayment / 12);
                 dataNetto.push(yearNetto / 12);
                 
-                // Vullen van de tabel
                 tableHTML += `
                     <tr>
                         <td>${year}</td>
