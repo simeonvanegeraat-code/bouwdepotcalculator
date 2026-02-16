@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stappenplan Bouwdepot: Van Aanvraag tot Declaratie | Gids 2026</title>
+    <meta name="description" content="Hoe werkt een bouwdepot precies? Volg ons 5-stappenplan voor het aanvragen, declareren en afsluiten van uw bouwdepot. Inclusief checklist voor verbouwingen.">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
+      crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/src/styles/main.css">
+
+    <style>
+        .timeline { position: relative; padding-left: 2rem; border-left: 3px solid #e5e7eb; margin-left: 1rem; margin-top: 2rem; }
+        .timeline-item { position: relative; margin-bottom: 3rem; }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-marker {
+            position: absolute; left: -2rem; top: 0; transform: translateX(-50%);
+            width: 40px; height: 40px; background: #000066; color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; border: 4px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .timeline-content { background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .timeline-content h3 { margin-top: 0; color: #000066; font-size: 1.25rem; }
+        .check-list { list-style: none; padding: 0; margin-top: 1rem; }
+        .check-list li { display: flex; align-items: start; gap: 0.75rem; margin-bottom: 0.5rem; color: #4b5563; font-size: 0.95rem; }
+        .check-list li::before { content: "✓"; color: #16a34a; font-weight: bold; }
+        .tip-box { background: #fff7ed; border-left: 4px solid #f97316; padding: 1rem; margin-top: 1rem; border-radius: 4px; font-size: 0.9rem; color: #9a3412; }
+        
+        /* Mobiel aanpassing */
+        @media (max-width: 600px) {
+            .timeline { border-left: none; padding-left: 0; margin-left: 0; }
+            .timeline-marker { position: static; transform: none; margin-bottom: 0.5rem; width: 32px; height: 32px; font-size: 0.9rem; }
+            .timeline-item { margin-bottom: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="logo">
+                Bouwdepot<span class="text-accent">Calculator</span>.nl
+            </div>
+            <nav class="main-nav">
+                <a href="index.html">Verbouwen</a> 
+                <a href="nieuwbouw.html">Nieuwbouw</a>
+                <a href="belasting.html">Belastingvoordeel</a>
+                <a href="stappenplan.html" class="active">Stappenplan</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-grid">
+        
+        <section class="calculator-section" style="width:100%;"> <div class="prose-content" style="max-width: 800px; margin: 0 auto;">
+                <h1>Stappenplan: Uw Bouwdepot in 5 Fasen</h1>
+                <p class="subtitle">Een helder overzicht van aanvraag tot de laatste factuur. Wat mag wel, wat mag niet en hoe declareert u kosten?</p>
+
+                <p>
+                    Een bouwdepot is in feite een potje geld dat de bank voor u reserveert om uw verbouwing of nieuwbouw te betalen. 
+                    Het klinkt simpel, maar er zijn strikte regels aan verbonden. Om te voorkomen dat facturen worden afgekeurd of dat u fiscaal voordeel misloopt, 
+                    hebben we dit stappenplan voor u opgesteld.
+                </p>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">1</div>
+                        <div class="timeline-content">
+                            <h3>Voorbereiding & Begroting</h3>
+                            <p>Voordat u naar de bank of adviseur gaat, moet u weten hoeveel u nodig heeft. Een schatting "uit de losse pols" is vaak niet genoeg voor een hypotheekaanvraag.</p>
+                            
+                            <ul class="check-list">
+                                <li>Vraag offertes op bij aannemers voor groot werk (uitbouw, dakkapel).</li>
+                                <li>Maak een inschatting van materialen (keuken, badkamer, vloeren).</li>
+                                <li>Houd rekening met onvoorziene kosten (reserveer ~5-10%).</li>
+                            </ul>
+
+                            <div class="tip-box">
+                                <strong>Tip:</strong> Weet u het totaalbedrag? <a href="index.html" style="color:inherit; text-decoration:underline;">Bereken hier direct uw nieuwe maandlasten</a> om te zien of dit binnen uw budget past.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">2</div>
+                        <div class="timeline-content">
+                            <h3>Taxatie & Specificatie</h3>
+                            <p>De bank wil zekerheid. Zij lenen u het geld alleen als de woning na verbouwing ook daadwerkelijk meer waard wordt (of in waarde gelijk blijft).</p>
+                            <p>U dient een <strong>verbouwingsspecificatie</strong> in te vullen. De taxateur gebruikt dit om twee waarden te bepalen:</p>
+                            <ol style="margin-left:1.5rem; margin-bottom:1rem; color:#4b5563;">
+                                <li>Marktwaarde <em>voor</em> verbouwing.</li>
+                                <li>Marktwaarde <em>na</em> verbouwing.</li>
+                            </ol>
+                            <p>Op basis van de waarde 'na verbouwing' bepaalt de geldverstrekker hoeveel u maximaal mag lenen.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">3</div>
+                        <div class="timeline-content">
+                            <h3>Start Verbouwing & Declareren</h3>
+                            <p>De hypotheek is rond, het geld staat in depot. U kunt nu facturen gaan indienen. Er zijn twee manieren om te betalen:</p>
+                            
+                            <ul class="check-list">
+                                <li><strong>Rechtstreeks:</strong> U stuurt de factuur van de aannemer naar de bank. De bank maakt het geld direct over naar de aannemer.</li>
+                                <li><strong>Voorschieten:</strong> U betaalt zelf (bijv. bij de bouwmarkt) en stuurt het bonnetje naar de bank. De bank stort het bedrag terug op uw rekening.</li>
+                            </ul>
+
+                            <p style="margin-top:1rem; font-weight:600; color:#000066;">Wat mag WEL?</p>
+                            <p style="font-size:0.9rem;">Alles wat 'aard- en nagelvast' aan het huis zit: Keuken, badkamer, zonnepanelen, vaste vloeren, stucwerk, leidingwerk.</p>
+
+                            <p style="margin-top:0.5rem; font-weight:600; color:#ea580c;">Wat mag NIET?</p>
+                            <p style="font-size:0.9rem;">Losse inrichting: Gordijnen, meubels, gereedschap (kwasten, boormachine), verhuiskosten.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">4</div>
+                        <div class="timeline-content">
+                            <h3>Rente tijdens de bouw</h3>
+                            <p>Zolang er geld in het depot staat, ontvangt u hierover rentevergoeding. Dit bedrag wordt vaak verrekend met de hypotheekrente die u betaalt.</p>
+                            <p>Let op: Bij nieuwbouw krijgt u vaak te maken met renteverlies tijdens de bouw, omdat het depot langzaam leeg raakt.</p>
+                            
+                            <div style="margin-top:1rem;">
+                                <a href="nieuwbouw.html" class="btn-primary" style="text-decoration:none; text-align:center; font-size:0.9rem; padding:0.8rem;">Check renteverlies bij Nieuwbouw</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker">5</div>
+                        <div class="timeline-content">
+                            <h3>Afronding & Belasting</h3>
+                            <p>Is de verbouwing klaar en is er nog geld over? Dit restant wordt door de bank afgelost op uw hypotheekschuld. U kunt dit niet 'cash' laten uitkeren.</p>
+                            <p><strong>Fiscaal:</strong> De betaalde rente over het bouwdepot is aftrekbaar in Box 1, mits gebruikt voor de eigen woning. Bewaar al uw bonnen en facturen goed voor de Belastingdienst!</p>
+                            <p>Wilt u weten wat uw netto voordeel is? <a href="belasting.html" style="color:#000066; font-weight:600;">Doe de Fiscale Check 2026</a>.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container text-center py-8">
+            <div class="footer-links">
+                <a href="privacy.html">Privacybeleid</a>
+                <a href="voorwaarden.html">Algemene Voorwaarden</a>
+                <a href="cookies.html">Cookiebeleid</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
+    
+    <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
