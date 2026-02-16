@@ -40,6 +40,17 @@
             .timeline-marker { position: static; transform: none; margin-bottom: 0.5rem; width: 32px; height: 32px; font-size: 0.9rem; }
             .timeline-item { margin-bottom: 2rem; }
         }
+        
+        /* Sidebar linkjes styling */
+        .sidebar-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.2s;
+        }
+        .sidebar-link:hover {
+            transform: translateX(4px);
+        }
     </style>
 </head>
 <body>
@@ -61,9 +72,8 @@
 
     <main class="container main-grid">
         
-        <section class="calculator-section" style="width:100%;">
-            <div class="prose-content" style="max-width: 800px; margin: 0 auto;">
-                <h1>Stappenplan: Uw Bouwdepot in 5 Fasen</h1>
+        <section class="calculator-section">
+            <div class="prose-content" style="margin-top:0;"> <h1>Stappenplan: Uw Bouwdepot in 5 Fasen</h1>
                 <p class="subtitle">Een helder overzicht van aanvraag tot de laatste factuur. Wat mag wel, wat mag niet en hoe declareert u kosten?</p>
 
                 <p>
@@ -87,12 +97,6 @@
 
                             <div class="tip-box">
                                 <strong>Tip:</strong> Weet u het totaalbedrag? Gebruik onze calculator om te zien of de nieuwe maandlasten binnen uw budget passen.
-                            </div>
-
-                            <div style="margin-top:1rem;">
-                                <a href="index.html" class="btn-primary" style="text-decoration:none; text-align:center; font-size:0.9rem; padding:0.8rem;">
-                                    Bereken Verbouwing & Maandlasten
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -136,12 +140,6 @@
                             <h3>Rente tijdens de bouw</h3>
                             <p>Zolang er geld in het depot staat, ontvangt u hierover rentevergoeding. Dit bedrag wordt vaak verrekend met de hypotheekrente die u betaalt.</p>
                             <p>Let op: Bij nieuwbouw krijgt u vaak te maken met renteverlies tijdens de bouw, omdat het depot langzaam leeg raakt.</p>
-                            
-                            <div style="margin-top:1rem;">
-                                <a href="nieuwbouw.html" class="btn-primary" style="text-decoration:none; text-align:center; font-size:0.9rem; padding:0.8rem;">
-                                    Check renteverlies bij Nieuwbouw
-                                </a>
-                            </div>
                         </div>
                     </div>
 
@@ -151,18 +149,57 @@
                             <h3>Afronding & Belasting</h3>
                             <p>Is de verbouwing klaar en is er nog geld over? Dit restant wordt door de bank afgelost op uw hypotheekschuld. U kunt dit niet 'cash' laten uitkeren.</p>
                             <p><strong>Fiscaal:</strong> De betaalde rente over het bouwdepot is aftrekbaar in Box 1, mits gebruikt voor de eigen woning. Bewaar al uw bonnen en facturen goed voor de Belastingdienst!</p>
-                            
-                            <div style="margin-top:1rem;">
-                                <a href="belasting.html" class="btn-primary" style="text-decoration:none; text-align:center; font-size:0.9rem; padding:0.8rem;">
-                                    Bereken Belastingvoordeel 2026
-                                </a>
-                            </div>
                         </div>
                     </div>
                 </div>
 
             </div>
         </section>
+
+        <aside class="sidebar">
+            <div class="card result-card sticky-box">
+                <h2>Direct aan de slag</h2>
+                <p class="text-sm text-gray-500 mb-4">Gebruik onze rekenhulp voor elke situatie.</p>
+
+                <a href="index.html" class="sidebar-link">
+                    <div class="result-row" style="border-bottom: 1px dashed #e5e7eb; padding-bottom: 0.5rem;">
+                        <span style="font-weight:600; color:#000066;">Verbouwing Calculator</span>
+                        <span class="text-accent">➔</span>
+                    </div>
+                </a>
+                
+                <a href="nieuwbouw.html" class="sidebar-link">
+                    <div class="result-row" style="border-bottom: 1px dashed #e5e7eb; padding-bottom: 0.5rem; padding-top: 0.5rem;">
+                        <span style="font-weight:600; color:#000066;">Nieuwbouw Planner</span>
+                        <span class="text-accent">➔</span>
+                    </div>
+                </a>
+
+                <a href="belasting.html" class="sidebar-link">
+                    <div class="result-row" style="padding-top: 0.5rem;">
+                        <span style="font-weight:600; color:#000066;">Fiscale Check</span>
+                        <span class="text-accent">➔</span>
+                    </div>
+                </a>
+
+                <hr>
+
+                <div class="callout mt-4">
+                    <div class="result-row discount mb-0">
+                        <span class="callout-title">Gouden Tip:</span>
+                    </div>
+                    <p class="callout-text mt-2">
+                        Bewaar <strong>alle facturen</strong> digitaal. De Belastingdienst kan tot 5 jaar na dato vragen om bewijs voor uw renteaftrek. Zonder bon geen aftrek!
+                    </p>
+                </div>
+
+                <div class="cta-button-wrapper">
+                    <a href="index.html" class="btn-primary" style="text-decoration:none; text-align:center;">
+                        Start Berekening
+                    </a>
+                </div>
+            </div>
+        </aside>
 
     </main>
 
