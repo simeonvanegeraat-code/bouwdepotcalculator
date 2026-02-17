@@ -286,10 +286,10 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 @media (max-width: 600px) {
     .term-row {
         /* We maken een grid van 4 kolommen: 
-           1. Maand (50px) 
-           2. Ruimte (flex) 
-           3. Ruimte (flex) 
-           4. Delete knop (30px) */
+            1. Maand (50px) 
+            2. Ruimte (flex) 
+            3. Ruimte (flex) 
+            4. Delete knop (30px) */
         grid-template-columns: 50px 1fr 1fr 30px;
         gap: 8px; /* Iets compacter */
         background: white; 
@@ -432,62 +432,81 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     }
 }
 
-/* --- SNELKEUZE MODULE (Index) --- */
+/* --- SNELKEUZE MODULE (Updated) --- */
 .quick-costs-card {
     background: #ffffff;
     padding: 1.5rem;
     border: 1px solid #e5e7eb;
 }
 
+/* De Grid layout */
 .cost-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Iets compacter */
+    gap: 0.8rem;
 }
 
+/* De nieuwe knop stijl */
 .cost-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background: #F3F4F6;
+    justify-content: flex-start;
+    background: #ffffff;
     border: 1px solid #E5E7EB;
     border-radius: 8px;
-    padding: 0.8rem 0.5rem;
+    padding: 1rem 0.5rem;
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: center;
+    height: 100%;
+    position: relative;
 }
 
 .cost-btn:hover {
-    background: #fff;
-    border-color: var(--color-accent);
+    border-color: var(--color-primary);
     transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
-.cost-btn:active {
-    transform: translateY(0);
+/* Active State (Geselecteerd) */
+.cost-btn.selected {
+    background-color: #F0FDF4; /* Heel licht groen */
+    border-color: #16a34a;     /* Groene rand */
+    box-shadow: 0 0 0 1px #16a34a; /* Extra randje */
 }
 
-.cost-btn .icon {
-    font-size: 1.5rem;
-    margin-bottom: 0.25rem;
+.cost-btn.selected .icon-box svg {
+    color: #16a34a; /* Icoon wordt groen */
+    fill: rgba(22, 163, 74, 0.1); /* Lichte vulling in icoon */
+}
+
+/* Het icoon in de knop */
+.icon-box {
+    margin-bottom: 0.5rem;
+    color: var(--color-text-light);
+    transition: color 0.2s;
 }
 
 .cost-btn .label {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    color: var(--color-primary);
-    line-height: 1.2;
+    color: var(--color-text);
     margin-bottom: 0.25rem;
 }
 
 .cost-btn .price {
-    font-size: 0.8rem;
-    color: var(--color-accent);
-    font-weight: 700;
-    background: #fff7ed;
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+    background: #F3F4F6;
     padding: 2px 6px;
     border-radius: 4px;
+    font-weight: 500;
+}
+
+/* Responsive aanpassing voor mobiel */
+@media (max-width: 480px) {
+    .cost-grid {
+        grid-template-columns: repeat(2, 1fr); /* Altijd 2 naast elkaar op mobiel */
+    }
 }

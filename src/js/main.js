@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. VERBOUW CALCULATOR (Homepage)
     // ----------------------------------------------
     function initVerbouwCalculator() {
-        const inputType = document.getElementById('input-type'); // Dropdown lezen
+        const inputType = document.getElementById('input-type'); 
         const rangeAmount = document.getElementById('range-amount');
         const inputAmount = document.getElementById('input-amount');
         const rangeInterest = document.getElementById('range-interest');
@@ -33,11 +33,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const resVoordeel = document.getElementById('res-voordeel');
         const resNetto = document.getElementById('res-netto');
 
-        // --- NIEUW: Snelkeuze Knoppen Selecteren ---
+        // --- NIEUW: Snelkeuze & Accordion Variabelen ---
         const costBtns = document.querySelectorAll('.cost-btn');
+        const costToggleBtn = document.getElementById('cost-toggle-btn');
+        const costContent = document.getElementById('cost-content');
+        const costArrow = document.getElementById('cost-arrow');
+        const btnResetCosts = document.getElementById('btn-reset-costs');
 
         function calculate() {
-            const type = inputType ? inputType.value : 'annuity'; // Default fallback
+            const type = inputType ? inputType.value : 'annuity';
             const amount = parseFloat(inputAmount.value);
             const interest = parseFloat(inputInterest.value);
             const years = parseInt(rangeDuration.value);
@@ -90,25 +94,60 @@ document.addEventListener('DOMContentLoaded', () => {
             rowVoordeel.addEventListener('mouseleave', () => rowVoordeel.style.backgroundColor = 'transparent');
         }
 
-        // --- NIEUW: Event Listeners voor Snelkeuze Knoppen ---
-        costBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const amount = btn.getAttribute('data-amount');
+        // --- NIEUW: Logic voor Accordion Toggle ---
+        if(costToggleBtn && costContent) {
+            costToggleBtn.addEventListener('click', () => {
+                const isClosed = costContent.style.display === 'none';
+                costContent.style.display = isClosed ? 'block' : 'none';
+                // Roteer pijltje
+                costArrow.style.transform = isClosed ? 'rotate(180deg)' : 'rotate(0deg)';
                 
-                // Update de input velden
-                if(inputAmount) inputAmount.value = amount;
-                if(rangeAmount) rangeAmount.value = amount;
-                
-                // Trigger de berekening
-                calculate();
-
-                // Scroll soepel naar boven (voor betere UX op mobiel)
-                const calculatorCard = document.querySelector('.calculator-card');
-                if(calculatorCard) {
-                    calculatorCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Scroll een klein stukje zodat het netjes in beeld komt
+                if(isClosed) {
+                    setTimeout(() => {
+                        costToggleBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
                 }
             });
+        }
+
+        // --- NIEUW: Logic voor Multiselect Knoppen ---
+        function updateFromButtons() {
+            let totalAddon = 0;
+            let activeCount = 0;
+
+            costBtns.forEach(btn => {
+                if(btn.classList.contains('selected')) {
+                    totalAddon += parseFloat(btn.getAttribute('data-amount'));
+                    activeCount++;
+                }
+            });
+
+            // Als er knoppen zijn geselecteerd, update de input
+            if(activeCount > 0) {
+                if(inputAmount) inputAmount.value = totalAddon;
+                if(rangeAmount) rangeAmount.value = totalAddon;
+                if(btnResetCosts) btnResetCosts.style.display = 'block';
+                calculate(); 
+            } else {
+                if(btnResetCosts) btnResetCosts.style.display = 'none';
+            }
+        }
+
+        costBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.toggle('selected'); // Toggle status
+                updateFromButtons();
+            });
         });
+
+        if(btnResetCosts) {
+            btnResetCosts.addEventListener('click', () => {
+                costBtns.forEach(b => b.classList.remove('selected'));
+                updateFromButtons();
+                // We resetten de input niet naar 0, maar laten de laatste waarde staan, of je kunt hier inputAmount.value = 25000 zetten.
+            });
+        }
 
         // Event Listeners Inputs
         if(inputType) inputType.addEventListener('change', calculate);
@@ -385,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const RULES_2026 = {
             maxRate: 37.56, 
-            ewfRate: 0.0035,      
+            ewfRate: 0.0035,       
             villataksLimit: 1350000, 
             villataksRate: 0.0235, 
             hillenFactor: 0.7187 
