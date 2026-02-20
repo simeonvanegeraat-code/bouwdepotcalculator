@@ -4,36 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | BouwdepotCalculator.nl</title>
-    <link rel="stylesheet" href="/src/styles/main.css">
+    <meta name="description" content="Neem contact op met BouwdepotCalculator.nl voor vragen, suggesties of samenwerkingen.">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 <body>
+
     <header class="site-header">
         <div class="container header-inner">
-            <div class="logo">Bouwdepot<span class="text-accent">Calculator</span>.nl</div>
+            <div class="logo">
+                Bouwdepot<span class="text-accent">Calculator</span>.nl
+            </div>
             <nav class="main-nav">
-                <a href="index.html">Verbouwen</a>
+                <a href="index.html">Verbouwen</a> 
                 <a href="nieuwbouw.html">Nieuwbouw</a>
                 <a href="belasting.html">Belastingvoordeel</a>
+                <a href="stappenplan.html">Stappenplan</a>
                 <a href="contact.html" class="active">Contact</a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section class="prose-content" style="max-width: 800px; margin: 0 auto;">
+    <main class="container main-grid" style="grid-template-columns: 1fr; max-width: 800px;">
+        <article class="prose-content card" style="margin-top: 0;">
             <h1>Contact</h1>
             <p>Heeft u vragen over onze calculators, suggesties voor verbetering of bent u geïnteresseerd in een zakelijke samenwerking? Wij staan u graag te woord.</p>
             
             <div style="margin: 2rem 0; padding: 1.5rem; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
                 <h3 style="margin-top:0;">Direct contact</h3>
                 <p>E-mail: <strong>firenature23@gmail.com</strong></p>
-                <p>Wij streven ernaar om binnen 48 uur op uw bericht te reageren.</p>
+                <p style="margin-bottom: 0;">Wij streven ernaar om binnen 48 uur op uw bericht te reageren.</p>
             </div>
 
             <h3>Over ons</h3>
-            <p>BouwdepotCalculator.nl is een onafhankelijk platform dat consumenten en professionals helpt complexe hypothecaire berekeningen inzichtelijk te maken. Onze tools zijn gebaseerd op de meest actuele fiscale regelgeving voor het jaar 2026.</p>
-        </section>
+            <p>BouwdepotCalculator.nl is een onafhankelijk platform dat consumenten en professionals helpt complexe hypothecaire berekeningen inzichtelijk te maken. Onze tools zijn gebaseerd op de actuele fiscale regelgeving voor het jaar 2026.</p>
+
+            <div class="alert-box" style="display: block; margin-top: 2rem; background-color: #f0fdf4; border-left-color: #16a34a; color: #166534;">
+                <strong>Belangrijke disclaimer:</strong> BouwdepotCalculator.nl biedt uitsluitend indicatieve rekenhulpen en verstrekt geen financieel advies. Raadpleeg voor een persoonlijk en passend advies altijd een erkend hypotheek- of financieel adviseur.
+            </div>
+        </article>
     </main>
 
     <footer>
@@ -44,8 +58,10 @@
                 <a href="cookies.html">Cookiebeleid</a>
                 <a href="contact.html">Contact</a>
             </div>
-            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl</p>
+            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
         </div>
     </footer>
+
+    <script type="module" src="/src/js/main.js"></script>
 </body>
 </html>
