@@ -184,6 +184,14 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
 
 /* --- 6. SIDEBAR & RESULTS --- */
 .sidebar { display: flex; flex-direction: column; gap: 2rem; }
+
+/* --- AANGEPASTE MOBIELE VOLGORDE (Brengt 'Uw Maandlasten' naar boven op mobiel) --- */
+@media (max-width: 767px) {
+    .sidebar {
+        order: -1;
+    }
+}
+
 .result-card { background: #fff; border-top: 5px solid var(--color-primary); }
 .sticky-box { position: sticky; top: 2rem; }
 
