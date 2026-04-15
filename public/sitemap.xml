@@ -2,41 +2,77 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.bouwdepotcalculator.nl/</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-04-15</lastmod>
     <priority>1.00</priority>
   </url>
   
   <url>
     <loc>https://www.bouwdepotcalculator.nl/nieuwbouw.html</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-04-15</lastmod>
     <priority>0.80</priority>
   </url>
   
   <url>
     <loc>https://www.bouwdepotcalculator.nl/belasting.html</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-04-15</lastmod>
     <priority>0.80</priority>
   </url>
 
   <url>
+    <loc>https://www.bouwdepotcalculator.nl/stappenplan.html</loc>
+    <lastmod>2026-04-15</lastmod>
+    <priority>0.70</priority>
+  </url>
+
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/kennisbank.html</loc>
+    <lastmod>2026-04-15</lastmod>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/over-ons.html</loc>
+    <lastmod>2026-04-15</lastmod>
+    <priority>0.60</priority>
+  </url>
+
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/hypotheekrenteaftrek-gids.html</loc>
+    <lastmod>2026-04-15</lastmod>
+    <priority>0.70</priority>
+  </url>
+
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/bouwdepot-fouten.html</loc>
+    <lastmod>2026-04-15</lastmod>
+    <priority>0.70</priority>
+  </url>
+
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/adviesgesprek-checklist.html</loc>
+    <lastmod>2026-04-15</lastmod>
+    <priority>0.70</priority>
+  </url>
+
+  <url>
     <loc>https://www.bouwdepotcalculator.nl/contact.html</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-04-15</lastmod>
     <priority>0.50</priority>
   </url>
 
   <url>
     <loc>https://www.bouwdepotcalculator.nl/privacy.html</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-04-15</lastmod>
     <priority>0.30</priority>
   </url>
   <url>
     <loc>https://www.bouwdepotcalculator.nl/voorwaarden.html</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-04-15</lastmod>
     <priority>0.30</priority>
   </url>
   <url>
     <loc>https://www.bouwdepotcalculator.nl/cookies.html</loc>
-    <lastmod>2026-02-11</lastmod>
+    <lastmod>2026-04-15</lastmod>
     <priority>0.30</priority>
   </url>
 </urlset>
