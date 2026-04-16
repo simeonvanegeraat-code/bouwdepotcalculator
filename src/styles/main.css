@@ -105,6 +105,12 @@ h3 { font-size: 1.1rem; color: var(--color-primary); margin-bottom: 0.5rem; font
 label { font-weight: 600; font-size: 0.95rem; }
 .input-value { font-weight: 700; color: var(--color-primary); font-size: 1.1rem; }
 
+.mt-8 { margin-top: 2rem; }
+.mt-4 { margin-top: 1rem; }
+.mb-0 { margin-bottom: 0; }
+.text-xs { font-size: 0.78rem; }
+.text-gray-400 { color: #9ca3af; }
+
 /* Number Input Styling */
 .number-input-wrapper {
     position: relative;
@@ -211,6 +217,61 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
     color: #475569;
     font-size: 0.88rem;
     margin: -1.25rem 0 1.5rem;
+}
+
+.tool-level-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1rem 1rem 0.25rem;
+}
+
+.section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem;
+}
+
+.section-head span {
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.section-intro {
+    color: #4b5563;
+    font-size: 0.9rem;
+    margin: 0.35rem 0 1rem;
+}
+
+.two-col-inputs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.input-group.compact {
+    margin-bottom: 1rem;
+}
+
+.panel-input {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.7rem 0.75rem;
+}
+
+.advanced-details {
+    margin-top: 1rem;
+    border-top: 1px dashed #cbd5e1;
+    padding-top: 1rem;
+}
+
+.advanced-details > summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.7rem;
 }
 
 .result-card {
@@ -410,6 +471,13 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     }
 }
 
+@media (max-width: 768px) {
+    .two-col-inputs {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}
+
 /* --- 8. NIEUWBOUW & DETAILS TABLES --- */
 
 /* Grafiek Container */
@@ -519,6 +587,8 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 
 .editor-footer {
     display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
     margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #E2E8F0;
 }
 

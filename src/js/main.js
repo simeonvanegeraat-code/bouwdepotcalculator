@@ -173,15 +173,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputInterest = document.getElementById('input-interest');
         const rangeInterest = document.getElementById('range-interest');
         const inputDiscount = document.getElementById('input-depot-discount');
+        const inputBuildMonths = document.getElementById('input-build-months');
+        const rangeBuildMonths = document.getElementById('range-build-months');
+        const inputCurrentHousing = document.getElementById('input-current-housing');
 
         const termsContainer = document.getElementById('terms-container');
         const addTermBtn = document.getElementById('add-term-btn');
+        const autoSpreadBtn = document.getElementById('auto-spread-btn');
         const totalPercentEl = document.getElementById('total-percent');
         
         const resTotalLoan = document.getElementById('res-total-loan');
         const resStartMonthly = document.getElementById('res-start-monthly');
         const resMaxMonthly = document.getElementById('res-max-monthly');
         const resLoss = document.getElementById('res-loss');
+        const resExtraNow = document.getElementById('res-extra-now');
+        const resPeakMonth = document.getElementById('res-peak-month');
+        const resPeakTotal = document.getElementById('res-peak-total');
         
         const tableWrapper = document.getElementById('table-wrapper');
         const tableBody = document.getElementById('details-table-body');
@@ -268,6 +275,29 @@ document.addEventListener('DOMContentLoaded', () => {
             renderTerms();
         });
 
+        if (autoSpreadBtn) {
+            autoSpreadBtn.addEventListener('click', () => {
+                const duration = parseInt(inputBuildMonths?.value, 10) || 12;
+                const phaseCount = Math.min(Math.max(Math.round(duration / 3), 3), 8);
+                const step = Math.max(1, Math.floor(duration / phaseCount));
+                const basePercent = Math.floor((100 / phaseCount) * 10) / 10;
+                let remaining = 100;
+
+                terms = Array.from({ length: phaseCount }, (_, index) => {
+                    const pct = index === phaseCount - 1 ? Math.round(remaining * 10) / 10 : basePercent;
+                    remaining -= pct;
+                    return {
+                        month: Math.min(duration, 1 + (index * step)),
+                        percent: pct,
+                        desc: `Bouwfase ${index + 1}`
+                    };
+                });
+
+                renderTerms();
+                calculate();
+            });
+        }
+
         if(toggleTableBtn) {
             toggleTableBtn.addEventListener('click', () => {
                 if(tableWrapper.style.display === 'none') {
@@ -285,6 +315,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const constructPrice = parseFloat(inputConstruction.value) || 0;
             const interest = parseFloat(inputInterest.value) || 0;
             const discount = parseFloat(inputDiscount.value) || 0;
+            const buildMonths = parseInt(inputBuildMonths?.value, 10) || 12;
+            const currentHousingCost = parseFloat(inputCurrentHousing?.value) || 0;
 
             const monthlyRate = (interest / 100) / 12;
             let depotRate = (interest - discount) / 100 / 12;
@@ -296,11 +328,16 @@ document.addEventListener('DOMContentLoaded', () => {
             let fullAnnuity = 0;
             if(interest !== 0) fullAnnuity = totalLoan * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -n)));
 
-            const maxMonth = terms.length > 0 ? Math.max(...terms.map(t => t.month)) + 2 : 12;
+            const maxMonth = Math.max(
+                buildMonths,
+                terms.length > 0 ? Math.max(...terms.map(t => t.month)) + 2 : 12
+            );
             let currentDepot = constructPrice;
             let totalLoss = 0;
             const chartLabels = []; const dataUserPays = []; const dataDepotPays = [];
             let tableHTML = '';
+            let peakMonth = 1;
+            let peakTotalMonthly = 0;
 
             for(let m = 1; m <= maxMonth; m++) {
                 
@@ -318,6 +355,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const grossInterest = totalLoan * monthlyRate;
                 let netPayment = fullAnnuity - interestReceivable;
                 if(netPayment < 0) netPayment = 0;
+                const totalMonthlyWithCurrent = netPayment + currentHousingCost;
+                if (totalMonthlyWithCurrent > peakTotalMonthly) {
+                    peakTotalMonthly = totalMonthlyWithCurrent;
+                    peakMonth = m;
+                }
                 
                 totalLoss += (grossInterest - interestReceivable);
 
@@ -335,6 +377,9 @@ document.addEventListener('DOMContentLoaded', () => {
             resStartMonthly.textContent = formatEuro(startMonthly);
             resMaxMonthly.textContent = formatEuro(fullAnnuity);
             resLoss.textContent = formatEuro(totalLoss);
+            if (resExtraNow) resExtraNow.textContent = formatEuro(Math.max(0, startMonthly));
+            if (resPeakMonth) resPeakMonth.textContent = `Maand ${peakMonth}`;
+            if (resPeakTotal) resPeakTotal.textContent = formatEuro(peakTotalMonthly);
             
             updateChart(chartLabels, dataUserPays, dataDepotPays);
             if(tableBody) tableBody.innerHTML = tableHTML;
@@ -376,6 +421,9 @@ document.addEventListener('DOMContentLoaded', () => {
         rangeInterest.addEventListener('input', (e) => { inputInterest.value = e.target.value; calculate(); });
         inputInterest.addEventListener('input', (e) => { rangeInterest.value = e.target.value; calculate(); });
         inputDiscount.addEventListener('input', calculate);
+        if(rangeBuildMonths) rangeBuildMonths.addEventListener('input', (e) => { inputBuildMonths.value = e.target.value; calculate(); });
+        if(inputBuildMonths) inputBuildMonths.addEventListener('input', (e) => { rangeBuildMonths.value = e.target.value; calculate(); });
+        if(inputCurrentHousing) inputCurrentHousing.addEventListener('input', calculate);
 
         renderTerms();
         setTimeout(calculate, 100);
