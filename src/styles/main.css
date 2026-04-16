@@ -182,32 +182,80 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
 .alert-box { background-color: #fff7ed; border-left: 4px solid #f97316; padding: 1rem; margin-top: 1rem; border-radius: 4px; font-size: 0.9rem; color: #9a3412; display: none; }
 
 
-/* --- 6. SIDEBAR & RESULTS --- */
-.sidebar { display: flex; flex-direction: column; gap: 2rem; }
+/* --- 6. HOMEPAGE TOOL ZONE & RESULTS --- */
+.home-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-bottom: 4rem;
+}
 
-/* --- AANGEPASTE MOBIELE VOLGORDE (Brengt 'Uw Maandlasten' naar boven op mobiel) --- */
-@media (max-width: 767px) {
-    .sidebar {
-        order: -1;
+.tool-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    align-items: start;
+}
+
+@media (min-width: 992px) {
+    .tool-hero-grid {
+        grid-template-columns: minmax(0, 1.5fr) minmax(340px, 1fr);
     }
 }
 
-.result-card { background: #fff; border-top: 5px solid var(--color-primary); }
-.sticky-box { position: sticky; top: 2rem; }
+.calculator-card {
+    border-top: 5px solid var(--color-accent);
+}
+
+.trust-line {
+    color: #475569;
+    font-size: 0.88rem;
+    margin: -1.25rem 0 1.5rem;
+}
+
+.result-card {
+    background: #fff;
+    border-top: 5px solid var(--color-primary);
+    padding: 2.25rem;
+}
+
+.sticky-box { position: sticky; top: 1.5rem; }
+
+.result-intro {
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    margin: -0.25rem 0 1.25rem;
+}
 
 .result-row {
-    display: flex; justify-content: space-between;
-    margin-bottom: 1rem; font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    gap: 1rem;
 }
-.result-row.discount { color: #10B981; }
-.result-row.total { font-weight: 700; font-size: 1.2rem; margin-top: 1rem; color: var(--color-primary); }
 
-/* Flex Column Helper voor sidebar items */
-.flex-col { display: flex; flex-direction: column; }
-.flex-col small { font-weight: 400; color: var(--color-text-light); }
+.result-row.discount {
+    color: #10B981;
+    cursor: pointer;
+    padding: 0.3rem 0.4rem;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.result-row.total { font-weight: 700; font-size: 1.2rem; color: var(--color-primary); }
+
+.featured-row {
+    background: linear-gradient(160deg, #f8fbff 0%, #f0f6ff 100%);
+    border: 1px solid #dbe7ff;
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 1rem;
+}
 
 .amount { font-weight: 700; }
-.amount.highlight { color: var(--color-accent); font-size: 1.5rem; }
+.amount.highlight { color: var(--color-primary); font-size: 2rem; line-height: 1.1; }
 
 hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 
@@ -221,19 +269,11 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .btn-primary:hover { background: #e05600; }
 .disclaimer { font-size: 0.75rem; color: #9CA3AF; text-align: center; margin-top: 0.5rem; }
 
-/* Footer in Sidebar */
-.legal-footer { font-size: 0.75rem; color: #9ca3af; line-height: 1.5; border-top: 1px solid #e5e7eb; margin-top: 2rem; padding-top: 1rem; }
-
-/* Callout Box */
-.callout {
-    background-color: #FFF7ED; 
-    border: 1px solid #FFEDD5;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-top: 1rem;
+@media (max-width: 991px) {
+    .sticky-box { position: static; }
+    .result-card { padding: 1.75rem; }
+    .amount.highlight { font-size: 1.75rem; }
 }
-.callout-title { font-weight: 700; color: #9A3412; font-size: 0.9rem; display: block; margin-bottom: 0.25rem;}
-.callout-text { font-size: 0.8rem; color: #9A3412; line-height: 1.4; }
 
 /* --- 7. ADSENSE --- */
 .ad-placeholder {
@@ -299,6 +339,75 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .quick-help ul {
     margin-top: 0.75rem;
     padding-left: 1.1rem;
+}
+
+.compact-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.compact-info-card {
+    padding: 1.35rem;
+}
+
+.compact-info-card h3 {
+    margin-bottom: 0.6rem;
+}
+
+.compact-info-card p {
+    color: #4b5563;
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+
+.compact-faq {
+    margin-top: 0.25rem;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.faq-grid article {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.faq-grid h3 {
+    margin-bottom: 0.35rem;
+    font-size: 1rem;
+}
+
+.faq-grid p {
+    color: #4b5563;
+    font-size: 0.9rem;
+}
+
+.homepage-meta {
+    color: #6b7280;
+    font-size: 0.86rem;
+    padding: 0.25rem 0 0.5rem;
+}
+
+.homepage-meta a {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+.homepage-meta p + p {
+    margin-top: 0.35rem;
+}
+
+@media (max-width: 900px) {
+    .compact-info-grid,
+    .faq-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* --- 8. NIEUWBOUW & DETAILS TABLES --- */
