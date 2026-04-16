@@ -13,6 +13,11 @@ export default defineConfig({
         nieuwbouw: resolve(__dirname, 'nieuwbouw.html'),
         belasting: resolve(__dirname, 'belasting.html'),
         stappenplan: resolve(__dirname, 'stappenplan.html'), // Toegevoegd voor AdSense content
+        kennisbank: resolve(__dirname, 'kennisbank.html'),
+        overOns: resolve(__dirname, 'over-ons.html'),
+        hypotheekrenteaftrekGids: resolve(__dirname, 'hypotheekrenteaftrek-gids.html'),
+        bouwdepotFouten: resolve(__dirname, 'bouwdepot-fouten.html'),
+        adviesgesprekChecklist: resolve(__dirname, 'adviesgesprek-checklist.html'),
         
         // Juridische & Contact pagina's
         contact: resolve(__dirname, 'contact.html'),

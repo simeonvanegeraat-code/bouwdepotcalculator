@@ -245,6 +245,62 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .ad-placeholder.rectangle { height: 300px; width: 100%; }
 .ad-placeholder.banner { height: 100px; width: 100%; margin: 2rem 0; }
 
+/* --- Tool-first content cards --- */
+.resource-grid {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.85rem;
+}
+
+.resource-card {
+    background: linear-gradient(160deg, #ffffff 0%, #f8fbff 100%);
+    border: 1px solid #dbe7ff;
+    border-radius: 10px;
+    padding: 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.resource-card strong {
+    color: var(--color-primary);
+    font-size: 0.95rem;
+}
+
+.resource-card span {
+    color: #4b5563;
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+.resource-card:hover {
+    transform: translateY(-2px);
+    border-color: #9ab9ff;
+    box-shadow: 0 8px 20px rgba(0, 36, 112, 0.08);
+}
+
+.quick-help {
+    margin-top: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    background: #fcfcfd;
+}
+
+.quick-help summary {
+    cursor: pointer;
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.quick-help ul {
+    margin-top: 0.75rem;
+    padding-left: 1.1rem;
+}
+
 /* --- 8. NIEUWBOUW & DETAILS TABLES --- */
 
 /* Grafiek Container */
