@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    
+
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
 
@@ -27,7 +27,7 @@
                 Bouwdepot<span class="text-accent">Calculator</span>.nl
             </div>
             <nav class="main-nav">
-                <a href="index.html" class="active">Verbouwen</a> 
+                <a href="index.html" class="active">Verbouwen</a>
                 <a href="nieuwbouw.html">Nieuwbouw</a>
                 <a href="belasting.html">Belastingvoordeel</a>
                 <a href="stappenplan.html">Stappenplan</a>
@@ -38,23 +38,16 @@
         </div>
     </header>
 
-    <main class="container main-grid">
-        
-        <section class="calculator-section">
+    <main class="container home-layout">
+        <section class="tool-hero-grid">
             <div class="card calculator-card">
-                <h1>Bereken uw Bouwdepot</h1>
-                <p class="subtitle">Zie direct wat uw verbouwing per maand kost.</p>
-                <p class="subtitle" style="margin-top: -0.25rem;">Onafhankelijke rekentool · Indicatieve berekening · Geen financieel advies</p>
-
-                <div class="info-panel" aria-label="Uitleg over deze rekentool">
-                    <p><strong>Voor wie:</strong> huiseigenaren die een verbouwing willen financieren via een bouwdepot.</p>
-                    <p><strong>Wat u krijgt:</strong> een snelle indicatie van bruto maandlast, mogelijk belastingvoordeel en netto maandlast.</p>
-                    <p><strong>Wat u kunt verwachten:</strong> direct resultaat zonder registratie, bedoeld voor oriëntatie voorafgaand aan adviesgesprek.</p>
-                </div>
+                <h1>Bouwdepot berekenen voor uw verbouwing</h1>
+                <p class="subtitle">Bereken in minder dan een minuut uw bruto maandlast, indicatief belastingvoordeel en netto maandlast.</p>
+                <p class="trust-line">Onafhankelijke rekentool · Zonder registratie · Indicatie voorafgaand aan advies</p>
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label for="input-amount">Bedrag Bouwdepot</label>
+                        <label for="input-amount">Bedrag bouwdepot</label>
                         <div class="number-input-wrapper has-prefix" style="width: 130px;">
                             <span class="prefix">€</span>
                             <input type="number" id="input-amount" value="25000" step="500">
@@ -88,7 +81,7 @@
 
                 <div class="input-group">
                     <div class="label-row">
-                        <label for="range-duration">Looptijd Hypotheek</label>
+                        <label for="range-duration">Looptijd hypotheek</label>
                         <span class="input-value" id="val-duration">30 Jaar</span>
                     </div>
                     <input type="range" id="range-duration" min="10" max="30" step="5" value="30" class="slider">
@@ -102,242 +95,164 @@
                 </div>
             </div>
 
-            <div class="card quick-costs-card" style="margin-top: 2rem; border-left: 4px solid var(--color-accent); transition: all 0.3s ease;">
-                <div id="cost-toggle-btn" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 0.2rem 0;">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="background: #F3F4F6; padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                        </div>
-                        <div>
-                            <h3 style="margin: 0; font-size: 1.05rem; color: var(--color-primary);">Wat kost een verbouwing?</h3>
-                            <p style="margin: 0; font-size: 0.85rem; color: var(--color-text-light);">Klik hier voor richtprijzen 2026</p>
-                        </div>
-                    </div>
-                    <svg id="cost-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s ease;"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </div>
-
-                <div id="cost-content" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed var(--color-border);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                        <p class="text-sm text-gray-500" style="margin: 0;">Selecteer één of meerdere opties:</p>
-                        <button id="btn-reset-costs" style="display: none; background: none; border: none; font-size: 0.8rem; color: #dc2626; cursor: pointer; text-decoration: underline;">Reset selectie</button>
-                    </div>
-                    
-                    <div class="cost-grid">
-                        <button class="cost-btn" data-amount="15000">
-                            <div class="icon-box">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-1h-5a1.5 1.5 0 0 1 1 1.5v.5"/><path d="M14 6 2.5 17.5a1.5 1.5 0 0 0 1 1h5a1.5 1.5 0 0 1-1-1.5v-.5"/><path d="M14 6a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8a2 2 0 0 0-2-2h-3"/><path d="M14 16h6"/></svg>
-                            </div>
-                            <span class="label">Badkamer</span>
-                            <span class="price">€ 15.000</span>
-                        </button>
-
-                        <button class="cost-btn" data-amount="20000">
-                            <div class="icon-box">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h18"/><path d="M4 14v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/><line x1="12" y1="14" x2="12" y2="20"/><line x1="8" y1="14" x2="8" y2="17"/><line x1="16" y1="14" x2="16" y2="17"/><path d="M6 6h12l-2-3H8z"/><path d="M6 6v8"/><path d="M18 6v8"/></svg>
-                            </div>
-                            <span class="label">Keuken</span>
-                            <span class="price">€ 20.000</span>
-                        </button>
-
-                        <button class="cost-btn" data-amount="8500">
-                            <div class="icon-box">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5-5-5 5"/><path d="M14 9v12"/></svg>
-                            </div>
-                            <span class="label">Dakkapel</span>
-                            <span class="price">€ 8.500</span>
-                        </button>
-
-                        <button class="cost-btn" data-amount="25000">
-                            <div class="icon-box">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 8h16"/><path d="M4 12h16"/><path d="M4 16h16"/><path d="M8 4v16"/><path d="M12 4v16"/><path d="M16 4v16"/></svg>
-                            </div>
-                            <span class="label">Uitbouw</span>
-                            <span class="price">€ 25.000</span>
-                        </button>
-
-                        <button class="cost-btn" data-amount="45000">
-                            <div class="icon-box">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/><path d="m16 10-4 4-2-2"/></svg>
-                            </div>
-                            <span class="label">Energie</span>
-                            <span class="price">€ 45.000</span>
-                        </button>
-
-                        <button class="cost-btn" data-amount="7500">
-                            <div class="icon-box">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="8" width="12" height="10" rx="2"/><line x1="8" y1="18" x2="8" y2="22"/><line x1="16" y1="18" x2="16" y2="22"/><line x1="12" y1="12" x2="12" y2="12.01"/><path d="M6 8V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/></svg>
-                            </div>
-                            <span class="label">Toilet/Hal</span>
-                            <span class="price">€ 7.500</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <article class="prose-content">
-                <h2>Alles over het Bouwdepot voor Verbouwingen</h2>
-                <p>
-                    Wilt u uw woning uitbouwen, verduurzamen of moderniseren? Vaak wordt dit gefinancierd middels een bouwdepot. 
-                    Dit is een aparte rekening binnen uw hypotheek waaruit de facturen van aannemers en bouwmarkten worden betaald. 
-                    Op deze pagina leest u precies wat de spelregels zijn en berekent u direct uw nieuwe maandlasten.
-                </p>
-
-                <h3>1. Wat mag u betalen uit het depot?</h3>
-                <p>
-                    De Belastingdienst stelt strikte eisen: het geld moet besteed worden aan verbetering of onderhoud van de eigen woning. 
-                    Dit wordt ook wel 'nagelvast' genoemd. Alles wat u bij een verhuizing niet mee kunt nemen, valt hier meestal onder.
-                </p>
-                <ul>
-                    <li><strong>Wel toegestaan:</strong> Nieuwe keuken, badkamer, dakkapel, uitbouw, isolatie, zonnepanelen, schilderwerk en vaste vloeren (zoals parket of gelijmd PVC).</li>
-                    <li><strong>Niet toegestaan:</strong> Losse inrichting, gordijnen, meubels en gereedschap dat u zelf koopt.</li>
-                </ul>
-
-                <h3>2. Looptijd en Rente</h3>
-                <p>
-                    Een bouwdepot voor een verbouwing heeft doorgaans een looptijd van 2 jaar. Gedurende deze periode ontvangt u rentevergoeding over het bedrag dat nog in het depot staat. 
-                    Bij de meeste banken is deze vergoeding gelijk aan de hypotheekrente die u betaalt (of 1% lager). 
-                    Let op: na 6 maanden wordt de rentevergoeding bij sommige geldverstrekkers lager. Zorg dus dat u de verbouwing vlot plant.
-                </p>
-
-                <h3>3. Fiscaal Voordeel 2026</h3>
-                <p>
-                    De rente die u betaalt over het bouwdepot is fiscaal aftrekbaar in Box 1, mits u het geld daadwerkelijk gebruikt voor de woning en de lening in 30 jaar aflost (Lineair of Annuïtair). 
-                    Onze calculator houdt rekening met het basistarief voor hypotheekrenteaftrek in 2026 (37,56%). 
-                    Houd er rekening mee dat het eigenwoningforfait omhoog gaat als de WOZ-waarde van uw woning stijgt door de verbouwing.
-                </p>
-
-                <h3>4. Snel praktijkvoorbeeld</h3>
-                <p>
-                    Voorbeeld: lening van <strong>€ 40.000</strong>, rente <strong>3,8%</strong>, looptijd <strong>30 jaar</strong>.
-                    De tool laat direct zien wat dit betekent voor bruto maandlast, mogelijk fiscaal voordeel en netto maandlast.
-                </p>
-
-                <div class="resource-grid">
-                    <a class="resource-card" href="hypotheekrenteaftrek-gids.html">
-                        <strong>Hypotheekrenteaftrek gids</strong>
-                        <span>Voorwaarden + rekenvoorbeeld 2026</span>
-                    </a>
-                    <a class="resource-card" href="bouwdepot-fouten.html">
-                        <strong>Veelgemaakte fouten</strong>
-                        <span>Voorkom afwijzingen en vertraging</span>
-                    </a>
-                    <a class="resource-card" href="adviesgesprek-checklist.html">
-                        <strong>Adviesgesprek checklist</strong>
-                        <span>Ga voorbereid naar bank of adviseur</span>
-                    </a>
-                </div>
-
-                <details class="quick-help">
-                    <summary>Toon compacte documentchecklist</summary>
-                    <ul>
-                        <li>Offertes + facturen met specificatie van werkzaamheden.</li>
-                        <li>Depotoverzichten en betaalbewijzen.</li>
-                        <li>Overzicht hypotheekvorm, rente en looptijd.</li>
-                        <li>Jaaropgave voor controle van renteaftrek.</li>
-                    </ul>
-                </details>
-
-                <h3>5. Uitgebreid rekenvoorbeeld (praktijksituatie)</h3>
-                <p>
-                    Stel: u leent <strong>€ 40.000</strong> voor een verbouwing tegen <strong>3,8% rente</strong> en een looptijd van <strong>30 jaar</strong> met annuïtaire aflossing.
-                    Dan ziet u in grote lijnen het volgende:
-                </p>
-                <ul>
-                    <li><strong>Bruto maandlast:</strong> circa € 186 per maand (rente + aflossing).</li>
-                    <li><strong>Indicatieve rentecomponent in jaar 1:</strong> ongeveer € 125 per maand.</li>
-                    <li><strong>Indicatief belastingvoordeel:</strong> 37,56% van de betaalde rente (alleen als u aan alle fiscale voorwaarden voldoet).</li>
-                    <li><strong>Netto maandlast:</strong> bruto maandlast minus mogelijk belastingvoordeel.</li>
-                </ul>
-                <p>
-                    Let op: dit is een vereenvoudigd voorbeeld. Uw echte uitkomst hangt af van uw inkomen, hypotheekvorm, ingangsdatum, depotduur en de werkelijke bestedingen uit het depot.
-                </p>
-
-                <h3>6. Wat is meestal wel/niet aftrekbaar?</h3>
-                <p>Onderstaande indeling helpt u fouten te voorkomen bij declaraties en belastingaangifte.</p>
-                <div style="overflow-x:auto;">
-                    <table class="details-table" aria-label="Overzicht van kosten die vaak wel of niet onder eigen woning vallen">
-                        <thead>
-                            <tr>
-                                <th>Type kosten</th>
-                                <th>Vaak wél eigen woning</th>
-                                <th>Vaak niet eigen woning</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Vaste bouwdelen</td>
-                                <td>Uitbouw, dakkapel, vaste vloeren, installaties</td>
-                                <td>Losse meubels, losse lampen, decoratie</td>
-                            </tr>
-                            <tr>
-                                <td>Keuken/badkamer</td>
-                                <td>Vaste onderdelen en montage</td>
-                                <td>Losse apparatuur die niet nagelvast is</td>
-                            </tr>
-                            <tr>
-                                <td>Duurzaamheid</td>
-                                <td>Isolatie, HR++ glas, zonnepanelen (vast)</td>
-                                <td>Draagbare apparatuur, los gereedschap</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3>7. Checklist: documenten die u nodig heeft</h3>
-                <ul>
-                    <li>Getekende offerte(s) en facturen met specificatie van werkzaamheden.</li>
-                    <li>Bank- of depotoverzichten van uitbetalingen en resterend saldo.</li>
-                    <li>Bewijs van betaling en, waar nodig, opleverdocumenten.</li>
-                    <li>Overzicht van hypotheekvorm, rentepercentage en ingangsdatum.</li>
-                    <li>Aangifte- en jaaropgaven voor controle van renteaftrek.</li>
-                </ul>
-
-                <div class="info-panel" style="margin-top: 1.5rem;">
-                    <p><strong>Meer diepgang nodig?</strong> Bekijk onze <a href="kennisbank.html" style="color:#000066; text-decoration: underline;">Kennisbank Bouwdepot</a> met uitgebreide uitleg, foutenlijst en praktische voorbereidingstips voor uw adviesgesprek.</p>
-                </div>
-
-                <h3>8. Bronnen & controle</h3>
-                <ul>
-                    <li><a href="https://www.belastingdienst.nl/" target="_blank" rel="noopener noreferrer" style="color:#000066; text-decoration: underline;">Belastingdienst</a> voor actuele fiscale regels en voorwaarden.</li>
-                    <li><a href="https://www.rijksoverheid.nl/" target="_blank" rel="noopener noreferrer" style="color:#000066; text-decoration: underline;">Rijksoverheid</a> voor algemene wet- en regelgeving.</li>
-                    <li><a href="https://www.nibud.nl/" target="_blank" rel="noopener noreferrer" style="color:#000066; text-decoration: underline;">Nibud</a> voor budgettering en woonlasteninzicht.</li>
-                </ul>
-            </article>
-        </section>
-
-        <aside class="sidebar">
-            
-            <div class="card result-card sticky-box" id="print-area">
+            <aside class="card result-card sticky-box" id="print-area">
                 <h2>Uw Maandlasten</h2>
-                
-                <div class="result-row">
-                    <span>Bruto maandlast:</span>
-                    <span id="res-bruto" class="amount">€ 0</span>
-                </div>
-                
-                <div class="result-row discount" id="row-voordeel" style="cursor: pointer; padding: 4px; border-radius: 4px; transition: background 0.2s;" title="Bekijk berekening">
-                    <span style="border-bottom: 1px dashed currentColor;">Belastingvoordeel (?):</span>
-                    <span id="res-voordeel" class="amount" style="color:#16a34a">€ 0</span>
+                <p class="result-intro">Direct inzicht op basis van uw invoer hierboven.</p>
+
+                <div class="result-row total featured-row">
+                    <span>Netto per maand</span>
+                    <span id="res-netto" class="amount highlight">€ 0</span>
                 </div>
 
                 <hr>
 
-                <div class="result-row total">
-                    <span>Netto per maand:</span>
-                    <span id="res-netto" class="amount highlight" style="color:#000066">€ 0</span>
+                <div class="result-row">
+                    <span>Bruto maandlast</span>
+                    <span id="res-bruto" class="amount">€ 0</span>
+                </div>
+
+                <div class="result-row discount" id="row-voordeel" title="Bekijk berekening">
+                    <span style="border-bottom: 1px dashed currentColor;">Belastingvoordeel (?):</span>
+                    <span id="res-voordeel" class="amount">€ 0</span>
                 </div>
 
                 <div class="cta-button-wrapper no-print">
                     <button id="btn-download" class="btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Download Overzicht (PDF)
+                        Download overzicht (PDF)
                     </button>
-                    <p class="disclaimer">*Indicatieve berekening, geen advies.</p>
+                    <p class="disclaimer">*Indicatieve berekening, geen financieel advies.</p>
                 </div>
+            </aside>
+        </section>
+
+        <section class="card quick-costs-card">
+            <div id="cost-toggle-btn" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 0.2rem 0;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div style="background: #F3F4F6; padding: 8px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    </div>
+                    <div>
+                        <h3 style="margin: 0; font-size: 1.05rem; color: var(--color-primary);">Snelle keuzehulp verbouwing</h3>
+                        <p style="margin: 0; font-size: 0.85rem; color: var(--color-text-light);">Kies richtprijzen en vul uw bouwdepot direct automatisch</p>
+                    </div>
+                </div>
+                <svg id="cost-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s ease;"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
 
-        </aside>
+            <div id="cost-content" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed var(--color-border);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <p class="text-sm text-gray-500" style="margin: 0;">Selecteer één of meerdere opties:</p>
+                    <button id="btn-reset-costs" style="display: none; background: none; border: none; font-size: 0.8rem; color: #dc2626; cursor: pointer; text-decoration: underline;">Reset selectie</button>
+                </div>
 
+                <div class="cost-grid">
+                    <button class="cost-btn" data-amount="15000">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-1h-5a1.5 1.5 0 0 1 1 1.5v.5"/><path d="M14 6 2.5 17.5a1.5 1.5 0 0 0 1 1h5a1.5 1.5 0 0 1-1-1.5v-.5"/><path d="M14 6a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8a2 2 0 0 0-2-2h-3"/><path d="M14 16h6"/></svg>
+                        </div>
+                        <span class="label">Badkamer</span>
+                        <span class="price">€ 15.000</span>
+                    </button>
+
+                    <button class="cost-btn" data-amount="20000">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h18"/><path d="M4 14v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/><line x1="12" y1="14" x2="12" y2="20"/><line x1="8" y1="14" x2="8" y2="17"/><line x1="16" y1="14" x2="16" y2="17"/><path d="M6 6h12l-2-3H8z"/><path d="M6 6v8"/><path d="M18 6v8"/></svg>
+                        </div>
+                        <span class="label">Keuken</span>
+                        <span class="price">€ 20.000</span>
+                    </button>
+
+                    <button class="cost-btn" data-amount="8500">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5-5-5 5"/><path d="M14 9v12"/></svg>
+                        </div>
+                        <span class="label">Dakkapel</span>
+                        <span class="price">€ 8.500</span>
+                    </button>
+
+                    <button class="cost-btn" data-amount="25000">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 8h16"/><path d="M4 12h16"/><path d="M4 16h16"/><path d="M8 4v16"/><path d="M12 4v16"/><path d="M16 4v16"/></svg>
+                        </div>
+                        <span class="label">Uitbouw</span>
+                        <span class="price">€ 25.000</span>
+                    </button>
+
+                    <button class="cost-btn" data-amount="45000">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/><path d="m16 10-4 4-2-2"/></svg>
+                        </div>
+                        <span class="label">Energie</span>
+                        <span class="price">€ 45.000</span>
+                    </button>
+
+                    <button class="cost-btn" data-amount="7500">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="8" width="12" height="10" rx="2"/><line x1="8" y1="18" x2="8" y2="22"/><line x1="16" y1="18" x2="16" y2="22"/><line x1="12" y1="12" x2="12" y2="12.01"/><path d="M6 8V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/></svg>
+                        </div>
+                        <span class="label">Toilet/Hal</span>
+                        <span class="price">€ 7.500</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="compact-info-grid" aria-label="Korte toelichting op de rekentool">
+            <article class="card compact-info-card">
+                <h3>Wat deze tool berekent</h3>
+                <p>Op basis van uw depotbedrag, rente, looptijd en hypotheekvorm berekent de tool direct een indicatie van bruto en netto maandlast.</p>
+            </article>
+            <article class="card compact-info-card">
+                <h3>Wat valt meestal wel of niet onder bouwdepot</h3>
+                <p>Vaste woningverbeteringen (zoals uitbouw, keuken en isolatie) vallen meestal wel onder depotkosten. Losse inrichting en verplaatsbare spullen meestal niet.</p>
+            </article>
+            <article class="card compact-info-card">
+                <h3>Indicatie, geen financieel advies</h3>
+                <p>Gebruik de uitkomst als oriëntatie. Definitieve maandlasten en aftrek hangen af van uw persoonlijke situatie en de voorwaarden van uw geldverstrekker.</p>
+            </article>
+        </section>
+
+        <section class="card compact-faq" aria-label="Veelgestelde vragen en verdere verdieping">
+            <h2>Korte FAQ</h2>
+            <div class="faq-grid">
+                <article>
+                    <h3>Hoe snel heb ik een uitkomst?</h3>
+                    <p>Direct tijdens het invullen. Elke wijziging in bedrag, rente of looptijd wordt meteen verwerkt.</p>
+                </article>
+                <article>
+                    <h3>Is de netto maandlast exact?</h3>
+                    <p>Nee, dit is een indicatieve uitkomst op basis van standaard aannames voor hypotheekrenteaftrek.</p>
+                </article>
+                <article>
+                    <h3>Kan ik verder verdiepen?</h3>
+                    <p>Ja, bekijk de kennisbank voor uitgebreide uitleg en veelgemaakte fouten bij bouwdepot en aftrek.</p>
+                </article>
+            </div>
+            <div class="resource-grid">
+                <a class="resource-card" href="hypotheekrenteaftrek-gids.html">
+                    <strong>Hypotheekrenteaftrek gids</strong>
+                    <span>Voorwaarden en rekenvoorbeeld 2026</span>
+                </a>
+                <a class="resource-card" href="bouwdepot-fouten.html">
+                    <strong>Veelgemaakte fouten</strong>
+                    <span>Voorkom vertraging bij declaraties</span>
+                </a>
+                <a class="resource-card" href="kennisbank.html">
+                    <strong>Naar kennisbank</strong>
+                    <span>Alle uitleg en praktische stappen op één plek</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="homepage-meta" aria-label="Bronnen en disclaimer">
+            <p>
+                Bronnen: <a href="https://www.belastingdienst.nl/" target="_blank" rel="noopener noreferrer">Belastingdienst</a>,
+                <a href="https://www.rijksoverheid.nl/" target="_blank" rel="noopener noreferrer">Rijksoverheid</a>,
+                <a href="https://www.nibud.nl/" target="_blank" rel="noopener noreferrer">Nibud</a>.
+            </p>
+            <p>Controleer altijd de actuele voorwaarden van uw bank en laat persoonlijke keuzes toetsen door een financieel adviseur.</p>
+        </section>
     </main>
 
     <footer>
