@@ -647,7 +647,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const resNet = document.getElementById('res-renteverlies-netto');
         const resMonth = document.getElementById('res-renteverlies-maand');
         const resConclusion = document.getElementById('res-renteverlies-conclusie');
+        const resInterpretation = document.getElementById('res-renteverlies-interpretation');
+        const resMeaning = document.getElementById('res-renteverlies-meaning');
+        const resMethod = document.getElementById('res-renteverlies-method');
+        const resPeriodPattern = document.getElementById('res-renteverlies-period-pattern');
+        const reportGeneratedAt = document.getElementById('report-renteverlies-generated-at');
         const patternNote = document.getElementById('renteverlies-pattern-note');
+        const btnDownloadRenteverlies = document.getElementById('btn-download-renteverlies');
+
+        const sumDepot = document.getElementById('sum-renteverlies-depot');
+        const sumMortgageRate = document.getElementById('sum-renteverlies-mortgage-rate');
+        const sumDepotRate = document.getElementById('sum-renteverlies-depot-rate');
+        const sumMonths = document.getElementById('sum-renteverlies-months');
+        const sumPattern = document.getElementById('sum-renteverlies-pattern');
 
         const scenarioButtons = document.querySelectorAll('.renteverlies-scenario');
 
@@ -656,6 +668,36 @@ document.addEventListener('DOMContentLoaded', () => {
             fast: 'Bij snelle opname in het begin daalt het niet-opgenomen depot eerder, waardoor de vergoeding sneller afneemt.',
             slow: 'Bij latere opname blijft het niet-opgenomen depot langer hoog, waardoor timing meer invloed krijgt op de uitkomst.'
         };
+        const patternLabels = {
+            even: 'Gelijkmatig opgenomen',
+            fast: 'Snelle opname in het begin',
+            slow: 'Vooral later opgenomen'
+        };
+        const formatPercentage = (value) => `${value.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+        const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+
+        function buildRenteverliesReport(data) {
+            return {
+                toolTitle: 'Renteverlies bouwdepot calculator',
+                generatedAt: data.generatedAt,
+                inputs: {
+                    depotAmount: data.depotAmount,
+                    mortgageRate: data.mortgageRate,
+                    depotCompensationRate: data.depotCompensationRate,
+                    months: data.months,
+                    opnamePattern: data.opnamePattern
+                },
+                results: {
+                    totalIndicativeRenteverlies: data.totalIndicativeRenteverlies,
+                    averageMonthlyEffect: data.averageMonthlyEffect,
+                    totalMortgageInterest: data.totalMortgageInterest,
+                    totalCompensation: data.totalCompensation,
+                    interpretationLabel: data.interpretationLabel
+                },
+                conclusion: data.conclusion,
+                assumptions: data.assumptions
+            };
+        }
 
         function getWeights(months, pattern) {
             const weights = [];
@@ -704,22 +746,70 @@ document.addEventListener('DOMContentLoaded', () => {
             const netDifference = totalMortgageInterest - totalCompensation;
             const perMonth = netDifference / months;
             const impactRatio = depot > 0 ? netDifference / depot : 0;
+            const rateSpread = Math.max(0, mortgageRate - depotRate);
 
-            let conclusion = 'Op basis van uw invoer lijkt het renteverlies beperkt. Toch blijft vergelijken nuttig, zeker bij afwijkende bankvoorwaarden.';
-            if (impactRatio > 0.04) {
-                conclusion = 'Uw uitkomst wijst op een relatief hoog renteverlies. Vooral de combinatie van langere looptijd en lager vergoedingspercentage drukt het resultaat.';
-            } else if (impactRatio > 0.02) {
-                conclusion = "Uw uitkomst laat een merkbaar renteverlies zien. Het kan lonen om scenario's met kortere looptijd of ander opnameverloop te vergelijken.";
-            } else if (netDifference < 0) {
-                conclusion = 'In dit scenario is de vergoeding hoger dan de berekende rentelast op het bouwdepotdeel. Controleer wel of uw geldverstrekker dit ook zo verwerkt.';
+            let interpretationLabel = 'beperkt';
+            if (impactRatio > 0.04) interpretationLabel = 'fors';
+            else if (impactRatio > 0.02) interpretationLabel = 'merkbaar';
+            else if (netDifference < 0) interpretationLabel = 'negatief renteverlies';
+
+            const driverScores = [
+                { key: 'renteverschil', value: rateSpread * depot },
+                { key: 'looptijd', value: months * Math.max(0.01, rateSpread) * depot / 12 },
+                { key: 'opnamepatroon', value: pattern === 'even' ? 1 : 1.2 }
+            ];
+            driverScores.sort((a, b) => b.value - a.value);
+            const mainDriver = driverScores[0].key;
+
+            let conclusion = `Bij deze invoer komt het indicatieve renteverlies uit op ${formatEuro(netDifference)} over ${months} maanden.`;
+            if (netDifference < 0) {
+                conclusion = `Bij deze invoer is de vergoeding hoger dan de betaalde rente over ${months} maanden; het indicatieve verschil is ${formatEuro(netDifference)}.`;
             }
+
+            const interpretation = netDifference < 0
+                ? 'In dit scenario is het renteverschil gunstig. Controleer wel of uw geldverstrekker dezelfde systematiek gebruikt.'
+                : `Het renteverlies is ${interpretationLabel}; de belangrijkste aanjager is ${mainDriver}. Een groter verschil tussen hypotheekrente en depotvergoeding verhoogt het effect direct.`;
+            const meaning = pattern === 'slow'
+                ? 'Bij langzamere opname blijft een hoger restdepot langer staan. Dat kan het cumulatieve renteverschil in de bouwdepotfase vergroten.'
+                : 'Ook als het maandverschil beperkt lijkt, kan het totaal over meerdere maanden relevant zijn voor uw bouwdepotbudget.';
+            const assumptions = 'Indicatieve maandbenadering op basis van gekozen opnamepatroon; werkelijke bankboekingen en opnamedata kunnen afwijken.';
+            const now = new Date();
 
             if (patternNote) patternNote.textContent = patternDescriptions[pattern] || patternDescriptions.even;
             if (resMortgage) resMortgage.textContent = formatEuro(totalMortgageInterest);
             if (resCompensation) resCompensation.textContent = '-' + formatEuro(totalCompensation);
             if (resNet) resNet.textContent = formatEuro(netDifference);
             if (resMonth) resMonth.textContent = formatEuro(perMonth);
-            if (resConclusion) resConclusion.textContent = `${conclusion} Uitkomst is indicatief en geen lender-specifieke berekening.`;
+            if (resPeriodPattern) resPeriodPattern.textContent = `${months} maanden · ${patternLabels[pattern] || pattern}`;
+            if (resConclusion) resConclusion.textContent = conclusion;
+            if (resInterpretation) resInterpretation.textContent = interpretation;
+            if (resMeaning) resMeaning.textContent = meaning;
+            if (resMethod) resMethod.textContent = assumptions;
+            if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
+
+            if (sumDepot) sumDepot.textContent = formatEuro(depot);
+            if (sumMortgageRate) sumMortgageRate.textContent = formatPercentage(mortgageRate);
+            if (sumDepotRate) sumDepotRate.textContent = formatPercentage(depotRate);
+            if (sumMonths) sumMonths.textContent = `${months} maanden`;
+            if (sumPattern) sumPattern.textContent = patternLabels[pattern] || pattern;
+
+            const report = buildRenteverliesReport({
+                depotAmount: depot,
+                mortgageRate,
+                depotCompensationRate: depotRate,
+                months,
+                opnamePattern: patternLabels[pattern] || pattern,
+                totalIndicativeRenteverlies: netDifference,
+                averageMonthlyEffect: perMonth,
+                totalMortgageInterest,
+                totalCompensation,
+                interpretationLabel,
+                conclusion,
+                assumptions,
+                generatedAt: now.toISOString()
+            });
+
+            if (btnDownloadRenteverlies) btnDownloadRenteverlies.dataset.report = JSON.stringify(report);
         }
 
         if (rangeMonths) {
@@ -748,6 +838,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 calculate();
             });
         });
+
+        if (btnDownloadRenteverlies) btnDownloadRenteverlies.addEventListener('click', () => window.print());
 
         calculate();
     }
