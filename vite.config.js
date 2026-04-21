@@ -11,6 +11,9 @@ export default defineConfig({
         // Core pagina's
         main: resolve(__dirname, 'index.html'),
         nieuwbouw: resolve(__dirname, 'nieuwbouw.html'),
+        bouwrenteNieuwbouw: resolve(__dirname, 'bouwrente-nieuwbouw.html'),
+        maximaleBouwdepot: resolve(__dirname, 'maximale-bouwdepot.html'),
+        eigenGeldBouwdepot: resolve(__dirname, 'eigen-geld-bouwdepot.html'),
         belasting: resolve(__dirname, 'belasting.html'),
         stappenplan: resolve(__dirname, 'stappenplan.html'), // Toegevoegd voor AdSense content
         kennisbank: resolve(__dirname, 'kennisbank.html'),

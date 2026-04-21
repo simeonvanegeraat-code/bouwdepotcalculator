@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximale bouwdepot berekenen | Hoe hoog mag mijn bouwdepot zijn?</title>
+    <meta name="description" content="Bereken indicatief hoeveel bouwdepot u mogelijk kunt financieren, welk deel van uw verbouwbudget past en hoeveel eigen geld u waarschijnlijk nodig heeft.">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <link rel="canonical" href="https://www.bouwdepotcalculator.nl/maximale-bouwdepot.html">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="logo">
+                Bouwdepot<span class="text-accent">Calculator</span>.nl
+            </div>
+            <nav class="main-nav">
+                <a href="index.html">Verbouwen</a>
+                <a href="nieuwbouw.html">Nieuwbouw</a>
+                <a href="belasting.html">Belastingvoordeel</a>
+                <a href="stappenplan.html">Stappenplan</a>
+                <a href="kennisbank.html">Kennisbank</a>
+                <a href="over-ons.html">Over ons</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-grid">
+        <section class="calculator-section">
+            <section class="card calculator-card">
+                <h1>Maximale bouwdepot berekenen</h1>
+                <p class="subtitle">Krijg een indicatie hoeveel van uw verbouwbudget mogelijk mee te financieren is via een bouwdepot en welk deel u mogelijk zelf moet betalen.</p>
+                <p class="trust-line">Indicatieve tool • Uitkomst hangt af van taxatie, geldverstrekker en hypotheekopzet</p>
+
+                <div class="tool-level-card">
+                    <div class="section-head">
+                        <h2>Calculator: hoe hoog mag mijn bouwdepot zijn?</h2>
+                        <span>Transparant model zonder schijnnauwkeurigheid</span>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="input-value-now">Huidige woningwaarde / aankoopwaarde</label>
+                            <div class="number-input-wrapper has-prefix" style="width: 150px;">
+                                <span class="prefix">€</span>
+                                <input type="number" id="input-value-now" min="50000" step="1000" value="400000">
+                            </div>
+                        </div>
+                        <input type="range" id="range-value-now" min="100000" max="1500000" step="1000" value="400000" class="slider">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="input-value-after">Verwachte woningwaarde na verbouwing</label>
+                            <div class="number-input-wrapper has-prefix" style="width: 150px;">
+                                <span class="prefix">€</span>
+                                <input type="number" id="input-value-after" min="50000" step="1000" value="450000">
+                            </div>
+                        </div>
+                        <input type="range" id="range-value-after" min="100000" max="1800000" step="1000" value="450000" class="slider">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="input-mortgage">Huidige hypotheekschuld / nieuwe hypotheek zonder verbouwing</label>
+                            <div class="number-input-wrapper has-prefix" style="width: 150px;">
+                                <span class="prefix">€</span>
+                                <input type="number" id="input-mortgage" min="0" step="1000" value="360000">
+                            </div>
+                        </div>
+                        <input type="range" id="range-mortgage" min="0" max="1500000" step="1000" value="360000" class="slider">
+                    </div>
+
+                    <div class="two-col-inputs">
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-budget">Gewenst verbouwbudget</label>
+                                <div class="number-input-wrapper has-prefix">
+                                    <span class="prefix">€</span>
+                                    <input type="number" id="input-budget" min="0" step="1000" value="60000">
+                                </div>
+                            </div>
+                            <input type="range" id="range-budget" min="5000" max="500000" step="1000" value="60000" class="slider">
+                        </div>
+
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-own-cash">Beschikbaar eigen geld</label>
+                                <div class="number-input-wrapper has-prefix">
+                                    <span class="prefix">€</span>
+                                    <input type="number" id="input-own-cash" min="0" step="1000" value="10000">
+                                </div>
+                            </div>
+                            <input type="range" id="range-own-cash" min="0" max="200000" step="1000" value="10000" class="slider">
+                        </div>
+                    </div>
+
+                    <div class="input-group compact">
+                        <div class="label-row">
+                            <label for="input-limit">Aannamemaximum financiering t.o.v. waarde na verbouwing</label>
+                            <div class="number-input-wrapper has-suffix" style="max-width:110px;">
+                                <input type="number" id="input-limit" min="70" max="120" step="0.5" value="100">
+                                <span class="suffix">%</span>
+                            </div>
+                        </div>
+                        <input type="range" id="range-limit" min="70" max="120" step="0.5" value="100" class="slider">
+                        <p class="preset-note">Standaard staat deze aanname op 100%. Dit is een instelbare rekenschaal voor indicatie, geen harde acceptatiegrens.</p>
+                    </div>
+
+                    <section class="preset-section" aria-label="Voorbeeldscenario's">
+                        <div class="section-headline">
+                            <h2>Voorbeeldscenario's</h2>
+                            <span>Klik en vul direct in</span>
+                        </div>
+                        <div class="preset-grid">
+                            <button class="preset-btn maxdepot-preset" type="button" data-now="325000" data-after="345000" data-mortgage="290000" data-budget="25000" data-cash="5000">Kleine verbouwing</button>
+                            <button class="preset-btn maxdepot-preset" type="button" data-now="425000" data-after="485000" data-mortgage="375000" data-budget="55000" data-cash="10000">Keuken + badkamer</button>
+                            <button class="preset-btn maxdepot-preset" type="button" data-now="475000" data-after="590000" data-mortgage="430000" data-budget="90000" data-cash="15000">Uitbouw</button>
+                            <button class="preset-btn maxdepot-preset" type="button" data-now="550000" data-after="720000" data-mortgage="520000" data-budget="150000" data-cash="20000">Groot renovatieplan</button>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <section class="card content-block mt-8">
+                <h2>Hoe wordt de maximale bouwdepothoogte berekend?</h2>
+                <p>De calculator maakt een indicatie van uw extra financieringsruimte op basis van de verwachte woningwaarde na verbouwing. Daarna vergelijken we deze ruimte met uw gewenste verbouwbudget.</p>
+                <p>In de basis gebruiken we: <strong>indicatieve extra financieringsruimte = (aannamemaximum × waarde na verbouwing) - huidige/geplande hypotheek zonder verbouwing</strong>.</p>
+                <p>Niet elke euro aan verbouwing wordt automatisch financierbaar. De exacte grens hangt af van taxatie, acceptatiebeleid van de geldverstrekker, uw hypotheekstructuur en uw persoonlijke situatie.</p>
+            </section>
+
+            <section class="card mt-8">
+                <h2>Wat nemen wij mee in deze berekening?</h2>
+                <ul>
+                    <li>Woningwaarde nu en verwachte woningwaarde na verbouwing.</li>
+                    <li>Huidige hypotheekschuld of geplande hypotheek zonder verbouwing.</li>
+                    <li>Gewenst verbouwbudget en beschikbaar eigen geld.</li>
+                    <li>Een instelbare financieringsaanname (default 100%).</li>
+                </ul>
+                <h3>Wat nemen wij niet mee?</h3>
+                <ul>
+                    <li>Definitieve taxatie-uitkomst en exacte acceptatienormen per geldverstrekker.</li>
+                    <li>Inkomenstoets, toetsrente en overige kredietcriteria.</li>
+                    <li>Notaris-, advies- of afsluitkosten.</li>
+                    <li>Fiscale details en project-specifieke geldverstrekkerpolicy.</li>
+                </ul>
+            </section>
+
+            <section class="card content-block mt-8">
+                <h2>Uitgewerkt voorbeeld</h2>
+                <p><strong>Situatie:</strong> woningwaarde na verbouwing €485.000, aanname financieringsmaximum 100%, huidige hypotheek €375.000, gewenst verbouwbudget €55.000.</p>
+                <p><strong>Stap 1:</strong> indicatieve extra financieringsruimte = €485.000 - €375.000 = <strong>€110.000</strong>.</p>
+                <p><strong>Stap 2:</strong> indicatieve maximale bouwdepothoogte = minimum van budget (€55.000) en ruimte (€110.000) = <strong>€55.000</strong>.</p>
+                <p><strong>Stap 3:</strong> indicatieve eigen inbreng voor verbouwbudget = €55.000 - €55.000 = <strong>€0</strong> (exclusief overige kosten buiten deze tool).</p>
+            </section>
+
+            <section class="card content-block mt-8">
+                <h2>Wat betekent deze uitkomst voor u?</h2>
+                <div class="faq-grid">
+                    <article>
+                        <h3>Volledig financierbaar (indicatief)</h3>
+                        <p>Uw berekende financieringsruimte is minimaal gelijk aan uw verbouwbudget. In dat geval lijkt uw bouwdepot in deze rekenmethode toereikend.</p>
+                    </article>
+                    <article>
+                        <h3>Deels financierbaar</h3>
+                        <p>Uw budget is hoger dan de indicatieve ruimte. Dan is vaak een combinatie nodig van bouwen via depot plus eigen middelen of een aangepast plan.</p>
+                    </article>
+                    <article>
+                        <h3>Beperkte ruimte</h3>
+                        <p>Bij weinig of negatieve ruimte kan uw plan boven de vermoedelijke grens liggen. Bespreek dan vroegtijdig scenario's met adviseur en geldverstrekker.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="card compact-faq mt-8">
+                <h2>Veelgestelde vragen</h2>
+                <div class="faq-grid">
+                    <article>
+                        <h3>Hoe hoog mag een bouwdepot zijn?</h3>
+                        <p>Dat verschilt per situatie. Deze tool geeft alleen een indicatie op basis van ingevoerde waarde- en hypotheekgegevens.</p>
+                    </article>
+                    <article>
+                        <h3>Kan ik mijn volledige verbouwing meefinancieren?</h3>
+                        <p>Soms wel, soms deels. Dat hangt onder meer af van woningwaarde na verbouwing en uw totale hypotheekruimte.</p>
+                    </article>
+                    <article>
+                        <h3>Heb ik een taxatie nodig voor een bouwdepot?</h3>
+                        <p>In veel trajecten speelt taxatie een belangrijke rol voor de definitieve toetsing. Deze calculator vervangt die stap niet.</p>
+                    </article>
+                    <article>
+                        <h3>Wat als mijn woningwaarde na verbouwing niet hoog genoeg is?</h3>
+                        <p>Dan kan het financierbare deel lager uitvallen en is er mogelijk meer eigen geld nodig of een aangepast verbouwplan.</p>
+                    </article>
+                    <article>
+                        <h3>Moet ik altijd eigen geld inbrengen?</h3>
+                        <p>Niet altijd. Als uw indicatieve financieringsruimte hoog genoeg is, kan het budget volledig passen binnen de berekening.</p>
+                    </article>
+                    <article>
+                        <h3>Is deze uitkomst exact of indicatief?</h3>
+                        <p>Indicatief. Controleer uw echte maximum altijd bij adviseur of geldverstrekker.</p>
+                    </article>
+                </div>
+                <div class="resource-grid">
+                    <a href="index.html" class="resource-card">
+                        <strong>Algemene bouwdepot calculator</strong>
+                        <span>Voor snelle maandlast-inschatting bij een bouwdepot.</span>
+                    </a>
+                    <a href="bouwrente-nieuwbouw.html" class="resource-card">
+                        <strong>Bouwrente nieuwbouw berekenen</strong>
+                        <span>Bekijk wat bouwrente indicatief kost tijdens nieuwbouw.</span>
+                    </a>
+                    <a href="eigen-geld-bouwdepot.html" class="resource-card">
+                        <strong>Eigen geld bouwdepot berekenen</strong>
+                        <span>Bereken welk deel van de kosten mogelijk uit eigen middelen komt.</span>
+                    </a>
+                    <a href="nieuwbouw.html" class="resource-card">
+                        <strong>Nieuwbouw calculator</strong>
+                        <span>Bereken dubbele lasten en piekmaanden tijdens de bouw.</span>
+                    </a>
+                    <a href="belasting.html" class="resource-card">
+                        <strong>Belastingvoordeel calculator</strong>
+                        <span>Krijg indicatief zicht op bruto/netto effect.</span>
+                    </a>
+                    <a href="stappenplan.html" class="resource-card">
+                        <strong>Stappenplan</strong>
+                        <span>Praktische volgorde voor verbouw- of nieuwbouwkeuzes.</span>
+                    </a>
+                    <a href="kennisbank.html" class="resource-card">
+                        <strong>Kennisbank</strong>
+                        <span>Meer uitleg over termen, risico's en aanpak.</span>
+                    </a>
+                </div>
+            </section>
+        </section>
+
+        <aside class="sidebar">
+            <div class="card result-card sticky-box">
+                <h2>Uw indicatieve uitkomst</h2>
+                <p class="result-intro">Focus op wat mogelijk financierbaar is en welk deel mogelijk uit eigen middelen moet komen.</p>
+
+                <div class="result-row">
+                    <span>Indicatieve extra financieringsruimte</span>
+                    <span id="res-extra-space" class="amount">€ 0</span>
+                </div>
+
+                <div class="result-row total featured-row">
+                    <span>Indicatieve maximale bouwdepothoogte</span>
+                    <span id="res-max-depot" class="amount highlight">€ 0</span>
+                </div>
+
+                <hr>
+
+                <div class="result-row">
+                    <span>Financierbaar deel van budget</span>
+                    <span id="res-financeable" class="amount">€ 0</span>
+                </div>
+                <div class="result-row">
+                    <span>Mogelijk benodigd eigen geld</span>
+                    <span id="res-own-needed" class="amount">€ 0</span>
+                </div>
+                <div class="result-row">
+                    <span>Dekking met opgegeven eigen geld</span>
+                    <span id="res-own-used" class="amount">€ 0</span>
+                </div>
+                <div class="result-row">
+                    <span>Resterend mogelijk tekort</span>
+                    <span id="res-shortfall" class="amount">€ 0</span>
+                </div>
+
+                <div class="callout mt-4">
+                    <p id="res-conclusion" class="callout-text mb-0">Deze berekening is indicatief en helpt u vooral met scenariovergelijking.</p>
+                </div>
+            </div>
+
+            <div class="card mt-8">
+                <h3>Methodiek & betrouwbaarheid</h3>
+                <p>Deze tool rekent met een eenvoudige indicatieve methode op basis van waardeontwikkeling en hypotheekruimte.</p>
+                <p>De exacte maximale bouwdepothoogte hangt af van taxatie, acceptatiecriteria, financieringsstructuur en uw persoonlijke dossier.</p>
+                <p>Gebruik de uitkomst als voorbereidende inschatting en laat het definitieve maximum bevestigen door adviseur of geldverstrekker.</p>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="container text-center py-8">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="kennisbank.html">Kennisbank</a>
+                <a href="over-ons.html">Over ons</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="cookies.html">Cookies</a>
+                <a href="voorwaarden.html">Voorwaarden</a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
+
+    <script>
+        const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+        const pairs = [
+            ['input-value-now', 'range-value-now', 100000, 1500000],
+            ['input-value-after', 'range-value-after', 100000, 1800000],
+            ['input-mortgage', 'range-mortgage', 0, 1500000],
+            ['input-budget', 'range-budget', 5000, 500000],
+            ['input-own-cash', 'range-own-cash', 0, 200000],
+            ['input-limit', 'range-limit', 70, 120],
+        ];
+
+        pairs.forEach(([inputId, rangeId, min, max]) => {
+            const input = document.getElementById(inputId);
+            const range = document.getElementById(rangeId);
+
+            input.addEventListener('input', () => {
+                const value = clamp(Number(input.value) || min, min, max);
+                range.value = value;
+                calculate();
+            });
+
+            range.addEventListener('input', () => {
+                input.value = range.value;
+                calculate();
+            });
+        });
+
+        function calculate() {
+            const valueAfter = Math.max(0, Number(document.getElementById('input-value-after').value) || 0);
+            const mortgage = Math.max(0, Number(document.getElementById('input-mortgage').value) || 0);
+            const budget = Math.max(0, Number(document.getElementById('input-budget').value) || 0);
+            const ownCash = Math.max(0, Number(document.getElementById('input-own-cash').value) || 0);
+            const limitPct = Math.max(0, Number(document.getElementById('input-limit').value) || 0);
+
+            const maxMortgageBasedOnAfterValue = valueAfter * (limitPct / 100);
+            const extraSpaceRaw = maxMortgageBasedOnAfterValue - mortgage;
+            const extraSpace = Math.max(0, extraSpaceRaw);
+
+            const maxDepotIndicative = Math.min(budget, extraSpace);
+            const ownNeeded = Math.max(0, budget - maxDepotIndicative);
+            const ownUsed = Math.min(ownCash, ownNeeded);
+            const shortfall = Math.max(0, ownNeeded - ownUsed);
+
+            document.getElementById('res-extra-space').textContent = euro.format(extraSpace);
+            document.getElementById('res-max-depot').textContent = euro.format(maxDepotIndicative);
+            document.getElementById('res-financeable').textContent = euro.format(maxDepotIndicative);
+            document.getElementById('res-own-needed').textContent = euro.format(ownNeeded);
+            document.getElementById('res-own-used').textContent = euro.format(ownUsed);
+            document.getElementById('res-shortfall').textContent = euro.format(shortfall);
+
+            let conclusion = 'Deze berekening is indicatief en helpt u vooral met scenariovergelijking.';
+            if (maxDepotIndicative >= budget && budget > 0) {
+                conclusion = 'Uw volledige verbouwbudget lijkt in dit scenario indicatief financierbaar binnen de gekozen aannames.';
+            } else if (ownNeeded > 0 && shortfall === 0) {
+                conclusion = 'Uw budget lijkt deels financierbaar; met het ingevoerde eigen geld kunt u het resterende deel in dit scenario opvangen.';
+            } else if (ownNeeded > 0 && shortfall > 0) {
+                conclusion = 'Uw budget ligt waarschijnlijk boven de indicatieve financieringsruimte. Mogelijk is extra eigen geld of aanpassing van het plan nodig.';
+            } else if (budget === 0) {
+                conclusion = 'Vul een verbouwbudget in om te zien welk deel mogelijk financierbaar is.';
+            }
+
+            document.getElementById('res-conclusion').textContent = conclusion;
+        }
+
+        document.querySelectorAll('.maxdepot-preset').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                document.getElementById('input-value-now').value = btn.dataset.now;
+                document.getElementById('range-value-now').value = btn.dataset.now;
+                document.getElementById('input-value-after').value = btn.dataset.after;
+                document.getElementById('range-value-after').value = btn.dataset.after;
+                document.getElementById('input-mortgage').value = btn.dataset.mortgage;
+                document.getElementById('range-mortgage').value = btn.dataset.mortgage;
+                document.getElementById('input-budget').value = btn.dataset.budget;
+                document.getElementById('range-budget').value = btn.dataset.budget;
+                document.getElementById('input-own-cash').value = btn.dataset.cash;
+                document.getElementById('range-own-cash').value = btn.dataset.cash;
+                calculate();
+            });
+        });
+
+        calculate();
+    </script>
+</body>
+</html>
