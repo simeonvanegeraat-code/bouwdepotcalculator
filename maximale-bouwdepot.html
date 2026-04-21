@@ -399,7 +399,8 @@
         </div>
     </footer>
 
-    <script>
+    <script type="module" src="/src/js/reporting.js"></script>
+    <script type="module">
         const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
         const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
         const formatPercentage = (value) => `${Number(value).toLocaleString('nl-NL', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
@@ -428,6 +429,10 @@
         const sumCash = document.getElementById('sum-maxdepot-cash');
         const sumLimit = document.getElementById('sum-maxdepot-limit');
         const btnDownload = document.getElementById('btn-download-maxdepot');
+        const reportToolkit = window.BouwdepotReporting || null;
+        if (btnDownload && reportToolkit?.registerReportButton) {
+            reportToolkit.registerReportButton(btnDownload);
+        }
 
         function buildMaxDepotReport(data) {
             return {
@@ -568,8 +573,6 @@
                 calculate();
             });
         });
-
-        if (btnDownload) btnDownload.addEventListener('click', () => window.print());
 
         calculate();
     </script>

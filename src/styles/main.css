@@ -516,6 +516,10 @@ input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin
     border-top: 1px dashed #e5e7eb;
 }
 
+.result-copy-block p {
+    overflow-wrap: anywhere;
+}
+
 .result-copy-title {
     font-size: 0.78rem;
     text-transform: uppercase;
@@ -579,6 +583,9 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     padding: 1rem; border-radius: var(--radius);
     font-weight: 700; font-size: 1rem; cursor: pointer;
     transition: background 0.2s; margin-top: 1rem;
+    min-height: 48px;
+    line-height: 1.3;
+    text-align: center;
 }
 .btn-primary:hover { background: #e05600; }
 .disclaimer { font-size: 0.75rem; color: #9CA3AF; text-align: center; margin-top: 0.5rem; }
@@ -907,6 +914,11 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     .scenario-grid,
     .calc-summary-list {
         grid-template-columns: 1fr;
+    }
+
+    .btn-primary {
+        font-size: 0.95rem;
+        padding: 0.9rem;
     }
 }
 
