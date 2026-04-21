@@ -1,3 +1,5 @@
+import { jsPDF } from 'jspdf';
+
 (function initBouwdepotReporting(global) {
     const SCHEMA_VERSION = '1.0.0';
 
@@ -69,67 +71,125 @@
         };
     };
 
-    const renderRows = (rows) => {
-        if (!rows.length) return '<p class="report-empty">Geen gegevens beschikbaar.</p>';
-        return `<dl class="report-grid">${rows.map((row) => `<div><dt>${row.label}</dt><dd>${row.value}</dd></div>`).join('')}</dl>`;
+    const sanitizeFilePart = (value) => String(value || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-z0-9\s-]/g, '')
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-');
+
+    const getReportFilename = (report) => {
+        const base = sanitizeFilePart(report.toolId) || sanitizeFilePart(report.toolTitle) || 'bouwdepot';
+        return `${base}-overzicht.pdf`;
     };
 
-    const renderReportHtml = (report) => {
-        const generatedAt = new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(report.generatedAt));
-
-        return `<!doctype html>
-<html lang="nl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${report.toolTitle} - Overzicht</title>
-<style>
-body{font-family:Inter,Arial,sans-serif;margin:0;background:#f8fafc;color:#0f172a}
-.wrap{max-width:860px;margin:0 auto;padding:28px 18px 44px}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:22px}
-h1{font-size:26px;margin:0 0 4px;color:#000066}h2{font-size:17px;margin:0 0 10px;color:#111827}
-.muted{color:#475569;font-size:13px;margin:0}
-.section{margin-top:16px;padding-top:14px;border-top:1px dashed #cbd5e1}
-.report-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;margin:0}
-.report-grid div{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px}
-dt{font-size:12px;color:#64748b;margin:0 0 4px}dd{font-weight:600;margin:0;font-size:14px;color:#0f172a}
-.p{margin:0;color:#1f2937;line-height:1.55}
-.footer{margin-top:16px;font-size:12px;color:#64748b;text-align:center}
-@media (max-width:680px){.report-grid{grid-template-columns:1fr}.card{padding:16px}}
-@media print{body{background:#fff}.wrap{padding:0}.card{border:none;border-radius:0;padding:0}}
-</style>
-</head>
-<body>
-<div class="wrap">
-<article class="card">
-<header>
-<p class="muted">BouwdepotCalculator.nl</p>
-<h1>${report.toolTitle}</h1>
-<p class="muted">Gegenereerd: ${generatedAt}</p>
-</header>
-<section class="section"><h2>Inputoverzicht</h2>${renderRows(report.inputs)}</section>
-<section class="section"><h2>Resultaatoverzicht</h2>${renderRows(report.results)}</section>
-<section class="section"><h2>Conclusie</h2><p class="p">${report.conclusion}</p></section>
-<section class="section"><h2>Interpretatie</h2><p class="p">${report.interpretation}</p></section>
-<section class="section"><h2>Aannames</h2><p class="p">${report.assumptions}</p></section>
-<footer class="footer">Indicatieve berekening • ${report.metadata.generatedFrom}</footer>
-</article>
-</div>
-<script>window.addEventListener('load',()=>window.print());<\/script>
-</body>
-</html>`;
+    const addWrappedText = (doc, text, x, y, maxWidth, lineHeight) => {
+        const safeText = text || '—';
+        const lines = doc.splitTextToSize(String(safeText), maxWidth);
+        doc.text(lines, x, y);
+        return y + (lines.length * lineHeight);
     };
 
-    const openReportWindow = (normalizedReport) => {
-        const reportWindow = global.open('', '_blank', 'noopener,noreferrer');
-        if (!reportWindow) {
-            global.print();
-            return;
+    const createPdfReport = (report) => {
+        const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+        const margin = 14;
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const contentWidth = pageWidth - (margin * 2);
+        const lineHeight = 5.5;
+        const sectionGap = 8;
+        let y = margin;
+
+        const ensurePageSpace = (requiredHeight = 10) => {
+            if ((y + requiredHeight) <= (pageHeight - margin)) return;
+            doc.addPage();
+            y = margin;
+        };
+
+        const addSectionTitle = (title) => {
+            ensurePageSpace(10);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(13);
+            y = addWrappedText(doc, title, margin, y, contentWidth, lineHeight);
+            y += 2;
+        };
+
+        const addParagraph = (text) => {
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10.5);
+            const lines = doc.splitTextToSize(String(text || '—'), contentWidth);
+            lines.forEach((line) => {
+                ensurePageSpace(lineHeight);
+                doc.text(line, margin, y);
+                y += lineHeight;
+            });
+        };
+
+        const addRows = (rows) => {
+            if (!rows.length) {
+                addParagraph('Geen gegevens beschikbaar.');
+                return;
+            }
+
+            rows.forEach((row) => {
+                const labelText = row.label || 'Waarde';
+                const valueText = row.value || '—';
+
+                ensurePageSpace(lineHeight * 2);
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(10.5);
+                y = addWrappedText(doc, labelText, margin, y, contentWidth, lineHeight);
+
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10.5);
+                y = addWrappedText(doc, valueText, margin + 2, y, contentWidth - 2, lineHeight);
+                y += 1.5;
+            });
+        };
+
+        const generatedAt = new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' })
+            .format(new Date(report.generatedAt));
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(18);
+        y = addWrappedText(doc, report.toolTitle || 'Bouwdepot calculator', margin, y, contentWidth, 7);
+        y += 2;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        y = addWrappedText(doc, `Gegenereerd op: ${generatedAt}`, margin, y, contentWidth, lineHeight);
+        y += sectionGap;
+
+        addSectionTitle('Inputoverzicht');
+        addRows(report.inputs || []);
+        y += sectionGap;
+
+        addSectionTitle('Resultaatoverzicht');
+        addRows(report.results || []);
+        y += sectionGap;
+
+        addSectionTitle('Conclusie');
+        addParagraph(report.conclusion);
+        y += sectionGap;
+
+        addSectionTitle('Interpretatie');
+        addParagraph(report.interpretation);
+        y += sectionGap;
+
+        addSectionTitle('Aannames');
+        addParagraph(report.assumptions);
+
+        doc.save(getReportFilename(report));
+    };
+
+    const downloadReportPdf = (normalizedReport) => {
+        try {
+            createPdfReport(normalizedReport);
+        } catch (error) {
+            console.error('Kon PDF-overzicht niet genereren.', error);
         }
-
-        reportWindow.document.open();
-        reportWindow.document.write(renderReportHtml(normalizedReport));
-        reportWindow.document.close();
     };
 
     const registerReportButton = (button, options = {}) => {
@@ -148,7 +208,7 @@ dt{font-size:12px;color:#64748b;margin:0 0 4px}dd{font-weight:600;margin:0;font-
             }
 
             const normalizedReport = normalizeReport(rawReport, options);
-            openReportWindow(normalizedReport);
+            downloadReportPdf(normalizedReport);
         });
 
         button.dataset.reportBound = 'true';
