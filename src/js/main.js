@@ -1,6 +1,8 @@
 import '../styles/main.css';
+import { initSharedFormMemory, setMemoryLockById } from './shared-form-memory';
 
 document.addEventListener('DOMContentLoaded', () => {
+    initSharedFormMemory();
 
     // --- HELPER: FORMAT EURO ---
     const formatEuro = (val) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(val);
@@ -1270,10 +1272,15 @@ document.addEventListener('DOMContentLoaded', () => {
         let fiscalChart = null;
 
         const params = new URLSearchParams(window.location.search);
-        if(params.has('amount')) inputAmount.value = params.get('amount');
+        if(params.has('amount')) {
+            inputAmount.value = params.get('amount');
+            setMemoryLockById('fiscal-amount');
+        }
         if(params.has('interest')) {
              inputInterest.value = params.get('interest');
              rangeInterest.value = params.get('interest');
+             setMemoryLockById('fiscal-interest');
+             setMemoryLockById('range-fiscal-interest');
         }
 
         const RULES_2026 = {
