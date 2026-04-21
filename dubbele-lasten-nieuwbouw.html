@@ -17,21 +17,51 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="/src/styles/main.css">
+    <script type="module" src="/src/js/nav.js"></script>
 </head>
 <body>
-
     <header class="site-header">
         <div class="container header-inner">
-            <div class="logo">Bouwdepot<span class="text-accent">Calculator</span>.nl</div>
-            <nav class="main-nav">
-                <a href="index.html">Verbouwen</a>
-                <a href="calculators.html">Calculators</a>
-                <a href="nieuwbouw.html" class="active">Nieuwbouw</a>
-                <a href="belasting.html">Belastingvoordeel</a>
-                <a href="stappenplan.html">Stappenplan</a>
-                <a href="kennisbank.html">Kennisbank</a>
-                <a href="over-ons.html">Over ons</a>
-                <a href="contact.html">Contact</a>
+            <a class="logo" href="index.html" aria-label="Ga naar de homepage van BouwdepotCalculator.nl">
+                Bouwdepot<span class="text-accent">Calculator</span>.nl
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open hoofdmenu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="main-nav" id="site-nav" aria-label="Hoofdnavigatie">
+                <div class="nav-item has-dropdown" data-dropdown>
+                    <button class="nav-link nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="calc-dropdown-menu">
+                        Calculators <span class="nav-caret" aria-hidden="true">▾</span>
+                    </button>
+                    <div class="calc-dropdown" id="calc-dropdown-menu" role="menu" aria-label="Calculator overzicht">
+                        <div class="calc-dropdown-group">
+                            <p class="calc-group-title">Snel starten</p>
+                            <a href="index.html" role="menuitem">Algemene bouwdepot calculator</a>
+                            <a href="maandlasten-bouwdepot.html" role="menuitem">Maandlasten bouwdepot</a>
+                        </div>
+                        <div class="calc-dropdown-group">
+                            <p class="calc-group-title">Nieuwbouw</p>
+                            <a href="nieuwbouw.html" role="menuitem">Nieuwbouw calculator</a>
+                            <a href="bouwrente-nieuwbouw.html" role="menuitem">Bouwrente nieuwbouw</a>
+                            <a href="dubbele-lasten-nieuwbouw.html" role="menuitem">Dubbele lasten nieuwbouw</a>
+                        </div>
+                        <div class="calc-dropdown-group">
+                            <p class="calc-group-title">Inzicht &amp; planning</p>
+                            <a href="renteverlies-bouwdepot.html" role="menuitem">Renteverlies bouwdepot</a>
+                            <a href="maximale-bouwdepot.html" role="menuitem">Maximale bouwdepot</a>
+                            <a href="eigen-geld-bouwdepot.html" role="menuitem">Eigen geld bouwdepot</a>
+                            <a href="belasting.html" role="menuitem">Belastingvoordeel</a>
+                        </div>
+                        <a class="calc-dropdown-all" href="calculators.html" role="menuitem">Alle calculators</a>
+                    </div>
+                </div>
+                <a class="nav-link" href="kennisbank.html">Kennisbank</a>
+                <a class="nav-link" href="stappenplan.html">Stappenplan</a>
+                <a class="nav-link" href="over-ons.html">Over ons</a>
+                <a class="nav-link" href="contact.html">Contact</a>
+                <a class="nav-link nav-cta" href="calculators.html">Start berekenen</a>
             </nav>
         </div>
     </header>
