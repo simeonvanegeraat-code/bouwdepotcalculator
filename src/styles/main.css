@@ -33,33 +33,152 @@ body {
 .site-header {
     background: var(--color-white);
     border-bottom: 1px solid var(--color-border);
-    padding: 1rem 0;
+    padding: 0.8rem 0;
     margin-bottom: 2rem;
+    position: relative;
+    z-index: 30;
 }
 
 .header-inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     font-weight: 700;
     color: var(--color-primary);
+    text-decoration: none;
+    white-space: nowrap;
 }
 
 .text-accent { color: var(--color-accent); }
 
-.main-nav a {
-    text-decoration: none;
-    color: var(--color-text-light);
-    margin-left: 1.5rem;
-    font-weight: 600;
-    transition: color 0.2s;
+.nav-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    background: #fff;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
 }
 
-.main-nav a.active, .main-nav a:hover {
+.nav-toggle span {
+    width: 18px;
+    height: 2px;
+    background: var(--color-primary);
+    border-radius: 2px;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--color-text-light);
+    font-weight: 600;
+    transition: color 0.2s, background-color 0.2s;
+    padding: 0.45rem 0.65rem;
+    border-radius: 8px;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible,
+.nav-link.active,
+.main-nav.is-calculator-page .nav-dropdown-toggle {
+    color: var(--color-primary);
+    background: rgba(0, 0, 102, 0.06);
+    outline: none;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.nav-caret {
+    font-size: 0.8rem;
+    line-height: 1;
+}
+
+.calc-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 0.65rem);
+    width: min(560px, 86vw);
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1);
+    padding: 0.95rem;
+    display: none;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.95rem;
+}
+
+.nav-item.is-open .calc-dropdown {
+    display: grid;
+}
+
+.calc-dropdown-group {
+    min-width: 0;
+}
+
+.calc-group-title {
+    color: var(--color-primary);
+    font-size: 0.84rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+}
+
+.calc-dropdown a {
+    display: block;
+    text-decoration: none;
+    color: var(--color-text-light);
+    font-size: 0.88rem;
+    line-height: 1.45;
+    padding: 0.2rem 0;
+    border-radius: 6px;
+}
+
+.calc-dropdown a:hover,
+.calc-dropdown a:focus-visible,
+.calc-dropdown a.active {
+    color: var(--color-primary);
+    outline: none;
+}
+
+.calc-dropdown-all {
+    grid-column: 1 / -1;
+    margin-top: 0.1rem;
+    padding-top: 0.65rem !important;
+    border-top: 1px solid var(--color-border);
+    font-weight: 600;
+}
+
+.nav-cta {
+    margin-left: 0.5rem;
+    background: rgba(0, 0, 102, 0.08);
     color: var(--color-primary);
 }
 
@@ -902,29 +1021,71 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     .amount, h2, span, p, label { color: black !important; }
 }
 
-/* --- MOBIELE HEADER FIX --- */
-@media (max-width: 768px) {
-    .header-inner {
-        flex-direction: column; /* Zet logo en menu onder elkaar */
-        text-align: center;
-        padding-bottom: 0.5rem;
-    }
-
-    .logo {
-        margin-bottom: 1rem; /* Ruimte onder het logo */
+@media (max-width: 960px) {
+    .nav-toggle {
+        display: inline-flex;
     }
 
     .main-nav {
-        display: flex;
-        flex-wrap: wrap; /* Laat linkjes netjes naar de volgende regel gaan */
-        justify-content: center; /* Centreer de linkjes */
-        gap: 0.8rem 1.2rem; /* Ruimte tussen de linkjes (boven/onder en links/rechts) */
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid var(--color-border);
+        padding: 0.65rem 1rem 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.25rem;
     }
 
-    .main-nav a {
-        margin-left: 0; /* Reset de oude marge */
-        font-size: 0.95rem; /* Ietsje kleiner voor mobiel */
-        display: inline-block;
+    .site-header.nav-open .main-nav {
+        display: flex;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: left;
+        padding: 0.7rem 0.75rem;
+    }
+
+    .nav-item,
+    .nav-dropdown-toggle {
+        width: 100%;
+    }
+
+    .nav-dropdown-toggle {
+        justify-content: space-between;
+        padding: 0.7rem 0.75rem;
+    }
+
+    .calc-dropdown {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border: 1px solid var(--color-border);
+        margin-top: 0.35rem;
+        grid-template-columns: 1fr;
+        padding: 0.8rem;
+    }
+
+    .calc-dropdown-group {
+        margin-bottom: 0.3rem;
+    }
+
+    .calc-group-title {
+        margin-bottom: 0.2rem;
+    }
+
+    .calc-dropdown a {
+        padding: 0.35rem 0;
+    }
+
+    .nav-cta {
+        margin-left: 0;
+        margin-top: 0.15rem;
+        text-align: center;
     }
 }
 
