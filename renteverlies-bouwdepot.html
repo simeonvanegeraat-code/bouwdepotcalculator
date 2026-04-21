@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renteverlies bouwdepot berekenen 2026 | Hypotheekrente vs vergoeding bouwdepot</title>
+    <meta name="description" content="Bereken indicatief het renteverlies van uw bouwdepot: verschil tussen hypotheekrente op het bouwdepotdeel en vergoeding over niet opgenomen depot. Inclusief opnamepatroon, voorbeelden en uitleg.">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <link rel="canonical" href="https://www.bouwdepotcalculator.nl/renteverlies-bouwdepot.html">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="logo">Bouwdepot<span class="text-accent">Calculator</span>.nl</div>
+            <nav class="main-nav">
+                <a href="index.html">Verbouwen</a>
+                <a href="maandlasten-bouwdepot.html" class="active">Maandlasten</a>
+                <a href="nieuwbouw.html">Nieuwbouw</a>
+                <a href="belasting.html">Belastingvoordeel</a>
+                <a href="stappenplan.html">Stappenplan</a>
+                <a href="kennisbank.html">Kennisbank</a>
+                <a href="over-ons.html">Over ons</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container home-layout">
+        <section class="card">
+            <h1>Renteverlies bouwdepot berekenen</h1>
+            <p class="subtitle">Bereken in 1 minuut hoeveel netto rentekostenverschil (renteverlies) tijdens uw bouwdepotperiode kan ontstaan. U ziet het verschil tussen hypotheekrente op het bouwdepotdeel en vergoeding over het nog niet opgenomen depotbedrag.</p>
+            <p class="trust-line">Bankregels, boekingsmethode en opnameverloop verschillen per aanbieder. Deze uitkomst is altijd een <strong>indicatieve schatting</strong>.</p>
+        </section>
+
+        <section class="calculator-template" aria-label="Renteverlies bouwdepot calculator">
+            <div class="template-main">
+                <div class="card calculator-card" id="renteverlies-calc">
+                    <h2>Calculator renteverlies tijdens bouwdepot</h2>
+                    <p class="section-intro">Vul uw situatie in en bekijk direct de indicatieve kosten van rente over niet opgenomen bouwdepot.</p>
+
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="input-renteverlies-depot">Bouwdepot bedrag</label>
+                            <div class="number-input-wrapper has-prefix" style="width: 150px;">
+                                <span class="prefix">€</span>
+                                <input type="number" id="input-renteverlies-depot" value="50000" step="500" min="5000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="two-col-inputs">
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-renteverlies-hypotheek">Hypotheekrente</label>
+                                <div class="number-input-wrapper has-suffix">
+                                    <input type="number" id="input-renteverlies-hypotheek" value="4.0" step="0.01" min="0.1" max="15">
+                                    <span class="suffix">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-renteverlies-vergoeding">Vergoeding over niet opgenomen bouwdepot</label>
+                                <div class="number-input-wrapper has-suffix">
+                                    <input type="number" id="input-renteverlies-vergoeding" value="3.0" step="0.01" min="0" max="15">
+                                    <span class="suffix">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="two-col-inputs">
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-renteverlies-maanden">Verwachte looptijd bouwdepot</label>
+                                <div class="number-input-wrapper has-suffix">
+                                    <input type="number" id="input-renteverlies-maanden" value="12" min="1" max="36" step="1">
+                                    <span class="suffix">mnd</span>
+                                </div>
+                            </div>
+                            <input type="range" id="range-renteverlies-maanden" min="1" max="36" step="1" value="12" class="slider">
+                        </div>
+
+                        <div class="input-group compact panel-input">
+                            <div class="label-row">
+                                <label for="input-renteverlies-pattern">Opnamepatroon / uitgavenverloop</label>
+                                <div class="select-wrapper" style="width: 250px;">
+                                    <select id="input-renteverlies-pattern">
+                                        <option value="even">Gelijkmatig opgenomen</option>
+                                        <option value="fast">Snelle opname in het begin</option>
+                                        <option value="slow">Vooral later opgenomen</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="assumption-note" id="renteverlies-pattern-note">Bij gelijkmatig opnemen daalt het resterende depot in gelijke stappen.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="card" aria-label="Voorbeeldscenario's renteverlies bouwdepot">
+                    <h2>Voorbeeldscenario's</h2>
+                    <p class="section-intro">Gebruik een scenario als start en pas daarna uw eigen cijfers aan.</p>
+                    <div class="scenario-grid">
+                        <button type="button" class="scenario-btn renteverlies-scenario" data-depot="25000" data-mortgage-rate="3.9" data-depot-rate="3.1" data-months="12" data-pattern="even">
+                            <strong>Bouwdepot €25.000</strong>
+                            <span>Gelijkmatige opname over 12 maanden</span>
+                        </button>
+                        <button type="button" class="scenario-btn renteverlies-scenario" data-depot="50000" data-mortgage-rate="4.0" data-depot-rate="3.0" data-months="12" data-pattern="even">
+                            <strong>Bouwdepot €50.000</strong>
+                            <span>Veelgekozen middenscenario</span>
+                        </button>
+                        <button type="button" class="scenario-btn renteverlies-scenario" data-depot="100000" data-mortgage-rate="4.2" data-depot-rate="3.1" data-months="16" data-pattern="slow">
+                            <strong>Bouwdepot €100.000</strong>
+                            <span>Langere looptijd met latere opnames</span>
+                        </button>
+                        <button type="button" class="scenario-btn renteverlies-scenario" data-depot="50000" data-mortgage-rate="4.0" data-depot-rate="3.0" data-months="12" data-pattern="fast">
+                            <strong>Snelle opname eerste maanden</strong>
+                            <span>Minder tijd met hoog restdepot</span>
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="card result-card sticky-box">
+                <h2>Indicatieve uitkomst</h2>
+                <p class="result-intro">Verschil tussen hypotheekrente en vergoeding op niet opgenomen depot.</p>
+
+                <div class="result-row">
+                    <span>Totale hypotheekrente over bouwdepotdeel</span>
+                    <span id="res-renteverlies-hypotheek" class="amount">€ 0</span>
+                </div>
+
+                <div class="result-row discount">
+                    <span>Totale ontvangen vergoeding</span>
+                    <span id="res-renteverlies-vergoeding" class="amount">€ 0</span>
+                </div>
+
+                <hr>
+
+                <div class="result-row total featured-row">
+                    <span>Indicatief renteverlies / netto verschil</span>
+                    <span id="res-renteverlies-netto" class="amount highlight">€ 0</span>
+                </div>
+
+                <div class="result-row">
+                    <span>Gemiddeld effect per maand</span>
+                    <span id="res-renteverlies-maand" class="amount">€ 0</span>
+                </div>
+
+                <div class="callout mt-4">
+                    <p id="res-renteverlies-conclusie" class="callout-text mb-0">Uw uitkomst verschijnt hier met een korte interpretatie.</p>
+                </div>
+
+                <p class="disclaimer">Indicatieve berekening. Werkelijke uitkomst verschilt per geldverstrekker, hypotheekvorm, boekingsmethode en exacte opnamedata.</p>
+            </aside>
+        </section>
+
+        <section class="card content-block">
+            <h2>Hoe ontstaat renteverlies bij een bouwdepot?</h2>
+            <p>Bij een bouwdepot leent u het bedrag in principe direct mee in de hypotheek. Daardoor loopt de hypotheekrente op dat bouwdepotdeel door, ook als u het depot nog niet volledig hebt gebruikt.</p>
+            <p>Tegelijk krijgt u vaak een vergoeding over het deel dat nog in depot staat. Die vergoeding is in veel situaties lager dan de hypotheekrente. Het verschil tussen wat u betaalt en wat u terugkrijgt, noemen veel mensen renteverlies.</p>
+            <p>Hoe sneller u opneemt, hoe korter er nog veel depotgeld “stilstaat”. Hoe later u opneemt, hoe langer het niet opgenomen saldo meespeelt. Daarom heeft opnameplanning direct invloed op de uitkomst.</p>
+        </section>
+
+        <section class="card content-block">
+            <h2>Wat is het verschil tussen hypotheekrente, rentevergoeding en renteverlies?</h2>
+            <div class="faq-grid">
+                <article>
+                    <h3>Hypotheekrente</h3>
+                    <p>De rente die u betaalt over uw lening. In dit model rekenen we voor het bouwdepotdeel met het volledige depotbedrag over de gekozen periode.</p>
+                </article>
+                <article>
+                    <h3>Rentevergoeding bouwdepot</h3>
+                    <p>De vergoeding die u ontvangt over het deel van het bouwdepot dat nog niet is opgenomen. Dit bedrag daalt meestal naarmate het depot wordt gebruikt.</p>
+                </article>
+                <article>
+                    <h3>Renteverlies</h3>
+                    <p>Het netto verschil: betaalde hypotheekrente minus ontvangen vergoeding. Dit is de praktische extra rentedruk van de bouwdepotperiode.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="card content-block">
+            <h2>Wat nemen wij mee in deze berekening?</h2>
+            <ul>
+                <li>Bouwdepot bedrag, hypotheekrente, vergoeding op niet opgenomen depot en looptijd.</li>
+                <li>Een transparant opnamepatroon (gelijkmatig, snel in het begin, vooral later).</li>
+                <li>Maandelijkse benadering op basis van gemiddeld restdepot per maand.</li>
+                <li>Een duidelijke splitsing tussen betaalde rente, ontvangen vergoeding en netto verschil.</li>
+            </ul>
+
+            <h3>Wat nemen wij niet mee?</h3>
+            <ul>
+                <li>Geldverstrekker-specifieke dagrente, boekingsdagen en exacte interne depotregels.</li>
+                <li>Hypotheekproduct-details die per aanbieder kunnen afwijken.</li>
+                <li>Persoonlijke fiscale behandeling of advies op maat.</li>
+                <li>Renteaanpassingen tijdens de looptijd, tenzij u die zelf handmatig invult.</li>
+                <li>Projectvertragingen die niet zijn verwerkt in de gekozen looptijd.</li>
+            </ul>
+        </section>
+
+        <section class="card content-block">
+            <h2>Uitgewerkt voorbeeld renteverlies bouwdepot</h2>
+            <p><strong>Situatie:</strong> bouwdepot €50.000, hypotheekrente 4,0%, vergoeding bouwdepot 3,0%, looptijd 12 maanden, gelijkmatige opname.</p>
+            <p><strong>Indicatieve stap 1 – hypotheekrente op bouwdepotdeel:</strong> €50.000 × 4,0% × (12/12) = <strong>€2.000</strong>.</p>
+            <p><strong>Indicatieve stap 2 – vergoeding op restdepot:</strong> bij gelijkmatige opname staat gemiddeld ongeveer 50% van het depot uit. Dat geeft circa €25.000 × 3,0% × (12/12) = <strong>€750</strong>.</p>
+            <p><strong>Indicatieve stap 3 – renteverlies / netto verschil:</strong> €2.000 - €750 = <strong>€1.250</strong> over 12 maanden (ongeveer €104 per maand).</p>
+            <p>Conclusie: het verschil lijkt beperkt in absolute zin, maar kan oplopen bij een hogere rente, lagere vergoeding of langere bouwdepotduur.</p>
+        </section>
+
+        <section class="card content-block">
+            <h2>Wat betekent deze uitkomst voor u?</h2>
+            <ul>
+                <li><strong>Laag renteverlies:</strong> vaak bij kortere looptijd, kleine renteverschillen of snelle opname van het depot.</li>
+                <li><strong>Merkbaar renteverlies:</strong> meestal bij 10-18 maanden looptijd en duidelijk lagere vergoeding dan hypotheekrente.</li>
+                <li><strong>Hoge impact:</strong> vooral bij grote depots, langere bouwduur en een ruim verschil tussen beide percentages.</li>
+                <li><strong>Praktische tip:</strong> vergelijk meerdere opnamepatronen in de calculator om te zien hoe timing uw netto effect kan veranderen.</li>
+            </ul>
+        </section>
+
+        <section class="card compact-faq">
+            <h2>Veelgestelde vragen over renteverlies bouwdepot</h2>
+            <div class="faq-grid">
+                <article>
+                    <h3>Wat is renteverlies bij een bouwdepot?</h3>
+                    <p>Het verschil tussen de hypotheekrente die u betaalt en de vergoeding die u ontvangt over niet opgenomen depotgeld.</p>
+                </article>
+                <article>
+                    <h3>Krijg ik rente over mijn niet opgenomen bouwdepot?</h3>
+                    <p>In veel gevallen wel, maar de methode en hoogte verschillen per geldverstrekker en voorwaarden.</p>
+                </article>
+                <article>
+                    <h3>Waarom is de vergoeding vaak lager dan de hypotheekrente?</h3>
+                    <p>Veel aanbieders hanteren een lagere vergoeding of afslag. Daardoor kan een netto renteverschil ontstaan.</p>
+                </article>
+                <article>
+                    <h3>Is renteverlies hetzelfde als bouwrente?</h3>
+                    <p>Nee, het zijn verschillende begrippen. Renteverlies gaat hier over het verschil tussen betaalde hypotheekrente en ontvangen depotvergoeding.</p>
+                </article>
+                <article>
+                    <h3>Heeft de looptijd invloed op renteverlies?</h3>
+                    <p>Ja. Hoe langer de periode, hoe groter het cumulatieve effect meestal wordt.</p>
+                </article>
+                <article>
+                    <h3>Is deze berekening exact of indicatief?</h3>
+                    <p>Indicatief. Gebruik dit als praktische oriëntatie en laat exacte uitkomsten bevestigen door uw geldverstrekker of adviseur.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="card content-block">
+            <h2>Verder lezen en vergelijken</h2>
+            <div class="resource-grid">
+                <a class="resource-card" href="index.html">
+                    <strong>Algemene bouwdepot calculator</strong>
+                    <span>Start met een snelle indicatie van uw basis maandlasten.</span>
+                </a>
+                <a class="resource-card" href="maandlasten-bouwdepot.html">
+                    <strong>Maandlasten bouwdepot</strong>
+                    <span>Bekijk uw bruto en netto maandlast tijdens de bouwfase.</span>
+                </a>
+                <a class="resource-card" href="nieuwbouw.html">
+                    <strong>Nieuwbouw calculator</strong>
+                    <span>Krijg inzicht in piekmaanden en dubbele lasten.</span>
+                </a>
+                <a class="resource-card" href="bouwrente-nieuwbouw.html">
+                    <strong>Bouwrente nieuwbouw</strong>
+                    <span>Bereken een indicatieve bouwrente bij termijnbetalingen.</span>
+                </a>
+                <a class="resource-card" href="belasting.html">
+                    <strong>Belastingvoordeel</strong>
+                    <span>Verken het mogelijke bruto/netto verschil met fiscale component.</span>
+                </a>
+                <a class="resource-card" href="stappenplan.html">
+                    <strong>Bouwdepot stappenplan</strong>
+                    <span>Praktische volgorde voor aanvraag, declaraties en afronding.</span>
+                </a>
+                <a class="resource-card" href="kennisbank.html">
+                    <strong>Kennisbank</strong>
+                    <span>Lees extra uitleg over termen, risico's en veelgemaakte fouten.</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="card trust-block">
+            <h2>Methodologie & betrouwbaarheid</h2>
+            <p>Deze tool geeft een <strong>indicatieve schatting</strong> van renteverlies in de bouwdepotfase. We gebruiken een eenvoudig, uitlegbaar maandmodel zonder schijnnauwkeurigheid.</p>
+            <p>De exacte uitkomst hangt af van aanbiederbeleid, opnamedata, hypotheekstructuur en administratieve verwerking.</p>
+            <p>Gebruik de uitkomst als voorbereiding en controleer details altijd bij uw geldverstrekker of financieel adviseur.</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container text-center py-8">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="kennisbank.html">Kennisbank</a>
+                <a href="over-ons.html">Over ons</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="cookies.html">Cookies</a>
+                <a href="voorwaarden.html">Voorwaarden</a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
