@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eigen geld bouwdepot berekenen | Hoeveel moet u zelf betalen?</title>
+    <meta name="description" content="Bereken indicatief hoeveel eigen geld u nodig heeft bij verbouwing of nieuwbouw: financierbaar deel, niet-financierbare kosten, tekort of resterende buffer.">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <link rel="canonical" href="https://www.bouwdepotcalculator.nl/eigen-geld-bouwdepot.html">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="logo">
+                Bouwdepot<span class="text-accent">Calculator</span>.nl
+            </div>
+            <nav class="main-nav">
+                <a href="index.html">Verbouwen</a>
+                <a href="nieuwbouw.html">Nieuwbouw</a>
+                <a href="belasting.html">Belastingvoordeel</a>
+                <a href="stappenplan.html">Stappenplan</a>
+                <a href="kennisbank.html">Kennisbank</a>
+                <a href="over-ons.html">Over ons</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-grid">
+        <section class="calculator-section">
+            <section class="card calculator-card">
+                <h1>Eigen geld bouwdepot berekenen</h1>
+                <p class="subtitle">Schat snel hoeveel van uw plan mogelijk via bouwdepot financierbaar is en welk bedrag u waarschijnlijk zelf moet betalen.</p>
+                <p class="trust-line">Indicatieve uitkomst • Exacte bedragen verschillen per geldverstrekker, taxatie en projectafspraken</p>
+
+                <div class="tool-level-card">
+                    <div class="section-head">
+                        <h2>Hoeveel eigen geld heeft u nodig?</h2>
+                        <span>Praktische rekentool voor verbouwing en nieuwbouw-extra's</span>
+                    </div>
+
+                    <div class="input-group compact panel-input">
+                        <div class="label-row">
+                            <label for="input-scenario">Scenario</label>
+                            <div class="select-wrapper" style="width: 220px;">
+                                <select id="input-scenario">
+                                    <option value="verbouwing">Verbouwing</option>
+                                    <option value="nieuwbouw-meerwerk">Nieuwbouw meerwerk</option>
+                                    <option value="nieuwbouw-extra">Nieuwbouw totaal extra kosten</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="input-budget">Gewenst verbouwbudget / meerwerkbudget</label>
+                            <div class="number-input-wrapper has-prefix" style="width: 140px;">
+                                <span class="prefix">€</span>
+                                <input type="number" id="input-budget" min="0" step="1000" value="60000">
+                            </div>
+                        </div>
+                        <input type="range" id="range-budget" min="0" max="400000" step="1000" value="60000" class="slider">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="input-financeable">Indicatief financierbaar deel via bouwdepot</label>
+                            <div class="number-input-wrapper has-prefix" style="width: 140px;">
+                                <span class="prefix">€</span>
+                                <input type="number" id="input-financeable" min="0" step="1000" value="45000">
+                            </div>
+                        </div>
+                        <input type="range" id="range-financeable" min="0" max="400000" step="1000" value="45000" class="slider">
+                        <p class="preset-note">Tip: zet dit op een voorzichtige inschatting. Het definitieve financierbare deel kan afwijken.</p>
+                    </div>
+
+                    <div class="two-col-inputs">
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-notary">Notariskosten (indicatie)</label>
+                                <div class="number-input-wrapper has-prefix">
+                                    <span class="prefix">€</span>
+                                    <input type="number" id="input-notary" min="0" step="100" value="1200">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-advice">Advieskosten (indicatie)</label>
+                                <div class="number-input-wrapper has-prefix">
+                                    <span class="prefix">€</span>
+                                    <input type="number" id="input-advice" min="0" step="100" value="2500">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="two-col-inputs">
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-valuation">Taxatiekosten (indicatie)</label>
+                                <div class="number-input-wrapper has-prefix">
+                                    <span class="prefix">€</span>
+                                    <input type="number" id="input-valuation" min="0" step="50" value="900">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-finishing">Inrichting / afwerking / tuin / losse posten</label>
+                                <div class="number-input-wrapper has-prefix">
+                                    <span class="prefix">€</span>
+                                    <input type="number" id="input-finishing" min="0" step="500" value="8000">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="label-row">
+                            <label for="input-own-cash">Beschikbaar eigen geld</label>
+                            <div class="number-input-wrapper has-prefix" style="width: 140px;">
+                                <span class="prefix">€</span>
+                                <input type="number" id="input-own-cash" min="0" step="1000" value="20000">
+                            </div>
+                        </div>
+                        <input type="range" id="range-own-cash" min="0" max="300000" step="1000" value="20000" class="slider">
+                    </div>
+
+                    <section class="preset-section" aria-label="Voorbeeldscenario's">
+                        <div class="section-headline">
+                            <h2>Voorbeeldscenario's</h2>
+                            <span>Klik en vul direct een praktijkvoorbeeld in</span>
+                        </div>
+                        <div class="preset-grid">
+                            <button class="preset-btn eigen-preset" type="button" data-scenario="verbouwing" data-budget="25000" data-financeable="18000" data-notary="600" data-advice="1500" data-valuation="750" data-finishing="3500" data-own="10000">Kleine verbouwing</button>
+                            <button class="preset-btn eigen-preset" type="button" data-scenario="verbouwing" data-budget="55000" data-financeable="42000" data-notary="1200" data-advice="2500" data-valuation="900" data-finishing="7000" data-own="15000">Keuken + badkamer</button>
+                            <button class="preset-btn eigen-preset" type="button" data-scenario="verbouwing" data-budget="95000" data-financeable="70000" data-notary="1400" data-advice="2800" data-valuation="1000" data-finishing="12000" data-own="25000">Uitbouw</button>
+                            <button class="preset-btn eigen-preset" type="button" data-scenario="nieuwbouw-meerwerk" data-budget="45000" data-financeable="30000" data-notary="0" data-advice="2200" data-valuation="850" data-finishing="9000" data-own="15000">Nieuwbouw meerwerk</button>
+                            <button class="preset-btn eigen-preset" type="button" data-scenario="nieuwbouw-extra" data-budget="70000" data-financeable="45000" data-notary="0" data-advice="2500" data-valuation="900" data-finishing="18000" data-own="25000">Nieuwbouw + afwerking</button>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <section class="card content-block mt-8">
+                <h2>Wanneer heeft u eigen geld nodig bij een bouwdepot?</h2>
+                <p>Veel mensen denken dat alle projectkosten meegefinancierd kunnen worden. In de praktijk valt een deel vaak buiten het bouwdepot of wordt slechts deels geaccepteerd.</p>
+                <p>Denk aan extra kosten rond het project, losse aankopen of posten die niet direct in de taxatiewaarde terugkomen. Daarom is het verstandig om naast het bouwdepot ook uw eigen-cashbehoefte vooraf door te rekenen.</p>
+                <p>Deze tool helpt u om rustig scenario's te vergelijken. De uitkomst is indicatief en bedoeld als voorbereiding op gesprek met adviseur of geldverstrekker.</p>
+            </section>
+
+            <section class="card mt-8">
+                <h2>Wat nemen wij mee in deze berekening?</h2>
+                <ul>
+                    <li>Gewenst verbouw- of meerwerkbudget.</li>
+                    <li>Uw indicatieve inschatting van het financierbare deel via bouwdepot.</li>
+                    <li>Overige kostenposten die vaak (deels) uit eigen middelen komen.</li>
+                    <li>Beschikbaar eigen geld om tekort of buffer te tonen.</li>
+                </ul>
+                <h3>Wat nemen wij niet mee?</h3>
+                <ul>
+                    <li>Definitieve acceptatie door een specifieke geldverstrekker.</li>
+                    <li>Persoonlijke inkomenstoets en exacte hypotheeknormen.</li>
+                    <li>Exacte contractclausules per project of aannemer.</li>
+                    <li>Persoonlijke fiscale behandeling en onverwachte overschrijdingen (tenzij u die zelf invult).</li>
+                </ul>
+            </section>
+
+            <section class="card content-block mt-8">
+                <h2>Welke kosten moet u vaak zelf betalen?</h2>
+                <div class="faq-grid">
+                    <article>
+                        <h3>Advies & bemiddeling</h3>
+                        <p>Kosten voor advies en begeleiding worden vaak apart afgerekend en niet altijd volledig meegefinancierd.</p>
+                    </article>
+                    <article>
+                        <h3>Taxatie en notaris</h3>
+                        <p>Deze kosten zijn regelmatig eigen uitgaven, afhankelijk van traject en afspraken.</p>
+                    </article>
+                    <article>
+                        <h3>Inrichting, afwerking en tuin</h3>
+                        <p>Losse aankopen of afwerkposten vallen niet automatisch in elke bouwdepotconstructie.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="card content-block mt-8">
+                <h2>Uitgewerkt voorbeeld</h2>
+                <p><strong>Situatie:</strong> totaal verbouw/meerwerkbudget €55.000, indicatief financierbaar via bouwdepot €42.000, overige posten €11.600 (advies, taxatie, notaris, afwerking), beschikbaar eigen geld €15.000.</p>
+                <p><strong>Stap 1:</strong> totale projectkosten = €55.000 + €11.600 = <strong>€66.600</strong>.</p>
+                <p><strong>Stap 2:</strong> indicatief niet-financierbaar deel = (€55.000 - €42.000) + €11.600 = <strong>€24.600</strong>.</p>
+                <p><strong>Stap 3:</strong> met €15.000 eigen geld ontstaat indicatief een resterend tekort van <strong>€9.600</strong>.</p>
+            </section>
+
+            <section class="card content-block mt-8">
+                <h2>Wat betekent deze uitkomst voor u?</h2>
+                <div class="faq-grid">
+                    <article>
+                        <h3>Voldoende eigen geld</h3>
+                        <p>Uw eigen geld dekt het niet-financierbare deel. Het verschil blijft als buffer beschikbaar.</p>
+                    </article>
+                    <article>
+                        <h3>Krap budget</h3>
+                        <p>Uw buffer is beperkt. Dan is het verstandig om extra reserve aan te houden voor onverwachte posten.</p>
+                    </article>
+                    <article>
+                        <h3>Tekort aan eigen geld</h3>
+                        <p>Uw plan kan groter zijn dan uw huidige financiering plus eigen middelen. Kijk dan naar planreductie of herijking van het financierbare deel.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="card compact-faq mt-8">
+                <h2>Veelgestelde vragen</h2>
+                <div class="faq-grid">
+                    <article>
+                        <h3>Hoeveel eigen geld heb ik nodig voor een bouwdepot?</h3>
+                        <p>Dat hangt af van uw totale kosten en het deel dat daadwerkelijk financierbaar blijkt. Deze tool geeft daarvoor een indicatieve splitsing.</p>
+                    </article>
+                    <article>
+                        <h3>Kan ik alle verbouwkosten meefinancieren?</h3>
+                        <p>Niet altijd. Sommige kosten worden vaak deels of niet meegenomen, afhankelijk van project en geldverstrekker.</p>
+                    </article>
+                    <article>
+                        <h3>Welke kosten moet ik vaak zelf betalen?</h3>
+                        <p>Denk aan advies, taxatie, notaris en soms losse afwerkings- of inrichtingskosten.</p>
+                    </article>
+                    <article>
+                        <h3>Heb ik bij nieuwbouw extra eigen geld nodig?</h3>
+                        <p>Dat komt regelmatig voor, bijvoorbeeld bij meerwerk of extra afwerking buiten de kernfinanciering.</p>
+                    </article>
+                    <article>
+                        <h3>Wat als mijn eigen geld niet genoeg is?</h3>
+                        <p>Dan kunt u scenario's vergelijken: minderwerk, lagere extra posten of herbeoordeling van het financierbare deel met adviseur.</p>
+                    </article>
+                    <article>
+                        <h3>Is deze berekening exact of indicatief?</h3>
+                        <p>Indicatief. Gebruik dit als voorbereidend inzicht, niet als definitieve financieringsbeslissing.</p>
+                    </article>
+                </div>
+                <div class="resource-grid">
+                    <a href="index.html" class="resource-card">
+                        <strong>Algemene bouwdepot calculator</strong>
+                        <span>Start met basisinzicht in maandlasten.</span>
+                    </a>
+                    <a href="maximale-bouwdepot.html" class="resource-card">
+                        <strong>Maximale bouwdepot berekenen</strong>
+                        <span>Bekijk hoeveel van uw plan mogelijk financierbaar is.</span>
+                    </a>
+                    <a href="bouwrente-nieuwbouw.html" class="resource-card">
+                        <strong>Bouwrente nieuwbouw</strong>
+                        <span>Bereken indicatief de bouwrente bij nieuwbouw.</span>
+                    </a>
+                    <a href="nieuwbouw.html" class="resource-card">
+                        <strong>Nieuwbouw calculator</strong>
+                        <span>Inzicht in dubbele lasten tijdens de bouwfase.</span>
+                    </a>
+                    <a href="belasting.html" class="resource-card">
+                        <strong>Belastingvoordeel calculator</strong>
+                        <span>Indicatief bruto/netto effect van renteaftrek.</span>
+                    </a>
+                    <a href="stappenplan.html" class="resource-card">
+                        <strong>Stappenplan</strong>
+                        <span>Praktische route van voorbereiding tot uitvoering.</span>
+                    </a>
+                    <a href="kennisbank.html" class="resource-card">
+                        <strong>Kennisbank</strong>
+                        <span>Verdieping over bouwdepot en projectkosten.</span>
+                    </a>
+                </div>
+            </section>
+        </section>
+
+        <aside class="sidebar">
+            <div class="card result-card sticky-box">
+                <h2>Uw indicatieve uitsplitsing</h2>
+                <p class="result-intro">Inzicht in totaal, financierbaar deel en wat mogelijk uit eigen geld moet komen.</p>
+
+                <div class="result-row">
+                    <span>Totale projectkosten</span>
+                    <span id="res-total" class="amount">€ 0</span>
+                </div>
+
+                <div class="result-row">
+                    <span>Indicatief financierbaar deel</span>
+                    <span id="res-financeable" class="amount">€ 0</span>
+                </div>
+
+                <div class="result-row total featured-row">
+                    <span>Indicatief niet-financierbaar deel</span>
+                    <span id="res-own-needed" class="amount highlight">€ 0</span>
+                </div>
+
+                <hr>
+
+                <div class="result-row">
+                    <span>Beschikbaar eigen geld</span>
+                    <span id="res-own-cash" class="amount">€ 0</span>
+                </div>
+                <div class="result-row">
+                    <span>Resterend tekort</span>
+                    <span id="res-shortfall" class="amount">€ 0</span>
+                </div>
+                <div class="result-row">
+                    <span>Resterende buffer</span>
+                    <span id="res-buffer" class="amount">€ 0</span>
+                </div>
+
+                <div class="callout mt-4">
+                    <p id="res-conclusion" class="callout-text mb-0">Deze berekening is indicatief en bedoeld als scenariohulp.</p>
+                </div>
+            </div>
+
+            <div class="card mt-8">
+                <h3>Methodiek & vertrouwen</h3>
+                <p>Deze tool berekent eerst totale kosten (budget + overige posten), trekt vervolgens het door u ingevoerde financierbare deel af en vergelijkt de rest met uw eigen geld.</p>
+                <p>Het exacte eigen-geldbedrag kan verschillen door acceptatiebeleid, taxatie, contractdetails en projecttype.</p>
+                <p>Gebruik de uitkomst als voorbereiding en laat definitieve financieringsruimte bevestigen door adviseur of geldverstrekker.</p>
+            </div>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="container text-center py-8">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="kennisbank.html">Kennisbank</a>
+                <a href="over-ons.html">Over ons</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="cookies.html">Cookies</a>
+                <a href="voorwaarden.html">Voorwaarden</a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
+
+    <script>
+        const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+        const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+        const budgetInput = document.getElementById('input-budget');
+        const budgetRange = document.getElementById('range-budget');
+        const financeableInput = document.getElementById('input-financeable');
+        const financeableRange = document.getElementById('range-financeable');
+        const ownCashInput = document.getElementById('input-own-cash');
+        const ownCashRange = document.getElementById('range-own-cash');
+
+        function syncInputRange(input, range, min, max) {
+            input.addEventListener('input', () => {
+                const value = clamp(Number(input.value) || 0, min, max);
+                range.value = value;
+                calculate();
+            });
+
+            range.addEventListener('input', () => {
+                input.value = range.value;
+                calculate();
+            });
+        }
+
+        syncInputRange(budgetInput, budgetRange, 0, 400000);
+        syncInputRange(financeableInput, financeableRange, 0, 400000);
+        syncInputRange(ownCashInput, ownCashRange, 0, 300000);
+
+        ['input-notary', 'input-advice', 'input-valuation', 'input-finishing', 'input-scenario'].forEach((id) => {
+            document.getElementById(id).addEventListener('input', calculate);
+            document.getElementById(id).addEventListener('change', calculate);
+        });
+
+        function calculate() {
+            const budget = Math.max(0, Number(budgetInput.value) || 0);
+            const financeableEntered = Math.max(0, Number(financeableInput.value) || 0);
+            const notary = Math.max(0, Number(document.getElementById('input-notary').value) || 0);
+            const advice = Math.max(0, Number(document.getElementById('input-advice').value) || 0);
+            const valuation = Math.max(0, Number(document.getElementById('input-valuation').value) || 0);
+            const finishing = Math.max(0, Number(document.getElementById('input-finishing').value) || 0);
+            const ownCash = Math.max(0, Number(ownCashInput.value) || 0);
+
+            const financeable = Math.min(financeableEntered, budget);
+            const budgetNonFinanceable = Math.max(0, budget - financeable);
+            const additionalCosts = notary + advice + valuation + finishing;
+
+            const totalCosts = budget + additionalCosts;
+            const ownNeeded = budgetNonFinanceable + additionalCosts;
+            const shortfall = Math.max(0, ownNeeded - ownCash);
+            const buffer = Math.max(0, ownCash - ownNeeded);
+
+            document.getElementById('res-total').textContent = euro.format(totalCosts);
+            document.getElementById('res-financeable').textContent = euro.format(financeable);
+            document.getElementById('res-own-needed').textContent = euro.format(ownNeeded);
+            document.getElementById('res-own-cash').textContent = euro.format(ownCash);
+            document.getElementById('res-shortfall').textContent = euro.format(shortfall);
+            document.getElementById('res-buffer').textContent = euro.format(buffer);
+
+            let conclusion = 'Deze berekening is indicatief en bedoeld als scenariohulp.';
+            if (ownNeeded === 0) {
+                conclusion = 'In deze invoer lijkt uw plan volledig financierbaar en zijn er geen extra eigen middelen nodig voor de ingevoerde posten.';
+            } else if (shortfall === 0 && ownNeeded > 0) {
+                conclusion = 'Uw eigen geld lijkt in dit scenario voldoende om het niet-financierbare deel op te vangen.';
+            } else if (shortfall > 0) {
+                conclusion = 'Uw eigen geld is in dit scenario mogelijk niet genoeg. Overweeg planaanpassing of laat het financierbare deel opnieuw toetsen.';
+            }
+
+            document.getElementById('res-conclusion').textContent = conclusion;
+        }
+
+        document.querySelectorAll('.eigen-preset').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                document.getElementById('input-scenario').value = btn.dataset.scenario;
+                budgetInput.value = btn.dataset.budget;
+                budgetRange.value = clamp(Number(btn.dataset.budget), 0, 400000);
+                financeableInput.value = btn.dataset.financeable;
+                financeableRange.value = clamp(Number(btn.dataset.financeable), 0, 400000);
+                document.getElementById('input-notary').value = btn.dataset.notary;
+                document.getElementById('input-advice').value = btn.dataset.advice;
+                document.getElementById('input-valuation').value = btn.dataset.valuation;
+                document.getElementById('input-finishing').value = btn.dataset.finishing;
+                ownCashInput.value = btn.dataset.own;
+                ownCashRange.value = clamp(Number(btn.dataset.own), 0, 300000);
+                calculate();
+            });
+        });
+
+        calculate();
+    </script>
+</body>
+</html>
