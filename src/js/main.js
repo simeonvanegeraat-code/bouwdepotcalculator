@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('maandlasten-calc')) initMaandlastenBouwdepotCalculator();
     if (document.getElementById('nieuwbouw-calc')) initNieuwbouwCalculator();
     if (document.getElementById('renteverlies-calc')) initRenteverliesCalculator();
-    if (document.getElementById('dubbele-lasten-calc')) initDubbeleLastenCalculator();
     if (document.getElementById('belasting-calc')) initBelastingCalculator();
 
 
@@ -405,128 +404,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (rangeMonths) rangeMonths.value = button.dataset.months;
                 }
                 if (button.dataset.pattern) inputPattern.value = button.dataset.pattern;
-                calculate();
-            });
-        });
-
-        calculate();
-    }
-
-
-    // ----------------------------------------------
-    // 1D. DUBBELE LASTEN NIEUWBOUW CALCULATOR
-    // ----------------------------------------------
-    function initDubbeleLastenCalculator() {
-        const inputType = document.getElementById('input-dubbel-type');
-        const typeNote = document.getElementById('dubbel-type-note');
-        const inputNewBruto = document.getElementById('input-dubbel-new-bruto');
-        const inputNewNetto = document.getElementById('input-dubbel-new-netto');
-        const inputCurrent = document.getElementById('input-dubbel-current');
-        const inputExtra = document.getElementById('input-dubbel-extra');
-        const inputRenteverlies = document.getElementById('input-dubbel-renteverlies');
-        const inputMonths = document.getElementById('input-dubbel-months');
-        const rangeMonths = document.getElementById('range-dubbel-months');
-
-        const resNewBruto = document.getElementById('res-dubbel-new-bruto');
-        const rowNewNetto = document.getElementById('row-dubbel-new-netto');
-        const resNewNetto = document.getElementById('res-dubbel-new-netto');
-        const resCurrent = document.getElementById('res-dubbel-current');
-        const resExtra = document.getElementById('res-dubbel-extra');
-        const rowRenteverlies = document.getElementById('row-dubbel-renteverlies');
-        const resRenteverlies = document.getElementById('res-dubbel-renteverlies');
-        const resMonthly = document.getElementById('res-dubbel-monthly');
-        const resTotal = document.getElementById('res-dubbel-total');
-        const resPeak = document.getElementById('res-dubbel-peak');
-        const resConclusion = document.getElementById('res-dubbel-conclusion');
-
-        const scenarioButtons = document.querySelectorAll('.dubbel-scenario');
-
-        const typeNotes = {
-            huur: 'U combineert tijdelijke huur met de maandlast van uw nieuwe woning.',
-            koop: 'U combineert tijdelijke lasten van uw huidige koopwoning met de nieuwe hypotheeklast.'
-        };
-
-        function calculate() {
-            const type = inputType.value || 'huur';
-            const newBruto = parseFloat(inputNewBruto.value) || 0;
-            const newNetto = parseFloat(inputNewNetto.value) || 0;
-            const current = parseFloat(inputCurrent.value) || 0;
-            const extra = parseFloat(inputExtra.value) || 0;
-            const renteverlies = parseFloat(inputRenteverlies.value) || 0;
-            const months = Math.min(36, Math.max(1, parseInt(inputMonths.value || '1', 10)));
-
-            const monthlyTotal = newBruto + current + extra + renteverlies;
-            const monthlyTotalNettoView = (newNetto > 0 ? newNetto : newBruto) + current + extra + renteverlies;
-            const totalPeriodCost = monthlyTotal * months;
-
-            inputMonths.value = months;
-            if (rangeMonths) rangeMonths.value = months;
-
-            if (typeNote) typeNote.textContent = typeNotes[type] || typeNotes.huur;
-
-            if (resNewBruto) resNewBruto.textContent = formatEuro(newBruto);
-            if (resCurrent) resCurrent.textContent = formatEuro(current);
-            if (resExtra) resExtra.textContent = formatEuro(extra);
-
-            if (newNetto > 0) {
-                if (rowNewNetto) rowNewNetto.style.display = 'flex';
-                if (resNewNetto) resNewNetto.textContent = formatEuro(newNetto);
-            } else if (rowNewNetto) {
-                rowNewNetto.style.display = 'none';
-            }
-
-            if (renteverlies > 0) {
-                if (rowRenteverlies) rowRenteverlies.style.display = 'flex';
-                if (resRenteverlies) resRenteverlies.textContent = formatEuro(renteverlies);
-            } else if (rowRenteverlies) {
-                rowRenteverlies.style.display = 'none';
-            }
-
-            if (resMonthly) resMonthly.textContent = formatEuro(monthlyTotal);
-            if (resTotal) resTotal.textContent = formatEuro(totalPeriodCost);
-            if (resPeak) resPeak.textContent = formatEuro(monthlyTotal);
-
-            let pressureText = 'Deze overlap lijkt in de lichte tot beheersbare categorie te vallen, mits uw buffer en overige uitgaven dit toelaten.';
-            if (monthlyTotal >= 3000) {
-                pressureText = 'De maanddruk is hoog. Plan extra buffer en toets tijdig of de overlapduur korter kan.';
-            } else if (monthlyTotal >= 2200) {
-                pressureText = 'De maanddruk is merkbaar. Houd weinig marge voor onverwachte kosten en plan extra ruimte in.';
-            }
-
-            const nettoHint = newNetto > 0
-                ? ` Met uw ingevoerde netto hypotheeklast komt de gecombineerde maanddruk indicatief uit op ${formatEuro(monthlyTotalNettoView)}.`
-                : ' U rekent nu volledig met bruto maandlast voor de nieuwe hypotheek.';
-
-            if (resConclusion) {
-                resConclusion.textContent = `${pressureText} Totale overlap over ${months} maanden: ${formatEuro(totalPeriodCost)}.${nettoHint}`;
-            }
-        }
-
-        if (rangeMonths) {
-            rangeMonths.addEventListener('input', (event) => {
-                inputMonths.value = event.target.value;
-                calculate();
-            });
-        }
-
-        [inputType, inputNewBruto, inputNewNetto, inputCurrent, inputExtra, inputRenteverlies, inputMonths].forEach((el) => {
-            if (!el) return;
-            el.addEventListener('input', calculate);
-            if (el.tagName === 'SELECT') el.addEventListener('change', calculate);
-        });
-
-        scenarioButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                if (button.dataset.type) inputType.value = button.dataset.type;
-                if (button.dataset.newBruto) inputNewBruto.value = button.dataset.newBruto;
-                if (button.dataset.newNetto) inputNewNetto.value = button.dataset.newNetto;
-                if (button.dataset.current) inputCurrent.value = button.dataset.current;
-                if (button.dataset.extra) inputExtra.value = button.dataset.extra;
-                if (button.dataset.renteverlies) inputRenteverlies.value = button.dataset.renteverlies;
-                if (button.dataset.months) {
-                    inputMonths.value = button.dataset.months;
-                    if (rangeMonths) rangeMonths.value = button.dataset.months;
-                }
                 calculate();
             });
         });
