@@ -10,6 +10,12 @@ export default defineConfig({
       input: {
         // Core pagina's
         main: resolve(__dirname, 'index.html'),
+        calculators: resolve(__dirname, 'calculators.html'),
+        maandlastenBouwdepot: resolve(__dirname, 'maandlasten-bouwdepot.html'),
+        renteverliesBouwdepot: resolve(__dirname, 'renteverlies-bouwdepot.html'),
+        maximaleBouwdepot: resolve(__dirname, 'maximale-bouwdepot.html'),
+        eigenGeldBouwdepot: resolve(__dirname, 'eigen-geld-bouwdepot.html'),
+        dubbeleLastenNieuwbouw: resolve(__dirname, 'dubbele-lasten-nieuwbouw.html'),
         nieuwbouw: resolve(__dirname, 'nieuwbouw.html'),
         bouwrenteNieuwbouw: resolve(__dirname, 'bouwrente-nieuwbouw.html'),
         belasting: resolve(__dirname, 'belasting.html'),
