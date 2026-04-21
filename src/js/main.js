@@ -34,6 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const resBruto = document.getElementById('res-bruto');
         const resVoordeel = document.getElementById('res-voordeel');
         const resNetto = document.getElementById('res-netto');
+        const resConclusion = document.getElementById('res-conclusion');
+        const resMethod = document.getElementById('res-method');
+        const reportGeneratedAt = document.getElementById('report-generated-at');
+        const summaryAmount = document.getElementById('sum-amount');
+        const summaryType = document.getElementById('sum-type');
+        const summaryInterest = document.getElementById('sum-interest');
+        const summaryDuration = document.getElementById('sum-duration');
+        const summaryTax = document.getElementById('sum-tax');
 
         // --- NIEUW: Snelkeuze & Accordion Variabelen ---
         const costBtns = document.querySelectorAll('.cost-btn');
@@ -42,12 +50,40 @@ document.addEventListener('DOMContentLoaded', () => {
         const costArrow = document.getElementById('cost-arrow');
         const btnResetCosts = document.getElementById('btn-reset-costs');
         const presetButtons = document.querySelectorAll('.preset-btn');
+        const mortgageTypeLabels = {
+            annuity: 'Annuïteiten',
+            linear: 'Lineair'
+        };
+
+        const formatPercentage = (value) => `${value.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+        const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+
+        function buildHomepageReport(data) {
+            return {
+                toolTitle: 'Algemene bouwdepot calculator',
+                generatedAt: data.generatedAt,
+                inputs: {
+                    amount: data.amount,
+                    mortgageType: data.mortgageType,
+                    interestRate: data.interestRate,
+                    durationYears: data.durationYears,
+                    taxIndicationEnabled: data.taxIndicationEnabled
+                },
+                results: {
+                    netMonthly: data.netMonthly,
+                    grossMonthly: data.grossMonthly,
+                    indicativeTaxBenefit: data.taxBenefit
+                },
+                conclusion: `Bij deze invoer geeft het bouwdepot een indicatieve netto maandlast van ${formatEuro(data.netMonthly)} per maand.`,
+                assumptions: 'Indicatieve snelle berekening op basis van standaard aannames; laat exacte persoonlijke cijfers controleren door uw geldverstrekker of adviseur.'
+            };
+        }
 
         function calculate() {
             const type = inputType ? inputType.value : 'annuity';
-            const amount = parseFloat(inputAmount.value);
-            const interest = parseFloat(inputInterest.value);
-            const years = parseInt(rangeDuration.value);
+            const amount = parseFloat(inputAmount.value) || 0;
+            const interest = parseFloat(inputInterest.value) || 0;
+            const years = parseInt(rangeDuration.value, 10) || 30;
             
             valDuration.textContent = `${years} Jaar`;
 
@@ -75,6 +111,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const firstMonthInterest = amount * monthlyRate; 
             const taxBenefit = checkAftrek.checked ? (firstMonthInterest * taxRate) : 0;
             const netMonthly = grossMonthly - taxBenefit;
+            const now = new Date();
+            const reportData = buildHomepageReport({
+                amount,
+                mortgageType: mortgageTypeLabels[type] || type,
+                interestRate: interest,
+                durationYears: years,
+                taxIndicationEnabled: checkAftrek.checked,
+                netMonthly,
+                grossMonthly,
+                taxBenefit,
+                generatedAt: now.toISOString()
+            });
 
             resBruto.textContent = formatEuro(grossMonthly);
             
@@ -85,6 +133,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(rowVoordeel) rowVoordeel.style.display = 'none';
             }
             resNetto.textContent = formatEuro(netMonthly);
+
+            if (summaryAmount) summaryAmount.textContent = formatEuro(reportData.inputs.amount);
+            if (summaryType) summaryType.textContent = reportData.inputs.mortgageType;
+            if (summaryInterest) summaryInterest.textContent = formatPercentage(reportData.inputs.interestRate);
+            if (summaryDuration) summaryDuration.textContent = `${reportData.inputs.durationYears} jaar`;
+            if (summaryTax) summaryTax.textContent = reportData.inputs.taxIndicationEnabled ? 'Aan' : 'Uit';
+            if (resConclusion) resConclusion.textContent = reportData.conclusion;
+            if (resMethod) resMethod.textContent = reportData.assumptions;
+            if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
+
+            if (btnDownload) {
+                btnDownload.dataset.report = JSON.stringify(reportData);
+            }
         }
 
         if(rowVoordeel) {
