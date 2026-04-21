@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Routing
     if (document.getElementById('range-amount')) initVerbouwCalculator();
+    if (document.getElementById('maandlasten-calc')) initMaandlastenBouwdepotCalculator();
     if (document.getElementById('nieuwbouw-calc')) initNieuwbouwCalculator();
     if (document.getElementById('belasting-calc')) initBelastingCalculator();
 
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const costContent = document.getElementById('cost-content');
         const costArrow = document.getElementById('cost-arrow');
         const btnResetCosts = document.getElementById('btn-reset-costs');
+        const presetButtons = document.querySelectorAll('.preset-btn');
 
         function calculate() {
             const type = inputType ? inputType.value : 'annuity';
@@ -149,6 +151,25 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        if (presetButtons.length) {
+            presetButtons.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const presetAmount = parseFloat(btn.dataset.presetAmount);
+                    if (Number.isNaN(presetAmount)) return;
+
+                    if (inputAmount) inputAmount.value = presetAmount;
+                    if (rangeAmount) rangeAmount.value = presetAmount;
+
+                    if (costBtns.length) {
+                        costBtns.forEach((costBtn) => costBtn.classList.remove('selected'));
+                        if (btnResetCosts) btnResetCosts.style.display = 'none';
+                    }
+
+                    calculate();
+                });
+            });
+        }
+
         // Event Listeners Inputs
         if(inputType) inputType.addEventListener('change', calculate);
         rangeAmount.addEventListener('input', (e) => { inputAmount.value = e.target.value; calculate(); });
@@ -159,6 +180,112 @@ document.addEventListener('DOMContentLoaded', () => {
         checkAftrek.addEventListener('change', calculate);
         
         if(rangeAmount) calculate();
+    }
+
+
+    // ----------------------------------------------
+    // 1B. MAANDLASTEN BOUWDEPOT CALCULATOR
+    // ----------------------------------------------
+    function initMaandlastenBouwdepotCalculator() {
+        const inputMortgage = document.getElementById('input-total-mortgage');
+        const inputDepot = document.getElementById('input-depot-amount');
+        const inputRate = document.getElementById('input-mortgage-rate');
+        const inputDepotRate = document.getElementById('input-depot-rate');
+        const inputMonths = document.getElementById('input-depot-months');
+        const rangeMonths = document.getElementById('range-depot-months');
+        const inputHousing = document.getElementById('input-extra-housing');
+        const opnamePattern = document.getElementById('input-opnamepattern');
+
+        const resGross = document.getElementById('res-month-gross');
+        const resComp = document.getElementById('res-month-compensation');
+        const resNet = document.getElementById('res-month-net');
+        const resPeriod = document.getElementById('res-period-total');
+        const resDouble = document.getElementById('res-double-burden');
+        const resDoubleRow = document.getElementById('row-double-burden');
+        const assumptionText = document.getElementById('assumption-pattern-text');
+
+        const scenarioButtons = document.querySelectorAll('.scenario-btn');
+
+        const patternFactors = {
+            even: 0.5,
+            slow: 0.65,
+            fast: 0.35
+        };
+
+        const patternLabels = {
+            even: 'Gemiddeld 50% van het depot staat nog uit tijdens de bouwperiode.',
+            slow: 'Bij een rustige start rekenen wij indicatief met gemiddeld 65% niet-opgenomen depot.',
+            fast: 'Bij snelle opname rekenen wij indicatief met gemiddeld 35% niet-opgenomen depot.'
+        };
+
+        function calculate() {
+            const mortgage = parseFloat(inputMortgage.value) || 0;
+            const depot = parseFloat(inputDepot.value) || 0;
+            const mortgageRate = parseFloat(inputRate.value) || 0;
+            const depotRate = parseFloat(inputDepotRate.value) || 0;
+            const months = parseInt(inputMonths.value, 10) || 1;
+            const extraHousing = parseFloat(inputHousing.value) || 0;
+            const pattern = opnamePattern.value || 'even';
+            const factor = patternFactors[pattern] || 0.5;
+
+            const grossMonthly = mortgage * ((mortgageRate / 100) / 12);
+            const monthlyCompensation = depot * factor * ((depotRate / 100) / 12);
+            const netMonthly = Math.max(0, grossMonthly - monthlyCompensation);
+            const periodTotal = netMonthly * months;
+            const doubleBurden = netMonthly + extraHousing;
+
+            resGross.textContent = formatEuro(grossMonthly);
+            resComp.textContent = '-' + formatEuro(monthlyCompensation);
+            resNet.textContent = formatEuro(netMonthly);
+            resPeriod.textContent = formatEuro(periodTotal);
+            assumptionText.textContent = patternLabels[pattern];
+
+            if (extraHousing > 0) {
+                if (resDoubleRow) resDoubleRow.style.display = 'flex';
+                resDouble.textContent = formatEuro(doubleBurden);
+            } else if (resDoubleRow) {
+                resDoubleRow.style.display = 'none';
+            }
+        }
+
+        if (rangeMonths) {
+            rangeMonths.addEventListener('input', (e) => {
+                inputMonths.value = e.target.value;
+                calculate();
+            });
+        }
+
+        if (inputMonths) {
+            inputMonths.addEventListener('input', (e) => {
+                const months = Math.min(36, Math.max(1, parseInt(e.target.value || '1', 10)));
+                inputMonths.value = months;
+                if (rangeMonths) rangeMonths.value = months;
+                calculate();
+            });
+        }
+
+        [inputMortgage, inputDepot, inputRate, inputDepotRate, inputHousing, opnamePattern].forEach((el) => {
+            if (el) el.addEventListener('input', calculate);
+            if (el && el.tagName === 'SELECT') el.addEventListener('change', calculate);
+        });
+
+        scenarioButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                if (btn.dataset.mortgage) inputMortgage.value = btn.dataset.mortgage;
+                if (btn.dataset.depot) inputDepot.value = btn.dataset.depot;
+                if (btn.dataset.rate) inputRate.value = btn.dataset.rate;
+                if (btn.dataset.depotRate) inputDepotRate.value = btn.dataset.depotRate;
+                if (btn.dataset.months) {
+                    inputMonths.value = btn.dataset.months;
+                    if (rangeMonths) rangeMonths.value = btn.dataset.months;
+                }
+                if (btn.dataset.housing) inputHousing.value = btn.dataset.housing;
+                if (btn.dataset.pattern) opnamePattern.value = btn.dataset.pattern;
+                calculate();
+            });
+        });
+
+        calculate();
     }
 
 
