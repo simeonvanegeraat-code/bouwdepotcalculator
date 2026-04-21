@@ -72,6 +72,7 @@
                 <h1>Eigen geld bouwdepot berekenen</h1>
                 <p class="subtitle">Schat snel hoeveel van uw plan mogelijk via bouwdepot financierbaar is en welk bedrag u waarschijnlijk zelf moet betalen.</p>
                 <p class="trust-line">Indicatieve uitkomst • Exacte bedragen verschillen per geldverstrekker, taxatie en projectafspraken</p>
+                <p class="calc-intro-note">Maximale bouwdepot = wat mogelijk financierbaar is • Deze pagina = wat u waarschijnlijk zelf nog moet betalen.</p>
 
                 <div class="tool-level-card">
                     <div class="section-head">
@@ -90,6 +91,7 @@
                                 </select>
                             </div>
                         </div>
+                        <p class="field-hint">Kies een praktijksituatie zodat kostenposten beter aansluiten op uw plan.</p>
                     </div>
 
                     <div class="input-group">
@@ -101,6 +103,7 @@
                             </div>
                         </div>
                         <input type="range" id="range-budget" min="0" max="400000" step="1000" value="60000" class="slider">
+                        <p class="field-hint">Kernkosten van uw verbouwing of meerwerk.</p>
                     </div>
 
                     <div class="input-group">
@@ -113,6 +116,7 @@
                         </div>
                         <input type="range" id="range-financeable" min="0" max="400000" step="1000" value="45000" class="slider">
                         <p class="preset-note">Tip: zet dit op een voorzichtige inschatting. Het definitieve financierbare deel kan afwijken.</p>
+                        <p class="field-hint">Neem hier bij voorkeur een conservatieve schatting over uit de maximale-bouwdepot check.</p>
                     </div>
 
                     <div class="two-col-inputs">
@@ -124,6 +128,7 @@
                                     <input type="number" id="input-notary" min="0" step="100" value="1200">
                                 </div>
                             </div>
+                            <p class="field-hint">Kostenpost die vaak niet volledig meegefinancierd wordt.</p>
                         </div>
                         <div class="input-group compact">
                             <div class="label-row">
@@ -133,6 +138,7 @@
                                     <input type="number" id="input-advice" min="0" step="100" value="2500">
                                 </div>
                             </div>
+                            <p class="field-hint">Advies- en bemiddelingskosten die vaak direct betaald worden.</p>
                         </div>
                     </div>
 
@@ -145,6 +151,7 @@
                                     <input type="number" id="input-valuation" min="0" step="50" value="900">
                                 </div>
                             </div>
+                            <p class="field-hint">Taxatiekosten die regelmatig buiten het bouwdepot vallen.</p>
                         </div>
                         <div class="input-group compact">
                             <div class="label-row">
@@ -154,6 +161,7 @@
                                     <input type="number" id="input-finishing" min="0" step="500" value="8000">
                                 </div>
                             </div>
+                            <p class="field-hint">Afwerking, inrichting en losse posten zijn vaak directe eigen uitgaven.</p>
                         </div>
                     </div>
 
@@ -166,6 +174,7 @@
                             </div>
                         </div>
                         <input type="range" id="range-own-cash" min="0" max="300000" step="1000" value="20000" class="slider">
+                        <p class="field-hint">Uw beschikbare eigen buffer voor niet-financierbare kosten.</p>
                     </div>
 
                     <section class="preset-section" aria-label="Voorbeeldscenario's">
@@ -319,8 +328,16 @@
 
         <aside class="sidebar">
             <div class="card result-card sticky-box">
-                <h2>Uw indicatieve uitsplitsing</h2>
-                <p class="result-intro">Inzicht in totaal, financierbaar deel en wat mogelijk uit eigen geld moet komen.</p>
+                <h2>Eigen inbreng specialist-uitkomst</h2>
+                <p class="result-intro">Praktische cash-gap check: wat financiert u, wat betaalt u zelf en blijft er buffer over?</p>
+                <p class="result-meta" id="report-eigen-geld-generated-at">Berekening klaar voor eigen-inbrengcheck.</p>
+
+                <div class="result-row total featured-row">
+                    <span>Kernuitkomst: benodigd eigen geld</span>
+                    <span id="res-own-needed" class="amount highlight">€ 0</span>
+                </div>
+
+                <h3 class="result-subtitle">Onderliggende uitkomsten</h3>
 
                 <div class="result-row">
                     <span>Totale projectkosten</span>
@@ -332,12 +349,10 @@
                     <span id="res-financeable" class="amount">€ 0</span>
                 </div>
 
-                <div class="result-row total featured-row">
-                    <span>Indicatief niet-financierbaar deel</span>
-                    <span id="res-own-needed" class="amount highlight">€ 0</span>
+                <div class="result-row">
+                    <span>Niet-financierbaar deel</span>
+                    <span id="res-non-financeable" class="amount">€ 0</span>
                 </div>
-
-                <hr>
 
                 <div class="result-row">
                     <span>Beschikbaar eigen geld</span>
@@ -352,8 +367,48 @@
                     <span id="res-buffer" class="amount">€ 0</span>
                 </div>
 
-                <div class="callout mt-4">
-                    <p id="res-conclusion" class="callout-text mb-0">Deze berekening is indicatief en bedoeld als scenariohulp.</p>
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Korte conclusie</p>
+                    <p id="res-conclusion">Bij deze invoer volgt een indicatieve eigen-inbrenguitkomst.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Interpretatie</p>
+                    <p id="res-own-interpretation">De eigen bijdrage wordt vooral beïnvloed door financierbaar deel, extra kosten en beschikbare buffer.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Eigen-inbreng-betekenis</p>
+                    <p id="res-own-meaning">Ook bij deels financierbare plannen kunnen extra side-kosten een betekenisvol eigen-geldbedrag veroorzaken.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Aannameregel</p>
+                    <p id="res-own-method">Indicatieve berekening op basis van ingevulde kosten en financierbare schatting; geen bindende geldverstrekkersuitkomst.</p>
+                </div>
+
+                <div class="result-summary-block">
+                    <p class="result-copy-title">Ingevoerde uitgangspunten</p>
+                    <ul class="result-summary-list">
+                        <li><span>Scenario</span><strong id="sum-own-scenario">-</strong></li>
+                        <li><span>Projectbudget</span><strong id="sum-own-budget">€ 0</strong></li>
+                        <li><span>Financierbaar deel</span><strong id="sum-own-financeable">€ 0</strong></li>
+                        <li><span>Extra niet-financierbare kosten</span><strong id="sum-own-extra-costs">€ 0</strong></li>
+                        <li><span>Beschikbaar eigen geld</span><strong id="sum-own-cash">€ 0</strong></li>
+                    </ul>
+                </div>
+
+                <div class="next-steps-block no-print">
+                    <p class="result-copy-title">Vervolgstappen</p>
+                    <div class="result-next-links">
+                        <a href="maximale-bouwdepot.html">Naar maximale bouwdepot check</a>
+                        <a href="maandlasten-bouwdepot.html">Naar maandlasten bouwdepotfase</a>
+                        <a href="nieuwbouw.html">Naar brede planning nieuwbouw</a>
+                    </div>
+                </div>
+
+                <div class="cta-button-wrapper no-print">
+                    <button id="btn-download-own-money" class="btn-primary">Download overzicht (PDF)</button>
                 </div>
             </div>
 
@@ -385,6 +440,7 @@
     <script>
         const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
         const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
 
         const budgetInput = document.getElementById('input-budget');
         const budgetRange = document.getElementById('range-budget');
@@ -392,6 +448,49 @@
         const financeableRange = document.getElementById('range-financeable');
         const ownCashInput = document.getElementById('input-own-cash');
         const ownCashRange = document.getElementById('range-own-cash');
+        const scenarioInput = document.getElementById('input-scenario');
+        const reportGeneratedAt = document.getElementById('report-eigen-geld-generated-at');
+        const resNonFinanceable = document.getElementById('res-non-financeable');
+        const resInterpretation = document.getElementById('res-own-interpretation');
+        const resMeaning = document.getElementById('res-own-meaning');
+        const resMethod = document.getElementById('res-own-method');
+        const sumScenario = document.getElementById('sum-own-scenario');
+        const sumBudget = document.getElementById('sum-own-budget');
+        const sumFinanceable = document.getElementById('sum-own-financeable');
+        const sumExtraCosts = document.getElementById('sum-own-extra-costs');
+        const sumOwnCash = document.getElementById('sum-own-cash');
+        const btnDownload = document.getElementById('btn-download-own-money');
+        const scenarioLabels = {
+            verbouwing: 'Verbouwing',
+            'nieuwbouw-meerwerk': 'Nieuwbouw meerwerk',
+            'nieuwbouw-extra': 'Nieuwbouw totaal extra kosten'
+        };
+
+        function buildOwnMoneyReport(data) {
+            return {
+                toolTitle: 'Eigen geld bouwdepot calculator',
+                generatedAt: data.generatedAt,
+                inputs: {
+                    scenario: data.scenario,
+                    projectBudget: data.projectBudget,
+                    financeableAmount: data.financeableAmount,
+                    extraNonFinanceableCosts: data.extraNonFinanceableCosts,
+                    ownCashAvailable: data.ownCashAvailable
+                },
+                results: {
+                    ownContributionNeeded: data.ownContributionNeeded,
+                    financeableVsNonFinanceable: {
+                        financeable: data.financeableAmount,
+                        nonFinanceable: data.nonFinanceableAmount
+                    },
+                    remainingBuffer: data.remainingBuffer,
+                    shortfall: data.shortfall,
+                    interpretationLabel: data.interpretationLabel
+                },
+                conclusion: data.conclusion,
+                assumptions: data.assumptions
+            };
+        }
 
         function syncInputRange(input, range, min, max) {
             input.addEventListener('input', () => {
@@ -416,6 +515,7 @@
         });
 
         function calculate() {
+            const scenario = scenarioInput.value;
             const budget = Math.max(0, Number(budgetInput.value) || 0);
             const financeableEntered = Math.max(0, Number(financeableInput.value) || 0);
             const notary = Math.max(0, Number(document.getElementById('input-notary').value) || 0);
@@ -432,6 +532,7 @@
             const ownNeeded = budgetNonFinanceable + additionalCosts;
             const shortfall = Math.max(0, ownNeeded - ownCash);
             const buffer = Math.max(0, ownCash - ownNeeded);
+            const nonFinanceableTotal = budgetNonFinanceable + additionalCosts;
 
             document.getElementById('res-total').textContent = euro.format(totalCosts);
             document.getElementById('res-financeable').textContent = euro.format(financeable);
@@ -439,17 +540,56 @@
             document.getElementById('res-own-cash').textContent = euro.format(ownCash);
             document.getElementById('res-shortfall').textContent = euro.format(shortfall);
             document.getElementById('res-buffer').textContent = euro.format(buffer);
+            if (resNonFinanceable) resNonFinanceable.textContent = euro.format(nonFinanceableTotal);
 
             let conclusion = 'Deze berekening is indicatief en bedoeld als scenariohulp.';
+            let interpretationLabel = 'merkbaar';
             if (ownNeeded === 0) {
                 conclusion = 'In deze invoer lijkt uw plan volledig financierbaar en zijn er geen extra eigen middelen nodig voor de ingevoerde posten.';
+                interpretationLabel = 'beperkt';
             } else if (shortfall === 0 && ownNeeded > 0) {
                 conclusion = 'Uw eigen geld lijkt in dit scenario voldoende om het niet-financierbare deel op te vangen.';
+                interpretationLabel = 'beheersbaar';
             } else if (shortfall > 0) {
                 conclusion = 'Uw eigen geld is in dit scenario mogelijk niet genoeg. Overweeg planaanpassing of laat het financierbare deel opnieuw toetsen.';
+                interpretationLabel = 'fors';
             }
 
             document.getElementById('res-conclusion').textContent = conclusion;
+
+            const mainDriver = additionalCosts > budgetNonFinanceable ? 'extra side-kosten' : 'beperkte financieringsruimte';
+            const interpretation = `Uw eigen bijdrage is ${interpretationLabel}; ${mainDriver} is in dit scenario de belangrijkste aanjager.`;
+            const meaning = shortfall > 0
+                ? 'Er ontstaat een duidelijk tekort. Dit vraagt vaak om extra eigen middelen, lagere kosten of een herijking van het plan.'
+                : 'De uitkomst lijkt haalbaar met uw buffer, maar houd marge voor onvoorziene kosten en definitieve taxatie-uitkomsten.';
+            const assumptions = 'Indicatieve berekening op basis van ingevulde kosten en financierbare schatting; geen bindende geldverstrekkersuitkomst.';
+
+            if (resInterpretation) resInterpretation.textContent = interpretation;
+            if (resMeaning) resMeaning.textContent = meaning;
+            if (resMethod) resMethod.textContent = assumptions;
+            if (sumScenario) sumScenario.textContent = scenarioLabels[scenario] || scenario;
+            if (sumBudget) sumBudget.textContent = euro.format(budget);
+            if (sumFinanceable) sumFinanceable.textContent = euro.format(financeable);
+            if (sumExtraCosts) sumExtraCosts.textContent = euro.format(additionalCosts);
+            if (sumOwnCash) sumOwnCash.textContent = euro.format(ownCash);
+            if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(new Date())}.`;
+
+            const report = buildOwnMoneyReport({
+                scenario: scenarioLabels[scenario] || scenario,
+                projectBudget: budget,
+                financeableAmount: financeable,
+                extraNonFinanceableCosts: additionalCosts,
+                ownCashAvailable: ownCash,
+                ownContributionNeeded: ownNeeded,
+                nonFinanceableAmount: nonFinanceableTotal,
+                remainingBuffer: buffer,
+                shortfall,
+                interpretationLabel,
+                conclusion,
+                assumptions,
+                generatedAt: new Date().toISOString()
+            });
+            if (btnDownload) btnDownload.dataset.report = JSON.stringify(report);
         }
 
         document.querySelectorAll('.eigen-preset').forEach((btn) => {
@@ -468,6 +608,8 @@
                 calculate();
             });
         });
+
+        if (btnDownload) btnDownload.addEventListener('click', () => window.print());
 
         calculate();
     </script>

@@ -74,6 +74,7 @@
                 <h1>Netto Maandlasten & Fiscus</h1>
                 <p class="subtitle">Bereken het verloop van uw lasten over 30 jaar (regels 2026) en vergelijk bruto versus netto effect.</p>
                 <p class="trust-line">Indicatieve fiscale berekening · Onafhankelijk informatief · Laat persoonlijke uitkomst altijd verifiëren door adviseur</p>
+                <p class="calc-intro-note">Homepage = snelle indicatie • Maandlasten = bouwdepotfasekosten • Nieuwbouw = brede planning • Belasting = fiscaal/netto effect op uw maandlast.</p>
 
                 <div class="input-group">
                     <div class="label-row">
@@ -85,6 +86,7 @@
                             </select>
                         </div>
                     </div>
+                    <p class="field-hint">Bepaalt hoe bruto en netto maandlast zich over de jaren ontwikkelen.</p>
                 </div>
 
                 <div class="input-group">
@@ -95,6 +97,7 @@
                             <input type="number" id="fiscal-income" value="65000" step="1000">
                         </div>
                     </div>
+                    <p class="field-hint">Gebruik uw indicatieve belastbare inkomen voor een realistischer netto-inschatting.</p>
                 </div>
 
                 <div class="input-group">
@@ -105,6 +108,7 @@
                             <input type="number" id="fiscal-amount" value="350000">
                         </div>
                     </div>
+                    <p class="field-hint">Totale schuld waarop de renteaftrekberekening wordt gebaseerd.</p>
                 </div>
 
                 <div class="input-group">
@@ -116,6 +120,7 @@
                         </div>
                     </div>
                     <input type="range" id="range-fiscal-interest" min="0.1" max="8" step="0.01" value="3.80" class="slider">
+                    <p class="field-hint">Rente heeft direct effect op bruto maandlast én op het potentiële aftrekvoordeel.</p>
                 </div>
 
                 <div class="input-group">
@@ -130,6 +135,7 @@
                         <strong>Let op: Villataks actief.</strong><br>
                         U betaalt 2,35% bijtelling over het deel boven € 1.350.000.
                     </div>
+                    <p class="field-hint">WOZ beïnvloedt het eigenwoningforfait en daarmee het netto fiscale effect.</p>
                 </div>
                 
                 <div class="input-group mt-6">
@@ -236,8 +242,16 @@
 
         <aside class="sidebar">
             <div class="card result-card sticky-box">
-                <h2>Resultaat (Jaar 1)</h2>
+                <h2>Fiscale specialist-uitkomst</h2>
+                <p class="result-intro">Gerichte netto-inschatting op basis van fiscale aannames (2026-regels).</p>
+                <p class="result-meta" id="report-fiscal-generated-at">Berekening klaar voor fiscale vergelijking.</p>
+
+                <div class="result-row total featured-row">
+                    <span>Kernuitkomst: netto maandlast</span>
+                    <span id="res-netto-month" class="amount highlight" style="color:#000066;">€ 0</span>
+                </div>
                 
+                <h3 class="result-subtitle">Onderliggende uitkomsten</h3>
                 <div class="result-row">
                     <span>Bruto maandlast:</span>
                     <span id="res-bruto-month" class="amount">€ 0</span>
@@ -253,24 +267,54 @@
                     <span id="res-costs-benefit" class="amount" style="color:#3b82f6">€ 0</span>
                 </div>
 
-                <hr>
-
-                <div class="result-row total">
-                    <span class="flex-col">Netto Maandlast</span>
-                    <span id="res-netto-month" class="amount highlight" style="color:#000066;">€ 0</span>
+                <div class="result-row">
+                    <span>Jaarlijkse netto last (jaar 1)</span>
+                    <span id="res-netto-year" class="amount">€ 0</span>
                 </div>
                 
-                <div class="callout mt-4">
-                     <p class="callout-text">
-                        <strong>Lange termijn trend:</strong><br>
-                        <span id="netto-trend-text">...</span>
-                     </p>
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Korte conclusie</p>
+                    <p id="res-fiscal-conclusion">Bij deze invoer volgt een indicatieve netto maandlast na fiscaal effect.</p>
                 </div>
 
-                <div class="cta-button-wrapper">
-                    <a href="index.html" class="btn-primary" style="text-decoration:none; text-align:center;">
-                        Bereken Verbouwing
-                    </a>
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Interpretatie</p>
+                    <p id="res-fiscal-interpretation">De fiscale impact hangt vooral samen met rente, schuld en fiscale uitgangspunten.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Fiscale betekenis</p>
+                    <p id="res-fiscal-meaning">Bruto en netto kunnen merkbaar verschillen; persoonlijke fiscale situatie bepaalt de exacte uitkomst.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Aannameregel</p>
+                    <p id="res-fiscal-method">Indicatieve projectie op basis van 2026-regels en constante aannames; geen persoonlijke aangifte-uitkomst.</p>
+                </div>
+
+                <div class="result-summary-block">
+                    <p class="result-copy-title">Ingevoerde uitgangspunten</p>
+                    <ul class="result-summary-list">
+                        <li><span>Hypotheekvorm</span><strong id="sum-fiscal-type">-</strong></li>
+                        <li><span>Bruto jaarinkomen</span><strong id="sum-fiscal-income">€ 0</strong></li>
+                        <li><span>Hypotheekschuld</span><strong id="sum-fiscal-amount">€ 0</strong></li>
+                        <li><span>Hypotheekrente</span><strong id="sum-fiscal-interest">-</strong></li>
+                        <li><span>WOZ-waarde</span><strong id="sum-fiscal-woz">€ 0</strong></li>
+                        <li><span>Eenmalige aftrekposten</span><strong id="sum-fiscal-costs">Geen</strong></li>
+                    </ul>
+                </div>
+
+                <div class="next-steps-block no-print">
+                    <p class="result-copy-title">Vervolgstappen</p>
+                    <div class="result-next-links">
+                        <a href="maandlasten-bouwdepot.html">Naar maandlasten bouwdepot</a>
+                        <a href="nieuwbouw.html">Naar brede nieuwbouw planning</a>
+                        <a href="index.html">Naar snelle algemene calculator</a>
+                    </div>
+                </div>
+
+                <div class="cta-button-wrapper no-print">
+                    <button id="btn-download-fiscal" class="btn-primary">Download overzicht (PDF)</button>
                 </div>
 
                 <div class="legal-footer">

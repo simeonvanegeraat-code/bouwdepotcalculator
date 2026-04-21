@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Routing
     if (document.getElementById('range-amount')) initVerbouwCalculator();
     if (document.getElementById('maandlasten-calc')) initMaandlastenBouwdepotCalculator();
+    if (document.getElementById('dubbele-lasten-calc')) initDubbeleLastenNieuwbouwCalculator();
     if (document.getElementById('nieuwbouw-calc')) initNieuwbouwCalculator();
     if (document.getElementById('renteverlies-calc')) initRenteverliesCalculator();
     if (document.getElementById('belasting-calc')) initBelastingCalculator();
@@ -34,6 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const resBruto = document.getElementById('res-bruto');
         const resVoordeel = document.getElementById('res-voordeel');
         const resNetto = document.getElementById('res-netto');
+        const resConclusion = document.getElementById('res-conclusion');
+        const resMethod = document.getElementById('res-method');
+        const reportGeneratedAt = document.getElementById('report-generated-at');
+        const summaryAmount = document.getElementById('sum-amount');
+        const summaryType = document.getElementById('sum-type');
+        const summaryInterest = document.getElementById('sum-interest');
+        const summaryDuration = document.getElementById('sum-duration');
+        const summaryTax = document.getElementById('sum-tax');
 
         // --- NIEUW: Snelkeuze & Accordion Variabelen ---
         const costBtns = document.querySelectorAll('.cost-btn');
@@ -42,12 +51,40 @@ document.addEventListener('DOMContentLoaded', () => {
         const costArrow = document.getElementById('cost-arrow');
         const btnResetCosts = document.getElementById('btn-reset-costs');
         const presetButtons = document.querySelectorAll('.preset-btn');
+        const mortgageTypeLabels = {
+            annuity: 'Annuïteiten',
+            linear: 'Lineair'
+        };
+
+        const formatPercentage = (value) => `${value.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+        const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+
+        function buildHomepageReport(data) {
+            return {
+                toolTitle: 'Algemene bouwdepot calculator',
+                generatedAt: data.generatedAt,
+                inputs: {
+                    amount: data.amount,
+                    mortgageType: data.mortgageType,
+                    interestRate: data.interestRate,
+                    durationYears: data.durationYears,
+                    taxIndicationEnabled: data.taxIndicationEnabled
+                },
+                results: {
+                    netMonthly: data.netMonthly,
+                    grossMonthly: data.grossMonthly,
+                    indicativeTaxBenefit: data.taxBenefit
+                },
+                conclusion: `Bij deze invoer geeft het bouwdepot een indicatieve netto maandlast van ${formatEuro(data.netMonthly)} per maand.`,
+                assumptions: 'Indicatieve snelle berekening op basis van standaard aannames; laat exacte persoonlijke cijfers controleren door uw geldverstrekker of adviseur.'
+            };
+        }
 
         function calculate() {
             const type = inputType ? inputType.value : 'annuity';
-            const amount = parseFloat(inputAmount.value);
-            const interest = parseFloat(inputInterest.value);
-            const years = parseInt(rangeDuration.value);
+            const amount = parseFloat(inputAmount.value) || 0;
+            const interest = parseFloat(inputInterest.value) || 0;
+            const years = parseInt(rangeDuration.value, 10) || 30;
             
             valDuration.textContent = `${years} Jaar`;
 
@@ -75,6 +112,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const firstMonthInterest = amount * monthlyRate; 
             const taxBenefit = checkAftrek.checked ? (firstMonthInterest * taxRate) : 0;
             const netMonthly = grossMonthly - taxBenefit;
+            const now = new Date();
+            const reportData = buildHomepageReport({
+                amount,
+                mortgageType: mortgageTypeLabels[type] || type,
+                interestRate: interest,
+                durationYears: years,
+                taxIndicationEnabled: checkAftrek.checked,
+                netMonthly,
+                grossMonthly,
+                taxBenefit,
+                generatedAt: now.toISOString()
+            });
 
             resBruto.textContent = formatEuro(grossMonthly);
             
@@ -85,6 +134,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(rowVoordeel) rowVoordeel.style.display = 'none';
             }
             resNetto.textContent = formatEuro(netMonthly);
+
+            if (summaryAmount) summaryAmount.textContent = formatEuro(reportData.inputs.amount);
+            if (summaryType) summaryType.textContent = reportData.inputs.mortgageType;
+            if (summaryInterest) summaryInterest.textContent = formatPercentage(reportData.inputs.interestRate);
+            if (summaryDuration) summaryDuration.textContent = `${reportData.inputs.durationYears} jaar`;
+            if (summaryTax) summaryTax.textContent = reportData.inputs.taxIndicationEnabled ? 'Aan' : 'Uit';
+            if (resConclusion) resConclusion.textContent = reportData.conclusion;
+            if (resMethod) resMethod.textContent = reportData.assumptions;
+            if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
+
+            if (btnDownload) {
+                btnDownload.dataset.report = JSON.stringify(reportData);
+            }
         }
 
         if(rowVoordeel) {
@@ -204,6 +266,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const resDouble = document.getElementById('res-double-burden');
         const resDoubleRow = document.getElementById('row-double-burden');
         const assumptionText = document.getElementById('assumption-pattern-text');
+        const resConclusion = document.getElementById('res-month-conclusion');
+        const resInterpretation = document.getElementById('res-month-interpretation');
+        const resMethod = document.getElementById('res-month-method');
+        const reportGeneratedAt = document.getElementById('report-month-generated-at');
+        const summaryMortgage = document.getElementById('sum-month-mortgage');
+        const summaryDepot = document.getElementById('sum-month-depot');
+        const summaryRate = document.getElementById('sum-month-rate');
+        const summaryDepotRate = document.getElementById('sum-month-depot-rate');
+        const summaryDuration = document.getElementById('sum-month-duration');
+        const summaryPattern = document.getElementById('sum-month-pattern');
+        const summaryExtra = document.getElementById('sum-month-extra');
+        const btnDownloadMaandlasten = document.getElementById('btn-download-maandlasten');
 
         const scenarioButtons = document.querySelectorAll('.scenario-btn');
 
@@ -218,6 +292,39 @@ document.addEventListener('DOMContentLoaded', () => {
             slow: 'Bij een rustige start rekenen wij indicatief met gemiddeld 65% niet-opgenomen depot.',
             fast: 'Bij snelle opname rekenen wij indicatief met gemiddeld 35% niet-opgenomen depot.'
         };
+        const patternNames = {
+            even: 'Gelijkmatig opnemen',
+            slow: 'Rustige start, later meer opname',
+            fast: 'Snelle opname in eerste maanden'
+        };
+        const formatPercentage = (value) => `${value.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+        const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+
+        function buildMaandlastenReport(data) {
+            return {
+                toolTitle: 'Maandlasten bouwdepot calculator',
+                generatedAt: data.generatedAt,
+                inputs: {
+                    totalMortgage: data.totalMortgage,
+                    depotAmount: data.depotAmount,
+                    mortgageRate: data.mortgageRate,
+                    depotCompensationRate: data.depotCompensationRate,
+                    durationMonths: data.durationMonths,
+                    opnamePattern: data.opnamePattern,
+                    extraHousingCost: data.extraHousingCost
+                },
+                results: {
+                    netMonthly: data.netMonthly,
+                    grossMonthlyInterest: data.grossMonthlyInterest,
+                    monthlyCompensation: data.monthlyCompensation,
+                    periodTotal: data.periodTotal,
+                    doubleBurdenMonthly: data.doubleBurdenMonthly
+                },
+                conclusion: `Bij deze invoer komt uw bouwdepotfase indicatief uit op ${formatEuro(data.netMonthly)} netto per maand over ${data.durationMonths} maanden.`,
+                interpretation: data.interpretation,
+                assumptions: 'Indicatieve berekening met aannames over opnamepatroon en gemiddelde niet-opgenomen depotstand; persoonlijke bankvoorwaarden en werkelijke opnames bepalen de exacte uitkomst.'
+            };
+        }
 
         function calculate() {
             const mortgage = parseFloat(inputMortgage.value) || 0;
@@ -234,12 +341,48 @@ document.addEventListener('DOMContentLoaded', () => {
             const netMonthly = Math.max(0, grossMonthly - monthlyCompensation);
             const periodTotal = netMonthly * months;
             const doubleBurden = netMonthly + extraHousing;
+            const ratioToMortgage = mortgage > 0 ? netMonthly / mortgage : 0;
+
+            let impactLabel = 'beperkt';
+            if (ratioToMortgage >= 0.003) impactLabel = 'substantieel';
+            else if (ratioToMortgage >= 0.0015) impactLabel = 'merkbaar';
+
+            const interpretation = `De maandimpact is ${impactLabel}. Een ${patternNames[pattern]?.toLowerCase() || 'gekozen'} opnamepatroon en een duur van ${months} maanden bepalen hoe lang de netto maanddruk aanhoudt en hoeveel vergoeding u ontvangt.`;
+            const now = new Date();
+            const report = buildMaandlastenReport({
+                totalMortgage: mortgage,
+                depotAmount: depot,
+                mortgageRate,
+                depotCompensationRate: depotRate,
+                durationMonths: months,
+                opnamePattern: patternNames[pattern] || pattern,
+                extraHousingCost: extraHousing,
+                netMonthly,
+                grossMonthlyInterest: grossMonthly,
+                monthlyCompensation,
+                periodTotal,
+                doubleBurdenMonthly: extraHousing > 0 ? doubleBurden : null,
+                interpretation,
+                generatedAt: now.toISOString()
+            });
 
             resGross.textContent = formatEuro(grossMonthly);
             resComp.textContent = '-' + formatEuro(monthlyCompensation);
             resNet.textContent = formatEuro(netMonthly);
             resPeriod.textContent = formatEuro(periodTotal);
             assumptionText.textContent = patternLabels[pattern];
+            if (resConclusion) resConclusion.textContent = report.conclusion;
+            if (resInterpretation) resInterpretation.textContent = report.interpretation;
+            if (resMethod) resMethod.textContent = report.assumptions;
+            if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
+
+            if (summaryMortgage) summaryMortgage.textContent = formatEuro(report.inputs.totalMortgage);
+            if (summaryDepot) summaryDepot.textContent = formatEuro(report.inputs.depotAmount);
+            if (summaryRate) summaryRate.textContent = formatPercentage(report.inputs.mortgageRate);
+            if (summaryDepotRate) summaryDepotRate.textContent = formatPercentage(report.inputs.depotCompensationRate);
+            if (summaryDuration) summaryDuration.textContent = `${report.inputs.durationMonths} maanden`;
+            if (summaryPattern) summaryPattern.textContent = report.inputs.opnamePattern;
+            if (summaryExtra) summaryExtra.textContent = report.inputs.extraHousingCost > 0 ? formatEuro(report.inputs.extraHousingCost) : 'Niet ingevuld';
 
             if (extraHousing > 0) {
                 if (resDoubleRow) resDoubleRow.style.display = 'flex';
@@ -247,6 +390,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (resDoubleRow) {
                 resDoubleRow.style.display = 'none';
             }
+
+            if (btnDownloadMaandlasten) btnDownloadMaandlasten.dataset.report = JSON.stringify(report);
+        }
+
+        if (btnDownloadMaandlasten) {
+            btnDownloadMaandlasten.addEventListener('click', () => window.print());
         }
 
         if (rangeMonths) {
@@ -289,9 +438,201 @@ document.addEventListener('DOMContentLoaded', () => {
         calculate();
     }
 
+    // ----------------------------------------------
+    // 1C. DUBBELE LASTEN NIEUWBOUW CALCULATOR
+    // ----------------------------------------------
+    function initDubbeleLastenNieuwbouwCalculator() {
+        const inputType = document.getElementById('input-dubbel-type');
+        const typeNote = document.getElementById('dubbel-type-note');
+        const inputNewBruto = document.getElementById('input-dubbel-new-bruto');
+        const inputNewNetto = document.getElementById('input-dubbel-new-netto');
+        const inputCurrent = document.getElementById('input-dubbel-current');
+        const inputExtra = document.getElementById('input-dubbel-extra');
+        const inputRenteverlies = document.getElementById('input-dubbel-renteverlies');
+        const inputMonths = document.getElementById('input-dubbel-months');
+        const rangeMonths = document.getElementById('range-dubbel-months');
+        const scenarioButtons = document.querySelectorAll('.dubbel-scenario');
+        const btnDownloadDubbel = document.getElementById('btn-download-dubbel');
+
+        const resNewBruto = document.getElementById('res-dubbel-new-bruto');
+        const resNewNetto = document.getElementById('res-dubbel-new-netto');
+        const rowNewNetto = document.getElementById('row-dubbel-new-netto');
+        const resCurrent = document.getElementById('res-dubbel-current');
+        const resExtra = document.getElementById('res-dubbel-extra');
+        const resRenteverlies = document.getElementById('res-dubbel-renteverlies');
+        const rowRenteverlies = document.getElementById('row-dubbel-renteverlies');
+        const resMonthly = document.getElementById('res-dubbel-monthly');
+        const resTotal = document.getElementById('res-dubbel-total');
+        const resPeak = document.getElementById('res-dubbel-peak');
+        const resConclusion = document.getElementById('res-dubbel-conclusion');
+        const resInterpretation = document.getElementById('res-dubbel-interpretation');
+        const resBudgetMeaning = document.getElementById('res-dubbel-budget-meaning');
+        const resMethod = document.getElementById('res-dubbel-method');
+        const reportGeneratedAt = document.getElementById('report-dubbel-generated-at');
+
+        const sumType = document.getElementById('sum-dubbel-type');
+        const sumNewUsed = document.getElementById('sum-dubbel-new-used');
+        const sumCurrent = document.getElementById('sum-dubbel-current');
+        const sumExtra = document.getElementById('sum-dubbel-extra');
+        const sumRenteverlies = document.getElementById('sum-dubbel-renteverlies');
+        const sumMonths = document.getElementById('sum-dubbel-months');
+
+        const typeLabels = {
+            huur: 'Huurwoning + nieuwbouw',
+            koop: 'Koopwoning + nieuwbouw'
+        };
+        const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+
+        function buildDubbeleLastenReport(data) {
+            return {
+                toolTitle: 'Dubbele lasten nieuwbouw calculator',
+                generatedAt: data.generatedAt,
+                inputs: {
+                    situationType: data.situationType,
+                    newHousingMonthlyUsed: data.newHousingMonthlyUsed,
+                    currentHousingMonthly: data.currentHousingMonthly,
+                    extraOverlapMonthly: data.extraOverlapMonthly,
+                    renteverliesMonthly: data.renteverliesMonthly,
+                    overlapMonths: data.overlapMonths
+                },
+                results: {
+                    totalDoubleMonthlyBurden: data.totalDoubleMonthlyBurden,
+                    totalOverlapCost: data.totalOverlapCost,
+                    dominantComponent: data.dominantComponent,
+                    overlapInterpretation: data.overlapInterpretation
+                },
+                conclusion: data.conclusion,
+                assumptions: 'Indicatieve overlap-check met vaste maandbedragen. Werkelijke maandlasten kunnen variëren door oplevering, verhuisdatum en productvoorwaarden.'
+            };
+        }
+
+        function calculate() {
+            const type = inputType?.value || 'huur';
+            const newBruto = parseFloat(inputNewBruto?.value) || 0;
+            const newNetto = parseFloat(inputNewNetto?.value) || 0;
+            const current = parseFloat(inputCurrent?.value) || 0;
+            const extra = parseFloat(inputExtra?.value) || 0;
+            const renteverlies = parseFloat(inputRenteverlies?.value) || 0;
+            const months = Math.min(36, Math.max(1, parseInt(inputMonths?.value || '1', 10)));
+            if (inputMonths) inputMonths.value = months;
+            if (rangeMonths) rangeMonths.value = months;
+
+            const usedNewMonthly = newNetto > 0 ? newNetto : newBruto;
+            const totalMonthly = usedNewMonthly + current + extra + renteverlies;
+            const totalPeriod = totalMonthly * months;
+            const peakMonthly = totalMonthly;
+            const now = new Date();
+
+            const components = [
+                { label: 'Nieuwe maandlast', value: usedNewMonthly },
+                { label: 'Huidige woonlast', value: current },
+                { label: 'Extra overlapkosten', value: extra + renteverlies }
+            ];
+            components.sort((a, b) => b.value - a.value);
+            const dominantComponent = components[0].label;
+
+            let pressure = 'beperkt';
+            if (totalMonthly >= 3500) pressure = 'zwaar';
+            else if (totalMonthly >= 2500) pressure = 'merkbaar';
+
+            const interpretation = `De overlapdruk is ${pressure}. ${dominantComponent} is in dit scenario de grootste kostencomponent per maand.`;
+            const budgetMeaning = months >= 10
+                ? 'De overlapperiode is relatief lang: het totaalbedrag loopt hierdoor snel op, ook als de maanddruk nog beheersbaar lijkt.'
+                : 'De overlapperiode is relatief kort: de maanddruk is vooral tijdelijk, maar vraagt wel directe buffer in de zwaarste maanden.';
+            const conclusion = `Bij deze invoer komt uw tijdelijke dubbele maandlast indicatief uit op ${formatEuro(totalMonthly)} per maand gedurende ${months} maanden.`;
+
+            resNewBruto.textContent = formatEuro(newBruto);
+            resCurrent.textContent = formatEuro(current);
+            resExtra.textContent = formatEuro(extra);
+            resMonthly.textContent = formatEuro(totalMonthly);
+            resTotal.textContent = formatEuro(totalPeriod);
+            resPeak.textContent = formatEuro(peakMonthly);
+            if (resConclusion) resConclusion.textContent = conclusion;
+            if (resInterpretation) resInterpretation.textContent = interpretation;
+            if (resBudgetMeaning) resBudgetMeaning.textContent = budgetMeaning;
+            if (resMethod) resMethod.textContent = 'Indicatieve overlapberekening met vaste maandbedragen; werkelijke bedragen kunnen per maand afwijken.';
+            if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
+
+            if (newNetto > 0) {
+                if (rowNewNetto) rowNewNetto.style.display = 'flex';
+                resNewNetto.textContent = formatEuro(newNetto);
+            } else if (rowNewNetto) {
+                rowNewNetto.style.display = 'none';
+            }
+
+            if (renteverlies > 0) {
+                if (rowRenteverlies) rowRenteverlies.style.display = 'flex';
+                resRenteverlies.textContent = formatEuro(renteverlies);
+            } else if (rowRenteverlies) {
+                rowRenteverlies.style.display = 'none';
+            }
+
+            if (typeNote) {
+                typeNote.textContent = type === 'koop'
+                    ? 'U combineert tijdelijk twee hypotheekachtige woonlasten.'
+                    : 'U combineert tijdelijke huur met de maandlast van uw nieuwe woning.';
+            }
+
+            if (sumType) sumType.textContent = typeLabels[type] || type;
+            if (sumNewUsed) sumNewUsed.textContent = formatEuro(usedNewMonthly);
+            if (sumCurrent) sumCurrent.textContent = formatEuro(current);
+            if (sumExtra) sumExtra.textContent = formatEuro(extra);
+            if (sumRenteverlies) sumRenteverlies.textContent = renteverlies > 0 ? formatEuro(renteverlies) : 'Niet ingevuld';
+            if (sumMonths) sumMonths.textContent = `${months} maanden`;
+
+            const report = buildDubbeleLastenReport({
+                situationType: typeLabels[type] || type,
+                newHousingMonthlyUsed: usedNewMonthly,
+                currentHousingMonthly: current,
+                extraOverlapMonthly: extra,
+                renteverliesMonthly: renteverlies,
+                overlapMonths: months,
+                totalDoubleMonthlyBurden: totalMonthly,
+                totalOverlapCost: totalPeriod,
+                dominantComponent,
+                overlapInterpretation: interpretation,
+                conclusion,
+                generatedAt: now.toISOString()
+            });
+
+            if (btnDownloadDubbel) btnDownloadDubbel.dataset.report = JSON.stringify(report);
+        }
+
+        [inputType, inputNewBruto, inputNewNetto, inputCurrent, inputExtra, inputRenteverlies, inputMonths].forEach((el) => {
+            if (!el) return;
+            el.addEventListener('input', calculate);
+            if (el.tagName === 'SELECT') el.addEventListener('change', calculate);
+        });
+
+        if (rangeMonths) {
+            rangeMonths.addEventListener('input', (e) => {
+                if (inputMonths) inputMonths.value = e.target.value;
+                calculate();
+            });
+        }
+
+        scenarioButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                if (inputType && btn.dataset.type) inputType.value = btn.dataset.type;
+                if (inputNewBruto && btn.dataset.newBruto) inputNewBruto.value = btn.dataset.newBruto;
+                if (inputNewNetto && btn.dataset.newNetto) inputNewNetto.value = btn.dataset.newNetto;
+                if (inputCurrent && btn.dataset.current) inputCurrent.value = btn.dataset.current;
+                if (inputExtra && btn.dataset.extra) inputExtra.value = btn.dataset.extra;
+                if (inputRenteverlies && btn.dataset.renteverlies) inputRenteverlies.value = btn.dataset.renteverlies;
+                if (inputMonths && btn.dataset.months) inputMonths.value = btn.dataset.months;
+                if (rangeMonths && btn.dataset.months) rangeMonths.value = btn.dataset.months;
+                calculate();
+            });
+        });
+
+        if (btnDownloadDubbel) btnDownloadDubbel.addEventListener('click', () => window.print());
+
+        calculate();
+    }
+
 
     // ----------------------------------------------
-    // 1C. RENTEVERLIES BOUWDEPOT CALCULATOR
+    // 1D. RENTEVERLIES BOUWDEPOT CALCULATOR
     // ----------------------------------------------
     function initRenteverliesCalculator() {
         const inputDepot = document.getElementById('input-renteverlies-depot');
@@ -306,7 +647,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const resNet = document.getElementById('res-renteverlies-netto');
         const resMonth = document.getElementById('res-renteverlies-maand');
         const resConclusion = document.getElementById('res-renteverlies-conclusie');
+        const resInterpretation = document.getElementById('res-renteverlies-interpretation');
+        const resMeaning = document.getElementById('res-renteverlies-meaning');
+        const resMethod = document.getElementById('res-renteverlies-method');
+        const resPeriodPattern = document.getElementById('res-renteverlies-period-pattern');
+        const reportGeneratedAt = document.getElementById('report-renteverlies-generated-at');
         const patternNote = document.getElementById('renteverlies-pattern-note');
+        const btnDownloadRenteverlies = document.getElementById('btn-download-renteverlies');
+
+        const sumDepot = document.getElementById('sum-renteverlies-depot');
+        const sumMortgageRate = document.getElementById('sum-renteverlies-mortgage-rate');
+        const sumDepotRate = document.getElementById('sum-renteverlies-depot-rate');
+        const sumMonths = document.getElementById('sum-renteverlies-months');
+        const sumPattern = document.getElementById('sum-renteverlies-pattern');
 
         const scenarioButtons = document.querySelectorAll('.renteverlies-scenario');
 
@@ -315,6 +668,36 @@ document.addEventListener('DOMContentLoaded', () => {
             fast: 'Bij snelle opname in het begin daalt het niet-opgenomen depot eerder, waardoor de vergoeding sneller afneemt.',
             slow: 'Bij latere opname blijft het niet-opgenomen depot langer hoog, waardoor timing meer invloed krijgt op de uitkomst.'
         };
+        const patternLabels = {
+            even: 'Gelijkmatig opgenomen',
+            fast: 'Snelle opname in het begin',
+            slow: 'Vooral later opgenomen'
+        };
+        const formatPercentage = (value) => `${value.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+        const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+
+        function buildRenteverliesReport(data) {
+            return {
+                toolTitle: 'Renteverlies bouwdepot calculator',
+                generatedAt: data.generatedAt,
+                inputs: {
+                    depotAmount: data.depotAmount,
+                    mortgageRate: data.mortgageRate,
+                    depotCompensationRate: data.depotCompensationRate,
+                    months: data.months,
+                    opnamePattern: data.opnamePattern
+                },
+                results: {
+                    totalIndicativeRenteverlies: data.totalIndicativeRenteverlies,
+                    averageMonthlyEffect: data.averageMonthlyEffect,
+                    totalMortgageInterest: data.totalMortgageInterest,
+                    totalCompensation: data.totalCompensation,
+                    interpretationLabel: data.interpretationLabel
+                },
+                conclusion: data.conclusion,
+                assumptions: data.assumptions
+            };
+        }
 
         function getWeights(months, pattern) {
             const weights = [];
@@ -363,22 +746,70 @@ document.addEventListener('DOMContentLoaded', () => {
             const netDifference = totalMortgageInterest - totalCompensation;
             const perMonth = netDifference / months;
             const impactRatio = depot > 0 ? netDifference / depot : 0;
+            const rateSpread = Math.max(0, mortgageRate - depotRate);
 
-            let conclusion = 'Op basis van uw invoer lijkt het renteverlies beperkt. Toch blijft vergelijken nuttig, zeker bij afwijkende bankvoorwaarden.';
-            if (impactRatio > 0.04) {
-                conclusion = 'Uw uitkomst wijst op een relatief hoog renteverlies. Vooral de combinatie van langere looptijd en lager vergoedingspercentage drukt het resultaat.';
-            } else if (impactRatio > 0.02) {
-                conclusion = "Uw uitkomst laat een merkbaar renteverlies zien. Het kan lonen om scenario's met kortere looptijd of ander opnameverloop te vergelijken.";
-            } else if (netDifference < 0) {
-                conclusion = 'In dit scenario is de vergoeding hoger dan de berekende rentelast op het bouwdepotdeel. Controleer wel of uw geldverstrekker dit ook zo verwerkt.';
+            let interpretationLabel = 'beperkt';
+            if (impactRatio > 0.04) interpretationLabel = 'fors';
+            else if (impactRatio > 0.02) interpretationLabel = 'merkbaar';
+            else if (netDifference < 0) interpretationLabel = 'negatief renteverlies';
+
+            const driverScores = [
+                { key: 'renteverschil', value: rateSpread * depot },
+                { key: 'looptijd', value: months * Math.max(0.01, rateSpread) * depot / 12 },
+                { key: 'opnamepatroon', value: pattern === 'even' ? 1 : 1.2 }
+            ];
+            driverScores.sort((a, b) => b.value - a.value);
+            const mainDriver = driverScores[0].key;
+
+            let conclusion = `Bij deze invoer komt het indicatieve renteverlies uit op ${formatEuro(netDifference)} over ${months} maanden.`;
+            if (netDifference < 0) {
+                conclusion = `Bij deze invoer is de vergoeding hoger dan de betaalde rente over ${months} maanden; het indicatieve verschil is ${formatEuro(netDifference)}.`;
             }
+
+            const interpretation = netDifference < 0
+                ? 'In dit scenario is het renteverschil gunstig. Controleer wel of uw geldverstrekker dezelfde systematiek gebruikt.'
+                : `Het renteverlies is ${interpretationLabel}; de belangrijkste aanjager is ${mainDriver}. Een groter verschil tussen hypotheekrente en depotvergoeding verhoogt het effect direct.`;
+            const meaning = pattern === 'slow'
+                ? 'Bij langzamere opname blijft een hoger restdepot langer staan. Dat kan het cumulatieve renteverschil in de bouwdepotfase vergroten.'
+                : 'Ook als het maandverschil beperkt lijkt, kan het totaal over meerdere maanden relevant zijn voor uw bouwdepotbudget.';
+            const assumptions = 'Indicatieve maandbenadering op basis van gekozen opnamepatroon; werkelijke bankboekingen en opnamedata kunnen afwijken.';
+            const now = new Date();
 
             if (patternNote) patternNote.textContent = patternDescriptions[pattern] || patternDescriptions.even;
             if (resMortgage) resMortgage.textContent = formatEuro(totalMortgageInterest);
             if (resCompensation) resCompensation.textContent = '-' + formatEuro(totalCompensation);
             if (resNet) resNet.textContent = formatEuro(netDifference);
             if (resMonth) resMonth.textContent = formatEuro(perMonth);
-            if (resConclusion) resConclusion.textContent = `${conclusion} Uitkomst is indicatief en geen lender-specifieke berekening.`;
+            if (resPeriodPattern) resPeriodPattern.textContent = `${months} maanden · ${patternLabels[pattern] || pattern}`;
+            if (resConclusion) resConclusion.textContent = conclusion;
+            if (resInterpretation) resInterpretation.textContent = interpretation;
+            if (resMeaning) resMeaning.textContent = meaning;
+            if (resMethod) resMethod.textContent = assumptions;
+            if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
+
+            if (sumDepot) sumDepot.textContent = formatEuro(depot);
+            if (sumMortgageRate) sumMortgageRate.textContent = formatPercentage(mortgageRate);
+            if (sumDepotRate) sumDepotRate.textContent = formatPercentage(depotRate);
+            if (sumMonths) sumMonths.textContent = `${months} maanden`;
+            if (sumPattern) sumPattern.textContent = patternLabels[pattern] || pattern;
+
+            const report = buildRenteverliesReport({
+                depotAmount: depot,
+                mortgageRate,
+                depotCompensationRate: depotRate,
+                months,
+                opnamePattern: patternLabels[pattern] || pattern,
+                totalIndicativeRenteverlies: netDifference,
+                averageMonthlyEffect: perMonth,
+                totalMortgageInterest,
+                totalCompensation,
+                interpretationLabel,
+                conclusion,
+                assumptions,
+                generatedAt: now.toISOString()
+            });
+
+            if (btnDownloadRenteverlies) btnDownloadRenteverlies.dataset.report = JSON.stringify(report);
         }
 
         if (rangeMonths) {
@@ -407,6 +838,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 calculate();
             });
         });
+
+        if (btnDownloadRenteverlies) btnDownloadRenteverlies.addEventListener('click', () => window.print());
 
         calculate();
     }
@@ -439,6 +872,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const resExtraNow = document.getElementById('res-extra-now');
         const resPeakMonth = document.getElementById('res-peak-month');
         const resPeakTotal = document.getElementById('res-peak-total');
+        const resAverageMonthly = document.getElementById('res-average-monthly');
+        const resOverlapTotal = document.getElementById('res-overlap-total');
+        const resConclusion = document.getElementById('res-nieuwbouw-conclusion');
+        const resInterpretation = document.getElementById('res-nieuwbouw-interpretation');
+        const resTimeline = document.getElementById('res-nieuwbouw-timeline');
+        const resMethod = document.getElementById('res-nieuwbouw-method');
+        const reportGeneratedAt = document.getElementById('report-nieuwbouw-generated-at');
+        const sumLand = document.getElementById('sum-nieuwbouw-land');
+        const sumConstruction = document.getElementById('sum-nieuwbouw-construction');
+        const sumInterest = document.getElementById('sum-nieuwbouw-interest');
+        const sumDiscount = document.getElementById('sum-nieuwbouw-discount');
+        const sumDuration = document.getElementById('sum-nieuwbouw-duration');
+        const sumHousing = document.getElementById('sum-nieuwbouw-housing');
+        const sumTerms = document.getElementById('sum-nieuwbouw-terms');
         
         const tableWrapper = document.getElementById('table-wrapper');
         const tableBody = document.getElementById('details-table-body');
@@ -453,6 +900,37 @@ document.addEventListener('DOMContentLoaded', () => {
             { month: 9, percent: 25, desc: "Afbouw & Installaties" },
             { month: 12, percent: 20, desc: "Oplevering" }
         ];
+        const formatPercentage = (value) => `${value.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+        const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+
+        function buildNieuwbouwReport(data) {
+            return {
+                toolTitle: 'Nieuwbouw calculator',
+                generatedAt: data.generatedAt,
+                inputs: {
+                    landCost: data.landCost,
+                    constructionCost: data.constructionCost,
+                    mortgageRate: data.mortgageRate,
+                    depotRateDiscount: data.depotRateDiscount,
+                    buildMonths: data.buildMonths,
+                    currentHousingCost: data.currentHousingCost,
+                    termsCount: data.termsCount
+                },
+                results: {
+                    planningMainOutcome: data.planningMainOutcome,
+                    peakMonth: data.peakMonth,
+                    peakTotalMonthly: data.peakTotalMonthly,
+                    averageNetMonthly: data.averageNetMonthly,
+                    periodNetTotal: data.periodNetTotal,
+                    overlapTotal: data.overlapTotal,
+                    totalInterestLoss: data.totalInterestLoss
+                },
+                conclusion: data.conclusion,
+                interpretation: data.interpretation,
+                timelineMeaning: data.timelineMeaning,
+                assumptions: 'Indicatieve nieuwbouwplanning op basis van vaste rente, bouwduur en ingevoerde termijnen. Werkelijke timing, declaraties en bankvoorwaarden kunnen afwijken.'
+            };
+        }
 
         function renderTerms() {
             termsContainer.innerHTML = '';
@@ -588,6 +1066,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let tableHTML = '';
             let peakMonth = 1;
             let peakTotalMonthly = 0;
+            let totalNetPayments = 0;
 
             for(let m = 1; m <= maxMonth; m++) {
                 
@@ -612,6 +1091,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 totalLoss += (grossInterest - interestReceivable);
+                totalNetPayments += netPayment;
 
                 chartLabels.push(`Mnd ${m}`);
                 dataUserPays.push(netPayment);
@@ -630,6 +1110,60 @@ document.addEventListener('DOMContentLoaded', () => {
             if (resExtraNow) resExtraNow.textContent = formatEuro(Math.max(0, startMonthly));
             if (resPeakMonth) resPeakMonth.textContent = `Maand ${peakMonth}`;
             if (resPeakTotal) resPeakTotal.textContent = formatEuro(peakTotalMonthly);
+            const averageNetMonthly = maxMonth > 0 ? totalNetPayments / maxMonth : 0;
+            const overlapTotal = currentHousingCost * buildMonths;
+            if (resAverageMonthly) resAverageMonthly.textContent = formatEuro(averageNetMonthly);
+            if (resOverlapTotal) resOverlapTotal.textContent = formatEuro(overlapTotal);
+
+            const pressureRatio = currentHousingCost > 0 ? peakTotalMonthly / currentHousingCost : 1;
+            let pressureLabel = 'beheersbaar';
+            if (pressureRatio >= 2.2) pressureLabel = 'zwaar';
+            else if (pressureRatio >= 1.6) pressureLabel = 'merkbaar';
+
+            const latePhaseTerms = terms.filter((t) => t.month >= Math.max(1, buildMonths - 2));
+            const latePhasePercent = latePhaseTerms.reduce((sum, term) => sum + term.percent, 0);
+            const timelineLine = latePhasePercent >= 35
+                ? `De druk bouwt vooral richting oplevering op: circa ${Math.round(latePhasePercent)}% van de aanneemsom valt in de laatste bouwmaanden.`
+                : 'De termijnverdeling is redelijk gespreid; de maanddruk loopt daardoor gelijkmatiger op.';
+
+            const conclusion = `Bij deze invoer ligt de hoogste maanddruk indicatief in maand ${peakMonth} op ${formatEuro(peakTotalMonthly)} totaal per maand.`;
+            const interpretation = `Uw nieuwbouwscenario voelt ${pressureLabel}: de combinatie van overlaplasten en opnametempo bepaalt de piekdruk het meest.`;
+            if (resConclusion) resConclusion.textContent = conclusion;
+            if (resInterpretation) resInterpretation.textContent = interpretation;
+            if (resTimeline) resTimeline.textContent = timelineLine;
+            if (resMethod) resMethod.textContent = 'Indicatieve planning op basis van uw rente, bouwduur en termijnschema; werkelijke planning en bankvoorwaarden kunnen afwijken.';
+
+            if (sumLand) sumLand.textContent = formatEuro(landPrice);
+            if (sumConstruction) sumConstruction.textContent = formatEuro(constructPrice);
+            if (sumInterest) sumInterest.textContent = formatPercentage(interest);
+            if (sumDiscount) sumDiscount.textContent = formatPercentage(discount);
+            if (sumDuration) sumDuration.textContent = `${buildMonths} maanden`;
+            if (sumHousing) sumHousing.textContent = currentHousingCost > 0 ? formatEuro(currentHousingCost) : 'Niet ingevuld';
+            if (sumTerms) sumTerms.textContent = `${terms.length} termijnen`;
+
+            const report = buildNieuwbouwReport({
+                landCost: landPrice,
+                constructionCost: constructPrice,
+                mortgageRate: interest,
+                depotRateDiscount: discount,
+                buildMonths,
+                currentHousingCost,
+                termsCount: terms.length,
+                planningMainOutcome: 'Piekmaand totaal maandlast',
+                peakMonth,
+                peakTotalMonthly,
+                averageNetMonthly,
+                periodNetTotal: totalNetPayments,
+                overlapTotal,
+                totalInterestLoss: totalLoss,
+                conclusion,
+                interpretation,
+                timelineMeaning: timelineLine,
+                generatedAt: new Date().toISOString()
+            });
+
+            if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(new Date(report.generatedAt))}.`;
+            if (btnDownload) btnDownload.dataset.report = JSON.stringify(report);
             
             updateChart(chartLabels, dataUserPays, dataDepotPays);
             if(tableBody) tableBody.innerHTML = tableHTML;
@@ -705,7 +1239,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const outCostsBenefit = document.getElementById('res-costs-benefit');
         const rowCostsMonth = document.getElementById('row-costs-month');
         const outNettoMonth = document.getElementById('res-netto-month');
+        const outNettoYear = document.getElementById('res-netto-year');
         const txtTrend = document.getElementById('netto-trend-text');
+        const outConclusion = document.getElementById('res-fiscal-conclusion');
+        const outInterpretation = document.getElementById('res-fiscal-interpretation');
+        const outMeaning = document.getElementById('res-fiscal-meaning');
+        const outMethod = document.getElementById('res-fiscal-method');
+        const reportGeneratedAt = document.getElementById('report-fiscal-generated-at');
+        const btnDownloadFiscal = document.getElementById('btn-download-fiscal');
+        const sumType = document.getElementById('sum-fiscal-type');
+        const sumIncome = document.getElementById('sum-fiscal-income');
+        const sumAmount = document.getElementById('sum-fiscal-amount');
+        const sumInterest = document.getElementById('sum-fiscal-interest');
+        const sumWoz = document.getElementById('sum-fiscal-woz');
+        const sumCosts = document.getElementById('sum-fiscal-costs');
         
         const tableWrapper = document.getElementById('table-wrapper');
         const tableBody = document.getElementById('details-table-body');
@@ -727,6 +1274,36 @@ document.addEventListener('DOMContentLoaded', () => {
             villataksRate: 0.0235, 
             hillenFactor: 0.7187 
         };
+        const typeLabels = {
+            annuity: 'Annuïteiten',
+            linear: 'Lineair'
+        };
+        const formatPercentage = (value) => `${value.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+        const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+
+        function buildFiscalReport(data) {
+            return {
+                toolTitle: 'Belastingvoordeel / netto maandlast calculator',
+                generatedAt: data.generatedAt,
+                inputs: {
+                    mortgageType: data.mortgageType,
+                    grossIncome: data.grossIncome,
+                    mortgageAmount: data.mortgageAmount,
+                    mortgageRate: data.mortgageRate,
+                    wozValue: data.wozValue,
+                    oneTimeDeductibleCosts: data.oneTimeDeductibleCosts
+                },
+                results: {
+                    grossMonthly: data.grossMonthly,
+                    taxBenefitMonthly: data.taxBenefitMonthly,
+                    netMonthly: data.netMonthly,
+                    netYearly: data.netYearly,
+                    interpretationLabel: data.interpretationLabel
+                },
+                conclusion: data.conclusion,
+                assumptions: data.assumptions
+            };
+        }
         
         if(toggleTableBtn) {
             toggleTableBtn.addEventListener('click', () => {
@@ -742,6 +1319,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function calculateFiscalPro() {
             const type = inputType.value; 
+            const income = parseFloat(inputIncome.value) || 0;
             const amount = parseFloat(inputAmount.value) || 0;
             const interestPct = parseFloat(inputInterest.value) || 0;
             const woz = parseFloat(inputWoz.value) || 0;
@@ -838,7 +1416,52 @@ document.addEventListener('DOMContentLoaded', () => {
             outBenefitMonth.textContent = '-' + formatEuro(firstYearBenefit);
             
             outNettoMonth.textContent = formatEuro(firstYearNetto);
-            txtTrend.textContent = `Stijgt naar ${formatEuro(lastYearNetto)} in jaar 30`;
+            if (outNettoYear) outNettoYear.textContent = formatEuro(firstYearNetto * 12);
+            if (txtTrend) txtTrend.textContent = `Stijgt naar ${formatEuro(lastYearNetto)} in jaar 30`;
+
+            const benefitShare = firstYearBruto > 0 ? firstYearBenefit / firstYearBruto : 0;
+            let interpretationLabel = 'beperkt';
+            if (benefitShare >= 0.25) interpretationLabel = 'relevant';
+            else if (benefitShare >= 0.12) interpretationLabel = 'merkbaar';
+
+            const driver = interestPct >= 4 ? 'hypotheekrente' : (income >= 90000 ? 'inkomens- en schijfwerking' : 'combinatie van rente en WOZ');
+            const conclusion = `Bij deze invoer komt uw indicatieve netto maandlast uit op ${formatEuro(firstYearNetto)} per maand, na een geschat belastingeffect van ${formatEuro(firstYearBenefit)}.`;
+            const interpretation = `Het fiscale effect is ${interpretationLabel}; in dit scenario is ${driver} de belangrijkste aanjager van het bruto-netto verschil.`;
+            const meaning = 'Gebruik dit als fiscale oriëntatie: persoonlijke aangifte, aftrekruimte en definitieve regels kunnen de werkelijke netto-uitkomst veranderen.';
+            const assumptions = 'Indicatieve projectie op basis van 2026-regels en constante aannames; geen persoonlijke aangifte-uitkomst.';
+
+            if (outConclusion) outConclusion.textContent = conclusion;
+            if (outInterpretation) outInterpretation.textContent = interpretation;
+            if (outMeaning) outMeaning.textContent = meaning;
+            if (outMethod) outMethod.textContent = assumptions;
+
+            if (sumType) sumType.textContent = typeLabels[type] || type;
+            if (sumIncome) sumIncome.textContent = formatEuro(income);
+            if (sumAmount) sumAmount.textContent = formatEuro(amount);
+            if (sumInterest) sumInterest.textContent = formatPercentage(interestPct);
+            if (sumWoz) sumWoz.textContent = formatEuro(woz);
+            if (sumCosts) sumCosts.textContent = oneTimeCosts > 0 ? formatEuro(oneTimeCosts) : 'Geen';
+
+            const now = new Date();
+            if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
+
+            const report = buildFiscalReport({
+                mortgageType: typeLabels[type] || type,
+                grossIncome: income,
+                mortgageAmount: amount,
+                mortgageRate: interestPct,
+                wozValue: woz,
+                oneTimeDeductibleCosts: oneTimeCosts,
+                grossMonthly: firstYearBruto,
+                taxBenefitMonthly: firstYearBenefit,
+                netMonthly: firstYearNetto,
+                netYearly: firstYearNetto * 12,
+                interpretationLabel,
+                conclusion,
+                assumptions,
+                generatedAt: now.toISOString()
+            });
+            if (btnDownloadFiscal) btnDownloadFiscal.dataset.report = JSON.stringify(report);
 
             if(oneTimeCosts > 0) {
                 rowCostsMonth.style.display = 'flex';
@@ -908,6 +1531,8 @@ document.addEventListener('DOMContentLoaded', () => {
         [checkAdvice, checkNotary, checkValuation, checkNhg].forEach(box => {
             box.addEventListener('change', calculateFiscalPro);
         });
+
+        if (btnDownloadFiscal) btnDownloadFiscal.addEventListener('click', () => window.print());
 
         calculateFiscalPro();
     }
