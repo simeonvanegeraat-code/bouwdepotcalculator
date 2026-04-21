@@ -1239,7 +1239,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const outCostsBenefit = document.getElementById('res-costs-benefit');
         const rowCostsMonth = document.getElementById('row-costs-month');
         const outNettoMonth = document.getElementById('res-netto-month');
+        const outNettoYear = document.getElementById('res-netto-year');
         const txtTrend = document.getElementById('netto-trend-text');
+        const outConclusion = document.getElementById('res-fiscal-conclusion');
+        const outInterpretation = document.getElementById('res-fiscal-interpretation');
+        const outMeaning = document.getElementById('res-fiscal-meaning');
+        const outMethod = document.getElementById('res-fiscal-method');
+        const reportGeneratedAt = document.getElementById('report-fiscal-generated-at');
+        const btnDownloadFiscal = document.getElementById('btn-download-fiscal');
+        const sumType = document.getElementById('sum-fiscal-type');
+        const sumIncome = document.getElementById('sum-fiscal-income');
+        const sumAmount = document.getElementById('sum-fiscal-amount');
+        const sumInterest = document.getElementById('sum-fiscal-interest');
+        const sumWoz = document.getElementById('sum-fiscal-woz');
+        const sumCosts = document.getElementById('sum-fiscal-costs');
         
         const tableWrapper = document.getElementById('table-wrapper');
         const tableBody = document.getElementById('details-table-body');
@@ -1261,6 +1274,36 @@ document.addEventListener('DOMContentLoaded', () => {
             villataksRate: 0.0235, 
             hillenFactor: 0.7187 
         };
+        const typeLabels = {
+            annuity: 'Annuïteiten',
+            linear: 'Lineair'
+        };
+        const formatPercentage = (value) => `${value.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+        const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+
+        function buildFiscalReport(data) {
+            return {
+                toolTitle: 'Belastingvoordeel / netto maandlast calculator',
+                generatedAt: data.generatedAt,
+                inputs: {
+                    mortgageType: data.mortgageType,
+                    grossIncome: data.grossIncome,
+                    mortgageAmount: data.mortgageAmount,
+                    mortgageRate: data.mortgageRate,
+                    wozValue: data.wozValue,
+                    oneTimeDeductibleCosts: data.oneTimeDeductibleCosts
+                },
+                results: {
+                    grossMonthly: data.grossMonthly,
+                    taxBenefitMonthly: data.taxBenefitMonthly,
+                    netMonthly: data.netMonthly,
+                    netYearly: data.netYearly,
+                    interpretationLabel: data.interpretationLabel
+                },
+                conclusion: data.conclusion,
+                assumptions: data.assumptions
+            };
+        }
         
         if(toggleTableBtn) {
             toggleTableBtn.addEventListener('click', () => {
@@ -1276,6 +1319,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function calculateFiscalPro() {
             const type = inputType.value; 
+            const income = parseFloat(inputIncome.value) || 0;
             const amount = parseFloat(inputAmount.value) || 0;
             const interestPct = parseFloat(inputInterest.value) || 0;
             const woz = parseFloat(inputWoz.value) || 0;
@@ -1372,7 +1416,52 @@ document.addEventListener('DOMContentLoaded', () => {
             outBenefitMonth.textContent = '-' + formatEuro(firstYearBenefit);
             
             outNettoMonth.textContent = formatEuro(firstYearNetto);
-            txtTrend.textContent = `Stijgt naar ${formatEuro(lastYearNetto)} in jaar 30`;
+            if (outNettoYear) outNettoYear.textContent = formatEuro(firstYearNetto * 12);
+            if (txtTrend) txtTrend.textContent = `Stijgt naar ${formatEuro(lastYearNetto)} in jaar 30`;
+
+            const benefitShare = firstYearBruto > 0 ? firstYearBenefit / firstYearBruto : 0;
+            let interpretationLabel = 'beperkt';
+            if (benefitShare >= 0.25) interpretationLabel = 'relevant';
+            else if (benefitShare >= 0.12) interpretationLabel = 'merkbaar';
+
+            const driver = interestPct >= 4 ? 'hypotheekrente' : (income >= 90000 ? 'inkomens- en schijfwerking' : 'combinatie van rente en WOZ');
+            const conclusion = `Bij deze invoer komt uw indicatieve netto maandlast uit op ${formatEuro(firstYearNetto)} per maand, na een geschat belastingeffect van ${formatEuro(firstYearBenefit)}.`;
+            const interpretation = `Het fiscale effect is ${interpretationLabel}; in dit scenario is ${driver} de belangrijkste aanjager van het bruto-netto verschil.`;
+            const meaning = 'Gebruik dit als fiscale oriëntatie: persoonlijke aangifte, aftrekruimte en definitieve regels kunnen de werkelijke netto-uitkomst veranderen.';
+            const assumptions = 'Indicatieve projectie op basis van 2026-regels en constante aannames; geen persoonlijke aangifte-uitkomst.';
+
+            if (outConclusion) outConclusion.textContent = conclusion;
+            if (outInterpretation) outInterpretation.textContent = interpretation;
+            if (outMeaning) outMeaning.textContent = meaning;
+            if (outMethod) outMethod.textContent = assumptions;
+
+            if (sumType) sumType.textContent = typeLabels[type] || type;
+            if (sumIncome) sumIncome.textContent = formatEuro(income);
+            if (sumAmount) sumAmount.textContent = formatEuro(amount);
+            if (sumInterest) sumInterest.textContent = formatPercentage(interestPct);
+            if (sumWoz) sumWoz.textContent = formatEuro(woz);
+            if (sumCosts) sumCosts.textContent = oneTimeCosts > 0 ? formatEuro(oneTimeCosts) : 'Geen';
+
+            const now = new Date();
+            if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
+
+            const report = buildFiscalReport({
+                mortgageType: typeLabels[type] || type,
+                grossIncome: income,
+                mortgageAmount: amount,
+                mortgageRate: interestPct,
+                wozValue: woz,
+                oneTimeDeductibleCosts: oneTimeCosts,
+                grossMonthly: firstYearBruto,
+                taxBenefitMonthly: firstYearBenefit,
+                netMonthly: firstYearNetto,
+                netYearly: firstYearNetto * 12,
+                interpretationLabel,
+                conclusion,
+                assumptions,
+                generatedAt: now.toISOString()
+            });
+            if (btnDownloadFiscal) btnDownloadFiscal.dataset.report = JSON.stringify(report);
 
             if(oneTimeCosts > 0) {
                 rowCostsMonth.style.display = 'flex';
@@ -1442,6 +1531,8 @@ document.addEventListener('DOMContentLoaded', () => {
         [checkAdvice, checkNotary, checkValuation, checkNhg].forEach(box => {
             box.addEventListener('change', calculateFiscalPro);
         });
+
+        if (btnDownloadFiscal) btnDownloadFiscal.addEventListener('click', () => window.print());
 
         calculateFiscalPro();
     }
