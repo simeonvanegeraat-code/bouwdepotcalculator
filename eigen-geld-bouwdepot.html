@@ -437,7 +437,8 @@
         </div>
     </footer>
 
-    <script>
+    <script type="module" src="/src/js/reporting.js"></script>
+    <script type="module">
         const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
         const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
         const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
@@ -460,6 +461,10 @@
         const sumExtraCosts = document.getElementById('sum-own-extra-costs');
         const sumOwnCash = document.getElementById('sum-own-cash');
         const btnDownload = document.getElementById('btn-download-own-money');
+        const reportToolkit = window.BouwdepotReporting || null;
+        if (btnDownload && reportToolkit?.registerReportButton) {
+            reportToolkit.registerReportButton(btnDownload);
+        }
         const scenarioLabels = {
             verbouwing: 'Verbouwing',
             'nieuwbouw-meerwerk': 'Nieuwbouw meerwerk',
@@ -608,8 +613,6 @@
                 calculate();
             });
         });
-
-        if (btnDownload) btnDownload.addEventListener('click', () => window.print());
 
         calculate();
     </script>

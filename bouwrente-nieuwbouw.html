@@ -372,7 +372,8 @@
         </div>
     </footer>
 
-    <script>
+    <script type="module" src="/src/js/reporting.js"></script>
+    <script type="module">
         const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 
         const amountInput = document.getElementById('input-amount');
@@ -401,6 +402,10 @@
         const sumFinanced = document.getElementById('sum-bouwrente-financed');
         const sumMortgageRate = document.getElementById('sum-bouwrente-mortgage-rate');
         const btnDownload = document.getElementById('btn-download-bouwrente');
+        const reportToolkit = window.BouwdepotReporting || null;
+        if (btnDownload && reportToolkit?.registerReportButton) {
+            reportToolkit.registerReportButton(btnDownload);
+        }
 
         const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
         const formatPercentage = (value) => `${Number(value).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
@@ -520,8 +525,6 @@
 
         financedInput.addEventListener('change', calculate);
         mortgageInput.addEventListener('input', calculate);
-        if (btnDownload) btnDownload.addEventListener('click', () => window.print());
-
         document.querySelectorAll('.bouwrente-preset').forEach((btn) => {
             btn.addEventListener('click', () => {
                 const presetAmount = Number(btn.dataset.amount);

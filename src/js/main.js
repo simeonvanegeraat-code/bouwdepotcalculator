@@ -5,9 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- HELPER: FORMAT EURO ---
     const formatEuro = (val) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(val);
 
-    // --- GLOBAL PDF & ROUTING ---
+    // --- GLOBAL REPORT PIPELINE & ROUTING ---
     const btnDownload = document.getElementById('btn-download');
-    if(btnDownload) btnDownload.addEventListener('click', () => window.print());
+    const reportToolkit = window.BouwdepotReporting || null;
+    const bindReportButton = (button, options = {}) => {
+        if (!button) return;
+        if (reportToolkit?.registerReportButton) {
+            reportToolkit.registerReportButton(button, options);
+            return;
+        }
+        button.addEventListener('click', () => window.print());
+    };
 
     // Routing
     if (document.getElementById('range-amount')) initVerbouwCalculator();
@@ -16,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('nieuwbouw-calc')) initNieuwbouwCalculator();
     if (document.getElementById('renteverlies-calc')) initRenteverliesCalculator();
     if (document.getElementById('belasting-calc')) initBelastingCalculator();
+
+    bindReportButton(btnDownload);
 
 
     // ----------------------------------------------
@@ -278,6 +288,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const summaryPattern = document.getElementById('sum-month-pattern');
         const summaryExtra = document.getElementById('sum-month-extra');
         const btnDownloadMaandlasten = document.getElementById('btn-download-maandlasten');
+        bindReportButton(btnDownloadMaandlasten);
 
         const scenarioButtons = document.querySelectorAll('.scenario-btn');
 
@@ -394,9 +405,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btnDownloadMaandlasten) btnDownloadMaandlasten.dataset.report = JSON.stringify(report);
         }
 
-        if (btnDownloadMaandlasten) {
-            btnDownloadMaandlasten.addEventListener('click', () => window.print());
-        }
 
         if (rangeMonths) {
             rangeMonths.addEventListener('input', (e) => {
@@ -453,6 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const rangeMonths = document.getElementById('range-dubbel-months');
         const scenarioButtons = document.querySelectorAll('.dubbel-scenario');
         const btnDownloadDubbel = document.getElementById('btn-download-dubbel');
+        bindReportButton(btnDownloadDubbel);
 
         const resNewBruto = document.getElementById('res-dubbel-new-bruto');
         const resNewNetto = document.getElementById('res-dubbel-new-netto');
@@ -625,7 +634,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        if (btnDownloadDubbel) btnDownloadDubbel.addEventListener('click', () => window.print());
 
         calculate();
     }
@@ -654,6 +662,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const reportGeneratedAt = document.getElementById('report-renteverlies-generated-at');
         const patternNote = document.getElementById('renteverlies-pattern-note');
         const btnDownloadRenteverlies = document.getElementById('btn-download-renteverlies');
+        bindReportButton(btnDownloadRenteverlies);
 
         const sumDepot = document.getElementById('sum-renteverlies-depot');
         const sumMortgageRate = document.getElementById('sum-renteverlies-mortgage-rate');
@@ -839,7 +848,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        if (btnDownloadRenteverlies) btnDownloadRenteverlies.addEventListener('click', () => window.print());
 
         calculate();
     }
@@ -1247,6 +1255,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const outMethod = document.getElementById('res-fiscal-method');
         const reportGeneratedAt = document.getElementById('report-fiscal-generated-at');
         const btnDownloadFiscal = document.getElementById('btn-download-fiscal');
+        bindReportButton(btnDownloadFiscal);
         const sumType = document.getElementById('sum-fiscal-type');
         const sumIncome = document.getElementById('sum-fiscal-income');
         const sumAmount = document.getElementById('sum-fiscal-amount');
@@ -1532,7 +1541,6 @@ document.addEventListener('DOMContentLoaded', () => {
             box.addEventListener('change', calculateFiscalPro);
         });
 
-        if (btnDownloadFiscal) btnDownloadFiscal.addEventListener('click', () => window.print());
 
         calculateFiscalPro();
     }
