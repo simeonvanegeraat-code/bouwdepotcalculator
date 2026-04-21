@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dubbele lasten nieuwbouw berekenen 2026 | Huur + hypotheek inzicht</title>
+    <meta name="description" content="Bereken uw dubbele lasten tijdens nieuwbouw: nieuwe hypotheek, huidige huur of hypotheek, overlapkosten en totale druk over 6-12 maanden of langer. Praktisch en indicatief.">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <link rel="canonical" href="https://www.bouwdepotcalculator.nl/dubbele-lasten-nieuwbouw.html">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/src/styles/main.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-inner">
+            <div class="logo">Bouwdepot<span class="text-accent">Calculator</span>.nl</div>
+            <nav class="main-nav">
+                <a href="index.html">Verbouwen</a>
+                <a href="nieuwbouw.html" class="active">Nieuwbouw</a>
+                <a href="belasting.html">Belastingvoordeel</a>
+                <a href="stappenplan.html">Stappenplan</a>
+                <a href="kennisbank.html">Kennisbank</a>
+                <a href="over-ons.html">Over ons</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container home-layout">
+        <section class="card">
+            <h1>Dubbele lasten nieuwbouw berekenen</h1>
+            <p class="subtitle">Krijg snel inzicht in uw totale maandlasten tijdens de nieuwbouwperiode wanneer uw huidige woonlast tijdelijk doorloopt naast de lasten van uw nieuwe woning.</p>
+            <p class="trust-line">Exacte kosten hangen af van hypotheekopzet, huidige woonsituatie en timing van oplevering/verhuizing. Deze tool geeft een <strong>indicatieve</strong> uitkomst.</p>
+        </section>
+
+        <section class="calculator-template" aria-label="Calculator dubbele lasten nieuwbouw">
+            <div class="template-main">
+                <div class="card calculator-card" id="dubbele-lasten-calc">
+                    <h2>Calculator tijdelijke dubbele woonlasten</h2>
+                    <p class="section-intro">Vul uw maandbedragen in en zie direct de gecombineerde maanddruk en totale kosten over de overlapperiode.</p>
+
+                    <div class="input-group compact panel-input">
+                        <div class="label-row">
+                            <label for="input-dubbel-type">Situatie</label>
+                            <div class="select-wrapper" style="width: 290px;">
+                                <select id="input-dubbel-type">
+                                    <option value="huur">Huurwoning + nieuwbouw</option>
+                                    <option value="koop">Bestaande koopwoning + nieuwbouw</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p class="assumption-note" id="dubbel-type-note">U combineert tijdelijke huur met de maandlast van uw nieuwe woning.</p>
+                    </div>
+
+                    <div class="two-col-inputs">
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-dubbel-new-bruto">Nieuwe hypotheeklast (bruto) per maand</label>
+                                <div class="number-input-wrapper has-prefix">
+                                    <span class="prefix">€</span>
+                                    <input type="number" id="input-dubbel-new-bruto" value="1650" min="0" step="25">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group compact panel-input">
+                            <div class="label-row">
+                                <label for="input-dubbel-new-netto">Nieuwe hypotheeklast (netto, optioneel)</label>
+                                <div class="number-input-wrapper has-prefix">
+                                    <span class="prefix">€</span>
+                                    <input type="number" id="input-dubbel-new-netto" value="0" min="0" step="25">
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-1">Laat op €0 staan als u alleen met bruto wilt rekenen.</p>
+                        </div>
+                    </div>
+
+                    <div class="two-col-inputs">
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-dubbel-current">Huidige woonlast per maand</label>
+                                <div class="number-input-wrapper has-prefix">
+                                    <span class="prefix">€</span>
+                                    <input type="number" id="input-dubbel-current" value="1200" min="0" step="25">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-dubbel-extra">Extra overlapkosten per maand (optioneel)</label>
+                                <div class="number-input-wrapper has-prefix">
+                                    <span class="prefix">€</span>
+                                    <input type="number" id="input-dubbel-extra" value="150" min="0" step="25">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="two-col-inputs">
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-dubbel-renteverlies">Optioneel: bouwdepot/renteverlies effect per maand</label>
+                                <div class="number-input-wrapper has-prefix">
+                                    <span class="prefix">€</span>
+                                    <input type="number" id="input-dubbel-renteverlies" value="0" min="0" step="10">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group compact">
+                            <div class="label-row">
+                                <label for="input-dubbel-months">Duur dubbele lasten</label>
+                                <div class="number-input-wrapper has-suffix">
+                                    <input type="number" id="input-dubbel-months" value="9" min="1" max="36" step="1">
+                                    <span class="suffix">mnd</span>
+                                </div>
+                            </div>
+                            <input type="range" id="range-dubbel-months" min="1" max="36" step="1" value="9" class="slider">
+                        </div>
+                    </div>
+                </div>
+
+                <section class="card" aria-label="Voorbeeldscenario's dubbele lasten nieuwbouw">
+                    <h2>Voorbeeldscenario's</h2>
+                    <p class="section-intro">Kies een scenario en pas daarna uw eigen bedragen aan.</p>
+                    <div class="scenario-grid">
+                        <button type="button" class="scenario-btn dubbel-scenario" data-type="huur" data-new-bruto="1550" data-new-netto="0" data-current="1100" data-extra="100" data-renteverlies="0" data-months="6">
+                            <strong>Huurwoning + nieuwbouw</strong>
+                            <span>6 maanden overlap, beperkte extra kosten</span>
+                        </button>
+                        <button type="button" class="scenario-btn dubbel-scenario" data-type="koop" data-new-bruto="1850" data-new-netto="0" data-current="1450" data-extra="150" data-renteverlies="100" data-months="12">
+                            <strong>Koopwoning + nieuwbouw</strong>
+                            <span>12 maanden dubbele lasten met depoteffect</span>
+                        </button>
+                        <button type="button" class="scenario-btn dubbel-scenario" data-type="huur" data-new-bruto="1700" data-new-netto="1350" data-current="1250" data-extra="250" data-renteverlies="80" data-months="12">
+                            <strong>12 maanden + overlapkosten</strong>
+                            <span>Inclusief extra vaste lasten en nettovergelijking</span>
+                        </button>
+                        <button type="button" class="scenario-btn dubbel-scenario" data-type="koop" data-new-bruto="2100" data-new-netto="1650" data-current="1600" data-extra="300" data-renteverlies="150" data-months="9">
+                            <strong>Zwaardere overlapperiode</strong>
+                            <span>Hoge maanddruk in een kortere periode</span>
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="card result-card sticky-box">
+                <h2>Uw uitkomst</h2>
+                <p class="result-intro">Indicatieve uitsplitsing van tijdelijke dubbele woonlasten.</p>
+
+                <div class="result-row">
+                    <span>Nieuwe hypotheeklast (bruto)</span>
+                    <span id="res-dubbel-new-bruto" class="amount">€ 0</span>
+                </div>
+                <div class="result-row" id="row-dubbel-new-netto" style="display:none;">
+                    <span>Nieuwe hypotheeklast (netto, ingevoerd)</span>
+                    <span id="res-dubbel-new-netto" class="amount">€ 0</span>
+                </div>
+                <div class="result-row">
+                    <span>Huidige woonlast</span>
+                    <span id="res-dubbel-current" class="amount">€ 0</span>
+                </div>
+                <div class="result-row">
+                    <span>Extra overlapkosten</span>
+                    <span id="res-dubbel-extra" class="amount">€ 0</span>
+                </div>
+                <div class="result-row" id="row-dubbel-renteverlies" style="display:none;">
+                    <span>Optioneel bouwdepot/renteverlies</span>
+                    <span id="res-dubbel-renteverlies" class="amount">€ 0</span>
+                </div>
+
+                <hr>
+
+                <div class="result-row total featured-row">
+                    <span>Totale dubbele maandlast</span>
+                    <span id="res-dubbel-monthly" class="amount highlight">€ 0</span>
+                </div>
+
+                <div class="result-row">
+                    <span>Totale kosten over periode</span>
+                    <span id="res-dubbel-total" class="amount">€ 0</span>
+                </div>
+
+                <div class="result-row">
+                    <span>Indicatieve piekbelasting per maand</span>
+                    <span id="res-dubbel-peak" class="amount">€ 0</span>
+                </div>
+
+                <div class="callout mt-4">
+                    <p id="res-dubbel-conclusion" class="callout-text mb-0">Uw conclusie verschijnt hier op basis van de ingevoerde maanddruk.</p>
+                </div>
+
+                <p class="disclaimer">Indicatieve berekening voor planning. Geen persoonlijk financieel, fiscaal of juridisch advies.</p>
+            </aside>
+        </section>
+
+        <section class="card content-block">
+            <h2>Wanneer krijgt u dubbele lasten bij nieuwbouw?</h2>
+            <p>Dubbele lasten ontstaan meestal in de periode tussen start bouw en definitieve verhuizing. In die fase betaalt u vaak nog uw huidige woonlast, terwijl de nieuwe hypotheeklast al (deels) loopt.</p>
+            <p>Dat kan bijvoorbeeld betekenen: <strong>huur + nieuwe hypotheek</strong> of <strong>oude hypotheek + nieuwe hypotheek</strong>. Soms komen daar tijdelijke overlapkosten bij, zoals dubbele servicekosten of vaste contracten die nog doorlopen.</p>
+            <p>Juist deze maanden zijn belangrijk voor uw budget, omdat de maanddruk tijdelijk hoger kan zijn dan na oplevering.</p>
+        </section>
+
+        <section class="card content-block">
+            <h2>Wat nemen wij mee in deze berekening?</h2>
+            <ul>
+                <li>Nieuwe maandlast (bruto) en optioneel een door u ingevulde netto maandlast.</li>
+                <li>Huidige huur of huidige hypotheeklast.</li>
+                <li>Extra maandelijkse overlapkosten.</li>
+                <li>Optioneel een apart bouwdepot/renteverliesbedrag per maand.</li>
+                <li>De duur van de overlapperiode in maanden.</li>
+            </ul>
+            <h3>Wat nemen wij niet mee?</h3>
+            <ul>
+                <li>Persoonlijke en exacte belastingeffecten per huishouden.</li>
+                <li>Vertragingen in bouwplanning die u niet in de looptijd verwerkt.</li>
+                <li>Eenmalige verhuiskosten of inrichtingskosten die u niet zelf invoert.</li>
+                <li>Productspecifieke voorwaarden van elke geldverstrekker.</li>
+                <li>Niet-ingevulde incidentele kostenposten.</li>
+            </ul>
+        </section>
+
+        <section class="card content-block">
+            <h2>Hoe zwaar zijn dubbele lasten voor uw budget?</h2>
+            <ul>
+                <li><strong>Beheersbare overlap:</strong> totale maanddruk past ruim binnen uw beschikbare bestedingsruimte.</li>
+                <li><strong>Krappe overlap:</strong> weinig ruimte voor tegenvallers, extra buffer is belangrijk.</li>
+                <li><strong>Zware overlap:</strong> hoge maanddruk door combinatie van lasten en/of langere looptijd.</li>
+            </ul>
+            <p>Gebruik deze uitkomst vooral om vooraf te plannen: welke maanden zijn het zwaarst, hoe lang duurt die fase, en welk bedrag wilt u als reserve aanhouden.</p>
+        </section>
+
+        <section class="card content-block">
+            <h2>Uitgewerkt voorbeeld</h2>
+            <p><strong>Situatie:</strong> nieuwe hypotheeklast bruto €1.750, huidige huur €1.200, extra overlapkosten €150, bouwdepot/renteverlies effect €75 per maand, looptijd 10 maanden.</p>
+            <p><strong>Totale dubbele maandlast:</strong> €1.750 + €1.200 + €150 + €75 = <strong>€3.175 per maand</strong>.</p>
+            <p><strong>Totale tijdelijke last over 10 maanden:</strong> €3.175 × 10 = <strong>€31.750</strong>.</p>
+            <p>Dit laat zien hoe belangrijk het is om de overlapperiode kort te houden en extra kosten zichtbaar mee te nemen in uw planning.</p>
+        </section>
+
+        <section class="card content-block">
+            <h2>Hoe kunt u dubbele lasten beter opvangen?</h2>
+            <ul>
+                <li>Bouw vooraf een buffer op voor enkele zwaardere maanden.</li>
+                <li>Probeer de overlapperiode zo kort mogelijk te houden waar dat praktisch kan.</li>
+                <li>Houd extra projectkosten apart zichtbaar in uw maandoverzicht.</li>
+                <li>Controleer op tijd de exacte maandbedragen bij adviseur of geldverstrekker.</li>
+                <li>Werk met meerdere scenario’s (bijvoorbeeld 6, 9 en 12 maanden) om risico te vergelijken.</li>
+            </ul>
+        </section>
+
+        <section class="card compact-faq">
+            <h2>Veelgestelde vragen</h2>
+            <div class="faq-grid">
+                <article>
+                    <h3>Wat zijn dubbele lasten bij nieuwbouw?</h3>
+                    <p>Dat zijn tijdelijke maandlasten waarbij uw huidige woonlast doorloopt terwijl u ook al lasten voor de nieuwe woning betaalt.</p>
+                </article>
+                <article>
+                    <h3>Betaal ik tijdens nieuwbouw al mijn nieuwe hypotheek?</h3>
+                    <p>Dat verschilt per situatie en hypotheekconstructie. Gebruik deze tool als indicatie en controleer exacte bedragen in uw offerte.</p>
+                </article>
+                <article>
+                    <h3>Kan ik tegelijk huur en hypotheek hebben?</h3>
+                    <p>Ja, dat komt vaak voor in de overlap naar een nieuwbouwwoning.</p>
+                </article>
+                <article>
+                    <h3>Hoe lang heb ik meestal dubbele lasten?</h3>
+                    <p>Dat verschilt per bouwplanning en verkoop/verhuisplanning. In de praktijk wordt vaak met 6 tot 12 maanden gerekend.</p>
+                </article>
+                <article>
+                    <h3>Moet ik ook rekening houden met bouwdepotkosten?</h3>
+                    <p>Vaak wel. Daarom kunt u in deze berekening optioneel een apart maandbedrag voor bouwdepot/renteverlies toevoegen.</p>
+                </article>
+                <article>
+                    <h3>Is deze berekening exact of indicatief?</h3>
+                    <p>Indicatief. Zie dit als budgethulp, niet als vervanging van lender- of adviesberekeningen.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="card content-block">
+            <h2>Verder rekenen</h2>
+            <div class="resource-grid">
+                <a class="resource-card" href="index.html">
+                    <strong>Algemene bouwdepot calculator</strong>
+                    <span>Snelle indicatie van maandlasten bij verbouw- of depotbedragen.</span>
+                </a>
+                <a class="resource-card" href="nieuwbouw.html">
+                    <strong>Nieuwbouw calculator</strong>
+                    <span>Bekijk maandverloop, piekmaand en termijnbetalingen.</span>
+                </a>
+                <a class="resource-card" href="maandlasten-bouwdepot.html">
+                    <strong>Maandlasten bouwdepot</strong>
+                    <span>Focus op bruto/netto maandlast en vergoeding uit depot.</span>
+                </a>
+                <a class="resource-card" href="bouwrente-nieuwbouw.html">
+                    <strong>Bouwrente nieuwbouw</strong>
+                    <span>Indicatie van bouwrente en effect per maand.</span>
+                </a>
+                <a class="resource-card" href="renteverlies-bouwdepot.html">
+                    <strong>Renteverlies bouwdepot</strong>
+                    <span>Dieper inzicht in verschil tussen hypotheekrente en depotvergoeding.</span>
+                </a>
+                <a class="resource-card" href="belasting.html">
+                    <strong>Belastingvoordeel</strong>
+                    <span>Verken bruto/netto effect met fiscale invalshoek.</span>
+                </a>
+                <a class="resource-card" href="stappenplan.html">
+                    <strong>Nieuwbouw stappenplan</strong>
+                    <span>Praktische volgorde van voorbereiding tot oplevering.</span>
+                </a>
+                <a class="resource-card" href="kennisbank.html">
+                    <strong>Kennisbank</strong>
+                    <span>Lees achtergrond, checks en valkuilen.</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="card trust-block">
+            <h2>Methodologie & betrouwbaarheid</h2>
+            <p>Deze tool rekent met een eenvoudig en transparant model: maandlast nieuw + maandlast huidig + optionele overlapposten, vermenigvuldigd met het aantal maanden.</p>
+            <p>De uitkomst is indicatief. Exacte overlapkosten hangen af van uw hypotheekstructuur, huidige woonsituatie en werkelijke timing van bouw en verhuizing.</p>
+            <p>Controleer definitieve cijfers altijd met uw adviseur en/of geldverstrekker voor besluitvorming.</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container text-center py-8">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="kennisbank.html">Kennisbank</a>
+                <a href="over-ons.html">Over ons</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="cookies.html">Cookies</a>
+                <a href="voorwaarden.html">Voorwaarden</a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
