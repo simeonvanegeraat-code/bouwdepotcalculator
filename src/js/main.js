@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const costContent = document.getElementById('cost-content');
         const costArrow = document.getElementById('cost-arrow');
         const btnResetCosts = document.getElementById('btn-reset-costs');
+        const presetButtons = document.querySelectorAll('.preset-btn');
 
         function calculate() {
             const type = inputType ? inputType.value : 'annuity';
@@ -146,6 +147,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 costBtns.forEach(b => b.classList.remove('selected'));
                 updateFromButtons();
                 // We resetten de input niet naar 0, maar laten de laatste waarde staan, of je kunt hier inputAmount.value = 25000 zetten.
+            });
+        }
+
+        if (presetButtons.length) {
+            presetButtons.forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const presetAmount = parseFloat(btn.dataset.presetAmount);
+                    if (Number.isNaN(presetAmount)) return;
+
+                    if (inputAmount) inputAmount.value = presetAmount;
+                    if (rangeAmount) rangeAmount.value = presetAmount;
+
+                    if (costBtns.length) {
+                        costBtns.forEach((costBtn) => costBtn.classList.remove('selected'));
+                        if (btnResetCosts) btnResetCosts.style.display = 'none';
+                    }
+
+                    calculate();
+                });
             });
         }
 
