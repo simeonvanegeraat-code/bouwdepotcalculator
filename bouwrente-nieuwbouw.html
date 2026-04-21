@@ -72,6 +72,7 @@
                 <h1>Bouwrente nieuwbouw berekenen</h1>
                 <p class="subtitle">Bereken in 1 minuut wat bouwrente bij nieuwbouw u indicatief kost: totaalbedrag, kosten per maand en optioneel het effect van meefinancieren.</p>
                 <p class="trust-line">Contracten en projectvoorwaarden verschillen per nieuwbouwproject • Deze tool geeft een indicatieve uitkomst</p>
+                <p class="calc-intro-note">Homepage = snelle eerste indicatie • Maandlasten = bouwdepotfase maanddruk • Nieuwbouw = brede planning • Dubbele lasten = overlap • Deze pagina = specialistische bouwrente-inschatting.</p>
 
                 <div class="tool-level-card" id="bouwrente-calc">
                     <div class="section-head">
@@ -88,6 +89,7 @@
                             </div>
                         </div>
                         <input type="range" id="range-amount" min="10000" max="500000" step="1000" value="100000" class="slider">
+                        <p class="field-hint">Totale som waarover u bouwrente verwacht te betalen.</p>
                     </div>
 
                     <div class="two-col-inputs">
@@ -100,6 +102,7 @@
                                 </div>
                             </div>
                             <input type="range" id="range-rate" min="0" max="15" step="0.1" value="6" class="slider">
+                            <p class="field-hint">Gebruik het bouwrentepercentage uit uw projectdocumenten of indicatieve afspraak.</p>
                         </div>
 
                         <div class="input-group compact">
@@ -111,6 +114,7 @@
                                 </div>
                             </div>
                             <input type="range" id="range-months" min="1" max="36" step="1" value="6" class="slider">
+                            <p class="field-hint">De duur is vaak een belangrijke kostenverhoger bij gelijk bedrag en percentage.</p>
                         </div>
                     </div>
 
@@ -125,6 +129,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <p class="field-hint">Alleen aanzetten als u bouwrente wilt meenemen in de lening in plaats van direct betalen.</p>
                         </div>
 
                         <div class="input-group compact panel-input" id="mortgage-wrapper" style="display:none;">
@@ -135,6 +140,7 @@
                                     <span class="suffix">%</span>
                                 </div>
                             </div>
+                            <p class="field-hint">Hiermee schatten we alleen de extra rentelast door meefinancieren.</p>
                         </div>
                     </div>
 
@@ -265,17 +271,23 @@
 
         <aside class="sidebar">
             <div class="card result-card sticky-box" id="result-box">
-                <h2>Uw uitkomst</h2>
-                <p class="result-intro">Heldere splitsing tussen basis bouwrente en optioneel financieringseffect.</p>
+                <h2>Bouwrente specialist-uitkomst</h2>
+                <p class="result-intro">Gerichte kosteninschatting voor bouwrente, zonder brede projectplanning.</p>
+                <p class="result-meta" id="report-bouwrente-generated-at">Berekening klaar voor vergelijking.</p>
 
                 <div class="result-row total featured-row">
                     <span>Totale indicatieve bouwrente</span>
                     <span id="res-base" class="amount highlight">€ 0</span>
                 </div>
 
+                <h3 class="result-subtitle">Onderliggende uitkomsten</h3>
                 <div class="result-row">
                     <span>Gemiddeld per maand</span>
                     <span id="res-monthly" class="amount">€ 0</span>
+                </div>
+                <div class="result-row">
+                    <span>Bouwrenteperiode</span>
+                    <span id="res-period-months" class="amount">0 maanden</span>
                 </div>
 
                 <hr>
@@ -289,8 +301,48 @@
                     <span id="res-total" class="amount">€ 0</span>
                 </div>
 
-                <div class="callout mt-4">
-                    <p id="result-explain" class="callout-text mb-0">Deze uitkomst is een indicatie op basis van een lineair jaarrentemodel over de gekozen maanden.</p>
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Korte conclusie</p>
+                    <p id="res-bouwrente-conclusion">Bij deze invoer komt de indicatieve bouwrente uit op €0 over 0 maanden.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Interpretatie</p>
+                    <p id="res-bouwrente-interpretation">De impact wordt beoordeeld op basis van bedrag, duur en eventueel meefinancieren.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Kostenbetekenis</p>
+                    <p id="res-bouwrente-cost-meaning">Ook een beperkt maandbedrag kan over meerdere maanden leiden tot een duidelijk projectbedrag.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Aannameregel</p>
+                    <p id="result-explain">Deze uitkomst is een indicatie op basis van een lineair jaarrentemodel over de gekozen maanden.</p>
+                </div>
+
+                <div class="result-summary-block">
+                    <p class="result-copy-title">Ingevoerde uitgangspunten</p>
+                    <ul class="result-summary-list">
+                        <li><span>Bedrag bouwrente</span><strong id="sum-bouwrente-amount">€ 0</strong></li>
+                        <li><span>Bouwrentepercentage</span><strong id="sum-bouwrente-rate">-</strong></li>
+                        <li><span>Periode</span><strong id="sum-bouwrente-months">-</strong></li>
+                        <li><span>Meefinancieren</span><strong id="sum-bouwrente-financed">-</strong></li>
+                        <li><span>Hypotheekrente (indien gebruikt)</span><strong id="sum-bouwrente-mortgage-rate">-</strong></li>
+                    </ul>
+                </div>
+
+                <div class="next-steps-block no-print">
+                    <p class="result-copy-title">Vervolgstappen</p>
+                    <div class="result-next-links">
+                        <a href="nieuwbouw.html">Naar brede nieuwbouw planning</a>
+                        <a href="dubbele-lasten-nieuwbouw.html">Naar overlap-check dubbele lasten</a>
+                        <a href="maandlasten-bouwdepot.html">Naar maandlasten bouwdepotfase</a>
+                    </div>
+                </div>
+
+                <div class="cta-button-wrapper no-print">
+                    <button id="btn-download-bouwrente" class="btn-primary">Download overzicht (PDF)</button>
                 </div>
             </div>
 
@@ -337,9 +389,45 @@
         const resMonthly = document.getElementById('res-monthly');
         const resFinancing = document.getElementById('res-financing');
         const resTotal = document.getElementById('res-total');
+        const resPeriodMonths = document.getElementById('res-period-months');
         const resultExplain = document.getElementById('result-explain');
+        const resConclusion = document.getElementById('res-bouwrente-conclusion');
+        const resInterpretation = document.getElementById('res-bouwrente-interpretation');
+        const resCostMeaning = document.getElementById('res-bouwrente-cost-meaning');
+        const reportGeneratedAt = document.getElementById('report-bouwrente-generated-at');
+        const sumAmount = document.getElementById('sum-bouwrente-amount');
+        const sumRate = document.getElementById('sum-bouwrente-rate');
+        const sumMonths = document.getElementById('sum-bouwrente-months');
+        const sumFinanced = document.getElementById('sum-bouwrente-financed');
+        const sumMortgageRate = document.getElementById('sum-bouwrente-mortgage-rate');
+        const btnDownload = document.getElementById('btn-download-bouwrente');
 
         const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+        const formatPercentage = (value) => `${Number(value).toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
+        const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+
+        function buildBouwrenteReport(data) {
+            return {
+                toolTitle: 'Bouwrente nieuwbouw calculator',
+                generatedAt: data.generatedAt,
+                inputs: {
+                    amount: data.amount,
+                    rate: data.rate,
+                    months: data.months,
+                    financed: data.financed,
+                    mortgageRate: data.mortgageRate
+                },
+                results: {
+                    totalIndicativeBouwrente: data.base,
+                    averageMonthlyCost: data.monthly,
+                    financingImpact: data.financingImpact,
+                    totalIncludingFinancingImpact: data.total,
+                    interpretationLabel: data.interpretationLabel
+                },
+                conclusion: data.conclusion,
+                assumptions: data.assumptions
+            };
+        }
 
         function sync(input, range, min, max) {
             input.addEventListener('input', () => {
@@ -375,11 +463,55 @@
             }
 
             const total = base + financingImpact;
+            const amountDriven = amount >= 150000;
+            const durationDriven = months >= 9;
+            const mainDriver = durationDriven && !amountDriven ? 'de duur' : (amountDriven && !durationDriven ? 'het bedrag' : 'bedrag en duur');
+
+            let interpretationLabel = 'beperkt';
+            if (base >= 8000) interpretationLabel = 'fors';
+            else if (base >= 3000) interpretationLabel = 'merkbaar';
+
+            const conclusion = `Bij deze invoer komt de indicatieve bouwrente uit op ${euro.format(base)} over ${months} maanden.`;
+            const interpretation = `De bouwrente-impact is ${interpretationLabel}; in dit scenario zijn ${mainDriver} de belangrijkste kostenaanjagers.`;
+            const costMeaning = months >= 9
+                ? 'Door de langere periode telt deze kostenpost stevig mee in uw nieuwbouwbudget, ook als de maandlast op zichzelf meevalt.'
+                : 'Dit is vooral een tijdelijke projectkost; neem het expliciet mee in uw reservering zodat het geen verrassing wordt.';
+            const assumptions = isFinanced
+                ? 'Indicatieve lineaire berekening van bouwrente plus extra rentelast bij meefinancieren over dezelfde periode.'
+                : 'Indicatieve lineaire berekening van bouwrente over bedrag, percentage en gekozen periode.';
+            const now = new Date();
 
             resBase.textContent = euro.format(base);
             resMonthly.textContent = euro.format(monthly);
             resFinancing.textContent = isFinanced ? euro.format(financingImpact) : '€ 0';
             resTotal.textContent = euro.format(total);
+            if (resPeriodMonths) resPeriodMonths.textContent = `${months} maanden`;
+            if (resConclusion) resConclusion.textContent = conclusion;
+            if (resInterpretation) resInterpretation.textContent = interpretation;
+            if (resCostMeaning) resCostMeaning.textContent = costMeaning;
+            if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
+            if (sumAmount) sumAmount.textContent = euro.format(amount);
+            if (sumRate) sumRate.textContent = formatPercentage(rate);
+            if (sumMonths) sumMonths.textContent = `${months} maanden`;
+            if (sumFinanced) sumFinanced.textContent = isFinanced ? 'Ja' : 'Nee';
+            if (sumMortgageRate) sumMortgageRate.textContent = isFinanced ? formatPercentage(mortgageInput.value || 0) : 'Niet gebruikt';
+
+            const report = buildBouwrenteReport({
+                amount,
+                rate,
+                months,
+                financed: isFinanced,
+                mortgageRate: isFinanced ? (Math.max(0, Number(mortgageInput.value) || 0)) : null,
+                base,
+                monthly,
+                financingImpact,
+                total,
+                interpretationLabel,
+                conclusion,
+                assumptions,
+                generatedAt: now.toISOString()
+            });
+            if (btnDownload) btnDownload.dataset.report = JSON.stringify(report);
         }
 
         sync(amountInput, amountRange, 10000, 500000);
@@ -388,6 +520,7 @@
 
         financedInput.addEventListener('change', calculate);
         mortgageInput.addEventListener('input', calculate);
+        if (btnDownload) btnDownload.addEventListener('click', () => window.print());
 
         document.querySelectorAll('.bouwrente-preset').forEach((btn) => {
             btn.addEventListener('click', () => {
