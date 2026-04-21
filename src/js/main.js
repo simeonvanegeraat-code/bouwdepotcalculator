@@ -11,7 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Routing
     if (document.getElementById('range-amount')) initVerbouwCalculator();
+    if (document.getElementById('maandlasten-calc')) initMaandlastenBouwdepotCalculator();
     if (document.getElementById('nieuwbouw-calc')) initNieuwbouwCalculator();
+    if (document.getElementById('renteverlies-calc')) initRenteverliesCalculator();
     if (document.getElementById('belasting-calc')) initBelastingCalculator();
 
 
@@ -179,6 +181,234 @@ document.addEventListener('DOMContentLoaded', () => {
         checkAftrek.addEventListener('change', calculate);
         
         if(rangeAmount) calculate();
+    }
+
+
+    // ----------------------------------------------
+    // 1B. MAANDLASTEN BOUWDEPOT CALCULATOR
+    // ----------------------------------------------
+    function initMaandlastenBouwdepotCalculator() {
+        const inputMortgage = document.getElementById('input-total-mortgage');
+        const inputDepot = document.getElementById('input-depot-amount');
+        const inputRate = document.getElementById('input-mortgage-rate');
+        const inputDepotRate = document.getElementById('input-depot-rate');
+        const inputMonths = document.getElementById('input-depot-months');
+        const rangeMonths = document.getElementById('range-depot-months');
+        const inputHousing = document.getElementById('input-extra-housing');
+        const opnamePattern = document.getElementById('input-opnamepattern');
+
+        const resGross = document.getElementById('res-month-gross');
+        const resComp = document.getElementById('res-month-compensation');
+        const resNet = document.getElementById('res-month-net');
+        const resPeriod = document.getElementById('res-period-total');
+        const resDouble = document.getElementById('res-double-burden');
+        const resDoubleRow = document.getElementById('row-double-burden');
+        const assumptionText = document.getElementById('assumption-pattern-text');
+
+        const scenarioButtons = document.querySelectorAll('.scenario-btn');
+
+        const patternFactors = {
+            even: 0.5,
+            slow: 0.65,
+            fast: 0.35
+        };
+
+        const patternLabels = {
+            even: 'Gemiddeld 50% van het depot staat nog uit tijdens de bouwperiode.',
+            slow: 'Bij een rustige start rekenen wij indicatief met gemiddeld 65% niet-opgenomen depot.',
+            fast: 'Bij snelle opname rekenen wij indicatief met gemiddeld 35% niet-opgenomen depot.'
+        };
+
+        function calculate() {
+            const mortgage = parseFloat(inputMortgage.value) || 0;
+            const depot = parseFloat(inputDepot.value) || 0;
+            const mortgageRate = parseFloat(inputRate.value) || 0;
+            const depotRate = parseFloat(inputDepotRate.value) || 0;
+            const months = parseInt(inputMonths.value, 10) || 1;
+            const extraHousing = parseFloat(inputHousing.value) || 0;
+            const pattern = opnamePattern.value || 'even';
+            const factor = patternFactors[pattern] || 0.5;
+
+            const grossMonthly = mortgage * ((mortgageRate / 100) / 12);
+            const monthlyCompensation = depot * factor * ((depotRate / 100) / 12);
+            const netMonthly = Math.max(0, grossMonthly - monthlyCompensation);
+            const periodTotal = netMonthly * months;
+            const doubleBurden = netMonthly + extraHousing;
+
+            resGross.textContent = formatEuro(grossMonthly);
+            resComp.textContent = '-' + formatEuro(monthlyCompensation);
+            resNet.textContent = formatEuro(netMonthly);
+            resPeriod.textContent = formatEuro(periodTotal);
+            assumptionText.textContent = patternLabels[pattern];
+
+            if (extraHousing > 0) {
+                if (resDoubleRow) resDoubleRow.style.display = 'flex';
+                resDouble.textContent = formatEuro(doubleBurden);
+            } else if (resDoubleRow) {
+                resDoubleRow.style.display = 'none';
+            }
+        }
+
+        if (rangeMonths) {
+            rangeMonths.addEventListener('input', (e) => {
+                inputMonths.value = e.target.value;
+                calculate();
+            });
+        }
+
+        if (inputMonths) {
+            inputMonths.addEventListener('input', (e) => {
+                const months = Math.min(36, Math.max(1, parseInt(e.target.value || '1', 10)));
+                inputMonths.value = months;
+                if (rangeMonths) rangeMonths.value = months;
+                calculate();
+            });
+        }
+
+        [inputMortgage, inputDepot, inputRate, inputDepotRate, inputHousing, opnamePattern].forEach((el) => {
+            if (el) el.addEventListener('input', calculate);
+            if (el && el.tagName === 'SELECT') el.addEventListener('change', calculate);
+        });
+
+        scenarioButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                if (btn.dataset.mortgage) inputMortgage.value = btn.dataset.mortgage;
+                if (btn.dataset.depot) inputDepot.value = btn.dataset.depot;
+                if (btn.dataset.rate) inputRate.value = btn.dataset.rate;
+                if (btn.dataset.depotRate) inputDepotRate.value = btn.dataset.depotRate;
+                if (btn.dataset.months) {
+                    inputMonths.value = btn.dataset.months;
+                    if (rangeMonths) rangeMonths.value = btn.dataset.months;
+                }
+                if (btn.dataset.housing) inputHousing.value = btn.dataset.housing;
+                if (btn.dataset.pattern) opnamePattern.value = btn.dataset.pattern;
+                calculate();
+            });
+        });
+
+        calculate();
+    }
+
+
+    // ----------------------------------------------
+    // 1C. RENTEVERLIES BOUWDEPOT CALCULATOR
+    // ----------------------------------------------
+    function initRenteverliesCalculator() {
+        const inputDepot = document.getElementById('input-renteverlies-depot');
+        const inputMortgageRate = document.getElementById('input-renteverlies-hypotheek');
+        const inputDepotRate = document.getElementById('input-renteverlies-vergoeding');
+        const inputMonths = document.getElementById('input-renteverlies-maanden');
+        const rangeMonths = document.getElementById('range-renteverlies-maanden');
+        const inputPattern = document.getElementById('input-renteverlies-pattern');
+
+        const resMortgage = document.getElementById('res-renteverlies-hypotheek');
+        const resCompensation = document.getElementById('res-renteverlies-vergoeding');
+        const resNet = document.getElementById('res-renteverlies-netto');
+        const resMonth = document.getElementById('res-renteverlies-maand');
+        const resConclusion = document.getElementById('res-renteverlies-conclusie');
+        const patternNote = document.getElementById('renteverlies-pattern-note');
+
+        const scenarioButtons = document.querySelectorAll('.renteverlies-scenario');
+
+        const patternDescriptions = {
+            even: 'Bij gelijkmatig opnemen daalt het resterende depot in gelijke stappen.',
+            fast: 'Bij snelle opname in het begin daalt het niet-opgenomen depot eerder, waardoor de vergoeding sneller afneemt.',
+            slow: 'Bij latere opname blijft het niet-opgenomen depot langer hoog, waardoor timing meer invloed krijgt op de uitkomst.'
+        };
+
+        function getWeights(months, pattern) {
+            const weights = [];
+            for (let month = 1; month <= months; month += 1) {
+                let weight = 1;
+                if (pattern === 'fast') {
+                    weight = 1.6 - ((month - 1) / Math.max(1, months - 1)) * 1.2;
+                } else if (pattern === 'slow') {
+                    weight = 0.4 + ((month - 1) / Math.max(1, months - 1)) * 1.2;
+                }
+                weights.push(Math.max(0.1, weight));
+            }
+            return weights;
+        }
+
+        function calculate() {
+            const depot = parseFloat(inputDepot.value) || 0;
+            const mortgageRate = parseFloat(inputMortgageRate.value) || 0;
+            const depotRate = parseFloat(inputDepotRate.value) || 0;
+            const months = Math.min(36, Math.max(1, parseInt(inputMonths.value || '1', 10)));
+            const pattern = inputPattern.value || 'even';
+
+            inputMonths.value = months;
+            if (rangeMonths) rangeMonths.value = months;
+
+            const monthlyMortgageRate = (mortgageRate / 100) / 12;
+            const monthlyDepotRate = (depotRate / 100) / 12;
+
+            const totalMortgageInterest = depot * monthlyMortgageRate * months;
+
+            const weights = getWeights(months, pattern);
+            const totalWeight = weights.reduce((sum, weight) => sum + weight, 0) || 1;
+
+            let remaining = depot;
+            let totalCompensation = 0;
+
+            for (let i = 0; i < months; i += 1) {
+                const monthlyWithdrawal = (depot * weights[i]) / totalWeight;
+                const endBalance = Math.max(0, remaining - monthlyWithdrawal);
+                const averageBalance = (remaining + endBalance) / 2;
+
+                totalCompensation += averageBalance * monthlyDepotRate;
+                remaining = endBalance;
+            }
+
+            const netDifference = totalMortgageInterest - totalCompensation;
+            const perMonth = netDifference / months;
+            const impactRatio = depot > 0 ? netDifference / depot : 0;
+
+            let conclusion = 'Op basis van uw invoer lijkt het renteverlies beperkt. Toch blijft vergelijken nuttig, zeker bij afwijkende bankvoorwaarden.';
+            if (impactRatio > 0.04) {
+                conclusion = 'Uw uitkomst wijst op een relatief hoog renteverlies. Vooral de combinatie van langere looptijd en lager vergoedingspercentage drukt het resultaat.';
+            } else if (impactRatio > 0.02) {
+                conclusion = "Uw uitkomst laat een merkbaar renteverlies zien. Het kan lonen om scenario's met kortere looptijd of ander opnameverloop te vergelijken.";
+            } else if (netDifference < 0) {
+                conclusion = 'In dit scenario is de vergoeding hoger dan de berekende rentelast op het bouwdepotdeel. Controleer wel of uw geldverstrekker dit ook zo verwerkt.';
+            }
+
+            if (patternNote) patternNote.textContent = patternDescriptions[pattern] || patternDescriptions.even;
+            if (resMortgage) resMortgage.textContent = formatEuro(totalMortgageInterest);
+            if (resCompensation) resCompensation.textContent = '-' + formatEuro(totalCompensation);
+            if (resNet) resNet.textContent = formatEuro(netDifference);
+            if (resMonth) resMonth.textContent = formatEuro(perMonth);
+            if (resConclusion) resConclusion.textContent = `${conclusion} Uitkomst is indicatief en geen lender-specifieke berekening.`;
+        }
+
+        if (rangeMonths) {
+            rangeMonths.addEventListener('input', (e) => {
+                inputMonths.value = e.target.value;
+                calculate();
+            });
+        }
+
+        [inputDepot, inputMortgageRate, inputDepotRate, inputMonths].forEach((el) => {
+            if (el) el.addEventListener('input', calculate);
+        });
+
+        if (inputPattern) inputPattern.addEventListener('change', calculate);
+
+        scenarioButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                if (button.dataset.depot) inputDepot.value = button.dataset.depot;
+                if (button.dataset.mortgageRate) inputMortgageRate.value = button.dataset.mortgageRate;
+                if (button.dataset.depotRate) inputDepotRate.value = button.dataset.depotRate;
+                if (button.dataset.months) {
+                    inputMonths.value = button.dataset.months;
+                    if (rangeMonths) rangeMonths.value = button.dataset.months;
+                }
+                if (button.dataset.pattern) inputPattern.value = button.dataset.pattern;
+                calculate();
+            });
+        });
+
+        calculate();
     }
 
 
