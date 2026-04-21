@@ -71,13 +71,14 @@
             <h1>Dubbele lasten nieuwbouw berekenen</h1>
             <p class="subtitle">Krijg snel inzicht in uw totale maandlasten tijdens de nieuwbouwperiode wanneer uw huidige woonlast tijdelijk doorloopt naast de lasten van uw nieuwe woning.</p>
             <p class="trust-line">Exacte kosten hangen af van hypotheekopzet, huidige woonsituatie en timing van oplevering/verhuizing. Deze tool geeft een <strong>indicatieve</strong> uitkomst.</p>
+            <p class="calc-intro-note">Homepage = snelle eerste check • Maandlasten = bouwdepotfase • Nieuwbouw = brede planning • Deze pagina = gerichte overlap-check.</p>
         </section>
 
         <section class="calculator-template" aria-label="Calculator dubbele lasten nieuwbouw">
             <div class="template-main">
                 <div class="card calculator-card" id="dubbele-lasten-calc">
                     <h2>Calculator tijdelijke dubbele woonlasten</h2>
-                    <p class="section-intro">Vul uw maandbedragen in en zie direct de gecombineerde maanddruk en totale kosten over de overlapperiode.</p>
+                    <p class="section-intro">Vul alleen uw overlapbedragen in en zie direct of de tijdelijke dubbele maandlast licht, merkbaar of zwaar is.</p>
 
                     <div class="input-group compact panel-input">
                         <div class="label-row">
@@ -90,6 +91,7 @@
                             </div>
                         </div>
                         <p class="assumption-note" id="dubbel-type-note">U combineert tijdelijke huur met de maandlast van uw nieuwe woning.</p>
+                        <p class="field-hint">Kies de overlapvorm die het best bij uw huidige woonsituatie past.</p>
                     </div>
 
                     <div class="two-col-inputs">
@@ -101,6 +103,7 @@
                                     <input type="number" id="input-dubbel-new-bruto" value="1650" min="0" step="25">
                                 </div>
                             </div>
+                            <p class="field-hint">Gebruik de maandlast van uw nieuwe woning tijdens de overlap.</p>
                         </div>
                         <div class="input-group compact panel-input">
                             <div class="label-row">
@@ -111,6 +114,7 @@
                                 </div>
                             </div>
                             <p class="text-xs text-gray-400 mt-1">Laat op €0 staan als u alleen met bruto wilt rekenen.</p>
+                            <p class="field-hint">Alleen invullen als u al een betrouwbare netto-inschatting heeft.</p>
                         </div>
                     </div>
 
@@ -123,6 +127,7 @@
                                     <input type="number" id="input-dubbel-current" value="1200" min="0" step="25">
                                 </div>
                             </div>
+                            <p class="field-hint">Uw huidige huur of hypotheek die tijdelijk doorloopt.</p>
                         </div>
                         <div class="input-group compact">
                             <div class="label-row">
@@ -132,6 +137,7 @@
                                     <input type="number" id="input-dubbel-extra" value="150" min="0" step="25">
                                 </div>
                             </div>
+                            <p class="field-hint">Bijv. dubbele servicekosten, tijdelijke opslag of extra reiskosten.</p>
                         </div>
                     </div>
 
@@ -144,6 +150,7 @@
                                     <input type="number" id="input-dubbel-renteverlies" value="0" min="0" step="10">
                                 </div>
                             </div>
+                            <p class="field-hint">Optioneel maandbedrag voor renteverlies of bouwdepotimpact.</p>
                         </div>
                         <div class="input-group compact">
                             <div class="label-row">
@@ -154,6 +161,7 @@
                                 </div>
                             </div>
                             <input type="range" id="range-dubbel-months" min="1" max="36" step="1" value="9" class="slider">
+                            <p class="field-hint">Deze duur bepaalt vooral de totale overlapkosten.</p>
                         </div>
                     </div>
                 </div>
@@ -183,8 +191,16 @@
             </div>
 
             <aside class="card result-card sticky-box">
-                <h2>Uw uitkomst</h2>
-                <p class="result-intro">Indicatieve uitsplitsing van tijdelijke dubbele woonlasten.</p>
+                <h2>Dubbele lasten overlap-check</h2>
+                <p class="result-intro">Snel budgetoverzicht van uw tijdelijke overlapdruk tijdens nieuwbouw.</p>
+                <p class="result-meta" id="report-dubbel-generated-at">Berekening klaar voor budgetcheck.</p>
+
+                <div class="result-row total featured-row">
+                    <span>Kernuitkomst: totale dubbele maandlast</span>
+                    <span id="res-dubbel-monthly" class="amount highlight">€ 0</span>
+                </div>
+
+                <h3 class="result-subtitle">Onderliggende uitkomsten</h3>
 
                 <div class="result-row">
                     <span>Nieuwe hypotheeklast (bruto)</span>
@@ -207,13 +223,6 @@
                     <span id="res-dubbel-renteverlies" class="amount">€ 0</span>
                 </div>
 
-                <hr>
-
-                <div class="result-row total featured-row">
-                    <span>Totale dubbele maandlast</span>
-                    <span id="res-dubbel-monthly" class="amount highlight">€ 0</span>
-                </div>
-
                 <div class="result-row">
                     <span>Totale kosten over periode</span>
                     <span id="res-dubbel-total" class="amount">€ 0</span>
@@ -224,8 +233,49 @@
                     <span id="res-dubbel-peak" class="amount">€ 0</span>
                 </div>
 
-                <div class="callout mt-4">
-                    <p id="res-dubbel-conclusion" class="callout-text mb-0">Uw conclusie verschijnt hier op basis van de ingevoerde maanddruk.</p>
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Korte conclusie</p>
+                    <p id="res-dubbel-conclusion">Bij deze invoer komt uw tijdelijke dubbele maandlast indicatief uit op €0 per maand.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Interpretatie</p>
+                    <p id="res-dubbel-interpretation">De overlapdruk wordt ingeschat op basis van maandlast en looptijd.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Budgetbetekenis</p>
+                    <p id="res-dubbel-budget-meaning">Ook een beheersbare maanddruk kan over meerdere maanden een groot totaalbedrag vormen.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Aannameregel</p>
+                    <p id="res-dubbel-method">Indicatieve overlapberekening met vaste maandbedragen; werkelijke bedragen kunnen per maand afwijken.</p>
+                </div>
+
+                <div class="result-summary-block">
+                    <p class="result-copy-title">Ingevoerde uitgangspunten</p>
+                    <ul class="result-summary-list">
+                        <li><span>Situatie</span><strong id="sum-dubbel-type">-</strong></li>
+                        <li><span>Nieuwe maandlast (gebruikt)</span><strong id="sum-dubbel-new-used">€ 0</strong></li>
+                        <li><span>Huidige woonlast</span><strong id="sum-dubbel-current">€ 0</strong></li>
+                        <li><span>Extra overlapkosten</span><strong id="sum-dubbel-extra">€ 0</strong></li>
+                        <li><span>Bouwdepot/renteverlies</span><strong id="sum-dubbel-renteverlies">€ 0</strong></li>
+                        <li><span>Overlapduur</span><strong id="sum-dubbel-months">-</strong></li>
+                    </ul>
+                </div>
+
+                <div class="next-steps-block no-print">
+                    <p class="result-copy-title">Vervolgstappen</p>
+                    <div class="result-next-links">
+                        <a href="nieuwbouw.html">Naar nieuwbouw planner (tijdlijn & termijnen)</a>
+                        <a href="maandlasten-bouwdepot.html">Naar maandlasten bouwdepot detail</a>
+                        <a href="belasting.html">Naar fiscale verdieping</a>
+                    </div>
+                </div>
+
+                <div class="cta-button-wrapper no-print">
+                    <button id="btn-download-dubbel" class="btn-primary">Download overzicht (PDF)</button>
                 </div>
 
                 <p class="disclaimer">Indicatieve berekening voor planning. Geen persoonlijk financieel, fiscaal of juridisch advies.</p>

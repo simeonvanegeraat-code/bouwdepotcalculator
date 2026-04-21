@@ -83,6 +83,7 @@
                         </div>
                     </div>
                     <input type="range" id="range-amount" min="5000" max="150000" step="500" value="25000" class="slider">
+                    <p class="field-hint">Totale bedrag dat u via het bouwdepot wilt meefinancieren.</p>
                 </div>
 
                 <div class="input-group">
@@ -95,6 +96,7 @@
                             </select>
                         </div>
                     </div>
+                    <p class="field-hint">Kies de hypotheekvorm van het leningdeel waarin het bouwdepot valt.</p>
                 </div>
 
                 <div class="input-group">
@@ -106,6 +108,7 @@
                         </div>
                     </div>
                     <input type="range" id="range-interest" min="0.1" max="10" step="0.1" value="3.8" class="slider">
+                    <p class="field-hint">Gebruik uw actuele aanbodrente voor een betere indicatie.</p>
                 </div>
 
                 <div class="input-group">
@@ -114,6 +117,7 @@
                         <span class="input-value" id="val-duration">30 Jaar</span>
                     </div>
                     <input type="range" id="range-duration" min="10" max="30" step="5" value="30" class="slider">
+                    <p class="field-hint">Voor een snelle eerste schatting volstaat de looptijd van uw hypotheekdeel.</p>
                 </div>
 
                 <div class="checkbox-group mt-4">
@@ -141,8 +145,9 @@
             </div>
 
             <aside class="card result-card sticky-box" id="print-area">
-                <h2>Uw Maandlasten</h2>
-                <p class="result-intro">Direct inzicht op basis van uw invoer hierboven.</p>
+                <h2>Algemene bouwdepot calculator</h2>
+                <p class="result-intro">Snelle eerste indicatie: wat doet dit bouwdepot ongeveer met uw maandlast?</p>
+                <p class="result-meta" id="report-generated-at">Berekening klaar voor uw oriëntatie.</p>
 
                 <div class="result-row total featured-row">
                     <span>Netto per maand</span>
@@ -151,6 +156,7 @@
 
                 <hr>
 
+                <h3 class="result-subtitle">Onderliggende uitkomsten</h3>
                 <div class="result-row">
                     <span>Bruto maandlast</span>
                     <span id="res-bruto" class="amount">€ 0</span>
@@ -161,12 +167,42 @@
                     <span id="res-voordeel" class="amount">€ 0</span>
                 </div>
 
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Korte conclusie</p>
+                    <p id="res-conclusion">Bij deze invoer krijgt u een indicatieve netto maandlast.</p>
+                </div>
+
+                <div class="result-copy-block">
+                    <p class="result-copy-title">Aannameregel</p>
+                    <p id="res-method">Deze snelle berekening is indicatief en gebruikt vaste aannames voor renteaftrek.</p>
+                </div>
+
+                <div class="result-summary-block">
+                    <p class="result-copy-title">Ingevoerde uitgangspunten</p>
+                    <ul class="result-summary-list">
+                        <li><span>Bouwdepot bedrag</span><strong id="sum-amount">€ 0</strong></li>
+                        <li><span>Hypotheekvorm</span><strong id="sum-type">-</strong></li>
+                        <li><span>Rente</span><strong id="sum-interest">-</strong></li>
+                        <li><span>Looptijd</span><strong id="sum-duration">-</strong></li>
+                        <li><span>Belastingindicatie</span><strong id="sum-tax">-</strong></li>
+                    </ul>
+                </div>
+
+                <div class="next-steps-block no-print">
+                    <p class="result-copy-title">Volgende stap</p>
+                    <div class="result-next-links">
+                        <a href="maandlasten-bouwdepot.html">Meer detail maandlasten</a>
+                        <a href="nieuwbouw.html">Naar nieuwbouw planning</a>
+                        <a href="belasting.html">Fiscale verdieping</a>
+                    </div>
+                </div>
+
                 <div class="cta-button-wrapper no-print">
                     <button id="btn-download" class="btn-primary">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                         Download overzicht (PDF)
                     </button>
-                    <p class="disclaimer">*Indicatieve berekening, geen financieel advies.</p>
+                    <p class="disclaimer">Indicatief hulpmiddel; persoonlijke uitkomst hangt af van uw situatie en voorwaarden van bank/adviseur.</p>
                 </div>
             </aside>
         </section>
