@@ -1297,3 +1297,271 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     color: #166534;
     font-weight: 600;
 }
+
+/* --- 12. KENNISBANK PAGINA --- */
+.kennisbank-layout {
+    max-width: 980px;
+}
+
+.kennisbank-page {
+    margin-top: 0;
+    padding: 1.5rem;
+}
+
+.kennisbank-page h1 {
+    font-size: clamp(1.65rem, 4.7vw, 2.25rem);
+    line-height: 1.2;
+    margin-bottom: 0.85rem;
+}
+
+.kennisbank-page h2 {
+    display: block;
+    border-bottom: 0;
+    font-size: clamp(1.2rem, 3.9vw, 1.55rem);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0;
+}
+
+.kennisbank-hero {
+    padding: 0.4rem 0 1.2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.hero-eyebrow {
+    margin-bottom: 0.45rem;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    color: #475569;
+}
+
+.hero-intro {
+    font-size: 1rem;
+    max-width: 68ch;
+}
+
+.hero-meta {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 0.8rem;
+    color: #64748b;
+    font-size: 0.86rem;
+}
+
+.kb-section {
+    padding: 1.4rem 0;
+    border-bottom: 1px solid #eef2f7;
+}
+
+.kb-section:last-child {
+    border-bottom: 0;
+    padding-bottom: 0.5rem;
+}
+
+.kb-route-grid,
+.kb-tools-grid,
+.kb-deep-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.kb-route-card,
+.kb-tools-grid a,
+.kb-deep-links a {
+    text-decoration: none;
+    border: 1px solid #dbe5f1;
+    background: #f8fbff;
+    border-radius: 10px;
+    padding: 0.95rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.kb-route-card strong,
+.kb-tools-grid strong,
+.kb-deep-links strong {
+    color: var(--color-primary);
+    font-size: 0.96rem;
+}
+
+.kb-route-card p,
+.kb-tools-grid p,
+.kb-deep-links p {
+    margin-bottom: 0;
+    font-size: 0.88rem;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.kb-route-card span {
+    color: var(--color-primary);
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.kb-route-card:hover,
+.kb-tools-grid a:hover,
+.kb-deep-links a:hover {
+    border-color: #a8c0ee;
+    background: #f2f7ff;
+}
+
+.kb-number-list {
+    padding-left: 1.25rem;
+}
+
+.kb-number-list li + li {
+    margin-top: 0.85rem;
+}
+
+.kb-number-list h3 {
+    margin-top: 0;
+    margin-bottom: 0.2rem;
+    font-size: 1rem;
+    color: #1f2937;
+}
+
+.kb-warning-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.kb-warning-list article {
+    border: 1px solid #fde2c0;
+    background: #fffaf5;
+    border-radius: 10px;
+    padding: 0.9rem;
+}
+
+.kb-warning-list h3 {
+    margin: 0 0 0.4rem;
+    color: #7c2d12;
+    font-size: 0.98rem;
+}
+
+.kb-warning-list p {
+    margin: 0;
+    font-size: 0.88rem;
+}
+
+.kb-inline-note {
+    margin-top: 0.85rem;
+    font-size: 0.88rem;
+    color: #475569;
+}
+
+.kb-inline-note a,
+.kb-source-list a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.kb-checklist {
+    padding-left: 1.25rem;
+}
+
+.kb-checklist li + li {
+    margin-top: 0.4rem;
+}
+
+.kb-scenario-table-wrap {
+    margin-top: 0.8rem;
+}
+
+.kb-scenario-table td {
+    white-space: normal;
+}
+
+.kb-source-section {
+    background: #f9fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    margin-top: 1.25rem;
+    padding: 1rem;
+}
+
+.kb-source-list {
+    margin-bottom: 1rem;
+}
+
+.kb-disclaimer {
+    margin: 0;
+    padding: 0.9rem 1rem;
+    border-left: 4px solid #16a34a;
+    background: #f0fdf4;
+    border-radius: 6px;
+    color: #166534;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 760px) {
+    .kennisbank-layout {
+        padding: 0 1.05rem;
+    }
+
+    .kennisbank-page {
+        padding: 1.15rem;
+        border-radius: 10px;
+    }
+
+    .kennisbank-page p,
+    .kennisbank-page li {
+        font-size: 0.94rem;
+        line-height: 1.65;
+    }
+
+    .kb-section {
+        padding: 1.05rem 0;
+    }
+
+    .kb-route-grid,
+    .kb-tools-grid,
+    .kb-deep-links,
+    .kb-warning-list {
+        grid-template-columns: 1fr;
+    }
+
+    .kb-scenario-table thead {
+        display: none;
+    }
+
+    .kb-scenario-table,
+    .kb-scenario-table tbody,
+    .kb-scenario-table tr,
+    .kb-scenario-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .kb-scenario-table tr {
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        background: #ffffff;
+        padding: 0.7rem 0.8rem;
+        margin-bottom: 0.7rem;
+    }
+
+    .kb-scenario-table td {
+        border: 0;
+        padding: 0.3rem 0;
+        white-space: normal;
+        font-size: 0.88rem;
+    }
+
+    .kb-scenario-table td::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.76rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #64748b;
+        margin-bottom: 0.15rem;
+        font-weight: 700;
+    }
+}
