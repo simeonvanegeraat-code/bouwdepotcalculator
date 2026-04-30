@@ -1012,10 +1012,10 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleTableBtn.addEventListener('click', () => {
                 if(tableWrapper.style.display === 'none') {
                     tableWrapper.style.display = 'block';
-                    toggleTableBtn.textContent = 'Verberg overzicht ▲';
+                    toggleTableBtn.textContent = 'Verberg maand-tot-maand overzicht';
                 } else {
                     tableWrapper.style.display = 'none';
-                    toggleTableBtn.textContent = 'Toon gedetailleerd overzicht ▼';
+                    toggleTableBtn.textContent = 'Toon maand-tot-maand overzicht';
                 }
             });
         }
@@ -1090,7 +1090,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resMaxMonthly.textContent = formatEuro(fullAnnuity);
             resLoss.textContent = formatEuro(totalLoss);
             if (resExtraNow) resExtraNow.textContent = formatEuro(Math.max(0, startMonthly));
-            if (resPeakMonth) resPeakMonth.textContent = `Maand ${peakMonth}`;
+            if (resPeakMonth) resPeakMonth.textContent = `Zwaarste maand: maand ${peakMonth} van de bouw`;
             if (resPeakTotal) resPeakTotal.textContent = formatEuro(peakTotalMonthly);
             const averageNetMonthly = maxMonth > 0 ? totalNetPayments / maxMonth : 0;
             const overlapTotal = currentHousingCost * buildMonths;
@@ -1190,6 +1190,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if(rangeBuildMonths) rangeBuildMonths.addEventListener('input', (e) => { inputBuildMonths.value = e.target.value; calculate(); });
         if(inputBuildMonths) inputBuildMonths.addEventListener('input', (e) => { rangeBuildMonths.value = e.target.value; calculate(); });
         if(inputCurrentHousing) inputCurrentHousing.addEventListener('input', calculate);
+        document.querySelectorAll('.nieuwbouw-scenario-chip').forEach((button) => {
+            button.addEventListener('click', () => {
+                if (button.dataset.land) inputLand.value = button.dataset.land;
+                if (button.dataset.construction) inputConstruction.value = button.dataset.construction;
+                if (button.dataset.interest) inputInterest.value = button.dataset.interest;
+                if (button.dataset.months) inputBuildMonths.value = button.dataset.months;
+                if (button.dataset.housing) inputCurrentHousing.value = button.dataset.housing;
+                if (button.dataset.discount) inputDiscount.value = button.dataset.discount;
+                if (rangeLand) rangeLand.value = inputLand.value;
+                if (rangeConstruction) rangeConstruction.value = inputConstruction.value;
+                if (rangeInterest) rangeInterest.value = inputInterest.value;
+                if (rangeBuildMonths) rangeBuildMonths.value = inputBuildMonths.value;
+                calculate();
+            });
+        });
 
         renderTerms();
         setTimeout(calculate, 100);
