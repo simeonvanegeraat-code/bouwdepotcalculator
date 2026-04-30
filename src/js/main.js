@@ -657,8 +657,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const resNet = document.getElementById('res-renteverlies-netto');
         const resMonth = document.getElementById('res-renteverlies-maand');
         const resConclusion = document.getElementById('res-renteverlies-conclusie');
-        const resInterpretation = document.getElementById('res-renteverlies-interpretation');
-        const resMeaning = document.getElementById('res-renteverlies-meaning');
         const resMethod = document.getElementById('res-renteverlies-method');
         const resPeriodPattern = document.getElementById('res-renteverlies-period-pattern');
         const reportGeneratedAt = document.getElementById('report-renteverlies-generated-at');
@@ -702,8 +700,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     totalIndicativeRenteverlies: data.totalIndicativeRenteverlies,
                     averageMonthlyEffect: data.averageMonthlyEffect,
                     totalMortgageInterest: data.totalMortgageInterest,
-                    totalCompensation: data.totalCompensation,
-                    interpretationLabel: data.interpretationLabel
+                    totalCompensation: data.totalCompensation
                 },
                 conclusion: data.conclusion,
                 assumptions: data.assumptions
@@ -756,45 +753,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const netDifference = totalMortgageInterest - totalCompensation;
             const perMonth = netDifference / months;
-            const impactRatio = depot > 0 ? netDifference / depot : 0;
-            const rateSpread = Math.max(0, mortgageRate - depotRate);
-
-            let interpretationLabel = 'beperkt';
-            if (impactRatio > 0.04) interpretationLabel = 'fors';
-            else if (impactRatio > 0.02) interpretationLabel = 'merkbaar';
-            else if (netDifference < 0) interpretationLabel = 'negatief renteverlies';
-
-            const driverScores = [
-                { key: 'renteverschil', value: rateSpread * depot },
-                { key: 'looptijd', value: months * Math.max(0.01, rateSpread) * depot / 12 },
-                { key: 'opnamepatroon', value: pattern === 'even' ? 1 : 1.2 }
-            ];
-            driverScores.sort((a, b) => b.value - a.value);
-            const mainDriver = driverScores[0].key;
-
-            let conclusion = `Bij deze invoer komt het indicatieve renteverlies uit op ${formatEuro(netDifference)} over ${months} maanden.`;
+            let conclusion = `Bij dit scenario is de depotvergoeding lager dan de hypotheekrente. Daardoor ontstaat een renteverschil van ongeveer ${formatEuro(netDifference)} over ${months} maanden.`;
             if (netDifference < 0) {
-                conclusion = `Bij deze invoer is de vergoeding hoger dan de betaalde rente over ${months} maanden; het indicatieve verschil is ${formatEuro(netDifference)}.`;
+                conclusion = `Bij dit scenario is de depotvergoeding hoger dan de hypotheekrente. Het verschil komt indicatief uit op ${formatEuro(netDifference)} over ${months} maanden.`;
             }
 
-            const interpretation = netDifference < 0
-                ? 'In dit scenario is het renteverschil gunstig. Controleer wel of uw geldverstrekker dezelfde systematiek gebruikt.'
-                : `Het renteverlies is ${interpretationLabel}; de belangrijkste aanjager is ${mainDriver}. Een groter verschil tussen hypotheekrente en depotvergoeding verhoogt het effect direct.`;
-            const meaning = pattern === 'slow'
-                ? 'Bij langzamere opname blijft een hoger restdepot langer staan. Dat kan het cumulatieve renteverschil in de bouwdepotfase vergroten.'
-                : 'Ook als het maandverschil beperkt lijkt, kan het totaal over meerdere maanden relevant zijn voor uw bouwdepotbudget.';
             const assumptions = 'Indicatieve maandbenadering op basis van gekozen opnamepatroon; werkelijke bankboekingen en opnamedata kunnen afwijken.';
             const now = new Date();
 
             if (patternNote) patternNote.textContent = patternDescriptions[pattern] || patternDescriptions.even;
             if (resMortgage) resMortgage.textContent = formatEuro(totalMortgageInterest);
-            if (resCompensation) resCompensation.textContent = '-' + formatEuro(totalCompensation);
+            if (resCompensation) resCompensation.textContent = formatEuro(totalCompensation);
             if (resNet) resNet.textContent = formatEuro(netDifference);
             if (resMonth) resMonth.textContent = formatEuro(perMonth);
-            if (resPeriodPattern) resPeriodPattern.textContent = `${months} maanden · ${patternLabels[pattern] || pattern}`;
+            if (resPeriodPattern) resPeriodPattern.textContent = `Over ${months} maanden, bij ${String(patternLabels[pattern] || pattern).toLowerCase()}.`;
             if (resConclusion) resConclusion.textContent = conclusion;
-            if (resInterpretation) resInterpretation.textContent = interpretation;
-            if (resMeaning) resMeaning.textContent = meaning;
             if (resMethod) resMethod.textContent = assumptions;
             if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
 
@@ -814,7 +787,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 averageMonthlyEffect: perMonth,
                 totalMortgageInterest,
                 totalCompensation,
-                interpretationLabel,
                 conclusion,
                 assumptions,
                 generatedAt: now.toISOString()
@@ -1040,10 +1012,10 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleTableBtn.addEventListener('click', () => {
                 if(tableWrapper.style.display === 'none') {
                     tableWrapper.style.display = 'block';
-                    toggleTableBtn.textContent = 'Verberg overzicht ▲';
+                    toggleTableBtn.textContent = 'Verberg maand-tot-maand overzicht';
                 } else {
                     tableWrapper.style.display = 'none';
-                    toggleTableBtn.textContent = 'Toon gedetailleerd overzicht ▼';
+                    toggleTableBtn.textContent = 'Toon maand-tot-maand overzicht';
                 }
             });
         }
@@ -1118,7 +1090,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resMaxMonthly.textContent = formatEuro(fullAnnuity);
             resLoss.textContent = formatEuro(totalLoss);
             if (resExtraNow) resExtraNow.textContent = formatEuro(Math.max(0, startMonthly));
-            if (resPeakMonth) resPeakMonth.textContent = `Maand ${peakMonth}`;
+            if (resPeakMonth) resPeakMonth.textContent = `Zwaarste maand: maand ${peakMonth} van de bouw`;
             if (resPeakTotal) resPeakTotal.textContent = formatEuro(peakTotalMonthly);
             const averageNetMonthly = maxMonth > 0 ? totalNetPayments / maxMonth : 0;
             const overlapTotal = currentHousingCost * buildMonths;
@@ -1218,6 +1190,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if(rangeBuildMonths) rangeBuildMonths.addEventListener('input', (e) => { inputBuildMonths.value = e.target.value; calculate(); });
         if(inputBuildMonths) inputBuildMonths.addEventListener('input', (e) => { rangeBuildMonths.value = e.target.value; calculate(); });
         if(inputCurrentHousing) inputCurrentHousing.addEventListener('input', calculate);
+        document.querySelectorAll('.nieuwbouw-chip-card .nieuwbouw-scenario-chip').forEach((button) => {
+            button.addEventListener('click', () => {
+                if (button.dataset.land) inputLand.value = button.dataset.land;
+                if (button.dataset.construction) inputConstruction.value = button.dataset.construction;
+                if (button.dataset.interest) inputInterest.value = button.dataset.interest;
+                if (button.dataset.months) inputBuildMonths.value = button.dataset.months;
+                if (button.dataset.housing) inputCurrentHousing.value = button.dataset.housing;
+                if (button.dataset.discount) inputDiscount.value = button.dataset.discount;
+                if (rangeLand) rangeLand.value = inputLand.value;
+                if (rangeConstruction) rangeConstruction.value = inputConstruction.value;
+                if (rangeInterest) rangeInterest.value = inputInterest.value;
+                if (rangeBuildMonths) rangeBuildMonths.value = inputBuildMonths.value;
+                calculate();
+            });
+        });
 
         renderTerms();
         setTimeout(calculate, 100);
@@ -1472,7 +1459,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 taxBenefitMonthly: firstYearBenefit,
                 netMonthly: firstYearNetto,
                 netYearly: firstYearNetto * 12,
-                interpretationLabel,
                 conclusion,
                 assumptions,
                 generatedAt: now.toISOString()
