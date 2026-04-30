@@ -1565,3 +1565,71 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
         font-weight: 700;
     }
 }
+
+.renteverlies-page .content-block {
+    padding: 1.25rem;
+}
+
+.renteverlies-step {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.renteverlies-step h3 {
+    margin: 0 0 0.75rem;
+    font-size: 1rem;
+    color: #0f172a;
+}
+
+.renteverlies-scenarios .scenario-chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.renteverlies-scenarios .scenario-btn {
+    padding: 0.45rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+}
+
+.renteverlies-main-amount {
+    font-size: clamp(1.8rem, 4vw, 2.35rem);
+    font-weight: 700;
+    color: #0b2a52;
+    margin: 0.6rem 0 0.25rem;
+}
+
+.renteverlies-subline { margin: 0 0 0.8rem; color: #475569; font-size: 0.92rem; }
+.renteverlies-metrics { display: grid; gap: 0.6rem; }
+.renteverlies-metric { background: #f8fafc; border: 1px solid #e5e7eb; border-radius: 10px; padding: 0.65rem; }
+.renteverlies-metric span { display:block; font-size:0.82rem; color:#64748b; }
+.renteverlies-metric strong { font-size:1.02rem; color:#0f172a; }
+.renteverlies-conclusion { font-size:0.92rem; margin:0.9rem 0; }
+.renteverlies-details summary { cursor: pointer; font-weight: 600; margin-bottom: 0.45rem; }
+.renteverlies-resources { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+.shared-memory-controls {
+    margin-top: 0.75rem;
+    padding-top: 0.65rem;
+    justify-content: flex-start;
+}
+
+.shared-memory-note { font-size: 0.78rem; }
+
+.shared-memory-reset {
+    border: 0;
+    background: transparent;
+    color: #0b2a52;
+    text-decoration: underline;
+    padding: 0;
+    font-size: 0.78rem;
+}
+
+@media (max-width: 768px) {
+    .renteverlies-page .calculator-template { gap: 0.9rem; }
+    .renteverlies-result-card { position: static; }
+}
