@@ -1633,3 +1633,22 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     .renteverlies-page .calculator-template { gap: 0.9rem; }
     .renteverlies-result-card { position: static; }
 }
+
+.nieuwbouw-page .calculator-card { padding-bottom: 1.25rem; }
+.nieuwbouw-step { background:#f8fafc; border:1px solid #e5e7eb; border-radius:10px; padding:0.9rem; margin-top:0.9rem; }
+.nieuwbouw-step h3 { margin:0 0 0.35rem; font-size:1rem; color:#0f172a; }
+.nieuwbouw-step .step-note { margin:0 0 0.75rem; color:#64748b; font-size:0.88rem; }
+.nieuwbouw-chip-card { padding:0.8rem; margin-top:0.75rem; background:#f8fafc; border:1px solid #e5e7eb; }
+.chip-title { margin:0 0 0.45rem; font-size:0.85rem; color:#64748b; }
+.nieuwbouw-chip-card .scenario-chip-group { display:flex; flex-wrap:wrap; gap:0.5rem; }
+.nieuwbouw-chip-card .nieuwbouw-scenario-chip { padding:0.5rem 0.8rem; font-size:0.83rem; border-radius:10px; }
+.nieuwbouw-chip-card .nieuwbouw-scenario-chip strong,
+.nieuwbouw-chip-card .nieuwbouw-scenario-chip span { display:none; }
+.nieuwbouw-main-amount { font-size:clamp(1.8rem,4vw,2.35rem); font-weight:700; color:#0b2a52; margin:0.4rem 0 0.25rem; }
+.nieuwbouw-subline { margin:0 0 0.8rem; color:#475569; font-size:0.92rem; }
+.nieuwbouw-chart-card .chart-intro { margin-top:-0.2rem; color:#64748b; font-size:0.9rem; }
+
+@media (max-width: 768px) {
+  .nieuwbouw-page .main-grid { display:block; }
+  .nieuwbouw-page .sidebar { margin-top:0.8rem; }
+}

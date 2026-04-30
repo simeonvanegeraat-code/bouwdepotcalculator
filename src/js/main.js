@@ -1190,6 +1190,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(rangeBuildMonths) rangeBuildMonths.addEventListener('input', (e) => { inputBuildMonths.value = e.target.value; calculate(); });
         if(inputBuildMonths) inputBuildMonths.addEventListener('input', (e) => { rangeBuildMonths.value = e.target.value; calculate(); });
         if(inputCurrentHousing) inputCurrentHousing.addEventListener('input', calculate);
+        document.querySelectorAll('.nieuwbouw-chip-card .nieuwbouw-scenario-chip').forEach((button) => {
         document.querySelectorAll('.nieuwbouw-scenario-chip').forEach((button) => {
             button.addEventListener('click', () => {
                 if (button.dataset.land) inputLand.value = button.dataset.land;
