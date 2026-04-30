@@ -1642,6 +1642,8 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .chip-title { margin:0 0 0.45rem; font-size:0.85rem; color:#64748b; }
 .nieuwbouw-chip-card .scenario-chip-group { display:flex; flex-wrap:wrap; gap:0.5rem; }
 .nieuwbouw-chip-card .nieuwbouw-scenario-chip { padding:0.5rem 0.8rem; font-size:0.83rem; border-radius:10px; }
+.nieuwbouw-chip-card .nieuwbouw-scenario-chip strong,
+.nieuwbouw-chip-card .nieuwbouw-scenario-chip span { display:none; }
 .nieuwbouw-main-amount { font-size:clamp(1.8rem,4vw,2.35rem); font-weight:700; color:#0b2a52; margin:0.4rem 0 0.25rem; }
 .nieuwbouw-subline { margin:0 0 0.8rem; color:#475569; font-size:0.92rem; }
 .nieuwbouw-chart-card .chart-intro { margin-top:-0.2rem; color:#64748b; font-size:0.9rem; }
