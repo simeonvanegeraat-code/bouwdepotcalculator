@@ -69,360 +69,71 @@
         </div>
     </header>
 
-    <main class="container main-grid">
-        
+    <main class="container main-grid nieuwbouw-page">
         <section class="calculator-section">
-            <div class="card calculator-card" id="nieuwbouw-calc">
-                <h1>Nieuwbouw calculator: bouwfase planning & cashflow</h1>
-                <p class="subtitle">Deze planner geeft een breder beeld van uw nieuwbouwperiode: maandlasten, piekmaand, overlapdruk en timing van bouwtermijnen.</p>
-                <p class="trust-line">Indicatie op basis van uw invoer • Geen account nodig • Download direct als PDF</p>
-                <p class="calc-intro-note">Homepage = snelle eerste indicatie • Maandlasten = gerichte bouwdepot-maandlast • Deze pagina = complete nieuwbouwfase planning.</p>
+            <div class="card calculator-card" id="nieuwbouw-calc" data-show-memory-note="true">
+                <h1>Bereken uw zwaarste maand tijdens nieuwbouw</h1>
+                <p class="subtitle">Bekijk hoe uw maandlasten tijdens de bouw oplopen, wanneer de piek ontstaat en hoeveel overlap u heeft met uw huidige woonlast.</p>
+                <p class="trust-line">Indicatieve berekening. Geen registratie. Uw invoer blijft op uw apparaat.</p>
+                <p class="section-intro">Bij nieuwbouw is niet alleen de totale hypotheek belangrijk, maar vooral de maanden waarin uw huidige woonlast en nieuwe hypotheek tegelijk lopen.</p>
 
-                <div class="tool-level-card">
-                    <div class="section-head">
-                        <h3>Snelle schatting</h3>
-                        <span>Voor een snelle indicatie</span>
-                    </div>
-                    <p class="section-intro">Vul eerst uw hoofdgegevens in. Wilt u exactere projectie? Gebruik daarna de detailplanning.</p>
-
-                    <div class="input-group">
-                        <div class="label-row">
-                            <label for="input-land">Grondkosten (direct)</label>
-                            <div class="number-input-wrapper has-prefix" style="width: 140px;">
-                                <span class="prefix">€</span>
-                                <input type="number" id="input-land" value="150000" step="1000">
-                            </div>
-                        </div>
-                        <input type="range" id="range-land" min="50000" max="500000" step="1000" value="150000" class="slider">
-                        <p class="field-hint">Koopprijs van de grond die meestal direct wordt gefinancierd.</p>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="label-row">
-                            <label for="input-construction">Aanneemsom (bouw)</label>
-                            <div class="number-input-wrapper has-prefix" style="width: 140px;">
-                                <span class="prefix">€</span>
-                                <input type="number" id="input-construction" value="350000" step="1000">
-                            </div>
-                        </div>
-                        <input type="range" id="range-construction" min="50000" max="800000" step="1000" value="350000" class="slider">
-                        <p class="field-hint">Bouwkosten die in termijnen uit het bouwdepot worden betaald.</p>
-                    </div>
-
-                    <div class="two-col-inputs">
-                        <div class="input-group compact">
-                            <div class="label-row">
-                                <label for="input-interest">Hypotheekrente</label>
-                                <div class="number-input-wrapper has-suffix">
-                                    <input type="number" id="input-interest" value="3.80" step="0.01">
-                                    <span class="suffix">%</span>
-                                </div>
-                            </div>
-                            <input type="range" id="range-interest" min="0.1" max="10" step="0.1" value="3.8" class="slider">
-                            <p class="field-hint">Hypotheekrente op uw nieuwbouwlening.</p>
-                        </div>
-                        <div class="input-group compact">
-                            <div class="label-row">
-                                <label for="input-build-months">Bouwduur</label>
-                                <div class="number-input-wrapper has-suffix">
-                                    <input type="number" id="input-build-months" value="12" min="4" max="36" step="1">
-                                    <span class="suffix">mnd</span>
-                                </div>
-                            </div>
-                            <input type="range" id="range-build-months" min="4" max="36" step="1" value="12" class="slider">
-                            <p class="field-hint">Deze duur beïnvloedt overlap, piekdruk en totale bouwfasekosten.</p>
-                        </div>
-                    </div>
-
-                    <div class="two-col-inputs">
-                        <div class="input-group compact panel-input">
-                            <div class="label-row">
-                                <label for="input-current-housing">Huidige woonlast (huur/hypotheek)</label>
-                                <div class="number-input-wrapper has-prefix" style="max-width: 130px;">
-                                    <span class="prefix">€</span>
-                                    <input type="number" id="input-current-housing" value="1200" min="0" step="50">
-                                </div>
-                            </div>
-                            <p class="field-hint">Wordt gebruikt om totale maanddruk tijdens overlap te tonen.</p>
-                        </div>
-                        <div class="input-group compact panel-input">
-                            <div class="label-row">
-                                <label for="input-depot-discount" style="font-size:0.9rem;">Korting op depotrente</label>
-                                <div class="number-input-wrapper has-suffix" style="max-width: 110px;">
-                                    <input type="number" id="input-depot-discount" value="0.00" step="0.1" min="0" max="5">
-                                    <span class="suffix">%</span>
-                                </div>
-                            </div>
-                            <p class="text-xs text-gray-400 mt-1" style="line-height: 1.4;">
-                                Voorbeeld: 4,0% hypotheekrente - 1,0% afslag = 3,0% depotrente.
-                            </p>
-                            <p class="field-hint">Gebruik dit alleen als uw bank een lagere depotrente toepast.</p>
-                        </div>
+                <div class="card nieuwbouw-chip-card">
+                    <p class="chip-title">Snel starten</p>
+                    <div class="scenario-chip-group">
+                        <button type="button" class="nieuwbouw-scenario-chip" data-land="150000" data-construction="350000" data-interest="3.8" data-months="12" data-housing="1200" data-discount="0.0">Gemiddelde nieuwbouw</button>
+                        <button type="button" class="nieuwbouw-scenario-chip" data-land="200000" data-construction="500000" data-interest="4.1" data-months="16" data-housing="1500" data-discount="0.5">Hoge bouwsom</button>
+                        <button type="button" class="nieuwbouw-scenario-chip" data-land="150000" data-construction="350000" data-interest="3.9" data-months="24" data-housing="1200" data-discount="0.5">Lange bouwduur</button>
+                        <button type="button" class="nieuwbouw-scenario-chip" data-land="130000" data-construction="320000" data-interest="3.7" data-months="12" data-housing="1350" data-discount="0.0">Huur + nieuwbouw</button>
+                        <button type="button" class="nieuwbouw-scenario-chip" data-land="170000" data-construction="380000" data-interest="3.9" data-months="14" data-housing="1100" data-discount="0.8">Veel eigen planning</button>
                     </div>
                 </div>
 
-                <details class="advanced-details" open>
-                    <summary>Geavanceerde modus: exacte planning met bouwtermijnen</summary>
-                    <p style="font-size: 0.9rem; color: var(--color-text-light); margin-bottom: 1rem;">
-                        Gebruik deze modus als u al een termijnschema of aannemersplanning heeft. Zonder termijnschema blijft de snelle schatting een prima start.
-                    </p>
+                <div class="nieuwbouw-step"><h3>Stap 1: Wat koopt u?</h3><p class="step-note">De grond wordt vaak direct betaald. De bouwkosten worden meestal in termijnen uit het bouwdepot betaald.</p>
+                    <div class="input-group"><div class="label-row"><label for="input-land">Grondkosten</label><div class="number-input-wrapper has-prefix" style="width: 140px;"><span class="prefix">€</span><input type="number" id="input-land" value="150000" step="1000"></div></div><input type="range" id="range-land" min="50000" max="500000" step="1000" value="150000" class="slider"></div>
+                    <div class="input-group"><div class="label-row"><label for="input-construction">Aanneemsom</label><div class="number-input-wrapper has-prefix" style="width: 140px;"><span class="prefix">€</span><input type="number" id="input-construction" value="350000" step="1000"></div></div><input type="range" id="range-construction" min="50000" max="800000" step="1000" value="350000" class="slider"></div>
+                </div>
 
-                    <div class="term-editor">
-                        <div id="terms-container"></div>
-                        
-                        <div class="editor-footer">
-                            <button id="add-term-btn" class="btn-text">+ Termijn toevoegen</button>
-                            <button id="auto-spread-btn" class="btn-text" type="button">Automatisch spreiden op bouwduur</button>
-                            <div class="status-text">
-                                <strong id="total-percent">100%</strong> toegewezen
-                            </div>
-                        </div>
-                    </div>
+                <div class="nieuwbouw-step"><h3>Stap 2: Hoe wordt het gefinancierd?</h3><p class="step-note">Gebruik de depotrente-afslag alleen als uw bank minder rente vergoedt over het bouwdepot dan u betaalt aan hypotheekrente.</p>
+                    <div class="two-col-inputs"><div class="input-group compact"><div class="label-row"><label for="input-interest">Hypotheekrente</label><div class="number-input-wrapper has-suffix"><input type="number" id="input-interest" value="3.80" step="0.01"><span class="suffix">%</span></div></div><input type="range" id="range-interest" min="0.1" max="10" step="0.1" value="3.8" class="slider"></div>
+                    <div class="input-group compact"><div class="label-row"><label for="input-depot-discount">Depotrente-afslag</label><div class="number-input-wrapper has-suffix" style="max-width: 110px;"><input type="number" id="input-depot-discount" value="0.00" step="0.1" min="0" max="5"><span class="suffix">%</span></div></div><p class="field-hint">Voorbeeld: 4,0% hypotheekrente - 1,0% afslag = 3,0% depotrente.</p></div></div>
+                </div>
+
+                <div class="nieuwbouw-step"><h3>Stap 3: Hoe lang loopt de overlap?</h3><p class="step-note">Hiermee berekenen we de periode waarin uw huidige woonlast en nieuwe lasten tegelijk lopen.</p>
+                    <div class="two-col-inputs"><div class="input-group compact"><div class="label-row"><label for="input-build-months">Bouwduur</label><div class="number-input-wrapper has-suffix"><input type="number" id="input-build-months" value="12" min="4" max="36" step="1"><span class="suffix">mnd</span></div></div><input type="range" id="range-build-months" min="4" max="36" step="1" value="12" class="slider"></div>
+                    <div class="input-group compact panel-input"><div class="label-row"><label for="input-current-housing">Huidige woonlast</label><div class="number-input-wrapper has-prefix" style="max-width: 130px;"><span class="prefix">€</span><input type="number" id="input-current-housing" value="1200" min="0" step="50"></div></div></div></div>
+                </div>
+
+                <details class="advanced-details">
+                    <summary>Ik heb een termijnschema en wil nauwkeuriger rekenen</summary>
+                    <p style="font-size: 0.9rem; color: var(--color-text-light); margin-bottom: 1rem;">Gebruik dit alleen als u al weet wanneer bouwtermijnen worden betaald. Zonder termijnschema geeft de snelle schatting al een bruikbare indicatie.</p>
+                    <div class="term-editor"><div id="terms-container"></div><div class="editor-footer"><button id="add-term-btn" class="btn-text">+ Termijn toevoegen</button><button id="auto-spread-btn" class="btn-text" type="button">Automatisch spreiden op bouwduur</button><div class="status-text"><strong id="total-percent">100%</strong> toegewezen</div></div></div>
                 </details>
             </div>
 
-            <div class="card mt-8">
-                <h3>Verloop Maandlasten</h3>
-                <div class="chart-container">
-                    <canvas id="costChart"></canvas>
-                </div>
-                <div class="chart-legend">
-                    <div class="legend-item">
-                        <span class="dot" style="background-color: #000066;"></span>
-                        Uw Netto Maandlast
-                    </div>
-                    <div class="legend-item">
-                        <span class="dot" style="background-color: #4ade80;"></span>
-                        Rente uit Depot
-                    </div>
-                </div>
-
-                <div class="details-table-wrapper" style="display:none;" id="table-wrapper">
-                    <table class="details-table">
-                        <thead>
-                            <tr>
-                                <th>Mnd</th>
-                                <th>Restant Depot</th>
-                                <th class="col-amount">Bruto Last</th>
-                                <th class="col-amount">Depot Rente</th>
-                                <th class="col-amount">Netto Betalen</th>
-                            </tr>
-                        </thead>
-                        <tbody id="details-table-body">
-                            </tbody>
-                    </table>
-                </div>
-                <button id="toggle-table-btn" class="btn-text mt-4" style="width:100%; text-align:center;">
-                    Toon gedetailleerd overzicht ▼
-                </button>
+            <div class="card mt-8 nieuwbouw-chart-card">
+                <h3>Verloop maandlasten</h3>
+                <p class="chart-intro">De grafiek laat zien hoe de maandlast oploopt naarmate meer bouwtermijnen worden opgenomen.</p>
+                <div class="chart-container"><canvas id="costChart"></canvas></div>
+                <div class="chart-legend"><div class="legend-item"><span class="dot" style="background-color: #000066;"></span>Uw netto maandlast</div><div class="legend-item"><span class="dot" style="background-color: #4ade80;"></span>Rente uit depot</div></div>
+                <div class="details-table-wrapper" style="display:none;" id="table-wrapper"><table class="details-table"><thead><tr><th>Mnd</th><th>Restant depot</th><th class="col-amount">Bruto last</th><th class="col-amount">Depotrente</th><th class="col-amount">Netto betalen</th></tr></thead><tbody id="details-table-body"></tbody></table></div>
+                <button id="toggle-table-btn" class="btn-text mt-4" style="width:100%; text-align:center;">Toon maand-tot-maand overzicht</button>
             </div>
 
-            <section class="compact-info-grid mt-8">
-                <article class="card compact-info-card">
-                    <h3>Hoe het bouwdepot werkt</h3>
-                    <p>Uw grondkosten betaalt u direct. De aanneemsom staat in depot en wordt in fases uitgekeerd aan de aannemer. Zolang geld in depot blijft, ontvangt u daar meestal rente over.</p>
-                </article>
-                <article class="card compact-info-card">
-                    <h3>Waarom dubbele lasten oplopen</h3>
-                    <p>Tijdens de bouw lopen uw huidige woonlast én de lasten van de nieuwe hypotheek naast elkaar. Richting oplevering is de combinatie vaak op z’n hoogst.</p>
-                </article>
-                <article class="card compact-info-card">
-                    <h3>Depotrente-afslag & renteverlies</h3>
-                    <p>Bij een depotrente-afslag ontvangt u minder rente uit het depot dan u betaalt op de hypotheek. Dat verschil is uw renteverlies tijdens de bouw.</p>
-                </article>
-            </section>
-
-            <section class="card mt-8">
-                <h2>Meerwerk / minderwerk: snelle reality check</h2>
-                <div class="faq-grid">
-                    <article>
-                        <h3>Meerwerk vergroot pieklasten</h3>
-                        <p>Extra keuken-, installatie- of afbouwkeuzes verhogen vaak de te financieren som en daarmee uw maandlast in de laatste bouwfase.</p>
-                    </article>
-                    <article>
-                        <h3>Minderwerk verlaagt niet altijd direct</h3>
-                        <p>Een deel van minderwerk wordt pas later verrekend. Houd dus rekening met timing, niet alleen met het eindbedrag.</p>
-                    </article>
-                    <article>
-                        <h3>Plan buffer op piekmaand</h3>
-                        <p>Reserveer naast uw basisbuffer extra ruimte voor 2-3 zware maanden. Dat voorkomt stress bij oplevering en laatste facturen.</p>
-                    </article>
-                </div>
-            </section>
-
-            <section class="card mt-8">
-                <h2>Praktisch fiscaal aandachtspunt</h2>
-                <div class="info-panel">
-                    <p>Bij nieuwbouw kan hypotheekrenteaftrek van toepassing zijn, maar de netto uitkomst hangt af van uw persoonlijke situatie en de vergoeding die u uit het depot ontvangt.</p>
-                    <p>Bewaar facturen, meerwerkoverzichten en betaalbewijzen zorgvuldig. Deze onderbouwing is belangrijk voor uw administratie en eventuele fiscale controle.</p>
-                    <p><small>Deze pagina geeft een rekenkundige indicatie en geen fiscaal of juridisch advies.</small></p>
-                </div>
-            </section>
-
-            <section class="card compact-faq mt-8">
-                <h2>Veelgestelde vragen</h2>
-                <div class="faq-grid">
-                    <article>
-                        <h3>Hoe lang heb ik dubbele lasten bij nieuwbouw?</h3>
-                        <p>Meestal zolang de bouw loopt en u nog in uw huidige woning woont. In deze tool ziet u dat direct per maand terug.</p>
-                    </article>
-                    <article>
-                        <h3>Wat is renteverlies tijdens de bouw?</h3>
-                        <p>Het verschil tussen hypotheekrente en ontvangen depotrente over de bouwperiode.</p>
-                    </article>
-                    <article>
-                        <h3>Kan ik meerwerk meefinancieren?</h3>
-                        <p>Dat kan vaak, maar hangt af van geldverstrekker, taxatie en bouwfase. Reken scenario’s door voordat u tekent.</p>
-                    </article>
-                </div>
-                <div class="resource-grid">
-                    <a class="resource-card" href="calculators.html">
-                        <strong>Alle calculators</strong>
-                        <span>Kies direct de juiste bouwdepot calculator voor uw situatie en vergelijk routes.</span>
-                    </a>
-                    <a href="dubbele-lasten-nieuwbouw.html" class="resource-card">
-                        <strong>Dubbele lasten nieuwbouw</strong>
-                        <span>Bereken uw totale tijdelijke maanddruk bij huur/koop overlap met nieuwbouw.</span>
-                    </a>
-                    <a href="bouwrente-nieuwbouw.html" class="resource-card">
-                        <strong>Bouwrente nieuwbouw berekenen</strong>
-                        <span>Bereken indicatief wat bouwrente kost en wat dit per maand betekent.</span>
-                    </a>
-                    <a href="renteverlies-bouwdepot.html" class="resource-card">
-                        <strong>Renteverlies bouwdepot berekenen</strong>
-                        <span>Zie het netto verschil tussen hypotheekrente en vergoeding op niet opgenomen depot.</span>
-                    </a>
-                    <a href="stappenplan.html" class="resource-card">
-                        <strong>Nieuwbouw stappenplan</strong>
-                        <span>Van reservering tot oplevering: wat regelt u wanneer?</span>
-                    </a>
-                    <a href="belasting.html" class="resource-card">
-                        <strong>Belastingvoordeel berekenen</strong>
-                        <span>Bekijk bruto/netto effect van hypotheekrenteaftrek.</span>
-                    </a>
-                    <a href="kennisbank.html" class="resource-card">
-                        <strong>Kennisbank</strong>
-                        <span>Extra uitleg over bouwdepot, termijnen en risico’s.</span>
-                    </a>
-                </div>
-            </section>
-
+            <section class="card mt-8"><h2>Waarom de piekmaand belangrijk is</h2><p>Bij nieuwbouw is niet alleen het totaalbedrag belangrijk. Juist de maanden waarin uw huidige woonlast en nieuwe maandlast samenkomen, bepalen hoe zwaar de periode voelt.</p></section>
+            <section class="card mt-8"><h2>Hoe bouwtermijnen uw maandlast beïnvloeden</h2><ul><li>Grondkosten worden vaak direct betaald.</li><li>De aanneemsom volgt meestal in termijnen.</li><li>Elke termijn verhoogt de opgenomen hypotheek/depotstand.</li><li>Daardoor loopt de maanddruk meestal richting oplevering op.</li></ul></section>
+            <section class="card mt-8"><h2>Meerwerk, minderwerk en buffer</h2><ul><li>meerwerk kan de piek verhogen</li><li>minderwerk wordt niet altijd direct verrekend</li><li>plan buffer voor 2 tot 3 zware maanden</li><li>houd rekening met oplevering, keuken, vloer, tuin en tijdelijke dubbele lasten</li></ul></section>
+            <section class="card mt-8"><h2>Fiscaal aandachtspunt</h2><p>Hypotheekrenteaftrek kan van toepassing zijn, maar hangt af van uw persoonlijke situatie. Deze pagina geeft geen fiscaal advies.</p></section>
+            <section class="card compact-faq mt-8"><h2>Veelgestelde vragen</h2><div class="faq-grid"><article><h3>Hoe lang heb ik dubbele lasten bij nieuwbouw?</h3><p>Meestal zolang de bouw loopt en u nog in uw huidige woning woont.</p></article><article><h3>Waarom ontstaat de zwaarste maand vaak richting oplevering?</h3><p>Omdat dan vaak het grootste deel van de bouwtermijnen al is opgenomen.</p></article><article><h3>Is renteverlies hetzelfde als bouwrente?</h3><p>Nee, het zijn verschillende begrippen met een andere berekening.</p></article><article><h3>Kan ik meerwerk meefinancieren?</h3><p>Dat kan vaak, afhankelijk van bankvoorwaarden, taxatie en bouwfase.</p></article></div></section>
+            <section class="card mt-8"><h2>Verder rekenen</h2><div class="resource-grid"><a href="dubbele-lasten-nieuwbouw.html" class="resource-card"><strong>Dubbele lasten nieuwbouw</strong><span>Bereken uw tijdelijke maanddruk tijdens overlap.</span></a><a href="bouwrente-nieuwbouw.html" class="resource-card"><strong>Bouwrente nieuwbouw</strong><span>Bekijk bouwrente los van uw maanddruk.</span></a><a href="renteverlies-bouwdepot.html" class="resource-card"><strong>Renteverlies bouwdepot</strong><span>Vergelijk hypotheekrente en depotrente tijdens de bouw.</span></a><a href="belasting.html" class="resource-card"><strong>Belastingvoordeel berekenen</strong><span>Verken het bruto/netto verschil indicatief.</span></a></div></section>
         </section>
 
-        <aside class="sidebar">
-            
-            <div class="card result-card sticky-box">
-                <h2>Nieuwbouw planningsoverzicht</h2>
-                <p class="result-intro">Planning-uitkomst met focus op piekmaand, gemiddelde maanddruk en bouwfasekosten over tijd.</p>
-                <p class="result-meta" id="report-nieuwbouw-generated-at">Berekening klaar voor scenariovergelijking.</p>
-
-                <div class="featured-row">
-                    <div class="result-row mb-0">
-                        <span class="flex-col">Kernuitkomst: piekmaand totaal <small>(nieuw + huidige woonlast)</small></span>
-                        <span id="res-peak-total" class="amount highlight">€ 0</span>
-                    </div>
-                </div>
-
-                <div class="result-row">
-                    <span>Totale Hypotheek:</span>
-                    <span id="res-total-loan" class="amount">€ 500.000</span>
-                </div>
-                
-                <hr>
-
-                <div class="result-row">
-                    <span class="flex-col">Start Maandlast <small>(Alleen grond)</small></span>
-                    <span id="res-start-monthly" class="amount">€ 0</span>
-                </div>
-
-                <div class="result-row">
-                    <span class="flex-col">Maximale Maandlast <small>(Volledige Hypotheek)</small></span>
-                    <span id="res-max-monthly" class="amount">€ 0</span>
-                </div>
-
-                <div class="result-row">
-                    <span class="flex-col">Gemiddelde netto maandlast <small>(bouwfase)</small></span>
-                    <span id="res-average-monthly" class="amount">€ 0</span>
-                </div>
-
-                <div class="result-row">
-                    <span class="flex-col">Zwaarste maand <small>(totaal inclusief huidige woonlast)</small></span>
-                    <span id="res-peak-month" class="amount">Maand 0</span>
-                </div>
-
-                <div class="result-row">
-                    <span class="flex-col">Netto extra maandlast nu <small>(bovenop huidige woonlast)</small></span>
-                    <span id="res-extra-now" class="amount">€ 0</span>
-                </div>
-
-                <div class="result-row">
-                    <span class="flex-col">Totale overlaplasten <small>(huidige woonlast over bouwduur)</small></span>
-                    <span id="res-overlap-total" class="amount">€ 0</span>
-                </div>
-
-                <div class="callout">
-                    <div class="result-row discount mb-0">
-                        <span class="callout-title">Totaal Renteverlies:</span>
-                        <span id="res-loss" class="amount" style="color:#ea580c">€ 0</span>
-                    </div>
-                    <p class="callout-text mt-4">
-                        Dit bedrag betaalt u aan rente tijdens de bouw zonder dat u er al woont.
-                    </p>
-                </div>
-
-                <div class="result-copy-block">
-                    <p class="result-copy-title">Korte conclusie</p>
-                    <p id="res-nieuwbouw-conclusion">Bij deze invoer ontstaat de hoogste maanddruk rond de piekmaand van uw bouwplanning.</p>
-                </div>
-
-                <div class="result-copy-block">
-                    <p class="result-copy-title">Interpretatie</p>
-                    <p id="res-nieuwbouw-interpretation">De overlap met uw huidige woonlast en het tempo van depotopnames bepalen vooral hoe zwaar de bouwfase aanvoelt.</p>
-                </div>
-
-                <div class="result-copy-block">
-                    <p class="result-copy-title">Fase/tijdlijn betekenis</p>
-                    <p id="res-nieuwbouw-timeline">Controleer vooral de maanden met grotere termijnen: daar neemt de druk vaak het snelst toe.</p>
-                </div>
-
-                <div class="result-copy-block">
-                    <p class="result-copy-title">Aannameregel</p>
-                    <p id="res-nieuwbouw-method">Indicatieve planning op basis van uw rente, bouwduur en termijnschema; werkelijke planning en bankvoorwaarden kunnen afwijken.</p>
-                </div>
-
-                <div class="result-summary-block">
-                    <p class="result-copy-title">Ingevoerde uitgangspunten</p>
-                    <ul class="result-summary-list">
-                        <li><span>Grondkosten</span><strong id="sum-nieuwbouw-land">€ 0</strong></li>
-                        <li><span>Aanneemsom</span><strong id="sum-nieuwbouw-construction">€ 0</strong></li>
-                        <li><span>Hypotheekrente</span><strong id="sum-nieuwbouw-interest">-</strong></li>
-                        <li><span>Depotrente-afslag</span><strong id="sum-nieuwbouw-discount">-</strong></li>
-                        <li><span>Bouwduur</span><strong id="sum-nieuwbouw-duration">-</strong></li>
-                        <li><span>Huidige woonlast</span><strong id="sum-nieuwbouw-housing">-</strong></li>
-                        <li><span>Aantal termijnen</span><strong id="sum-nieuwbouw-terms">-</strong></li>
-                    </ul>
-                </div>
-
-                <div class="next-steps-block">
-                    <p class="result-copy-title">Vervolgstappen</p>
-                    <div class="result-next-links">
-                        <a href="dubbele-lasten-nieuwbouw.html">Verdiep overlapdruk met Dubbele lasten</a>
-                        <a href="bouwrente-nieuwbouw.html">Bekijk bouwrente apart</a>
-                        <a href="renteverlies-bouwdepot.html">Analyseer renteverlies bouwdepot</a>
-                        <a href="belasting.html">Bekijk fiscaal netto-effect</a>
-                    </div>
-                </div>
-
-                <div class="cta-button-wrapper">
-                    <button id="btn-download" class="btn-primary">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Download overzicht (PDF)
-                    </button>
-                </div>
-            </div>
-            
-        </aside>
-
+        <aside class="sidebar"><div class="card result-card sticky-box nieuwbouw-result-card"><h2>Uw nieuwbouwpiek</h2><p class="result-meta" id="report-nieuwbouw-generated-at">Berekening klaar.</p><div class="nieuwbouw-main-amount" id="res-peak-total">€ 0</div><p class="nieuwbouw-subline" id="res-peak-month">Zwaarste maand: maand 0 van de bouw</p>
+            <div class="renteverlies-metrics"><div class="renteverlies-metric"><span>Gemiddelde maanddruk</span><strong id="res-average-monthly">€ 0</strong></div><div class="renteverlies-metric"><span>Totale overlapkosten</span><strong id="res-overlap-total">€ 0</strong></div><div class="renteverlies-metric"><span>Extra maandlast nu</span><strong id="res-extra-now">€ 0</strong></div><div class="renteverlies-metric"><span>Indicatief renteverschil</span><strong id="res-loss">€ 0</strong></div></div>
+            <p class="renteverlies-conclusion" id="res-nieuwbouw-conclusion">Bij deze invoer ontstaat de hoogste maanddruk rond maand 0. Vooral de combinatie van uw huidige woonlast en de oplopende nieuwbouwhypotheek bepaalt de piek.</p>
+            <details class="renteverlies-details"><summary>Bekijk details</summary><p id="res-nieuwbouw-method">Indicatieve planning op basis van uw rente, bouwduur en termijnschema; werkelijke planning en bankvoorwaarden kunnen afwijken.</p><p id="res-nieuwbouw-interpretation">De overlap met uw huidige woonlast en het tempo van depotopnames bepalen vooral hoe zwaar de bouwfase aanvoelt.</p><p id="res-nieuwbouw-timeline">Controleer vooral de maanden met grotere termijnen: daar neemt de druk vaak het snelst toe.</p><div class="result-row"><span>Totale hypotheek</span><span id="res-total-loan" class="amount">€ 0</span></div><div class="result-row"><span>Start maandlast</span><span id="res-start-monthly" class="amount">€ 0</span></div><div class="result-row"><span>Maximale maandlast</span><span id="res-max-monthly" class="amount">€ 0</span></div><ul class="result-summary-list"><li><span>Grondkosten</span><strong id="sum-nieuwbouw-land">€ 0</strong></li><li><span>Aanneemsom</span><strong id="sum-nieuwbouw-construction">€ 0</strong></li><li><span>Hypotheekrente</span><strong id="sum-nieuwbouw-interest">-</strong></li><li><span>Depotrente-afslag</span><strong id="sum-nieuwbouw-discount">-</strong></li><li><span>Bouwduur</span><strong id="sum-nieuwbouw-duration">-</strong></li><li><span>Huidige woonlast</span><strong id="sum-nieuwbouw-housing">-</strong></li><li><span>Aantal termijnen</span><strong id="sum-nieuwbouw-terms">-</strong></li></ul><div class="result-next-links"><a href="dubbele-lasten-nieuwbouw.html">Verdiep dubbele lasten</a><a href="bouwrente-nieuwbouw.html">Bekijk bouwrente apart</a></div></details>
+            <div class="cta-button-wrapper"><button id="btn-download" class="btn-primary">Download overzicht (PDF)</button></div>
+            <p class="disclaimer">Indicatieve berekening. Werkelijke bedragen kunnen afwijken door planning, bankvoorwaarden, opnamedata en fiscale situatie.</p>
+        </div></aside>
     </main>
 
     <footer>
