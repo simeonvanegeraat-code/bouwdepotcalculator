@@ -218,13 +218,13 @@ function injectResetActions() {
     if (!calculatorCards.length) return;
 
     calculatorCards.forEach((card) => {
+        if (card.dataset.showMemoryNote === 'false') return;
         if (card.querySelector('.shared-memory-controls')) return;
 
         const wrapper = document.createElement('div');
         wrapper.className = 'shared-memory-controls';
         wrapper.innerHTML = `
-            <p class="shared-memory-note">Veelgebruikte invoer wordt op dit apparaat 90 dagen onthouden.</p>
-            <button type="button" class="shared-memory-reset">Wis onthouden calculatorwaarden</button>
+            <p class="shared-memory-note">Bedrag en rentepercentages worden lokaal op dit apparaat onthouden. <button type="button" class="shared-memory-reset">Wissen</button></p>
         `;
 
         const resetButton = wrapper.querySelector('.shared-memory-reset');
