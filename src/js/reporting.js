@@ -52,10 +52,10 @@ import { jsPDF } from 'jspdf';
         planningMainOutcome: { label: 'Belangrijkste uitkomst', type: 'text' },
         peakMonth: { label: 'Piekmaand', type: 'month_index' },
         peakTotalMonthly: { label: 'Hoogste totale maandlast', type: 'currency' },
-        averageNetMonthly: { label: 'Gemiddelde netto maandlast', type: 'currency' },
-        periodNetTotal: { label: 'Totaal netto over bouwperiode', type: 'currency' },
+        averageNetMonthly: { label: 'Gemiddeld na depotvergoeding', type: 'currency' },
+        periodNetTotal: { label: 'Totaal na depotvergoeding', type: 'currency' },
         overlapTotal: { label: 'Totale overlaplast', type: 'currency' },
-        totalInterestLoss: { label: 'Totale rentelast tijdens bouw', type: 'currency' },
+        totalInterestLoss: { label: 'Rente minus depotvergoeding', type: 'currency' },
 
         grossIncome: { label: 'Bruto jaarinkomen', type: 'currency' },
         mortgageAmount: { label: 'Hypotheekbedrag', type: 'currency' },
