@@ -146,13 +146,13 @@
                         <div class="label-row">
                             <label for="input-limit">Aannamemaximum financiering t.o.v. waarde na verbouwing</label>
                             <div class="number-input-wrapper has-suffix" style="max-width:110px;">
-                                <input type="number" id="input-limit" min="70" max="120" step="0.5" value="100">
+                                <input type="number" id="input-limit" min="70" max="100" step="0.5" value="100">
                                 <span class="suffix">%</span>
                             </div>
                         </div>
-                        <input type="range" id="range-limit" min="70" max="120" step="0.5" value="100" class="slider">
-                        <p class="preset-note">Standaard staat deze aanname op 100%. Dit is een instelbare rekenschaal voor indicatie, geen harde acceptatiegrens.</p>
-                        <p class="field-hint">Gebruik dit als scenario-instelling; banken hanteren eigen beleid en toetsen.</p>
+                        <input type="range" id="range-limit" min="70" max="100" step="0.5" value="100" class="slider">
+                        <p class="preset-note">De algemene wettelijke bovengrens is 100% van de marktwaarde na verbouwing. Een lager percentage laat zien wat een voorzichtiger taxatie- of bankscenario doet.</p>
+                        <p class="field-hint">Een eventuele extra leenruimte voor energiebesparende maatregelen is niet in deze tool verwerkt; inkomen en bankvoorwaarden kunnen de uitkomst verder beperken.</p>
                     </div>
 
                     <section class="preset-section" aria-label="Voorbeeldscenario's">
@@ -183,12 +183,12 @@
                     <li>Woningwaarde nu en verwachte woningwaarde na verbouwing.</li>
                     <li>Huidige hypotheekschuld of geplande hypotheek zonder verbouwing.</li>
                     <li>Gewenst verbouwbudget en beschikbaar eigen geld.</li>
-                    <li>Een instelbare financieringsaanname (default 100%).</li>
+                    <li>Een financieringsaanname van maximaal 100% van de woningwaarde na verbouwing.</li>
                 </ul>
                 <h3>Wat nemen wij niet mee?</h3>
                 <ul>
                     <li>Definitieve taxatie-uitkomst en exacte acceptatienormen per geldverstrekker.</li>
-                    <li>Inkomenstoets, toetsrente en overige kredietcriteria.</li>
+                    <li>Inkomenstoets, toetsrente, extra ruimte voor energiebesparende maatregelen en overige kredietcriteria.</li>
                     <li>Notaris-, advies- of afsluitkosten.</li>
                     <li>Fiscale details en project-specifieke geldverstrekkerpolicy.</li>
                 </ul>
@@ -412,7 +412,7 @@
             ['input-mortgage', 'range-mortgage', 0, 1500000],
             ['input-budget', 'range-budget', 5000, 500000],
             ['input-own-cash', 'range-own-cash', 0, 200000],
-            ['input-limit', 'range-limit', 70, 120],
+            ['input-limit', 'range-limit', 70, 100],
         ];
 
         const reportGeneratedAt = document.getElementById('report-maxdepot-generated-at');
@@ -480,7 +480,7 @@
             const mortgage = Math.max(0, Number(document.getElementById('input-mortgage').value) || 0);
             const budget = Math.max(0, Number(document.getElementById('input-budget').value) || 0);
             const ownCash = Math.max(0, Number(document.getElementById('input-own-cash').value) || 0);
-            const limitPct = Math.max(0, Number(document.getElementById('input-limit').value) || 0);
+            const limitPct = clamp(Number(document.getElementById('input-limit').value) || 0, 70, 100);
 
             const maxMortgageBasedOnAfterValue = valueAfter * (limitPct / 100);
             const extraSpaceRaw = maxMortgageBasedOnAfterValue - mortgage;
@@ -523,7 +523,7 @@
             const meaning = shortfall > 0
                 ? 'Er lijkt een betekenisvol gat te zijn. Dit vraagt vaak om extra eigen geld, fasering of een aangepast plan.'
                 : 'Zelfs bij een haalbare uitkomst blijven taxatie en acceptatieregels bepalend voor het definitieve maximum.';
-            const assumptions = 'Indicatieve berekening met een instelbare financieringsaanname; dit is geen bindende geldverstrekkersbeslissing.';
+            const assumptions = 'Indicatieve berekening met maximaal 100% van de waarde na verbouwing. Inkomenstoets, bankbeleid en eventuele extra energiebesparingsruimte zijn niet meegerekend.';
             if (resInterpretation) resInterpretation.textContent = interpretation;
             if (resMeaning) resMeaning.textContent = meaning;
             if (resMethod) resMethod.textContent = assumptions;
