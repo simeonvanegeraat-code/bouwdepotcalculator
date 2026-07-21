@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bouwdepot Calculator Hub 2026 | Bouwdepot, Maandlasten, Nieuwbouw & Belasting</title>
-    <meta name="description" content="Bereken uw bouwdepot, maandlasten, nieuwbouwsituatie en belastingeffect. Onafhankelijke bouwdepot calculator hub met praktische uitleg en directe rekentools.">
+    <title>Bouwdepot berekenen | Maandlast, verbouwen en nieuwbouw</title>
+    <meta name="description" content="Bereken wat een bouwdepot doet met uw maandlast. Kies daarna de passende route voor verbouwen, nieuwbouw, eigen geld, bouwrente of belasting.">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <link rel="canonical" href="https://www.bouwdepotcalculator.nl/">
 
@@ -68,11 +68,32 @@
     </header>
 
     <main class="container home-layout">
-        <section class="tool-hero-grid">
+        <section class="route-hero" aria-labelledby="home-title">
+            <div class="route-hero-copy">
+                <p class="route-eyebrow">Onafhankelijk rekenen · Zonder registratie</p>
+                <h1 id="home-title">Wat doet een bouwdepot met uw maandlast?</h1>
+                <p>Begin met de snelle berekening. Kies daarna de route die bij uw woning past; zo krijgt u geen stapel losse tools, maar een logische volgende stap.</p>
+            </div>
+            <div class="journey-selector" aria-label="Kies uw situatie">
+                <a class="journey-card journey-card--renovation" href="#snelle-berekening">
+                    <span class="journey-number" aria-hidden="true">01</span>
+                    <span><strong>Ik ga verbouwen</strong><small>Start met bedrag, rente en maandlast</small></span>
+                    <span class="journey-arrow" aria-hidden="true">↓</span>
+                </a>
+                <a class="journey-card journey-card--newbuild" href="nieuwbouw.html">
+                    <span class="journey-number" aria-hidden="true">02</span>
+                    <span><strong>Ik koop nieuwbouw</strong><small>Bereken bouwtermijnen en uw piekmaand</small></span>
+                    <span class="journey-arrow" aria-hidden="true">→</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="tool-hero-grid" id="snelle-berekening">
             <div class="card calculator-card">
-                <h1>Bouwdepot calculator hub voor verbouwing, nieuwbouw en belastingeffect</h1>
-                <p class="subtitle">Bereken in één plek uw bouwdepot, maandlasten, nieuwbouwsituatie en indicatief belastingeffect. Start direct met de algemene bouwdepot calculator hieronder.</p>
-                <p class="trust-line">Onafhankelijke rekentool · Zonder registratie · Indicatie voorafgaand aan advies</p>
+                <p class="route-eyebrow">Snelle start voor verbouwen</p>
+                <h2 class="calculator-card-title">Algemene maandlastberekening</h2>
+                <p class="subtitle">Vul het extra hypotheekdeel in dat u voor de verbouwing overweegt. U ziet direct de bruto maandlast en kunt daarna verdiepen.</p>
+                <p class="trust-line">Indicatieve rekentool · Uw gegevens blijven op dit apparaat · Geen hypotheekaanvraag</p>
 
                 <div class="input-group">
                     <div class="label-row">
@@ -207,68 +228,39 @@
             </aside>
         </section>
 
-        <section class="card calculator-route-card" aria-label="Kies uw calculator">
+        <section class="card journey-followup" aria-labelledby="verder-in-uw-route">
             <div class="section-headline">
-                <h2>Kies uw calculator</h2>
-                <a class="inline-link" href="calculators.html">Bekijk alle calculators →</a>
+                <div>
+                    <p class="route-eyebrow">Na uw eerste berekening</p>
+                    <h2 id="verder-in-uw-route">Ga gericht verder</h2>
+                </div>
+                <a class="inline-link" href="calculators.html">Hulp bij kiezen →</a>
             </div>
-            <p class="section-intro">Start met de route die past bij uw situatie. Zo gebruikt u meteen de juiste berekening in plaats van één algemene schatting voor alles.</p>
-
-            <h3 class="route-group-title">Snel starten</h3>
-            <div class="route-grid">
-                <a class="route-choice active-route" href="index.html">
-                    <h3>Algemene bouwdepot calculator</h3>
-                    <p>Snelle indicatie van bruto en netto maandlast voor een bouwdepot in uw hypotheek.</p>
-                    <span>Nu op deze pagina</span>
-                </a>
-                <a class="route-choice" href="maandlasten-bouwdepot.html">
-                    <h3>Maandlasten bouwdepot</h3>
-                    <p>Meer detail over maandlasten tijdens de bouwdepotperiode, inclusief vergoeding op niet opgenomen depot.</p>
-                    <span>Open maandlasten tool →</span>
-                </a>
+            <div class="journey-columns">
+                <article class="journey-column journey-column--renovation">
+                    <span class="journey-label">Route verbouwen</span>
+                    <h3>Van maandlast naar haalbaar plan</h3>
+                    <p>Controleer achtereenvolgens uw maandlast tijdens de depotfase, de ruimte op basis van woningwaarde en hoeveel eigen geld nodig kan zijn.</p>
+                    <nav class="journey-link-list" aria-label="Rekentools voor verbouwen">
+                        <a href="maandlasten-bouwdepot.html"><span>1</span> Maandlast tijdens depotfase</a>
+                        <a href="maximale-bouwdepot.html"><span>2</span> Ruimte op basis van woningwaarde</a>
+                        <a href="eigen-geld-bouwdepot.html"><span>3</span> Benodigde eigen inbreng</a>
+                        <a href="stappenplan.html"><span>4</span> Van plan naar declaratie</a>
+                    </nav>
+                </article>
+                <article class="journey-column journey-column--newbuild">
+                    <span class="journey-label">Route nieuwbouw</span>
+                    <h3>Van bouwtermijnen naar piekmaand</h3>
+                    <p>Modelleer eerst het volledige bouwverloop. Verdiep daarna alleen de bouwrente of dubbele lasten als die vraag voor u bepalend is.</p>
+                    <nav class="journey-link-list" aria-label="Rekentools voor nieuwbouw">
+                        <a href="nieuwbouw.html"><span>1</span> Volledige nieuwbouwplanning</a>
+                        <a href="dubbele-lasten-nieuwbouw.html"><span>2</span> Tijdelijke overlap woonlasten</a>
+                        <a href="bouwrente-nieuwbouw.html"><span>3</span> Bouwrente afzonderlijk bekijken</a>
+                    </nav>
+                </article>
             </div>
-
-            <h3 class="route-group-title">Nieuwbouw</h3>
-            <div class="route-grid">
-                <a class="route-choice" href="nieuwbouw.html">
-                    <h3>Nieuwbouw calculator</h3>
-                    <p>Voor bouwfases, depotverloop en tijdelijke overlap in woonlasten tijdens nieuwbouw.</p>
-                    <span>Open nieuwbouw tool →</span>
-                </a>
-                <a class="route-choice" href="bouwrente-nieuwbouw.html">
-                    <h3>Bouwrente nieuwbouw</h3>
-                    <p>Bereken indicatief bouwrente per maand en totaal, met optie meefinancieren.</p>
-                    <span>Bereken bouwrente →</span>
-                </a>
-                <a class="route-choice" href="dubbele-lasten-nieuwbouw.html">
-                    <h3>Dubbele lasten nieuwbouw</h3>
-                    <p>Bereken uw tijdelijke combinatie van huidige woonlasten en nieuwe hypotheeklasten.</p>
-                    <span>Bereken dubbele lasten →</span>
-                </a>
-            </div>
-
-            <h3 class="route-group-title">Inzicht & planning</h3>
-            <div class="route-grid">
-                <a class="route-choice" href="renteverlies-bouwdepot.html">
-                    <h3>Renteverlies bouwdepot</h3>
-                    <p>Bekijk het verschil tussen hypotheekrente en vergoeding op niet opgenomen bouwdepot.</p>
-                    <span>Bereken renteverlies →</span>
-                </a>
-                <a class="route-choice" href="maximale-bouwdepot.html">
-                    <h3>Maximale bouwdepot</h3>
-                    <p>Indicatie van uw maximale financieringsruimte voor verbouwing of verbetering.</p>
-                    <span>Bereken maximale ruimte →</span>
-                </a>
-                <a class="route-choice" href="eigen-geld-bouwdepot.html">
-                    <h3>Eigen geld bouwdepot</h3>
-                    <p>Inzicht in hoeveel eigen middelen u nodig heeft naast financiering.</p>
-                    <span>Bereken eigen inbreng →</span>
-                </a>
-                <a class="route-choice" href="belasting.html">
-                    <h3>Belastingvoordeel</h3>
-                    <p>Verdiep uw fiscale effect met focus op renteaftrek en bruto/netto verschil.</p>
-                    <span>Bekijk belastingeffect →</span>
-                </a>
+            <div class="journey-secondary">
+                <p><strong>Voor beide routes:</strong> gebruik <a href="belasting.html">belastingeffect</a> voor een fiscale indicatie met inkomen en WOZ, of <a href="renteverlies-bouwdepot.html">renteverlies</a> voor het verschil tussen hypotheekrente en depotvergoeding.</p>
             </div>
         </section>
 
@@ -279,8 +271,8 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000066" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                     </div>
                     <div>
-                        <h3 style="margin: 0; font-size: 1.05rem; color: var(--color-primary);">Populaire scenario's</h3>
-                        <p style="margin: 0; font-size: 0.85rem; color: var(--color-text-light);">Mix van verbouwing en nieuwbouw om snel te starten</p>
+                        <h3 style="margin: 0; font-size: 1.05rem; color: var(--color-primary);">Stel een voorbeeldbudget samen</h3>
+                        <p style="margin: 0; font-size: 0.85rem; color: var(--color-text-light);">Combineer veelvoorkomende woningverbeteringen</p>
                     </div>
                 </div>
                 <svg id="cost-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s ease;"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -353,12 +345,12 @@
         </section>
 
         <section class="card content-block" aria-labelledby="welke-calculator">
-            <h2 id="welke-calculator">Welke calculator heeft u nodig?</h2>
-            <p>Niet elke bouwdepotvraag vraagt dezelfde berekening. Wilt u alleen weten wat een extra depotdeel maandelijks doet met uw hypotheek? Gebruik dan de algemene calculator bovenaan. Zit u in een nieuwbouwtraject met bouwtermijnen, dan geeft de nieuwbouw calculator meestal een realistischer beeld van uw kasstroom per maand. Wilt u vooral inzicht in het fiscale voordeel, dan is de belastingvoordeel calculator de beste volgende stap.</p>
+            <h2 id="welke-calculator">Begin breed en verfijn alleen waar nodig</h2>
+            <p>De snelle calculator bovenaan beantwoordt één vraag: wat doet een extra hypotheekdeel ongeveer met uw maandlast? Daarna verschilt de logische vervolgstap per situatie.</p>
             <ul>
-                <li><strong>Algemene bouwdepot calculator:</strong> snel inzicht in bruto/netto maandlast.</li>
-                <li><strong>Nieuwbouw calculator:</strong> voor planning, depotverbruik en tijdelijke piek in woonlasten.</li>
-                <li><strong>Belastingvoordeel calculator:</strong> voor een gerichte fiscale indicatie met extra variabelen.</li>
+                <li><strong>Verbouwen:</strong> controleer eerst depotmaandlast, waardegrens en eigen geld.</li>
+                <li><strong>Nieuwbouw:</strong> begin met het volledige bouwtermijnen- en overlapverloop; gebruik losse detailtools pas daarna.</li>
+                <li><strong>Fiscaliteit:</strong> gebruik de aparte belastingcalculator wanneer inkomen en WOZ nodig zijn voor een betere indicatie.</li>
             </ul>
         </section>
 
@@ -377,7 +369,7 @@
                 </article>
                 <article>
                     <h3>Indicatief belastingeffect</h3>
-                    <p>Wanneer u renteaftrek activeert tonen wij een indicatief voordeel op basis van gangbare aannames, zodat bruto en netto vergelijkbaar worden.</p>
+                    <p>Wanneer u de snelle renteaftrekindicatie activeert, gebruiken we maximaal 37,56% vóór eigenwoningforfait. Voor inkomen en WOZ gebruikt u de fiscale calculator.</p>
                 </article>
                 <article>
                     <h3>Directe feedback</h3>
@@ -417,48 +409,30 @@
         </section>
 
         <section class="card content-block" aria-labelledby="verder-lezen">
-            <h2 id="verder-lezen">Verder lezen</h2>
-            <p>Wilt u na de eerste berekening verdiepen? Hieronder vindt u pagina’s die aansluiten op de meest voorkomende vervolgvraagstukken.</p>
-            <div class="resource-grid">
-                <a class="resource-card" href="calculators.html">
-                    <strong>Alle calculators</strong>
-                    <span>Volledig overzicht van alle bouwdepot calculators per situatie.</span>
-                </a>
-                <a class="resource-card" href="nieuwbouw.html">
-                    <strong>Nieuwbouw calculator</strong>
-                    <span>Bereken fasering, depotverbruik en maandelijkse impact tijdens de bouw.</span>
-                </a>
-                <a class="resource-card" href="belasting.html">
-                    <strong>Belastingvoordeel calculator</strong>
-                    <span>Krijg meer grip op het fiscale deel van uw bouwdepot en hypotheekrente.</span>
-                </a>
-                <a class="resource-card" href="maandlasten-bouwdepot.html">
-                    <strong>Maandlasten bouwdepot</strong>
-                    <span>Bereken wat uw bouwdepotfase per maand kost tijdens bouw of verbouwing.</span>
-                </a>
+            <div class="section-headline">
+                <div>
+                    <p class="route-eyebrow">Voorbereiden en controleren</p>
+                    <h2 id="verder-lezen">Praktische gidsen naast de berekening</h2>
+                </div>
+                <a class="inline-link" href="kennisbank.html">Alle uitleg →</a>
+            </div>
+            <p>Een berekening wordt pas bruikbaar als u weet welke gegevens, voorwaarden en bewijsstukken erbij horen.</p>
+            <div class="resource-grid resource-grid--focused">
                 <a class="resource-card" href="stappenplan.html">
                     <strong>Bouwdepot stappenplan</strong>
-                    <span>Praktische stappen van planning en facturen tot declaratie bij de bank.</span>
-                </a>
-                <a class="resource-card" href="hypotheekrenteaftrek-gids.html">
-                    <strong>Hypotheekrenteaftrek gids</strong>
-                    <span>Voorwaarden en rekenvoorbeeld 2026</span>
+                    <span>Van begroting en taxatie tot de laatste declaratie.</span>
                 </a>
                 <a class="resource-card" href="bouwdepot-fouten.html">
-                    <strong>Veelgemaakte fouten</strong>
-                    <span>Voorkom vertraging bij declaraties</span>
+                    <strong>Zeven fouten voorkomen</strong>
+                    <span>Herken problemen met budget, facturen, kasstroom en depottermijn vroeg.</span>
                 </a>
-                <a class="resource-card" href="kennisbank.html">
-                    <strong>Naar kennisbank</strong>
-                    <span>Alle uitleg en praktische stappen op één plek</span>
+                <a class="resource-card" href="adviesgesprek-checklist.html">
+                    <strong>Printbare advieschecklist</strong>
+                    <span>45 punten en drie scenario's om voorbereid mee te nemen.</span>
                 </a>
-                <a class="resource-card" href="over-ons.html">
-                    <strong>Over BouwdepotCalculator.nl</strong>
-                    <span>Lees hoe wij rekenen, wat ons doel is en hoe wij onafhankelijk blijven.</span>
-                </a>
-                <a class="resource-card" href="contact.html">
-                    <strong>Contact</strong>
-                    <span>Stel een inhoudelijke vraag of geef een suggestie voor verbetering van de tools.</span>
+                <a class="resource-card" href="hypotheekrenteaftrek-gids.html">
+                    <strong>Renteaftrek bij een depot</strong>
+                    <span>Het verschil tussen verbouwing en nieuwbouw, inclusief 6/18/24-maandenregels.</span>
                 </a>
             </div>
         </section>
@@ -467,7 +441,7 @@
             <h2>Methodologie & betrouwbaarheid</h2>
             <p>Deze tool geeft een <strong>indicatieve berekening</strong> op basis van de door u ingevulde gegevens en vaste rekenaannames. Daardoor is de uitkomst geschikt voor oriëntatie, vergelijking en voorbereiding.</p>
             <p>De resultaten worden beïnvloed door aannames zoals rente, hypotheekvorm, looptijd en de fiscale behandeling in uw persoonlijke situatie. Wij zijn een <strong>onafhankelijk informatief platform</strong> en geen aanbieder van hypotheekproducten.</p>
-            <p>Gebruik de uitkomst als onderbouwde eerste stap en laat persoonlijke hypotheek- en fiscale details altijd verifiëren door uw financieel adviseur.</p>
+            <p>Gebruik de uitkomst als onderbouwde eerste stap en laat persoonlijke hypotheek- en fiscale details altijd verifiëren door uw financieel adviseur. Lees ook onze <a href="methodologie.html">rekenregels, bronnen en bekende beperkingen</a>.</p>
         </section>
 
         <section class="homepage-meta" aria-label="Bronnen en disclaimer">
