@@ -1174,7 +1174,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     data: {
                         labels: labels,
                         datasets: [
-                            { label: 'Uw Netto Maandlast', data: dataUser, backgroundColor: '#000066', borderRadius: 2 },
+                            { label: 'Na depotvergoeding', data: dataUser, backgroundColor: '#000066', borderRadius: 2 },
                             { label: 'Rente Vergoeding (Depot)', data: dataDepot, backgroundColor: '#4ade80', borderRadius: 2 }
                         ]
                     },
