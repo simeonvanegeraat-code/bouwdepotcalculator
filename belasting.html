@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiscale Check & Maandlasten 2026 | BouwdepotCalculator.nl</title>
-    <meta name="description" content="Bereken uw netto maandlasten over 30 jaar. Vergelijk Annuïteiten vs Lineair met de fiscale regels van 2026, inclusief Villataks en Wet Hillen.">
+    <meta name="description" content="Schat uw netto hypotheeklast in jaar 1 en vergelijk een 30-jarig scenario met de 2026-schijven, het eigenwoningforfait en de Hillen-aftrek.">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <link rel="canonical" href="https://www.bouwdepotcalculator.nl/belasting.html">
     
@@ -71,8 +71,8 @@
         
         <section class="calculator-section">
             <div class="card calculator-card" id="belasting-calc">
-                <h1>Netto Maandlasten & Fiscus</h1>
-                <p class="subtitle">Bereken het verloop van uw lasten over 30 jaar (regels 2026) en vergelijk bruto versus netto effect.</p>
+                <h1>Netto maandlast en belastingeffect in 2026</h1>
+                <p class="subtitle">Schat uw netto last in jaar 1 en vergelijk het aflossingsverloop. Voor de grafiek houden we de 2026-regels alle 30 jaren constant.</p>
                 <p class="trust-line">Indicatieve fiscale berekening · Onafhankelijk informatief · Laat persoonlijke uitkomst altijd verifiëren door adviseur</p>
                 <p class="calc-intro-note">Homepage = snelle indicatie • Maandlasten = bouwdepotfasekosten • Nieuwbouw = brede planning • Belasting = fiscaal/netto effect op uw maandlast.</p>
 
@@ -94,7 +94,7 @@
                         <label>Bruto Jaarinkomen</label>
                         <div class="number-input-wrapper has-prefix" style="width:140px;">
                             <span class="prefix">€</span>
-                            <input type="number" id="fiscal-income" value="65000" step="1000">
+                            <input type="number" id="fiscal-income" min="0" value="65000" step="1000">
                         </div>
                     </div>
                     <p class="field-hint">Gebruik uw indicatieve belastbare inkomen voor een realistischer netto-inschatting.</p>
@@ -105,7 +105,7 @@
                         <label>Hypotheekschuld</label>
                         <div class="number-input-wrapper has-prefix">
                             <span class="prefix">€</span>
-                            <input type="number" id="fiscal-amount" value="350000">
+                            <input type="number" id="fiscal-amount" min="0" value="350000">
                         </div>
                     </div>
                     <p class="field-hint">Totale schuld waarop de renteaftrekberekening wordt gebaseerd.</p>
@@ -128,12 +128,12 @@
                         <label>WOZ-Waarde</label>
                         <div class="number-input-wrapper has-prefix">
                             <span class="prefix">€</span>
-                            <input type="number" id="fiscal-woz" value="400000" step="5000">
+                            <input type="number" id="fiscal-woz" min="0" value="400000" step="5000">
                         </div>
                     </div>
                     <div id="villataks-alert" class="alert-box">
                         <strong>Let op: Villataks actief.</strong><br>
-                        U betaalt 2,35% bijtelling over het deel boven € 1.350.000.
+                        Boven € 1.330.000 geldt € 4.655 plus 2,35% over het meerdere.
                     </div>
                     <p class="field-hint">WOZ beïnvloedt het eigenwoningforfait en daarmee het netto fiscale effect.</p>
                 </div>
@@ -144,24 +144,25 @@
                         <label class="checkbox-label"><input type="checkbox" id="cost-advice" value="2500"> Advies & Afsluit (~€ 2.500)</label>
                         <label class="checkbox-label"><input type="checkbox" id="cost-notary" value="900"> Notaris Hypotheekakte (~€ 900)</label>
                         <label class="checkbox-label"><input type="checkbox" id="cost-valuation" value="500"> Taxatie (~€ 500)</label>
-                        <label class="checkbox-label"><input type="checkbox" id="cost-nhg" value="0"> NHG (0,6%)</label>
+                        <label class="checkbox-label"><input type="checkbox" id="cost-nhg" value="0"> NHG-borgtochtprovisie (0,4%)</label>
                     </div>
                 </div>
 
                 <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-6 text-sm">
                     <div class="flex justify-between mb-1">
-                        <span class="text-gray-600">Max aftrek (2026):</span>
+                        <span class="text-gray-600">Indicatief effectief aftrektarief (jaar 1):</span>
                         <strong id="display-tax-rate">37,56%</strong>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-gray-600">Vrijstelling Wet Hillen:</span>
-                        <strong id="display-hillen">71,87%</strong>
+                        <span class="text-gray-600">Hillen-aftrek in 2026:</span>
+                        <strong id="display-hillen">71,867%</strong>
                     </div>
                 </div>
             </div>
 
             <div class="card mt-8">
-                <h3>Verloop over 30 Jaar</h3>
+                <h3>Vergelijkingsscenario over 30 jaar</h3>
+                <p class="field-hint">De tool gebruikt in elk jaar dezelfde 2026-belastingregels, hetzelfde inkomen en dezelfde WOZ-waarde. Zie dit niet als een voorspelling.</p>
                 <div class="chart-container">
                     <canvas id="fiscalChart"></canvas>
                 </div>
@@ -176,7 +177,7 @@
                             <tr>
                                 <th>Jaar</th>
                                 <th class="col-amount">Bruto /mnd</th>
-                                <th class="col-amount">Voordeel /mnd</th>
+                                <th class="col-amount">Fiscaal effect /mnd</th>
                                 <th class="col-amount netto-column">Netto /mnd</th>
                             </tr>
                         </thead>
@@ -193,14 +194,13 @@
                 <h2>Hypotheekrenteaftrek 2026: Een Diepte-analyse</h2>
                 <p>
                     Wanneer u een hypotheek afsluit, kijkt u vaak naar de bruto maandlasten. Echter, door de fiscale regels in Nederland ligt de werkelijke (netto) last vaak aanzienlijk lager. 
-                    Deze pagina berekent exact uw netto lasten op basis van de fiscale regels zoals die gelden in belastingjaar 2026. Hieronder leggen we de belangrijkste componenten uit die invloed hebben op uw portemonnee.
+                    Deze pagina schat uw netto lasten met een vereenvoudigd model van de fiscale regels voor 2026. Heffingskortingen, fiscaal partnerschap, AOW-leeftijd en bijzondere situaties vallen buiten de berekening.
                 </p>
 
                 <h3>1. Beperking Aftrek (37,56%)</h3>
                 <p>
                     In het verleden konden huiseigenaren in de hoogste belastingschijf de rente aftrekken tegen maximaal 52%. Deze regeling is in de afgelopen jaren stapsgewijs afgebouwd. 
-                    In 2026 is de hypotheekrenteaftrek definitief beperkt tot het basistarief van <strong>37,56%</strong>. 
-                    Dit betekent dat ook als u in de hoogste schijf (49,50%) valt, u 'slechts' 37,56% van de betaalde rente mag aftrekken van uw belastbaar inkomen. Onze calculator houdt hier exact rekening mee.
+                    Voor iemand die de AOW-leeftijd nog niet heeft bereikt, zijn de eerste twee box-1-tarieven in 2026 35,75% en 37,56%. Boven € 78.426 is het reguliere tarief 49,50%, maar het aftrekvoordeel voor de eigen woning is daar beperkt tot <strong>37,56%</strong>. De calculator rekent het voordeel per schijf en toont zo een effectief percentage voor jaar 1.
                 </p>
 
                 <h3>2. Eigenwoningforfait en de 'Villataks'</h3>
@@ -209,16 +209,13 @@
                     Voor de meeste woningen geldt in 2026 een tarief van <strong>0,35%</strong>. Dit bedrag verlaagt uw effectieve renteaftrek.
                 </p>
                 <p>
-                    Heeft u een woning met een WOZ-waarde boven de <strong>€ 1.350.000</strong>? Dan krijgt u te maken met de zogenoemde 'Villataks'. 
-                    Over het deel van de waarde dat boven deze grens uitkomt, betaalt u geen 0,35%, maar geldt een verhoogd bijtellingspercentage van <strong>2,35%</strong>. 
-                    Bij duurdere woningen kan dit ervoor zorgen dat de fiscale bijtelling hoger is dan de renteaftrek, waardoor u per saldo belasting betaalt over uw woning in plaats van terugkrijgt.
+                    Voor WOZ-waarden tot en met € 75.000 gelden lagere schijven. Boven <strong>€ 1.330.000</strong> is het forfait € 4.655 plus <strong>2,35%</strong> over het meerdere. De calculator verwerkt alle gepubliceerde WOZ-schijven van 2026. Bij een kleine rentelast kan de bijtelling per saldo groter zijn dan de renteaftrek.
                 </p>
 
                 <h3>3. Afbouw Wet Hillen</h3>
                 <p>
                     Heeft u een kleine hypotheek of is uw huis (bijna) afgelost? Vroeger betaalde u dan per saldo geen eigenwoningforfait (Wet Hillen). 
-                    Deze regeling wordt echter in 30 jaar afgebouwd. In 2026 bedraagt de vrijstelling nog slechts <strong>71,87%</strong> van het verschil tussen het eigenwoningforfait en de aftrekbare kosten. 
-                    Dit betekent dat mensen met een afgelost huis steeds meer belasting gaan betalen over hun woning.
+                    Deze aftrek wordt afgebouwd. In 2026 bedraagt de aftrek wegens geen of een kleine eigenwoningschuld <strong>71,867%</strong> van het verschil tussen het eigenwoningforfait en de aftrekbare kosten. Het resterende deel telt mee als inkomen uit de eigen woning.
                 </p>
 
                 <h3>4. Annuïteit vs. Lineair</h3>
@@ -226,6 +223,8 @@
                     De keuze voor de hypotheekvorm heeft grote invloed op uw netto lastenverloop. Bij een <em>lineaire hypotheek</em> lost u sneller af, waardoor uw rentelast (en dus uw belastingteruggave) snel daalt. Uw netto maandlasten beginnen hoog en eindigen laag. 
                     Bij een <em>annuïteitenhypotheek</em> blijven de bruto lasten gelijk, maar omdat het rentedeel binnen dat bedrag krimpt, daalt uw belastingvoordeel langzaam. Hierdoor stijgen uw netto lasten gedurende de looptijd.
                 </p>
+                <h3>Bronnen en reikwijdte</h3>
+                <p>De jaarbedragen zijn gecontroleerd bij de <a href="https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/boxen_en_tarieven/box_1/" target="_blank" rel="noopener noreferrer">Belastingdienst (box 1)</a> en de <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/hoe-werkt-eigenwoningforfait" target="_blank" rel="noopener noreferrer">tabel eigenwoningforfait</a>. De rekentool is gericht op iemand die in 2026 de AOW-leeftijd nog niet heeft bereikt. Voor een persoonlijke aangifte is meer informatie nodig.</p>
             </article>
             <section class="card mt-8">
                 <h2>Misschien zoekt u ook</h2>
@@ -242,7 +241,7 @@
 
         <aside class="sidebar">
             <div class="card result-card sticky-box">
-                <h2>Fiscale specialist-uitkomst</h2>
+                <h2>Indicatieve fiscale uitkomst</h2>
                 <p class="result-intro">Gerichte netto-inschatting op basis van fiscale aannames (2026-regels).</p>
                 <p class="result-meta" id="report-fiscal-generated-at">Berekening klaar voor fiscale vergelijking.</p>
 
