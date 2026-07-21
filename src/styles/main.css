@@ -2805,3 +2805,19 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
         white-space: normal;
     }
 }
+
+
+/* Houd calculator-kaarten binnen de mobiele viewport, ook bij lange resultaatregels. */
+.calculator-template > *,
+.calculator-template .template-main,
+.calculator-template .calculator-card,
+.calculator-template .result-card {
+    max-width: 100%;
+    min-width: 0;
+}
+
+@media (max-width: 900px) {
+    .calculator-template {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
