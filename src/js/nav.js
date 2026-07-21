@@ -111,7 +111,13 @@
         nav?.classList.add('is-calculator-page');
     }
     const openPrivacySettings = (control) => {
-        const status = control.closest('.policy-section')?.querySelector('[data-privacy-status]');
+        const status = control.closest?.('.policy-section')?.querySelector('[data-privacy-status]');
+
+        if (!document.querySelector('script[src*="pagead2.googlesyndication.com"]')) {
+            window.location.assign('/?privacy=settings');
+            return;
+        }
+
         const startedAt = Date.now();
 
         const tryOpen = () => {
@@ -147,5 +153,11 @@
     document.querySelectorAll('[data-privacy-settings]').forEach((control) => {
         control.addEventListener('click', () => openPrivacySettings(control));
     });
+
+    const privacyQuery = new URLSearchParams(window.location.search).get('privacy');
+    if (privacyQuery === 'settings') {
+        window.history.replaceState({}, '', window.location.pathname + window.location.hash);
+        openPrivacySettings(document.body);
+    }
 
 })();
