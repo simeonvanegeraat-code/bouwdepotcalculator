@@ -21,6 +21,7 @@ export default defineConfig({
         belasting: resolve(__dirname, 'belasting.html'),
         stappenplan: resolve(__dirname, 'stappenplan.html'), // Toegevoegd voor AdSense content
         kennisbank: resolve(__dirname, 'kennisbank.html'),
+        methodologie: resolve(__dirname, 'methodologie.html'),
         overOns: resolve(__dirname, 'over-ons.html'),
         hypotheekrenteaftrekGids: resolve(__dirname, 'hypotheekrenteaftrek-gids.html'),
         bouwdepotFouten: resolve(__dirname, 'bouwdepot-fouten.html'),

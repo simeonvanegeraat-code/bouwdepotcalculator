@@ -1652,3 +1652,199 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
   .nieuwbouw-page .main-grid { display:block; }
   .nieuwbouw-page .sidebar { margin-top:0.8rem; }
 }
+
+
+/* --- 13. EDITORIAL TRUST PAGES --- */
+.editorial-shell {
+    display: block;
+    max-width: 1120px;
+    padding-top: 2.5rem;
+    padding-bottom: 4rem;
+}
+
+.editorial-shell--narrow { max-width: 940px; }
+
+.editorial-hero {
+    max-width: 780px;
+    margin-bottom: 2rem;
+}
+
+.editorial-hero h1 {
+    color: #0f172a;
+    font-size: clamp(2.25rem, 6vw, 4.25rem);
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+    margin: 0.2rem 0 1rem;
+}
+
+.editorial-eyebrow {
+    color: #b45309;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.55rem;
+}
+
+.editorial-lead {
+    color: #334155;
+    font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+    line-height: 1.65;
+    max-width: 68ch;
+}
+
+.editorial-meta {
+    color: #64748b;
+    font-size: 0.86rem;
+    margin-top: 1rem;
+}
+
+.about-project-grid,
+.contact-project-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-bottom: 2.5rem;
+}
+
+.contact-project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.about-project-card,
+.method-card,
+.limit-grid article {
+    background: #ffffff;
+    border: 1px solid #dbe4ee;
+    border-radius: 16px;
+    padding: 1.4rem;
+}
+
+.about-project-card--personal {
+    background: #f8fbff;
+    border-color: #bfd3ec;
+}
+
+.about-project-card h2,
+.method-card h3,
+.limit-grid h3 {
+    color: #0f172a;
+    font-size: 1.15rem;
+    margin: 0 0 0.7rem;
+}
+
+.about-project-card p:last-child,
+.method-card p:last-child,
+.limit-grid p:last-child { margin-bottom: 0; }
+
+.about-project-card a,
+.editorial-section a,
+.editorial-callout a {
+    color: #1d4ed8;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.about-wave { font-size: 1.4rem; margin-bottom: 0.65rem; }
+
+.editorial-section {
+    border-top: 1px solid #dbe4ee;
+    padding: 2.25rem 0;
+}
+
+.editorial-section h2 {
+    color: #0f172a;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 0 0 1rem;
+}
+
+.editorial-split {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1.28fr);
+}
+
+.editorial-steps,
+.editorial-checklist,
+.source-list {
+    padding-left: 1.25rem;
+}
+
+.editorial-steps li,
+.editorial-checklist li,
+.source-list li {
+    line-height: 1.65;
+    margin-bottom: 0.75rem;
+}
+
+.editorial-callout {
+    background: #0b2a52;
+    border-radius: 18px;
+    color: #eaf2fb;
+    margin-top: 2rem;
+    padding: 1.6rem;
+}
+
+.editorial-callout h2 {
+    color: #ffffff;
+    font-size: 1.35rem;
+    margin: 0 0 0.6rem;
+}
+
+.editorial-callout p { margin: 0; color: #dbeafe; }
+
+.editorial-callout a { color: #ffffff; }
+
+.contact-mail-link { font-size: 1.05rem; }
+
+.method-cards,
+.limit-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.limit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+.method-label {
+    display: inline-block;
+    background: #dcfce7;
+    border-radius: 999px;
+    color: #166534;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-bottom: 0.85rem;
+    padding: 0.3rem 0.55rem;
+    text-transform: uppercase;
+}
+
+.method-label--warning { background: #fff7ed; color: #9a3412; }
+
+.change-log {
+    display: grid;
+    gap: 0;
+}
+
+.change-log article {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 150px 1fr;
+    border-top: 1px solid #e2e8f0;
+    padding: 1.1rem 0;
+}
+
+.change-log time { color: #64748b; font-size: 0.86rem; }
+
+.change-log h3 { color: #0f172a; font-size: 1rem; margin: 0 0 0.35rem; }
+
+.change-log p { margin: 0; }
+
+@media (max-width: 780px) {
+    .editorial-shell { padding-top: 1.5rem; }
+    .about-project-grid,
+    .contact-project-grid,
+    .method-cards,
+    .limit-grid,
+    .editorial-split {
+        grid-template-columns: 1fr;
+    }
+    .change-log article { grid-template-columns: 1fr; gap: 0.4rem; }
+}

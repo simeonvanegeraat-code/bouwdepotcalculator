@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodologie en bronnen | BouwdepotCalculator.nl</title>
+    <meta name="description" content="Lees hoe de calculators rekenen, welke primaire bronnen worden gebruikt, welke beperkingen gelden en wanneer rekenregels zijn gewijzigd.">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <link rel="canonical" href="https://www.bouwdepotcalculator.nl/methodologie.html">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <script type="module" src="/src/js/nav.js"></script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="logo" href="index.html" aria-label="Ga naar de homepage van BouwdepotCalculator.nl">
+                Bouwdepot<span class="text-accent">Calculator</span>.nl
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open hoofdmenu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="main-nav" id="site-nav" aria-label="Hoofdnavigatie">
+                <div class="nav-item has-dropdown" data-dropdown>
+                    <button class="nav-link nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="calc-dropdown-menu">
+                        Calculators <span class="nav-caret" aria-hidden="true">▾</span>
+                    </button>
+                    <div class="calc-dropdown" id="calc-dropdown-menu" role="menu" aria-label="Calculator overzicht">
+                        <div class="calc-dropdown-group">
+                            <p class="calc-group-title">Snel starten</p>
+                            <a href="index.html" role="menuitem">Algemene bouwdepot calculator</a>
+                            <a href="maandlasten-bouwdepot.html" role="menuitem">Maandlasten bouwdepot</a>
+                        </div>
+                        <div class="calc-dropdown-group">
+                            <p class="calc-group-title">Nieuwbouw</p>
+                            <a href="nieuwbouw.html" role="menuitem">Nieuwbouw calculator</a>
+                            <a href="bouwrente-nieuwbouw.html" role="menuitem">Bouwrente nieuwbouw</a>
+                            <a href="dubbele-lasten-nieuwbouw.html" role="menuitem">Dubbele lasten nieuwbouw</a>
+                        </div>
+                        <div class="calc-dropdown-group">
+                            <p class="calc-group-title">Inzicht &amp; planning</p>
+                            <a href="renteverlies-bouwdepot.html" role="menuitem">Renteverlies bouwdepot</a>
+                            <a href="maximale-bouwdepot.html" role="menuitem">Maximale bouwdepot</a>
+                            <a href="eigen-geld-bouwdepot.html" role="menuitem">Eigen geld bouwdepot</a>
+                            <a href="belasting.html" role="menuitem">Belastingvoordeel</a>
+                        </div>
+                        <a class="calc-dropdown-all" href="calculators.html" role="menuitem">Alle calculators</a>
+                    </div>
+                </div>
+                <a class="nav-link" href="kennisbank.html">Kennisbank</a>
+                <a class="nav-link" href="stappenplan.html">Stappenplan</a>
+                <a class="nav-link" href="over-ons.html">Over ons</a>
+                <a class="nav-link" href="contact.html">Contact</a>
+                <a class="nav-link nav-cta" href="calculators.html">Start berekenen</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container editorial-shell">
+        <section class="editorial-hero">
+            <p class="editorial-eyebrow">Rekenregels · Bronnen · Bekende beperkingen</p>
+            <h1>Methodologie en verantwoording</h1>
+            <p class="editorial-lead">Hier lees je welke soorten uitkomsten de site toont, welke aannames worden gebruikt en hoe je de resultaten verantwoord interpreteert.</p>
+            <p class="editorial-meta">Rekenversie: 2026.1 · Laatst gecontroleerd: 21 juli 2026</p>
+        </section>
+
+        <section class="editorial-section">
+            <div class="editorial-split">
+                <div>
+                    <p class="editorial-eyebrow">Uitgangspunt</p>
+                    <h2>Een scenario, geen persoonlijk advies</h2>
+                </div>
+                <div>
+                    <p>De tools rekenen met de waarden die je zelf invult en met expliciete vereenvoudigingen. Ze kunnen laten zien hoe een bedrag verandert wanneer rente, looptijd of planning verandert.</p>
+                    <p>Ze kunnen niet bepalen of een geldverstrekker jouw aanvraag accepteert. Daarvoor zijn onder meer inkomen, verplichtingen, taxatie, productvoorwaarden en persoonlijke fiscaliteit nodig.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="editorial-section">
+            <p class="editorial-eyebrow">Drie soorten uitkomsten</p>
+            <h2>Hoe nauwkeurig is een getal?</h2>
+            <div class="method-cards">
+                <article class="method-card">
+                    <span class="method-label">Rekenkundig</span>
+                    <h3>Hypotheekformule</h3>
+                    <p>Een annuïteit of lineaire eerste maand kan exact worden berekend binnen de gekozen invoer. De uitkomst blijft afhankelijk van juiste invoer en productdetails.</p>
+                </article>
+                <article class="method-card">
+                    <span class="method-label">Scenario</span>
+                    <h3>Depot- en nieuwbouwverloop</h3>
+                    <p>Opnamemomenten en bouwtermijnen zijn aannames. De tool vergelijkt mogelijke verlopen, niet de toekomstige bankboekingen.</p>
+                </article>
+                <article class="method-card">
+                    <span class="method-label method-label--warning">Extra voorzichtig</span>
+                    <h3>Fiscaal effect</h3>
+                    <p>Belastinguitkomsten hangen sterk af van inkomen, eigenwoningregeling, depotgebruik en aangifte. Gebruik deze uitsluitend als oriëntatie.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="editorial-section">
+            <p class="editorial-eyebrow">Bronnenbeleid</p>
+            <h2>Welke bronnen hebben voorrang?</h2>
+            <p>Voor regels en jaarlijkse bedragen worden primaire, publiek toegankelijke bronnen gebruikt. Een blog of commerciële vergelijker kan aanleiding geven tot controle, maar is niet de eindbron voor een financiële claim.</p>
+            <ul class="source-list">
+                <li><a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/koopwoning" rel="noopener noreferrer">Belastingdienst – eigen woning</a></li>
+                <li><a href="https://www.rijksoverheid.nl/onderwerpen/huis-kopen" rel="noopener noreferrer">Rijksoverheid – huis kopen en hypotheek</a></li>
+                <li><a href="https://www.nhg.nl/voorwaarden-en-normen/" rel="noopener noreferrer">NHG – voorwaarden en normen</a></li>
+                <li><a href="https://www.nibud.nl/onderwerpen/rondkomen/wonen/" rel="noopener noreferrer">Nibud – wonen en woonlasten</a></li>
+            </ul>
+            <p>Voor voorwaarden die per bank verschillen, hoort de officiële productinformatie van die geldverstrekker als bron te worden gebruikt en wordt een controledatum vermeld.</p>
+        </section>
+
+        <section class="editorial-section">
+            <div class="editorial-split">
+                <div>
+                    <p class="editorial-eyebrow">Kwaliteitscontrole</p>
+                    <h2>Van wijziging tot publicatie</h2>
+                </div>
+                <div>
+                    <ol class="editorial-steps">
+                        <li>De vraag en bedoelde gebruiker worden beschreven.</li>
+                        <li>Regels en bedragen worden tegen primaire bronnen gecontroleerd.</li>
+                        <li>Rekenfuncties krijgen testgevallen met normale en extreme waarden.</li>
+                        <li>Tekst, formulieren, links en mobiele weergave worden gecontroleerd.</li>
+                        <li>Een relevante wijziging krijgt een datum in het wijzigingenoverzicht.</li>
+                    </ol>
+                    <p>Software- en AI-assistentie kan worden gebruikt bij code en concepttekst. Publicatie blijft mensenwerk: een model of gegenereerde tekst geldt niet als bewijs voor een financiële regel.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="editorial-section" id="beperkingen">
+            <p class="editorial-eyebrow">Bekende beperkingen</p>
+            <h2>Wat de calculators niet weten</h2>
+            <div class="limit-grid">
+                <article><h3>Jouw volledige dossier</h3><p>Inkomen, leningen, rentecontract, fiscale partner en uitzonderingen worden niet volledig meegenomen.</p></article>
+                <article><h3>Acceptatie door de bank</h3><p>Een indicatieve financieringsruimte is nooit een goedkeuring of bindend aanbod.</p></article>
+                <article><h3>De echte bouwplanning</h3><p>Termijnen, vertraging en meerwerk kunnen anders verlopen dan het ingevoerde scenario.</p></article>
+                <article><h3>Toekomstige regels</h3><p>Jaarbedragen en wetgeving veranderen. Controleer daarom altijd de datum en de gekoppelde bron.</p></article>
+            </div>
+        </section>
+
+        <section class="editorial-section" id="wijzigingen">
+            <p class="editorial-eyebrow">Transparantie</p>
+            <h2>Wijzigingenoverzicht</h2>
+            <div class="change-log">
+                <article>
+                    <time datetime="2026-07-21">21 juli 2026</time>
+                    <div><h3>Persoonlijke afzender en methodologie toegevoegd</h3><p>De maker, het doel, bronnenbeleid, gebruik van hulpmiddelen en bekende beperkingen zijn expliciet gemaakt.</p></div>
+                </article>
+                <article>
+                    <time datetime="2026-07-21">21 juli 2026</time>
+                    <div><h3>Technische buildfout hersteld</h3><p>Een dubbele JavaScriptregel blokkeerde de Vercel-build en is verwijderd.</p></div>
+                </article>
+            </div>
+        </section>
+
+        <aside class="editorial-callout">
+            <h2>Fout of onduidelijke aanname gevonden?</h2>
+            <p>Mail <a href="mailto:firenature23@gmail.com">Simeon</a> met de pagina, invoer en verwachte uitleg. Deel geen gevoelige persoonsgegevens.</p>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="container text-center py-8">
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="calculators.html">Alle calculators</a>
+                <a href="kennisbank.html">Kennisbank</a>
+                <a href="over-ons.html">Over &amp; contact</a>
+                <a href="methodologie.html">Methodologie</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="cookies.html">Cookies</a>
+                <a href="voorwaarden.html">Voorwaarden</a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="/src/js/main.js"></script>
+</body>
+</html>
