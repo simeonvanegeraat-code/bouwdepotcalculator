@@ -2494,3 +2494,145 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     .nieuwbouw-guide .section-headline { align-items: flex-start; }
     .source-date { white-space: normal; }
 }
+
+
+/* --- 17. RENOVATION FEASIBILITY PLAN --- */
+.renovation-plan-details {
+    margin-top: 1.1rem;
+    min-width: 0;
+}
+
+.renovation-plan-inputs {
+    display: grid;
+    gap: 0.85rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1rem;
+}
+
+.renovation-plan-inputs .input-group {
+    background: #f8fafc;
+    border: 1px solid #dbe4ee;
+    border-radius: 12px;
+    margin: 0;
+    min-width: 0;
+    padding: 0.85rem;
+}
+
+.renovation-plan-inputs .number-input-wrapper {
+    max-width: none;
+    width: 100%;
+}
+
+.renovation-case-button {
+    margin: 1rem 0 0.75rem;
+    width: 100%;
+}
+
+.renovation-plan-results {
+    display: grid;
+    gap: 0.65rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 0.5rem;
+}
+
+.renovation-plan-results > div {
+    background: #fff;
+    border: 1px solid #dbe4ee;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+    padding: 0.75rem;
+}
+
+.renovation-plan-results span {
+    color: #64748b;
+    font-size: 0.72rem;
+    line-height: 1.35;
+}
+
+.renovation-plan-results strong {
+    color: #0b2a52;
+    font-size: 1rem;
+}
+
+.renovation-plan-results .is-shortage,
+.renovation-plan-status.is-shortage {
+    color: #b91c1c;
+}
+
+.renovation-plan-status {
+    background: #eff6ff;
+    border-left: 4px solid #2563eb;
+    border-radius: 8px;
+    color: #1e3a8a;
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin: 0.9rem 0;
+    padding: 0.8rem 0.9rem;
+}
+
+.renovation-plan-status.is-shortage {
+    background: #fef2f2;
+    border-left-color: #dc2626;
+}
+
+.renovation-case-section {
+    border-top: 5px solid #2563eb;
+    overflow: hidden;
+}
+
+.renovation-boundary-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 1.25rem 0;
+}
+
+.renovation-boundary-grid article {
+    background: #f8fbff;
+    border: 1px solid #bfd3ec;
+    border-radius: 14px;
+    padding: 1.1rem;
+}
+
+.renovation-boundary-grid article > span {
+    align-items: center;
+    background: #0b2a52;
+    border-radius: 9px;
+    color: #fff;
+    display: inline-flex;
+    font-size: 0.8rem;
+    font-weight: 700;
+    height: 2rem;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    width: 2rem;
+}
+
+.renovation-boundary-grid h3 {
+    color: #0f172a;
+    font-size: 1rem;
+    margin: 0 0 0.45rem;
+}
+
+.renovation-boundary-grid p { color: #475569; margin: 0; }
+
+.renovation-case-grid {
+    align-items: start;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+}
+
+.renovation-case-grid h3 { margin-top: 0; }
+
+@media (max-width: 780px) {
+    .renovation-plan-inputs,
+    .renovation-plan-results,
+    .renovation-boundary-grid,
+    .renovation-case-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
