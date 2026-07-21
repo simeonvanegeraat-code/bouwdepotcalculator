@@ -2821,3 +2821,27 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
         grid-template-columns: minmax(0, 1fr);
     }
 }
+
+
+.two-col-inputs > * {
+    min-width: 0;
+}
+
+@media (max-width: 640px) {
+    .renteverlies-page .label-row {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .renteverlies-page .number-input-wrapper,
+    .renteverlies-page .select-wrapper {
+        max-width: 100%;
+        width: 100% !important;
+    }
+
+    .renteverlies-page input,
+    .renteverlies-page select {
+        max-width: 100%;
+    }
+}
