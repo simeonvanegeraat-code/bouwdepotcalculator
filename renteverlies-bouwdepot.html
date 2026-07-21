@@ -18,6 +18,26 @@
 
     <link rel="stylesheet" href="/src/styles/main.css">
     <script type="module" src="/src/js/nav.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Renteverlies bouwdepot berekenen",
+      "description": "Uitleg en rekentool voor het verschil tussen hypotheekrente en depotvergoeding bij een bouwdepot.",
+      "author": {
+        "@type": "Person",
+        "name": "Simeon",
+        "url": "https://www.bouwdepotcalculator.nl/over-ons.html"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "BouwdepotCalculator.nl",
+        "url": "https://www.bouwdepotcalculator.nl/"
+      },
+      "dateModified": "2026-07-21",
+      "mainEntityOfPage": "https://www.bouwdepotcalculator.nl/renteverlies-bouwdepot.html"
+    }
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -70,6 +90,7 @@
             <h1>Renteverlies bouwdepot berekenen</h1>
             <p class="subtitle">Bereken het verschil tussen de hypotheekrente die u betaalt en de vergoeding die u ontvangt over uw bouwdepot.</p>
             <p class="trust-line">Indicatie vooraf. Geen registratie. Uw invoer blijft op uw apparaat.</p>
+            <p class="renteverlies-byline">Geschreven door <a href="over-ons.html">Simeon</a> · Inhoud en bronnen gecontroleerd op 21 juli 2026</p>
         </section>
 
         <section class="calculator-template" aria-label="Renteverlies bouwdepot calculator">
@@ -160,7 +181,7 @@
             </div>
 
             <aside class="card result-card sticky-box renteverlies-result-card">
-                <h2>Uw indicatieve renteverlies</h2>
+                <h2>Geschat renteverschil</h2>
                 <p class="result-meta" id="report-renteverlies-generated-at">Berekening klaar voor vergelijking.</p>
                 <div class="renteverlies-main-amount" id="res-renteverlies-netto">€ 0</div>
                 <p class="renteverlies-subline" id="res-renteverlies-period-pattern">Over 0 maanden, bij gelijkmatig opgenomen.</p>
@@ -200,48 +221,153 @@
             </aside>
         </section>
 
-        <section class="card content-block">
-            <h2>Hoe ontstaat renteverlies?</h2>
-            <ol>
-                <li>U betaalt hypotheekrente over het bouwdepotdeel.</li>
-                <li>U ontvangt vergoeding over het deel dat nog niet is opgenomen.</li>
-                <li>Het verschil daartussen is het renteverlies.</li>
-            </ol>
-        </section>
+        <div class="renteverlies-guide">
+            <section class="card content-block rente-intro" id="uitleg">
+                <p class="editorial-eyebrow">Begrippen eerst</p>
+                <h2>Wat bedoelen we met renteverlies?</h2>
+                <p>Bij een bouwdepot staat een deel van uw hypotheek tijdelijk apart voor bouw- of verbouwingsfacturen. Over het geleende bouwdepotdeel betaalt u hypotheekrente. Over het bedrag dat nog in het depot staat, kan uw geldverstrekker een vergoeding geven. Deze calculator noemt het verschil tussen die twee bedragen het <strong>renteverschil</strong>.</p>
+                <div class="rente-definition-grid">
+                    <article>
+                        <span class="rente-term">U betaalt</span>
+                        <h3>Hypotheekrente</h3>
+                        <p>In dit model over het volledige ingevoerde bouwdepotbedrag, gedurende de gekozen bouwperiode.</p>
+                    </article>
+                    <article>
+                        <span class="rente-term">U ontvangt</span>
+                        <h3>Depotvergoeding</h3>
+                        <p>Alleen over het geschatte bedrag dat per maand nog niet uit het depot is opgenomen.</p>
+                    </article>
+                    <article>
+                        <span class="rente-term">Het verschil</span>
+                        <h3>Renteverschil</h3>
+                        <p>Betaalde hypotheekrente min ontvangen depotvergoeding. Dit is vóór een persoonlijk belastingeffect.</p>
+                    </article>
+                </div>
+                <p class="editorial-note"><strong>Belangrijk:</strong> “na depotvergoeding” betekent hier niet hetzelfde als netto na belasting. De calculator kent uw inkomen, eigenwoningverleden, hypotheekvorm en fiscale dossier niet. Gebruik voor een fiscale indicatie de <a href="belasting.html">belastingcalculator</a>.</p>
+            </section>
 
-        <section class="card content-block">
-            <h2>Voorbeeld renteverlies bouwdepot</h2>
-            <ul>
-                <li>Bouwdepot: €50.000</li><li>Hypotheekrente: 4,0%</li><li>Depotvergoeding: 3,0%</li><li>Looptijd: 12 maanden</li><li>Opname: gelijkmatig</li>
-            </ul>
-            <p>Dan betaalt u indicatief €2.000 rente, ontvangt u ongeveer €750 vergoeding en blijft circa €1.250 renteverlies over (ongeveer €104 per maand).</p>
-        </section>
+            <section class="card content-block" id="rekenvoorbeeld">
+                <p class="editorial-eyebrow">Narekenbare praktijkcase</p>
+                <h2>Hetzelfde depot, drie opnamepatronen</h2>
+                <p>Onderstaande vergelijking gebruikt steeds een bouwdepot van €50.000, 4,00% hypotheekrente, 3,00% depotvergoeding en een bouwperiode van 12 maanden. Alleen het moment van opnemen verandert. De bedragen zijn afgerond op hele euro’s.</p>
+                <div class="scenario-table-wrap">
+                    <table class="scenario-table rente-case-table">
+                        <caption>Uitkomst bij drie gesimuleerde opnamepatronen</caption>
+                        <thead>
+                            <tr><th scope="col">Opnamepatroon</th><th scope="col">Betaalde rente</th><th scope="col">Depotvergoeding</th><th scope="col">Renteverschil</th><th scope="col">Gemiddeld p/m</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th scope="row">Sneller in het begin</th><td>€2.000</td><td>€588</td><td><strong>€1.413</strong></td><td>€118</td></tr>
+                            <tr><th scope="row">Gelijkmatig</th><td>€2.000</td><td>€750</td><td><strong>€1.250</strong></td><td>€104</td></tr>
+                            <tr><th scope="row">Vooral later</th><td>€2.000</td><td>€913</td><td><strong>€1.088</strong></td><td>€91</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="case-conclusion">
+                    <strong>Wat deze vergelijking laat zien</strong>
+                    <p>Als u vroeg veel geld opneemt, blijft er minder saldo over waarover u depotvergoeding ontvangt. Daarom is het geschatte renteverschil in dit voorbeeld juist het hoogst bij snelle opname. Later opnemen houdt het vergoede saldo langer hoog. In de praktijk zijn vroege betalingen soms onvermijdelijk; het doel is inzicht, niet zo lang mogelijk wachten met betalen.</p>
+                </div>
+            </section>
 
-        <section class="card content-block">
-            <h2>Wanneer wordt renteverlies hoger?</h2>
-            <ul>
-                <li>groter bouwdepot</li><li>langere bouwperiode</li><li>lagere depotvergoeding</li><li>opname vooral later in de bouw</li>
-            </ul>
-        </section>
+            <section class="card content-block" id="methode">
+                <p class="editorial-eyebrow">Zo rekent de tool</p>
+                <h2>Formule en aannames</h2>
+                <div class="formula-panel" aria-label="Formule renteverschil">
+                    <p><strong>Betaalde rente</strong> = bouwdepot × hypotheekrente ÷ 12 × aantal maanden</p>
+                    <p><strong>Depotvergoeding per maand</strong> = gemiddeld resterend depotsaldo × depotrente ÷ 12</p>
+                    <p><strong>Renteverschil</strong> = betaalde hypotheekrente − totale depotvergoeding</p>
+                </div>
+                <p>Voor elke maand schat de calculator een begin- en eindsaldo. Het gemiddelde daarvan is de basis voor de depotvergoeding in die maand. Bij “gelijkmatig” daalt het saldo in gelijke stappen. Bij “snelle opname” ligt relatief meer van de opname in de eerste maanden; bij “vooral later” juist in de laatste maanden.</p>
+                <ul class="rente-assumption-list">
+                    <li>De volledige ingevoerde hoofdsom telt in dit model gedurende de hele gekozen periode mee voor de hypotheekrente.</li>
+                    <li>Rentepercentages blijven gedurende het scenario gelijk.</li>
+                    <li>Opnames worden als maandschatting verdeeld; exacte factuur- en rentedata worden niet nagebootst.</li>
+                    <li>Afsluitkosten, bouwrente van de ontwikkelaar, belastingeffect en rentewijzigingen vallen buiten deze berekening.</li>
+                    <li>Is de depotvergoeding hoger dan de hypotheekrente, dan kan het model een negatief verschil tonen. Controleer altijd of uw bankvoorwaarden dat scenario toestaan.</li>
+                </ul>
+                <p>Banken kunnen rente per dag berekenen, de vergoeding anders boeken of een maximale depotduur hanteren. Vergelijk daarom de uitkomst met uw offerte en afschriften. De volledige werkwijze en wijzigingshistorie staan op de pagina <a href="methodologie.html">methodologie</a>.</p>
+            </section>
 
-        <section class="card compact-faq">
-            <h2>Veelgestelde vragen</h2>
-            <div class="faq-grid">
-                <article><h3>Wat is renteverlies bij een bouwdepot?</h3><p>Het verschil tussen betaalde hypotheekrente en ontvangen depotvergoeding.</p></article>
-                <article><h3>Is renteverlies hetzelfde als bouwrente?</h3><p>Nee. Het gaat hier alleen om het verschil tussen rente betalen en vergoeding ontvangen binnen het bouwdepot.</p></article>
-                <article><h3>Krijg ik altijd vergoeding over mijn bouwdepot?</h3><p>Niet altijd en niet overal gelijk. Dit verschilt per bank en voorwaarden.</p></article>
-                <article><h3>Is deze berekening exact?</h3><p>Nee, dit is een indicatie voor vergelijking vooraf.</p></article>
-            </div>
-        </section>
+            <section class="card content-block" id="factoren">
+                <p class="editorial-eyebrow">Gevoeligheden</p>
+                <h2>Wanneer wordt het renteverschil groter?</h2>
+                <div class="rente-factor-grid">
+                    <article><h3>Groter depotbedrag</h3><p>Bij gelijke percentages beweegt zowel betaalde rente als vergoeding mee met het bedrag. Het verschil in euro’s wordt daardoor doorgaans groter.</p></article>
+                    <article><h3>Grotere rentekloof</h3><p>Hoe verder hypotheekrente en depotvergoeding uit elkaar liggen, hoe sterker het verschil per euro resterend depot.</p></article>
+                    <article><h3>Langere bouwperiode</h3><p>Meer maanden betekent meer betaalmomenten. Een vertraging kan het totaal dus verhogen, afhankelijk van de resterende depotstand.</p></article>
+                    <article><h3>Eerdere opnames</h3><p>Na een opname daalt het saldo waarover u vergoeding ontvangt. Bij gelijkblijvende hypotheekrente vergroot vroeg opnemen daarom meestal het verschil.</p></article>
+                </div>
+                <p class="editorial-note">Test niet alleen uw verwachte planning. Reken ook een snellere opname en drie tot zes maanden vertraging door. Zo ziet u welke aanname de grootste invloed op uw maandruimte heeft.</p>
+            </section>
 
-        <section class="card content-block">
-            <h2>Verder vergelijken</h2>
-            <div class="resource-grid renteverlies-resources">
-                <a class="resource-card" href="maandlasten-bouwdepot.html"><strong>Maandlasten bouwdepot</strong><span>Bekijk bruto en netto maanddruk tijdens de bouw.</span></a>
-                <a class="resource-card" href="bouwrente-nieuwbouw.html"><strong>Bouwrente nieuwbouw</strong><span>Bereken een indicatie van bouwrente bij termijnbetalingen.</span></a>
-                <a class="resource-card" href="nieuwbouw.html"><strong>Nieuwbouw calculator</strong><span>Vergelijk totale nieuwbouwkosten en piekmomenten.</span></a>
-            </div>
-        </section>
+            <section class="card content-block" id="fiscaal">
+                <p class="editorial-eyebrow">Financieel is niet fiscaal</p>
+                <h2>Depotvergoeding en hypotheekrenteaftrek</h2>
+                <p>Deze pagina berekent een geldstroom, geen belastingaangifte. De Belastingdienst maakt bovendien onderscheid tussen een verbouwingsdepot en een nieuwbouwdepot.</p>
+                <div class="rente-tax-grid">
+                    <article>
+                        <h3>Verbouwingsdepot</h3>
+                        <p>Volgens de Belastingdienst mag u in de eerste zes maanden na het afsluiten onder voorwaarden de betaalde rente over de schuld voor het depot aftrekken zonder de ontvangen rentevergoeding daarvan af te trekken. Na die periode gelden andere regels en wordt gekeken naar het gebruikte depot en het verschil tussen betaalde en ontvangen rente.</p>
+                    </article>
+                    <article>
+                        <h3>Nieuwbouwdepot</h3>
+                        <p>Voor een nieuwbouwdepot geldt die zesmaandsgoedkeuring niet. De Belastingdienst beschrijft hiervoor de aftrek als betaalde rente min ontvangen rente over het depot, zolang aan de voorwaarden wordt voldaan.</p>
+                    </article>
+                </div>
+                <p>Ook de duur van de regeling, de besteding aan de eigen woning en het resterende saldo zijn van belang. Bewaar daarom offertes, facturen, betaalbewijzen en depotafschriften en controleer uw persoonlijke situatie bij de Belastingdienst of een adviseur.</p>
+            </section>
+
+            <section class="card content-block" id="controle">
+                <p class="editorial-eyebrow">Voor uw hypotheekgesprek</p>
+                <h2>Zes vragen waarmee u de uitkomst controleert</h2>
+                <ol class="rente-question-list">
+                    <li>Over welk saldo en vanaf welke dag betaalt mijn bank depotvergoeding?</li>
+                    <li>Is de depotrente gelijk aan mijn hypotheekrente, een vaste opslag/afslag of een los percentage?</li>
+                    <li>Wordt hypotheekrente over het bouwdepot maandelijks geïncasseerd, meegefinancierd of uit het depot betaald?</li>
+                    <li>Hoe lang blijft het depot open en wat gebeurt er met een ongebruikt restant?</li>
+                    <li>Welke facturen accepteert de bank en hoeveel verwerkingstijd moet ik inplannen?</li>
+                    <li>Wat verandert er bij bouwvertraging, meerwerk of een wijziging van mijn rentecontract?</li>
+                </ol>
+            </section>
+
+            <section class="card compact-faq">
+                <p class="editorial-eyebrow">Veelgestelde vragen</p>
+                <h2>Renteverlies bij een bouwdepot</h2>
+                <div class="faq-grid rente-faq-grid">
+                    <article><h3>Is renteverlies hetzelfde als bouwrente?</h3><p>Nee. Op deze pagina gaat het om hypotheekrente min depotvergoeding. Bouwrente bij nieuwbouw hangt samen met kosten en rente rond grond- en bouwtermijnen van de ontwikkelaar. Bekijk daarvoor de <a href="bouwrente-nieuwbouw.html">bouwrentecalculator</a>.</p></article>
+                    <article><h3>Krijg ik altijd depotvergoeding?</h3><p>Nee. Of u vergoeding ontvangt, welk percentage geldt en over welk saldo wordt gerekend, staat in uw bankvoorwaarden. Vul daarom het offertepercentage in en niet een algemeen marktgemiddelde.</p></article>
+                    <article><h3>Waarom blijft de betaalde rente gelijk?</h3><p>Dit model veronderstelt dat het gekozen bouwdepotbedrag onderdeel is van de hypotheek gedurende de hele ingevoerde periode. Alleen de vergoeding daalt mee met het resterende depot.</p></article>
+                    <article><h3>Kan ik de uitkomst als netto maandlast gebruiken?</h3><p>Nee. Het bedrag is na depotvergoeding maar vóór een persoonlijk belastingeffect. Tel ook bestaande woonlasten, dubbele lasten, verzekeringen en overige bouwkosten mee.</p></article>
+                    <article><h3>Waarom rekent de bank iets anders?</h3><p>Uw bank gebruikt werkelijke data, dagsaldi, afronding en eigen voorwaarden. Deze tool verdeelt opnames indicatief per maand en is bedoeld om scenario’s vooraf te vergelijken.</p></article>
+                    <article><h3>Welk opnamepatroon kies ik?</h3><p>Gebruik “gelijkmatig” als neutrale basis. Kies “snelle opname” bij hoge voorschotten of vroege termijnen, en “vooral later” als het grootste deel van de facturen aan het einde komt.</p></article>
+                </div>
+            </section>
+
+            <section class="card content-block rente-source-block" id="bronnen">
+                <div class="rente-section-heading">
+                    <div>
+                        <p class="editorial-eyebrow">Primaire bronnen</p>
+                        <h2>Regels zelf controleren</h2>
+                    </div>
+                    <span class="source-date">Gecontroleerd 21 juli 2026</span>
+                </div>
+                <ul class="source-list">
+                    <li><a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/wat-aftrekken-met-verbouwingsdepot" rel="noopener noreferrer" target="_blank">Belastingdienst – Wat mag ik aftrekken met een verbouwingsdepot?</a></li>
+                    <li><a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/wat-aftrekken-met-nieuwbouwdepot" rel="noopener noreferrer" target="_blank">Belastingdienst – Wat mag ik aftrekken met een nieuwbouwdepot?</a></li>
+                    <li><a href="https://kennisgroepen.belastingdienst.nl/publicaties/kg05120242-zesmaandsgoedkeuring-voor-verbouwingsdepot-maar-niet-voor-nieuwbouwdepot/" rel="noopener noreferrer" target="_blank">Kennisgroepen Belastingdienst – zesmaandsgoedkeuring verbouwingsdepot, niet voor nieuwbouwdepot</a></li>
+                </ul>
+                <p>Bronnen ondersteunen de algemene fiscale uitleg. Ze bevestigen niet uw persoonlijke aftrek en geven geen garantie op acceptatie door een geldverstrekker.</p>
+            </section>
+
+            <section class="card content-block">
+                <h2>Verder rekenen zonder dubbel werk</h2>
+                <div class="resource-grid renteverlies-resources">
+                    <a class="resource-card" href="maandlasten-bouwdepot.html"><strong>Maandlasten bouwdepot</strong><span>Combineer de rente-indicatie met uw woonlasten tijdens de bouw.</span></a>
+                    <a class="resource-card" href="bouwrente-nieuwbouw.html"><strong>Bouwrente nieuwbouw</strong><span>Houd ontwikkelaarsrente en depotvergoeding uit elkaar.</span></a>
+                    <a class="resource-card" href="nieuwbouw.html"><strong>Nieuwbouwplanner</strong><span>Bekijk bouwtermijnen, dubbele lasten en buffer in één planning.</span></a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer>
