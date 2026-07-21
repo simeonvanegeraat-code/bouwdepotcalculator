@@ -2157,8 +2157,11 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .route-hub {
     display: grid;
     gap: 1.25rem;
+    grid-template-columns: minmax(0, 1fr);
     padding-bottom: 4rem;
 }
+
+.route-hub > * { min-width: 0; }
 
 .route-hub-hero,
 .route-detail,
