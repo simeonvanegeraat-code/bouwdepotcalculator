@@ -1642,8 +1642,6 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .chip-title { margin:0 0 0.45rem; font-size:0.85rem; color:#64748b; }
 .nieuwbouw-chip-card .scenario-chip-group { display:flex; flex-wrap:wrap; gap:0.5rem; }
 .nieuwbouw-chip-card .nieuwbouw-scenario-chip { padding:0.5rem 0.8rem; font-size:0.83rem; border-radius:10px; }
-.nieuwbouw-chip-card .nieuwbouw-scenario-chip strong,
-.nieuwbouw-chip-card .nieuwbouw-scenario-chip span { display:none; }
 .nieuwbouw-main-amount { font-size:clamp(1.8rem,4vw,2.35rem); font-weight:700; color:#0b2a52; margin:0.4rem 0 0.25rem; }
 .nieuwbouw-subline { margin:0 0 0.8rem; color:#475569; font-size:0.92rem; }
 .nieuwbouw-chart-card .chart-intro { margin-top:-0.2rem; color:#64748b; font-size:0.9rem; }
@@ -1792,6 +1790,22 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 .editorial-callout p { margin: 0; color: #dbeafe; }
 
 .editorial-callout a { color: #ffffff; }
+
+.editorial-note {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #2563eb;
+    border-radius: 12px;
+    color: #334155;
+    margin-top: 1.25rem;
+    padding: 1rem 1.1rem;
+}
+
+.editorial-note a {
+    color: #1d4ed8;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
 
 .contact-mail-link { font-size: 1.05rem; }
 
