@@ -148,6 +148,42 @@
                     </label>
                 </div>
 
+                <details class="advanced-details renovation-plan-details" id="renovation-plan-details">
+                    <summary>Controleer ook waarderuimte en eigen geld</summary>
+                    <p class="step-note">Optionele tweede stap. Dit is alleen een waardetoets en kasstroomcheck; uw inkomen en acceptatievoorwaarden worden niet beoordeeld.</p>
+                    <div class="renovation-plan-inputs">
+                        <div class="input-group compact">
+                            <div class="label-row"><label for="input-current-mortgage">Huidige hypotheek</label></div>
+                            <div class="number-input-wrapper has-prefix"><span class="prefix">€</span><input type="number" id="input-current-mortgage" value="300000" min="0" step="1000"></div>
+                            <p class="field-hint">Openstaand saldo vóór de extra lening.</p>
+                        </div>
+                        <div class="input-group compact">
+                            <div class="label-row"><label for="input-value-after">Waarde na verbouwing</label></div>
+                            <div class="number-input-wrapper has-prefix"><span class="prefix">€</span><input type="number" id="input-value-after" value="360000" min="0" step="1000"></div>
+                            <p class="field-hint">Gebruik bij voorkeur de waarde uit een taxatie.</p>
+                        </div>
+                        <div class="input-group compact">
+                            <div class="label-row"><label for="input-own-funds">Beschikbaar eigen geld</label></div>
+                            <div class="number-input-wrapper has-prefix"><span class="prefix">€</span><input type="number" id="input-own-funds" value="25000" min="0" step="500"></div>
+                            <p class="field-hint">Alleen het bedrag dat u echt voor dit plan reserveert.</p>
+                        </div>
+                        <div class="input-group compact">
+                            <div class="label-row"><label for="input-outside-costs">Kosten buiten depot</label></div>
+                            <div class="number-input-wrapper has-prefix"><span class="prefix">€</span><input type="number" id="input-outside-costs" value="10000" min="0" step="500"></div>
+                            <p class="field-hint">Bijvoorbeeld inrichting of niet-geaccepteerde posten.</p>
+                        </div>
+                    </div>
+                    <button class="btn-text renovation-case-button" id="load-renovation-case" type="button">Laad praktijkcase van € 75.000</button>
+                    <div class="renovation-plan-results" aria-live="polite">
+                        <div><span>Theoretische ruimte op waarde</span><strong id="res-value-headroom">€ 0</strong></div>
+                        <div><span>Niet gedekt door waarderuimte</span><strong id="res-financing-gap">€ 0</strong></div>
+                        <div><span>Eigen geld nodig in dit model</span><strong id="res-own-required">€ 0</strong></div>
+                        <div><span>Eigen buffer daarna</span><strong id="res-own-remaining">€ 0</strong></div>
+                    </div>
+                    <p class="renovation-plan-status" id="res-plan-status">Vul uw gegevens in om de waarderuimte te controleren.</p>
+                    <p class="field-hint">De hoofdregel is maximaal 100% van de woningwaarde. Inkomen, energiemaatregelen, overwaarde, productvoorwaarden en taxatie kunnen uw werkelijke financiering veranderen.</p>
+                </details>
+
                 <section class="preset-section" aria-label="Populaire berekeningen">
                     <div class="section-headline">
                         <h2>Populaire berekeningen</h2>
@@ -344,6 +380,48 @@
             </div>
         </section>
 
+
+        <section class="card renovation-case-section" aria-labelledby="verbouw-case-title">
+            <div class="section-headline">
+                <div>
+                    <p class="route-eyebrow">Van losse uitkomst naar verbouwplan</p>
+                    <h2 id="verbouw-case-title">Een lage maandlast betekent nog niet dat het hele project financierbaar is</h2>
+                </div>
+                <span class="source-date">Rekenuitleg gecontroleerd: 21 juli 2026</span>
+            </div>
+            <p>De snelle berekening vertelt wat het gewenste hypotheekdeel maandelijks kost. Voor een uitvoerbaar plan controleert u daarnaast drie verschillende grenzen. Ze kunnen niet tot één “maximaal bouwdepot” worden samengevoegd, omdat bank en adviseur iedere grens anders beoordelen.</p>
+            <div class="renovation-boundary-grid">
+                <article>
+                    <span>1</span>
+                    <h3>Waarderuimte</h3>
+                    <p>De check vergelijkt de verwachte woningwaarde na verbouwing met uw huidige hypotheek. De algemene hoofdregel is dat de totale hypotheek niet boven 100% van de woningwaarde uitkomt.</p>
+                </article>
+                <article>
+                    <span>2</span>
+                    <h3>Inkomenstoets</h3>
+                    <p>Een positieve waardetoets zegt niets over hoeveel u op basis van inkomen, rente, verplichtingen en leennormen kunt dragen. Die beoordeling zit bewust niet in deze calculator.</p>
+                </article>
+                <article>
+                    <span>3</span>
+                    <h3>Eigen kasstroom</h3>
+                    <p>Een financieringsgat en kosten die niet uit het depot mogen, vragen eigen geld. Het resterende bedrag is uw zichtbare buffer voor tegenvallers; niet automatisch uw volledige noodbuffer.</p>
+                </article>
+            </div>
+
+            <div class="renovation-case-grid">
+                <div>
+                    <h3>Praktijkcase in de optionele check</h3>
+                    <p>Een verbouwing kost € 75.000. De huidige hypotheek is € 300.000 en de verwachte waarde na verbouwing € 360.000. Daarmee is de theoretische waarderuimte € 60.000. Er blijft dus € 15.000 van het gewenste depot buiten die ruimte.</p>
+                    <p>Daarnaast wordt € 10.000 aan kosten buiten het depot verwacht. Met € 25.000 beschikbaar eigen geld sluit het model precies: € 15.000 financieringsgat plus € 10.000 overige kosten. Er blijft in deze berekening geen extra buffer over.</p>
+                </div>
+                <div class="case-conclusion">
+                    <strong>De juiste conclusie</strong>
+                    <p>“Sluitend op waarde” is niet hetzelfde als “goedgekeurd”. De inkomenstoets kan lager uitvallen, de taxatie kan afwijken en een geldverstrekker kan posten weigeren. Gebruik de uitkomst daarom als vragenlijst voor uw dossier.</p>
+                </div>
+            </div>
+            <p class="source-note">Bron: <a href="https://www.rijksoverheid.nl/vraag-en-antwoord/huis-kopen/maximaal-bedrag-lenen-koopwoning" target="_blank" rel="noopener noreferrer">Rijksoverheid — maximaal lenen voor een koopwoning</a>. Bekijk ook de <a href="methodologie.html">formules en bekende beperkingen</a>.</p>
+        </section>
+
         <section class="card content-block" aria-labelledby="welke-calculator">
             <h2 id="welke-calculator">Begin breed en verfijn alleen waar nodig</h2>
             <p>De snelle calculator bovenaan beantwoordt één vraag: wat doet een extra hypotheekdeel ongeveer met uw maandlast? Daarna verschilt de logische vervolgstap per situatie.</p>
@@ -445,11 +523,7 @@
         </section>
 
         <section class="homepage-meta" aria-label="Bronnen en disclaimer">
-            <p>
-                Bronnen: <a href="https://www.belastingdienst.nl/" target="_blank" rel="noopener noreferrer">Belastingdienst</a>,
-                <a href="https://www.rijksoverheid.nl/" target="_blank" rel="noopener noreferrer">Rijksoverheid</a>,
-                <a href="https://www.nibud.nl/" target="_blank" rel="noopener noreferrer">Nibud</a>.
-            </p>
+            <p>Primaire bronnen: <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/tariefsaanpassing-eigen-woning" target="_blank" rel="noopener noreferrer">Belastingdienst — maximale renteaftrek</a> en <a href="https://www.rijksoverheid.nl/vraag-en-antwoord/huis-kopen/maximaal-bedrag-lenen-koopwoning" target="_blank" rel="noopener noreferrer">Rijksoverheid — maximale hypotheek en woningwaarde</a>. Gecontroleerd op 21 juli 2026.</p>
             <p>Controleer altijd de actuele voorwaarden van uw bank en laat persoonlijke keuzes toetsen door een financieel adviseur.</p>
         </section>
     </main>
@@ -461,6 +535,7 @@
                 <a href="calculators.html">Alle calculators</a>
                 <a href="kennisbank.html">Kennisbank</a>
                 <a href="over-ons.html">Over ons</a>
+                <a href="methodologie.html">Methodologie</a>
                 <a href="contact.html">Contact</a>
                 <a href="privacy.html">Privacy</a>
                 <a href="cookies.html">Cookies</a>
