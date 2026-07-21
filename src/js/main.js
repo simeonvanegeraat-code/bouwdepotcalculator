@@ -63,6 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const summaryInterest = document.getElementById('sum-interest');
         const summaryDuration = document.getElementById('sum-duration');
         const summaryTax = document.getElementById('sum-tax');
+        const inputCurrentMortgage = document.getElementById('input-current-mortgage');
+        const inputValueAfter = document.getElementById('input-value-after');
+        const inputOwnFunds = document.getElementById('input-own-funds');
+        const inputOutsideCosts = document.getElementById('input-outside-costs');
+        const resValueHeadroom = document.getElementById('res-value-headroom');
+        const resFinancingGap = document.getElementById('res-financing-gap');
+        const resOwnRequired = document.getElementById('res-own-required');
+        const resOwnRemaining = document.getElementById('res-own-remaining');
+        const resPlanStatus = document.getElementById('res-plan-status');
+        const loadRenovationCase = document.getElementById('load-renovation-case');
 
         // --- NIEUW: Snelkeuze & Accordion Variabelen ---
         const costBtns = document.querySelectorAll('.cost-btn');
@@ -88,15 +98,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     mortgageType: data.mortgageType,
                     interestRate: data.interestRate,
                     durationYears: data.durationYears,
-                    taxIndicationEnabled: data.taxIndicationEnabled
+                    taxIndicationEnabled: data.taxIndicationEnabled,
+                    currentMortgage: data.currentMortgage,
+                    valueAfterRenovation: data.valueAfterRenovation,
+                    availableOwnFunds: data.availableOwnFunds,
+                    costsOutsideDepot: data.costsOutsideDepot
                 },
                 results: {
                     netMonthly: data.netMonthly,
                     grossMonthly: data.grossMonthly,
-                    indicativeTaxBenefit: data.taxBenefit
+                    indicativeTaxBenefit: data.taxBenefit,
+                    valueBasedHeadroom: data.valueBasedHeadroom,
+                    financingGapOnValue: data.financingGapOnValue,
+                    ownFundsRequired: data.ownFundsRequired,
+                    ownFundsRemaining: data.ownFundsRemaining
                 },
                 conclusion: `Bij deze invoer geeft het bouwdepot een indicatieve netto maandlast van ${formatEuro(data.netMonthly)} per maand.`,
-                assumptions: 'Grove renteaftrekindicatie met het maximale aftrektarief van 37,56%, vóór eigenwoningforfait en zonder persoonlijke aangiftegegevens.'
+                interpretation: data.planConclusion,
+                assumptions: 'Maandlast op basis van bedrag, rente, hypotheekvorm en looptijd. De optionele haalbaarheidscheck gebruikt maximaal 100% van de ingevulde waarde na verbouwing en toetst geen inkomen, energiemaatregelen of acceptatievoorwaarden. De renteaftrekindicatie gebruikt maximaal 37,56%, vóór eigenwoningforfait en zonder persoonlijke aangiftegegevens.'
             };
         }
 
@@ -105,6 +124,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const amount = parseFloat(inputAmount.value) || 0;
             const interest = parseFloat(inputInterest.value) || 0;
             const years = parseInt(rangeDuration.value, 10) || 30;
+            const currentMortgage = parseFloat(inputCurrentMortgage?.value) || 0;
+            const valueAfterRenovation = parseFloat(inputValueAfter?.value) || 0;
+            const availableOwnFunds = parseFloat(inputOwnFunds?.value) || 0;
+            const costsOutsideDepot = parseFloat(inputOutsideCosts?.value) || 0;
+            const valueBasedHeadroom = Math.max(0, valueAfterRenovation - currentMortgage);
+            const financingGapOnValue = Math.max(0, amount - valueBasedHeadroom);
+            const ownFundsRequired = financingGapOnValue + costsOutsideDepot;
+            const ownFundsRemaining = availableOwnFunds - ownFundsRequired;
+            const planConclusion = valueAfterRenovation <= 0
+                ? 'Vul de verwachte woningwaarde na verbouwing in om de waarderuimte te beoordelen.'
+                : ownFundsRemaining > 0
+                    ? `Na het financieringsgat en de kosten buiten het depot blijft in dit model ${formatEuro(ownFundsRemaining)} eigen buffer over.`
+                    : ownFundsRemaining === 0
+                        ? 'Uw beschikbare eigen geld sluit in dit model precies aan; er blijft geen extra buffer over.'
+                        : `Voor dit plan ontbreekt indicatief ${formatEuro(Math.abs(ownFundsRemaining))} aan eigen middelen.`;
             
             valDuration.textContent = `${years} Jaar`;
 
@@ -139,6 +173,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 interestRate: interest,
                 durationYears: years,
                 taxIndicationEnabled: checkAftrek.checked,
+                currentMortgage,
+                valueAfterRenovation,
+                availableOwnFunds,
+                costsOutsideDepot,
+                valueBasedHeadroom,
+                financingGapOnValue,
+                ownFundsRequired,
+                ownFundsRemaining,
+                planConclusion,
                 netMonthly,
                 grossMonthly,
                 taxBenefit,
@@ -154,6 +197,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(rowVoordeel) rowVoordeel.style.display = 'none';
             }
             resNetto.textContent = formatEuro(netMonthly);
+            if (resValueHeadroom) resValueHeadroom.textContent = formatEuro(valueBasedHeadroom);
+            if (resFinancingGap) resFinancingGap.textContent = formatEuro(financingGapOnValue);
+            if (resOwnRequired) resOwnRequired.textContent = formatEuro(ownFundsRequired);
+            if (resOwnRemaining) {
+                resOwnRemaining.textContent = formatEuro(ownFundsRemaining);
+                resOwnRemaining.classList.toggle('is-shortage', ownFundsRemaining < 0);
+            }
+            if (resPlanStatus) {
+                resPlanStatus.textContent = planConclusion;
+                resPlanStatus.classList.toggle('is-shortage', ownFundsRemaining < 0);
+            }
 
             if (summaryAmount) summaryAmount.textContent = formatEuro(reportData.inputs.amount);
             if (summaryType) summaryType.textContent = reportData.inputs.mortgageType;
@@ -252,6 +306,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         }
+
+        if (loadRenovationCase) {
+            loadRenovationCase.addEventListener('click', () => {
+                inputAmount.value = 75000;
+                rangeAmount.value = 75000;
+                inputCurrentMortgage.value = 300000;
+                inputValueAfter.value = 360000;
+                inputOwnFunds.value = 25000;
+                inputOutsideCosts.value = 10000;
+                calculate();
+            });
+        }
+
+        [inputCurrentMortgage, inputValueAfter, inputOwnFunds, inputOutsideCosts].forEach((input) => {
+            if (input) input.addEventListener('input', calculate);
+        });
 
         // Event Listeners Inputs
         if(inputType) inputType.addEventListener('change', calculate);
