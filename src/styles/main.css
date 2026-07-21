@@ -2341,3 +2341,153 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
     .route-hub-choice > span:last-child { display: none; }
     .resource-grid--focused { grid-template-columns: 1fr; }
 }
+
+
+/* --- 16. NEWBUILD PLANNING GUIDE --- */
+.nieuwbouw-guide {
+    display: grid;
+    gap: 1.25rem;
+    grid-column: 1 / -1;
+    min-width: 0;
+}
+
+.nieuwbouw-guide > .card { margin-top: 0; }
+
+.nieuwbouw-guide-intro {
+    background:
+        radial-gradient(circle at 96% 5%, rgba(249, 115, 22, 0.12), transparent 28%),
+        #fff;
+    border-top: 5px solid #f97316;
+}
+
+.guide-lead-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1.25rem;
+}
+
+.guide-lead-grid ul { margin-bottom: 0; padding-left: 1.2rem; }
+.guide-lead-grid li { margin-bottom: 0.65rem; }
+
+.newbuild-phase-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin-top: 1.25rem;
+}
+
+.newbuild-phase-grid article {
+    background: #fffaf5;
+    border: 1px solid #fed7aa;
+    border-radius: 14px;
+    padding: 1.15rem;
+}
+
+.newbuild-phase-grid article > span {
+    align-items: center;
+    background: #0b2a52;
+    border-radius: 9px;
+    color: #fff;
+    display: inline-flex;
+    font-size: 0.8rem;
+    font-weight: 700;
+    height: 2rem;
+    justify-content: center;
+    margin-bottom: 0.85rem;
+    width: 2rem;
+}
+
+.newbuild-phase-grid h3,
+.newbuild-scenario-grid h3 {
+    color: #0f172a;
+    font-size: 1rem;
+    margin: 0 0 0.45rem;
+}
+
+.newbuild-phase-grid p { color: #475569; font-size: 0.9rem; margin: 0; }
+
+.nieuwbouw-case-table { min-width: 820px; }
+
+.case-caption,
+.source-note {
+    color: #64748b;
+    font-size: 0.84rem;
+    line-height: 1.55;
+}
+
+.case-conclusion {
+    background: #eff6ff;
+    border-left: 4px solid #2563eb;
+    border-radius: 10px;
+    margin-top: 1rem;
+    padding: 1rem 1.15rem;
+}
+
+.case-conclusion strong { color: #1e3a8a; display: block; margin-bottom: 0.35rem; }
+.case-conclusion p { margin: 0; }
+
+.formula-panel {
+    background: #071f3e;
+    border-radius: 16px;
+    color: #dbeafe;
+    display: grid;
+    gap: 0.2rem;
+    margin: 1.2rem 0;
+    padding: 1.2rem 1.35rem;
+}
+
+.formula-panel p { color: #dbeafe; margin: 0.35rem 0; }
+.formula-panel strong { color: #fff; }
+
+.newbuild-scenario-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 1.2rem;
+}
+
+.newbuild-scenario-grid article {
+    background: #f8fafc;
+    border: 1px solid #dbe4ee;
+    border-radius: 14px;
+    padding: 1.15rem;
+}
+
+.newbuild-scenario-grid p { color: #475569; }
+
+.planning-audit-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.planning-audit-grid ul { margin: 0; padding-left: 1.2rem; }
+.planning-audit-grid li { line-height: 1.6; margin-bottom: 0.65rem; }
+
+.source-date {
+    color: #64748b;
+    font-size: 0.82rem;
+    white-space: nowrap;
+}
+
+.nieuwbouw-guide a:not(.resource-card):not(.inline-link) {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+@media (max-width: 960px) {
+    .newbuild-phase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 780px) {
+    .guide-lead-grid,
+    .newbuild-phase-grid,
+    .newbuild-scenario-grid,
+    .planning-audit-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nieuwbouw-guide .section-headline { align-items: flex-start; }
+    .source-date { white-space: normal; }
+}
