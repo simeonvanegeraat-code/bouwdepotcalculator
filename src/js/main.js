@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const resOwnRemaining = document.getElementById('res-own-remaining');
         const resPlanStatus = document.getElementById('res-plan-status');
         const loadRenovationCase = document.getElementById('load-renovation-case');
+        const renovationPlanDetails = document.getElementById('renovation-plan-details');
 
         // --- NIEUW: Snelkeuze & Accordion Variabelen ---
         const costBtns = document.querySelectorAll('.cost-btn');
@@ -331,6 +332,11 @@ document.addEventListener('DOMContentLoaded', () => {
         inputInterest.addEventListener('input', (e) => { rangeInterest.value = e.target.value; calculate(); });
         rangeDuration.addEventListener('input', calculate);
         checkAftrek.addEventListener('change', calculate);
+
+        if (renovationPlanDetails && new URLSearchParams(window.location.search).get('plan') === 'haalbaarheid') {
+            renovationPlanDetails.open = true;
+            setTimeout(() => renovationPlanDetails.scrollIntoView({ block: 'start' }), 0);
+        }
         
         if(rangeAmount) calculate();
     }
