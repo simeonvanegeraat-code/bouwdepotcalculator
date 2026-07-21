@@ -1,5 +1,13 @@
 import '../styles/main.css';
 import { initSharedFormMemory, setMemoryLockById } from './shared-form-memory';
+import {
+    TAX_RULES_2026,
+    calculateEffectiveDeductionRate,
+    calculateEigenwoningforfait,
+    calculateHomeDeductionBalance,
+    calculateHomeTaxEffect,
+    calculateNhgFee
+} from './fiscal-rules.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initSharedFormMemory();
@@ -88,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     indicativeTaxBenefit: data.taxBenefit
                 },
                 conclusion: `Bij deze invoer geeft het bouwdepot een indicatieve netto maandlast van ${formatEuro(data.netMonthly)} per maand.`,
-                assumptions: 'Indicatieve snelle berekening op basis van standaard aannames; laat exacte persoonlijke cijfers controleren door uw geldverstrekker of adviseur.'
+                assumptions: 'Grove renteaftrekindicatie met het maximale aftrektarief van 37,56%, vóór eigenwoningforfait en zonder persoonlijke aangiftegegevens.'
             };
         }
 
@@ -120,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Fiscaal (Maand 1 is voor Lineair en Annuïteit rente-technisch gelijk)
-            const taxRate = 0.3756; 
+            const taxRate = TAX_RULES_2026.maxMortgageDeductionRate; 
             const firstMonthInterest = amount * monthlyRate; 
             const taxBenefit = checkAftrek.checked ? (firstMonthInterest * taxRate) : 0;
             const netMonthly = grossMonthly - taxBenefit;
@@ -151,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (summaryType) summaryType.textContent = reportData.inputs.mortgageType;
             if (summaryInterest) summaryInterest.textContent = formatPercentage(reportData.inputs.interestRate);
             if (summaryDuration) summaryDuration.textContent = `${reportData.inputs.durationYears} jaar`;
-            if (summaryTax) summaryTax.textContent = reportData.inputs.taxIndicationEnabled ? 'Aan' : 'Uit';
+            if (summaryTax) summaryTax.textContent = reportData.inputs.taxIndicationEnabled ? 'Max. 37,56% vóór EWF' : 'Uit';
             if (resConclusion) resConclusion.textContent = reportData.conclusion;
             if (resMethod) resMethod.textContent = reportData.assumptions;
             if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
@@ -1270,13 +1278,6 @@ document.addEventListener('DOMContentLoaded', () => {
              setMemoryLockById('range-fiscal-interest');
         }
 
-        const RULES_2026 = {
-            maxRate: 37.56, 
-            ewfRate: 0.0035,       
-            villataksLimit: 1350000, 
-            villataksRate: 0.0235, 
-            hillenFactor: 0.7187 
-        };
         const typeLabels = {
             annuity: 'Annuïteiten',
             linear: 'Lineair'
@@ -1331,17 +1332,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if(checkAdvice.checked) oneTimeCosts += parseFloat(checkAdvice.value);
             if(checkNotary.checked) oneTimeCosts += parseFloat(checkNotary.value);
             if(checkValuation.checked) oneTimeCosts += parseFloat(checkValuation.value);
-            if(checkNhg.checked) oneTimeCosts += (amount * 0.006); 
+            if(checkNhg.checked) oneTimeCosts += calculateNhgFee(amount); 
 
-            let ewfYear = 0;
-            if (woz > RULES_2026.villataksLimit) {
-                 const excess = woz - RULES_2026.villataksLimit;
-                 ewfYear = (RULES_2026.villataksLimit * RULES_2026.ewfRate) + (excess * RULES_2026.villataksRate);
-                 alertVillataks.style.display = 'block';
-            } else {
-                 ewfYear = woz * RULES_2026.ewfRate;
-                 alertVillataks.style.display = 'none';
-            }
+            const ewfYear = calculateEigenwoningforfait(woz);
+            alertVillataks.style.display = woz > TAX_RULES_2026.highValueThreshold ? 'block' : 'none';
 
             const monthlyRate = (interestPct / 100) / 12;
             const totalMonths = 30 * 12;
@@ -1357,6 +1351,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let firstYearBruto = 0;
             let firstYearBenefit = 0;
             let lastYearNetto = 0;
+            let firstYearDeductionBalance = 0;
             
             let tableHTML = '';
 
@@ -1371,22 +1366,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     let monthlyPayment = 0;
                     if (type === 'annuity') {
                         monthlyPayment = annuityPayment;
-                        currentDebt -= (annuityPayment - interestAmount);
+                        currentDebt = Math.max(0, currentDebt - (annuityPayment - interestAmount));
                     } else {
                         monthlyPayment = interestAmount + linearRedemption;
-                        currentDebt -= linearRedemption;
+                        currentDebt = Math.max(0, currentDebt - linearRedemption);
                     }
                     yearGrossPayment += monthlyPayment;
                 }
 
-                let deductible = yearInterest - ewfYear;
-                if (deductible < 0) {
-                    const diff = Math.abs(deductible);
-                    const hillenDeduction = diff * RULES_2026.hillenFactor;
-                    deductible = -(diff - hillenDeduction); 
-                }
-
-                const taxBenefit = deductible * (RULES_2026.maxRate / 100);
+                const homeDeductionBalance = calculateHomeDeductionBalance(yearInterest, ewfYear);
+                const taxBenefit = calculateHomeTaxEffect(income, homeDeductionBalance);
                 const yearNetto = yearGrossPayment - taxBenefit;
 
                 labels.push(`Jaar ${year}`);
@@ -1397,7 +1386,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <tr>
                         <td>${year}</td>
                         <td class="col-amount">${formatEuro(yearGrossPayment / 12)}</td>
-                        <td class="col-amount" style="color:#16a34a;">${formatEuro(taxBenefit / 12)}</td>
+                        <td class="col-amount" style="color:#166534;">${formatEuro(taxBenefit / 12)}</td>
                         <td class="col-amount netto-column">${formatEuro(yearNetto / 12)}</td>
                     </tr>
                 `;
@@ -1406,17 +1395,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     firstYearBruto = yearGrossPayment / 12;
                     firstYearNetto = yearNetto / 12;
                     firstYearBenefit = taxBenefit / 12;
+                    firstYearDeductionBalance = homeDeductionBalance;
                 }
                 if (year === 30) lastYearNetto = yearNetto / 12;
             }
 
-            const oneTimeBenefit = oneTimeCosts * (RULES_2026.maxRate / 100);
+            const oneTimeBenefit = calculateHomeTaxEffect(income, oneTimeCosts);
+            const effectiveRate = calculateEffectiveDeductionRate(income, Math.max(0, firstYearDeductionBalance));
 
-            outTaxRate.textContent = RULES_2026.maxRate.toString().replace('.', ',') + '%';
-            if(outHillenPct) outHillenPct.textContent = (RULES_2026.hillenFactor * 100).toFixed(2).replace('.', ',') + '%';
+            outTaxRate.textContent = effectiveRate > 0
+                ? (effectiveRate * 100).toFixed(2).replace('.', ',') + '%'
+                : 'n.v.t.';
+            if(outHillenPct) outHillenPct.textContent = (TAX_RULES_2026.hillenDeductionRate * 100).toFixed(3).replace('.', ',') + '%';
 
             outBrutoMonth.textContent = formatEuro(firstYearBruto);
-            outBenefitMonth.textContent = '-' + formatEuro(firstYearBenefit);
+            outBenefitMonth.textContent = formatEuro(-firstYearBenefit);
             
             outNettoMonth.textContent = formatEuro(firstYearNetto);
             if (outNettoYear) outNettoYear.textContent = formatEuro(firstYearNetto * 12);
@@ -1427,11 +1420,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (benefitShare >= 0.25) interpretationLabel = 'relevant';
             else if (benefitShare >= 0.12) interpretationLabel = 'merkbaar';
 
-            const driver = interestPct >= 4 ? 'hypotheekrente' : (income >= 90000 ? 'inkomens- en schijfwerking' : 'combinatie van rente en WOZ');
-            const conclusion = `Bij deze invoer komt uw indicatieve netto maandlast uit op ${formatEuro(firstYearNetto)} per maand, na een geschat belastingeffect van ${formatEuro(firstYearBenefit)}.`;
+            const driver = firstYearDeductionBalance <= 0
+                ? 'het eigenwoningforfait en de afbouw van de Hillen-aftrek'
+                : (interestPct >= 4 ? 'de hypotheekrente' : 'de combinatie van inkomen, rente en WOZ');
+            const taxDirection = firstYearBenefit >= 0 ? 'verlaging' : 'verhoging';
+            const conclusion = `Bij deze invoer komt uw indicatieve netto maandlast in jaar 1 uit op ${formatEuro(firstYearNetto)} per maand, inclusief een geschatte fiscale ${taxDirection} van ${formatEuro(Math.abs(firstYearBenefit))}.`;
             const interpretation = `Het fiscale effect is ${interpretationLabel}; in dit scenario is ${driver} de belangrijkste aanjager van het bruto-netto verschil.`;
-            const meaning = 'Gebruik dit als fiscale oriëntatie: persoonlijke aangifte, aftrekruimte en definitieve regels kunnen de werkelijke netto-uitkomst veranderen.';
-            const assumptions = 'Indicatieve projectie op basis van 2026-regels en constante aannames; geen persoonlijke aangifte-uitkomst.';
+            const meaning = 'Gebruik dit als fiscale oriëntatie: heffingskortingen, fiscaal partnerschap, AOW-leeftijd, depotregels en uw volledige aangifte worden niet berekend.';
+            const assumptions = 'De grafiek houdt de 2026-regels, het inkomen en de WOZ-waarde alle 30 jaren constant. Dit is een vergelijkingsscenario, geen voorspelling van toekomstige wetgeving of een persoonlijke aangifte-uitkomst.';
 
             if (outConclusion) outConclusion.textContent = conclusion;
             if (outInterpretation) outInterpretation.textContent = interpretation;
