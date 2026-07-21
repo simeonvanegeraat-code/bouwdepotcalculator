@@ -110,4 +110,42 @@
     if (calculatorPages.has(currentPage)) {
         nav?.classList.add('is-calculator-page');
     }
+    const openPrivacySettings = (control) => {
+        const status = control.closest('.policy-section')?.querySelector('[data-privacy-status]');
+        const startedAt = Date.now();
+
+        const tryOpen = () => {
+            if (typeof window.googlefc?.showRevocationMessage === 'function') {
+                window.googlefc.showRevocationMessage();
+                if (status) status.textContent = '';
+                return;
+            }
+
+            if (Date.now() - startedAt < 5000) {
+                window.setTimeout(tryOpen, 150);
+                return;
+            }
+
+            if (status) {
+                status.textContent = 'De instellingen konden niet worden geladen. Controleer of advertentie- of scriptblokkering actief is en probeer het opnieuw.';
+            }
+        };
+
+        tryOpen();
+    };
+
+    const footerLinks = document.querySelector('.footer-links');
+    if (footerLinks && !footerLinks.querySelector('[data-privacy-settings]')) {
+        const privacyButton = document.createElement('button');
+        privacyButton.type = 'button';
+        privacyButton.className = 'footer-privacy-button';
+        privacyButton.dataset.privacySettings = '';
+        privacyButton.textContent = 'Privacy- en cookie-instellingen';
+        footerLinks.appendChild(privacyButton);
+    }
+
+    document.querySelectorAll('[data-privacy-settings]').forEach((control) => {
+        control.addEventListener('click', () => openPrivacySettings(control));
+    });
+
 })();
