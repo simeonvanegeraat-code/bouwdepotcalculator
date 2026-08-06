@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -61,6 +61,15 @@
             </nav>
         </div>
     </header>
+
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <div class="container">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li aria-current="page">Over Ons</li>
+        </ol>
+      </div>
+    </nav>
 
     <main class="container editorial-shell">
         <section class="editorial-hero">
@@ -162,5 +171,33 @@
     </footer>
 
     <script type="module" src="/src/js/main.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "name": "Over BouwdepotCalculator.nl",
+      "url": "https://www.bouwdepotcalculator.nl/over-ons.html",
+      "mainEntity": {
+        "@type": "Organization",
+        "name": "BouwdepotCalculator.nl",
+        "url": "https://www.bouwdepotcalculator.nl",
+        "founder": {
+          "@type": "Person",
+          "name": "Simeon"
+        },
+        "description": "Onafhankelijk informatieplatform met bouwdepot calculators, fiscale gidsen en praktische tools voor verbouwers en nieuwbouwkopers in Nederland."
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bouwdepotcalculator.nl/"},
+        {"@type": "ListItem", "position": 2, "name": "Over Ons"}
+      ]
+    }
+    </script>
 </body>
 </html>

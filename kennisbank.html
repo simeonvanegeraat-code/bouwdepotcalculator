@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -64,6 +64,15 @@
             </nav>
         </div>
     </header>
+
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <div class="container">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li aria-current="page">Kennisbank</li>
+        </ol>
+      </div>
+    </nav>
 
     <main class="container kennisbank-layout">
         <article class="prose-content card kennisbank-page">
@@ -313,6 +322,29 @@
             "text": "Start met de algemene calculator voor een eerste indicatie en gebruik daarna een specialistische calculator voor maandlasten, nieuwbouw of renteverlies."
           }
         }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "BouwdepotCalculator.nl",
+      "url": "https://www.bouwdepotcalculator.nl",
+      "description": "Onafhankelijke bouwdepot calculators en kennisbank voor verbouwing, nieuwbouw en belastingeffect.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "BouwdepotCalculator.nl"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bouwdepotcalculator.nl/"},
+        {"@type": "ListItem", "position": 2, "name": "Kennisbank"}
       ]
     }
     </script>

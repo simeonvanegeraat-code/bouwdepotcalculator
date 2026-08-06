@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -61,6 +61,15 @@
             </nav>
         </div>
     </header>
+
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <div class="container">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li aria-current="page">Calculators</li>
+        </ol>
+      </div>
+    </nav>
 
     <main class="container route-hub">
         <header class="route-hub-hero">
@@ -208,6 +217,16 @@
       "name": "Bouwdepotcalculators voor verbouwen en nieuwbouw",
       "url": "https://www.bouwdepotcalculator.nl/calculators.html",
       "description": "Keuzehulp voor bouwdepotberekeningen rond verbouwen, nieuwbouw, maandlasten, eigen geld en belasting."
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bouwdepotcalculator.nl/"},
+        {"@type": "ListItem", "position": 2, "name": "Calculators"}
+      ]
     }
     </script>
 </body>

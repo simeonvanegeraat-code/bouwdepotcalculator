@@ -1,4 +1,4 @@
-/* --- 1. VARIABELEN --- */
+﻿/* --- 1. VARIABELEN --- */
 :root {
     --color-primary: #000066;   /* Donkerblauw (Rabo-achtig) */
     --color-accent: #FF6200;    /* Oranje (Actiekleur) */
@@ -3288,4 +3288,52 @@ hr { border: 0; border-top: 1px dashed #e5e7eb; margin: 1rem 0; }
 
     .policy-page { gap: 1rem; }
     .policy-hero { border-radius: 14px; margin-top: 0.75rem; }
+}
+
+
+/* --- BREADCRUMB NAVIGATION --- */
+.breadcrumb-nav {
+    padding: 0.75rem 0;
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.breadcrumb-nav ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5rem;
+}
+
+.breadcrumb-nav li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.breadcrumb-nav li:not(:last-child)::after {
+    content: ">";
+    color: var(--color-text-light);
+    opacity: 0.7;
+    font-size: 0.8rem;
+}
+
+.breadcrumb-nav a {
+    color: var(--color-text-light);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb-nav a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+.breadcrumb-nav li[aria-current="page"] {
+    color: var(--color-text);
+    font-weight: 600;
 }
