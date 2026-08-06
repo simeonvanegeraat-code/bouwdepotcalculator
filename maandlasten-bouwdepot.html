@@ -281,8 +281,10 @@
             </aside>
         </section>
 
-        <section class="card content-block">
-            <h2>Hoe worden maandlasten tijdens een bouwdepot berekend?</h2>
+        <details class="collapsible-content">
+            <summary>Hoe worden maandlasten tijdens een bouwdepot berekend?</summary>
+            <div class="collapsible-body">
+            tijdens een bouwdepot berekend?</h2>
             <p>De kern van deze berekening is eenvoudig: u betaalt hypotheekrente over de totale hypotheek, maar ontvangt vaak een rentevergoeding over het deel van het bouwdepot dat nog niet is opgenomen. Daardoor ligt de netto maandlast tijdens de bouwdepotperiode meestal lager dan alleen de bruto rentelast.</p>
             <div class="calc-summary-list">
                 <article>
@@ -302,10 +304,13 @@
                     <p>Als u nog huur of oude hypotheek betaalt, tonen wij ook de gecombineerde maanddruk voor uw budget.</p>
                 </article>
             </div>
-        </section>
+            </div>
+        </details>
 
-        <section class="card content-block">
-            <h2>Wat nemen wij mee in deze berekening?</h2>
+        <details class="collapsible-content">
+            <summary>Wat nemen wij mee in deze berekening?</summary>
+            <div class="collapsible-body">
+            in deze berekening?</h2>
             <ul>
                 <li>Totale hypotheek, bouwdepotbedrag, hypotheekrente en depotvergoeding.</li>
                 <li>Een transparante aanname voor opnamepatroon (gelijkmatig, rustige start of snelle opname).</li>
@@ -319,19 +324,25 @@
                 <li>Persoonlijke fiscale effecten, inkomenspositie en maatwerkadvies.</li>
                 <li>Wijzigingen in rente of bouwplanning gedurende het traject.</li>
             </ul>
-        </section>
+            </div>
+        </details>
 
-        <section class="card content-block">
-            <h2>Uitgewerkt voorbeeld</h2>
+        <details class="collapsible-content">
+            <summary>Uitgewerkt voorbeeld</summary>
+            <div class="collapsible-body">
+            </h2>
             <p><strong>Situatie:</strong> totale hypotheek € 400.000, bouwdepot € 50.000, hypotheekrente 3,8%, depotvergoeding 3,0%, bouwduur 12 maanden, opnamepatroon gelijkmatig.</p>
             <p><strong>Stap 1 – Bruto maandlast (rentecomponent):</strong> € 400.000 × 3,8% / 12 ≈ € 1.267 per maand.</p>
             <p><strong>Stap 2 – Vergoeding uit depot:</strong> gemiddeld staat circa 50% van € 50.000 uit = € 25.000. Vergoeding: € 25.000 × 3,0% / 12 ≈ € 63 per maand.</p>
             <p><strong>Stap 3 – Netto maandlast bouwdepotfase:</strong> € 1.267 - € 63 ≈ € 1.204 per maand.</p>
             <p><strong>Stap 4 – Totale indicatieve kosten over 12 maanden:</strong> 12 × € 1.204 ≈ € 14.448.</p>
             <p>Dit is een praktische inschatting voor budgettering. Werkelijke maandlasten verschillen door echte opnameplanning, bankvoorwaarden en eventuele fiscale verwerking.</p>
-        </section>
+            </div>
+        </details>
 
-        <section class="card compact-faq">
+        <details class="collapsible-content" open>
+            <summary>Veelgestelde vragen</summary>
+            <div class="collapsible-body">
             <h2>Veelgestelde vragen</h2>
             <div class="faq-grid">
                 <article>
@@ -359,7 +370,8 @@
                     <p>Bij afwijkende renteafspraken, complexere bouwplanning, fiscale vragen of als u twijfelt over betaalbaarheid. Laat dan uw situatie toetsen door adviseur of geldverstrekker.</p>
                 </article>
             </div>
-        </section>
+            </div>
+        </details>
 
         <section class="card content-block">
             <h2>Verder lezen</h2>
@@ -395,13 +407,24 @@
             </div>
         </section>
 
-        <section class="card trust-block">
+        <details class="collapsible-content">
+            <summary>Methodologie & betrouwbaarheid</summary>
+            <div class="collapsible-body">
             <h2>Methodologie & betrouwbaarheid</h2>
             <p>Deze calculator geeft een <strong>indicatieve</strong> maandlastinschatting op basis van een vereenvoudigd en transparant model. Wij rekenen bewust zonder schijnnauwkeurigheid.</p>
             <p>Werkelijke uitkomsten hangen af van uw hypotheekvoorwaarden, het exacte moment van opnames uit het bouwdepot en eventuele fiscale verwerking in uw persoonlijke situatie.</p>
             <p>Controleer de uitkomst altijd bij uw geldverstrekker of financieel adviseur voordat u definitieve keuzes maakt.</p>
-        </section>
+            </div>
+        </details>
     </main>
+    <!-- Sticky Mobile Result Bar -->
+    <div class="sticky-result-bar" id="sticky-result-bar" role="status" aria-live="polite">
+        <span class="sticky-result-bar__label">Netto maandlast</span>
+        <span class="sticky-result-bar__amount" id="sticky-result-amount">€ 0</span>
+        <span class="sticky-result-bar__arrow">↑</span>
+    </div>
+
+
 
     <footer>
         <div class="container text-center py-8">

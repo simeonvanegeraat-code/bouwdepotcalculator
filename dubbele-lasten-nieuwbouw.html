@@ -298,8 +298,10 @@
             <p>Juist deze maanden zijn belangrijk voor uw budget, omdat de maanddruk tijdelijk hoger kan zijn dan na oplevering.</p>
         </section>
 
-        <section class="card content-block">
-            <h2>Wat nemen wij mee in deze berekening?</h2>
+        <details class="collapsible-content">
+            <summary>Wat nemen wij mee in de berekening?</summary>
+            <div class="collapsible-body">
+            in deze berekening?</h2>
             <ul>
                 <li>Nieuwe maandlast (bruto) en optioneel een door u ingevulde netto maandlast.</li>
                 <li>Huidige huur of huidige hypotheeklast.</li>
@@ -315,7 +317,8 @@
                 <li>Productspecifieke voorwaarden van elke geldverstrekker.</li>
                 <li>Niet-ingevulde incidentele kostenposten.</li>
             </ul>
-        </section>
+            </div>
+        </details>
 
         <section class="card content-block">
             <h2>Hoe zwaar zijn dubbele lasten voor uw budget?</h2>
@@ -327,13 +330,16 @@
             <p>Gebruik deze uitkomst vooral om vooraf te plannen: welke maanden zijn het zwaarst, hoe lang duurt die fase, en welk bedrag wilt u als reserve aanhouden.</p>
         </section>
 
-        <section class="card content-block">
-            <h2>Uitgewerkt voorbeeld</h2>
+        <details class="collapsible-content">
+            <summary>Uitgewerkt voorbeeld</summary>
+            <div class="collapsible-body">
+            </h2>
             <p><strong>Situatie:</strong> nieuwe hypotheeklast bruto €1.750, huidige huur €1.200, extra overlapkosten €150, bouwdepot/renteverlies effect €75 per maand, looptijd 10 maanden.</p>
             <p><strong>Totale dubbele maandlast:</strong> €1.750 + €1.200 + €150 + €75 = <strong>€3.175 per maand</strong>.</p>
             <p><strong>Totale tijdelijke last over 10 maanden:</strong> €3.175 × 10 = <strong>€31.750</strong>.</p>
             <p>Dit laat zien hoe belangrijk het is om de overlapperiode kort te houden en extra kosten zichtbaar mee te nemen in uw planning.</p>
-        </section>
+            </div>
+        </details>
 
         <section class="card content-block">
             <h2>Hoe kunt u dubbele lasten beter opvangen?</h2>
@@ -346,7 +352,9 @@
             </ul>
         </section>
 
-        <section class="card compact-faq">
+        <details class="collapsible-content" open>
+            <summary>Veelgestelde vragen</summary>
+            <div class="collapsible-body">
             <h2>Veelgestelde vragen</h2>
             <div class="faq-grid">
                 <article>
@@ -374,7 +382,8 @@
                     <p>Indicatief. Zie dit als budgethulp, niet als vervanging van lender- of adviesberekeningen.</p>
                 </article>
             </div>
-        </section>
+            </div>
+        </details>
 
         <section class="card content-block">
             <h2>Verder rekenen</h2>
@@ -418,13 +427,24 @@
             </div>
         </section>
 
-        <section class="card trust-block">
+        <details class="collapsible-content">
+            <summary>Methodologie & betrouwbaarheid</summary>
+            <div class="collapsible-body">
             <h2>Methodologie & betrouwbaarheid</h2>
             <p>Deze tool rekent met een eenvoudig en transparant model: maandlast nieuw + maandlast huidig + optionele overlapposten, vermenigvuldigd met het aantal maanden.</p>
             <p>De uitkomst is indicatief. Exacte overlapkosten hangen af van uw hypotheekstructuur, huidige woonsituatie en werkelijke timing van bouw en verhuizing.</p>
             <p>Controleer definitieve cijfers altijd met uw adviseur en/of geldverstrekker voor besluitvorming.</p>
-        </section>
+            </div>
+        </details>
     </main>
+    <!-- Sticky Mobile Result Bar -->
+    <div class="sticky-result-bar" id="sticky-result-bar" role="status" aria-live="polite">
+        <span class="sticky-result-bar__label">Netto maandlast</span>
+        <span class="sticky-result-bar__amount" id="sticky-result-amount">€ 0</span>
+        <span class="sticky-result-bar__arrow">↑</span>
+    </div>
+
+
 
     <footer>
         <div class="container text-center py-8">

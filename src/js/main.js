@@ -37,6 +37,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bindReportButton(btnDownload);
 
+    // --- Sticky Result Bar: scroll to results on tap ---
+    const stickyBar = document.getElementById('sticky-result-bar');
+    if (stickyBar) {
+        stickyBar.addEventListener('click', () => {
+            const resultCard = document.getElementById('print-area');
+            if (resultCard) resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
+
 
     // ----------------------------------------------
     // 1. VERBOUW CALCULATOR (Homepage)
@@ -198,6 +207,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(rowVoordeel) rowVoordeel.style.display = 'none';
             }
             resNetto.textContent = formatEuro(netMonthly);
+
+            // --- Sticky mobile result bar ---
+            const stickyAmount = document.getElementById('sticky-result-amount');
+            if (stickyAmount) {
+                stickyAmount.textContent = formatEuro(netMonthly);
+                stickyAmount.classList.remove('pulse');
+                void stickyAmount.offsetWidth; // Force reflow for re-trigger
+                stickyAmount.classList.add('pulse');
+                setTimeout(() => stickyAmount.classList.remove('pulse'), 300);
+            }
+            // --- Result highlight pulse ---
+            resNetto.classList.remove('updating');
+            void resNetto.offsetWidth;
+            resNetto.classList.add('updating');
+            setTimeout(() => resNetto.classList.remove('updating'), 500);
             if (resValueHeadroom) resValueHeadroom.textContent = formatEuro(valueBasedHeadroom);
             if (resFinancingGap) resFinancingGap.textContent = formatEuro(financingGapOnValue);
             if (resOwnRequired) resOwnRequired.textContent = formatEuro(ownFundsRequired);

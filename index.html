@@ -379,7 +379,10 @@
         </section>
 
 
-        <section class="card renovation-case-section" aria-labelledby="verbouw-case-title">
+        <details class="collapsible-content">
+            <summary>Van losse uitkomst naar verbouwplan — Praktijkcase</summary>
+            <div class="collapsible-body">
+        <section class="renovation-case-section" aria-labelledby="verbouw-case-title">
             <div class="section-headline">
                 <div>
                     <p class="route-eyebrow">Van losse uitkomst naar verbouwplan</p>
@@ -419,25 +422,32 @@
             </div>
             <p class="source-note">Bron: <a href="https://www.rijksoverheid.nl/vraag-en-antwoord/huis-kopen/maximaal-bedrag-lenen-koopwoning" target="_blank" rel="noopener noreferrer">Rijksoverheid — maximaal lenen voor een koopwoning</a>. Bekijk ook de <a href="methodologie.html">formules en bekende beperkingen</a>.</p>
         </section>
+            </div>
+        </details>
 
-        <section class="card content-block" aria-labelledby="welke-calculator">
-            <h2 id="welke-calculator">Begin breed en verfijn alleen waar nodig</h2>
+        <details class="collapsible-content">
+            <summary>Begin breed en verfijn alleen waar nodig</summary>
+            <div class="collapsible-body">
             <p>De snelle calculator bovenaan beantwoordt één vraag: wat doet een extra hypotheekdeel ongeveer met uw maandlast? Daarna verschilt de logische vervolgstap per situatie.</p>
             <ul>
                 <li><strong>Verbouwen:</strong> controleer eerst depotmaandlast, waardegrens en eigen geld.</li>
                 <li><strong>Nieuwbouw:</strong> begin met het volledige bouwtermijnen- en overlapverloop; gebruik losse detailtools pas daarna.</li>
                 <li><strong>Fiscaliteit:</strong> gebruik de aparte belastingcalculator wanneer inkomen en WOZ nodig zijn voor een betere indicatie.</li>
             </ul>
-        </section>
+            </div>
+        </details>
 
-        <section class="card content-block" aria-labelledby="hoe-werkt">
-            <h2 id="hoe-werkt">Hoe werkt een bouwdepot berekening?</h2>
+        <details class="collapsible-content">
+            <summary>Hoe werkt een bouwdepot berekening?</summary>
+            <div class="collapsible-body">
             <p>Een bouwdepot is meestal een gereserveerd deel van uw hypotheek voor verbeteringen aan de woning. De berekening op deze pagina vertaalt uw gekozen depotbedrag, rente en looptijd naar een maandlast. Daarbij maken we onderscheid tussen bruto maandlast en netto maandlast wanneer u renteaftrek meeneemt.</p>
             <p>Bij een lineaire hypotheek lost u iedere maand een vast deel af en daalt het rentedeel sneller. Bij een annuïteitenhypotheek blijft de totale maandlast gelijker, maar verschuift de verhouding tussen aflossing en rente door de tijd. Daarom kan dezelfde depothoogte per hypotheekvorm anders uitpakken.</p>
-        </section>
+            </div>
+        </details>
 
-        <section class="card content-block" aria-labelledby="wat-nemen-wij-mee">
-            <h2 id="wat-nemen-wij-mee">Wat nemen wij mee in de berekening?</h2>
+        <details class="collapsible-content">
+            <summary>Wat nemen wij mee in de berekening?</summary>
+            <div class="collapsible-body">
             <div class="include-grid">
                 <article>
                     <h3>Financiële invoer</h3>
@@ -452,10 +462,12 @@
                     <p>Iedere wijziging in de invoer wordt direct verwerkt. Zo ziet u meteen wat een hoger depot of andere rente met uw maandlast doet.</p>
                 </article>
             </div>
-        </section>
+            </div>
+        </details>
 
-        <section class="card compact-faq" aria-label="Veelgestelde vragen en verdere verdieping">
-            <h2>Veelgestelde vragen</h2>
+        <details class="collapsible-content" open>
+            <summary>Veelgestelde vragen</summary>
+            <div class="collapsible-body">
             <div class="faq-grid">
                 <article>
                     <h3>Kan ik deze uitkomst gebruiken voor mijn hypotheekaanvraag?</h3>
@@ -482,7 +494,8 @@
                     <p>Ja, u kunt het overzicht als PDF downloaden en meenemen naar een oriënterend gesprek met adviseur of hypotheekverstrekker.</p>
                 </article>
             </div>
-        </section>
+            </div>
+        </details>
 
         <section class="card content-block" aria-labelledby="verder-lezen">
             <div class="section-headline">
@@ -525,6 +538,13 @@
             <p>Controleer altijd de actuele voorwaarden van uw bank en laat persoonlijke keuzes toetsen door een financieel adviseur.</p>
         </section>
     </main>
+
+    <!-- Sticky Mobile Result Bar -->
+    <div class="sticky-result-bar" id="sticky-result-bar" role="status" aria-live="polite">
+        <span class="sticky-result-bar__label">Netto maandlast</span>
+        <span class="sticky-result-bar__amount" id="sticky-result-amount">€ 0</span>
+        <span class="sticky-result-bar__arrow">↑</span>
+    </div>
 
     <footer>
         <div class="container text-center py-8">

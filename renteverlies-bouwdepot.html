@@ -340,8 +340,10 @@
                 </ol>
             </section>
 
-            <section class="card compact-faq">
-                <p class="editorial-eyebrow">Veelgestelde vragen</p>
+            <details class="collapsible-content" open>
+            <summary>Veelgestelde vragen</summary>
+            <div class="collapsible-body">
+            <p class="editorial-eyebrow">Veelgestelde vragen</p>
                 <h2>Renteverlies bij een bouwdepot</h2>
                 <div class="faq-grid rente-faq-grid">
                     <article><h3>Is renteverlies hetzelfde als bouwrente?</h3><p>Nee. Op deze pagina gaat het om hypotheekrente min depotvergoeding. Bouwrente bij nieuwbouw hangt samen met kosten en rente rond grond- en bouwtermijnen van de ontwikkelaar. Bekijk daarvoor de <a href="bouwrente-nieuwbouw.html">bouwrentecalculator</a>.</p></article>
@@ -351,7 +353,8 @@
                     <article><h3>Waarom rekent de bank iets anders?</h3><p>Uw bank gebruikt werkelijke data, dagsaldi, afronding en eigen voorwaarden. Deze tool verdeelt opnames indicatief per maand en is bedoeld om scenario’s vooraf te vergelijken.</p></article>
                     <article><h3>Welk opnamepatroon kies ik?</h3><p>Gebruik “gelijkmatig” als neutrale basis. Kies “snelle opname” bij hoge voorschotten of vroege termijnen, en “vooral later” als het grootste deel van de facturen aan het einde komt.</p></article>
                 </div>
-            </section>
+            </div>
+        </details>
 
             <section class="card content-block rente-source-block" id="bronnen">
                 <div class="rente-section-heading">
@@ -379,6 +382,14 @@
             </section>
         </div>
     </main>
+    <!-- Sticky Mobile Result Bar -->
+    <div class="sticky-result-bar" id="sticky-result-bar" role="status" aria-live="polite">
+        <span class="sticky-result-bar__label">Netto maandlast</span>
+        <span class="sticky-result-bar__amount" id="sticky-result-amount">€ 0</span>
+        <span class="sticky-result-bar__arrow">↑</span>
+    </div>
+
+
 
     <footer>
         <div class="container text-center py-8">
