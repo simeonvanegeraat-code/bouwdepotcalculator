@@ -1,0 +1,79 @@
+name: Controleer bouwdepotvoorwaarden
+
+# Kijkt wekelijks of de bronpagina's van de voorwaardenvergelijking zijn gewijzigd.
+# Werkt de data nadrukkelijk NIET automatisch bij: een verkeerde cel is erger dan
+# een verouderde cel. De workflow opent alleen een issue met wat er veranderd is.
+
+on:
+  schedule:
+    # Elke maandag om 07:00 UTC.
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  controleer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Vergelijk bronpagina's met de laatste snapshot
+        id: check
+        run: |
+          node scripts/check-voorwaarden.mjs | tee samenvatting.txt
+          if [ -f voorwaarden-rapport.md ]; then
+            echo "melding=ja" >> "$GITHUB_OUTPUT"
+          else
+            echo "melding=nee" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open een issue met de bevindingen
+        if: steps.check.outputs.melding == 'ja'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo "De wekelijkse controle van de bouwdepotvoorwaarden vond iets dat aandacht nodig heeft."
+            echo
+            cat voorwaarden-rapport.md
+            echo
+            echo "---"
+            echo
+            echo "**Wat te doen:** controleer de genoemde bronpagina's. Klopt de vergelijking niet meer,"
+            echo "werk dan \`data/bouwdepot-voorwaarden.json\` bij inclusief de \`gecontroleerd\`-datum,"
+            echo "en draai \`npm run build:voorwaarden\` om de pagina's opnieuw te genereren."
+            echo
+            echo "_Automatisch aangemaakt door [voorwaarden-check.yml](../blob/main/.github/workflows/voorwaarden-check.yml) op $(date +%d-%m-%Y)._"
+          } > issue.md
+
+          gh issue create \
+            --title "Controle bouwdepotvoorwaarden — $(date +%d-%m-%Y)" \
+            --body-file issue.md \
+            --label "voorwaarden" \
+          || gh issue create \
+            --title "Controle bouwdepotvoorwaarden — $(date +%d-%m-%Y)" \
+            --body-file issue.md
+
+      - name: Leg de nieuwe stand vast als vergelijkingsbasis
+        run: node scripts/check-voorwaarden.mjs --update
+
+      - name: Commit de bijgewerkte snapshot
+        run: |
+          rm -f voorwaarden-rapport.md issue.md samenvatting.txt
+          if git diff --quiet -- data/bronnen-snapshot.json; then
+            echo "Snapshot ongewijzigd, niets te committen."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/bronnen-snapshot.json
+          git commit -m "Werk snapshot van bouwdepotbronnen bij"
+          git push
