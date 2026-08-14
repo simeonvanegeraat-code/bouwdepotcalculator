@@ -759,6 +759,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputMonths = document.getElementById('input-renteverlies-maanden');
         const rangeMonths = document.getElementById('range-renteverlies-maanden');
         const inputPattern = document.getElementById('input-renteverlies-pattern');
+        const inputModel = document.getElementById('input-renteverlies-model');
+        const modelNote = document.getElementById('renteverlies-model-note');
 
         const resMortgage = document.getElementById('res-renteverlies-hypotheek');
         const resCompensation = document.getElementById('res-renteverlies-vergoeding');
@@ -799,6 +801,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 generatedAt: data.generatedAt,
                 inputs: {
                     depotAmount: data.depotAmount,
+                    rekenmodel: data.rekenmodel,
                     mortgageRate: data.mortgageRate,
                     depotCompensationRate: data.depotCompensationRate,
                     months: data.months,
@@ -839,16 +842,21 @@ document.addEventListener('DOMContentLoaded', () => {
             inputMonths.value = months;
             if (rangeMonths) rangeMonths.value = months;
 
+            // Twee rekenmodellen. Bij 'vergoeding' betaalt u hypotheekrente over het hele
+            // depot en ontvangt u een vergoeding over het restsaldo; het verschil is het
+            // renteverlies. Bij 'opname' betaalt u alleen rente over wat al is opgenomen,
+            // waardoor stilstaand depotgeld niets kost en er dus geen renteverlies ontstaat.
+            const model = inputModel && inputModel.value === 'opname' ? 'opname' : 'vergoeding';
             const monthlyMortgageRate = (mortgageRate / 100) / 12;
-            const monthlyDepotRate = (depotRate / 100) / 12;
-
-            const totalMortgageInterest = depot * monthlyMortgageRate * months;
+            const monthlyDepotRate = model === 'opname' ? 0 : (depotRate / 100) / 12;
 
             const weights = getWeights(months, pattern);
             const totalWeight = weights.reduce((sum, weight) => sum + weight, 0) || 1;
 
             let remaining = depot;
+            let withdrawn = 0;
             let totalCompensation = 0;
+            let interestOnWithdrawn = 0;
 
             for (let i = 0; i < months; i += 1) {
                 const monthlyWithdrawal = (depot * weights[i]) / totalWeight;
@@ -856,17 +864,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 const averageBalance = (remaining + endBalance) / 2;
 
                 totalCompensation += averageBalance * monthlyDepotRate;
+
+                const endWithdrawn = Math.min(depot, withdrawn + monthlyWithdrawal);
+                interestOnWithdrawn += ((withdrawn + endWithdrawn) / 2) * monthlyMortgageRate;
+
                 remaining = endBalance;
+                withdrawn = endWithdrawn;
             }
 
-            const netDifference = totalMortgageInterest - totalCompensation;
+            const totalMortgageInterest = model === 'opname'
+                ? interestOnWithdrawn
+                : depot * monthlyMortgageRate * months;
+
+            // Renteverlies is per definitie het nadeel van niet-opgenomen depotgeld.
+            // In het opnamemodel bestaat dat nadeel niet, ongeacht de rentestand.
+            const netDifference = model === 'opname' ? 0 : totalMortgageInterest - totalCompensation;
             const perMonth = netDifference / months;
-            let conclusion = `Bij dit scenario is de depotvergoeding lager dan de hypotheekrente. Daardoor ontstaat een renteverschil van ongeveer ${formatEuro(netDifference)} over ${months} maanden.`;
-            if (netDifference < 0) {
+
+            let conclusion;
+            if (model === 'opname') {
+                conclusion = `Bij dit rekenmodel betaalt u geen hypotheekrente over het deel dat nog in het depot staat. Daardoor ontstaat er geen renteverlies door stilstaand depotgeld: het verschil is € 0. De getoonde hypotheekrente van ${formatEuro(totalMortgageInterest)} is de rente over het bedrag dat u volgens dit opnamepatroon al had opgenomen, en die betaalt u hoe dan ook.`;
+            } else if (netDifference < 0) {
                 conclusion = `Bij dit scenario is de depotvergoeding hoger dan de hypotheekrente. Het verschil komt indicatief uit op ${formatEuro(netDifference)} over ${months} maanden.`;
+            } else {
+                conclusion = `Bij dit scenario is de depotvergoeding lager dan de hypotheekrente. Daardoor ontstaat een renteverschil van ongeveer ${formatEuro(netDifference)} over ${months} maanden.`;
             }
 
-            const assumptions = 'Indicatieve maandbenadering op basis van gekozen opnamepatroon; werkelijke bankboekingen en opnamedata kunnen afwijken.';
+            if (inputDepotRate) {
+                inputDepotRate.disabled = model === 'opname';
+                const wrapper = inputDepotRate.closest('.input-group');
+                if (wrapper) wrapper.classList.toggle('input-group--uitgeschakeld', model === 'opname');
+            }
+
+            if (modelNote) {
+                modelNote.textContent = model === 'opname'
+                    ? 'In dit model betaalt u alleen rente over het opgenomen deel en ontvangt u geen depotvergoeding. Er is dan geen renteverlies. Wel blijft de depottermijn belangrijk: loopt die af, dan wordt het restant meestal op uw hypotheek afgelost.'
+                    : 'In dit model betaalt u hypotheekrente over het volledige depot en ontvangt u een vergoeding over het deel dat nog niet is opgenomen. Het verschil daartussen is het renteverlies.';
+                modelNote.classList.toggle('renteverlies-model-note--opname', model === 'opname');
+            }
+
+            const assumptions = model === 'opname'
+                ? 'Indicatieve maandbenadering waarbij alleen rente wordt gerekend over het reeds opgenomen bedrag; werkelijke bankboekingen en opnamedata kunnen afwijken.'
+                : 'Indicatieve maandbenadering op basis van gekozen opnamepatroon; werkelijke bankboekingen en opnamedata kunnen afwijken.';
             const now = new Date();
 
             if (patternNote) patternNote.textContent = patternDescriptions[pattern] || patternDescriptions.even;
@@ -881,14 +920,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (sumDepot) sumDepot.textContent = formatEuro(depot);
             if (sumMortgageRate) sumMortgageRate.textContent = formatPercentage(mortgageRate);
-            if (sumDepotRate) sumDepotRate.textContent = formatPercentage(depotRate);
+            if (sumDepotRate) sumDepotRate.textContent = model === 'opname' ? 'Niet van toepassing' : formatPercentage(depotRate);
             if (sumMonths) sumMonths.textContent = `${months} maanden`;
             if (sumPattern) sumPattern.textContent = patternLabels[pattern] || pattern;
 
             const report = buildRenteverliesReport({
                 depotAmount: depot,
                 mortgageRate,
-                depotCompensationRate: depotRate,
+                depotCompensationRate: model === 'opname' ? 0 : depotRate,
+                rekenmodel: model === 'opname'
+                    ? 'Alleen rente over het opgenomen deel, geen depotvergoeding'
+                    : 'Rente over het hele depot, met vergoeding over het restsaldo',
                 months,
                 opnamePattern: patternLabels[pattern] || pattern,
                 totalIndicativeRenteverlies: netDifference,
@@ -915,6 +957,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (inputPattern) inputPattern.addEventListener('change', calculate);
+        if (inputModel) inputModel.addEventListener('change', calculate);
 
         scenarioButtons.forEach((button) => {
             button.addEventListener('click', () => {

@@ -109,7 +109,24 @@
                     <h2>Renteverlies calculator</h2>
 
                     <div class="renteverlies-step">
-                        <h3>Stap 1: Bedrag en rente</h3>
+                        <h3>Stap 1: Rekenmodel van uw geldverstrekker</h3>
+                        <div class="input-group">
+                            <div class="label-row">
+                                <label for="input-renteverlies-model">Hoe rekent uw geldverstrekker?</label>
+                                <div class="select-wrapper" style="width: 230px;">
+                                    <select id="input-renteverlies-model">
+                                        <option value="vergoeding">Rente over het hele depot, mét vergoeding</option>
+                                        <option value="opname">Alleen rente over het opgenomen deel</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="field-hint">Dit bepaalt of er überhaupt renteverlies kan ontstaan. Controleer welk model uw aanbieder hanteert in de <a href="bouwdepot-voorwaarden-vergelijken.html">voorwaardenvergelijking</a>.</p>
+                        </div>
+                        <p class="renteverlies-model-note" id="renteverlies-model-note" aria-live="polite"></p>
+                    </div>
+
+                    <div class="renteverlies-step">
+                        <h3>Stap 2: Bedrag en rente</h3>
                         <div class="input-group">
                             <div class="label-row">
                                 <label for="input-renteverlies-depot">Bouwdepotbedrag</label>
@@ -147,7 +164,7 @@
                     </div>
 
                     <div class="renteverlies-step">
-                        <h3>Stap 2: Bouwperiode</h3>
+                        <h3>Stap 3: Bouwperiode</h3>
                         <div class="two-col-inputs">
                             <div class="input-group compact">
                                 <div class="label-row">
@@ -236,11 +253,18 @@
                 <p class="editorial-eyebrow">Begrippen eerst</p>
                 <h2>Wat bedoelen we met renteverlies?</h2>
                 <p>Bij een bouwdepot staat een deel van uw hypotheek tijdelijk apart voor bouw- of verbouwingsfacturen. Over het geleende bouwdepotdeel betaalt u hypotheekrente. Over het bedrag dat nog in het depot staat, kan uw geldverstrekker een vergoeding geven. Deze calculator noemt het verschil tussen die twee bedragen het <strong>renteverschil</strong>.</p>
+
+                <div class="editorial-note editorial-note--warning">
+                    <p><strong>Let op: er bestaan twee rekenmodellen, en ze pakken heel verschillend uit.</strong></p>
+                    <p>Bij de meeste aanbieders betaalt u hypotheekrente over het <em>volledige</em> depot en ontvangt u een vergoeding over het deel dat nog niet is opgenomen. Het verschil daartussen is het renteverlies. Dat is het model dat hieronder wordt uitgelegd.</p>
+                    <p>Maar er zijn ook aanbieders die alleen rente rekenen over het bedrag dat u <em>al hebt opgenomen</em>. Daar kost stilstaand depotgeld niets, staat er geen vergoeding tegenover en <strong>is er dus geen renteverlies</strong>. ING hanteert bijvoorbeeld dit model. Kies daarom bovenin de calculator eerst het juiste model; welke uw aanbieder gebruikt, staat in de <a href="bouwdepot-voorwaarden-vergelijken.html">voorwaardenvergelijking</a>.</p>
+                </div>
+
                 <div class="rente-definition-grid">
                     <article>
                         <span class="rente-term">U betaalt</span>
                         <h3>Hypotheekrente</h3>
-                        <p>In dit model over het volledige ingevoerde bouwdepotbedrag, gedurende de gekozen bouwperiode.</p>
+                        <p>In het vergoedingmodel over het volledige ingevoerde bouwdepotbedrag; in het opnamemodel alleen over het bedrag dat al is opgenomen.</p>
                     </article>
                     <article>
                         <span class="rente-term">U ontvangt</span>
@@ -282,14 +306,22 @@
             <section class="card content-block" id="methode">
                 <p class="editorial-eyebrow">Zo rekent de tool</p>
                 <h2>Formule en aannames</h2>
-                <div class="formula-panel" aria-label="Formule renteverschil">
+                <p><strong>Model 1: rente over het hele depot, met vergoeding.</strong> Dit hanteren de meeste aanbieders.</p>
+                <div class="formula-panel" aria-label="Formule renteverschil bij het vergoedingmodel">
                     <p><strong>Betaalde rente</strong> = bouwdepot × hypotheekrente ÷ 12 × aantal maanden</p>
                     <p><strong>Depotvergoeding per maand</strong> = gemiddeld resterend depotsaldo × depotrente ÷ 12</p>
                     <p><strong>Renteverschil</strong> = betaalde hypotheekrente − totale depotvergoeding</p>
                 </div>
+                <p><strong>Model 2: alleen rente over het opgenomen deel.</strong> Hier kost stilstaand depotgeld niets en is er geen vergoeding.</p>
+                <div class="formula-panel" aria-label="Formule bij het opnamemodel">
+                    <p><strong>Betaalde rente per maand</strong> = gemiddeld reeds opgenomen bedrag × hypotheekrente ÷ 12</p>
+                    <p><strong>Depotvergoeding</strong> = € 0</p>
+                    <p><strong>Renteverschil</strong> = € 0, omdat er geen rente drukt op niet-opgenomen geld</p>
+                </div>
                 <p>Voor elke maand schat de calculator een begin- en eindsaldo. Het gemiddelde daarvan is de basis voor de depotvergoeding in die maand. Bij “gelijkmatig” daalt het saldo in gelijke stappen. Bij “snelle opname” ligt relatief meer van de opname in de eerste maanden; bij “vooral later” juist in de laatste maanden.</p>
+                <p>Opvallend is dat de twee modellen de logica omkeren. In model 1 verhoogt vroeg opnemen het renteverschil, omdat u vergoeding misloopt over een saldo dat al weg is. In model 2 verhoogt vroeg opnemen juist de betaalde rente, omdat u eerder over een groter bedrag rente gaat betalen. Bij een depot van € 50.000, 4,00% rente en twaalf maanden bedraagt de betaalde rente in model 2 ongeveer € 1.217 bij snelle opname tegen € 783 bij late opname. Het mechanisme verschilt, de praktische gevolgtrekking is in beide gevallen dezelfde: opnemen zodra het nodig is, niet eerder.</p>
                 <ul class="rente-assumption-list">
-                    <li>De volledige ingevoerde hoofdsom telt in dit model gedurende de hele gekozen periode mee voor de hypotheekrente.</li>
+                    <li>In model 1 telt de volledige ingevoerde hoofdsom gedurende de hele gekozen periode mee voor de hypotheekrente; in model 2 alleen het reeds opgenomen deel.</li>
                     <li>Rentepercentages blijven gedurende het scenario gelijk.</li>
                     <li>Opnames worden als maandschatting verdeeld; exacte factuur- en rentedata worden niet nagebootst.</li>
                     <li>Afsluitkosten, bouwrente van de ontwikkelaar, belastingeffect en rentewijzigingen vallen buiten deze berekening.</li>
@@ -397,6 +429,7 @@
                 <a href="index.html">Home</a>
                 <a href="calculators.html">Alle calculators</a>
                 <a href="kennisbank.html">Kennisbank</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
                 <a href="over-ons.html">Over ons</a>
                 <a href="contact.html">Contact</a>
                 <a href="privacy.html">Privacy</a>
