@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "test": "node --test",
-    "build": "npm test && vite build",
+    "build": "npm test && npm run build:voorwaarden && vite build",
+    "build:voorwaarden": "node scripts/build-voorwaarden.mjs",
+    "check:voorwaarden": "node scripts/check-voorwaarden.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

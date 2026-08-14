@@ -24,7 +24,16 @@ export default defineConfig({
         hypotheekrenteaftrekGids: resolve(__dirname, 'hypotheekrenteaftrek-gids.html'),
         bouwdepotFouten: resolve(__dirname, 'bouwdepot-fouten.html'),
         adviesgesprekChecklist: resolve(__dirname, 'adviesgesprek-checklist.html'),
-        
+
+        // Voorwaardenvergelijking (gegenereerd door scripts/build-voorwaarden.mjs)
+        voorwaardenVergelijken: resolve(__dirname, 'bouwdepot-voorwaarden-vergelijken.html'),
+        bouwdepotAbnAmro: resolve(__dirname, 'bouwdepot-abn-amro.html'),
+        bouwdepotRabobank: resolve(__dirname, 'bouwdepot-rabobank.html'),
+        bouwdepotIng: resolve(__dirname, 'bouwdepot-ing.html'),
+        bouwdepotMunt: resolve(__dirname, 'bouwdepot-munt.html'),
+        bouwdepotFlorius: resolve(__dirname, 'bouwdepot-florius.html'),
+        bouwdepotNn: resolve(__dirname, 'bouwdepot-nn.html'),
+
         // Juridische & Contact pagina's
         contact: resolve(__dirname, 'contact.html'),
         privacy: resolve(__dirname, 'privacy.html'),
