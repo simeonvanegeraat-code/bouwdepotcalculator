@@ -208,3 +208,89 @@ body { margin: 0; }
     text-decoration: none;
 }
 .voet__links a:hover { color: var(--ds-accent); }
+
+
+/* ==========================================================================
+   Redactionele pagina's
+   ========================================================================== */
+
+/* Leestekst met een prettige regellengte. */
+.proza { max-width: 68ch; }
+.proza p { color: var(--ds-ink-soft); }
+.proza p + p { margin-top: var(--ds-3); }
+.proza h3 {
+    font-size: var(--ds-t-lead);
+    font-weight: 620;
+    letter-spacing: -0.018em;
+    margin: var(--ds-6) 0 var(--ds-2);
+}
+
+/* Kernuitspraak: één zin die het onderwerp samenvat. */
+.kernzin {
+    border-left: 3px solid var(--ds-accent);
+    font-size: var(--ds-t-lead);
+    line-height: 1.45;
+    letter-spacing: -0.011em;
+    padding-left: var(--ds-4);
+}
+
+/* Genummerde vragen of stappen. */
+.vragen { counter-reset: vraag; display: grid; gap: var(--ds-5); }
+@media (min-width: 720px) { .vragen { grid-template-columns: 1fr 1fr; gap: var(--ds-5) var(--ds-6); } }
+
+.vraag { counter-increment: vraag; }
+.vraag::before {
+    content: counter(vraag);
+    color: var(--ds-accent);
+    display: block;
+    font-size: var(--ds-t-caption);
+    font-weight: 680;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--ds-1);
+}
+.vraag h3 { font-size: var(--ds-t-lead); font-weight: 620; letter-spacing: -0.018em; margin-bottom: var(--ds-2); }
+.vraag p { color: var(--ds-ink-muted); font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
+
+/* Scenario's naast elkaar: op mobiel kaarten, geen brede tabel. */
+.scenarios { display: grid; gap: var(--ds-4); }
+@media (min-width: 860px) { .scenarios { grid-template-columns: repeat(3, 1fr); } }
+
+.scenario {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-3);
+    padding: var(--ds-5);
+}
+.scenario__bedrag {
+    font-size: var(--ds-t-lead);
+    font-weight: 640;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+}
+.scenario dl { display: grid; gap: var(--ds-3); margin: 0; }
+.scenario dt {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-caption);
+    margin-bottom: 2px;
+}
+.scenario dd { font-size: var(--ds-t-small); line-height: 1.45; margin: 0; }
+
+/* Afvinkbare voorbereidingslijst. */
+.checklijst { display: grid; gap: var(--ds-3); list-style: none; margin: 0; padding: 0; }
+.checklijst li {
+    display: grid;
+    gap: var(--ds-3);
+    grid-template-columns: 20px 1fr;
+    line-height: 1.5;
+}
+.checklijst li::before {
+    content: '';
+    border: 2px solid var(--ds-accent);
+    border-radius: 4px;
+    height: 16px;
+    margin-top: 5px;
+    width: 16px;
+}
