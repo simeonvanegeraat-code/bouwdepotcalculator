@@ -1,0 +1,210 @@
+/* ==========================================================================
+   Calculatorpagina's
+   --------------------------------------------------------------------------
+   De rekenzone waarin invoer en uitkomst samen in beeld staan. Op mobiel
+   staat de uitkomst boven de invoer, zodat er niet gescrold hoeft te worden
+   voor een getal. Op desktop blijft de uitkomst meelopen tijdens het typen.
+   ========================================================================== */
+
+.reken { padding-block: var(--ds-5) var(--ds-7); }
+
+.aanhef { margin-bottom: var(--ds-5); }
+.aanhef h1 {
+    font-size: var(--ds-t-title);
+    font-weight: 640;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    margin-bottom: var(--ds-2);
+}
+
+.reken__grid { display: grid; gap: var(--ds-5); }
+
+@media (min-width: 900px) {
+    .reken__grid {
+        align-items: start;
+        gap: var(--ds-6);
+        grid-template-columns: 1fr 0.85fr;
+    }
+    /* Uitkomst rechts en meelopend; invoer links waar de aandacht start. */
+    .reken__uitkomst { grid-column: 2; position: sticky; top: 84px; }
+    .reken__invoer { grid-column: 1; grid-row: 1; }
+}
+
+/* --- Invoervelden --------------------------------------------------------- */
+
+.veldrij { display: grid; gap: var(--ds-4); }
+@media (min-width: 560px) { .veldrij--twee { grid-template-columns: 1fr 1fr; } }
+
+.prefix-veld, .suffix-veld { align-items: center; display: flex; gap: var(--ds-2); }
+.prefix-veld > span, .suffix-veld > span {
+    color: var(--ds-ink-muted);
+    flex: none;
+    font-size: var(--ds-t-lead);
+    font-weight: 560;
+}
+
+select.ds-invoer {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%235E6D78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-position: right var(--ds-3) center;
+    background-repeat: no-repeat;
+    padding-right: var(--ds-7);
+}
+
+/* Aanvinkbaar blok in plaats van een kaal vinkje: groter raakvlak. */
+.ds-keuzevak {
+    align-items: flex-start;
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-md);
+    cursor: pointer;
+    display: flex;
+    gap: var(--ds-3);
+    margin-bottom: var(--ds-5);
+    min-height: var(--ds-tap);
+    padding: var(--ds-3) var(--ds-4);
+    transition: border-color var(--ds-quick);
+}
+.ds-keuzevak:hover { border-color: var(--ds-line-strong); }
+.ds-keuzevak:has(input:checked) {
+    background: var(--ds-accent-wash);
+    border-color: var(--ds-accent);
+}
+.ds-keuzevak input { accent-color: var(--ds-accent); margin-top: 3px; width: 18px; height: 18px; flex: none; }
+.ds-keuzevak span { font-size: var(--ds-t-small); font-weight: 540; line-height: 1.4; }
+.ds-keuzevak small {
+    color: var(--ds-ink-muted);
+    display: block;
+    font-size: var(--ds-t-caption);
+    font-weight: 400;
+    margin-top: 2px;
+}
+
+/* --- Uitklapbare verdieping ---------------------------------------------- */
+
+.uitleg-details {
+    border-top: 1px solid var(--ds-line);
+    margin-top: var(--ds-4);
+    padding-top: var(--ds-3);
+}
+.uitleg-details > summary {
+    color: var(--ds-ink-soft);
+    cursor: pointer;
+    font-size: var(--ds-t-small);
+    font-weight: 570;
+    list-style: none;
+    min-height: 32px;
+    padding-right: var(--ds-5);
+    position: relative;
+}
+.uitleg-details > summary::-webkit-details-marker { display: none; }
+.uitleg-details > summary::after {
+    content: '+';
+    color: var(--ds-ink-muted);
+    font-size: 1.25rem;
+    font-weight: 300;
+    position: absolute;
+    right: 0;
+    top: -3px;
+}
+.uitleg-details[open] > summary::after { content: '\2212'; }
+.uitleg-details > summary:hover { color: var(--ds-accent); }
+.uitleg-details__body { padding-top: var(--ds-3); }
+.uitleg-details__body > * + * { margin-top: var(--ds-3); }
+
+/* In de invoerkolom is het een zelfstandig blok, geen voetnoot. */
+.reken__invoer > .uitleg-details {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-md);
+    border-top-color: var(--ds-line);
+    margin-bottom: var(--ds-4);
+    padding: var(--ds-3) var(--ds-4);
+}
+
+/* Uitsplitsing zonder eigen rand, voor gebruik binnen een uitklapblok. */
+.ds-uitsplitsing--vlak {
+    border-top: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.ds-uitsplitsing--vlak li {
+    display: flex;
+    font-size: var(--ds-t-small);
+    gap: var(--ds-4);
+    justify-content: space-between;
+}
+.ds-uitsplitsing--vlak li span { color: var(--ds-ink-muted); }
+.ds-uitsplitsing--vlak li strong { font-variant-numeric: tabular-nums; font-weight: 620; }
+
+.uitkomst-acties { margin-top: var(--ds-4); }
+.uitkomst-acties .ds-knop { width: 100%; }
+
+/* --- Budget samenstellen -------------------------------------------------- */
+
+.budget {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-md);
+    padding: var(--ds-3) var(--ds-4);
+}
+.budget__kop {
+    align-items: center;
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    font: inherit;
+    gap: var(--ds-4);
+    justify-content: space-between;
+    min-height: var(--ds-tap);
+    padding: 0;
+    text-align: left;
+    width: 100%;
+}
+.budget__kop strong { display: block; font-size: var(--ds-t-small); font-weight: 600; }
+.budget__kop small { color: var(--ds-ink-muted); font-size: var(--ds-t-caption); }
+.budget__kop svg { color: var(--ds-ink-muted); flex: none; transition: transform var(--ds-calm); }
+.budget__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-2);
+    padding-top: var(--ds-4);
+}
+
+/* --- Vaste balk op mobiel ------------------------------------------------- */
+
+.sticky-result-bar {
+    align-items: center;
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    background: color-mix(in srgb, var(--ds-ink) 92%, transparent);
+    border-radius: 999px;
+    bottom: var(--ds-4);
+    box-shadow: var(--ds-shadow-3);
+    color: var(--ds-paper);
+    cursor: pointer;
+    display: none;
+    gap: var(--ds-3);
+    left: 50%;
+    padding: var(--ds-3) var(--ds-5);
+    position: fixed;
+    transform: translateX(-50%);
+    z-index: 30;
+}
+.sticky-result-bar__label { font-size: var(--ds-t-caption); opacity: 0.75; }
+.sticky-result-bar__amount { font-size: var(--ds-t-body); font-weight: 660; }
+.sticky-result-bar__arrow { opacity: 0.6; }
+
+/* Alleen tonen waar de uitkomst uit beeld kan raken. */
+@media (max-width: 899px) {
+    .sticky-result-bar { display: flex; }
+}
+
+@media print {
+    .kop, .voet, .no-print, .sticky-result-bar, .reken__invoer { display: none !important; }
+    .reken__grid { display: block; }
+    .ds-uitkomst { box-shadow: none; border: 1px solid #ccc; }
+}
