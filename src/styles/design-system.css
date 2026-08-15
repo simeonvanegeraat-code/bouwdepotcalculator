@@ -1,0 +1,528 @@
+/* ==========================================================================
+   BouwdepotCalculator — ontwerpsysteem
+   --------------------------------------------------------------------------
+   Drie principes sturen alles hieronder:
+
+   Helderheid  — één ding per scherm, witruimte doet het hiërarchiewerk
+   Terugtreden — de interface wijkt voor de inhoud; hier is de inhoud het getal
+   Diepte      — lagen tonen belang, zodat niet alles even zwaar weegt
+
+   Het oude palet stond in de CSS omschreven als "Rabo-achtig". Voor een site
+   die zijn waarde ontleent aan onafhankelijkheid is een bank imiteren precies
+   verkeerd. Vandaar diep teal op warm papier: onderscheidend tussen NL
+   geldverstrekkers (oranje, blauw, groen-geel zijn allemaal bezet) en rustig
+   genoeg voor financiële cijfers.
+   ========================================================================== */
+
+:root {
+    /* --- Kleur: semantisch benoemd, niet naar tint ------------------------ */
+    --ds-paper:        #FCFBF9;   /* warm wit; koel grijs voelt klinisch */
+    --ds-surface:      #FFFFFF;
+    --ds-surface-sunk: #F5F3EF;
+    --ds-line:         #E6E2DA;
+    --ds-line-strong:  #D2CCC0;
+
+    --ds-ink:          #0F1518;   /* niet zuiver zwart: minder hard op papierwit */
+    --ds-ink-soft:     #3D4C55;
+    --ds-ink-muted:    #6B7A85;
+    --ds-ink-faint:    #9AA6AF;
+
+    --ds-accent:       #0E5F58;   /* diep teal, draagt tekst op wit */
+    --ds-accent-hover: #0A4C46;
+    --ds-accent-bright:#12938A;   /* alleen voor vlakken en accenten */
+    --ds-accent-wash:  #E8F2F0;
+
+    --ds-warn:         #A2590B;
+    --ds-warn-wash:    #FDF6E7;
+    --ds-positive:     #1C6B45;
+
+    /* Datakleuren: voor grafieken, in deze volgorde te gebruiken */
+    --ds-data-1: #0E5F58;
+    --ds-data-2: #C2703D;
+    --ds-data-3: #3E5C8A;
+    --ds-data-4: #8A6BA8;
+
+    /* --- Ruimte: 4/8-raster ---------------------------------------------- */
+    --ds-1: 0.25rem;   --ds-2: 0.5rem;    --ds-3: 0.75rem;
+    --ds-4: 1rem;      --ds-5: 1.5rem;    --ds-6: 2rem;
+    --ds-7: 3rem;      --ds-8: 4rem;      --ds-9: 6rem;
+
+    /* --- Typografie: grote sprongen, geen 16/18/20 ------------------------ */
+    --ds-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    --ds-t-caption: 0.8125rem;                        /* 13 */
+    --ds-t-small:   0.9375rem;                        /* 15 */
+    --ds-t-body:    1.0625rem;                        /* 17 — leesbaarheidsondergrens */
+    --ds-t-lead:    1.25rem;                          /* 20 */
+    --ds-t-title:   clamp(1.5rem, 3.5vw, 1.875rem);
+    --ds-t-heading: clamp(1.875rem, 5vw, 2.5rem);
+    --ds-t-display: clamp(2.25rem, 7vw, 3.5rem);
+    --ds-t-figure:  clamp(2.75rem, 11vw, 4.25rem);    /* het bedrag zelf */
+
+    --ds-lh-tight: 1.1;
+    --ds-lh-snug:  1.3;
+    --ds-lh-body:  1.6;
+
+    /* --- Vorm en diepte --------------------------------------------------- */
+    --ds-r-sm: 10px;  --ds-r-md: 14px;  --ds-r-lg: 20px;  --ds-r-xl: 28px;
+
+    --ds-shadow-1: 0 1px 2px rgba(15, 21, 24, 0.04), 0 1px 3px rgba(15, 21, 24, 0.05);
+    --ds-shadow-2: 0 2px 4px rgba(15, 21, 24, 0.04), 0 8px 20px -6px rgba(15, 21, 24, 0.10);
+    --ds-shadow-3: 0 4px 8px rgba(15, 21, 24, 0.05), 0 20px 40px -12px rgba(15, 21, 24, 0.16);
+
+    --ds-tap: 44px;   /* minimale aanraakzone */
+
+    --ds-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --ds-quick: 140ms var(--ds-ease);
+    --ds-calm:  260ms var(--ds-ease);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --ds-paper:        #0D1114;
+        --ds-surface:      #151B1F;
+        --ds-surface-sunk: #1D2529;
+        --ds-line:         #262F35;
+        --ds-line-strong:  #36424A;
+
+        --ds-ink:          #F2F4F5;
+        --ds-ink-soft:     #C2CCD2;
+        --ds-ink-muted:    #8F9DA6;
+        --ds-ink-faint:    #6B7880;
+
+        --ds-accent:       #4FBFB2;
+        --ds-accent-hover: #6FD3C7;
+        --ds-accent-bright:#4FBFB2;
+        --ds-accent-wash:  #122C2A;
+
+        --ds-warn:         #E0A55C;
+        --ds-warn-wash:    #2B2117;
+        --ds-positive:     #5CC48D;
+
+        --ds-data-1: #4FBFB2;
+        --ds-data-2: #E09A6B;
+        --ds-data-3: #7E9DD4;
+        --ds-data-4: #B79AD1;
+
+        --ds-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+        --ds-shadow-2: 0 2px 4px rgba(0, 0, 0, 0.3), 0 8px 20px -6px rgba(0, 0, 0, 0.5);
+        --ds-shadow-3: 0 4px 8px rgba(0, 0, 0, 0.3), 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* ==========================================================================
+   Basis
+   ========================================================================== */
+
+.ds {
+    background: var(--ds-paper);
+    color: var(--ds-ink);
+    font-family: var(--ds-font);
+    font-size: var(--ds-t-body);
+    line-height: var(--ds-lh-body);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'cv05' 1;   /* leesbaarder kleine l in Inter */
+}
+
+.ds *, .ds *::before, .ds *::after { box-sizing: border-box; }
+
+/* Bedragen mogen niet verspringen tijdens het typen. */
+.ds .tnum, .ds [data-bedrag] {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+}
+
+.ds-wrap {
+    margin-inline: auto;
+    max-width: 1080px;
+    padding-inline: var(--ds-4);
+}
+.ds-wrap--smal { max-width: 720px; }
+
+@media (min-width: 768px) { .ds-wrap { padding-inline: var(--ds-6); } }
+
+/* ==========================================================================
+   Typografie
+   ========================================================================== */
+
+.ds h1, .ds h2, .ds h3 { margin: 0; text-wrap: balance; }
+
+.ds-display {
+    font-size: var(--ds-t-display);
+    font-weight: 680;
+    letter-spacing: -0.035em;
+    line-height: var(--ds-lh-tight);
+}
+.ds-heading {
+    font-size: var(--ds-t-heading);
+    font-weight: 660;
+    letter-spacing: -0.028em;
+    line-height: var(--ds-lh-tight);
+}
+.ds-title {
+    font-size: var(--ds-t-title);
+    font-weight: 640;
+    letter-spacing: -0.02em;
+    line-height: var(--ds-lh-snug);
+}
+.ds-lead {
+    color: var(--ds-ink-soft);
+    font-size: var(--ds-t-lead);
+    line-height: 1.45;
+    letter-spacing: -0.011em;
+}
+.ds-small { font-size: var(--ds-t-small); }
+.ds-caption {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-caption);
+    letter-spacing: 0.005em;
+}
+
+/* Kleine bovenkop; vervangt een kopregel zonder er een te zijn. */
+.ds-eyebrow {
+    color: var(--ds-accent);
+    font-size: var(--ds-t-caption);
+    font-weight: 620;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.ds-muted { color: var(--ds-ink-muted); }
+
+.ds a { color: var(--ds-accent); text-underline-offset: 3px; }
+.ds a:hover { color: var(--ds-accent-hover); }
+
+/* ==========================================================================
+   Oppervlakken
+   ========================================================================== */
+
+.ds-card {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    padding: var(--ds-5);
+}
+.ds-card--vlak { box-shadow: none; }
+.ds-card--licht { box-shadow: var(--ds-shadow-1); }
+.ds-card--hoog  { box-shadow: var(--ds-shadow-2); border-color: transparent; }
+
+.ds-sunk {
+    background: var(--ds-surface-sunk);
+    border-radius: var(--ds-r-md);
+    padding: var(--ds-4);
+}
+
+/* ==========================================================================
+   De resultaatkaart — het belangrijkste element van de site
+   ========================================================================== */
+
+.ds-uitkomst {
+    background: var(--ds-surface);
+    border-radius: var(--ds-r-xl);
+    box-shadow: var(--ds-shadow-3);
+    padding: var(--ds-5) var(--ds-5) var(--ds-4);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtiele lichtval bovenin; geeft diepte zonder decoratie te worden. */
+.ds-uitkomst::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 140px;
+    background: linear-gradient(180deg, var(--ds-accent-wash), transparent);
+    pointer-events: none;
+}
+
+.ds-uitkomst > * { position: relative; }
+
+.ds-uitkomst__label {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-small);
+    font-weight: 560;
+    letter-spacing: 0.01em;
+}
+
+.ds-uitkomst__bedrag {
+    display: block;
+    font-size: var(--ds-t-figure);
+    font-weight: 690;
+    letter-spacing: -0.045em;
+    line-height: 1.02;
+    margin: var(--ds-1) 0 var(--ds-2);
+    font-variant-numeric: tabular-nums;
+}
+
+.ds-uitkomst__toelichting {
+    color: var(--ds-ink-soft);
+    font-size: var(--ds-t-small);
+    line-height: 1.45;
+}
+
+.ds-uitsplitsing {
+    border-top: 1px solid var(--ds-line);
+    display: grid;
+    gap: var(--ds-2);
+    margin-top: var(--ds-4);
+    padding-top: var(--ds-4);
+}
+.ds-uitsplitsing div {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--ds-4);
+    font-size: var(--ds-t-small);
+}
+.ds-uitsplitsing dt, .ds-uitsplitsing span:first-child { color: var(--ds-ink-muted); }
+.ds-uitsplitsing strong { font-variant-numeric: tabular-nums; font-weight: 620; }
+
+/* ==========================================================================
+   Invoer — groot genoeg om met een duim te bedienen
+   ========================================================================== */
+
+.ds-veld { display: block; margin-bottom: var(--ds-5); }
+
+.ds-veld__kop {
+    align-items: baseline;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--ds-3);
+    margin-bottom: var(--ds-2);
+}
+
+.ds-veld__naam {
+    font-size: var(--ds-t-small);
+    font-weight: 580;
+    color: var(--ds-ink-soft);
+}
+
+.ds-veld__waarde {
+    font-size: var(--ds-t-lead);
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+}
+
+.ds-invoer {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line-strong);
+    border-radius: var(--ds-r-md);
+    color: var(--ds-ink);
+    font: inherit;
+    font-variant-numeric: tabular-nums;
+    min-height: var(--ds-tap);
+    padding: var(--ds-2) var(--ds-3);
+    transition: border-color var(--ds-quick), box-shadow var(--ds-quick);
+    width: 100%;
+}
+.ds-invoer:focus-visible {
+    border-color: var(--ds-accent);
+    box-shadow: 0 0 0 4px var(--ds-accent-wash);
+    outline: none;
+}
+
+/* Schuifregelaar */
+.ds-schuif {
+    -webkit-appearance: none; appearance: none;
+    background: transparent;
+    width: 100%;
+    height: var(--ds-tap);
+    cursor: pointer;
+}
+.ds-schuif::-webkit-slider-runnable-track {
+    background: var(--ds-surface-sunk);
+    border-radius: 999px;
+    height: 6px;
+}
+.ds-schuif::-moz-range-track {
+    background: var(--ds-surface-sunk);
+    border-radius: 999px;
+    height: 6px;
+}
+.ds-schuif::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line-strong);
+    border-radius: 50%;
+    box-shadow: var(--ds-shadow-2);
+    height: 28px; width: 28px;
+    margin-top: -11px;
+    transition: transform var(--ds-quick);
+}
+.ds-schuif::-moz-range-thumb {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line-strong);
+    border-radius: 50%;
+    box-shadow: var(--ds-shadow-2);
+    height: 28px; width: 28px;
+}
+.ds-schuif:active::-webkit-slider-thumb { transform: scale(1.12); }
+.ds-schuif:focus-visible::-webkit-slider-thumb {
+    border-color: var(--ds-accent);
+    box-shadow: 0 0 0 4px var(--ds-accent-wash);
+}
+
+/* Segmentkeuze, in plaats van een select voor twee opties */
+.ds-segment {
+    background: var(--ds-surface-sunk);
+    border-radius: var(--ds-r-sm);
+    display: grid;
+    gap: 2px;
+    grid-auto-flow: column;
+    padding: 3px;
+}
+.ds-segment button {
+    background: transparent;
+    border: 0;
+    border-radius: calc(var(--ds-r-sm) - 3px);
+    color: var(--ds-ink-muted);
+    cursor: pointer;
+    font: inherit;
+    font-size: var(--ds-t-small);
+    font-weight: 560;
+    min-height: 38px;
+    transition: background var(--ds-quick), color var(--ds-quick);
+}
+.ds-segment button[aria-pressed="true"] {
+    background: var(--ds-surface);
+    box-shadow: var(--ds-shadow-1);
+    color: var(--ds-ink);
+    font-weight: 620;
+}
+
+/* ==========================================================================
+   Knoppen
+   ========================================================================== */
+
+.ds-knop {
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: var(--ds-r-md);
+    cursor: pointer;
+    display: inline-flex;
+    font: inherit;
+    font-size: var(--ds-t-small);
+    font-weight: 600;
+    gap: var(--ds-2);
+    justify-content: center;
+    min-height: var(--ds-tap);
+    padding: 0 var(--ds-5);
+    text-decoration: none;
+    transition: background var(--ds-quick), border-color var(--ds-quick), transform var(--ds-quick);
+}
+.ds-knop:active { transform: scale(0.985); }
+
+.ds-knop--primair { background: var(--ds-accent); color: #fff; }
+.ds-knop--primair:hover { background: var(--ds-accent-hover); color: #fff; }
+
+.ds-knop--rustig {
+    background: var(--ds-surface);
+    border-color: var(--ds-line-strong);
+    color: var(--ds-ink);
+}
+.ds-knop--rustig:hover { border-color: var(--ds-ink-faint); color: var(--ds-ink); }
+
+/* Snelkeuzes: klein, rond, direct */
+.ds-chips { display: flex; flex-wrap: wrap; gap: var(--ds-2); }
+.ds-chip {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line-strong);
+    border-radius: 999px;
+    color: var(--ds-ink-soft);
+    cursor: pointer;
+    font: inherit;
+    font-size: var(--ds-t-small);
+    font-variant-numeric: tabular-nums;
+    min-height: 38px;
+    padding: 0 var(--ds-4);
+    transition: all var(--ds-quick);
+}
+.ds-chip:hover { border-color: var(--ds-accent); color: var(--ds-accent); }
+.ds-chip[aria-pressed="true"] {
+    background: var(--ds-accent);
+    border-color: var(--ds-accent);
+    color: #fff;
+}
+
+/* ==========================================================================
+   Keuzekaarten — het dashboard
+   ========================================================================== */
+
+.ds-keuzes {
+    display: grid;
+    gap: var(--ds-3);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.ds-keuze {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-2);
+    padding: var(--ds-5);
+    text-decoration: none;
+    transition: border-color var(--ds-calm), box-shadow var(--ds-calm), transform var(--ds-calm);
+}
+.ds-keuze:hover {
+    border-color: transparent;
+    box-shadow: var(--ds-shadow-2);
+    color: inherit;
+    transform: translateY(-2px);
+}
+.ds-keuze__icoon {
+    align-items: center;
+    background: var(--ds-accent-wash);
+    border-radius: var(--ds-r-sm);
+    color: var(--ds-accent);
+    display: flex;
+    height: 40px; width: 40px;
+    justify-content: center;
+    margin-bottom: var(--ds-1);
+}
+.ds-keuze__titel { font-size: var(--ds-t-lead); font-weight: 620; letter-spacing: -0.018em; }
+.ds-keuze__uitleg { color: var(--ds-ink-muted); font-size: var(--ds-t-small); line-height: 1.45; }
+.ds-keuze__meta {
+    color: var(--ds-accent);
+    font-size: var(--ds-t-caption);
+    font-weight: 600;
+    margin-top: auto;
+    padding-top: var(--ds-2);
+}
+
+/* ==========================================================================
+   Ritme: secties moeten niet allemaal hetzelfde voelen
+   ========================================================================== */
+
+.ds-sectie { padding-block: var(--ds-7); }
+.ds-sectie--ruim { padding-block: var(--ds-8); }
+.ds-sectie--gevuld { background: var(--ds-surface-sunk); }
+.ds-sectie--diep {
+    background: var(--ds-ink);
+    color: var(--ds-paper);
+}
+.ds-sectie--diep .ds-caption,
+.ds-sectie--diep .ds-muted { color: var(--ds-ink-faint); }
+.ds-sectie--diep .ds-eyebrow { color: var(--ds-accent-bright); }
+
+.ds-sectiekop { margin-bottom: var(--ds-5); max-width: 60ch; }
+.ds-sectiekop .ds-lead { margin-top: var(--ds-2); }
+
+/* ==========================================================================
+   Beweging
+   ========================================================================== */
+
+@keyframes ds-op {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+}
+.ds-op { animation: ds-op var(--ds-calm) both; }
+
+@media (prefers-reduced-motion: reduce) {
+    .ds *, .ds *::before, .ds *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ontwerpvoorstel | BouwdepotCalculator.nl</title>
+    <meta name="description" content="Voorstel voor het herontwerp van BouwdepotCalculator.nl: antwoord eerst, verdieping erachter.">
+    <meta name="robots" content="noindex,nofollow">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/src/styles/design-system.css">
+    <style>
+        /* Alleen paginaspecifieke opmaak; alles wat herbruikbaar is staat in het ontwerpsysteem. */
+        html { -webkit-text-size-adjust: 100%; }
+        body { margin: 0; }
+
+        .kop {
+            backdrop-filter: saturate(180%) blur(16px);
+            -webkit-backdrop-filter: saturate(180%) blur(16px);
+            background: color-mix(in srgb, var(--ds-paper) 82%, transparent);
+            border-bottom: 1px solid var(--ds-line);
+            position: sticky; top: 0; z-index: 20;
+        }
+        .kop__inner {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            gap: var(--ds-4);
+            min-height: 56px;
+        }
+        .merk {
+            color: var(--ds-ink);
+            font-size: var(--ds-t-small);
+            font-weight: 640;
+            letter-spacing: -0.015em;
+            text-decoration: none;
+        }
+        .merk span { color: var(--ds-accent); }
+        .kop nav { display: none; gap: var(--ds-5); }
+        .kop nav a {
+            color: var(--ds-ink-soft);
+            font-size: var(--ds-t-small);
+            font-weight: 530;
+            text-decoration: none;
+        }
+        .kop nav a:hover { color: var(--ds-accent); }
+        @media (min-width: 720px) { .kop nav { display: flex; } }
+
+        /* --- De rekenzone: het hart van de pagina --- */
+        .reken { padding-block: var(--ds-5) var(--ds-7); }
+        .reken__grid { display: grid; gap: var(--ds-5); }
+        @media (min-width: 900px) {
+            .reken__grid { grid-template-columns: 1fr 0.85fr; align-items: start; gap: var(--ds-6); }
+            .reken__uitkomst { position: sticky; top: 84px; }
+        }
+
+        .aanhef { margin-bottom: var(--ds-4); }
+        .aanhef h1 {
+            font-size: var(--ds-t-title);
+            font-weight: 640;
+            letter-spacing: -0.025em;
+            line-height: 1.2;
+        }
+
+        /* Rente en aflossing als verhouding tonen; vervangt een tabelregel. */
+        .verhouding { margin-top: var(--ds-4); }
+        .verhouding__balk {
+            border-radius: 999px;
+            display: flex;
+            height: 10px;
+            overflow: hidden;
+            background: var(--ds-surface-sunk);
+        }
+        .verhouding__deel { transition: width var(--ds-calm); }
+        .verhouding__deel--rente { background: var(--ds-data-2); }
+        .verhouding__deel--aflossing { background: var(--ds-data-1); }
+        .verhouding__legenda {
+            display: flex; flex-wrap: wrap; gap: var(--ds-4);
+            margin-top: var(--ds-3);
+        }
+        .verhouding__item {
+            align-items: center; display: flex; gap: var(--ds-2);
+            font-size: var(--ds-t-caption);
+        }
+        .verhouding__stip { border-radius: 3px; height: 10px; width: 10px; flex: none; }
+
+        .veldrij { display: grid; gap: var(--ds-4); }
+        @media (min-width: 560px) { .veldrij--twee { grid-template-columns: 1fr 1fr; } }
+
+        .prefix-veld { align-items: center; display: flex; gap: var(--ds-2); }
+        .prefix-veld > span {
+            color: var(--ds-ink-muted);
+            font-size: var(--ds-t-lead);
+            font-weight: 560;
+        }
+
+        .voetnoot {
+            border-top: 1px solid var(--ds-line);
+            margin-top: var(--ds-6);
+            padding-top: var(--ds-4);
+        }
+
+        .voet {
+            border-top: 1px solid var(--ds-line);
+            padding-block: var(--ds-6);
+        }
+        .voet__links { display: flex; flex-wrap: wrap; gap: var(--ds-2) var(--ds-5); margin-bottom: var(--ds-4); }
+        .voet__links a { color: var(--ds-ink-soft); font-size: var(--ds-t-small); text-decoration: none; }
+        .voet__links a:hover { color: var(--ds-accent); }
+
+        .notitie {
+            background: var(--ds-warn-wash);
+            border-radius: var(--ds-r-md);
+            color: var(--ds-ink-soft);
+            font-size: var(--ds-t-small);
+            line-height: 1.5;
+            padding: var(--ds-3) var(--ds-4);
+        }
+
+        .stappen { counter-reset: stap; display: grid; gap: var(--ds-4); }
+        @media (min-width: 760px) { .stappen { grid-template-columns: repeat(3, 1fr); gap: var(--ds-5); } }
+        .stap { counter-increment: stap; }
+        .stap::before {
+            content: counter(stap);
+            color: var(--ds-accent);
+            display: block;
+            font-size: var(--ds-t-caption);
+            font-weight: 680;
+            letter-spacing: 0.08em;
+            margin-bottom: var(--ds-2);
+        }
+        .stap h3 { font-size: var(--ds-t-lead); font-weight: 620; letter-spacing: -0.015em; margin-bottom: var(--ds-1); }
+        .stap p { color: var(--ds-ink-muted); font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
+
+        .banner {
+            background: var(--ds-accent);
+            border-radius: var(--ds-r-xl);
+            color: #fff;
+            padding: var(--ds-6);
+        }
+        .banner .ds-eyebrow { color: rgba(255,255,255,0.72); }
+        .banner h2 { color: #fff; }
+        .banner p { color: rgba(255,255,255,0.85); }
+        .banner .ds-knop {
+            background: #fff; color: var(--ds-accent); margin-top: var(--ds-4);
+        }
+        .banner .ds-knop:hover { background: rgba(255,255,255,0.9); color: var(--ds-accent); }
+
+        p { margin: 0 0 var(--ds-3); }
+        p:last-child { margin-bottom: 0; }
+    </style>
+</head>
+<body class="ds">
+
+    <header class="kop">
+        <div class="ds-wrap kop__inner">
+            <a class="merk" href="/">Bouwdepot<span>Calculator</span>.nl</a>
+            <nav aria-label="Hoofdnavigatie">
+                <a href="#kiezen">Wat past bij mij</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="kennisbank.html">Uitleg</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Antwoord eerst. Invoer en uitkomst staan samen in beeld; op mobiel
+             hoeft niemand te scrollen voor een getal. -->
+        <section class="ds-wrap reken" aria-labelledby="reken-titel">
+            <div class="aanhef">
+                <p class="ds-eyebrow">Bouwdepot berekenen</p>
+                <h1 id="reken-titel">Wat kost uw bouwdepot per maand?</h1>
+            </div>
+
+            <div class="reken__grid">
+                <div class="reken__uitkomst ds-uitkomst ds-op">
+                    <p class="ds-uitkomst__label">Bruto maandlast, eerste maand</p>
+                    <strong class="ds-uitkomst__bedrag" id="uit-maand" data-bedrag>&euro; 0</strong>
+                    <p class="ds-uitkomst__toelichting" id="uit-zin">Vul hiernaast uw bedrag in.</p>
+
+                    <div class="verhouding" aria-hidden="true">
+                        <div class="verhouding__balk">
+                            <div class="verhouding__deel verhouding__deel--rente" id="balk-rente" style="width:50%"></div>
+                            <div class="verhouding__deel verhouding__deel--aflossing" id="balk-aflossing" style="width:50%"></div>
+                        </div>
+                        <div class="verhouding__legenda">
+                            <span class="verhouding__item">
+                                <span class="verhouding__stip" style="background:var(--ds-data-2)"></span>
+                                Rente <strong class="tnum" id="uit-rente">&euro; 0</strong>
+                            </span>
+                            <span class="verhouding__item">
+                                <span class="verhouding__stip" style="background:var(--ds-data-1)"></span>
+                                Aflossing <strong class="tnum" id="uit-aflossing">&euro; 0</strong>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="ds-uitsplitsing">
+                        <div><span>Totaal geleend</span><strong id="uit-bedrag" data-bedrag>&euro; 0</strong></div>
+                        <div><span>Looptijd</span><strong id="uit-looptijd">30 jaar</strong></div>
+                        <div><span>Rente over de hele looptijd</span><strong id="uit-totaalrente" data-bedrag>&euro; 0</strong></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="ds-veld">
+                        <div class="ds-veld__kop">
+                            <label class="ds-veld__naam" for="in-bedrag">Bedrag bouwdepot</label>
+                            <span class="ds-veld__waarde tnum" id="toon-bedrag">&euro; 25.000</span>
+                        </div>
+                        <div class="prefix-veld">
+                            <span>&euro;</span>
+                            <input class="ds-invoer" type="number" id="in-bedrag" value="25000" min="0" step="500" inputmode="numeric">
+                        </div>
+                        <input class="ds-schuif" type="range" id="schuif-bedrag" min="5000" max="150000" step="500" value="25000" aria-label="Bedrag bouwdepot">
+                        <div class="ds-chips" role="group" aria-label="Veelgekozen bedragen">
+                            <button class="ds-chip" type="button" data-bedrag-keuze="15000">15.000</button>
+                            <button class="ds-chip" type="button" data-bedrag-keuze="25000">25.000</button>
+                            <button class="ds-chip" type="button" data-bedrag-keuze="50000">50.000</button>
+                            <button class="ds-chip" type="button" data-bedrag-keuze="75000">75.000</button>
+                        </div>
+                    </div>
+
+                    <div class="veldrij veldrij--twee">
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop">
+                                <label class="ds-veld__naam" for="in-rente">Hypotheekrente</label>
+                                <span class="ds-veld__waarde tnum" id="toon-rente">3,80%</span>
+                            </div>
+                            <input class="ds-invoer" type="number" id="in-rente" value="3.8" min="0.1" max="12" step="0.05" inputmode="decimal">
+                        </div>
+
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop">
+                                <label class="ds-veld__naam" for="schuif-jaren">Looptijd</label>
+                                <span class="ds-veld__waarde tnum" id="toon-jaren">30 jaar</span>
+                            </div>
+                            <input class="ds-schuif" type="range" id="schuif-jaren" min="5" max="30" step="5" value="30">
+                        </div>
+                    </div>
+
+                    <div class="ds-veld">
+                        <div class="ds-veld__kop">
+                            <span class="ds-veld__naam" id="vorm-label">Hypotheekvorm</span>
+                        </div>
+                        <div class="ds-segment" role="group" aria-labelledby="vorm-label">
+                            <button type="button" data-vorm="annuiteit" aria-pressed="true">Annuïteiten</button>
+                            <button type="button" data-vorm="lineair" aria-pressed="false">Lineair</button>
+                        </div>
+                    </div>
+
+                    <p class="notitie">Indicatieve berekening op basis van uw invoer. Uw werkelijke maandlast hangt af van acceptatie, productvoorwaarden en uw fiscale situatie.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Het dashboard: niet "welke tool", maar "waar sta je". -->
+        <section class="ds-sectie ds-sectie--gevuld" id="kiezen">
+            <div class="ds-wrap">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Verder komen</p>
+                    <h2 class="ds-heading">Waar staat u nu?</h2>
+                    <p class="ds-lead">Vier situaties, elk met de berekening en de uitleg die daarbij hoort.</p>
+                </div>
+
+                <div class="ds-keuzes">
+                    <a class="ds-keuze" href="#">
+                        <span class="ds-keuze__icoon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                        </span>
+                        <span class="ds-keuze__titel">Ik oriënteer me nog</span>
+                        <span class="ds-keuze__uitleg">Wat is een bouwdepot, wat mag eruit betaald worden en waar moet u op letten.</span>
+                        <span class="ds-keuze__meta">Uitleg in het kort →</span>
+                    </a>
+
+                    <a class="ds-keuze" href="#">
+                        <span class="ds-keuze__icoon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M10 21v-6h4v6"/></svg>
+                        </span>
+                        <span class="ds-keuze__titel">Ik ga verbouwen</span>
+                        <span class="ds-keuze__uitleg">Bereken uw maandlast en toets of het plan binnen de waarde van uw woning past.</span>
+                        <span class="ds-keuze__meta">Maandlast en waarderuimte →</span>
+                    </a>
+
+                    <a class="ds-keuze" href="#">
+                        <span class="ds-keuze__icoon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l8-5 8 5v11"/><path d="M4 13h16"/><path d="M9 20v-5h6v5"/></svg>
+                        </span>
+                        <span class="ds-keuze__titel">Ik koop nieuwbouw</span>
+                        <span class="ds-keuze__uitleg">Modelleer bouwtermijnen, dubbele lasten en de maand waarin het zwaarst drukt.</span>
+                        <span class="ds-keuze__meta">Nieuwbouwplanning →</span>
+                    </a>
+
+                    <a class="ds-keuze" href="bouwdepot-voorwaarden-vergelijken.html">
+                        <span class="ds-keuze__icoon" aria-hidden="true">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"/><path d="M4 12h10"/><path d="M4 18h13"/></svg>
+                        </span>
+                        <span class="ds-keuze__titel">Ik heb al een bouwdepot</span>
+                        <span class="ds-keuze__uitleg">Hoe lang is het geldig, wat accepteert uw bank en wat gebeurt er met het restant.</span>
+                        <span class="ds-keuze__meta">Voorwaarden per bank →</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Diepe sectie: breekt het ritme, draagt de eigen data. -->
+        <section class="ds-sectie ds-sectie--diep">
+            <div class="ds-wrap">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Eigen onderzoek</p>
+                    <h2 class="ds-heading">Zes banken, zes verschillende bouwdepots</h2>
+                    <p class="ds-lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Wij zochten ze op bij de bron en zetten ze naast elkaar.</p>
+                </div>
+
+                <div class="stappen">
+                    <article class="stap">
+                        <h3>24 tot 42 maanden</h3>
+                        <p>Zoveel tijd krijgt u voor een verbouwing, afhankelijk van uw geldverstrekker. Dat is een verschil van bijna anderhalf jaar.</p>
+                    </article>
+                    <article class="stap">
+                        <h3>Niet overal rente</h3>
+                        <p>Eén aanbieder vergoedt niets over het depotsaldo, maar rekent ook geen rente over wat u nog niet hebt opgenomen.</p>
+                    </article>
+                    <article class="stap">
+                        <h3>Bon of factuur</h3>
+                        <p>De één accepteert een kassabon, de ander uitsluitend een factuur op naam. Dat bepaalt hoe u uw inkopen organiseert.</p>
+                    </article>
+                </div>
+
+                <p style="margin-top: var(--ds-6)">
+                    <a class="ds-knop ds-knop--rustig" href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de vergelijking</a>
+                </p>
+            </div>
+        </section>
+
+        <section class="ds-sectie">
+            <div class="ds-wrap">
+                <div class="banner">
+                    <p class="ds-eyebrow">Onafhankelijk</p>
+                    <h2 class="ds-title">Wij verkopen geen hypotheken</h2>
+                    <p style="margin-top: var(--ds-2); max-width: 54ch">Geen samenwerking met geldverstrekkers, geen doorverwijzing, geen aanvraagformulier. Alleen berekeningen en gecontroleerde voorwaarden, met bronvermelding en controledatum.</p>
+                    <a class="ds-knop" href="methodologie.html">Zo werken wij</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="voet">
+        <div class="ds-wrap">
+            <nav class="voet__links" aria-label="Voettekst">
+                <a href="/">Home</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="kennisbank.html">Kennisbank</a>
+                <a href="over-ons.html">Over ons</a>
+                <a href="methodologie.html">Methodologie</a>
+                <a href="privacy.html">Privacy</a>
+            </nav>
+            <p class="ds-caption">Ontwerpvoorstel &middot; niet de live site. &copy; 2026 BouwdepotCalculator.nl</p>
+        </div>
+    </footer>
+
+    <script>
+    (() => {
+        const el = (id) => document.getElementById(id);
+        const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+        const euro2 = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        const pct = new Intl.NumberFormat('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        let vorm = 'annuiteit';
+
+        const inBedrag = el('in-bedrag'), schuifBedrag = el('schuif-bedrag');
+        const inRente = el('in-rente'), schuifJaren = el('schuif-jaren');
+
+        function bereken() {
+            const bedrag = Math.max(0, parseFloat(inBedrag.value) || 0);
+            const rentePct = Math.max(0, parseFloat(inRente.value) || 0);
+            const jaren = parseInt(schuifJaren.value, 10);
+            const n = jaren * 12;
+            const r = (rentePct / 100) / 12;
+
+            const rente1 = bedrag * r;
+            let maand, aflossing1, totaalRente;
+
+            if (vorm === 'annuiteit') {
+                maand = r === 0 ? bedrag / n : (bedrag * r) / (1 - Math.pow(1 + r, -n));
+                aflossing1 = maand - rente1;
+                totaalRente = maand * n - bedrag;
+            } else {
+                aflossing1 = bedrag / n;
+                maand = aflossing1 + rente1;
+                // Som van de rente bij lineair: gemiddeld saldo maal rente maal maanden.
+                totaalRente = r * bedrag * (n + 1) / 2;
+            }
+
+            el('uit-maand').textContent = euro.format(maand);
+            el('uit-rente').textContent = euro.format(rente1);
+            el('uit-aflossing').textContent = euro.format(aflossing1);
+            el('uit-bedrag').textContent = euro.format(bedrag);
+            el('uit-looptijd').textContent = jaren + ' jaar';
+            el('uit-totaalrente').textContent = euro2.format(totaalRente);
+
+            const deel = maand > 0 ? (rente1 / maand) * 100 : 50;
+            el('balk-rente').style.width = deel.toFixed(1) + '%';
+            el('balk-aflossing').style.width = (100 - deel).toFixed(1) + '%';
+
+            el('toon-bedrag').textContent = euro.format(bedrag);
+            el('toon-rente').textContent = pct.format(rentePct) + '%';
+            el('toon-jaren').textContent = jaren + ' jaar';
+
+            el('uit-zin').textContent = vorm === 'annuiteit'
+                ? `Bij annuïteiten blijft dit bedrag gelijk; het rentedeel daalt geleidelijk.`
+                : `Bij lineair is dit de hoogste maand; daarna daalt de last elke maand.`;
+
+            document.querySelectorAll('[data-bedrag-keuze]').forEach((b) => {
+                b.setAttribute('aria-pressed', String(+b.dataset.bedragKeuze === bedrag));
+            });
+        }
+
+        // Twee invoeren op hetzelfde getal houden elkaar bij.
+        const koppel = (a, b) => {
+            a.addEventListener('input', () => { b.value = a.value; bereken(); });
+            b.addEventListener('input', () => { a.value = b.value; bereken(); });
+        };
+        koppel(inBedrag, schuifBedrag);
+
+        inRente.addEventListener('input', bereken);
+        schuifJaren.addEventListener('input', bereken);
+
+        document.querySelectorAll('[data-bedrag-keuze]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                inBedrag.value = schuifBedrag.value = btn.dataset.bedragKeuze;
+                bereken();
+            });
+        });
+
+        document.querySelectorAll('[data-vorm]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                vorm = btn.dataset.vorm;
+                document.querySelectorAll('[data-vorm]').forEach((b) =>
+                    b.setAttribute('aria-pressed', String(b === btn)));
+                bereken();
+            });
+        });
+
+        bereken();
+    })();
+    </script>
+</body>
+</html>
