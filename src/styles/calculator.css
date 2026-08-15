@@ -229,3 +229,137 @@ select.ds-invoer {
     line-height: 1.5;
     padding: var(--ds-3) var(--ds-4);
 }
+
+
+/* ==========================================================================
+   Termijnschema (nieuwbouw)
+   --------------------------------------------------------------------------
+   De rijen worden door main.js gegenereerd met vaste klassen, dus die namen
+   liggen vast. Op smalle schermen breekt een rij naar twee regels: maand,
+   omschrijving en verwijderknop boven, bedrag en percentage eronder.
+   ========================================================================== */
+
+.terms-kop {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-2) var(--ds-3);
+    justify-content: space-between;
+    margin-bottom: var(--ds-4);
+}
+
+.terms-totaal {
+    background: var(--ds-accent-wash);
+    border-radius: 999px;
+    color: var(--ds-accent);
+    font-size: var(--ds-t-caption);
+    font-variant-numeric: tabular-nums;
+    font-weight: 640;
+    padding: 4px var(--ds-3);
+}
+.terms-totaal[data-status="goed"] {
+    background: var(--ds-accent-wash);
+    color: var(--ds-accent);
+}
+.terms-totaal[data-status="afwijkend"] {
+    background: var(--ds-warn-wash);
+    color: var(--ds-warn);
+}
+
+.term-row {
+    align-items: center;
+    display: grid;
+    gap: var(--ds-2);
+    grid-template-columns: 56px 1fr 120px 92px 36px;
+    margin-bottom: var(--ds-2);
+}
+
+.term-row input {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line-strong);
+    border-radius: var(--ds-r-sm);
+    color: var(--ds-ink);
+    font: inherit;
+    font-size: var(--ds-t-small);
+    font-variant-numeric: tabular-nums;
+    min-height: 40px;
+    padding: 0 var(--ds-2);
+    width: 100%;
+}
+.term-row input:focus-visible {
+    border-color: var(--ds-accent);
+    box-shadow: 0 0 0 3px var(--ds-accent-wash);
+    outline: none;
+}
+
+.term-month-input { font-weight: 620; text-align: center; }
+
+.input-icon-wrapper { position: relative; width: 100%; }
+.input-icon-wrapper .icon {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-small);
+    left: var(--ds-2);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.input-icon-wrapper input { padding-left: var(--ds-5); }
+.input-icon-wrapper.pct input { padding-left: var(--ds-2); padding-right: var(--ds-5); text-align: center; }
+.input-icon-wrapper.pct .icon { left: auto; right: var(--ds-2); }
+
+.btn-remove {
+    background: none;
+    border: 0;
+    border-radius: var(--ds-r-sm);
+    color: var(--ds-ink-faint);
+    cursor: pointer;
+    font-size: 1.35rem;
+    line-height: 1;
+    min-height: 36px;
+    transition: color var(--ds-quick), background var(--ds-quick);
+}
+.btn-remove:hover { background: var(--ds-warn-wash); color: var(--ds-warn); }
+
+@media (max-width: 620px) {
+    .term-row {
+        background: var(--ds-surface);
+        border: 1px solid var(--ds-line);
+        border-radius: var(--ds-r-md);
+        grid-template-columns: 56px 1fr 36px;
+        padding: var(--ds-3);
+        row-gap: var(--ds-2);
+    }
+    .term-row > div:nth-child(1) { grid-column: 1; }
+    .term-row > div:nth-child(2) { grid-column: 2; }
+    .btn-remove { grid-column: 3; grid-row: 1; justify-self: end; }
+    .term-row .input-wrapper-euro { grid-column: 1 / 3; }
+    .term-row .input-wrapper-pct { grid-column: 3 / 4; min-width: 76px; }
+}
+
+/* Grafiek en tabel met het maandverloop */
+.verloop {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    padding: var(--ds-5);
+}
+.verloop canvas { max-width: 100%; }
+
+.details-table-wrapper { margin-top: var(--ds-4); overflow-x: auto; }
+.details-table { border-collapse: collapse; font-size: var(--ds-t-small); min-width: 420px; width: 100%; }
+.details-table th, .details-table td {
+    border-bottom: 1px solid var(--ds-line);
+    padding: var(--ds-2) var(--ds-3);
+    text-align: left;
+}
+.details-table thead th {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-caption);
+    font-weight: 600;
+}
+.details-table td { font-variant-numeric: tabular-nums; }
+.details-table .col-amount { text-align: right; }
+
+.details-table .col-gedempt { color: var(--ds-ink-muted); }
+.details-table .col-vergoeding { color: var(--ds-positive); }
+.details-table .netto-column { color: var(--ds-ink); font-weight: 640; }

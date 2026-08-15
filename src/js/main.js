@@ -1089,15 +1089,14 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             bindRowEvents();
             
+            // Status via een attribuut in plaats van een inline kleur: zo volgt de
+            // opmaak het ontwerpsysteem en klopt hij ook in donkere modus.
             const displayTotal = Math.round(totalP * 10) / 10;
-            totalPercentEl.textContent = displayTotal + '%';
-            if(Math.abs(displayTotal - 100) > 0.1) {
-                totalPercentEl.style.color = '#dc2626';
-                totalPercentEl.innerHTML = `${displayTotal}% (moet 100% zijn)`;
-            } else {
-                totalPercentEl.style.color = '#16a34a';
-                totalPercentEl.innerHTML = `100% toegewezen`;
-            }
+            const wijktAf = Math.abs(displayTotal - 100) > 0.1;
+            totalPercentEl.dataset.status = wijktAf ? 'afwijkend' : 'goed';
+            totalPercentEl.textContent = wijktAf
+                ? `${displayTotal}% (moet 100% zijn)`
+                : '100% toegewezen';
         }
 
         function bindRowEvents() {
@@ -1233,7 +1232,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 dataUserPays.push(netPayment);
                 dataDepotPays.push(interestReceivable);
 
-                tableHTML += `<tr><td>${m}</td><td class="col-amount">${formatEuro(currentDepot)}</td><td class="col-amount" style="color:#9ca3af;">${formatEuro(fullAnnuity)}</td><td class="col-amount" style="color:#4ade80;">-${formatEuro(interestReceivable)}</td><td class="col-amount netto-column">${formatEuro(netPayment)}</td></tr>`;
+                // Kleuren via klassen, niet inline: anders volgen ze de donkere modus niet.
+                tableHTML += `<tr><td>${m}</td><td class="col-amount">${formatEuro(currentDepot)}</td><td class="col-amount col-gedempt">${formatEuro(fullAnnuity)}</td><td class="col-amount col-vergoeding">-${formatEuro(interestReceivable)}</td><td class="col-amount netto-column">${formatEuro(netPayment)}</td></tr>`;
             }
 
             resTotalLoan.textContent = formatEuro(totalLoan);
