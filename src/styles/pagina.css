@@ -1,0 +1,216 @@
+/* ==========================================================================
+   Gedeelde paginachrome
+   --------------------------------------------------------------------------
+   Kop, kruimelpad, voet en de blokken die op meerdere pagina's terugkomen.
+   Bouwt voort op design-system.css; laad die eerst.
+   ========================================================================== */
+
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+
+.ds p { margin: 0 0 var(--ds-3); }
+.ds p:last-child { margin-bottom: 0; }
+
+/* --- Kop ----------------------------------------------------------------- */
+
+.kop {
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    background: color-mix(in srgb, var(--ds-paper) 82%, transparent);
+    border-bottom: 1px solid var(--ds-line);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.kop__inner {
+    align-items: center;
+    display: flex;
+    gap: var(--ds-4);
+    justify-content: space-between;
+    min-height: 56px;
+}
+
+.merk {
+    color: var(--ds-ink);
+    flex: none;
+    font-size: var(--ds-t-small);
+    font-weight: 640;
+    letter-spacing: -0.015em;
+    text-decoration: none;
+}
+.merk span { color: var(--ds-accent); }
+.merk:hover { color: var(--ds-ink); }
+
+.kop nav {
+    display: flex;
+    gap: var(--ds-4);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.kop nav::-webkit-scrollbar { display: none; }
+
+.kop nav a {
+    color: var(--ds-ink-soft);
+    font-size: var(--ds-t-small);
+    font-weight: 530;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.kop nav a:hover { color: var(--ds-accent); }
+
+@media (min-width: 768px) { .kop nav { gap: var(--ds-5); } }
+
+/* --- Kruimelpad ---------------------------------------------------------- */
+
+.kruimel { padding-block: var(--ds-3); }
+.kruimel ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.kruimel li {
+    color: var(--ds-ink-faint);
+    font-size: var(--ds-t-caption);
+}
+.kruimel li + li::before {
+    content: '/';
+    margin-right: var(--ds-2);
+    opacity: 0.6;
+}
+.kruimel a { color: var(--ds-ink-muted); text-decoration: none; }
+.kruimel a:hover { color: var(--ds-accent); }
+
+/* --- Kerncijfers: antwoord eerst ----------------------------------------- */
+
+.kern {
+    display: grid;
+    gap: var(--ds-4);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.kern--twee { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+.kern__item {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    padding: var(--ds-5);
+}
+
+.kern__cijfer {
+    font-size: clamp(2.25rem, 6vw, 3rem);
+    font-weight: 690;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    margin: 0 0 var(--ds-1);
+}
+.kern__van {
+    color: var(--ds-ink-faint);
+    font-size: 0.5em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.kern__eenheid {
+    color: var(--ds-accent);
+    font-size: var(--ds-t-caption);
+    font-weight: 620;
+    letter-spacing: 0.04em;
+    margin: 0 0 var(--ds-3);
+    text-transform: uppercase;
+}
+
+.kern__tekst {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-small);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.ds-sectie--diep .kern__item {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Tekstblokken -------------------------------------------------------- */
+
+.uitleg { display: grid; gap: var(--ds-5); }
+.uitleg h3 {
+    font-size: var(--ds-t-lead);
+    font-weight: 620;
+    letter-spacing: -0.018em;
+    margin-bottom: var(--ds-2);
+}
+.uitleg p { color: var(--ds-ink-soft); margin: 0; }
+
+.punten {
+    display: grid;
+    gap: var(--ds-3);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.punten li {
+    line-height: 1.55;
+    padding-left: var(--ds-5);
+    position: relative;
+}
+.punten li::before {
+    background: var(--ds-accent);
+    border-radius: 50%;
+    content: '';
+    height: 6px;
+    left: 4px;
+    position: absolute;
+    top: 0.65em;
+    width: 6px;
+}
+.ds-sectie--diep .punten li::before { background: var(--ds-accent-bright); }
+
+.bronnen {
+    display: grid;
+    gap: var(--ds-2);
+    list-style: none;
+    margin: 0 0 var(--ds-4);
+    padding: 0;
+}
+.bronnen a {
+    font-size: var(--ds-t-small);
+    overflow-wrap: anywhere;
+}
+
+/* Losse mededeling, bijvoorbeeld de onafhankelijkheidsverklaring. */
+.melding {
+    background: var(--ds-surface-sunk);
+    border-radius: var(--ds-r-lg);
+    padding: var(--ds-5);
+}
+.melding p {
+    color: var(--ds-ink-soft);
+    font-size: var(--ds-t-small);
+    line-height: 1.55;
+}
+.melding--let-op { background: var(--ds-warn-wash); }
+
+/* --- Voet ---------------------------------------------------------------- */
+
+.voet {
+    border-top: 1px solid var(--ds-line);
+    margin-top: var(--ds-8);
+    padding-block: var(--ds-6);
+}
+.voet__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-2) var(--ds-5);
+    margin-bottom: var(--ds-4);
+}
+.voet__links a {
+    color: var(--ds-ink-soft);
+    font-size: var(--ds-t-small);
+    text-decoration: none;
+}
+.voet__links a:hover { color: var(--ds-accent); }

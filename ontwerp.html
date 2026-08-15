@@ -13,42 +13,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/src/styles/design-system.css">
+    <link rel="stylesheet" href="/src/styles/pagina.css">
     <style>
-        /* Alleen paginaspecifieke opmaak; alles wat herbruikbaar is staat in het ontwerpsysteem. */
-        html { -webkit-text-size-adjust: 100%; }
-        body { margin: 0; }
-
-        .kop {
-            backdrop-filter: saturate(180%) blur(16px);
-            -webkit-backdrop-filter: saturate(180%) blur(16px);
-            background: color-mix(in srgb, var(--ds-paper) 82%, transparent);
-            border-bottom: 1px solid var(--ds-line);
-            position: sticky; top: 0; z-index: 20;
-        }
-        .kop__inner {
-            align-items: center;
-            display: flex;
-            justify-content: space-between;
-            gap: var(--ds-4);
-            min-height: 56px;
-        }
-        .merk {
-            color: var(--ds-ink);
-            font-size: var(--ds-t-small);
-            font-weight: 640;
-            letter-spacing: -0.015em;
-            text-decoration: none;
-        }
-        .merk span { color: var(--ds-accent); }
-        .kop nav { display: none; gap: var(--ds-5); }
-        .kop nav a {
-            color: var(--ds-ink-soft);
-            font-size: var(--ds-t-small);
-            font-weight: 530;
-            text-decoration: none;
-        }
-        .kop nav a:hover { color: var(--ds-accent); }
-        @media (min-width: 720px) { .kop nav { display: flex; } }
+        /* Alleen paginaspecifieke opmaak; kop, voet en tekstblokken staan in pagina.css. */
 
         /* --- De rekenzone: het hart van de pagina --- */
         .reken { padding-block: var(--ds-5) var(--ds-7); }
@@ -104,14 +71,6 @@
             padding-top: var(--ds-4);
         }
 
-        .voet {
-            border-top: 1px solid var(--ds-line);
-            padding-block: var(--ds-6);
-        }
-        .voet__links { display: flex; flex-wrap: wrap; gap: var(--ds-2) var(--ds-5); margin-bottom: var(--ds-4); }
-        .voet__links a { color: var(--ds-ink-soft); font-size: var(--ds-t-small); text-decoration: none; }
-        .voet__links a:hover { color: var(--ds-accent); }
-
         .notitie {
             background: var(--ds-warn-wash);
             border-radius: var(--ds-r-md);
@@ -149,9 +108,6 @@
             background: #fff; color: var(--ds-accent); margin-top: var(--ds-4);
         }
         .banner .ds-knop:hover { background: rgba(255,255,255,0.9); color: var(--ds-accent); }
-
-        p { margin: 0 0 var(--ds-3); }
-        p:last-child { margin-bottom: 0; }
     </style>
 </head>
 <body class="ds">
