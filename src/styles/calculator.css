@@ -373,3 +373,26 @@ select.ds-invoer {
     transition: background var(--ds-quick);
 }
 .ds-uitsplitsing .is-klikbaar:hover { background: var(--ds-accent-wash); }
+
+/* Formuleblok in de uitleg. */
+.formule {
+    background: var(--ds-surface-sunk);
+    border-radius: var(--ds-r-md);
+    padding: var(--ds-4);
+}
+.formule p {
+    font-size: var(--ds-t-small);
+    line-height: 1.5;
+    margin-bottom: var(--ds-2);
+}
+.formule p:last-child { margin-bottom: 0; }
+
+/* Veld dat in dit rekenmodel geen betekenis heeft: zichtbaar maar inactief. */
+.input-group--uitgeschakeld .ds-veld__naam,
+.input-group--uitgeschakeld .suffix-veld > span { color: var(--ds-ink-faint); }
+.input-group--uitgeschakeld .ds-invoer {
+    background: var(--ds-surface-sunk);
+    border-style: dashed;
+    color: var(--ds-ink-faint);
+    cursor: not-allowed;
+}

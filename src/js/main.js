@@ -895,7 +895,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (inputDepotRate) {
                 inputDepotRate.disabled = model === 'opname';
-                const wrapper = inputDepotRate.closest('.input-group');
+                // .ds-veld is de wikkel in het nieuwe ontwerp; .input-group nog in de oude.
+                const wrapper = inputDepotRate.closest('.ds-veld, .input-group');
                 if (wrapper) wrapper.classList.toggle('input-group--uitgeschakeld', model === 'opname');
             }
 
