@@ -294,3 +294,41 @@ body { margin: 0; }
     margin-top: 5px;
     width: 16px;
 }
+
+/* Genummerde fouten of problemen, met een aparte oplossingsblok. */
+.fouten { display: grid; gap: var(--ds-4); }
+@media (min-width: 900px) { .fouten { grid-template-columns: 1fr 1fr; gap: var(--ds-5); } }
+
+.fout {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    display: flex;
+    flex-direction: column;
+    padding: var(--ds-5);
+}
+.fout__nummer {
+    color: var(--ds-warn);
+    font-size: var(--ds-t-caption);
+    font-weight: 640;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--ds-1);
+    text-transform: uppercase;
+}
+.fout > p { color: var(--ds-ink-soft); font-size: var(--ds-t-small); line-height: 1.55; margin-top: var(--ds-2); }
+
+.fout__oplossing {
+    background: var(--ds-accent-wash);
+    border-radius: var(--ds-r-md);
+    margin-top: auto;
+    padding: var(--ds-4);
+}
+.fout__oplossing h3 {
+    color: var(--ds-accent);
+    font-size: var(--ds-t-caption);
+    font-weight: 640;
+    letter-spacing: 0.04em;
+    margin-bottom: var(--ds-2);
+    text-transform: uppercase;
+}
+.fout__oplossing p { font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
