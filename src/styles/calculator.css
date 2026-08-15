@@ -363,3 +363,13 @@ select.ds-invoer {
 .details-table .col-gedempt { color: var(--ds-ink-muted); }
 .details-table .col-vergoeding { color: var(--ds-positive); }
 .details-table .netto-column { color: var(--ds-ink); font-weight: 640; }
+
+/* Rij die doorlinkt naar de fiscale verdieping. */
+.ds-uitsplitsing .is-klikbaar {
+    border-radius: var(--ds-r-sm);
+    cursor: pointer;
+    margin: 0 calc(var(--ds-2) * -1);
+    padding: var(--ds-1) var(--ds-2);
+    transition: background var(--ds-quick);
+}
+.ds-uitsplitsing .is-klikbaar:hover { background: var(--ds-accent-wash); }

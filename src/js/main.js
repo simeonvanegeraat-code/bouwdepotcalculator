@@ -257,8 +257,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const int = inputInterest.value;
                 window.location.href = `belasting.html?amount=${amt}&interest=${int}`;
             });
-            rowVoordeel.addEventListener('mouseenter', () => rowVoordeel.style.backgroundColor = '#ecfdf5');
-            rowVoordeel.addEventListener('mouseleave', () => rowVoordeel.style.backgroundColor = 'transparent');
+            // Hover staat in de stylesheet: een inline kleur volgt de donkere modus niet.
+            rowVoordeel.classList.add('is-klikbaar');
         }
 
         // --- NIEUW: Logic voor Accordion Toggle ---
