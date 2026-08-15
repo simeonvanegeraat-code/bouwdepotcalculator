@@ -332,3 +332,78 @@ body { margin: 0; }
     text-transform: uppercase;
 }
 .fout__oplossing p { font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
+
+/* Tijdlijn met fasen die elkaar opvolgen. */
+.tijdlijn { display: grid; gap: var(--ds-4); }
+@media (min-width: 820px) { .tijdlijn { grid-template-columns: repeat(3, 1fr); } }
+
+.fase-blok {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    border-top: 3px solid var(--ds-accent);
+    padding: var(--ds-5);
+}
+.fase-blok:nth-child(2) { border-top-color: var(--ds-data-2); }
+.fase-blok:nth-child(3) { border-top-color: var(--ds-ink-faint); }
+
+.fase-blok__periode {
+    font-size: var(--ds-t-caption);
+    font-weight: 640;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--ds-2);
+    text-transform: uppercase;
+}
+.fase-blok:nth-child(1) .fase-blok__periode { color: var(--ds-accent); }
+.fase-blok:nth-child(2) .fase-blok__periode { color: var(--ds-data-2); }
+.fase-blok:nth-child(3) .fase-blok__periode { color: var(--ds-ink-muted); }
+
+.fase-blok h3 { font-size: var(--ds-t-lead); font-weight: 620; letter-spacing: -0.018em; margin-bottom: var(--ds-2); }
+.fase-blok p { color: var(--ds-ink-muted); font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
+
+/* Uitgewerkt rekenvoorbeeld. */
+.voorbeeld {
+    background: var(--ds-surface-sunk);
+    border-radius: var(--ds-r-lg);
+    padding: var(--ds-5);
+}
+.voorbeeld dl { display: grid; gap: var(--ds-3); margin: var(--ds-4) 0 0; }
+.voorbeeld dl > div {
+    align-items: baseline;
+    border-bottom: 1px solid var(--ds-line);
+    display: flex;
+    gap: var(--ds-4);
+    justify-content: space-between;
+    padding-bottom: var(--ds-3);
+}
+.voorbeeld dl > div:last-child { border-bottom: 0; padding-bottom: 0; }
+.voorbeeld dt { color: var(--ds-ink-soft); font-size: var(--ds-t-small); }
+.voorbeeld dd {
+    font-variant-numeric: tabular-nums;
+    font-weight: 620;
+    margin: 0;
+    white-space: nowrap;
+}
+.voorbeeld .uitkomst dt { color: var(--ds-ink); font-weight: 620; }
+.voorbeeld .uitkomst dd { color: var(--ds-accent); font-size: var(--ds-t-lead); }
+
+/* Twee lijsten naast elkaar: wel en niet. */
+.wel-niet { display: grid; gap: var(--ds-4); }
+@media (min-width: 760px) { .wel-niet { grid-template-columns: 1fr 1fr; gap: var(--ds-5); } }
+
+.wel-niet__blok {
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    padding: var(--ds-5);
+}
+.wel-niet__blok h3 { font-size: var(--ds-t-body); font-weight: 620; margin-bottom: var(--ds-3); }
+.wel-niet__blok ul { display: grid; gap: var(--ds-2); list-style: none; margin: 0; padding: 0; }
+.wel-niet__blok li {
+    font-size: var(--ds-t-small);
+    line-height: 1.45;
+    padding-left: var(--ds-5);
+    position: relative;
+}
+.wel-niet__blok li::before { left: 0; position: absolute; }
+.wel-niet__blok--wel li::before { color: var(--ds-positive); content: '+'; font-weight: 700; }
+.wel-niet__blok--niet li::before { color: var(--ds-warn); content: '\2212'; font-weight: 700; }
