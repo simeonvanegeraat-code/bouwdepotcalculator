@@ -180,11 +180,14 @@ select.ds-invoer {
     align-items: center;
     backdrop-filter: saturate(180%) blur(16px);
     -webkit-backdrop-filter: saturate(180%) blur(16px);
-    background: color-mix(in srgb, var(--ds-ink) 92%, transparent);
+    /* Vaste kleuren: dit is een zwevende laag boven de pagina, dus hij moet in
+       lichte en donkere modus hetzelfde blijven. Met --ds-ink zou hij in donkere
+       modus omklappen naar licht-op-licht. */
+    background: rgba(15, 21, 24, 0.94);
     border-radius: 999px;
     bottom: var(--ds-4);
     box-shadow: var(--ds-shadow-3);
-    color: var(--ds-paper);
+    color: #FCFBF9;
     cursor: pointer;
     display: none;
     gap: var(--ds-3);

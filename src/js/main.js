@@ -1,4 +1,7 @@
-import '../styles/main.css';
+// main.css wordt niet hier geimporteerd maar per pagina gelinkt. Anders bundelt
+// Vite de oude stylesheet mee op elke pagina die main.js laadt, ook de nieuwe.
+// Die zet onder meer h2 op --color-primary (#000066), wat op een donkere sectie
+// vrijwel onleesbaar wordt.
 import { initSharedFormMemory, setMemoryLockById } from './shared-form-memory';
 import {
     TAX_RULES_2026,

@@ -25,7 +25,7 @@
     --ds-ink:          #0F1518;   /* niet zuiver zwart: minder hard op papierwit */
     --ds-ink-soft:     #3D4C55;
     --ds-ink-muted:    #5E6D78;   /* donker genoeg voor WCAG AA op papier (5,2:1) */
-    --ds-ink-faint:    #8B98A2;   /* uitsluitend decoratief; nooit voor inhoud */
+    --ds-ink-faint:    #63707A;   /* tertiair, maar haalt nog AA (4,9:1) */
 
     --ds-accent:       #0E5F58;   /* diep teal, draagt tekst op wit */
     --ds-accent-hover: #0A4C46;
@@ -88,7 +88,7 @@
         --ds-ink:          #F2F4F5;
         --ds-ink-soft:     #C2CCD2;
         --ds-ink-muted:    #8F9DA6;
-        --ds-ink-faint:    #6B7880;
+        --ds-ink-faint:    #8B98A2;   /* haalt AA; #6B7880 was te donker op papier */
 
         --ds-accent:       #4FBFB2;
         --ds-accent-hover: #6FD3C7;
@@ -189,8 +189,10 @@
 
 .ds-muted { color: var(--ds-ink-muted); }
 
-.ds a { color: var(--ds-accent); text-underline-offset: 3px; }
-.ds a:hover { color: var(--ds-accent-hover); }
+/* Knoppen uitsluiten: een link met .ds-knop haalt zijn kleur uit de variant,
+   en .ds a zou daar anders overheen gaan omdat het specifieker is. */
+.ds a:not(.ds-knop) { color: var(--ds-accent); text-underline-offset: 3px; }
+.ds a:not(.ds-knop):hover { color: var(--ds-accent-hover); }
 
 /* ==========================================================================
    Oppervlakken
@@ -499,13 +501,32 @@
 .ds-sectie { padding-block: var(--ds-7); }
 .ds-sectie--ruim { padding-block: var(--ds-8); }
 .ds-sectie--gevuld { background: var(--ds-surface-sunk); }
+/*
+ * Een donkere sectie keert de achtergrond om, dus moeten de teksttokens mee.
+ * Ze hier herdefinieren in plaats van losse klassen patchen: alles wat in deze
+ * sectie belandt klopt dan vanzelf, ook componenten die later worden toegevoegd.
+ * De achtergrond staat vast en volgt --ds-ink niet, want dat token wisselt zelf
+ * van kant in donkere modus en dan zou de sectie juist licht worden.
+ */
 .ds-sectie--diep {
-    background: var(--ds-ink);
-    color: var(--ds-paper);
+    background: #0F1518;
+
+    --ds-ink:          #FCFBF9;
+    --ds-ink-soft:     #C9D2D7;
+    --ds-ink-muted:    #A2AEB5;
+    --ds-ink-faint:    #7E8B93;
+
+    --ds-accent:       #4FBFB2;
+    --ds-accent-hover: #6FD3C7;
+    --ds-accent-wash:  rgba(79, 191, 178, 0.14);
+
+    --ds-surface:      rgba(255, 255, 255, 0.05);
+    --ds-surface-sunk: rgba(255, 255, 255, 0.03);
+    --ds-line:         rgba(255, 255, 255, 0.12);
+    --ds-line-strong:  rgba(255, 255, 255, 0.2);
+
+    color: var(--ds-ink);
 }
-.ds-sectie--diep .ds-caption,
-.ds-sectie--diep .ds-muted { color: var(--ds-ink-faint); }
-.ds-sectie--diep .ds-eyebrow { color: var(--ds-accent-bright); }
 
 .ds-sectiekop { margin-bottom: var(--ds-5); max-width: 60ch; }
 .ds-sectiekop .ds-lead { margin-top: var(--ds-2); }

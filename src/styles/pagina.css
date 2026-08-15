@@ -130,11 +130,6 @@ body { margin: 0; }
     margin: 0;
 }
 
-.ds-sectie--diep .kern__item {
-    background: rgba(255, 255, 255, 0.04);
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
 /* --- Tekstblokken -------------------------------------------------------- */
 
 .uitleg { display: grid; gap: var(--ds-5); }
@@ -168,7 +163,6 @@ body { margin: 0; }
     top: 0.65em;
     width: 6px;
 }
-.ds-sectie--diep .punten li::before { background: var(--ds-accent-bright); }
 
 .bronnen {
     display: grid;
