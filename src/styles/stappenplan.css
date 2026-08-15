@@ -137,3 +137,50 @@
     .fase, .voortgang, .dossier__moment { break-inside: avoid; box-shadow: none; }
     .ds-keuzes { display: none; }
 }
+
+/* --- Invulbaar scenariovel (advieschecklist) ------------------------------ */
+
+.scenariovel {
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    overflow: hidden;
+}
+.scenariovel__rij {
+    border-bottom: 1px solid var(--ds-line);
+    display: grid;
+    gap: var(--ds-2);
+    grid-template-columns: 1fr;
+    padding: var(--ds-3) var(--ds-4);
+}
+.scenariovel__rij:last-child { border-bottom: 0; }
+
+/* Op smalle schermen krijgt elk veld zijn eigen label via de kolomkop. */
+.scenariovel__rij--kop { display: none; }
+.scenariovel__rij strong { font-size: var(--ds-t-small); }
+.scenariovel .invul {
+    border-bottom: 1px dashed var(--ds-line-strong);
+    display: block;
+    min-height: 30px;
+}
+
+@media (min-width: 720px) {
+    .scenariovel__rij {
+        align-items: center;
+        grid-template-columns: 6rem repeat(5, 1fr);
+        gap: var(--ds-3);
+    }
+    .scenariovel__rij--kop {
+        background: var(--ds-surface-sunk);
+        display: grid;
+    }
+    .scenariovel__rij--kop span {
+        color: var(--ds-ink-muted);
+        font-size: var(--ds-t-caption);
+        font-weight: 600;
+    }
+}
+
+@media print {
+    .scenariovel__rij--kop { display: grid; }
+    .scenariovel__rij { grid-template-columns: 6rem repeat(5, 1fr); }
+}

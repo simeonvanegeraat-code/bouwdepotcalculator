@@ -1,16 +1,22 @@
 /**
- * Voortgang van de dossiercheck op het stappenplan.
+ * Voortgang voor afvinkbare lijsten (stappenplan, advieschecklist).
  *
- * Stond eerder als inline scriptblok in stappenplan.html. Logica ongewijzigd;
- * de voortgang blijft in localStorage op het apparaat van de bezoeker en gaat
- * nergens heen.
+ * De pagina bepaalt zelf onder welke sleutel wordt opgeslagen, zodat twee
+ * lijsten elkaar niet overschrijven:
+ *
+ *   <div data-checklist="bouwdepot-stappenplan-v1"> ... </div>
+ *
+ * Alles blijft in localStorage op het apparaat van de bezoeker en gaat nergens
+ * heen. Werkt de opslag niet, bijvoorbeeld in privémodus, dan blijft de lijst
+ * gewoon bruikbaar; alleen het onthouden vervalt.
  */
 
-const KEY = 'bouwdepot-stappenplan-v1';
-
-const checks = Array.from(document.querySelectorAll('[data-plan-check]'));
+const container = document.querySelector('[data-checklist]');
+const checks = container ? Array.from(container.querySelectorAll('[data-plan-check]')) : [];
 
 if (checks.length) {
+    const KEY = container.dataset.checklist;
+
     const text = document.getElementById('plan-progress-text');
     const percent = document.getElementById('plan-progress-percent');
     const bar = document.getElementById('plan-progress-bar');
@@ -20,14 +26,12 @@ if (checks.length) {
         try {
             const done = checks.filter((box) => box.checked).map((box) => box.dataset.planCheck);
             localStorage.setItem(KEY, JSON.stringify(done));
-        } catch (_) {
-            // Privémodus of geblokkeerde opslag: voortgang gaat dan niet mee, verder niets aan de hand.
-        }
+        } catch (_) {}
     };
 
     const render = () => {
         const done = checks.filter((box) => box.checked).length;
-        const value = checks.length ? Math.round((done / checks.length) * 100) : 0;
+        const value = Math.round((done / checks.length) * 100);
         if (text) text.textContent = `${done} van ${checks.length} punten afgerond`;
         if (percent) percent.textContent = `${value}%`;
         if (bar) bar.style.width = `${value}%`;
