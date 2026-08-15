@@ -1533,7 +1533,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <tr>
                         <td>${year}</td>
                         <td class="col-amount">${formatEuro(yearGrossPayment / 12)}</td>
-                        <td class="col-amount" style="color:#166534;">${formatEuro(taxBenefit / 12)}</td>
+                        <td class="col-amount col-vergoeding">${formatEuro(taxBenefit / 12)}</td>
                         <td class="col-amount netto-column">${formatEuro(yearNetto / 12)}</td>
                     </tr>
                 `;

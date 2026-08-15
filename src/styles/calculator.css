@@ -396,3 +396,13 @@ select.ds-invoer {
     color: var(--ds-ink-faint);
     cursor: not-allowed;
 }
+
+/* Losse kengetallen in een uitklapblok, bijvoorbeeld het effectieve aftrektarief. */
+.fiscaal-kengetal {
+    display: flex;
+    font-size: var(--ds-t-small);
+    gap: var(--ds-4);
+    justify-content: space-between;
+}
+.fiscaal-kengetal span { color: var(--ds-ink-muted); }
+.fiscaal-kengetal strong { font-variant-numeric: tabular-nums; font-weight: 620; }
