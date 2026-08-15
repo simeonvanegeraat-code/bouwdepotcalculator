@@ -211,3 +211,21 @@ select.ds-invoer {
     .reken__grid { display: block; }
     .ds-uitkomst { box-shadow: none; border: 1px solid #ccc; }
 }
+
+/* Klein getalveld dat naast het label past, bijvoorbeeld het aantal maanden. */
+.ds-invoer--kort {
+    display: inline-block;
+    min-height: 34px;
+    padding: 2px var(--ds-2);
+    text-align: right;
+    width: 4.5rem;
+}
+
+.notitie {
+    background: var(--ds-surface-sunk);
+    border-radius: var(--ds-r-md);
+    color: var(--ds-ink-soft);
+    font-size: var(--ds-t-small);
+    line-height: 1.5;
+    padding: var(--ds-3) var(--ds-4);
+}
