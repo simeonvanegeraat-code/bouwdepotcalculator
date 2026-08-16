@@ -2,7 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
-      "comment": "Het keuzedashboard op de homepage vervangt de losse calculatorlijst.",
       "source": "/calculators.html",
       "destination": "/#kiezen",
       "permanent": true
