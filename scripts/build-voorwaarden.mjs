@@ -32,10 +32,19 @@ const NL_DATUM = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long
 const datum = (iso) => NL_DATUM.format(new Date(iso + 'T00:00:00Z'));
 
 const LEEG = '<span class="vgl-leeg">niet gepubliceerd</span>';
+const NVT = '<span class="vgl-leeg">niet van toepassing</span>';
 
-/** Een cel waarvan de waarde niet publiek is blijft expliciet leeg. Nooit schatten. */
+/**
+ * Een cel waarvan de waarde niet publiek is blijft expliciet leeg. Nooit schatten.
+ *
+ * "Niet van toepassing" is iets anders dan "niet gepubliceerd": bij een aanbieder
+ * zonder declaratieproces bestaat een maximum per declaratie eenvoudigweg niet.
+ * Daar een getal neerzetten dat uit een ander proces komt, maakt de vergelijking
+ * onvergelijkbaar.
+ */
 function waarde(veld) {
   if (!veld) return LEEG;
+  if (veld.status === 'niet-van-toepassing') return NVT;
   if (veld.status === 'niet-gepubliceerd' || (veld.waarde == null && veld.bedrag == null)) return LEEG;
   if (typeof veld.bedrag === 'number') return '&euro;&nbsp;' + veld.bedrag.toLocaleString('nl-NL');
   return esc(veld.waarde);
@@ -218,7 +227,9 @@ ${balk('Nieuwbouw', a.looptijdNieuwbouwMaanden, v.nieuwbouw, v.mogelijkMaarDuurO
                     <dl class="vgl-feiten">
                         <div class="vgl-feit"><dt>Vergoeding over depot</dt><dd${geenRente ? ' class="vgl-leeg"' : ''}>${waarde(a.rentevergoeding)}</dd></div>
                         <div class="vgl-feit"><dt>Uitbetaling</dt><dd>${a.doorlooptijdUitbetaling?.digitaal ? esc(a.doorlooptijdUitbetaling.digitaal) : LEEG}</dd></div>
-                        <div class="vgl-feit"><dt>Max. per declaratie</dt><dd>${waarde(a.maxPerOpname)}</dd></div>
+                        <div class="vgl-feit"><dt>Grens per opname</dt><dd>${waarde(a.maxPerOpname)}${
+                          a.maxPerOpname?.detail ? `<small>${esc(a.maxPerOpname.detail)}</small>` : ''
+                        }</dd></div>
                     </dl>
                 </article>`;
   }).join('\n');

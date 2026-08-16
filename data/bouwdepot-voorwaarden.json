@@ -8,7 +8,7 @@
     "verlengingMaanden": "Eenmalige verlenging indien mogelijk",
     "rentevergoeding": "Wat je aan rente ontvangt over het saldo in het depot",
     "opnamemethode": "declaratie = bank keurt vooraf goed; zelf-betalen = je betaalt direct vanuit het depot",
-    "maxPerOpname": "Maximumbedrag per declaratie of overboeking",
+    "maxPerOpname": "Grens per opname. Bij declareren het maximum per declaratie; bij zelf overboeken bestaat zo'n productgrens niet.",
     "minPerOpname": "Minimumbedrag per declaratie",
     "doorlooptijdUitbetaling": "Tijd tussen indienen en uitbetaling",
     "restant": "Wat er gebeurt met het bedrag dat overblijft",
@@ -66,7 +66,11 @@
         "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. Na verlenging voorbij 2 jaar ontvang je geen rente meer."
       },
       "opnamemethode": "zelf-betalen",
-      "maxPerOpname": { "bedrag": 5000, "detail": "Per overboeking. Limiet tijdelijk of blijvend verhoogbaar; na verhoging geldt 4 uur wachttijd." },
+      "maxPerOpname": {
+        "bedrag": null,
+        "status": "niet-van-toepassing",
+        "detail": "Er is geen declaratieproces met een maximumbedrag: u betaalt zelf vanuit het depot. In de praktijk geldt de overboeklimiet van uw eigen rekening, en die stelt u zelf in."
+      },
       "minPerOpname": { "bedrag": null, "status": "niet-gepubliceerd" },
       "doorlooptijdUitbetaling": {
         "digitaal": "Direct - je betaalt zelf vanuit het depot via Online Bankieren of de Rabo App",
@@ -82,6 +86,7 @@
         "Het depot wordt direct geopend bij het passeren; later openen of tussentijds verhogen is niet mogelijk.",
         "Het depot stopt automatisch als het saldo onder EUR 2.500 komt, als de (ver)bouw af is, of als de bouw anders verloopt dan afgesproken.",
         "Facturen hoef je niet vooraf in te dienen, maar Rabobank kan achteraf controleren.",
+        "Overboeken gaat via uw eigen overboeklimiet in Online Bankieren of de app. Die limiet is een instelling van uw rekening en geen depotvoorwaarde: u kunt hem zelf tijdelijk of blijvend verhogen, waarna een wachttijd geldt voordat de nieuwe limiet ingaat.",
         "Mogelijk met zowel Basis- als Plusvoorwaarden en met alle rentevaste periodes."
       ]
     },
