@@ -65,8 +65,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const valDuration = document.getElementById('val-duration');
         const resBruto = document.getElementById('res-bruto');
+        const rowBruto = document.getElementById('row-bruto');
         const resVoordeel = document.getElementById('res-voordeel');
         const resNetto = document.getElementById('res-netto');
+        const uitkomstLabel = document.getElementById('uitkomst-label');
+        const resRentedeel = document.getElementById('res-rentedeel');
+        const resAflossingdeel = document.getElementById('res-aflossingdeel');
+        const resTotaalrente = document.getElementById('res-totaalrente');
+        const balkRente = document.getElementById('balk-rente');
+        const balkAflossing = document.getElementById('balk-aflossing');
         const resConclusion = document.getElementById('res-conclusion');
         const resMethod = document.getElementById('res-method');
         const reportGeneratedAt = document.getElementById('report-generated-at');
@@ -179,6 +186,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const firstMonthInterest = amount * monthlyRate; 
             const taxBenefit = checkAftrek.checked ? (firstMonthInterest * taxRate) : 0;
             const netMonthly = grossMonthly - taxBenefit;
+
+            // Waar de eerste maandlast uit bestaat, en wat de rente over de hele
+            // looptijd kost. Bij lineair daalt de last elke maand, dus is de som
+            // van de rente over het gemiddelde saldo.
+            const aflossingsdeel = Math.max(0, grossMonthly - firstMonthInterest);
+            const totaleRente = type === 'linear'
+                ? monthlyRate * amount * (totalMonths + 1) / 2
+                : grossMonthly * totalMonths - amount;
+
             const now = new Date();
             const reportData = buildHomepageReport({
                 amount,
@@ -242,7 +258,32 @@ document.addEventListener('DOMContentLoaded', () => {
             if (summaryInterest) summaryInterest.textContent = formatPercentage(reportData.inputs.interestRate);
             if (summaryDuration) summaryDuration.textContent = `${reportData.inputs.durationYears} jaar`;
             if (summaryTax) summaryTax.textContent = reportData.inputs.taxIndicationEnabled ? 'Max. 37,56% vóór EWF' : 'Uit';
-            if (resConclusion) resConclusion.textContent = reportData.conclusion;
+
+            // Het label volgt de renteaftrek: staat die uit, dan is er niets
+            // afgetrokken en is "netto" misleidend.
+            if (uitkomstLabel) {
+                uitkomstLabel.textContent = checkAftrek.checked
+                    ? 'Netto maandlast na renteaftrek, eerste maand'
+                    : 'Bruto maandlast, eerste maand';
+            }
+            // Zonder aftrek is de brutoregel gelijk aan het bedrag erboven.
+            if (rowBruto) rowBruto.style.display = checkAftrek.checked ? '' : 'none';
+
+            if (resRentedeel) resRentedeel.textContent = formatEuro(firstMonthInterest);
+            if (resAflossingdeel) resAflossingdeel.textContent = formatEuro(aflossingsdeel);
+            if (resTotaalrente) resTotaalrente.textContent = formatEuro(totaleRente);
+            if (balkRente && balkAflossing && grossMonthly > 0) {
+                const deel = (firstMonthInterest / grossMonthly) * 100;
+                balkRente.style.width = deel.toFixed(1) + '%';
+                balkAflossing.style.width = (100 - deel).toFixed(1) + '%';
+            }
+
+            // De zin zegt wat het getal niet zegt: hoe de last zich ontwikkelt.
+            if (resConclusion) {
+                resConclusion.textContent = type === 'linear'
+                    ? 'Bij lineair is dit uw hoogste maand. De aflossing blijft gelijk, het rentedeel daalt, dus uw last wordt elke maand iets lager.'
+                    : 'Bij annuïteiten blijft dit bedrag de hele looptijd gelijk. Alleen de verhouding schuift: het rentedeel daalt, de aflossing stijgt.';
+            }
             if (resMethod) resMethod.textContent = reportData.assumptions;
             if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
 

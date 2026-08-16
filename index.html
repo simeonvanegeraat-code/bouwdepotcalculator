@@ -47,13 +47,26 @@
             <div class="reken__grid">
                 <div class="reken__uitkomst" id="print-area">
                     <div class="ds-uitkomst">
-                        <p class="ds-uitkomst__label">Netto maandlast, eerste maand</p>
+                        <p class="ds-uitkomst__label" id="uitkomst-label">Bruto maandlast, eerste maand</p>
                         <strong class="ds-uitkomst__bedrag" id="res-netto" data-bedrag>&euro; 0</strong>
-                        <p class="ds-uitkomst__toelichting" id="res-conclusion">Bij deze invoer krijgt u een indicatieve netto maandlast.</p>
+                        <p class="ds-uitkomst__toelichting" id="res-conclusion">Vul uw bedrag in voor een indicatie.</p>
+
+                        <!-- Waar het bedrag uit bestaat: rente daalt door de jaren, aflossing stijgt. -->
+                        <div class="verhouding" aria-hidden="true">
+                            <div class="verhouding__balk">
+                                <div class="verhouding__deel verhouding__deel--rente" id="balk-rente" style="width:50%"></div>
+                                <div class="verhouding__deel verhouding__deel--aflossing" id="balk-aflossing" style="width:50%"></div>
+                            </div>
+                            <div class="verhouding__legenda">
+                                <span class="verhouding__item"><span class="verhouding__stip verhouding__stip--rente"></span>Rente <strong class="tnum" id="res-rentedeel">&euro; 0</strong></span>
+                                <span class="verhouding__item"><span class="verhouding__stip verhouding__stip--aflossing"></span>Aflossing <strong class="tnum" id="res-aflossingdeel">&euro; 0</strong></span>
+                            </div>
+                        </div>
 
                         <dl class="ds-uitsplitsing">
-                            <div><span>Bruto maandlast</span><strong id="res-bruto" data-bedrag>&euro; 0</strong></div>
+                            <div id="row-bruto"><span>Bruto maandlast</span><strong id="res-bruto" data-bedrag>&euro; 0</strong></div>
                             <div id="row-voordeel" title="Bekijk berekening"><span>Renteaftrekindicatie</span><strong id="res-voordeel" data-bedrag>&euro; 0</strong></div>
+                            <div><span>Rente over de hele looptijd</span><strong id="res-totaalrente" data-bedrag>&euro; 0</strong></div>
                         </dl>
 
                         <details class="uitleg-details">

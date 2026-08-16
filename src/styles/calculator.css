@@ -406,3 +406,36 @@ select.ds-invoer {
 }
 .fiscaal-kengetal span { color: var(--ds-ink-muted); }
 .fiscaal-kengetal strong { font-variant-numeric: tabular-nums; font-weight: 620; }
+
+/* --- Verhouding rente en aflossing ---------------------------------------- */
+
+.verhouding { margin-top: var(--ds-4); }
+
+.verhouding__balk {
+    background: var(--ds-surface-sunk);
+    border-radius: 999px;
+    display: flex;
+    height: 10px;
+    overflow: hidden;
+}
+.verhouding__deel { transition: width var(--ds-calm); }
+.verhouding__deel--rente { background: var(--ds-data-2); }
+.verhouding__deel--aflossing { background: var(--ds-data-1); }
+
+.verhouding__legenda {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-2) var(--ds-4);
+    margin-top: var(--ds-3);
+}
+.verhouding__item {
+    align-items: center;
+    color: var(--ds-ink-muted);
+    display: flex;
+    font-size: var(--ds-t-caption);
+    gap: var(--ds-2);
+}
+.verhouding__item strong { color: var(--ds-ink); font-weight: 620; }
+.verhouding__stip { border-radius: 3px; flex: none; height: 10px; width: 10px; }
+.verhouding__stip--rente { background: var(--ds-data-2); }
+.verhouding__stip--aflossing { background: var(--ds-data-1); }
