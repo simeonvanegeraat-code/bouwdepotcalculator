@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-08-14",
+  "bijgewerkt": "2026-08-16",
   "bronnen": {
     "https://www.abnamro.nl/nl/prive/hypotheken/hypotheek-afsluiten/bouwdepot/voorwaarden-bouwdepot.html": {
       "hash": "2d8681fcd138bf6b",
@@ -70,6 +70,32 @@
         "Veelgestelde vragen Wat anderen wilden weten over hun bouwdepot Je kunt jouw bouwdepot eenmalig met 6 maanden verlengen.",
         "Vraag dan ons declaratieformulier op via 033 - 752 50 00.",
         "Vraag dan via mijnFlorius 1 keer een verlenging aan."
+      ]
+    },
+    "https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Bouwdepot/Nieuwbouwdepot-en-verbouwdepot.htm": {
+      "hash": "2d09a436bfbbb43b",
+      "aantal": 2,
+      "zinnen": [
+        "Bouwdepot verlengen en stopzetten laya7160342f61d402c85d673adcad86791 Wat mag je declareren?",
+        "De vergoeding over het geld in je depot is 1% lager dan de rente die je gemiddeld over je hypotheek betaalt."
+      ]
+    },
+    "https://www.nn.nl/Particulier/Hypotheken/Mijn-Nationale-Nederlanden-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-declareren.htm": {
+      "hash": "6b0270fed64182c6",
+      "aantal": 2,
+      "zinnen": [
+        "Houd rekening met deze punten: Factuurdatum: De factuur of kassabon mag bij declaratie niet ouder zijn dan 6 maanden Aankopen die je niet declareert: Streep items door die je niet declareert.",
+        "Verwerkingstijd: Het verwerken van je declaratie duurt maximaal 3 werkdagen."
+      ]
+    },
+    "https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-beeindigen.htm": {
+      "hash": "e81b475a62e65663",
+      "aantal": 4,
+      "zinnen": [
+        "Geen zorgen: we verlengen het automatisch met 12 maanden.",
+        "Hypotheekrenteaftrek stopt na 2 jaar: Na 2 jaar mag je de rente niet meer aftrekken bij je belastingaangifte.",
+        "Op de einddatum verlengen wij je bouwdepot automatisch met 12 maanden.",
+        "Op deze pagina: Looptijd van het bouwdepot Je bouwdepot verlengen Je bouwdepot zelf sluiten layf1ae67cb1db84670bc0c9b2dbe8d439b Looptijd van het bouwdepot Hoe lang loopt een bouwdepot?"
       ]
     }
   }

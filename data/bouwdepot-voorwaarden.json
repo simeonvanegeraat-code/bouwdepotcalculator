@@ -142,7 +142,10 @@
         "post": "Declaratie per e-mail of post duurt langer dan via MijnHypotheekOnline"
       },
       "declarabel": "Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Een offerte volstaat niet: op basis daarvan wordt niet uitbetaald. De factuur moet duidelijk tonen welk werk is uitgevoerd of welke zaken zijn gekocht.",
-      "restant": { "waarde": null, "status": "niet-gepubliceerd", "detail": "MUNT publiceert hier een aparte FAQ over die op het moment van controle niet bereikbaar was. Nog te verifieren." },
+      "restant": {
+        "waarde": "Onder EUR 1.000 uitbetaald, daarboven afgelost",
+        "detail": "Een restantbedrag lager dan EUR 1.000 wordt bij beeindiging uitgekeerd op uw bankrekening. Is het hoger, dan gebruikt MUNT het volledige bedrag voor aflossing op de hypotheek."
+      },
       "eigenArbeid": { "waarde": null, "status": "niet-gepubliceerd" },
       "bijzonderheden": [
         "Bij nieuwbouw kan rechtstreeks aan de aannemer worden uitbetaald.",
@@ -185,7 +188,8 @@
       "naam": "Nationale-Nederlanden",
       "bron": "https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Bouwdepot/Nieuwbouwdepot-en-verbouwdepot.htm",
       "bronnen": [
-        "https://www.nn.nl/Particulier/Hypotheken/Mijn-Nationale-Nederlanden-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-declareren.htm"
+        "https://www.nn.nl/Particulier/Hypotheken/Mijn-Nationale-Nederlanden-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-declareren.htm",
+        "https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-beeindigen.htm"
       ],
       "gecontroleerd": "2026-08-14",
       "geverifieerdDoor": null,
@@ -205,7 +209,10 @@
       },
       "declarabel": "Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Losse spullen zoals meubilair of apparaten vallen er niet onder.",
       "bewijsstuk": "Factuur of kassabon, in een gangbaar formaat zoals JPG, PNG of PDF, goed leesbaar zonder schaduw of weerspiegeling. Een offerte, opdrachtbevestiging of koopovereenkomst wordt niet geaccepteerd. Het bewijsstuk mag bij declaratie niet ouder zijn dan zes maanden. Een factuur moet naam en adres van de verkoper, KvK-nummer, btw-nummer, IBAN, gegevens van de koper, factuurnummer, datum, omschrijving, totaalbedrag en btw vermelden.",
-      "restant": { "waarde": null, "status": "niet-gepubliceerd" },
+      "restant": {
+        "waarde": "Wordt gebruikt om de hypotheek af te lossen",
+        "detail": "Aan die aflossing zijn geen kosten verbonden. Heeft u meerdere bouwdepots, dan worden die tegelijk gesloten; afzonderlijk sluiten kan niet. Beeindigen regelt u zelf via mijn.nn of de NN App."
+      },
       "eigenArbeid": { "waarde": null, "status": "niet-gepubliceerd" },
       "bijzonderheden": [
         "Met 12 maanden heeft het verbouwdepot de kortste standaardlooptijd van de vergeleken aanbieders.",
