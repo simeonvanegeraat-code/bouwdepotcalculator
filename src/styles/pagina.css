@@ -407,3 +407,65 @@ body { margin: 0; }
 .wel-niet__blok li::before { left: 0; position: absolute; }
 .wel-niet__blok--wel li::before { color: var(--ds-positive); content: '+'; font-weight: 700; }
 .wel-niet__blok--niet li::before { color: var(--ds-warn); content: '\2212'; font-weight: 700; }
+
+/* Contactgegevens, prominent. */
+.contactkaart {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-xl);
+    margin-top: var(--ds-5);
+    padding: var(--ds-6);
+}
+.contactkaart__label {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-caption);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--ds-2);
+    text-transform: uppercase;
+}
+.contactkaart__adres {
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    font-weight: 640;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--ds-4);
+    overflow-wrap: anywhere;
+}
+
+/* Wijzigingenoverzicht, nieuwste bovenaan. */
+.wijzigingen {
+    display: grid;
+    gap: var(--ds-5);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.wijzigingen li {
+    border-left: 2px solid var(--ds-line-strong);
+    padding-left: var(--ds-5);
+    position: relative;
+}
+.wijzigingen li::before {
+    background: var(--ds-accent);
+    border-radius: 50%;
+    content: '';
+    height: 9px;
+    left: -5.5px;
+    position: absolute;
+    top: 6px;
+    width: 9px;
+}
+.wijzigingen time {
+    color: var(--ds-ink-muted);
+    display: block;
+    font-size: var(--ds-t-caption);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: var(--ds-1);
+}
+.wijzigingen h3 {
+    font-size: var(--ds-t-body);
+    font-weight: 620;
+    letter-spacing: -0.012em;
+    margin-bottom: var(--ds-2);
+}
+.wijzigingen p { color: var(--ds-ink-soft); font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
