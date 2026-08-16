@@ -25,8 +25,8 @@
       "looptijdNieuwbouwMaanden": 24,
       "verlengingMaanden": { "verbouw": 6, "nieuwbouw": 12, "eenmalig": true },
       "rentevergoeding": {
-        "waarde": "Ja, gedurende de looptijd",
-        "detail": "Bij verlenging geen rente over de laatste 6 maanden. Bij nieuwbouw duurt de rentevergoeding maximaal 30 maanden."
+        "waarde": "Ja, maar niet de hele verlenging",
+        "detail": "Tijdens de standaardlooptijd ontvangt u vergoeding. Verlengt u, dan krijgt u over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen."
       },
       "opnamemethode": "declaratie",
       "maxPerOpname": { "bedrag": 250000, "detail": "Meerdere declaraties achter elkaar mogelijk." },

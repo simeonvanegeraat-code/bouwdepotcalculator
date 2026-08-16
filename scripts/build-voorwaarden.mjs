@@ -71,6 +71,25 @@ function controle(a) {
 
 const bestandsnaam = (a) => `bouwdepot-${a.id}.html`;
 
+/**
+ * Eén feit in een vergelijkingskaart.
+ *
+ * De toelichting is hier bewust niet optioneel. Een gebruiker meldde dat
+ * "Max. per declaratie EUR 5.000" bij Rabobank niet klopte; het bedrag stond
+ * goed in de data, maar de bijbehorende nuance ("limiet zelf verhoogbaar")
+ * werd alleen op de detailpagina getoond. Zo ontstaat een kale waarde die
+ * iets anders beweert dan de bron. Heeft een veld een detail, dan komt dat
+ * overal mee. tests/nuance.test.mjs faalt als dat niet gebeurt.
+ */
+function feit(label, veld, opties = {}) {
+  const heeftWaarde = veld && (veld.waarde != null || veld.bedrag != null || veld.status);
+  const inhoud = heeftWaarde ? waarde(veld) : LEEG;
+  const detail = veld?.detail ? `<small>${esc(veld.detail)}</small>` : '';
+  return `                        <div class="vgl-feit"><dt>${esc(label)}</dt><dd${
+    opties.gedempt ? ' class="vgl-leeg"' : ''
+  }>${inhoud}${detail}</dd></div>`;
+}
+
 /** Alle balken delen één schaal; anders zegt de lengte niets. */
 const SCHAAL = Math.max(
   ...data.aanbieders.flatMap((a) => {
@@ -225,11 +244,10 @@ ${balk('Nieuwbouw', a.looptijdNieuwbouwMaanden, v.nieuwbouw, v.mogelijkMaarDuurO
                     </div>
 
                     <dl class="vgl-feiten">
-                        <div class="vgl-feit"><dt>Vergoeding over depot</dt><dd${geenRente ? ' class="vgl-leeg"' : ''}>${waarde(a.rentevergoeding)}</dd></div>
-                        <div class="vgl-feit"><dt>Uitbetaling</dt><dd>${a.doorlooptijdUitbetaling?.digitaal ? esc(a.doorlooptijdUitbetaling.digitaal) : LEEG}</dd></div>
-                        <div class="vgl-feit"><dt>Grens per opname</dt><dd>${waarde(a.maxPerOpname)}${
-                          a.maxPerOpname?.detail ? `<small>${esc(a.maxPerOpname.detail)}</small>` : ''
-                        }</dd></div>
+${feit('Vergoeding over depot', a.rentevergoeding, { gedempt: geenRente })}
+${feit('Uitbetaling', { waarde: a.doorlooptijdUitbetaling?.digitaal, detail: a.doorlooptijdUitbetaling?.post })}
+${feit('Grens per opname', a.maxPerOpname)}
+${feit('Restant bij beëindiging', a.restant)}
                     </dl>
                 </article>`;
   }).join('\n');
