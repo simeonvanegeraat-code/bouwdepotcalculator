@@ -710,3 +710,52 @@
     line-height: 1.45;
     margin-top: var(--ds-1);
 }
+
+/* Verlenging mogelijk maar duur niet gepubliceerd: een open uiteinde met een
+   vaste breedte, dat wegvaagt. Een proportionele breedte zou een duur
+   suggereren die we niet kennen. */
+/* Percentage in plaats van pixels: een vaste breedte beslaat op een smal spoor
+   een kwart van de balk, waardoor een onbekende verlenging langer oogt dan een
+   bekende van twaalf maanden. Vier procent blijft op elk scherm een hint. */
+.vgl-balk__vul--open {
+    background: linear-gradient(90deg, var(--ds-accent-bright), transparent);
+    flex: none;
+    opacity: 0.5;
+    width: 4%;
+}
+
+.vgl-balk__open-teken {
+    color: var(--ds-ink-muted);
+    font-weight: 600;
+    margin-left: 2px;
+}
+
+/* Legenda onder de schaal */
+.vgl-legenda {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-2) var(--ds-4);
+    margin-top: var(--ds-3);
+}
+.vgl-legenda__item {
+    align-items: center;
+    color: var(--ds-ink-muted);
+    display: flex;
+    font-size: var(--ds-t-caption);
+    gap: var(--ds-2);
+}
+.vgl-legenda__staal {
+    border-radius: 2px;
+    flex: none;
+    height: 8px;
+    width: 22px;
+}
+.vgl-legenda__staal--basis { background: var(--ds-data-1); }
+.vgl-legenda__staal--verlenging {
+    background: repeating-linear-gradient(135deg, var(--ds-accent-bright) 0 4px,
+        color-mix(in srgb, var(--ds-accent-bright) 55%, transparent) 4px 8px);
+}
+.vgl-legenda__staal--open {
+    background: linear-gradient(90deg, var(--ds-accent-bright), transparent);
+    opacity: 0.5;
+}

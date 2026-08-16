@@ -71,20 +71,41 @@ const SCHAAL = Math.max(
   })
 );
 
-function balk(label, basis, extra) {
+/**
+ * Eén looptijdbalk. Drie gevallen, en het onderscheid is wezenlijk:
+ *
+ *   1. Basis en verlenging bekend  -> massief plus gearceerd, totaal als getal
+ *   2. Verlenging mogelijk, duur onbekend -> massief plus een open uiteinde, en
+ *      "24 mnd +?" als waarde. Zonder die markering lijkt de basis het maximum,
+ *      terwijl het werkelijke maximum hoger kan liggen.
+ *   3. Geen verlenging gepubliceerd -> alleen de basis
+ */
+function balk(label, basis, extra, duurOnbekend = false) {
   if (typeof basis !== 'number') {
     return `<div class="vgl-balk__rij"><span class="vgl-balk__label">${label}</span><span class="vgl-balk__spoor"></span><span class="vgl-balk__waarde">${LEEG}</span></div>`;
   }
+
   const heeftVerlenging = typeof extra === 'number' && extra > 0;
   const som = basis + (heeftVerlenging ? extra : 0);
   const pctBasis = (basis / SCHAAL) * 100;
   const pctExtra = heeftVerlenging ? (extra / SCHAAL) * 100 : 0;
+
+  let segmenten = `<span class="vgl-balk__vul" style="width:${pctBasis.toFixed(1)}%"></span>`;
+  if (heeftVerlenging) {
+    segmenten += `<span class="vgl-balk__vul vgl-balk__vul--verlenging" style="width:${pctExtra.toFixed(1)}%"></span>`;
+  } else if (duurOnbekend) {
+    // Vaste, korte breedte: de duur is onbekend, dus de balk mag geen lengte suggereren.
+    segmenten += `<span class="vgl-balk__vul vgl-balk__vul--open" aria-hidden="true"></span>`;
+  }
+
+  const waarde = heeftVerlenging || !duurOnbekend
+    ? `${som} mnd`
+    : `${basis} mnd <span class="vgl-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span>`;
+
   return `<div class="vgl-balk__rij">
                             <span class="vgl-balk__label">${label}</span>
-                            <span class="vgl-balk__spoor"><span class="vgl-balk__stapel"><span class="vgl-balk__vul" style="width:${pctBasis.toFixed(1)}%"></span>${
-                              heeftVerlenging ? `<span class="vgl-balk__vul vgl-balk__vul--verlenging" style="width:${pctExtra.toFixed(1)}%"></span>` : ''
-                            }</span></span>
-                            <span class="vgl-balk__waarde">${som} mnd</span>
+                            <span class="vgl-balk__spoor"><span class="vgl-balk__stapel">${segmenten}</span></span>
+                            <span class="vgl-balk__waarde">${waarde}</span>
                         </div>`;
 }
 
@@ -190,8 +211,8 @@ function bouwHub() {
                     </div>
 
                     <div class="vgl-balken">
-${balk('Verbouwing', a.looptijdVerbouwMaanden, v.verbouw)}
-${balk('Nieuwbouw', a.looptijdNieuwbouwMaanden, v.nieuwbouw)}
+${balk('Verbouwing', a.looptijdVerbouwMaanden, v.verbouw, v.mogelijkMaarDuurOnbekend)}
+${balk('Nieuwbouw', a.looptijdNieuwbouwMaanden, v.nieuwbouw, v.mogelijkMaarDuurOnbekend)}
                     </div>
 
                     <dl class="vgl-feiten">
@@ -223,6 +244,12 @@ ${bouwKerncijfers()}
                 <div class="vgl-schaal" aria-hidden="true">
                     <span></span>
                     <span class="vgl-schaal__as"><span>0</span><span>${Math.round(SCHAAL / 2)} mnd</span><span>${SCHAAL} mnd</span></span>
+                </div>
+
+                <div class="vgl-legenda">
+                    <span class="vgl-legenda__item"><span class="vgl-legenda__staal vgl-legenda__staal--basis"></span>Standaardlooptijd</span>
+                    <span class="vgl-legenda__item"><span class="vgl-legenda__staal vgl-legenda__staal--verlenging"></span>Verlenging</span>
+                    <span class="vgl-legenda__item"><span class="vgl-legenda__staal vgl-legenda__staal--open"></span>Verlenging mogelijk, duur niet gepubliceerd</span>
                 </div>
 
                 <div class="vgl-lijst">

@@ -55,7 +55,12 @@
       "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 24,
       "looptijdNieuwbouwMaanden": 24,
-      "verlengingMaanden": { "verbouw": null, "nieuwbouw": null, "detail": "Verlenging is mogelijk, maar de duur wordt niet gepubliceerd. Na verlenging ontvang je geen rente meer over het depot." },
+      "verlengingMaanden": {
+        "verbouw": null,
+        "nieuwbouw": null,
+        "mogelijkMaarDuurOnbekend": true,
+        "detail": "Verlenging is mogelijk, maar de duur wordt niet gepubliceerd. Na verlenging ontvang je geen rente meer over het depot."
+      },
       "rentevergoeding": {
         "waarde": "Ja, gelijk aan je hypotheekrente bij aanvang",
         "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. Na verlenging voorbij 2 jaar ontvang je geen rente meer."
