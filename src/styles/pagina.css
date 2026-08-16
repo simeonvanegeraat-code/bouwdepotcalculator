@@ -469,3 +469,35 @@ body { margin: 0; }
     margin-bottom: var(--ds-2);
 }
 .wijzigingen p { color: var(--ds-ink-soft); font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
+
+/* Beleidspagina's: genummerde artikelen met een leesbare regellengte. */
+.beleid { counter-reset: artikel; display: grid; gap: var(--ds-6); max-width: 72ch; }
+.beleid > section { counter-increment: artikel; }
+.beleid > section > h2 {
+    font-size: var(--ds-t-title);
+    font-weight: 640;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--ds-3);
+}
+.beleid > section > h2::before {
+    color: var(--ds-accent);
+    content: counter(artikel) '.';
+    margin-right: var(--ds-2);
+}
+.beleid p { color: var(--ds-ink-soft); margin-bottom: var(--ds-3); }
+.beleid p:last-child { margin-bottom: 0; }
+.beleid h3 { font-size: var(--ds-t-body); font-weight: 620; margin: var(--ds-4) 0 var(--ds-2); }
+
+/* Overzicht van verwerkingen of opslag, als rijen in plaats van een brede tabel. */
+.beleid-rijen { display: grid; gap: 0; margin: var(--ds-4) 0 0; }
+.beleid-rijen > div {
+    border-bottom: 1px solid var(--ds-line);
+    display: grid;
+    gap: var(--ds-1) var(--ds-5);
+    padding: var(--ds-4) 0;
+}
+@media (min-width: 760px) { .beleid-rijen > div { grid-template-columns: 10rem 1fr; } }
+.beleid-rijen > div:last-child { border-bottom: 0; }
+.beleid-rijen dt { color: var(--ds-ink); font-size: var(--ds-t-small); font-weight: 620; }
+.beleid-rijen dd { color: var(--ds-ink-soft); font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
+.beleid-rijen dd + dd { color: var(--ds-ink-muted); margin-top: var(--ds-2); }

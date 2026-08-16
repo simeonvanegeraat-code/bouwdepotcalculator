@@ -1,88 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.bouwdepotcalculator.nl/</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/calculators.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/nieuwbouw.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/dubbele-lasten-nieuwbouw.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/bouwrente-nieuwbouw.html</loc>
+    <loc>https://www.bouwdepotcalculator.nl/adviesgesprek-checklist.html</loc>
+    <lastmod>2026-08-16</lastmod>
   </url>
   <url>
     <loc>https://www.bouwdepotcalculator.nl/belasting.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/maandlasten-bouwdepot.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/renteverlies-bouwdepot.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/stappenplan.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/kennisbank.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/bouwdepot-voorwaarden-vergelijken.html</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-08-16</lastmod>
   </url>
   <url>
     <loc>https://www.bouwdepotcalculator.nl/bouwdepot-abn-amro.html</loc>
-    <lastmod>2026-08-14</lastmod>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/bouwdepot-rabobank.html</loc>
-    <lastmod>2026-08-14</lastmod>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/bouwdepot-ing.html</loc>
-    <lastmod>2026-08-14</lastmod>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/bouwdepot-munt.html</loc>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-08-16</lastmod>
   </url>
   <url>
     <loc>https://www.bouwdepotcalculator.nl/bouwdepot-florius.html</loc>
-    <lastmod>2026-08-14</lastmod>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/bouwdepot-nn.html</loc>
-    <lastmod>2026-08-14</lastmod>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/methodologie.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/over-ons.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/hypotheekrenteaftrek-gids.html</loc>
+    <lastmod>2026-08-16</lastmod>
   </url>
   <url>
     <loc>https://www.bouwdepotcalculator.nl/bouwdepot-fouten.html</loc>
+    <lastmod>2026-08-16</lastmod>
   </url>
   <url>
-    <loc>https://www.bouwdepotcalculator.nl/adviesgesprek-checklist.html</loc>
+    <loc>https://www.bouwdepotcalculator.nl/bouwdepot-ing.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/bouwdepot-munt.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/bouwdepot-nn.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/bouwdepot-rabobank.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/bouwdepot-voorwaarden-vergelijken.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/bouwrente-nieuwbouw.html</loc>
+    <lastmod>2026-08-16</lastmod>
   </url>
   <url>
     <loc>https://www.bouwdepotcalculator.nl/contact.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/privacy.html</loc>
-  </url>
-  <url>
-    <loc>https://www.bouwdepotcalculator.nl/voorwaarden.html</loc>
+    <lastmod>2026-08-16</lastmod>
   </url>
   <url>
     <loc>https://www.bouwdepotcalculator.nl/cookies.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/dubbele-lasten-nieuwbouw.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/hypotheekrenteaftrek-gids.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/kennisbank.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/maandlasten-bouwdepot.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/methodologie.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/nieuwbouw.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/over-ons.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/privacy.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/renteverlies-bouwdepot.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/stappenplan.html</loc>
+    <lastmod>2026-08-16</lastmod>
+  </url>
+  <url>
+    <loc>https://www.bouwdepotcalculator.nl/voorwaarden.html</loc>
+    <lastmod>2026-08-16</lastmod>
   </url>
 </urlset>
