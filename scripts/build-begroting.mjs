@@ -185,6 +185,11 @@ ${categorieen}
             </div>
         </section>
 
+        <!-- De specificatie die de bezoeker meeneemt. Alleen bij printen zichtbaar:
+             op het scherm is het formulier het gereedschap, op papier is een
+             ingevuld formulier geen document. Wordt gevuld door begroting.js. -->
+        <section id="specificatie" class="alleen-print" aria-hidden="true"></section>
+
         <section class="ds-sectie ds-sectie--gevuld no-print">
             <div class="ds-wrap ds-wrap--smal">
                 <div class="ds-sectiekop">

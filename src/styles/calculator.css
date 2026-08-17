@@ -514,14 +514,49 @@ select.ds-invoer {
     .ds-uitkomst { break-inside: avoid; }
 }
 
-/* Op de begroting is de invoerkolom juist het document dat geprint moet worden.
-   De algemene printregel hierboven verbergt .reken__invoer; dat mag hier niet. */
+/* ----------------------------------------------------------- specificatie
+   Wat de bezoeker meeneemt naar adviseur of aannemer. Eerder werd de
+   invoerkolom geprint, maar een ingevuld formulier is geen specificatie: de
+   schuifbalk, de keuzelijsten en de lege posten horen niet op papier. Daarom
+   staat er nu een eigen document klaar dat alleen bij printen verschijnt. */
+
+.alleen-print { display: none; }
+
 @media print {
-    #begroting .reken__invoer { display: block !important; }
-    #begroting .reken__grid { display: block; }
-    #begroting .ds-uitkomst { margin-bottom: 1.5rem; }
-    #begroting .post__prioriteit { border: 0; padding-left: 0; }
-    #begroting .cat { break-inside: avoid; }
+    #begroting .reken { display: none; }
+    .alleen-print { display: block; }
+
+    .spec__kop { border-bottom: 2px solid #000; margin-bottom: 1rem; padding-bottom: 0.5rem; }
+    .spec__kop h2 { font-size: 1.4rem; margin: 0; }
+    .spec__kop p { color: #444; font-size: 0.85rem; margin: 0.25rem 0 0; }
+
+    .spec__tabel { border-collapse: collapse; font-size: 0.85rem; width: 100%; }
+    .spec__tabel th, .spec__tabel td {
+        border-bottom: 1px solid #ddd;
+        padding: 0.3rem 0.4rem;
+        text-align: left;
+        vertical-align: top;
+    }
+    .spec__tabel thead th { border-bottom: 1px solid #000; font-size: 0.75rem; text-transform: uppercase; }
+    .spec__bedrag { font-variant-numeric: tabular-nums; text-align: right !important; white-space: nowrap; }
+
+    /* Een categorie hoort bij elkaar te blijven staan op een pagina. */
+    .spec__groep { break-inside: avoid; }
+    .spec__kopregel th {
+        background: #f2f2f2;
+        border-bottom: 1px solid #bbb !important;
+        font-size: 0.8rem;
+        padding-top: 0.6rem !important;
+    }
+
+    .spec__tabel tfoot td { border-bottom: 0; padding-top: 0.4rem; }
+    .spec__totaal td { border-top: 1px solid #000 !important; font-weight: 700; padding-top: 0.5rem !important; }
+
+    .spec__voet { break-inside: avoid; font-size: 0.8rem; margin-top: 1.5rem; }
+    .spec__voet h3 { font-size: 0.9rem; margin: 1rem 0 0.3rem; }
+    .spec__voet p, .spec__voet li { color: #333; line-height: 1.45; margin: 0.25rem 0; }
+    .spec__voet ul { margin: 0.25rem 0; padding-left: 1.1rem; }
+    .spec__voet li strong { text-transform: capitalize; }
 }
 
 /* Tekort in rood: een negatieve buffer is een signaal, geen getal. */

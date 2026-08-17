@@ -12,7 +12,7 @@
  * Alles blijft in localStorage op het apparaat van de bezoeker.
  */
 
-import { opBankwissel } from './bankkeuze.js';
+import { huidigeBank, opBankwissel } from './bankkeuze.js';
 
 const wortel = document.getElementById('begroting');
 
@@ -107,7 +107,90 @@ if (wortel) {
         const doorreken = el('naar-maandlast');
         if (doorreken) doorreken.href = totaal > 0 ? `/?bedrag=${Math.round(depot + margeBedrag)}` : '/';
 
+        bouwSpecificatie({ depot, eigen, noodzakelijk, gewenst, margeBedrag, margePct, totaal });
+
         bewaar();
+    }
+
+    /* ---------------------------------------------------------- specificatie */
+
+    /**
+     * Bouwt het document dat de bezoeker meeneemt naar adviseur of aannemer.
+     *
+     * Op papier is een ingevuld formulier geen specificatie: de lege posten, de
+     * schuifbalk en de uitleg horen er niet in, en de indeling die op het scherm
+     * werkt leest op papier niet als een stuk. Daarom een eigen opbouw, gevuld
+     * uit dezelfde invoer, met alleen de posten die een bedrag hebben.
+     */
+    const spec = el('specificatie');
+
+    function bouwSpecificatie(cijfers) {
+        if (!spec) return;
+
+        const bank = huidigeBank();
+        const nu = new Intl.DateTimeFormat('nl-NL', { dateStyle: 'long' }).format(new Date());
+
+        // Per categorie alleen de ingevulde posten, in de volgorde van de pagina.
+        const blokken = Array.from(wortel.querySelectorAll('.cat')).map((cat) => {
+            const regels = Array.from(cat.querySelectorAll('.post')).map((post) => {
+                const veld = post.querySelector('[data-post]');
+                const bedrag = Math.max(0, Number(veld?.value) || 0);
+                if (!bedrag) return '';
+                const prio = wortel.querySelector(`[data-prioriteit="${veld.dataset.post}"]`);
+                return `<tr>
+                    <td>${post.querySelector('label').textContent}</td>
+                    <td>${prio?.value === 'gewenst' ? 'Gewenst' : 'Noodzakelijk'}</td>
+                    <td>${veld.dataset.vast === 'true' ? 'Bouwdepot' : 'Eigen geld'}</td>
+                    <td class="spec__bedrag">${euro.format(bedrag)}</td>
+                </tr>`;
+            }).filter(Boolean).join('');
+
+            if (!regels) return '';
+            return `<tbody class="spec__groep">
+                <tr class="spec__kopregel"><th colspan="4">${cat.querySelector('h3').textContent}</th></tr>
+                ${regels}
+            </tbody>`;
+        }).filter(Boolean).join('');
+
+        if (!blokken) {
+            spec.innerHTML = `<p>Er zijn nog geen bedragen ingevuld. Vul de begroting in en print daarna opnieuw.</p>`;
+            return;
+        }
+
+        const eisen = bank?.eisen?.length
+            ? `<ul>${bank.eisen.map((e) => `<li><strong>${e.eis.replace(/-/g, ' ')}:</strong> ${e.waarde}</li>`).join('')}</ul>`
+            : '';
+
+        spec.innerHTML = `
+            <header class="spec__kop">
+                <h2>Verbouwingsspecificatie</h2>
+                <p>Opgesteld op ${nu}${bank ? ` &middot; bouwdepot bij ${bank.naam}` : ''}</p>
+            </header>
+
+            <table class="spec__tabel">
+                <thead><tr><th>Post</th><th>Prioriteit</th><th>Betaald uit</th><th class="spec__bedrag">Bedrag</th></tr></thead>
+                ${blokken}
+                <tfoot>
+                    ${cijfers.margeBedrag > 0 ? `<tr><td colspan="3">Reserve voor onvoorzien (${cijfers.margePct}% van het depotdeel)</td><td class="spec__bedrag">${euro.format(cijfers.margeBedrag)}</td></tr>` : ''}
+                    <tr class="spec__totaal"><td colspan="3">Totale verbouwkosten</td><td class="spec__bedrag">${euro.format(cijfers.totaal)}</td></tr>
+                    <tr><td colspan="3">Waarvan naar verwachting uit het bouwdepot</td><td class="spec__bedrag">${euro.format(cijfers.depot + cijfers.margeBedrag)}</td></tr>
+                    <tr><td colspan="3">Waarvan uit eigen geld</td><td class="spec__bedrag">${euro.format(cijfers.eigen)}</td></tr>
+                    <tr><td colspan="3">Noodzakelijk / gewenst</td><td class="spec__bedrag">${euro.format(cijfers.noodzakelijk)} / ${euro.format(cijfers.gewenst)}</td></tr>
+                </tfoot>
+            </table>
+
+            <div class="spec__voet">
+                <h3>Bij declareren aanleveren</h3>
+                ${bank
+                    ? `${eisen}<p>Opnemen bij ${bank.naam}: ${bank.opnamemethode === 'zelf-betalen'
+                        ? 'u betaalt zelf vanuit het depot.'
+                        : 'u dient een bewijsstuk in, daarna volgt uitbetaling.'}${bank.uitbetaling ? ` Doorlooptijd: ${bank.uitbetaling.toLowerCase()}.` : ''}</p>`
+                    : '<p>Geen geldverstrekker gekozen. Vraag bij uw eigen aanbieder na welk bewijsstuk vereist is; een offerte of pro-formafactuur wordt vrijwel nergens geaccepteerd.</p>'}
+
+                <h3>Waarop de verdeling berust</h3>
+                <p>De kolom "betaald uit" volgt de vuistregel die vrijwel elke geldverstrekker hanteert: wat vast aan de woning zit komt in aanmerking voor het bouwdepot, wat u bij een verhuizing kunt meenemen niet. Dit is een indicatie op basis van publieke productinformatie en geen toezegging; uw geldverstrekker beoordeelt uw eigen verbouwingsplan.</p>
+                <p>Bedragen zijn door de opsteller zelf ingevuld en niet door BouwdepotCalculator.nl geschat of gecontroleerd. Opgesteld met bouwdepotcalculator.nl/verbouwbegroting.html.</p>
+            </div>`;
     }
 
     /* --------------------------------------------------------------- binding */
@@ -141,6 +224,11 @@ if (wortel) {
     const melding = el('begroting-bankmelding');
     const meldingTekst = el('begroting-bankmelding-tekst');
 
+    // bereken() schrijft de begroting weg. Zolang de opgeslagen invoer nog niet
+    // is teruggezet mag dat niet gebeuren, anders overschrijft een lege pagina
+    // wat de bezoeker eerder had ingevuld.
+    let herstelGedaan = false;
+
     opBankwissel((bank) => {
         let aantal = 0;
 
@@ -159,6 +247,13 @@ if (wortel) {
             }
         }
 
+        // De specificatie noemt de gekozen aanbieder en zijn declaratie-eisen, dus
+        // die moet mee wisselen. Zonder deze herberekening bleef de bank staan die
+        // gold toen er voor het laatst een bedrag werd getypt. Alleen na het
+        // herstellen: bereken() slaat ook op, en bij het registreren van deze
+        // luisteraar zijn de velden nog leeg.
+        if (herstelGedaan) bereken();
+
         if (!melding || !meldingTekst) return;
         melding.hidden = !bank;
         if (!bank) return;
@@ -174,5 +269,6 @@ if (wortel) {
     });
 
     herstel();
+    herstelGedaan = true;
     bereken();
 }

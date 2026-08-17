@@ -70,6 +70,10 @@ const banken = data.aanbieders.map((a) => {
       detail: a.restant?.detail ?? null,
     },
     eigenArbeid: a.eigenArbeid?.waarde ?? null,
+    // Wat er bij een declaratie mee moet. Staat in de specificatie die de
+    // bezoeker meeneemt, zodat hij niet met het verkeerde bewijsstuk aankomt.
+    eisen: (a.declaratieEisen || []).map((e) => ({ eis: e.eis, waarde: e.waarde })),
+    declarabel: a.declarabel ?? null,
   };
 });
 
