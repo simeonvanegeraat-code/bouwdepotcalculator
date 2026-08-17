@@ -8,12 +8,12 @@
     },
     {
       "source": "/maximale-bouwdepot.html",
-      "destination": "/?plan=haalbaarheid",
+      "destination": "/leenruimte.html",
       "permanent": true
     },
     {
       "source": "/eigen-geld-bouwdepot.html",
-      "destination": "/?plan=haalbaarheid",
+      "destination": "/leenruimte.html",
       "permanent": true
     }
   ]
