@@ -501,3 +501,75 @@ body { margin: 0; }
 .beleid-rijen dt { color: var(--ds-ink); font-size: var(--ds-t-small); font-weight: 620; }
 .beleid-rijen dd { color: var(--ds-ink-soft); font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
 .beleid-rijen dd + dd { color: var(--ds-ink-muted); margin-top: var(--ds-2); }
+
+/* --- Declaratiegids ------------------------------------------------------- */
+
+.redenen { display: grid; gap: var(--ds-4); }
+
+.reden {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    padding: var(--ds-5);
+}
+.reden__nummer {
+    color: var(--ds-accent);
+    font-size: var(--ds-t-caption);
+    font-weight: 640;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--ds-1);
+    text-transform: uppercase;
+}
+.reden h3 {
+    font-size: var(--ds-t-lead);
+    font-weight: 620;
+    letter-spacing: -0.018em;
+    margin-bottom: var(--ds-2);
+}
+.reden__uitleg { color: var(--ds-ink-soft); font-size: var(--ds-t-small); line-height: 1.55; }
+
+.reden__per-bank {
+    border-top: 1px solid var(--ds-line);
+    display: grid;
+    gap: var(--ds-3);
+    margin: var(--ds-4) 0 var(--ds-3);
+    padding-top: var(--ds-4);
+}
+@media (min-width: 760px) { .reden__per-bank { grid-template-columns: 1fr 1fr; gap: var(--ds-4) var(--ds-5); } }
+
+.reden__per-bank dt { margin-bottom: 2px; }
+.reden__per-bank dt a {
+    font-size: var(--ds-t-small);
+    font-weight: 620;
+    text-decoration: none;
+}
+.reden__per-bank dd { margin: 0; }
+.reden__per-bank dd strong { font-size: var(--ds-t-small); font-weight: 560; }
+.reden__per-bank dd small {
+    color: var(--ds-ink-muted);
+    display: block;
+    font-size: var(--ds-t-caption);
+    line-height: 1.45;
+    margin-top: 2px;
+}
+
+/* Eenvoudige lijst van waarden per aanbieder. */
+.per-bank { display: grid; gap: var(--ds-4); margin: 0; }
+.per-bank > div {
+    border-bottom: 1px solid var(--ds-line);
+    padding-bottom: var(--ds-3);
+}
+.per-bank > div:last-child { border-bottom: 0; padding-bottom: 0; }
+.per-bank dt {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-caption);
+    margin-bottom: 2px;
+}
+.per-bank dd { font-size: var(--ds-t-small); line-height: 1.45; margin: 0; }
+.per-bank dd small {
+    color: var(--ds-ink-muted);
+    display: block;
+    font-size: var(--ds-t-caption);
+    line-height: 1.45;
+    margin-top: var(--ds-1);
+}

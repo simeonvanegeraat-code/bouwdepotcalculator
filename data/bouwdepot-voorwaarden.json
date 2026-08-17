@@ -13,7 +13,8 @@
     "doorlooptijdUitbetaling": "Tijd tussen indienen en uitbetaling",
     "restant": "Wat er gebeurt met het bedrag dat overblijft",
     "eigenArbeid": "Of eigen arbeid gedeclareerd mag worden",
-    "voorschieten": "Of u een rekening eerst zelf mag betalen en het bedrag daarna kunt terugvragen"
+    "voorschieten": "Of u een rekening eerst zelf mag betalen en het bedrag daarna kunt terugvragen",
+    "declaratieEisen": "Eisen waaraan een declaratie moet voldoen, gestructureerd zodat ze per aanbieder vergelijkbaar zijn"
   },
   "aanbieders": [
     {
@@ -63,7 +64,19 @@
       "voorschieten": {
         "waarde": null,
         "status": "niet-gepubliceerd"
-      }
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Factuur",
+          "detail": "Alleen bedragen uit het verbouwingsplan of de koop-/aannemingsovereenkomst, die onderdeel zijn van uw hypotheekofferte."
+        },
+        {
+          "eis": "vast-aan-woning",
+          "waarde": "Verplicht",
+          "detail": "Alleen verbeteringen die vast aan de woning zitten, zoals gelijmd parket en inbouwapparatuur."
+        }
+      ]
     },
     {
       "id": "rabobank",
@@ -116,7 +129,19 @@
       "voorschieten": {
         "waarde": "Niet nodig",
         "detail": "U betaalt rekeningen rechtstreeks vanuit het depot, dus voorschieten is niet aan de orde. Betaalt u toch eerst zelf, vraag dan vooraf na of terugbetaling mogelijk is."
-      }
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Vooraf geen",
+          "detail": "U betaalt zelf vanuit het depot en hoeft facturen niet vooraf in te dienen. Rabobank kan achteraf wel om onderbouwing vragen, dus bewaar alles."
+        },
+        {
+          "eis": "vast-aan-woning",
+          "waarde": "Verplicht",
+          "detail": "Niet toegestaan: inboedel en spullen die u bij een verhuizing meeneemt, zoals gordijnen en meubels."
+        }
+      ]
     },
     {
       "id": "ing",
@@ -174,7 +199,29 @@
       "voorschieten": {
         "waarde": "Ja, met bankafschrift",
         "detail": "Heeft u de leverancier al betaald, dan stuurt u een bankafschrift mee. Daarop moeten rekeninghouder, leveranciersnaam, bedrag en IBAN overeenkomen met de factuur. Heeft u nog niet betaald, geef dan aan dat ING rechtstreeks aan de leverancier moet overmaken."
-      }
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Factuur of kassabon",
+          "detail": "Een offerte, orderbevestiging, koopovereenkomst of pro-formafactuur wordt niet geaccepteerd."
+        },
+        {
+          "eis": "taal-en-valuta",
+          "waarde": "NL, EN, FR of DU en euro's",
+          "detail": "Facturen en kassabonnen moeten in het Nederlands, Engels, Frans of Duits zijn, met bedragen in euro's."
+        },
+        {
+          "eis": "factuurdatum",
+          "waarde": "Na de offertedatum",
+          "detail": "Alleen facturen met een datum na de datum van uw hypotheekofferte worden in behandeling genomen."
+        },
+        {
+          "eis": "vast-aan-woning",
+          "waarde": "Verplicht",
+          "detail": "De woning moet in kwaliteit verbeteren en de verbetering moet vastzitten. Niet toegestaan: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting."
+        }
+      ]
     },
     {
       "id": "munt",
@@ -228,7 +275,14 @@
       "voorschieten": {
         "waarde": null,
         "status": "niet-gepubliceerd"
-      }
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Factuur",
+          "detail": "Op basis van een offerte wordt niet uitbetaald. De factuur moet duidelijk tonen welk werk is uitgevoerd of welke zaken zijn gekocht."
+        }
+      ]
     },
     {
       "id": "florius",
@@ -279,7 +333,14 @@
       "voorschieten": {
         "waarde": null,
         "status": "niet-gepubliceerd"
-      }
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Bon of rekening",
+          "detail": "U uploadt een foto of scan van de bon of rekening via mijnFlorius."
+        }
+      ]
     },
     {
       "id": "nn",
@@ -336,7 +397,34 @@
       "voorschieten": {
         "waarde": "Ja, met betaalbewijs",
         "detail": "Heeft u zelf betaald, dan uploadt u de factuur of kassabon waarop staat dat u betaald heeft. Het bedrag wordt teruggestort op de rekening waarmee u uw hypotheeklasten betaalt."
-      }
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Factuur of kassabon",
+          "detail": "Een offerte, opdrachtbevestiging of koopovereenkomst wordt niet geaccepteerd."
+        },
+        {
+          "eis": "ouderdom",
+          "waarde": "Maximaal 6 maanden oud",
+          "detail": "Het bewijsstuk mag bij declaratie niet ouder zijn dan zes maanden."
+        },
+        {
+          "eis": "bestandsformaat",
+          "waarde": "JPG, PNG of PDF",
+          "detail": "Goed leesbaar, zonder schaduw of weerspiegeling."
+        },
+        {
+          "eis": "factuurgegevens",
+          "waarde": "KvK, btw en IBAN verplicht",
+          "detail": "Een factuur moet naam en adres van de verkoper, KvK-nummer, btw-nummer, IBAN, gegevens van de koper, factuurnummer, datum, omschrijving, totaalbedrag en btw vermelden."
+        },
+        {
+          "eis": "vast-aan-woning",
+          "waarde": "Verplicht",
+          "detail": "Losse spullen zoals meubilair of apparaten vallen er niet onder."
+        }
+      ]
     }
   ]
 }
