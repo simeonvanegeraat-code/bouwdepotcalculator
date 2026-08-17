@@ -443,6 +443,7 @@ function bouwAanbieder(a) {
     rij('Doorlooptijd uitbetaling',
       a.doorlooptijdUitbetaling?.digitaal ? esc(a.doorlooptijdUitbetaling.digitaal) : LEEG,
       a.doorlooptijdUitbetaling?.post),
+    rij('Zelf voorschieten en terugvragen', waarde(a.voorschieten), a.voorschieten?.detail),
     rij('Vereist bewijsstuk', a.bewijsstuk ? esc(a.bewijsstuk) : LEEG),
     rij('Wat u mag declareren', a.declarabel ? esc(a.declarabel) : LEEG),
     rij('Restant bij beëindiging', waarde(a.restant), a.restant?.detail),

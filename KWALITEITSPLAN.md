@@ -68,15 +68,38 @@ Drie structurele maatregelen:
 
 Hier zit een grotere fout, en die is strategisch.
 
-### De site is gebouwd voor het verkeerde moment
+### Correctie op mijn eerste conclusie: er zijn twee reizen
 
-De vergelijking gaat uit van iemand die een bank kiest op depotvoorwaarden.
-Dat gebeurt vrijwel nooit. **Je krijgt een bouwdepot bij de hypotheek die je
-adviseur heeft geregeld.** De keuze is al gemaakt voordat iemand deze site
-vindt.
+Mijn eerste versie concludeerde dat de site "op het verkeerde moment" staat en
+dat vooraf rekenen er nauwelijks toe doet. Dat was te breed en onjuist voor de
+helft van de bezoekers.
 
-De melding die dit onderzoek startte is daar zelf het bewijs van: iemand met
-een lopend depot, met een vraag over gebruik, niet over keuze.
+**Verbouwers kiezen wél vooraf.** Wie een bestaande woning verbouwt, besluit
+zelf of hij extra leent, hoeveel, en of het financieel uitkomt. Daar is
+rekenen de kern van de vraag: wat kost dit per maand, past het binnen mijn
+budget, past het binnen de waarde van mijn woning. Voor die groep is de
+calculator geen bijzaak maar het product.
+
+**Bij nieuwbouw ligt het anders.** Het depot komt vrijwel automatisch mee met
+de aankoop; de hoogte volgt uit de aanneemsom. Daar valt weinig te kiezen,
+maar des te meer te regelen: declareren, termijnen bewaken, restant.
+
+De melding die dit onderzoek startte kwam van een nieuwbouwkoper met een
+lopend depot. Zijn vragen waren daarom uitvoeringsvragen. Dat is representatief
+voor zijn reis, niet voor die van een verbouwer.
+
+### Wat dat betekent
+
+Niet: de calculators zijn overbodig. Wel: **er ontbreekt een hele helft.** De
+rekenkant is er, de uitvoeringskant vrijwel niet. Beide moeten er zijn, met
+een duidelijke ingang per situatie.
+
+| Reis | Vooraf | Tijdens en na |
+|---|---|---|
+| Verbouwen bestaande woning | zwaar: lenen, maandlast, haalbaarheid | declareren, termijn bewaken |
+| Nieuwbouw kopen | licht: depot volgt uit de aanneemsom | zwaar: declaraties, piekmaand, restant |
+
+De site dekt nu vooral de linkerkolom.
 
 ### Wat mensen wél vragen
 
