@@ -518,3 +518,6 @@ select.ds-invoer {
     #begroting .post__prioriteit { border: 0; padding-left: 0; }
     #begroting .cat { break-inside: avoid; }
 }
+
+/* Tekort in rood: een negatieve buffer is een signaal, geen getal. */
+.is-tekort { color: var(--ds-warn); }
