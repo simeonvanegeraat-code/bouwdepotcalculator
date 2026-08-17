@@ -15,7 +15,8 @@
     "restant": "Wat er gebeurt met het bedrag dat overblijft",
     "eigenArbeid": "Of eigen arbeid gedeclareerd mag worden",
     "voorschieten": "Of u een rekening eerst zelf mag betalen en het bedrag daarna kunt terugvragen",
-    "declaratieEisen": "Eisen waaraan een declaratie moet voldoen, gestructureerd zodat ze per aanbieder vergelijkbaar zijn"
+    "declaratieEisen": "Eisen waaraan een declaratie moet voldoen, gestructureerd zodat ze per aanbieder vergelijkbaar zijn",
+    "automatischTeControleren": "False wanneer scripts/check-voorwaarden.mjs deze bron niet kan bewaken, met de reden in handcontroleReden. Zonder automatisch vangnet geldt een kortere controletermijn: die aanbieders vragen elke drie maanden een blik in plaats van elke zes."
   },
   "aanbieders": [
     {
@@ -87,19 +88,21 @@
       "id": "rabobank",
       "naam": "Rabobank",
       "bron": "https://www.rabobank.nl/particulieren/hypotheek/hypotheekvormen-en-voorwaarden/hypotheekproducten/bouwdepot",
-      "gecontroleerd": "2026-08-16",
+      "gecontroleerd": "2026-08-17",
       "geverifieerdDoor": null,
+      "automatischTeControleren": false,
+      "handcontroleReden": "De productpagina is JS-gerenderd en levert bij geautomatiseerd ophalen geen tekst. Alleen met de hand te controleren.",
       "looptijdVerbouwMaanden": 24,
       "looptijdNieuwbouwMaanden": 24,
       "verlengingMaanden": {
         "verbouw": null,
         "nieuwbouw": null,
-        "mogelijkMaarDuurOnbekend": true,
-        "detail": "Verlenging is mogelijk, maar de duur wordt niet gepubliceerd. Na verlenging ontvang je geen rente meer over het depot."
+        "geenVerlengingGepubliceerd": true,
+        "detail": "Rabobank publiceert geen verlenging. De bron stelt dat het depot na 2 jaar automatisch stopt, dus geldt die 2 jaar als maximum. Vraag bij uw adviseur na of er in uw situatie iets mogelijk is."
       },
       "rentevergoeding": {
         "waarde": "Ja, gelijk aan je hypotheekrente bij aanvang",
-        "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. Na verlenging voorbij 2 jaar ontvang je geen rente meer.",
+        "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. De vergoeding loopt daarmee over de hele looptijd van 2 jaar.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": { "verbouw": 24, "nieuwbouw": 24 },
         "tarief": { "verbouw": "gelijk-aan-hypotheekrente", "nieuwbouw": "gelijk-aan-hypotheekrente" }
@@ -156,7 +159,9 @@
       "id": "ing",
       "naam": "ING",
       "bron": "https://www.ing.nl/particulier/hypotheek/jouw-hypotheek/bouwdepot",
-      "gecontroleerd": "2026-08-16",
+      "gecontroleerd": "2026-08-17",
+      "automatischTeControleren": false,
+      "handcontroleReden": "De productpagina blokkeert geautomatiseerd ophalen; de verbinding wordt verbroken. Alleen met de hand te controleren.",
       "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 24,
       "looptijdNieuwbouwMaanden": 24,
@@ -239,6 +244,8 @@
     {
       "id": "munt",
       "naam": "MUNT Hypotheken",
+      "automatischTeControleren": false,
+      "handcontroleReden": "De hoofdpagina levert geen signaalzinnen bij geautomatiseerd ophalen; alleen de twee onderliggende vraagpaginas worden bewaakt. De hoofdpagina zelf met de hand nalopen.",
       "bron": "https://www.munthypotheken.nl/veelgestelde-vragen/bouwdepot/",
       "bronnen": [
         "https://www.munthypotheken.nl/veelgestelde-vragen/bouwdepot/hoe-lang-is-mijn-bouwdepot-geldig/",

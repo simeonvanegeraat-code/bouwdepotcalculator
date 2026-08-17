@@ -24,6 +24,7 @@ const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/bouwdepot-voorwaar
 const HUB = 'bouwdepot-voorwaarden-vergelijken.html';
 const SITE = 'https://www.bouwdepotcalculator.nl';
 const CONTROLE_INTERVAL_MAANDEN = 6;
+const CONTROLE_INTERVAL_ZONDER_VANGNET = 3;
 
 const esc = (s) =>
   String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -57,14 +58,28 @@ function totaal(basis, extra) {
   return { totaal: basis + extra, zeker: true };
 }
 
-function isVerlopen(gecontroleerd) {
-  const d = new Date(gecontroleerd + 'T00:00:00Z');
-  d.setUTCMonth(d.getUTCMonth() + CONTROLE_INTERVAL_MAANDEN);
+/**
+ * Hoe lang een controle meegaat, afhankelijk van of er een vangnet is.
+ *
+ * Voor bronnen die het wekelijkse script kan bewaken volstaat een halfjaar: een
+ * inhoudelijke wijziging levert dan tussentijds een melding op. Voor bronnen die
+ * geautomatiseerd ophalen blokkeren bestaat dat vangnet niet, en is de
+ * controledatum het enige dat een verouderde waarde nog aan het licht brengt.
+ * Daar hoort een kortere termijn bij. Dit is geen theorie: bij Rabobank stond
+ * maanden een verlengingsclaim die de bron niet ondersteunt, en die kwam pas
+ * boven bij een handmatige controle.
+ */
+function isVerlopen(a) {
+  const maanden = a.automatischTeControleren === false
+    ? CONTROLE_INTERVAL_ZONDER_VANGNET
+    : CONTROLE_INTERVAL_MAANDEN;
+  const d = new Date(a.gecontroleerd + 'T00:00:00Z');
+  d.setUTCMonth(d.getUTCMonth() + maanden);
   return d < new Date();
 }
 
 function controle(a) {
-  const v = isVerlopen(a.gecontroleerd);
+  const v = isVerlopen(a);
   return `<span class="vgl-controle${v ? ' vgl-controle--verlopen' : ''}">${
     v ? 'controle openstaand &middot; ' : ''}gecontroleerd ${datum(a.gecontroleerd)}</span>`;
 }
@@ -650,7 +665,7 @@ for (const a of data.aanbieders) {
 console.log(`${geschreven.length} pagina's gegenereerd uit ${data.aanbieders.length} aanbieders (schaal: ${SCHAAL} maanden):`);
 for (const g of geschreven) console.log('  ' + g);
 
-const verlopen = data.aanbieders.filter((a) => isVerlopen(a.gecontroleerd));
+const verlopen = data.aanbieders.filter(isVerlopen);
 if (verlopen.length) {
   console.log(`\nControle openstaand (ouder dan ${CONTROLE_INTERVAL_MAANDEN} maanden): ${verlopen.map((a) => a.naam).join(', ')}`);
 }

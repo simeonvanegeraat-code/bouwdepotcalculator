@@ -132,3 +132,32 @@ test('elk genoemd maandental komt terug in de detailtekst of in de looptijden', 
         }
     }
 });
+
+test('een verlengingsclaim is onderbouwd of expliciet afwezig', () => {
+    // Bij Rabobank stond dat verlenging mogelijk was met een niet-gepubliceerde
+    // duur, terwijl de bron zegt dat het depot na 2 jaar automatisch stopt. Dat
+    // is precies de soort aanname die deze dataset niet mag bevatten: onbekend
+    // blijft onbekend, en "mogelijk" is een bewering die een bron nodig heeft.
+    for (const a of data.aanbieders) {
+        const v = a.verlengingMaanden || {};
+        const heeftGetal = typeof v.verbouw === 'number' || typeof v.nieuwbouw === 'number';
+        const beweertMogelijk = v.mogelijkMaarDuurOnbekend === true;
+        const beweertGeen = v.geenVerlengingGepubliceerd === true;
+
+        // Precies één van de drie toestanden, nooit twee tegelijk.
+        const aantal = [heeftGetal, beweertMogelijk, beweertGeen].filter(Boolean).length;
+        assert.equal(
+            aantal, 1,
+            `${a.id}: verlenging moet precies één toestand hebben (getal / duur onbekend / geen), nu ${aantal}`,
+        );
+
+        // Een claim zonder getal moet uitgelegd worden, want hij is niet uit de
+        // cijfers af te lezen.
+        if (beweertMogelijk || beweertGeen) {
+            assert.ok(
+                typeof v.detail === 'string' && v.detail.length > 40,
+                `${a.id}: een verlenging zonder getal heeft een toelichting nodig die zegt waar dat op berust`,
+            );
+        }
+    }
+});

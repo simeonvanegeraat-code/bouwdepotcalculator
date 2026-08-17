@@ -19,7 +19,8 @@ export const BANKEN = [
       "verbouw": 6,
       "nieuwbouw": 12,
       "eenmalig": true,
-      "duurOnbekend": false
+      "duurOnbekend": false,
+      "geen": false
     },
     "maximaal": {
       "verbouw": 24,
@@ -75,15 +76,16 @@ export const BANKEN = [
       "verbouw": null,
       "nieuwbouw": null,
       "eenmalig": null,
-      "duurOnbekend": true
+      "duurOnbekend": false,
+      "geen": true
     },
     "maximaal": {
-      "verbouw": null,
-      "nieuwbouw": null
+      "verbouw": 24,
+      "nieuwbouw": 24
     },
     "vergoeding": {
       "samenvatting": "Ja, gelijk aan je hypotheekrente bij aanvang",
-      "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. Na verlenging voorbij 2 jaar ontvang je geen rente meer.",
+      "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. De vergoeding loopt daarmee over de hele looptijd van 2 jaar.",
       "model": "beperkt-in-duur",
       "maanden": {
         "verbouw": 24,
@@ -131,7 +133,8 @@ export const BANKEN = [
       "verbouw": 12,
       "nieuwbouw": 12,
       "eenmalig": true,
-      "duurOnbekend": false
+      "duurOnbekend": false,
+      "geen": false
     },
     "maximaal": {
       "verbouw": 36,
@@ -195,7 +198,8 @@ export const BANKEN = [
       "verbouw": 18,
       "nieuwbouw": 18,
       "eenmalig": false,
-      "duurOnbekend": false
+      "duurOnbekend": false,
+      "geen": false
     },
     "maximaal": {
       "verbouw": 42,
@@ -247,7 +251,8 @@ export const BANKEN = [
       "verbouw": 6,
       "nieuwbouw": 12,
       "eenmalig": true,
-      "duurOnbekend": false
+      "duurOnbekend": false,
+      "geen": false
     },
     "maximaal": {
       "verbouw": 24,
@@ -299,7 +304,8 @@ export const BANKEN = [
       "verbouw": 12,
       "nieuwbouw": 12,
       "eenmalig": true,
-      "duurOnbekend": false
+      "duurOnbekend": false,
+      "geen": false
     },
     "maximaal": {
       "verbouw": 24,

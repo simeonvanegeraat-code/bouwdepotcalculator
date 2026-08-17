@@ -158,9 +158,13 @@ if (nieuw.length) {
 }
 
 // Aanbieders waarvan de controledatum verlopen is, ook al wijzigde er niets.
+// Aanbieders zonder automatisch vangnet krijgen een kortere termijn: bij hen is
+// de controledatum het enige dat een verouderde waarde nog aan het licht brengt.
+// Zelfde grenzen als in scripts/build-voorwaarden.mjs, dat de badge op de pagina
+// zet; die twee moeten niet uit elkaar lopen.
 const verlopen = data.aanbieders.filter((a) => {
   const d = new Date(a.gecontroleerd + 'T00:00:00Z');
-  d.setUTCMonth(d.getUTCMonth() + 6);
+  d.setUTCMonth(d.getUTCMonth() + (a.automatischTeControleren === false ? 3 : 6));
   return d < new Date();
 });
 if (verlopen.length) {

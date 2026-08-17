@@ -166,6 +166,11 @@ if (wortel) {
                 naam: 'Na verlenging',
                 uitleg: `${bank.naam} maakt verlenging wel mogelijk maar publiceert niet met hoeveel maanden. Wij rekenen daar geen datum voor uit; vraag die op bij uw eigen adviseur.`,
             });
+        } else if (bank.verlenging.geen) {
+            rij.push({
+                naam: 'Geen verlenging gepubliceerd',
+                uitleg: `${bank.naam} publiceert geen verlenging: de bron stelt dat het depot na de looptijd automatisch stopt. Reken dus met de einddatum hierboven als een harde datum, en vraag bij uw adviseur na of er in uw geval iets mogelijk is.`,
+            });
         }
 
         if (aanvraag.maandenVoorEinde == null) {

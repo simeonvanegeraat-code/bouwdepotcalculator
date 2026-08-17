@@ -28,10 +28,22 @@ const verbouwtermijnen = data.aanbieders
 
 const zonderVergoeding = data.aanbieders.filter((a) => /^geen/i.test(a.rentevergoeding?.waarde || ''));
 
+/**
+ * Aanbieders bij wie de vergoeding eerder stopt dan het depot kan lopen.
+ *
+ * Dit werd eerder uit de prozatekst gelezen met een woordenlijst. Sinds
+ * rentevergoeding.vergoedingMaanden bestaat is het uit de getallen af te leiden,
+ * en dat is beter: een herformulering van een detailtekst verschuift het cijfer
+ * dan niet meer, terwijl een echte wijziging in de duur het wel doet.
+ */
 const vergoedingStoptEerder = data.aanbieders.filter((a) => {
-    if (/^geen/i.test(a.rentevergoeding?.waarde || '')) return false;
-    const tekst = `${a.rentevergoeding?.waarde || ''} ${a.rentevergoeding?.detail || ''}`;
-    return /beperkt|stopt|geen rente|eerste \d+ maanden|na \d+ maanden|maximaal \d+ maanden|voorbij \d+ jaar/i.test(tekst);
+    const v = a.rentevergoeding;
+    if (v?.model !== 'beperkt-in-duur') return false;
+    const duur = v.vergoedingMaanden?.verbouw;
+    const basis = a.looptijdVerbouwMaanden;
+    const extra = a.verlengingMaanden?.verbouw;
+    const max = typeof extra === 'number' ? basis + extra : basis;
+    return typeof duur === 'number' && typeof max === 'number' && duur < max;
 });
 
 const nietGepubliceerd = data.aanbieders.reduce(

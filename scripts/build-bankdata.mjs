@@ -38,11 +38,20 @@ const banken = data.aanbieders.map((a) => {
       verbouw: v.verbouw ?? null,
       nieuwbouw: v.nieuwbouw ?? null,
       eenmalig: v.eenmalig ?? null,
+      // Drie toestanden die uit elkaar moeten blijven: een bekende verlenging,
+      // een verlenging waarvan de duur niet gepubliceerd is, en een aanbieder
+      // die geen verlenging publiceert. Bij die laatste is de standaardlooptijd
+      // het maximum en hoort er geen open einde te worden gesuggereerd.
       duurOnbekend: v.mogelijkMaarDuurOnbekend === true,
+      geen: v.geenVerlengingGepubliceerd === true,
     },
     maximaal: {
-      verbouw: som(a.looptijdVerbouwMaanden, v.verbouw),
-      nieuwbouw: som(a.looptijdNieuwbouwMaanden, v.nieuwbouw),
+      verbouw: v.geenVerlengingGepubliceerd === true
+        ? (a.looptijdVerbouwMaanden ?? null)
+        : som(a.looptijdVerbouwMaanden, v.verbouw),
+      nieuwbouw: v.geenVerlengingGepubliceerd === true
+        ? (a.looptijdNieuwbouwMaanden ?? null)
+        : som(a.looptijdNieuwbouwMaanden, v.nieuwbouw),
     },
     vergoeding: {
       samenvatting: a.rentevergoeding?.waarde ?? null,
