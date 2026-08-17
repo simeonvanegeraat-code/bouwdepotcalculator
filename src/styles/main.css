@@ -3541,3 +3541,118 @@ input[type=range] {
         transform: translateY(0);
     }
 }
+
+/* ==========================================================================
+   Bouwdepot voorwaardenvergelijking (gegenereerd door scripts/build-voorwaarden.mjs)
+   ========================================================================== */
+
+.voorwaarden-disclaimer {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    margin: 1.5rem 0;
+}
+
+.voorwaarden-disclaimer p {
+    font-size: 0.92rem;
+    margin-bottom: 0.6rem;
+}
+
+.voorwaarden-disclaimer p:last-child { margin-bottom: 0; }
+
+.voorwaarden-caption {
+    caption-side: top;
+    color: var(--color-text-light);
+    font-size: 0.86rem;
+    padding-bottom: 0.55rem;
+    text-align: left;
+}
+
+/* Ontbrekende gegevens blijven zichtbaar leeg; nooit invullen met een schatting. */
+.cel-onbekend {
+    color: var(--color-text-light);
+    font-style: italic;
+    font-size: 0.88rem;
+}
+
+.cel-detail {
+    color: var(--color-text-light);
+    display: block;
+    font-size: 0.8rem;
+    line-height: 1.35;
+    margin-top: 0.25rem;
+}
+
+.controle-badge {
+    color: var(--color-text-light);
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin-top: 0.3rem;
+}
+
+.controle-badge--verlopen {
+    color: #b45309;
+    font-weight: 600;
+}
+
+.voorwaarden-tabel th[scope="row"] { min-width: 170px; }
+.voorwaarden-tabel td { vertical-align: top; }
+
+.voorwaarden-detail { min-width: 0; }
+.voorwaarden-detail th[scope="row"] {
+    width: 34%;
+    min-width: 190px;
+    background: #f8fafc;
+}
+
+.voorwaarden-melding {
+    color: var(--color-text-light);
+    font-size: 0.88rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 720px) {
+    .voorwaarden-detail th[scope="row"] { width: 40%; min-width: 140px; }
+    .voorwaarden-detail,
+    .voorwaarden-detail tbody,
+    .voorwaarden-detail tr { display: table; width: 100%; }
+}
+
+/* Rekenmodel-keuze in de renteverliescalculator */
+.renteverlies-model-note {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 10px;
+    color: var(--color-text);
+    font-size: 0.86rem;
+    line-height: 1.45;
+    margin-top: 0.75rem;
+    padding: 0.75rem 0.9rem;
+}
+
+.renteverlies-model-note--opname {
+    background: #fffbeb;
+    border-color: #fcd34d;
+}
+
+/* Depotvergoeding is betekenisloos in het opnamemodel; zichtbaar laten, maar inactief. */
+.input-group--uitgeschakeld {
+    opacity: 0.55;
+}
+
+.input-group--uitgeschakeld input {
+    cursor: not-allowed;
+}
+
+.editorial-note--warning {
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: 12px;
+    margin: 1.25rem 0;
+    padding: 1rem 1.15rem;
+}
+
+.editorial-note--warning p { margin-bottom: 0.65rem; }
+.editorial-note--warning p:last-child { margin-bottom: 0; }

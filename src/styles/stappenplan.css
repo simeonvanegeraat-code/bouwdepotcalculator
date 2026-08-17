@@ -1,0 +1,186 @@
+/* ==========================================================================
+   Stappenplan met dossiercheck
+   ========================================================================== */
+
+/* --- Voortgang ----------------------------------------------------------- */
+
+.voortgang {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    margin-top: var(--ds-5);
+    padding: var(--ds-5);
+}
+
+.voortgang__kop {
+    align-items: baseline;
+    display: flex;
+    gap: var(--ds-4);
+    justify-content: space-between;
+    margin-bottom: var(--ds-3);
+}
+.voortgang__kop span { color: var(--ds-ink-muted); font-size: var(--ds-t-small); }
+.voortgang__kop strong {
+    font-size: var(--ds-t-title);
+    font-weight: 680;
+    letter-spacing: -0.03em;
+}
+
+.plan-progress-track {
+    background: var(--ds-surface-sunk);
+    border-radius: 999px;
+    height: 8px;
+    overflow: hidden;
+}
+#plan-progress-bar {
+    background: var(--ds-accent);
+    border-radius: 999px;
+    height: 100%;
+    transition: width var(--ds-calm);
+    width: 0;
+}
+
+.voortgang__acties { display: flex; flex-wrap: wrap; gap: var(--ds-2); margin-top: var(--ds-4); }
+
+/* --- Fasen --------------------------------------------------------------- */
+
+.fasen { display: grid; gap: var(--ds-4); }
+@media (min-width: 900px) { .fasen { grid-template-columns: 1fr 1fr; gap: var(--ds-5); } }
+
+.fase {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    padding: var(--ds-5);
+}
+.fase__nummer {
+    color: var(--ds-accent);
+    font-size: var(--ds-t-caption);
+    font-weight: 640;
+    letter-spacing: 0.06em;
+    margin-bottom: var(--ds-1);
+    text-transform: uppercase;
+}
+.fase__intro {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-small);
+    line-height: 1.5;
+    margin: var(--ds-2) 0 var(--ds-4);
+}
+
+/* Aanvinkbaar controlepunt met een ruim raakvlak. */
+.stap {
+    align-items: flex-start;
+    border-top: 1px solid var(--ds-line);
+    cursor: pointer;
+    display: flex;
+    gap: var(--ds-3);
+    padding: var(--ds-3) 0;
+}
+.stap:last-child { padding-bottom: 0; }
+
+.stap input {
+    accent-color: var(--ds-accent);
+    flex: none;
+    height: 20px;
+    margin-top: 2px;
+    width: 20px;
+}
+.stap span {
+    font-size: var(--ds-t-small);
+    line-height: 1.45;
+}
+.stap strong {
+    display: block;
+    font-weight: 620;
+    margin-bottom: 2px;
+}
+.stap span { color: var(--ds-ink-muted); }
+.stap strong { color: var(--ds-ink); }
+
+/* Afgevinkt punt zakt visueel terug, maar blijft leesbaar. */
+.stap:has(input:checked) strong { color: var(--ds-ink-muted); text-decoration: line-through; }
+
+/* --- Dossiermatrix ------------------------------------------------------- */
+
+.dossier { display: grid; gap: var(--ds-4); }
+@media (min-width: 700px) { .dossier { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .dossier { grid-template-columns: repeat(4, 1fr); } }
+
+.dossier__moment {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    padding: var(--ds-5);
+}
+.dossier__moment h3 {
+    font-size: var(--ds-t-lead);
+    font-weight: 620;
+    letter-spacing: -0.018em;
+    margin-bottom: var(--ds-3);
+}
+.dossier__moment dl { display: grid; gap: var(--ds-3); margin: 0; }
+.dossier__moment dt {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-caption);
+    margin-bottom: 2px;
+}
+.dossier__moment dd { font-size: var(--ds-t-small); line-height: 1.45; margin: 0; }
+
+/* --- Afdrukken ----------------------------------------------------------- */
+
+@media print {
+    .no-print { display: none !important; }
+    .ds-sectie { padding-block: var(--ds-4); }
+    .ds-sectie--gevuld, .ds-sectie--diep { background: none; color: #000; }
+    .fasen { grid-template-columns: 1fr 1fr; }
+    .fase, .voortgang, .dossier__moment { break-inside: avoid; box-shadow: none; }
+    .ds-keuzes { display: none; }
+}
+
+/* --- Invulbaar scenariovel (advieschecklist) ------------------------------ */
+
+.scenariovel {
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    overflow: hidden;
+}
+.scenariovel__rij {
+    border-bottom: 1px solid var(--ds-line);
+    display: grid;
+    gap: var(--ds-2);
+    grid-template-columns: 1fr;
+    padding: var(--ds-3) var(--ds-4);
+}
+.scenariovel__rij:last-child { border-bottom: 0; }
+
+/* Op smalle schermen krijgt elk veld zijn eigen label via de kolomkop. */
+.scenariovel__rij--kop { display: none; }
+.scenariovel__rij strong { font-size: var(--ds-t-small); }
+.scenariovel .invul {
+    border-bottom: 1px dashed var(--ds-line-strong);
+    display: block;
+    min-height: 30px;
+}
+
+@media (min-width: 720px) {
+    .scenariovel__rij {
+        align-items: center;
+        grid-template-columns: 6rem repeat(5, 1fr);
+        gap: var(--ds-3);
+    }
+    .scenariovel__rij--kop {
+        background: var(--ds-surface-sunk);
+        display: grid;
+    }
+    .scenariovel__rij--kop span {
+        color: var(--ds-ink-muted);
+        font-size: var(--ds-t-caption);
+        font-weight: 600;
+    }
+}
+
+@media print {
+    .scenariovel__rij--kop { display: grid; }
+    .scenariovel__rij { grid-template-columns: 6rem repeat(5, 1fr); }
+}

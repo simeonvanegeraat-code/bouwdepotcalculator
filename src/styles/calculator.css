@@ -1,0 +1,705 @@
+/* ==========================================================================
+   Calculatorpagina's
+   --------------------------------------------------------------------------
+   De rekenzone waarin invoer en uitkomst samen in beeld staan. Op mobiel
+   staat de uitkomst boven de invoer, zodat er niet gescrold hoeft te worden
+   voor een getal. Op desktop blijft de uitkomst meelopen tijdens het typen.
+   ========================================================================== */
+
+.reken { padding-block: var(--ds-5) var(--ds-7); }
+
+/* Vanaf tabletbreedte meer lucht boven de ingang van de pagina; op telefoon
+   blijft die krap, want daar is verticale ruimte het schaarst. */
+@media (min-width: 768px) {
+    .reken { padding-block: var(--ds-7); }
+}
+
+/* De hero van een rekenpagina.
+   Hier stond een eigen font-size die uitkwam op --ds-t-title, de sectiemaat.
+   Daardoor was de paginatitel even groot als een kop eronder en kleiner dan de
+   .ds-heading verderop: de titel was het kleinste grote ding op de pagina. Deze
+   hero gebruikt nu dezelfde maat als de twintig tekstpagina's.
+
+   De max-width is er zodat de kop over twee regels valt. Zonder die begrenzing
+   liep hij over 1016 van 1080px als één dunne streep, en had de text-wrap:
+   balance uit het designsysteem niets om te balanceren. */
+.aanhef { margin-bottom: var(--ds-6); }
+.aanhef h1 {
+    font-size: var(--ds-t-heading);
+    font-weight: 660;
+    letter-spacing: -0.028em;
+    line-height: var(--ds-lh-tight);
+    margin-bottom: var(--ds-3);
+    /* De ch-eenheid hoort op de kop zelf te staan en niet op de wikkel: daar
+       rekent hij tegen de basistekst van 17px, wat de maat ruim halveert en de
+       kop over drie regels duwde. */
+    max-width: 24ch;
+}
+/* De regel onder de kop is een lead, geen voetnoot: hij vulde het gat tussen
+   40px en 13px niet en las daardoor als kleine lettertjes. */
+.aanhef .ds-lead { margin: 0; max-width: 46ch; }
+
+.reken__grid { display: grid; gap: var(--ds-5); }
+
+@media (min-width: 900px) {
+    .reken__grid {
+        align-items: start;
+        gap: var(--ds-6);
+        grid-template-columns: 1fr 0.85fr;
+    }
+    /* Uitkomst rechts en meelopend; invoer links waar de aandacht start. */
+    .reken__uitkomst { grid-column: 2; position: sticky; top: 84px; }
+    .reken__invoer { grid-column: 1; grid-row: 1; }
+}
+
+/* --- Invoervelden --------------------------------------------------------- */
+
+.veldrij { display: grid; gap: var(--ds-4); }
+@media (min-width: 560px) { .veldrij--twee { grid-template-columns: 1fr 1fr; } }
+
+/* Naast elkaar staande velden hebben niet altijd dezelfde onderdelen: bij
+   "Hypotheekrente" hoort een invoerveld boven de schuif, bij "Looptijd" niet.
+   Zonder deze regel volgt elke schuif zijn eigen stapel en staan twee identieke
+   regelaars in dezelfde rij 37px verticaal uit elkaar.
+
+   De rasterrijen zijn even hoog (stretch is de standaard), dus het volstaat de
+   schuif naar de onderkant van zijn cel te duwen. Dat werkt ook in de rijen met
+   vier velden, waar het raster afbreekt naar twee bij twee; subgrid zou daar op
+   een vast aantal rijen stuklopen. */
+@media (min-width: 560px) {
+    .veldrij--twee > .ds-veld { display: flex; flex-direction: column; }
+    .veldrij--twee > .ds-veld > .ds-schuif { margin-top: auto; }
+}
+
+.prefix-veld, .suffix-veld { align-items: center; display: flex; gap: var(--ds-2); }
+.prefix-veld > span, .suffix-veld > span {
+    color: var(--ds-ink-muted);
+    flex: none;
+    font-size: var(--ds-t-lead);
+    font-weight: 560;
+}
+
+select.ds-invoer {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%235E6D78' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-position: right var(--ds-3) center;
+    background-repeat: no-repeat;
+    padding-right: var(--ds-7);
+}
+
+/* Aanvinkbaar blok in plaats van een kaal vinkje: groter raakvlak. */
+.ds-keuzevak {
+    align-items: flex-start;
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-md);
+    cursor: pointer;
+    display: flex;
+    gap: var(--ds-3);
+    margin-bottom: var(--ds-5);
+    min-height: var(--ds-tap);
+    padding: var(--ds-3) var(--ds-4);
+    transition: border-color var(--ds-quick);
+}
+.ds-keuzevak:hover { border-color: var(--ds-line-strong); }
+.ds-keuzevak:has(input:checked) {
+    background: var(--ds-accent-wash);
+    border-color: var(--ds-accent);
+}
+.ds-keuzevak input { accent-color: var(--ds-accent); margin-top: 3px; width: 18px; height: 18px; flex: none; }
+.ds-keuzevak span { font-size: var(--ds-t-small); font-weight: 540; line-height: 1.4; }
+.ds-keuzevak small {
+    color: var(--ds-ink-muted);
+    display: block;
+    font-size: var(--ds-t-caption);
+    font-weight: 400;
+    margin-top: 2px;
+}
+
+/* --- Uitklapbare verdieping ---------------------------------------------- */
+
+.uitleg-details {
+    border-top: 1px solid var(--ds-line);
+    margin-top: var(--ds-4);
+    padding-top: var(--ds-3);
+}
+.uitleg-details > summary {
+    color: var(--ds-ink-soft);
+    cursor: pointer;
+    font-size: var(--ds-t-small);
+    font-weight: 570;
+    list-style: none;
+    min-height: 32px;
+    padding-right: var(--ds-5);
+    position: relative;
+}
+.uitleg-details > summary::-webkit-details-marker { display: none; }
+.uitleg-details > summary::after {
+    content: '+';
+    color: var(--ds-ink-muted);
+    font-size: 1.25rem;
+    font-weight: 300;
+    position: absolute;
+    right: 0;
+    top: -3px;
+}
+.uitleg-details[open] > summary::after { content: '\2212'; }
+.uitleg-details > summary:hover { color: var(--ds-accent); }
+.uitleg-details__body { padding-top: var(--ds-3); }
+.uitleg-details__body > * + * { margin-top: var(--ds-3); }
+
+/* In de invoerkolom is het een zelfstandig blok, geen voetnoot. */
+.reken__invoer > .uitleg-details {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-md);
+    border-top-color: var(--ds-line);
+    margin-bottom: var(--ds-4);
+    padding: var(--ds-3) var(--ds-4);
+}
+
+/* Uitsplitsing zonder eigen rand, voor gebruik binnen een uitklapblok. */
+.ds-uitsplitsing--vlak {
+    border-top: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.ds-uitsplitsing--vlak li {
+    display: flex;
+    font-size: var(--ds-t-small);
+    gap: var(--ds-4);
+    justify-content: space-between;
+}
+.ds-uitsplitsing--vlak li span { color: var(--ds-ink-muted); }
+.ds-uitsplitsing--vlak li strong { font-variant-numeric: tabular-nums; font-weight: 620; }
+
+.uitkomst-acties { margin-top: var(--ds-4); }
+.uitkomst-acties .ds-knop { width: 100%; }
+
+/* --- Budget samenstellen -------------------------------------------------- */
+
+.budget {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-md);
+    padding: var(--ds-3) var(--ds-4);
+}
+.budget__kop {
+    align-items: center;
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    font: inherit;
+    gap: var(--ds-4);
+    justify-content: space-between;
+    min-height: var(--ds-tap);
+    padding: 0;
+    text-align: left;
+    width: 100%;
+}
+.budget__kop strong { display: block; font-size: var(--ds-t-small); font-weight: 600; }
+.budget__kop small { color: var(--ds-ink-muted); font-size: var(--ds-t-caption); }
+.budget__kop svg { color: var(--ds-ink-muted); flex: none; transition: transform var(--ds-calm); }
+.budget__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-2);
+    padding-top: var(--ds-4);
+}
+
+/* --- Vaste balk op mobiel ------------------------------------------------- */
+
+.sticky-result-bar {
+    align-items: center;
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    /* Vaste kleuren: dit is een zwevende laag boven de pagina, dus hij moet in
+       lichte en donkere modus hetzelfde blijven. Met --ds-ink zou hij in donkere
+       modus omklappen naar licht-op-licht. */
+    background: rgba(15, 21, 24, 0.94);
+    border-radius: 999px;
+    bottom: var(--ds-4);
+    box-shadow: var(--ds-shadow-3);
+    color: #FCFBF9;
+    cursor: pointer;
+    display: none;
+    gap: var(--ds-3);
+    left: 50%;
+    padding: var(--ds-3) var(--ds-5);
+    position: fixed;
+    transform: translateX(-50%);
+    z-index: 30;
+}
+.sticky-result-bar__label { font-size: var(--ds-t-caption); opacity: 0.75; }
+.sticky-result-bar__amount { font-size: var(--ds-t-body); font-weight: 660; }
+.sticky-result-bar__arrow { opacity: 0.6; }
+
+/* Alleen tonen waar de uitkomst uit beeld kan raken. */
+@media (max-width: 899px) {
+    .sticky-result-bar { display: flex; }
+}
+
+@media print {
+    .kop, .voet, .no-print, .sticky-result-bar, .reken__invoer { display: none !important; }
+    .reken__grid { display: block; }
+    .ds-uitkomst { box-shadow: none; border: 1px solid #ccc; }
+}
+
+/* Klein getalveld dat naast het label past, bijvoorbeeld het aantal maanden. */
+.ds-invoer--kort {
+    display: inline-block;
+    min-height: 34px;
+    padding: 2px var(--ds-2);
+    text-align: right;
+    width: 4.5rem;
+}
+
+.notitie {
+    background: var(--ds-surface-sunk);
+    border-radius: var(--ds-r-md);
+    color: var(--ds-ink-soft);
+    font-size: var(--ds-t-small);
+    line-height: 1.5;
+    padding: var(--ds-3) var(--ds-4);
+}
+
+
+/* ==========================================================================
+   Termijnschema (nieuwbouw)
+   --------------------------------------------------------------------------
+   De rijen worden door main.js gegenereerd met vaste klassen, dus die namen
+   liggen vast. Op smalle schermen breekt een rij naar twee regels: maand,
+   omschrijving en verwijderknop boven, bedrag en percentage eronder.
+   ========================================================================== */
+
+.terms-kop {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-2) var(--ds-3);
+    justify-content: space-between;
+    margin-bottom: var(--ds-4);
+}
+
+.terms-totaal {
+    background: var(--ds-accent-wash);
+    border-radius: 999px;
+    color: var(--ds-accent);
+    font-size: var(--ds-t-caption);
+    font-variant-numeric: tabular-nums;
+    font-weight: 640;
+    padding: 4px var(--ds-3);
+}
+.terms-totaal[data-status="goed"] {
+    background: var(--ds-accent-wash);
+    color: var(--ds-accent);
+}
+.terms-totaal[data-status="afwijkend"] {
+    background: var(--ds-warn-wash);
+    color: var(--ds-warn);
+}
+
+.term-row {
+    align-items: center;
+    display: grid;
+    gap: var(--ds-2);
+    grid-template-columns: 56px 1fr 120px 92px 36px;
+    margin-bottom: var(--ds-2);
+}
+
+.term-row input {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line-strong);
+    border-radius: var(--ds-r-sm);
+    color: var(--ds-ink);
+    font: inherit;
+    font-size: var(--ds-t-small);
+    font-variant-numeric: tabular-nums;
+    min-height: 40px;
+    padding: 0 var(--ds-2);
+    width: 100%;
+}
+.term-row input:focus-visible {
+    border-color: var(--ds-accent);
+    box-shadow: 0 0 0 3px var(--ds-accent-wash);
+    outline: none;
+}
+
+.term-month-input { font-weight: 620; text-align: center; }
+
+.input-icon-wrapper { position: relative; width: 100%; }
+.input-icon-wrapper .icon {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-small);
+    left: var(--ds-2);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.input-icon-wrapper input { padding-left: var(--ds-5); }
+.input-icon-wrapper.pct input { padding-left: var(--ds-2); padding-right: var(--ds-5); text-align: center; }
+.input-icon-wrapper.pct .icon { left: auto; right: var(--ds-2); }
+
+.btn-remove {
+    background: none;
+    border: 0;
+    border-radius: var(--ds-r-sm);
+    color: var(--ds-ink-faint);
+    cursor: pointer;
+    font-size: 1.35rem;
+    line-height: 1;
+    min-height: 36px;
+    transition: color var(--ds-quick), background var(--ds-quick);
+}
+.btn-remove:hover { background: var(--ds-warn-wash); color: var(--ds-warn); }
+
+@media (max-width: 620px) {
+    .term-row {
+        background: var(--ds-surface);
+        border: 1px solid var(--ds-line);
+        border-radius: var(--ds-r-md);
+        grid-template-columns: 56px 1fr 36px;
+        padding: var(--ds-3);
+        row-gap: var(--ds-2);
+    }
+    .term-row > div:nth-child(1) { grid-column: 1; }
+    .term-row > div:nth-child(2) { grid-column: 2; }
+    .btn-remove { grid-column: 3; grid-row: 1; justify-self: end; }
+    .term-row .input-wrapper-euro { grid-column: 1 / 3; }
+    .term-row .input-wrapper-pct { grid-column: 3 / 4; min-width: 76px; }
+}
+
+/* Grafiek en tabel met het maandverloop */
+.verloop {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-lg);
+    padding: var(--ds-5);
+}
+.verloop canvas { max-width: 100%; }
+
+.details-table-wrapper { margin-top: var(--ds-4); overflow-x: auto; }
+.details-table { border-collapse: collapse; font-size: var(--ds-t-small); min-width: 420px; width: 100%; }
+.details-table th, .details-table td {
+    border-bottom: 1px solid var(--ds-line);
+    padding: var(--ds-2) var(--ds-3);
+    text-align: left;
+}
+.details-table thead th {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-caption);
+    font-weight: 600;
+}
+.details-table td { font-variant-numeric: tabular-nums; }
+.details-table .col-amount { text-align: right; }
+
+.details-table .col-gedempt { color: var(--ds-ink-muted); }
+.details-table .col-vergoeding { color: var(--ds-positive); }
+.details-table .netto-column { color: var(--ds-ink); font-weight: 640; }
+
+/* Rij die doorlinkt naar de fiscale verdieping. */
+.ds-uitsplitsing .is-klikbaar {
+    border-radius: var(--ds-r-sm);
+    cursor: pointer;
+    margin: 0 calc(var(--ds-2) * -1);
+    padding: var(--ds-1) var(--ds-2);
+    transition: background var(--ds-quick);
+}
+.ds-uitsplitsing .is-klikbaar:hover { background: var(--ds-accent-wash); }
+
+/* Formuleblok in de uitleg. */
+.formule {
+    background: var(--ds-surface-sunk);
+    border-radius: var(--ds-r-md);
+    padding: var(--ds-4);
+}
+.formule p {
+    font-size: var(--ds-t-small);
+    line-height: 1.5;
+    margin-bottom: var(--ds-2);
+}
+.formule p:last-child { margin-bottom: 0; }
+
+/* Veld dat in dit rekenmodel geen betekenis heeft: zichtbaar maar inactief. */
+.input-group--uitgeschakeld .ds-veld__naam,
+.input-group--uitgeschakeld .suffix-veld > span { color: var(--ds-ink-faint); }
+.input-group--uitgeschakeld .ds-invoer {
+    background: var(--ds-surface-sunk);
+    border-style: dashed;
+    color: var(--ds-ink-faint);
+    cursor: not-allowed;
+}
+
+/* Losse kengetallen in een uitklapblok, bijvoorbeeld het effectieve aftrektarief. */
+.fiscaal-kengetal {
+    display: flex;
+    font-size: var(--ds-t-small);
+    gap: var(--ds-4);
+    justify-content: space-between;
+}
+.fiscaal-kengetal span { color: var(--ds-ink-muted); }
+.fiscaal-kengetal strong { font-variant-numeric: tabular-nums; font-weight: 620; }
+
+/* --- Verhouding rente en aflossing ---------------------------------------- */
+
+.verhouding { margin-top: var(--ds-4); }
+
+.verhouding__balk {
+    background: var(--ds-surface-sunk);
+    border-radius: 999px;
+    display: flex;
+    height: 10px;
+    overflow: hidden;
+}
+.verhouding__deel { transition: width var(--ds-calm); }
+.verhouding__deel--rente { background: var(--ds-data-2); }
+.verhouding__deel--aflossing { background: var(--ds-data-1); }
+
+.verhouding__legenda {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-2) var(--ds-4);
+    margin-top: var(--ds-3);
+}
+.verhouding__item {
+    align-items: center;
+    color: var(--ds-ink-muted);
+    display: flex;
+    font-size: var(--ds-t-caption);
+    gap: var(--ds-2);
+}
+.verhouding__item strong { color: var(--ds-ink); font-weight: 620; }
+.verhouding__stip { border-radius: 3px; flex: none; height: 10px; width: 10px; }
+.verhouding__stip--rente { background: var(--ds-data-2); }
+.verhouding__stip--aflossing { background: var(--ds-data-1); }
+
+
+/* ==========================================================================
+   Verbouwbegroting
+   ========================================================================== */
+
+.cat { margin-bottom: var(--ds-6); }
+.cat__kop { margin-bottom: var(--ds-4); }
+/* Een h2, want dit is een onderdeel van het formulier onder de h1; als h3 sloeg
+   de begroting een niveau over. De maat blijft klein: de rangorde in de opmaak
+   hoeft niet dezelfde te zijn als de rangorde in de typografie. */
+.cat__kop h2 {
+    font-size: var(--ds-t-lead);
+    font-weight: 620;
+    letter-spacing: -0.018em;
+    margin-bottom: var(--ds-1);
+}
+.cat__posten { display: grid; gap: var(--ds-3); }
+
+.post {
+    align-items: start;
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-md);
+    display: grid;
+    gap: var(--ds-3);
+    padding: var(--ds-3) var(--ds-4);
+    transition: border-color var(--ds-quick), background var(--ds-quick);
+}
+@media (min-width: 640px) { .post { grid-template-columns: 1fr 15rem; align-items: center; } }
+
+.post--gevuld { border-color: var(--ds-accent); background: var(--ds-surface); }
+
+/* Posten die doorgaans niet uit het depot mogen, blijven zichtbaar maar
+   gemarkeerd. Weglaten zou de begroting incompleet maken; ze kosten wel geld. */
+.post--eigen-geld { background: var(--ds-warn-wash); border-color: transparent; }
+.post--eigen-geld.post--gevuld { border-color: var(--ds-warn); }
+
+.post__naam label { display: block; font-size: var(--ds-t-small); font-weight: 560; }
+.post__merk { display: inline-block; margin-top: 3px; }
+
+.merkje {
+    border-radius: 999px;
+    font-size: 0.6875rem;
+    font-weight: 620;
+    letter-spacing: 0.03em;
+    padding: 2px var(--ds-2);
+    text-transform: uppercase;
+}
+.merkje--depot { background: var(--ds-accent-wash); color: var(--ds-accent); }
+.merkje--eigen { background: var(--ds-surface); color: var(--ds-warn); }
+
+/* Posten die de gekozen bank zelf bij naam noemt. Een lijn links in plaats van
+   een vlak: de post moet opvallen zonder de depot-markering te overschreeuwen. */
+.merkje--eigenbank { background: var(--ds-accent); color: var(--ds-surface); }
+.post--eigen-bank { box-shadow: inset 3px 0 0 var(--ds-accent); }
+
+.post__letop, .post__bron {
+    color: var(--ds-ink-muted);
+    display: block;
+    font-size: var(--ds-t-caption);
+    line-height: 1.4;
+    margin-top: var(--ds-1);
+}
+.post__bron { font-style: italic; }
+
+.post__invoer { display: grid; gap: var(--ds-2); grid-template-columns: 1fr 8.5rem; }
+.post__prioriteit { font-size: var(--ds-t-small); }
+
+.uitkomst-acties { display: grid; gap: var(--ds-2); }
+.uitkomst-acties .ds-knop { width: 100%; }
+
+@media print {
+    .post--eigen-geld { background: none; border: 1px dashed #999; }
+    .post:not(.post--gevuld) { display: none; }
+    .cat__kop p { display: none; }
+    .ds-uitkomst { break-inside: avoid; }
+}
+
+/* ----------------------------------------------------------- specificatie
+   Wat de bezoeker meeneemt naar adviseur of aannemer. Eerder werd de
+   invoerkolom geprint, maar een ingevuld formulier is geen specificatie: de
+   schuifbalk, de keuzelijsten en de lege posten horen niet op papier. Daarom
+   staat er nu een eigen document klaar dat alleen bij printen verschijnt. */
+
+.alleen-print { display: none; }
+
+@media print {
+    #begroting .reken { display: none; }
+    .alleen-print { display: block; }
+
+    .spec__kop { border-bottom: 2px solid #000; margin-bottom: 1rem; padding-bottom: 0.5rem; }
+    .spec__kop h2 { font-size: 1.4rem; margin: 0; }
+    .spec__kop p { color: #444; font-size: 0.85rem; margin: 0.25rem 0 0; }
+
+    .spec__tabel { border-collapse: collapse; font-size: 0.85rem; width: 100%; }
+    .spec__tabel th, .spec__tabel td {
+        border-bottom: 1px solid #ddd;
+        padding: 0.3rem 0.4rem;
+        text-align: left;
+        vertical-align: top;
+    }
+    .spec__tabel thead th { border-bottom: 1px solid #000; font-size: 0.75rem; text-transform: uppercase; }
+    .spec__bedrag { font-variant-numeric: tabular-nums; text-align: right !important; white-space: nowrap; }
+
+    /* Een categorie hoort bij elkaar te blijven staan op een pagina. */
+    .spec__groep { break-inside: avoid; }
+    .spec__kopregel th {
+        background: #f2f2f2;
+        border-bottom: 1px solid #bbb !important;
+        font-size: 0.8rem;
+        padding-top: 0.6rem !important;
+    }
+
+    .spec__tabel tfoot td { border-bottom: 0; padding-top: 0.4rem; }
+    .spec__totaal td { border-top: 1px solid #000 !important; font-weight: 700; padding-top: 0.5rem !important; }
+
+    .spec__voet { break-inside: avoid; font-size: 0.8rem; margin-top: 1.5rem; }
+    .spec__voet h3 { font-size: 0.9rem; margin: 1rem 0 0.3rem; }
+    .spec__voet p, .spec__voet li { color: #333; line-height: 1.45; margin: 0.25rem 0; }
+    .spec__voet ul { margin: 0.25rem 0; padding-left: 1.1rem; }
+    .spec__voet li strong { text-transform: capitalize; }
+}
+
+/* Tekort in rood: een negatieve buffer is een signaal, geen getal. */
+.is-tekort { color: var(--ds-warn); }
+
+/* ---------------------------------------------------------------- tijdlijn
+   De depotplanner levert geen bedrag maar een reeks datums. Een verticale lijn
+   met stippen leest als een agenda; een tabel zou het als naslag laten voelen.
+   Gebeurtenissen zonder datum staan er bewust tussen: dat een aanbieder een
+   termijn niet publiceert is zelf informatie die de bezoeker nodig heeft. */
+
+.tijdlijn {
+    list-style: none;
+    margin: var(--ds-5) 0 0;
+    padding: 0;
+    position: relative;
+}
+
+/* De lijn loopt tussen de eerste en laatste stip, niet erbuiten. */
+.tijdlijn::before {
+    background: var(--ds-line);
+    bottom: 1.5rem;
+    content: '';
+    left: 5.5rem;
+    position: absolute;
+    top: 0.6rem;
+    width: 2px;
+}
+
+.stap {
+    display: grid;
+    gap: var(--ds-4);
+    grid-template-columns: 5rem 1fr;
+    padding-bottom: var(--ds-5);
+    position: relative;
+}
+
+.stap:last-child { padding-bottom: 0; }
+
+.stap__datum {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-caption);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.35;
+    padding-top: 1px;
+    text-align: right;
+}
+
+.stap__inhoud { display: grid; gap: var(--ds-1); padding-left: var(--ds-4); }
+.stap__inhoud strong { font-size: var(--ds-t-small); }
+.stap__inhoud .ds-caption { margin: 0; }
+
+/* De stip zit op de lijn: 5,5rem is de kolombreedte plus de helft van de gap. */
+.stap::after {
+    background: var(--ds-surface);
+    border: 2px solid var(--ds-accent);
+    border-radius: 50%;
+    content: '';
+    height: 11px;
+    left: calc(5.5rem - 4.5px);
+    position: absolute;
+    top: 0.35rem;
+    width: 11px;
+}
+
+/* Wat al gebeurd is hoeft niet meer op te vallen, maar moet wel leesbaar
+   blijven: het is nog steeds de uitleg bij die datum. Vandaar een gedempte
+   kleur en een gevulde grijze stip in plaats van transparantie, want opacity
+   bracht het contrast onder de norm. */
+.stap--geweest .stap__inhoud strong { color: var(--ds-ink-muted); font-weight: 560; }
+.stap--geweest::after { background: var(--ds-line-strong); border-color: var(--ds-line-strong); }
+
+/* Een datum waarop iets van de bezoeker verwacht wordt. */
+.stap--letop::after { background: var(--ds-warn); border-color: var(--ds-warn); }
+.stap--letop .stap__inhoud strong { color: var(--ds-warn); }
+
+/* Zonder datum is er niets te markeren op de lijn: open stip. */
+.stap--zonder-datum::after { border-color: var(--ds-line-strong); border-style: dashed; }
+.stap--zonder-datum .stap__datum { font-style: italic; }
+
+@media (max-width: 640px) {
+    .tijdlijn::before { left: 4px; }
+    .stap { grid-template-columns: 1fr; gap: 0; padding-left: var(--ds-5); }
+    .stap::after { left: -0.5px; }
+    .stap__datum { text-align: left; }
+    .stap__inhoud { padding-left: 0; }
+}
+
+/* Een knop die als link in een alinea meeloopt. */
+.knop-in-tekst {
+    background: none;
+    border: 0;
+    color: var(--ds-accent);
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+    text-decoration: underline;
+}
+.knop-in-tekst:hover { color: var(--ds-accent-hover); }
+
+@media print {
+    .tijdlijn { margin-top: var(--ds-4); }
+    .stap { break-inside: avoid; }
+    #depotplanner .reken__invoer { display: block !important; }
+    #depotplanner .reken__grid { display: block; }
+    #depotplanner .ds-veld, #depotplanner .veldrij { display: none; }
+}

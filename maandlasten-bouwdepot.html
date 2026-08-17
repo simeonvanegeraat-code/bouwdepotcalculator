@@ -1,457 +1,308 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maandlasten bouwdepot berekenen 2026 | Wat kost een bouwdepot per maand?</title>
-    <meta name="description" content="Bereken uw maandlasten tijdens de bouwdepotperiode. Praktische calculator voor bruto maandlast, rentevergoeding op niet opgenomen depot en netto maandlast tijdens bouw of verbouwing.">
+    <title>Maandlasten bouwdepot berekenen | Wat betaalt u tijdens de bouw?</title>
+    <meta name="description" content="Bereken uw maandlast tijdens de bouwdepotfase: hypotheekrente over de volledige lening, min de vergoeding over het depot dat nog niet is opgenomen. Met opnamepatroon en dubbele lasten.">
     <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Simeon">
     <link rel="canonical" href="https://www.bouwdepotcalculator.nl/maandlasten-bouwdepot.html">
 
     <link rel="icon" type="image/png" href="/favicon.png">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
+      crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="/src/styles/main.css">
-    <script type="module" src="/src/js/nav.js"></script>
+    <link rel="stylesheet" href="/src/styles/design-system.css">
+    <link rel="stylesheet" href="/src/styles/pagina.css">
+    <link rel="stylesheet" href="/src/styles/calculator.css">
 </head>
-<body>
-    <header class="site-header">
-        <div class="container header-inner">
-            <a class="logo" href="index.html" aria-label="Ga naar de homepage van BouwdepotCalculator.nl">
-                Bouwdepot<span class="text-accent">Calculator</span>.nl
-            </a>
+<body class="ds">
 
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open hoofdmenu">
-                <span></span><span></span><span></span>
-            </button>
-
-            <nav class="main-nav" id="site-nav" aria-label="Hoofdnavigatie">
-                <div class="nav-item has-dropdown" data-dropdown>
-                    <button class="nav-link nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="calc-dropdown-menu">
-                        Calculators <span class="nav-caret" aria-hidden="true">▾</span>
-                    </button>
-                    <div class="calc-dropdown" id="calc-dropdown-menu" role="menu" aria-label="Calculator overzicht">
-                        <div class="calc-dropdown-group">
-                            <p class="calc-group-title">Snel starten</p>
-                            <a href="index.html" role="menuitem">Algemene bouwdepot calculator</a>
-                            <a href="maandlasten-bouwdepot.html" role="menuitem">Maandlasten bouwdepot</a>
-                        </div>
-                        <div class="calc-dropdown-group">
-                            <p class="calc-group-title">Nieuwbouw</p>
-                            <a href="nieuwbouw.html" role="menuitem">Nieuwbouw calculator</a>
-                            <a href="bouwrente-nieuwbouw.html" role="menuitem">Bouwrente nieuwbouw</a>
-                            <a href="dubbele-lasten-nieuwbouw.html" role="menuitem">Dubbele lasten nieuwbouw</a>
-                        </div>
-                        <div class="calc-dropdown-group">
-                            <p class="calc-group-title">Inzicht &amp; planning</p>
-                            <a href="renteverlies-bouwdepot.html" role="menuitem">Renteverlies bouwdepot</a>
-                            <a href="/?plan=haalbaarheid" role="menuitem">Waarderuimte &amp; eigen geld</a>
-                            <a href="belasting.html" role="menuitem">Belastingvoordeel</a>
-                        </div>
-                        <a class="calc-dropdown-all" href="calculators.html" role="menuitem">Alle calculators</a>
-                    </div>
-                </div>
-                <a class="nav-link" href="kennisbank.html">Kennisbank</a>
-                <a class="nav-link" href="stappenplan.html">Stappenplan</a>
-                <a class="nav-link" href="over-ons.html">Over ons</a>
-                <a class="nav-link" href="contact.html">Contact</a>
-                <a class="nav-link nav-cta" href="calculators.html">Start berekenen</a>
+    <header class="kop">
+        <div class="ds-wrap kop__inner">
+            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <nav aria-label="Hoofdnavigatie">
+                <a href="/">Bereken</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="kennisbank.html">Uitleg</a>
+                <a href="over-ons.html">Over ons</a>
             </nav>
         </div>
     </header>
 
-    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-      <div class="container">
+    <nav class="kruimel" aria-label="Kruimelpad">
+      <div class="ds-wrap">
         <ol>
           <li><a href="/">Home</a></li>
-          <li><a href="/calculators.html">Calculators</a></li>
-          <li aria-current="page">Maandlasten Bouwdepot</li>
+          <li aria-current="page">Maandlasten bouwdepot</li>
         </ol>
       </div>
     </nav>
 
-    <main class="container home-layout">
-        <section class="card">
-            <h1>Maandlasten bouwdepot berekenen</h1>
-            <p class="subtitle">Wilt u weten wat een bouwdepot u per maand kost tijdens bouw of verbouwing? Met deze calculator ziet u direct uw indicatieve bruto maandlast, vergoeding op niet opgenomen depot en netto maandlast tijdens de bouwperiode.</p>
-            <p class="calc-intro-note">Indicatieve rekentool voor oriëntatie. Geen persoonlijk financieel of fiscaal advies.</p>
+    <main>
+        <section class="ds-wrap reken" aria-labelledby="reken-titel">
+            <div class="aanhef">
+                <p class="ds-eyebrow">Tijdens de bouwfase</p>
+                <h1 id="reken-titel">Wat betaalt u per maand terwijl er nog gebouwd wordt?</h1>
+                <p class="ds-lead">U betaalt rente over de hele lening, maar ontvangt vergoeding over het depot dat nog niet is opgenomen.</p>
+            </div>
+
+            <div class="reken__grid">
+                <div class="reken__uitkomst" id="maandlasten-calc">
+                    <div class="ds-uitkomst">
+                        <p class="ds-uitkomst__label">Maandlast na depotvergoeding</p>
+                        <strong class="ds-uitkomst__bedrag" id="res-month-net" data-bedrag>&euro; 0</strong>
+                        <p class="ds-uitkomst__toelichting" id="res-month-conclusion">Vul uw gegevens in voor een indicatie.</p>
+
+                        <dl class="ds-uitsplitsing">
+                            <div><span>Bruto maandlast (rente)</span><strong id="res-month-gross" data-bedrag>&euro; 0</strong></div>
+                            <div><span>Vergoeding uit bouwdepot</span><strong id="res-month-compensation" data-bedrag>&euro; 0</strong></div>
+                            <div><span>Totaal over de bouwperiode</span><strong id="res-period-total" data-bedrag>&euro; 0</strong></div>
+                            <div id="row-double-burden"><span>Totaal incl. dubbele lasten</span><strong id="res-double-burden" data-bedrag>&euro; 0</strong></div>
+                        </dl>
+
+                        <p class="notitie" id="res-month-interpretation" style="margin-top: var(--ds-4)">De verhouding tot uw hypotheek verschijnt zodra u rekent.</p>
+
+                        <details class="uitleg-details">
+                            <summary>Uitgangspunten en aannames</summary>
+                            <div class="uitleg-details__body">
+                                <p class="ds-caption" id="res-month-method">Indicatieve maandbenadering; werkelijke bankboekingen kunnen afwijken.</p>
+                                <ul class="ds-uitsplitsing ds-uitsplitsing--vlak">
+                                    <li><span>Totale hypotheek</span><strong id="sum-month-mortgage">-</strong></li>
+                                    <li><span>Bouwdepot</span><strong id="sum-month-depot">-</strong></li>
+                                    <li><span>Hypotheekrente</span><strong id="sum-month-rate">-</strong></li>
+                                    <li><span>Depotvergoeding</span><strong id="sum-month-depot-rate">-</strong></li>
+                                    <li><span>Bouwperiode</span><strong id="sum-month-duration">-</strong></li>
+                                    <li><span>Opnamepatroon</span><strong id="sum-month-pattern">-</strong></li>
+                                    <li><span>Extra woonlasten</span><strong id="sum-month-extra">-</strong></li>
+                                </ul>
+                                <p class="ds-caption" id="report-month-generated-at">Berekening klaar voor uw oriëntatie.</p>
+                            </div>
+                        </details>
+
+                        <div class="uitkomst-acties no-print">
+                            <button id="btn-download-maandlasten" class="ds-knop ds-knop--rustig" type="button">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                Overzicht downloaden
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="ds-caption no-print" style="margin-top: var(--ds-3)">Dit is de last <em>tijdens</em> de bouwfase. Zodra het depot leeg is, betaalt u de volledige maandlast zonder vergoeding.</p>
+                </div>
+
+                <div class="reken__invoer">
+                    <div data-bankkeuze style="margin-bottom: var(--ds-5)"></div>
+
+                    <div class="bankmelding" data-bank-toont="geenVergoeding" hidden style="margin-bottom: var(--ds-5)">
+                        <p><strong>Let op:</strong> <span data-bank-naam></span> betaalt geen depotvergoeding, maar rekent ook geen hypotheekrente over het deel dat nog in het depot staat. Wij hebben de vergoeding daarom op nul gezet. Uw werkelijke maandlast tijdens de bouw begint dan lager en loopt op naarmate u opneemt.</p>
+                    </div>
+
+                    <div class="ds-chips" role="group" aria-label="Voorbeeldscenario's" style="margin-bottom: var(--ds-5)">
+                        <button type="button" class="ds-chip scenario-btn" data-mortgage="325000" data-depot="25000" data-rate="3.7" data-depot-rate="3.0" data-months="10" data-housing="0" data-pattern="even">Depot &euro; 25.000</button>
+                        <button type="button" class="ds-chip scenario-btn" data-mortgage="400000" data-depot="50000" data-rate="3.8" data-depot-rate="3.0" data-months="12" data-housing="0" data-pattern="even">Depot &euro; 50.000</button>
+                        <button type="button" class="ds-chip scenario-btn" data-mortgage="550000" data-depot="100000" data-rate="4.0" data-depot-rate="3.1" data-months="16" data-housing="0" data-pattern="slow">Depot &euro; 100.000</button>
+                        <button type="button" class="ds-chip scenario-btn" data-mortgage="500000" data-depot="75000" data-rate="3.9" data-depot-rate="2.8" data-months="14" data-housing="1350" data-pattern="even">Met dubbele lasten</button>
+                    </div>
+
+                    <div class="veldrij veldrij--twee">
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-total-mortgage">Totale hypotheek</label></div>
+                            <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="input-total-mortgage" value="400000" min="0" step="1000" inputmode="numeric"></div>
+                        </div>
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-depot-amount">Waarvan bouwdepot</label></div>
+                            <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="input-depot-amount" value="50000" min="0" step="500" inputmode="numeric"></div>
+                        </div>
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-mortgage-rate">Hypotheekrente</label></div>
+                            <div class="suffix-veld"><input class="ds-invoer" type="number" id="input-mortgage-rate" value="3.80" min="0" max="15" step="0.01" inputmode="decimal"><span>%</span></div>
+                        </div>
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-depot-rate">Depotvergoeding</label></div>
+                            <div class="suffix-veld"><input class="ds-invoer" type="number" id="input-depot-rate" value="3.00" min="0" max="15" step="0.01" inputmode="decimal"><span>%</span></div>
+                            <p class="ds-caption" id="depot-rate-note">Nul invullen als uw aanbieder geen vergoeding betaalt. <a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet uw bank?</a></p>
+                        </div>
+                    </div>
+
+                    <div class="ds-veld">
+                        <div class="ds-veld__kop">
+                            <label class="ds-veld__naam" for="input-depot-months">Bouwperiode</label>
+                            <span class="ds-veld__waarde tnum"><input class="ds-invoer ds-invoer--kort" type="number" id="input-depot-months" value="12" min="1" max="36" step="1" inputmode="numeric"> mnd</span>
+                        </div>
+                        <input class="ds-schuif" type="range" id="range-depot-months" min="1" max="36" step="1" value="12" aria-label="Bouwperiode in maanden">
+                    </div>
+
+                    <div class="ds-veld">
+                        <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-opnamepattern">Wanneer neemt u op?</label></div>
+                        <select class="ds-invoer" id="input-opnamepattern">
+                            <option value="even">Gelijkmatig opnemen (standaard)</option>
+                            <option value="slow">Rustige start, later grotere opnames</option>
+                            <option value="fast">Snelle opname in eerste maanden</option>
+                        </select>
+                        <p class="ds-caption" id="assumption-pattern-text">Bij gelijkmatig opnemen daalt het depotsaldo in gelijke stappen.</p>
+                    </div>
+
+                    <div class="ds-veld">
+                        <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-extra-housing">Extra woonlasten tijdens de bouw</label></div>
+                        <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="input-extra-housing" value="0" min="0" step="50" inputmode="numeric"></div>
+                        <p class="ds-caption">Huur of hypotheek van uw huidige woning, als u die tijdelijk dubbel betaalt.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
-        <section class="calculator-template" aria-label="Maandlasten bouwdepot calculator">
-            <div class="template-main">
-                <div class="card calculator-card" id="maandlasten-calc">
-                    <h2>Calculator maandlasten tijdens bouwdepot</h2>
-                    <p class="section-intro">Vul uw gegevens in voor een verdiepende inschatting van uw maandlasten tijdens de bouwdepotfase.</p>
-                    <p class="calc-intro-note">Homepage = snelle eerste indicatie. Deze pagina = meer detail over netto maandlast, periodekosten en eventuele dubbele lasten.</p>
-
-                    <div class="input-group">
-                        <div class="label-row">
-                            <label for="input-total-mortgage">Totale hypotheek</label>
-                            <div class="number-input-wrapper has-prefix" style="width: 150px;">
-                                <span class="prefix">€</span>
-                                <input type="number" id="input-total-mortgage" value="400000" step="1000" min="50000">
-                            </div>
-                        </div>
-                        <p class="field-hint">De volledige hypotheek waarover u maandelijks rente betaalt.</p>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="label-row">
-                            <label for="input-depot-amount">Bouwdepot bedrag</label>
-                            <div class="number-input-wrapper has-prefix" style="width: 150px;">
-                                <span class="prefix">€</span>
-                                <input type="number" id="input-depot-amount" value="50000" step="500" min="5000">
-                            </div>
-                        </div>
-                        <p class="field-hint">Het deel van uw hypotheek dat als bouwdepot beschikbaar is.</p>
-                    </div>
-
-                    <div class="two-col-inputs">
-                        <div class="input-group compact">
-                            <div class="label-row">
-                                <label for="input-mortgage-rate">Hypotheekrente</label>
-                                <div class="number-input-wrapper has-suffix">
-                                    <input type="number" id="input-mortgage-rate" value="3.8" step="0.01" min="0.1" max="10">
-                                    <span class="suffix">%</span>
-                                </div>
-                            </div>
-                            <p class="field-hint">Jaarlijkse rente van uw hypotheek.</p>
-                        </div>
-                        <div class="input-group compact">
-                            <div class="label-row">
-                                <label for="input-depot-rate">Depotvergoeding op niet opgenomen bedrag</label>
-                                <div class="number-input-wrapper has-suffix">
-                                    <input type="number" id="input-depot-rate" value="3.0" step="0.01" min="0" max="10">
-                                    <span class="suffix">%</span>
-                                </div>
-                            </div>
-                            <p class="field-hint">Indicatieve vergoeding die u ontvangt over het nog niet opgenomen bouwdepot.</p>
-                        </div>
-                    </div>
-
-                    <div class="two-col-inputs">
-                        <div class="input-group compact">
-                            <div class="label-row">
-                                <label for="input-depot-months">Bouwdepotduur</label>
-                                <div class="number-input-wrapper has-suffix">
-                                    <input type="number" id="input-depot-months" value="12" min="1" max="36" step="1">
-                                    <span class="suffix">mnd</span>
-                                </div>
-                            </div>
-                            <input type="range" id="range-depot-months" min="1" max="36" step="1" value="12" class="slider">
-                            <p class="field-hint">Aantal maanden waarin u het bouwdepot verwacht te gebruiken.</p>
-                        </div>
-                        <div class="input-group compact panel-input">
-                            <div class="label-row">
-                                <label for="input-extra-housing">Tijdelijke extra woonlast (optioneel)</label>
-                                <div class="number-input-wrapper has-prefix" style="max-width: 130px;">
-                                    <span class="prefix">€</span>
-                                    <input type="number" id="input-extra-housing" value="0" min="0" step="50">
-                                </div>
-                            </div>
-                            <p class="field-hint">Bijv. huidige huur of oude hypotheek tijdens overlap.</p>
-                        </div>
-                    </div>
-
-                    <div class="input-group compact">
-                        <div class="label-row">
-                            <label for="input-opnamepattern">Aanname opnamepatroon bouwdepot</label>
-                            <div class="select-wrapper" style="width: 260px;">
-                                <select id="input-opnamepattern">
-                                    <option value="even">Gelijkmatig opnemen (standaard)</option>
-                                    <option value="slow">Rustige start, later grotere opnames</option>
-                                    <option value="fast">Snelle opname in eerste maanden</option>
-                                </select>
-                            </div>
-                        </div>
-                        <p class="assumption-note" id="assumption-pattern-text">Gemiddeld 50% van het depot staat nog uit tijdens de bouwperiode.</p>
-                        <p class="field-hint">Dit beïnvloedt hoeveel vergoeding u ontvangt tijdens de bouwdepotfase.</p>
-                    </div>
+        <section class="ds-sectie ds-sectie--gevuld">
+            <div class="ds-wrap ds-wrap--smal">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Kort uitgelegd</p>
+                    <h2 class="ds-title">Waarom deze maandlast anders is dan uw definitieve last</h2>
                 </div>
-
-                <section class="card" aria-label="Voorbeeldscenario's">
-                    <h2>Populaire scenario’s</h2>
-                    <p class="section-intro">Gebruik een scenario als startpunt en pas daarna uw eigen cijfers aan.</p>
-                    <div class="scenario-grid">
-                        <button type="button" class="scenario-btn" data-mortgage="325000" data-depot="25000" data-rate="3.7" data-depot-rate="3.0" data-months="10" data-housing="0" data-pattern="even">
-                            <strong>Bouwdepot €25.000</strong>
-                            <span>Kleiner depot bij beperkte verbouwing</span>
-                        </button>
-                        <button type="button" class="scenario-btn" data-mortgage="400000" data-depot="50000" data-rate="3.8" data-depot-rate="3.0" data-months="12" data-housing="0" data-pattern="even">
-                            <strong>Bouwdepot €50.000</strong>
-                            <span>Veelgekozen middenvariant</span>
-                        </button>
-                        <button type="button" class="scenario-btn" data-mortgage="550000" data-depot="100000" data-rate="4.0" data-depot-rate="3.1" data-months="16" data-housing="0" data-pattern="slow">
-                            <strong>Bouwdepot €100.000</strong>
-                            <span>Grotere verbouwing met langere doorlooptijd</span>
-                        </button>
-                        <button type="button" class="scenario-btn" data-mortgage="500000" data-depot="75000" data-rate="3.9" data-depot-rate="2.8" data-months="14" data-housing="1350" data-pattern="even">
-                            <strong>Tijdelijke dubbele lasten</strong>
-                            <span>Inclusief huidige huur/hypotheek tijdens de bouw</span>
-                        </button>
-                        <button type="button" class="scenario-btn" data-mortgage="450000" data-depot="50000" data-rate="3.9" data-depot-rate="2.7" data-months="9" data-housing="0" data-pattern="fast">
-                            <strong>Snelle opname</strong>
-                            <span>Meer opname in de eerste maanden, lagere depotvergoeding</span>
-                        </button>
-                        <button type="button" class="scenario-btn" data-mortgage="475000" data-depot="80000" data-rate="3.8" data-depot-rate="3.1" data-months="18" data-housing="0" data-pattern="slow">
-                            <strong>Rustige opname</strong>
-                            <span>Langer depotverloop met relatief hogere vergoeding</span>
-                        </button>
-                    </div>
-                </section>
+                <div class="uitleg">
+                    <article>
+                        <h3>U betaalt over alles, u ontvangt over een deel</h3>
+                        <p>Vanaf het passeren van de akte betaalt u hypotheekrente over de volledige lening, ook over het deel dat nog in het depot staat. Daar staat bij de meeste aanbieders een vergoeding tegenover over het saldo dat u nog niet hebt opgenomen. Het verschil is wat u werkelijk kwijt bent.</p>
+                    </article>
+                    <article>
+                        <h3>Het opnamepatroon bepaalt de uitkomst</h3>
+                        <p>Hoe sneller u opneemt, hoe sneller het vergoede saldo daalt en hoe hoger uw last. Vroege betalingen zijn soms onvermijdelijk; het doel van deze berekening is inzicht, niet zo lang mogelijk wachten met betalen.</p>
+                    </article>
+                    <article>
+                        <h3>Niet elke aanbieder vergoedt rente</h3>
+                        <p>Eén van de zes vergeleken geldverstrekkers betaalt geen depotvergoeding, maar rekent daar ook geen hypotheekrente over. Vul in dat geval nul in bij de vergoeding en houd er rekening mee dat ook de bruto last anders opgebouwd is. Zie de <a href="bouwdepot-voorwaarden-vergelijken.html">voorwaardenvergelijking</a>.</p>
+                    </article>
+                    <article>
+                        <h3>Dit is geen netto bedrag</h3>
+                        <p>De uitkomst is uw last ná depotvergoeding, maar vóór belasting. Er is geen hypotheekrenteaftrek in verwerkt, omdat die van uw inkomen en fiscale situatie afhangt. Gebruik daarvoor de <a href="belasting.html">belastingcalculator</a>.</p>
+                    </article>
+                </div>
             </div>
-
-            <aside class="card result-card sticky-box" id="print-area">
-                <h2>Maandlasten bouwdepot calculator</h2>
-                <p class="result-intro">Verdiepend overzicht voor uw bouwdepotfase: netto per maand, totale periodekosten en tijdelijke maanddruk.</p>
-                <p class="result-meta" id="report-month-generated-at">Berekening klaar voor uw planning.</p>
-
-                <div class="result-row total featured-row">
-                    <span>Netto maandlast bouwdepotfase</span>
-                    <span id="res-month-net" class="amount highlight">€ 0</span>
-                </div>
-
-                <h3 class="result-subtitle">Onderliggende uitkomsten</h3>
-                <div class="result-row">
-                    <span>Bruto maandlast (rente)</span>
-                    <span id="res-month-gross" class="amount">€ 0</span>
-                </div>
-
-                <div class="result-row discount">
-                    <span>Vergoeding uit bouwdepot</span>
-                    <span id="res-month-compensation" class="amount">€ 0</span>
-                </div>
-
-                <div class="result-row">
-                    <span>Totale indicatieve kosten over periode</span>
-                    <span id="res-period-total" class="amount">€ 0</span>
-                </div>
-
-                <div class="result-row" id="row-double-burden" style="display:none;">
-                    <span>Totaal incl. dubbele lasten</span>
-                    <span id="res-double-burden" class="amount">€ 0</span>
-                </div>
-
-                <div class="result-copy-block">
-                    <p class="result-copy-title">Korte conclusie</p>
-                    <p id="res-month-conclusion">Bij deze invoer krijgt u een indicatieve netto maandlast tijdens uw bouwdepotperiode.</p>
-                </div>
-
-                <div class="result-copy-block">
-                    <p class="result-copy-title">Interpretatie</p>
-                    <p id="res-month-interpretation">Het opnamepatroon en de duur bepalen hoeveel vergoeding u ontvangt en dus hoe hoog uw netto maanddruk uitvalt.</p>
-                </div>
-
-                <div class="result-copy-block">
-                    <p class="result-copy-title">Aannameregel</p>
-                    <p id="res-month-method">Indicatieve berekening met een gekozen opnamepatroon; werkelijke uitkomsten verschillen door bankvoorwaarden en werkelijke declaraties.</p>
-                </div>
-
-                <div class="result-summary-block">
-                    <p class="result-copy-title">Ingevoerde uitgangspunten</p>
-                    <ul class="result-summary-list">
-                        <li><span>Totale hypotheek</span><strong id="sum-month-mortgage">€ 0</strong></li>
-                        <li><span>Bouwdepot bedrag</span><strong id="sum-month-depot">€ 0</strong></li>
-                        <li><span>Hypotheekrente</span><strong id="sum-month-rate">-</strong></li>
-                        <li><span>Depotvergoeding</span><strong id="sum-month-depot-rate">-</strong></li>
-                        <li><span>Duur bouwdepot</span><strong id="sum-month-duration">-</strong></li>
-                        <li><span>Opnamepatroon</span><strong id="sum-month-pattern">-</strong></li>
-                        <li><span>Extra woonlast</span><strong id="sum-month-extra">-</strong></li>
-                    </ul>
-                </div>
-
-                <div class="next-steps-block no-print">
-                    <p class="result-copy-title">Kies de juiste vervolgstap</p>
-                    <div class="result-next-links">
-                        <a href="index.html">Snelle eerste indicatie op homepage</a>
-                        <a href="nieuwbouw.html">Uitgebreidere nieuwbouw planning</a>
-                        <a href="belasting.html">Fiscale verdieping van netto effect</a>
-                    </div>
-                </div>
-
-                <div class="cta-button-wrapper no-print">
-                    <button id="btn-download-maandlasten" class="btn-primary">Download overzicht (PDF)</button>
-                    <p class="disclaimer">Indicatief hulpmiddel; laat persoonlijke cijfers verifiëren door adviseur of geldverstrekker.</p>
-                </div>
-            </aside>
         </section>
 
-        <details class="collapsible-content">
-            <summary>Hoe worden maandlasten tijdens een bouwdepot berekend?</summary>
-            <div class="collapsible-body">
-            tijdens een bouwdepot berekend?</h2>
-            <p>De kern van deze berekening is eenvoudig: u betaalt hypotheekrente over de totale hypotheek, maar ontvangt vaak een rentevergoeding over het deel van het bouwdepot dat nog niet is opgenomen. Daardoor ligt de netto maandlast tijdens de bouwdepotperiode meestal lager dan alleen de bruto rentelast.</p>
-            <div class="calc-summary-list">
-                <article>
-                    <h3>1. Hypotheekrente</h3>
-                    <p>Wij berekenen een indicatieve bruto maandlast op basis van uw totale hypotheek en rentepercentage, als rentecomponent per maand.</p>
-                </article>
-                <article>
-                    <h3>2. Vergoeding op depot</h3>
-                    <p>Over niet-opgenomen depotgeld ontvangt u vaak (deels) rente terug. Dat bedrag trekken wij af van uw bruto maandlast.</p>
-                </article>
-                <article>
-                    <h3>3. Looptijd bouwdepot</h3>
-                    <p>De gekozen bouwperiode bepaalt de totale indicatieve kosten over de fase waarin het bouwdepot actief is.</p>
-                </article>
-                <article>
-                    <h3>4. Eventuele dubbele lasten</h3>
-                    <p>Als u nog huur of oude hypotheek betaalt, tonen wij ook de gecombineerde maanddruk voor uw budget.</p>
-                </article>
+        <section class="ds-sectie ds-sectie--diep">
+            <div class="ds-wrap">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Eigen onderzoek</p>
+                    <h2 class="ds-title">Wat uw bank vergoedt, verschilt sterk</h2>
+                    <p class="ds-lead">De depotvergoeding die u hierboven invult is geen vast gegeven. Wij zochten de voorwaarden van zes geldverstrekkers op bij de bron.</p>
+                </div>
+                <div class="kern">
+                    <div class="kern__item">
+                        <p class="kern__cijfer tnum">5<span class="kern__van">/6</span></p>
+                        <p class="kern__eenheid">betaalt depotrente</p>
+                        <p class="kern__tekst">Meestal gelijk aan uw hypotheekrente, maar niet altijd, en niet altijd gedurende de hele looptijd.</p>
+                    </div>
+                    <div class="kern__item">
+                        <p class="kern__cijfer tnum">1%</p>
+                        <p class="kern__eenheid">onder de hypotheekrente</p>
+                        <p class="kern__tekst">Eén aanbieder vergoedt bij een verbouwdepot bewust minder dan u betaalt. Daar ontstaat een werkelijk renteverschil.</p>
+                    </div>
+                    <div class="kern__item">
+                        <p class="kern__cijfer tnum">12</p>
+                        <p class="kern__eenheid">maanden vergoeding</p>
+                        <p class="kern__tekst">Bij één aanbieder stopt de vergoeding na een jaar, terwijl het depot nog veel langer open kan staan.</p>
+                    </div>
+                </div>
+                <p style="margin-top: var(--ds-6)">
+                    <a class="ds-knop ds-knop--rustig" href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de vergelijking</a>
+                </p>
             </div>
-            </div>
-        </details>
+        </section>
 
-        <details class="collapsible-content">
-            <summary>Wat nemen wij mee in deze berekening?</summary>
-            <div class="collapsible-body">
-            in deze berekening?</h2>
-            <ul>
-                <li>Totale hypotheek, bouwdepotbedrag, hypotheekrente en depotvergoeding.</li>
-                <li>Een transparante aanname voor opnamepatroon (gelijkmatig, rustige start of snelle opname).</li>
-                <li>De bouwdepotduur in maanden voor de totale kostenindicatie.</li>
-                <li>Optioneel: huidige huur/hypotheek voor een dubbel-lastenscenario.</li>
-            </ul>
-            <h3>Wat nemen wij niet mee?</h3>
-            <ul>
-                <li>Volledige annuïtaire of lineaire aflossingsschema’s per maand.</li>
-                <li>Exacte bankvoorwaarden per geldverstrekker (zoals specifieke depotrente-afslag of kostenregels).</li>
-                <li>Persoonlijke fiscale effecten, inkomenspositie en maatwerkadvies.</li>
-                <li>Wijzigingen in rente of bouwplanning gedurende het traject.</li>
-            </ul>
-            </div>
-        </details>
-
-        <details class="collapsible-content">
-            <summary>Uitgewerkt voorbeeld</summary>
-            <div class="collapsible-body">
-            </h2>
-            <p><strong>Situatie:</strong> totale hypotheek € 400.000, bouwdepot € 50.000, hypotheekrente 3,8%, depotvergoeding 3,0%, bouwduur 12 maanden, opnamepatroon gelijkmatig.</p>
-            <p><strong>Stap 1 – Bruto maandlast (rentecomponent):</strong> € 400.000 × 3,8% / 12 ≈ € 1.267 per maand.</p>
-            <p><strong>Stap 2 – Vergoeding uit depot:</strong> gemiddeld staat circa 50% van € 50.000 uit = € 25.000. Vergoeding: € 25.000 × 3,0% / 12 ≈ € 63 per maand.</p>
-            <p><strong>Stap 3 – Netto maandlast bouwdepotfase:</strong> € 1.267 - € 63 ≈ € 1.204 per maand.</p>
-            <p><strong>Stap 4 – Totale indicatieve kosten over 12 maanden:</strong> 12 × € 1.204 ≈ € 14.448.</p>
-            <p>Dit is een praktische inschatting voor budgettering. Werkelijke maandlasten verschillen door echte opnameplanning, bankvoorwaarden en eventuele fiscale verwerking.</p>
-            </div>
-        </details>
-
-        <details class="collapsible-content" open>
-            <summary>Veelgestelde vragen</summary>
-            <div class="collapsible-body">
-            <h2>Veelgestelde vragen</h2>
-            <div class="faq-grid">
-                <article>
-                    <h3>Betaal ik direct de volledige hypotheeklast tijdens een bouwdepot?</h3>
-                    <p>Vaak betaalt u direct rente over de lening, terwijl u tegelijk een vergoeding ontvangt op niet-opgenomen depotgeld. Daardoor is de netto impact meestal lager dan alleen de bruto rente.</p>
-                </article>
-                <article>
-                    <h3>Krijg ik rente over mijn bouwdepot?</h3>
-                    <p>In veel situaties wel, maar de hoogte hangt af van uw geldverstrekker en afspraken in de offerte. Deze tool laat zien wat dat indicatief doet met uw maandlast.</p>
-                </article>
-                <article>
-                    <h3>Hoe werken dubbele lasten bij nieuwbouw of verbouwing?</h3>
-                    <p>Wanneer u nog huur of een oude hypotheek betaalt, lopen deze lasten tijdelijk naast de nieuwe situatie. U kunt dat bedrag optellen om de totale maanddruk te zien.</p>
-                </article>
-                <article>
-                    <h3>Is deze berekening exact of indicatief?</h3>
-                    <p>Indicatief. De calculator is bedoeld voor oriëntatie en planning, niet als bindende offerte of persoonlijk advies.</p>
-                </article>
-                <article>
-                    <h3>Wat is het verschil tussen bruto en netto maandlasten?</h3>
-                    <p>Bruto is hier de rentelast op basis van uw hypotheek. Netto is bruto minus de vergoeding op niet-opgenomen bouwdepot, dus de praktische maandimpact tijdens de bouwfase.</p>
-                </article>
-                <article>
-                    <h3>Wanneer heb ik extra advies nodig?</h3>
-                    <p>Bij afwijkende renteafspraken, complexere bouwplanning, fiscale vragen of als u twijfelt over betaalbaarheid. Laat dan uw situatie toetsen door adviseur of geldverstrekker.</p>
-                </article>
-            </div>
-            </div>
-        </details>
-
-        <section class="card content-block">
-            <h2>Verder lezen</h2>
-            <div class="resource-grid">
-                    <a class="resource-card" href="calculators.html">
-                        <strong>Alle calculators</strong>
-                        <span>Kies direct de juiste bouwdepot calculator voor uw situatie en vergelijk routes.</span>
+        <section class="ds-sectie">
+            <div class="ds-wrap">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Verder rekenen</p>
+                    <h2 class="ds-title">Andere vragen over uw bouwdepot</h2>
+                </div>
+                <div class="ds-keuzes">
+                    <a class="ds-keuze" href="verbouwbegroting.html">
+                        <span class="ds-keuze__titel">Weet u het depotbedrag nog niet?</span>
+                        <span class="ds-keuze__uitleg">Stel eerst uw verbouwkosten samen. De begroting rekent uit welk deel uit het depot komt en geeft dat bedrag hierheen door.</span>
+                        <span class="ds-keuze__meta">Begroting samenstellen &rarr;</span>
                     </a>
-                <a class="resource-card" href="index.html">
-                    <strong>Algemene bouwdepot calculator</strong>
-                    <span>Start met een snelle indicatie van maandlasten en belastingeffect.</span>
-                </a>
-                <a class="resource-card" href="nieuwbouw.html">
-                    <strong>Nieuwbouw calculator</strong>
-                    <span>Voor maand-op-maand inzicht bij bouwfases en pieklasten.</span>
-                </a>
-                <a class="resource-card" href="renteverlies-bouwdepot.html">
-                    <strong>Renteverlies bouwdepot berekenen</strong>
-                    <span>Inzicht in het verschil tussen hypotheekrente en depotvergoeding tijdens de bouwdepotfase.</span>
-                </a>
-                <a class="resource-card" href="belasting.html">
-                    <strong>Belastingvoordeel calculator</strong>
-                    <span>Verdiep het verschil tussen bruto en netto op fiscaal niveau.</span>
-                </a>
-                <a class="resource-card" href="stappenplan.html">
-                    <strong>Bouwdepot stappenplan</strong>
-                    <span>Praktische volgorde van aanvragen, facturen en declareren.</span>
-                </a>
-                <a class="resource-card" href="kennisbank.html">
-                    <strong>Kennisbank</strong>
-                    <span>Uitleg over bouwdepotregels, aandachtspunten en veelgemaakte fouten.</span>
-                </a>
+                    <a class="ds-keuze" href="leenruimte.html">
+                        <span class="ds-keuze__titel">Past dit binnen de woningwaarde?</span>
+                        <span class="ds-keuze__uitleg">Een maandlast zegt niets als de lening niet verstrekt wordt. Toets de waarderuimte en uw eigen geld.</span>
+                        <span class="ds-keuze__meta">Leenruimte berekenen &rarr;</span>
+                    </a>
+                    <a class="ds-keuze" href="/">
+                        <span class="ds-keuze__titel">Maandlast na de bouwfase</span>
+                        <span class="ds-keuze__uitleg">Wat u betaalt zodra het depot leeg is en de vergoeding wegvalt.</span>
+                        <span class="ds-keuze__meta">Naar de hoofdberekening &rarr;</span>
+                    </a>
+                    <a class="ds-keuze" href="renteverlies-bouwdepot.html">
+                        <span class="ds-keuze__titel">Renteverlies over de periode</span>
+                        <span class="ds-keuze__uitleg">Het totale verschil tussen betaalde rente en ontvangen vergoeding.</span>
+                        <span class="ds-keuze__meta">Renteverlies berekenen &rarr;</span>
+                    </a>
+                    <a class="ds-keuze" href="dubbele-lasten-nieuwbouw.html">
+                        <span class="ds-keuze__titel">Dubbele lasten uitgesplitst</span>
+                        <span class="ds-keuze__uitleg">Als u tijdelijk zowel huur of hypotheek als de bouwlast betaalt.</span>
+                        <span class="ds-keuze__meta">Overlap berekenen &rarr;</span>
+                    </a>
+                </div>
             </div>
         </section>
 
-        <details class="collapsible-content">
-            <summary>Methodologie & betrouwbaarheid</summary>
-            <div class="collapsible-body">
-            <h2>Methodologie & betrouwbaarheid</h2>
-            <p>Deze calculator geeft een <strong>indicatieve</strong> maandlastinschatting op basis van een vereenvoudigd en transparant model. Wij rekenen bewust zonder schijnnauwkeurigheid.</p>
-            <p>Werkelijke uitkomsten hangen af van uw hypotheekvoorwaarden, het exacte moment van opnames uit het bouwdepot en eventuele fiscale verwerking in uw persoonlijke situatie.</p>
-            <p>Controleer de uitkomst altijd bij uw geldverstrekker of financieel adviseur voordat u definitieve keuzes maakt.</p>
+        <section class="ds-sectie">
+            <div class="ds-wrap">
+                <div class="melding">
+                    <p><strong>Indicatief hulpmiddel.</strong> Deze berekening kent uw inkomen, verplichtingen en de voorwaarden van uw offerte niet en zegt dus niets over acceptatie. Gebruik de uitkomst als voorbereiding op een gesprek met uw adviseur of geldverstrekker.</p>
+                    <p>Lees de <a href="methodologie.html">rekenregels en bekende beperkingen</a>. Uw invoer blijft op dit apparaat.</p>
+                </div>
             </div>
-        </details>
+        </section>
     </main>
-    <!-- Sticky Mobile Result Bar -->
-    <div class="sticky-result-bar" id="sticky-result-bar" role="status" aria-live="polite">
-        <span class="sticky-result-bar__label">Netto maandlast</span>
-        <span class="sticky-result-bar__amount" id="sticky-result-amount">€ 0</span>
-        <span class="sticky-result-bar__arrow">↑</span>
-    </div>
 
-
-
-    <footer>
-        <div class="container text-center py-8">
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="calculators.html">Alle calculators</a>
+    <footer class="voet">
+        <div class="ds-wrap">
+            <nav class="voet__links" aria-label="Voettekst">
+                <a href="/">Home</a>
+                <a href="verbouwbegroting.html">Verbouwbegroting</a>
+                <a href="leenruimte.html">Leenruimte</a>
+                <a href="depotplanner.html">Depotplanner</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
                 <a href="kennisbank.html">Kennisbank</a>
                 <a href="over-ons.html">Over ons</a>
+                <a href="methodologie.html">Methodologie</a>
                 <a href="contact.html">Contact</a>
                 <a href="privacy.html">Privacy</a>
                 <a href="cookies.html">Cookies</a>
                 <a href="voorwaarden.html">Voorwaarden</a>
-            </div>
-            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
+            </nav>
+            <p class="ds-caption">&copy; 2026 BouwdepotCalculator.nl &middot; Onafhankelijk informatieplatform, geen aanbieder van hypotheken.</p>
         </div>
     </footer>
 
     <script type="module" src="/src/js/reporting.js"></script>
     <script type="module" src="/src/js/main.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Maandlasten bouwdepot berekenen",
+      "description": "Bereken uw maandlast tijdens de bouwdepotfase: hypotheekrente over de volledige lening min de vergoeding over het niet-opgenomen depot.",
+      "author": { "@type": "Person", "name": "Simeon", "url": "https://www.bouwdepotcalculator.nl/over-ons.html" },
+      "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl/" },
+      "dateModified": "2026-08-14",
+      "isAccessibleForFree": true,
+      "mainEntityOfPage": "https://www.bouwdepotcalculator.nl/maandlasten-bouwdepot.html"
+    }
+    </script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bouwdepotcalculator.nl/"},
-        {"@type": "ListItem", "position": 2, "name": "Calculators", "item": "https://www.bouwdepotcalculator.nl/calculators.html"},
-        {"@type": "ListItem", "position": 3, "name": "Maandlasten Bouwdepot"}
+        {"@type": "ListItem", "position": 2, "name": "Maandlasten bouwdepot"}
       ]
     }
     </script>

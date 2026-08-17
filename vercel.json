@@ -2,6 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
+      "source": "/calculators.html",
+      "destination": "/#kiezen",
+      "permanent": true
+    },
+    {
       "source": "/maximale-bouwdepot.html",
       "destination": "/?plan=haalbaarheid",
       "permanent": true

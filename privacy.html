@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacybeleid | Gegevens, AdSense en uw keuzes</title>
-    <meta name="description" content="Lees welke gegevens BouwdepotCalculator.nl verwerkt, wat lokaal blijft, welke rol Vercel en Google AdSense hebben en hoe u toestemming intrekt.">
+    <title>Privacybeleid | BouwdepotCalculator.nl</title>
+    <meta name="description" content="Welke gegevens BouwdepotCalculator.nl verwerkt, wat lokaal op uw apparaat blijft, welke rol hosting en advertenties spelen en hoe u toestemming intrekt.">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="author" content="Simeon">
     <link rel="canonical" href="https://www.bouwdepotcalculator.nl/privacy.html">
@@ -12,174 +12,173 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="/src/styles/main.css">
-    <script type="module" src="/src/js/nav.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
+      crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/src/styles/design-system.css">
+    <link rel="stylesheet" href="/src/styles/pagina.css">
 </head>
-<body>
-    <header class="site-header">
-        <div class="container header-inner">
-            <a class="logo" href="index.html" aria-label="Ga naar de homepage van BouwdepotCalculator.nl">
-                Bouwdepot<span class="text-accent">Calculator</span>.nl
-            </a>
+<body class="ds">
 
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open hoofdmenu">
-                <span></span><span></span><span></span>
-            </button>
-
-            <nav class="main-nav" id="site-nav" aria-label="Hoofdnavigatie">
-                <div class="nav-item has-dropdown" data-dropdown>
-                    <button class="nav-link nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="calc-dropdown-menu">
-                        Calculators <span class="nav-caret" aria-hidden="true">▾</span>
-                    </button>
-                    <div class="calc-dropdown" id="calc-dropdown-menu" role="menu" aria-label="Calculator overzicht">
-                        <div class="calc-dropdown-group">
-                            <p class="calc-group-title">Snel starten</p>
-                            <a href="index.html" role="menuitem">Algemene bouwdepot calculator</a>
-                            <a href="maandlasten-bouwdepot.html" role="menuitem">Maandlasten bouwdepot</a>
-                        </div>
-                        <div class="calc-dropdown-group">
-                            <p class="calc-group-title">Nieuwbouw</p>
-                            <a href="nieuwbouw.html" role="menuitem">Nieuwbouw calculator</a>
-                            <a href="bouwrente-nieuwbouw.html" role="menuitem">Bouwrente nieuwbouw</a>
-                            <a href="dubbele-lasten-nieuwbouw.html" role="menuitem">Dubbele lasten nieuwbouw</a>
-                        </div>
-                        <div class="calc-dropdown-group">
-                            <p class="calc-group-title">Inzicht &amp; planning</p>
-                            <a href="renteverlies-bouwdepot.html" role="menuitem">Renteverlies bouwdepot</a>
-                            <a href="/?plan=haalbaarheid" role="menuitem">Waarderuimte &amp; eigen geld</a>
-                            <a href="belasting.html" role="menuitem">Belastingvoordeel</a>
-                        </div>
-                        <a class="calc-dropdown-all" href="calculators.html" role="menuitem">Alle calculators</a>
-                    </div>
-                </div>
-                <a class="nav-link" href="kennisbank.html">Kennisbank</a>
-                <a class="nav-link" href="stappenplan.html">Stappenplan</a>
-                <a class="nav-link" href="over-ons.html">Over ons</a>
-                <a class="nav-link" href="contact.html">Contact</a>
-                <a class="nav-link nav-cta" href="calculators.html">Start berekenen</a>
+    <header class="kop">
+        <div class="ds-wrap kop__inner">
+            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <nav aria-label="Hoofdnavigatie">
+                <a href="/">Bereken</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="kennisbank.html">Uitleg</a>
+                <a href="over-ons.html">Over ons</a>
             </nav>
         </div>
     </header>
 
-    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-      <div class="container">
+    <nav class="kruimel" aria-label="Kruimelpad">
+      <div class="ds-wrap">
         <ol>
           <li><a href="/">Home</a></li>
-          <li aria-current="page">Privacybeleid</li>
+          <li aria-current="page">Privacy</li>
         </ol>
       </div>
     </nav>
 
-    <main class="container policy-page">
-        <header class="policy-hero">
-            <p class="editorial-eyebrow">Transparantie over gegevens</p>
-            <h1>Privacybeleid</h1>
-            <p>Hier staat welke gegevens BouwdepotCalculator.nl zelf verwerkt, welke externe diensten de site gebruikt en hoe u uw keuzes kunt wijzigen.</p>
-            <div class="policy-meta"><span>Laatst bijgewerkt: 21 juli 2026</span><span>Beheerder: Simeon</span></div>
-        </header>
+    <main>
+        <section class="ds-wrap ds-sectie">
+            <div class="ds-sectiekop">
+                <p class="ds-eyebrow">Laatst bijgewerkt 16 augustus 2026</p>
+                <h1 class="ds-heading">Privacybeleid</h1>
+            </div>
 
-        <section class="policy-summary-grid" aria-label="Privacy in het kort">
-            <article><strong>Calculatorinvoer blijft lokaal</strong><p>Bedragen worden in uw browser berekend en niet als formulier naar ons verzonden.</p></article>
-            <article><strong>Geen apart analyticsplatform</strong><p>Op het moment van deze update gebruikt de site geen Google Analytics of vergelijkbaar apart bezoekersprofiel.</p></article>
-            <article><strong>Advertenties alleen volgens uw keuze</strong><p>Google Privacy &amp; messaging vraagt waar vereist toestemming en bewaart uw keuze.</p></article>
+            <p class="kernzin">De calculators rekenen in uw browser. Uw invoer wordt niet naar een server gestuurd, niet opgeslagen bij ons en niet gedeeld met geldverstrekkers. Wat u invult blijft op uw eigen apparaat.</p>
         </section>
 
-        <article class="card policy-article">
-            <section class="policy-section" id="verantwoordelijke">
-                <h2>1. Wie is verantwoordelijk?</h2>
-                <p>BouwdepotCalculator.nl is een onafhankelijk informatieproject dat wordt beheerd door Simeon. Voor vragen over dit privacybeleid of gegevens die u per e-mail hebt gedeeld, kunt u mailen naar <a href="mailto:firenature23@gmail.com">firenature23@gmail.com</a>. Deel daarbij geen hypotheekdossier, burgerservicenummer, bankafschrift of andere gevoelige documenten.</p>
-            </section>
+        <section class="ds-sectie">
+            <div class="ds-wrap">
+                <div class="beleid">
 
-            <section class="policy-section" id="gegevens">
-                <h2>2. Welke gegevens worden verwerkt?</h2>
-                <div class="policy-table-wrap">
-                    <table class="policy-table">
-                        <thead><tr><th scope="col">Onderdeel</th><th scope="col">Gegevens</th><th scope="col">Doel en bewaartermijn</th></tr></thead>
-                        <tbody>
-                            <tr><th scope="row">Calculators</th><td>Gedeelde invoer zoals rente, depotbedrag, hypotheekvorm en woonlast</td><td>Functionele lokale opslag op uw apparaat. Afzonderlijke waarden verlopen na maximaal 90 dagen.</td></tr>
-                            <tr><th scope="row">Stappenplan</th><td>Welke checklistpunten u hebt aangevinkt</td><td>Lokale opslag op uw apparaat totdat u “Wis vinkjes” gebruikt of browsergegevens verwijdert.</td></tr>
-                            <tr><th scope="row">Contact</th><td>E-mailadres, bericht en gegevens die u zelf meestuurt</td><td>Uw vraag beantwoorden en noodzakelijke opvolging. Niet langer bewaren dan nodig voor dat doel of een wettelijke verplichting.</td></tr>
-                            <tr><th scope="row">Hosting</th><td>Technische verzoekgegevens, waaronder mogelijk IP-adres, tijdstip, browser en opgevraagde URL</td><td>Beveiliging, beschikbaarheid en foutonderzoek via hostingprovider Vercel, volgens diens dienstverlening en bewaarbeleid.</td></tr>
-                            <tr><th scope="row">AdSense en CMP</th><td>Toestemmingskeuze en, afhankelijk van die keuze, cookie- of advertentiegegevens</td><td>Toestemming registreren, advertenties leveren, fraude tegengaan en prestaties meten volgens de gekozen doeleinden en leveranciers.</td></tr>
-                        </tbody>
-                    </table>
+                    <section>
+                        <h2>Wie is verantwoordelijk?</h2>
+                        <p>BouwdepotCalculator.nl is een onafhankelijk informatieproject dat wordt beheerd door Simeon, gevestigd in Breda. Voor vragen over dit privacybeleid of over gegevens die u per e-mail heeft gedeeld, kunt u mailen naar <a href="mailto:firenature23@gmail.com">firenature23@gmail.com</a>.</p>
+                        <p>Deel daarbij geen hypotheekdossier, burgerservicenummer, bankafschrift of andere gevoelige documenten. Wij hebben ze niet nodig.</p>
+                    </section>
+
+                    <section>
+                        <h2>Welke gegevens worden verwerkt?</h2>
+                        <dl class="beleid-rijen">
+                            <div>
+                                <dt>Calculators</dt>
+                                <dd>Gedeelde invoer zoals rente, depotbedrag, hypotheekvorm en woonlast.</dd>
+                                <dd>Functionele lokale opslag op uw apparaat. Afzonderlijke waarden verlopen na maximaal 90 dagen.</dd>
+                            </div>
+                            <div>
+                                <dt>Checklists</dt>
+                                <dd>Welke punten u hebt aangevinkt op het stappenplan of de advieschecklist.</dd>
+                                <dd>Lokale opslag op uw apparaat totdat u "Opnieuw beginnen" gebruikt of uw browsergegevens wist.</dd>
+                            </div>
+                            <div>
+                                <dt>Contact</dt>
+                                <dd>E-mailadres, bericht en gegevens die u zelf meestuurt.</dd>
+                                <dd>Uw vraag beantwoorden en noodzakelijke opvolging. Niet langer bewaard dan nodig voor dat doel of een wettelijke verplichting.</dd>
+                            </div>
+                            <div>
+                                <dt>Hosting</dt>
+                                <dd>Technische verzoekgegevens, waaronder mogelijk IP-adres, tijdstip, browser en opgevraagde URL.</dd>
+                                <dd>Beveiliging, beschikbaarheid en foutonderzoek via hostingprovider Vercel, volgens diens dienstverlening en bewaarbeleid.</dd>
+                            </div>
+                            <div>
+                                <dt>Advertenties</dt>
+                                <dd>Toestemmingskeuze en, afhankelijk van die keuze, cookie- of advertentiegegevens.</dd>
+                                <dd>Toestemming registreren, advertenties leveren, fraude tegengaan en prestaties meten volgens de gekozen doeleinden en leveranciers.</dd>
+                            </div>
+                        </dl>
+                    </section>
+
+                    <section>
+                        <h2>Externe diensten</h2>
+                        <h3>Vercel</h3>
+                        <p>Host de website en verwerkt technische verzoeken om pagina's veilig en beschikbaar te leveren. Zie de <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer nofollow">privacyverklaring van Vercel</a>.</p>
+                        <h3>Google Fonts</h3>
+                        <p>Levert het lettertype Inter. Uw browser haalt daarvoor bestanden op bij Google, waarbij onder meer uw IP-adres wordt doorgegeven.</p>
+                        <h3>Google AdSense</h3>
+                        <p>Levert de advertentietechniek. Uw browser kan onder meer de bezochte URL en het IP-adres aan Google doorgeven. Welke aanvullende doeleinden en leveranciers actief mogen zijn, volgt uit uw keuze in de toestemmingsdialoog. Google beschrijft het eigen gebruik op <a href="https://policies.google.com/technologies/partner-sites?hl=nl" target="_blank" rel="noopener noreferrer nofollow">Hoe Google gegevens gebruikt van partnersites</a>.</p>
+                    </section>
+
+                    <section>
+                        <h2>Toestemming en advertentiekeuzes</h2>
+                        <p>Voor bezoekers in de EER, het Verenigd Koninkrijk en Zwitserland gebruikt de site de toestemmingsdialoog van Google Privacy &amp; messaging. Die toont de doeleinden en de actuele leveranciers, en biedt keuzes voor toestemming en beheer.</p>
+                        <p>U kunt uw keuze later intrekken of aanpassen; de dialoog wordt dan opnieuw geopend en uw nieuwe keuze wordt doorgegeven aan de betrokken leveranciers. Zie ook het <a href="cookies.html">cookiebeleid</a>.</p>
+                    </section>
+
+                    <section>
+                        <h2>Doelen en grondslagen</h2>
+                        <p><strong>Functionele opslag:</strong> het onthouden van uw invoer en checkliststatus voor gebruiksgemak. Deze opslag blijft op uw apparaat en kunt u zelf wissen.</p>
+                        <p><strong>Beveiliging en levering:</strong> technisch noodzakelijke verwerking om de site te leveren, misbruik te beperken en fouten te onderzoeken.</p>
+                        <p><strong>Contact:</strong> uw verzoek behandelen wanneer u ons zelf mailt.</p>
+                        <p><strong>Advertenties:</strong> waar toestemming wettelijk vereist is, worden de betreffende doeleinden pas na uw keuze geactiveerd. Sommige leveranciers kunnen in de dialoog een gerechtvaardigd belang tonen; daar kunt u bezwaar tegen maken.</p>
+                    </section>
+
+                    <section>
+                        <h2>Delen en verwerking buiten de EER</h2>
+                        <p>Wij verkopen uw persoonsgegevens niet en sturen geen gegevens naar geldverstrekkers. Voor hosting, lettertypen en advertenties worden gegevens alleen gedeeld met de hierboven genoemde dienstverleners en de leveranciers die in de toestemmingsdialoog zichtbaar zijn.</p>
+                        <p>Deze organisaties kunnen gegevens buiten de Europese Economische Ruimte verwerken. Hun privacyverklaringen beschrijven de toepasselijke waarborgen en doorgiftemechanismen.</p>
+                    </section>
+
+                    <section>
+                        <h2>Uw privacyrechten</h2>
+                        <p>Afhankelijk van de situatie kunt u vragen om inzage, correctie, verwijdering, beperking of overdracht van persoonsgegevens, bezwaar maken tegen een verwerking en eerder gegeven toestemming intrekken.</p>
+                        <p>Mail een verzoek naar <a href="mailto:firenature23@gmail.com">firenature23@gmail.com</a>. Wij kunnen om redelijke informatie vragen om te controleren dat het verzoek over uw eigen gegevens gaat. Bent u niet tevreden over de afhandeling, dan kunt u een klacht indienen bij de <a href="https://autoriteitpersoonsgegevens.nl/" target="_blank" rel="noopener noreferrer nofollow">Autoriteit Persoonsgegevens</a>.</p>
+                        <p>Voor lokaal opgeslagen calculator- en checklistgegevens kunt u ook zelf de browseropslag wissen; wij beschikken niet over een kopie daarvan.</p>
+                    </section>
+
+                    <section>
+                        <h2>Beveiliging en wijzigingen</h2>
+                        <p>De site gebruikt HTTPS en beperkt de eigen gegevensverwerking door berekeningen lokaal uit te voeren. Geen enkele internetdienst is volledig risicoloos; deel daarom geen gevoelige documenten per e-mail.</p>
+                        <p>Dit beleid beschrijft de huidige inrichting van de website en is geen juridisch advies. Wijzigingen worden op deze pagina gepubliceerd met een nieuwe datum.</p>
+                    </section>
+
                 </div>
-                <p class="policy-note"><strong>Belangrijk:</strong> calculatoruitkomsten worden in de browser gemaakt. BouwdepotCalculator.nl ontvangt uw ingevulde bedragen niet via een account, database of ingestuurd formulier.</p>
-            </section>
-
-            <section class="policy-section" id="diensten">
-                <h2>3. Externe diensten</h2>
-                <div class="policy-service-grid">
-                    <article><h3>Vercel</h3><p>Host de website en verwerkt technische verzoeken om pagina’s veilig en beschikbaar te leveren. Lees de <a href="https://vercel.com/legal/privacy-notice" target="_blank" rel="noopener noreferrer">Privacy Notice van Vercel</a>.</p></article>
-                    <article><h3>Google AdSense</h3><p>Levert de advertentietechniek. Uw browser kan onder meer de bezochte URL en het IP-adres aan Google doorgeven. Welke aanvullende doeleinden en leveranciers actief mogen zijn, volgt uit uw keuze in de toestemmingsdialoog.</p></article>
-                    <article><h3>Google Fonts</h3><p>Levert het lettertype Inter. Bij het ophalen van het lettertype maakt uw browser technisch contact met Google. Hiervoor geldt het <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">privacybeleid van Google</a>.</p></article>
-                </div>
-                <p>Google legt op de pagina <a href="https://policies.google.com/technologies/partner-sites?hl=nl" target="_blank" rel="noopener noreferrer">Hoe Google gegevens gebruikt van sites die Google-services gebruiken</a> uit welke informatie bij gebruik van onder meer AdSense kan worden ontvangen en voor welke doeleinden.</p>
-            </section>
-
-            <section class="policy-section" id="toestemming">
-                <h2>4. Toestemming en advertentiekeuzes</h2>
-                <p>Voor bezoekers in de EER, het Verenigd Koninkrijk en Zwitserland gebruikt de site de Google Consent Management Platform-dialoog uit Privacy &amp; messaging. De dialoog toont de doeleinden en actuele leveranciers en biedt keuzes voor toestemming en beheer. Google vereist voor gepersonaliseerde advertenties in deze regio’s een gecertificeerde CMP die met het IAB Transparency &amp; Consent Framework integreert.</p>
-                <p>U kunt uw keuze later intrekken of aanpassen. De dialoog wordt dan opnieuw geopend en uw nieuwe keuze wordt doorgegeven aan de betrokken advertentieleveranciers.</p>
-                <button class="privacy-settings-btn" type="button" data-privacy-settings>Privacy- en cookie-instellingen openen</button>
-                <p class="policy-control-status" data-privacy-status aria-live="polite"></p>
-            </section>
-
-            <section class="policy-section" id="grondslagen">
-                <h2>5. Doelen en grondslagen</h2>
-                <ul>
-                    <li><strong>Functionele opslag:</strong> het onthouden van door u gekozen invoer en checkliststatus voor gebruiksgemak. Deze opslag blijft op uw apparaat en kunt u zelf wissen.</li>
-                    <li><strong>Beveiliging en levering:</strong> technisch noodzakelijke verwerking om de site te leveren, misbruik te beperken en fouten te onderzoeken.</li>
-                    <li><strong>Contact:</strong> uw verzoek behandelen wanneer u ons zelf mailt.</li>
-                    <li><strong>Advertenties:</strong> waar toestemming wettelijk vereist is, worden de betreffende doeleinden pas volgens uw keuze geactiveerd. Sommige leveranciers kunnen in de dialoog ook een gerechtvaardigd belang tonen; u kunt daar bezwaar tegen maken via “Opties beheren”.</li>
-                </ul>
-            </section>
-
-            <section class="policy-section" id="doorgifte">
-                <h2>6. Delen en verwerking buiten de EER</h2>
-                <p>Wij verkopen uw persoonsgegevens niet. Voor hosting, lettertypen en advertenties worden gegevens alleen gedeeld met de hierboven genoemde dienstverleners en de leveranciers die in de Google-toestemmingsdialoog zichtbaar zijn. Deze organisaties kunnen gegevens buiten de Europese Economische Ruimte verwerken. Hun privacyverklaringen beschrijven de toepasselijke waarborgen en doorgiftemechanismen.</p>
-            </section>
-
-            <section class="policy-section" id="rechten">
-                <h2>7. Uw privacyrechten</h2>
-                <p>Afhankelijk van de situatie kunt u vragen om inzage, correctie, verwijdering, beperking of overdracht van persoonsgegevens, bezwaar maken tegen een verwerking en eerder gegeven toestemming intrekken. Voor lokaal opgeslagen calculator- en checklistgegevens kunt u ook zelf de browseropslag wissen; de site beschikt niet over een serverkopie daarvan.</p>
-                <p>Mail een verzoek naar <a href="mailto:firenature23@gmail.com">firenature23@gmail.com</a>. We kunnen om redelijke informatie vragen om te controleren dat het verzoek over uw gegevens gaat. Bent u niet tevreden met de afhandeling, dan kunt u een klacht indienen bij de <a href="https://autoriteitpersoonsgegevens.nl/een-tip-of-klacht-indienen-bij-de-ap" target="_blank" rel="noopener noreferrer">Autoriteit Persoonsgegevens</a>.</p>
-            </section>
-
-            <section class="policy-section" id="wijzigingen">
-                <h2>8. Beveiliging en wijzigingen</h2>
-                <p>De site gebruikt HTTPS en beperkt de eigen gegevensverwerking door berekeningen lokaal uit te voeren. Geen enkele internetdienst is volledig risicoloos. Deel daarom geen gevoelige documenten via e-mail. Bij een materiële wijziging in gebruikte diensten, opslag of advertentietechniek wordt dit beleid aangepast en krijgt het een nieuwe datum.</p>
-                <p>Dit beleid geeft een feitelijke beschrijving van de huidige website-inrichting en is geen juridisch advies.</p>
-            </section>
-        </article>
+            </div>
+        </section>
     </main>
 
-    <footer>
-        <div class="container text-center py-8">
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="calculators.html">Alle calculators</a>
+    <footer class="voet">
+        <div class="ds-wrap">
+            <nav class="voet__links" aria-label="Voettekst">
+                <a href="/">Home</a>
+                <a href="verbouwbegroting.html">Verbouwbegroting</a>
+                <a href="leenruimte.html">Leenruimte</a>
+                <a href="depotplanner.html">Depotplanner</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
                 <a href="kennisbank.html">Kennisbank</a>
                 <a href="over-ons.html">Over ons</a>
+                <a href="methodologie.html">Methodologie</a>
                 <a href="contact.html">Contact</a>
                 <a href="privacy.html">Privacy</a>
                 <a href="cookies.html">Cookies</a>
                 <a href="voorwaarden.html">Voorwaarden</a>
-            </div>
-            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
+            </nav>
+            <p class="ds-caption">&copy; 2026 BouwdepotCalculator.nl &middot; Onafhankelijk informatieplatform, geen aanbieder van hypotheken.</p>
         </div>
     </footer>
 
-    <script type="module" src="/src/js/main.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Privacybeleid",
+      "url": "https://www.bouwdepotcalculator.nl/privacy.html",
+      "dateModified": "2026-08-16",
+      "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl/" }
+    }
+    </script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bouwdepotcalculator.nl/"},
-        {"@type": "ListItem", "position": 2, "name": "Privacybeleid"}
+        {"@type": "ListItem", "position": 2, "name": "Privacy"}
       ]
     }
     </script>

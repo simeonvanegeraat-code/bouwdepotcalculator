@@ -1,0 +1,462 @@
+{
+  "_toelichting": "Bouwdepotvoorwaarden per geldverstrekker. Elke waarde is overgenomen van de officiele publieke pagina van de aanbieder. Waar een aanbieder iets niet publiceert staat null met status 'niet-gepubliceerd' - nooit een schatting. Controleer voor publicatie; zie JURIDISCHE-CHECK.md.",
+  "_versie": "0.1",
+  "_laatstBijgewerkt": "2026-08-16",
+  "_veldUitleg": {
+    "looptijdVerbouwMaanden": "Standaardlooptijd depot bij verbouwing bestaande woning",
+    "looptijdNieuwbouwMaanden": "Standaardlooptijd depot bij nieuwbouw",
+    "verlengingMaanden": "Eenmalige verlenging indien mogelijk",
+    "rentevergoeding": "Wat je aan rente ontvangt over het saldo in het depot. 'model' zegt hoe de aanbieder rekent: 'beperkt-in-duur' betekent vergoeding over een deel van de looptijd, 'rente-alleen-over-opgenomen' betekent geen rente over het depotsaldo maar ook geen rentelast erover. 'vergoedingMaanden' is het aantal maanden waarover vergoeding loopt, afgeleid uit het detail hiernaast; nul betekent geen vergoeding. 'tarief' zegt hoe hoog de vergoeding is ten opzichte van de hypotheekrente: 'gelijk-aan-hypotheekrente', 'hypotheekrente-min-1', 'geen', of 'niet-gepubliceerd' als de aanbieder het niveau niet noemt. Alleen de eerste twee zijn te berekenen; bij 'niet-gepubliceerd' vullen wij nooit een schatting in.",
+    "verlengingAanvragen": "Wanneer een verlenging geregeld moet worden. 'maandenVoorEinde' is het aantal maanden voor de einddatum dat de aanbieder noemt, met 'soort': 'aanvraagvenster' als de klant vanaf dat moment zelf kan aanvragen, 'bericht-van-bank' als de aanbieder op dat moment zelf bericht stuurt. Slechts twee van de zes noemen een termijn; bij de rest staat 'niet-gepubliceerd' en mag geen datum berekend worden.",
+    "opnamemethode": "declaratie = bank keurt vooraf goed; zelf-betalen = je betaalt direct vanuit het depot",
+    "maxPerOpname": "Grens per opname. Bij declareren het maximum per declaratie; bij zelf overboeken bestaat zo'n productgrens niet.",
+    "minPerOpname": "Minimumbedrag per declaratie",
+    "doorlooptijdUitbetaling": "Tijd tussen indienen en uitbetaling",
+    "restant": "Wat er gebeurt met het bedrag dat overblijft",
+    "eigenArbeid": "Of eigen arbeid gedeclareerd mag worden",
+    "voorschieten": "Of u een rekening eerst zelf mag betalen en het bedrag daarna kunt terugvragen",
+    "declaratieEisen": "Eisen waaraan een declaratie moet voldoen, gestructureerd zodat ze per aanbieder vergelijkbaar zijn",
+    "automatischTeControleren": "False wanneer scripts/check-voorwaarden.mjs deze bron niet kan bewaken, met de reden in handcontroleReden. Zonder automatisch vangnet geldt een kortere controletermijn: die aanbieders vragen elke drie maanden een blik in plaats van elke zes."
+  },
+  "aanbieders": [
+    {
+      "id": "abn-amro",
+      "naam": "ABN AMRO",
+      "bron": "https://www.abnamro.nl/nl/prive/hypotheken/hypotheek-afsluiten/bouwdepot/voorwaarden-bouwdepot.html",
+      "gecontroleerd": "2026-08-16",
+      "geverifieerdDoor": null,
+      "looptijdVerbouwMaanden": 18,
+      "looptijdNieuwbouwMaanden": 24,
+      "verlengingMaanden": {
+        "verbouw": 6,
+        "nieuwbouw": 12,
+        "eenmalig": true
+      },
+      "rentevergoeding": {
+        "waarde": "Ja, maar niet de hele verlenging",
+        "detail": "Tijdens de standaardlooptijd ontvangt u vergoeding. Verlengt u, dan krijgt u over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": { "verbouw": 18, "nieuwbouw": 30 },
+        "tarief": { "verbouw": "niet-gepubliceerd", "nieuwbouw": "niet-gepubliceerd" }
+      },
+      "verlengingAanvragen": { "maandenVoorEinde": 3, "soort": "bericht-van-bank", "detail": "Drie maanden voor de einddatum ontvangt u een brief over verlengen of beeindigen. Regelen kan via Internet Bankieren of met een formulier per post." },
+      "opnamemethode": "declaratie",
+      "maxPerOpname": {
+        "bedrag": 250000,
+        "detail": "Meerdere declaraties achter elkaar mogelijk."
+      },
+      "minPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "doorlooptijdUitbetaling": {
+        "digitaal": "Meestal binnen 5 werkdagen",
+        "post": "Meestal binnen 10 werkdagen"
+      },
+      "declarabel": "Nieuwbouw: alleen bedragen uit de koop-/aannemingsovereenkomst en meerwerklijst. Verbouwing: alleen bedragen uit het verbouwingsplan. Alleen verbeteringen die vast aan de woning zitten, zoals gelijmd parket en inbouwapparatuur.",
+      "restant": {
+        "waarde": "Gaat van de lening af",
+        "detail": "Telt niet mee voor het bedrag dat je jaarlijks zonder extra kosten mag terugbetalen. Bij meerdere leningdelen bepaalt de bank de volgorde en kan die volgorde wijzigen."
+      },
+      "eigenArbeid": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "bijzonderheden": [
+        "Drie maanden voor de einddatum ontvang je een brief over verlengen of beeindigen.",
+        "Verlengen of beeindigen kan via Internet Bankieren of met een formulier per post naar Amersfoort.",
+        "Voor hypotheken aangevraagd voor 28 januari 2019 geldt het beleid bij 'Verbouw van een bestaande woning'."
+      ],
+      "voorschieten": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Factuur",
+          "detail": "Alleen bedragen uit het verbouwingsplan of de koop-/aannemingsovereenkomst, die onderdeel zijn van uw hypotheekofferte."
+        },
+        {
+          "eis": "vast-aan-woning",
+          "waarde": "Verplicht",
+          "detail": "Alleen verbeteringen die vast aan de woning zitten, zoals gelijmd parket en inbouwapparatuur."
+        }
+      ]
+    },
+    {
+      "id": "rabobank",
+      "naam": "Rabobank",
+      "bron": "https://www.rabobank.nl/particulieren/hypotheek/hypotheekvormen-en-voorwaarden/hypotheekproducten/bouwdepot",
+      "gecontroleerd": "2026-08-17",
+      "geverifieerdDoor": null,
+      "automatischTeControleren": false,
+      "handcontroleReden": "De productpagina is JS-gerenderd en levert bij geautomatiseerd ophalen geen tekst. Alleen met de hand te controleren.",
+      "looptijdVerbouwMaanden": 24,
+      "looptijdNieuwbouwMaanden": 24,
+      "verlengingMaanden": {
+        "verbouw": null,
+        "nieuwbouw": null,
+        "geenVerlengingGepubliceerd": true,
+        "detail": "Rabobank publiceert geen verlenging. De bron stelt dat het depot na 2 jaar automatisch stopt, dus geldt die 2 jaar als maximum. Vraag bij uw adviseur na of er in uw situatie iets mogelijk is."
+      },
+      "rentevergoeding": {
+        "waarde": "Ja, gelijk aan je hypotheekrente bij aanvang",
+        "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. De vergoeding loopt daarmee over de hele looptijd van 2 jaar.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": { "verbouw": 24, "nieuwbouw": 24 },
+        "tarief": { "verbouw": "gelijk-aan-hypotheekrente", "nieuwbouw": "gelijk-aan-hypotheekrente" }
+      },
+      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd" },
+      "opnamemethode": "zelf-betalen",
+      "maxPerOpname": {
+        "bedrag": null,
+        "status": "niet-van-toepassing",
+        "detail": "Er is geen declaratieproces met een maximumbedrag: u betaalt zelf vanuit het depot. In de praktijk geldt de overboeklimiet van uw eigen rekening, en die stelt u zelf in."
+      },
+      "minPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "doorlooptijdUitbetaling": {
+        "digitaal": "Direct - je betaalt zelf vanuit het depot via Online Bankieren of de Rabo App",
+        "post": "Overboekingsformulieren mogelijk"
+      },
+      "declarabel": "Alle kosten die nodig zijn voor bouw, verbouwing of verduurzaming: aannemer, architect, bouwmaterialen, keuken, badkamer. Niet: inboedel en spullen die je bij een verhuizing meeneemt, zoals gordijnen en meubels.",
+      "restant": {
+        "waarde": "Wordt standaard afgelost op de lening",
+        "detail": "Wil je het bedrag op je betaalrekening laten storten, dan is eerst een nieuwe inkomenstoets nodig via je adviseur."
+      },
+      "eigenArbeid": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "bijzonderheden": [
+        "Het depot wordt direct geopend bij het passeren; later openen of tussentijds verhogen is niet mogelijk.",
+        "Het depot stopt automatisch als het saldo onder EUR 2.500 komt, als de (ver)bouw af is, of als de bouw anders verloopt dan afgesproken.",
+        "Facturen hoef je niet vooraf in te dienen, maar Rabobank kan achteraf controleren.",
+        "Overboeken gaat via uw eigen overboeklimiet in Online Bankieren of de app. Die limiet is een instelling van uw rekening en geen depotvoorwaarde: u kunt hem zelf tijdelijk of blijvend verhogen, waarna een wachttijd geldt voordat de nieuwe limiet ingaat.",
+        "Mogelijk met zowel Basis- als Plusvoorwaarden en met alle rentevaste periodes."
+      ],
+      "voorschieten": {
+        "waarde": "Niet nodig",
+        "detail": "U betaalt rekeningen rechtstreeks vanuit het depot, dus voorschieten is niet aan de orde. Betaalt u toch eerst zelf, vraag dan vooraf na of terugbetaling mogelijk is."
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Vooraf geen",
+          "detail": "U betaalt zelf vanuit het depot en hoeft facturen niet vooraf in te dienen. Rabobank kan achteraf wel om onderbouwing vragen, dus bewaar alles."
+        },
+        {
+          "eis": "vast-aan-woning",
+          "waarde": "Verplicht",
+          "detail": "Niet toegestaan: inboedel en spullen die u bij een verhuizing meeneemt, zoals gordijnen en meubels."
+        }
+      ]
+    },
+    {
+      "id": "ing",
+      "naam": "ING",
+      "bron": "https://www.ing.nl/particulier/hypotheek/jouw-hypotheek/bouwdepot",
+      "gecontroleerd": "2026-08-17",
+      "automatischTeControleren": false,
+      "handcontroleReden": "De productpagina blokkeert geautomatiseerd ophalen; de verbinding wordt verbroken. Alleen met de hand te controleren.",
+      "geverifieerdDoor": null,
+      "looptijdVerbouwMaanden": 24,
+      "looptijdNieuwbouwMaanden": 24,
+      "verlengingMaanden": {
+        "verbouw": 12,
+        "nieuwbouw": 12,
+        "eenmalig": true,
+        "detail": "Aanvragen vanaf vier maanden voor de einddatum. Verzoek wordt binnen vijf werkdagen afgehandeld."
+      },
+      "rentevergoeding": {
+        "waarde": "Geen",
+        "detail": "ING hanteert een afwijkend model: je betaalt alleen rente over het bedrag dat je al hebt opgenomen. Over het saldo dat nog in het depot staat betaal je geen rente en ontvang je ook geen rente. Voor de belastingaangifte vul je EUR 0,00 aan ontvangen rente in.",
+        "model": "rente-alleen-over-opgenomen",
+        "vergoedingMaanden": { "verbouw": 0, "nieuwbouw": 0 },
+        "tarief": { "verbouw": "geen", "nieuwbouw": "geen" }
+      },
+      "verlengingAanvragen": { "maandenVoorEinde": 4, "soort": "aanvraagvenster", "detail": "Aanvragen kan vanaf vier maanden voor de einddatum. Het verzoek wordt binnen vijf werkdagen afgehandeld." },
+      "opnamemethode": "declaratie",
+      "maxPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "minPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "minimumDepot": {
+        "bedrag": 15000,
+        "detail": "Alleen bij hypotheek zonder NHG. Is het verbouwingsbedrag lager, dan wordt het direct uitbetaald. Met NHG geldt geen minimumbedrag. Voor een verduurzamingsdepot geldt geen minimum."
+      },
+      "doorlooptijdUitbetaling": {
+        "digitaal": "Binnen vijf werkdagen bij een digitale declaratie die aan de voorwaarden voldoet",
+        "post": null
+      },
+      "declarabel": "Verbouwing van de woning zoals uitbouw of dakkapel, aanleg en inrichting van de tuin, vervanging van kozijnen, ramen en deuren, vloeren die onlosmakelijk met het huis verbonden zijn, ingebouwde verlichting, onderhoudsschilderwerk, op maat gemaakt zonnescherm, badkamer en keuken, asbestverwijdering en zonnepanelen. Voorwaarde bij verbouwing: de woning verbetert in kwaliteit en wordt meer waard, en de verbetering zit vast aan de woning. Niet: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting.",
+      "bewijsstuk": "Factuur of kassabon, goed leesbaar, in het Nederlands, Engels, Frans of Duits, met bedragen in euro's. Een offerte, orderbevestiging, koopovereenkomst of pro-formafactuur is niet voldoende. Alleen facturen met een datum na de offertedatum worden in behandeling genomen.",
+      "restant": {
+        "waarde": "Wordt afgelost op de hypotheek",
+        "detail": "Is het restant hoger dan EUR 2.500, dan verlaagt ING de bij het afsluiten vastgestelde marktwaarde van de woning met dat bedrag. Ben je het daar niet mee eens, dan moet je een hogere waarde aantonen met een recent taxatierapport (waardepeildatum niet ouder dan zes maanden), een Calcasa Desktoptaxatie of een WOZ-beschikking."
+      },
+      "eigenArbeid": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "bijzonderheden": [
+        "Bij nieuwbouw staat het volledige hypotheekbedrag in het bouwdepot; bij verbouwing alleen het geleende verbouwbedrag.",
+        "Soms wordt geen depot geopend, bijvoorbeeld als de woning volgens de taxatie ook zonder waardestijging in dezelfde risicoklasse valt.",
+        "Kassabonnen worden geaccepteerd; bij veel andere aanbieders geldt een strengere factuureis.",
+        "Eerst gebruik je de afgesproken eigen middelen, daarna pas het bouwdepot.",
+        "Een verduurzamingsdepot heeft een eigen lijst toegestane maatregelen. Thuisbatterij, HR-cv-ketel, zonneboiler, energiezuinige verlichting en vloerverwarming vallen daar niet onder.",
+        "Na het passeren duurt het ongeveer tien werkdagen voor hypotheek en depot zichtbaar zijn in Mijn ING."
+      ],
+      "voorschieten": {
+        "waarde": "Ja, met bankafschrift",
+        "detail": "Heeft u de leverancier al betaald, dan stuurt u een bankafschrift mee. Daarop moeten rekeninghouder, leveranciersnaam, bedrag en IBAN overeenkomen met de factuur. Heeft u nog niet betaald, geef dan aan dat ING rechtstreeks aan de leverancier moet overmaken."
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Factuur of kassabon",
+          "detail": "Een offerte, orderbevestiging, koopovereenkomst of pro-formafactuur wordt niet geaccepteerd."
+        },
+        {
+          "eis": "taal-en-valuta",
+          "waarde": "NL, EN, FR of DU en euro's",
+          "detail": "Facturen en kassabonnen moeten in het Nederlands, Engels, Frans of Duits zijn, met bedragen in euro's."
+        },
+        {
+          "eis": "factuurdatum",
+          "waarde": "Na de offertedatum",
+          "detail": "Alleen facturen met een datum na de datum van uw hypotheekofferte worden in behandeling genomen."
+        },
+        {
+          "eis": "vast-aan-woning",
+          "waarde": "Verplicht",
+          "detail": "De woning moet in kwaliteit verbeteren en de verbetering moet vastzitten. Niet toegestaan: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting."
+        }
+      ]
+    },
+    {
+      "id": "munt",
+      "naam": "MUNT Hypotheken",
+      "automatischTeControleren": false,
+      "handcontroleReden": "De hoofdpagina levert geen signaalzinnen bij geautomatiseerd ophalen; alleen de twee onderliggende vraagpaginas worden bewaakt. De hoofdpagina zelf met de hand nalopen.",
+      "bron": "https://www.munthypotheken.nl/veelgestelde-vragen/bouwdepot/",
+      "bronnen": [
+        "https://www.munthypotheken.nl/veelgestelde-vragen/bouwdepot/hoe-lang-is-mijn-bouwdepot-geldig/",
+        "https://www.munthypotheken.nl/veelgestelde-vragen/bouwdepot/wanneer-wordt-mijn-declaratie-betaald/"
+      ],
+      "gecontroleerd": "2026-08-14",
+      "geverifieerdDoor": null,
+      "looptijdVerbouwMaanden": 24,
+      "looptijdNieuwbouwMaanden": 24,
+      "verlengingMaanden": {
+        "verbouw": 18,
+        "nieuwbouw": 18,
+        "eenmalig": false,
+        "detail": "Twee verlengingen mogelijk: eerst +12 maanden (van 24 naar 36), daarna nog +6 maanden (van 36 naar 42). Totaal dus maximaal 42 maanden. Aanvragen via MijnHypotheekOnline voordat de lopende termijn afloopt."
+      },
+      "rentevergoeding": {
+        "waarde": "Ja, maar beperkt in duur",
+        "detail": "Bij bestaande bouw over de eerste 12 maanden. Bij nieuwbouw en energiebesparende maatregelen over de eerste 24 maanden.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": { "verbouw": 12, "nieuwbouw": 24 },
+        "tarief": { "verbouw": "niet-gepubliceerd", "nieuwbouw": "niet-gepubliceerd" }
+      },
+      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd", "detail": "Aanvragen via MijnHypotheekOnline voordat de lopende termijn afloopt; een aantal maanden wordt niet genoemd." },
+      "opnamemethode": "declaratie",
+      "maxPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "minPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "doorlooptijdUitbetaling": {
+        "digitaal": "Goedgekeurde nota's worden binnen vijf werkdagen na ontvangst uitbetaald",
+        "post": "Declaratie per e-mail of post duurt langer dan via MijnHypotheekOnline"
+      },
+      "declarabel": "Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Een offerte volstaat niet: op basis daarvan wordt niet uitbetaald. De factuur moet duidelijk tonen welk werk is uitgevoerd of welke zaken zijn gekocht.",
+      "restant": {
+        "waarde": "Onder EUR 1.000 uitbetaald, daarboven afgelost",
+        "detail": "Een restantbedrag lager dan EUR 1.000 wordt bij beeindiging uitgekeerd op uw bankrekening. Is het hoger, dan gebruikt MUNT het volledige bedrag voor aflossing op de hypotheek."
+      },
+      "eigenArbeid": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "bijzonderheden": [
+        "Bij nieuwbouw kan rechtstreeks aan de aannemer worden uitbetaald.",
+        "Het declaratieformulier ontvang je ongeveer twee weken nadat de hypotheekakte bij de notaris is gepasseerd.",
+        "Met maximaal 42 maanden heeft MUNT de langst mogelijke depotduur van de vergeleken aanbieders."
+      ],
+      "voorschieten": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Factuur",
+          "detail": "Op basis van een offerte wordt niet uitbetaald. De factuur moet duidelijk tonen welk werk is uitgevoerd of welke zaken zijn gekocht."
+        }
+      ]
+    },
+    {
+      "id": "florius",
+      "naam": "Florius",
+      "bron": "https://www.florius.nl/hypotheek/bouwdepot-beheren",
+      "gecontroleerd": "2026-08-14",
+      "geverifieerdDoor": null,
+      "looptijdVerbouwMaanden": 18,
+      "looptijdNieuwbouwMaanden": 24,
+      "verlengingMaanden": {
+        "verbouw": 6,
+        "nieuwbouw": 12,
+        "eenmalig": true,
+        "detail": "Een keer aan te vragen via mijnFlorius. Florius laat na ontvangst weten of de verlenging is goedgekeurd."
+      },
+      "rentevergoeding": {
+        "waarde": "Ja, gelijk aan je hypotheekrente",
+        "detail": "Bij meerdere leningdelen met verschillende rentes ontvang je een gewogen gemiddelde van die rentes. De vergoeding stopt na 18 maanden bij verbouwing van een bestaande woning en na 30 maanden bij nieuwbouw.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": { "verbouw": 18, "nieuwbouw": 30 },
+        "tarief": { "verbouw": "gelijk-aan-hypotheekrente", "nieuwbouw": "gelijk-aan-hypotheekrente" }
+      },
+      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd", "detail": "Een keer aan te vragen via mijnFlorius; een termijn wordt niet genoemd." },
+      "opnamemethode": "declaratie",
+      "maxPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "minPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "doorlooptijdUitbetaling": {
+        "digitaal": "Binnen vijf werkdagen na goedkeuring",
+        "post": "Declaratieformulier op te vragen via 033 - 752 50 00"
+      },
+      "declarabel": "Declareren op basis van een bon of rekening; je uploadt een foto of scan via mijnFlorius.",
+      "restant": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "eigenArbeid": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "bijzonderheden": [
+        "Bij nieuwbouw kun je de hypotheekrente laten betalen vanuit het bouwdepot in plaats van vanaf je eigen betaalrekening, totdat het depot leeg is.",
+        "Voor de Florius Verduurzaam Hypotheek gelden afwijkende regels.",
+        "Zodra er geen geld meer in het depot staat, wordt de rekening gesloten.",
+        "Florius is een merk van ABN AMRO Hypotheken Groep; de depotvoorwaarden komen sterk overeen met die van ABN AMRO."
+      ],
+      "voorschieten": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Bon of rekening",
+          "detail": "U uploadt een foto of scan van de bon of rekening via mijnFlorius."
+        }
+      ]
+    },
+    {
+      "id": "nn",
+      "naam": "Nationale-Nederlanden",
+      "bron": "https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Bouwdepot/Nieuwbouwdepot-en-verbouwdepot.htm",
+      "bronnen": [
+        "https://www.nn.nl/Particulier/Hypotheken/Mijn-Nationale-Nederlanden-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-declareren.htm",
+        "https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-beeindigen.htm"
+      ],
+      "gecontroleerd": "2026-08-16",
+      "geverifieerdDoor": null,
+      "looptijdVerbouwMaanden": 12,
+      "looptijdNieuwbouwMaanden": 24,
+      "verlengingMaanden": {
+        "verbouw": 12,
+        "nieuwbouw": 12,
+        "eenmalig": true,
+        "detail": "Beide deposoorten zijn met 12 maanden te verlengen."
+      },
+      "rentevergoeding": {
+        "waarde": "Ja, maar verschilt per depotsoort",
+        "detail": "Bij het nieuwbouwdepot is de vergoeding gelijk aan de gemiddelde rente die je over je hypotheek betaalt. Bij het verbouwdepot ligt de vergoeding 1% lager dan die gemiddelde hypotheekrente. De vergoeding loopt 24 maanden bij nieuwbouw en 12 maanden bij verbouwing, en wordt automatisch verrekend met je maandbedrag.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": { "verbouw": 12, "nieuwbouw": 24 },
+        "tarief": { "verbouw": "hypotheekrente-min-1", "nieuwbouw": "gelijk-aan-hypotheekrente" }
+      },
+      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd" },
+      "opnamemethode": "declaratie",
+      "maxPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "minPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "doorlooptijdUitbetaling": {
+        "digitaal": "Verwerking duurt maximaal drie werkdagen; na goedkeuring wordt direct uitbetaald",
+        "post": "Declaraties per post of e-mail worden niet geaccepteerd; alleen via mijn.nn of de NN App"
+      },
+      "declarabel": "Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Losse spullen zoals meubilair of apparaten vallen er niet onder.",
+      "bewijsstuk": "Factuur of kassabon, in een gangbaar formaat zoals JPG, PNG of PDF, goed leesbaar zonder schaduw of weerspiegeling. Een offerte, opdrachtbevestiging of koopovereenkomst wordt niet geaccepteerd. Het bewijsstuk mag bij declaratie niet ouder zijn dan zes maanden. Een factuur moet naam en adres van de verkoper, KvK-nummer, btw-nummer, IBAN, gegevens van de koper, factuurnummer, datum, omschrijving, totaalbedrag en btw vermelden.",
+      "restant": {
+        "waarde": "Wordt gebruikt om de hypotheek af te lossen",
+        "detail": "Aan die aflossing zijn geen kosten verbonden. Heeft u meerdere bouwdepots, dan worden die tegelijk gesloten; afzonderlijk sluiten kan niet. Beeindigen regelt u zelf via mijn.nn of de NN App."
+      },
+      "eigenArbeid": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "bijzonderheden": [
+        "Met 12 maanden heeft het verbouwdepot de kortste standaardlooptijd van de vergeleken aanbieders.",
+        "Als enige aanbieder in deze vergelijking hanteert NN bij het verbouwdepot een vergoeding die lager ligt dan de hypotheekrente: 1% eronder. Daardoor ontstaat hier een werkelijk renteverschil, terwijl dat bij een gelijke vergoeding wegvalt.",
+        "De eis dat een factuur of kassabon niet ouder dan zes maanden mag zijn, komt bij de andere vergeleken aanbieders niet voor.",
+        "Declareren kan uitsluitend digitaal via mijn.nn of de NN App; post en e-mail worden niet verwerkt.",
+        "Met maximaal drie werkdagen is de verwerkingstijd de kortste van de vergeleken aanbieders."
+      ],
+      "voorschieten": {
+        "waarde": "Ja, met betaalbewijs",
+        "detail": "Heeft u zelf betaald, dan uploadt u de factuur of kassabon waarop staat dat u betaald heeft. Het bedrag wordt teruggestort op de rekening waarmee u uw hypotheeklasten betaalt."
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Factuur of kassabon",
+          "detail": "Een offerte, opdrachtbevestiging of koopovereenkomst wordt niet geaccepteerd."
+        },
+        {
+          "eis": "ouderdom",
+          "waarde": "Maximaal 6 maanden oud",
+          "detail": "Het bewijsstuk mag bij declaratie niet ouder zijn dan zes maanden."
+        },
+        {
+          "eis": "bestandsformaat",
+          "waarde": "JPG, PNG of PDF",
+          "detail": "Goed leesbaar, zonder schaduw of weerspiegeling."
+        },
+        {
+          "eis": "factuurgegevens",
+          "waarde": "KvK, btw en IBAN verplicht",
+          "detail": "Een factuur moet naam en adres van de verkoper, KvK-nummer, btw-nummer, IBAN, gegevens van de koper, factuurnummer, datum, omschrijving, totaalbedrag en btw vermelden."
+        },
+        {
+          "eis": "vast-aan-woning",
+          "waarde": "Verplicht",
+          "detail": "Losse spullen zoals meubilair of apparaten vallen er niet onder."
+        }
+      ]
+    }
+  ]
+}

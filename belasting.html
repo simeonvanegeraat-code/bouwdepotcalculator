@@ -1,373 +1,297 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fiscale Check & Maandlasten 2026 | BouwdepotCalculator.nl</title>
-    <meta name="description" content="Schat uw netto hypotheeklast in jaar 1 en vergelijk een 30-jarig scenario met de 2026-schijven, het eigenwoningforfait en de Hillen-aftrek.">
+    <title>Belastingvoordeel bouwdepot berekenen | Netto maandlast na renteaftrek</title>
+    <meta name="description" content="Bereken uw netto maandlast na hypotheekrenteaftrek, met inkomen, WOZ-waarde en eigenwoningforfait. Inclusief Hillen-aftrek en aftrekbare eenmalige kosten volgens de regels van 2026.">
     <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Simeon">
     <link rel="canonical" href="https://www.bouwdepotcalculator.nl/belasting.html">
-    
-    <link rel="icon" type="image/png" href="/favicon.png">
 
+    <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="/src/styles/main.css">
-    <script type="module" src="/src/js/nav.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
+      crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/src/styles/design-system.css">
+    <link rel="stylesheet" href="/src/styles/pagina.css">
+    <link rel="stylesheet" href="/src/styles/calculator.css">
 </head>
-<body>
-    <header class="site-header">
-        <div class="container header-inner">
-            <a class="logo" href="index.html" aria-label="Ga naar de homepage van BouwdepotCalculator.nl">
-                Bouwdepot<span class="text-accent">Calculator</span>.nl
-            </a>
+<body class="ds">
 
-            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Open hoofdmenu">
-                <span></span><span></span><span></span>
-            </button>
-
-            <nav class="main-nav" id="site-nav" aria-label="Hoofdnavigatie">
-                <div class="nav-item has-dropdown" data-dropdown>
-                    <button class="nav-link nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="calc-dropdown-menu">
-                        Calculators <span class="nav-caret" aria-hidden="true">▾</span>
-                    </button>
-                    <div class="calc-dropdown" id="calc-dropdown-menu" role="menu" aria-label="Calculator overzicht">
-                        <div class="calc-dropdown-group">
-                            <p class="calc-group-title">Snel starten</p>
-                            <a href="index.html" role="menuitem">Algemene bouwdepot calculator</a>
-                            <a href="maandlasten-bouwdepot.html" role="menuitem">Maandlasten bouwdepot</a>
-                        </div>
-                        <div class="calc-dropdown-group">
-                            <p class="calc-group-title">Nieuwbouw</p>
-                            <a href="nieuwbouw.html" role="menuitem">Nieuwbouw calculator</a>
-                            <a href="bouwrente-nieuwbouw.html" role="menuitem">Bouwrente nieuwbouw</a>
-                            <a href="dubbele-lasten-nieuwbouw.html" role="menuitem">Dubbele lasten nieuwbouw</a>
-                        </div>
-                        <div class="calc-dropdown-group">
-                            <p class="calc-group-title">Inzicht &amp; planning</p>
-                            <a href="renteverlies-bouwdepot.html" role="menuitem">Renteverlies bouwdepot</a>
-                            <a href="/?plan=haalbaarheid" role="menuitem">Waarderuimte &amp; eigen geld</a>
-                            <a href="belasting.html" role="menuitem">Belastingvoordeel</a>
-                        </div>
-                        <a class="calc-dropdown-all" href="calculators.html" role="menuitem">Alle calculators</a>
-                    </div>
-                </div>
-                <a class="nav-link" href="kennisbank.html">Kennisbank</a>
-                <a class="nav-link" href="stappenplan.html">Stappenplan</a>
-                <a class="nav-link" href="over-ons.html">Over ons</a>
-                <a class="nav-link" href="contact.html">Contact</a>
-                <a class="nav-link nav-cta" href="calculators.html">Start berekenen</a>
+    <header class="kop">
+        <div class="ds-wrap kop__inner">
+            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <nav aria-label="Hoofdnavigatie">
+                <a href="/">Bereken</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="kennisbank.html">Uitleg</a>
+                <a href="over-ons.html">Over ons</a>
             </nav>
         </div>
     </header>
 
-    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-      <div class="container">
+    <nav class="kruimel" aria-label="Kruimelpad">
+      <div class="ds-wrap">
         <ol>
           <li><a href="/">Home</a></li>
-          <li><a href="/calculators.html">Calculators</a></li>
-          <li aria-current="page">Belastingvoordeel</li>
+          <li aria-current="page">Belastingeffect</li>
         </ol>
       </div>
     </nav>
 
-    <main class="container main-grid">
-        
-        <section class="calculator-section">
-            <div class="card calculator-card" id="belasting-calc">
-                <h1>Netto maandlast en belastingeffect in 2026</h1>
-                <p class="subtitle">Schat uw netto last in jaar 1 en vergelijk het aflossingsverloop. Voor de grafiek houden we de 2026-regels alle 30 jaren constant.</p>
-                <p class="trust-line">Indicatieve fiscale berekening · Onafhankelijk informatief · Laat persoonlijke uitkomst altijd verifiëren door adviseur</p>
-                <p class="calc-intro-note">Homepage = snelle indicatie • Maandlasten = bouwdepotfasekosten • Nieuwbouw = brede planning • Belasting = fiscaal/netto effect op uw maandlast.</p>
+    <main>
+        <section class="ds-wrap reken" aria-labelledby="reken-titel" id="belasting-calc">
+            <div class="aanhef">
+                <p class="ds-eyebrow">Fiscale indicatie 2026</p>
+                <h1 id="reken-titel">Wat blijft er over na hypotheekrenteaftrek?</h1>
+                <p class="ds-lead">Met uw inkomen en WOZ-waarde, inclusief eigenwoningforfait en Hillen-aftrek.</p>
+            </div>
 
-                <div class="input-group">
-                    <div class="label-row">
-                        <label>Hypotheekvorm</label>
-                        <div class="select-wrapper" style="width: 200px;">
-                            <select id="fiscal-type">
+            <div class="reken__grid">
+                <div class="reken__uitkomst">
+                    <div class="ds-uitkomst">
+                        <p class="ds-uitkomst__label">Netto maandlast, jaar 1</p>
+                        <strong class="ds-uitkomst__bedrag" id="res-netto-month" data-bedrag>&euro; 0</strong>
+                        <p class="ds-uitkomst__toelichting" id="res-fiscal-conclusion">Vul uw gegevens in voor een fiscale indicatie.</p>
+
+                        <dl class="ds-uitsplitsing">
+                            <div><span>Bruto maandlast</span><strong id="res-bruto-month" data-bedrag>&euro; 0</strong></div>
+                            <div><span>Fiscaal effect op maandlast</span><strong id="res-benefit-month" data-bedrag>&euro; 0</strong></div>
+                            <div id="row-costs-month" style="display:none;"><span>Teruggave kosten (eenmalig)</span><strong id="res-costs-benefit" data-bedrag>&euro; 0</strong></div>
+                            <div><span>Jaarlijkse netto last (jaar 1)</span><strong id="res-netto-year" data-bedrag>&euro; 0</strong></div>
+                        </dl>
+
+                        <p class="notitie" id="res-fiscal-interpretation" style="margin-top: var(--ds-4)">De uitkomst hangt sterk af van uw inkomen en de WOZ-waarde.</p>
+
+                        <details class="uitleg-details">
+                            <summary>Uitgangspunten en aannames</summary>
+                            <div class="uitleg-details__body">
+                                <div class="fiscaal-kengetal">
+                                    <span>Indicatief effectief aftrektarief (jaar 1)</span><strong id="display-tax-rate">-</strong>
+                                </div>
+                                <div class="fiscaal-kengetal">
+                                    <span>Hillen-aftrek in 2026</span><strong id="display-hillen">-</strong>
+                                </div>
+                                <p class="ds-caption" id="res-fiscal-meaning">Het effectieve tarief daalt naarmate uw rente lager wordt ten opzichte van het eigenwoningforfait.</p>
+                                <p class="ds-caption">Een negatief fiscaal effect verlaagt uw maandlast. Bij een hoge WOZ-waarde en een klein leenbedrag kan het bedrag positief worden: het eigenwoningforfait is dan groter dan uw renteaftrek, waardoor u per saldo méér betaalt.</p>
+                                <p class="ds-caption" id="res-fiscal-method">Indicatieve berekening volgens de fiscale regels van 2026; uw werkelijke aanslag kan afwijken.</p>
+                                <ul class="ds-uitsplitsing ds-uitsplitsing--vlak">
+                                    <li><span>Hypotheekvorm</span><strong id="sum-fiscal-type">-</strong></li>
+                                    <li><span>Bruto jaarinkomen</span><strong id="sum-fiscal-income">-</strong></li>
+                                    <li><span>Leenbedrag</span><strong id="sum-fiscal-amount">-</strong></li>
+                                    <li><span>Hypotheekrente</span><strong id="sum-fiscal-interest">-</strong></li>
+                                    <li><span>WOZ-waarde</span><strong id="sum-fiscal-woz">-</strong></li>
+                                    <li><span>Aftrekbare kosten</span><strong id="sum-fiscal-costs">-</strong></li>
+                                </ul>
+                                <p class="ds-caption" id="report-fiscal-generated-at">Berekening klaar voor uw oriëntatie.</p>
+                            </div>
+                        </details>
+
+                        <div class="uitkomst-acties no-print">
+                            <button id="btn-download-fiscal" class="ds-knop ds-knop--rustig" type="button">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                Overzicht downloaden
+                            </button>
+                        </div>
+                    </div>
+
+                    <p class="ds-caption no-print" style="margin-top: var(--ds-3)" id="netto-trend-text">Het fiscale voordeel daalt in de loop van de jaren, omdat u steeds minder rente betaalt.</p>
+                </div>
+
+                <div class="reken__invoer">
+                    <div class="veldrij veldrij--twee">
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="fiscal-income">Bruto jaarinkomen</label></div>
+                            <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="fiscal-income" value="60000" min="0" step="1000" inputmode="numeric"></div>
+                        </div>
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="fiscal-woz">WOZ-waarde woning</label></div>
+                            <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="fiscal-woz" value="400000" min="0" step="5000" inputmode="numeric"></div>
+                        </div>
+                    </div>
+
+                    <div id="villataks-alert" class="melding melding--let-op" style="display:none; margin-bottom: var(--ds-5);">
+                        <p><strong>Let op: villataks actief.</strong> Boven &euro; 1.330.000 geldt &euro; 4.655 plus 2,35% over het meerdere.</p>
+                    </div>
+
+                    <div class="ds-veld">
+                        <div class="ds-veld__kop"><label class="ds-veld__naam" for="fiscal-amount">Leenbedrag</label></div>
+                        <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="fiscal-amount" value="50000" min="0" step="1000" inputmode="numeric"></div>
+                    </div>
+
+                    <div class="veldrij veldrij--twee">
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="fiscal-interest">Hypotheekrente</label></div>
+                            <div class="suffix-veld"><input class="ds-invoer" type="number" id="fiscal-interest" value="3.80" min="0.1" max="15" step="0.01" inputmode="decimal"><span>%</span></div>
+                            <input class="ds-schuif" type="range" id="range-fiscal-interest" min="0.5" max="10" step="0.1" value="3.8" aria-label="Hypotheekrente">
+                        </div>
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="fiscal-type">Hypotheekvorm</label></div>
+                            <select class="ds-invoer" id="fiscal-type">
                                 <option value="annuity">Annuïteiten</option>
                                 <option value="linear">Lineair</option>
                             </select>
                         </div>
                     </div>
-                    <p class="field-hint">Bepaalt hoe bruto en netto maandlast zich over de jaren ontwikkelen.</p>
-                </div>
 
-                <div class="input-group">
-                    <div class="label-row">
-                        <label>Bruto Jaarinkomen</label>
-                        <div class="number-input-wrapper has-prefix" style="width:140px;">
-                            <span class="prefix">€</span>
-                            <input type="number" id="fiscal-income" min="0" value="65000" step="1000">
-                        </div>
-                    </div>
-                    <p class="field-hint">Gebruik uw indicatieve belastbare inkomen voor een realistischer netto-inschatting.</p>
-                </div>
-
-                <div class="input-group">
-                    <div class="label-row">
-                        <label>Hypotheekschuld</label>
-                        <div class="number-input-wrapper has-prefix">
-                            <span class="prefix">€</span>
-                            <input type="number" id="fiscal-amount" min="0" value="350000">
-                        </div>
-                    </div>
-                    <p class="field-hint">Totale schuld waarop de renteaftrekberekening wordt gebaseerd.</p>
-                </div>
-
-                <div class="input-group">
-                    <div class="label-row">
-                        <label>Hypotheekrente</label>
-                        <div class="number-input-wrapper has-suffix">
-                            <input type="number" id="fiscal-interest" value="3.80" step="0.01">
-                            <span class="suffix">%</span>
-                        </div>
-                    </div>
-                    <input type="range" id="range-fiscal-interest" min="0.1" max="8" step="0.01" value="3.80" class="slider">
-                    <p class="field-hint">Rente heeft direct effect op bruto maandlast én op het potentiële aftrekvoordeel.</p>
-                </div>
-
-                <div class="input-group">
-                    <div class="label-row">
-                        <label>WOZ-Waarde</label>
-                        <div class="number-input-wrapper has-prefix">
-                            <span class="prefix">€</span>
-                            <input type="number" id="fiscal-woz" min="0" value="400000" step="5000">
-                        </div>
-                    </div>
-                    <div id="villataks-alert" class="alert-box">
-                        <strong>Let op: Villataks actief.</strong><br>
-                        Boven € 1.330.000 geldt € 4.655 plus 2,35% over het meerdere.
-                    </div>
-                    <p class="field-hint">WOZ beïnvloedt het eigenwoningforfait en daarmee het netto fiscale effect.</p>
-                </div>
-                
-                <div class="input-group mt-6">
-                    <label style="margin-bottom:0.5rem; display:block; font-weight:600;">Eenmalige Aftrekposten</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label"><input type="checkbox" id="cost-advice" value="2500"> Advies & Afsluit (~€ 2.500)</label>
-                        <label class="checkbox-label"><input type="checkbox" id="cost-notary" value="900"> Notaris Hypotheekakte (~€ 900)</label>
-                        <label class="checkbox-label"><input type="checkbox" id="cost-valuation" value="500"> Taxatie (~€ 500)</label>
-                        <label class="checkbox-label"><input type="checkbox" id="cost-nhg" value="0"> NHG-borgtochtprovisie (0,4%)</label>
-                    </div>
-                </div>
-
-                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-6 text-sm">
-                    <div class="flex justify-between mb-1">
-                        <span class="text-gray-600">Indicatief effectief aftrektarief (jaar 1):</span>
-                        <strong id="display-tax-rate">37,56%</strong>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Hillen-aftrek in 2026:</span>
-                        <strong id="display-hillen">71,867%</strong>
+                    <div class="ds-veld">
+                        <div class="ds-veld__kop"><span class="ds-veld__naam">Eenmalig aftrekbare kosten</span></div>
+                        <label class="ds-keuzevak"><input type="checkbox" id="cost-advice" value="2500"><span>Advies en afsluitkosten <small>Ongeveer &euro; 2.500</small></span></label>
+                        <label class="ds-keuzevak"><input type="checkbox" id="cost-notary" value="900"><span>Notaris hypotheekakte <small>Ongeveer &euro; 900</small></span></label>
+                        <label class="ds-keuzevak"><input type="checkbox" id="cost-valuation" value="500"><span>Taxatie <small>Ongeveer &euro; 500</small></span></label>
+                        <label class="ds-keuzevak"><input type="checkbox" id="cost-nhg" value="0"><span>NHG-borgtochtprovisie <small>0,4% van de lening</small></span></label>
+                        <p class="ds-caption">Deze kosten zijn in het jaar van afsluiten aftrekbaar. De overdrachtsbelasting en de aankoopmakelaar zijn dat niet.</p>
                     </div>
                 </div>
             </div>
-
-            <div class="card mt-8">
-                <h3>Vergelijkingsscenario over 30 jaar</h3>
-                <p class="field-hint">De tool gebruikt in elk jaar dezelfde 2026-belastingregels, hetzelfde inkomen en dezelfde WOZ-waarde. Zie dit niet als een voorspelling.</p>
-                <div class="chart-container">
-                    <canvas id="fiscalChart"></canvas>
-                </div>
-                <div class="flex justify-center gap-4 text-xs text-gray-500 mb-4">
-                    <div class="flex items-center"><span style="width:10px;height:10px;background:#ef4444;border-radius:50%;margin-right:5px;"></span> Bruto Last</div>
-                    <div class="flex items-center"><span style="width:10px;height:10px;background:#16a34a;border-radius:50%;margin-right:5px;"></span> Netto Last</div>
-                </div>
-
-                <div class="details-table-wrapper" style="display:none;" id="table-wrapper">
-                    <table class="details-table">
-                        <thead>
-                            <tr>
-                                <th>Jaar</th>
-                                <th class="col-amount">Bruto /mnd</th>
-                                <th class="col-amount">Fiscaal effect /mnd</th>
-                                <th class="col-amount netto-column">Netto /mnd</th>
-                            </tr>
-                        </thead>
-                        <tbody id="details-table-body">
-                            </tbody>
-                    </table>
-                </div>
-                <button id="toggle-table-btn" class="btn-text mt-4" style="width:100%; text-align:center;">
-                    Toon details per jaar ▼
-                </button>
-            </div>
-
-            <article class="prose-content">
-                <h2>Hypotheekrenteaftrek 2026: Een Diepte-analyse</h2>
-                <p>
-                    Wanneer u een hypotheek afsluit, kijkt u vaak naar de bruto maandlasten. Echter, door de fiscale regels in Nederland ligt de werkelijke (netto) last vaak aanzienlijk lager. 
-                    Deze pagina schat uw netto lasten met een vereenvoudigd model van de fiscale regels voor 2026. Heffingskortingen, fiscaal partnerschap, AOW-leeftijd en bijzondere situaties vallen buiten de berekening.
-                </p>
-
-                <h3>1. Beperking Aftrek (37,56%)</h3>
-                <p>
-                    In het verleden konden huiseigenaren in de hoogste belastingschijf de rente aftrekken tegen maximaal 52%. Deze regeling is in de afgelopen jaren stapsgewijs afgebouwd. 
-                    Voor iemand die de AOW-leeftijd nog niet heeft bereikt, zijn de eerste twee box-1-tarieven in 2026 35,75% en 37,56%. Boven € 78.426 is het reguliere tarief 49,50%, maar het aftrekvoordeel voor de eigen woning is daar beperkt tot <strong>37,56%</strong>. De calculator rekent het voordeel per schijf en toont zo een effectief percentage voor jaar 1.
-                </p>
-
-                <h3>2. Eigenwoningforfait en de 'Villataks'</h3>
-                <p>
-                    De fiscus ziet uw eigen woning als een vorm van inkomen in natura. Daarom moet u een percentage van de WOZ-waarde bij uw inkomen optellen: het Eigenwoningforfait (EWF). 
-                    Voor de meeste woningen geldt in 2026 een tarief van <strong>0,35%</strong>. Dit bedrag verlaagt uw effectieve renteaftrek.
-                </p>
-                <p>
-                    Voor WOZ-waarden tot en met € 75.000 gelden lagere schijven. Boven <strong>€ 1.330.000</strong> is het forfait € 4.655 plus <strong>2,35%</strong> over het meerdere. De calculator verwerkt alle gepubliceerde WOZ-schijven van 2026. Bij een kleine rentelast kan de bijtelling per saldo groter zijn dan de renteaftrek.
-                </p>
-
-                <h3>3. Afbouw Wet Hillen</h3>
-                <p>
-                    Heeft u een kleine hypotheek of is uw huis (bijna) afgelost? Vroeger betaalde u dan per saldo geen eigenwoningforfait (Wet Hillen). 
-                    Deze aftrek wordt afgebouwd. In 2026 bedraagt de aftrek wegens geen of een kleine eigenwoningschuld <strong>71,867%</strong> van het verschil tussen het eigenwoningforfait en de aftrekbare kosten. Het resterende deel telt mee als inkomen uit de eigen woning.
-                </p>
-
-                <h3>4. Annuïteit vs. Lineair</h3>
-                <p>
-                    De keuze voor de hypotheekvorm heeft grote invloed op uw netto lastenverloop. Bij een <em>lineaire hypotheek</em> lost u sneller af, waardoor uw rentelast (en dus uw belastingteruggave) snel daalt. Uw netto maandlasten beginnen hoog en eindigen laag. 
-                    Bij een <em>annuïteitenhypotheek</em> blijven de bruto lasten gelijk, maar omdat het rentedeel binnen dat bedrag krimpt, daalt uw belastingvoordeel langzaam. Hierdoor stijgen uw netto lasten gedurende de looptijd.
-                </p>
-                <h3>Bronnen en reikwijdte</h3>
-                <p>De jaarbedragen zijn gecontroleerd bij de <a href="https://www.belastingdienst.nl/wps/wcm/connect/bldcontentnl/belastingdienst/prive/inkomstenbelasting/heffingskortingen_boxen_tarieven/boxen_en_tarieven/box_1/" target="_blank" rel="noopener noreferrer">Belastingdienst (box 1)</a> en de <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/hoe-werkt-eigenwoningforfait" target="_blank" rel="noopener noreferrer">tabel eigenwoningforfait</a>. De rekentool is gericht op iemand die in 2026 de AOW-leeftijd nog niet heeft bereikt. Voor een persoonlijke aangifte is meer informatie nodig.</p>
-            </article>
-            <section class="card mt-8">
-                <h2>Misschien zoekt u ook</h2>
-                <div class="resource-grid">
-                    <a href="calculators.html" class="resource-card"><strong>Alle calculators</strong><span>Overzicht van alle bouwdepot- en nieuwbouwtools op één plek.</span></a>
-                    <a href="index.html" class="resource-card"><strong>Algemene bouwdepot calculator</strong><span>Snelle basisberekening voor bruto/netto maandlast.</span></a>
-                    <a href="renteverlies-bouwdepot.html" class="resource-card"><strong>Renteverlies bouwdepot</strong><span>Inzicht in rentekloof tussen hypotheekrente en depotvergoeding.</span></a>
-                    <a href="stappenplan.html" class="resource-card"><strong>Bouwdepot stappenplan</strong><span>Praktische vervolgacties na uw eerste berekening.</span></a>
-                    <a href="kennisbank.html" class="resource-card"><strong>Kennisbank</strong><span>Verdiepende uitleg bij fiscale en bouwdepot-termen.</span></a>
-                </div>
-            </section>
-
         </section>
 
-        <aside class="sidebar">
-            <div class="card result-card sticky-box">
-                <h2>Indicatieve fiscale uitkomst</h2>
-                <p class="result-intro">Gerichte netto-inschatting op basis van fiscale aannames (2026-regels).</p>
-                <p class="result-meta" id="report-fiscal-generated-at">Berekening klaar voor fiscale vergelijking.</p>
-
-                <div class="result-row total featured-row">
-                    <span>Kernuitkomst: netto maandlast</span>
-                    <span id="res-netto-month" class="amount highlight" style="color:#000066;">€ 0</span>
-                </div>
-                
-                <h3 class="result-subtitle">Onderliggende uitkomsten</h3>
-                <div class="result-row">
-                    <span>Bruto maandlast:</span>
-                    <span id="res-bruto-month" class="amount">€ 0</span>
-                </div>
-                
-                <div class="result-row discount">
-                    <span>- Fiscale Teruggave:</span>
-                    <span id="res-benefit-month" class="amount" style="color:#16a34a">€ 0</span>
+        <section class="ds-sectie ds-sectie--gevuld">
+            <div class="ds-wrap">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Het verloop</p>
+                    <h2 class="ds-title">Waarom uw voordeel elk jaar kleiner wordt</h2>
+                    <p class="ds-lead">U lost af, dus u betaalt minder rente. Daardoor daalt de aftrek, terwijl het eigenwoningforfait gelijk blijft.</p>
                 </div>
 
-                <div class="result-row discount" id="row-costs-month" style="display:none;">
-                    <span>- Teruggave kosten (eenmalig):</span>
-                    <span id="res-costs-benefit" class="amount" style="color:#3b82f6">€ 0</span>
-                </div>
+                <div class="verloop">
+                    <canvas id="fiscalChart" height="120" aria-label="Grafiek van het netto maandlastverloop over de jaren" role="img"></canvas>
 
-                <div class="result-row">
-                    <span>Jaarlijkse netto last (jaar 1)</span>
-                    <span id="res-netto-year" class="amount">€ 0</span>
-                </div>
-                
-                <div class="result-copy-block">
-                    <p class="result-copy-title">Korte conclusie</p>
-                    <p id="res-fiscal-conclusion">Bij deze invoer volgt een indicatieve netto maandlast na fiscaal effect.</p>
-                </div>
+                    <button id="toggle-table-btn" class="ds-knop ds-knop--rustig" type="button" style="margin-top: var(--ds-4); width: 100%;">Toon jaar-tot-jaar overzicht</button>
 
-                <div class="result-copy-block">
-                    <p class="result-copy-title">Interpretatie</p>
-                    <p id="res-fiscal-interpretation">De fiscale impact hangt vooral samen met rente, schuld en fiscale uitgangspunten.</p>
-                </div>
-
-                <div class="result-copy-block">
-                    <p class="result-copy-title">Fiscale betekenis</p>
-                    <p id="res-fiscal-meaning">Bruto en netto kunnen merkbaar verschillen; persoonlijke fiscale situatie bepaalt de exacte uitkomst.</p>
-                </div>
-
-                <div class="result-copy-block">
-                    <p class="result-copy-title">Aannameregel</p>
-                    <p id="res-fiscal-method">Indicatieve projectie op basis van 2026-regels en constante aannames; geen persoonlijke aangifte-uitkomst.</p>
-                </div>
-
-                <div class="result-summary-block">
-                    <p class="result-copy-title">Ingevoerde uitgangspunten</p>
-                    <ul class="result-summary-list">
-                        <li><span>Hypotheekvorm</span><strong id="sum-fiscal-type">-</strong></li>
-                        <li><span>Bruto jaarinkomen</span><strong id="sum-fiscal-income">€ 0</strong></li>
-                        <li><span>Hypotheekschuld</span><strong id="sum-fiscal-amount">€ 0</strong></li>
-                        <li><span>Hypotheekrente</span><strong id="sum-fiscal-interest">-</strong></li>
-                        <li><span>WOZ-waarde</span><strong id="sum-fiscal-woz">€ 0</strong></li>
-                        <li><span>Eenmalige aftrekposten</span><strong id="sum-fiscal-costs">Geen</strong></li>
-                    </ul>
-                </div>
-
-                <div class="next-steps-block no-print">
-                    <p class="result-copy-title">Vervolgstappen</p>
-                    <div class="result-next-links">
-                        <a href="maandlasten-bouwdepot.html">Naar maandlasten bouwdepot</a>
-                        <a href="nieuwbouw.html">Naar brede nieuwbouw planning</a>
-                        <a href="index.html">Naar snelle algemene calculator</a>
+                    <div id="table-wrapper" class="details-table-wrapper" style="display: none;">
+                        <table class="details-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Jaar</th>
+                                    <th scope="col" class="col-amount">Bruto /mnd</th>
+                                    <th scope="col" class="col-amount">Fiscaal effect /mnd</th>
+                                    <th scope="col" class="col-amount">Netto /mnd</th>
+                                </tr>
+                            </thead>
+                            <tbody id="details-table-body"></tbody>
+                        </table>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="cta-button-wrapper no-print">
-                    <button id="btn-download-fiscal" class="btn-primary">Download overzicht (PDF)</button>
+        <section class="ds-sectie">
+            <div class="ds-wrap ds-wrap--smal">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Kort uitgelegd</p>
+                    <h2 class="ds-title">Drie regels die uw uitkomst bepalen</h2>
                 </div>
-
-                <div class="legal-footer">
-                    <strong>Disclaimer 2026:</strong> Projectie over 30 jaar o.b.v. belastingregels 2026. Aanname: gelijkblijvende rente en WOZ. Werkelijke lasten kunnen afwijken.
+                <div class="uitleg">
+                    <article>
+                        <h3>Het aftrektarief is niet uw belastingtarief</h3>
+                        <p>De aftrek wordt in 2026 afgetopt op maximaal 37,56%, ook als u in een hogere schijf valt. Verdient u minder, dan geldt uw eigen tarief. Het effectieve tarief in de uitkomst houdt daar rekening mee.</p>
+                    </article>
+                    <article>
+                        <h3>Het eigenwoningforfait gaat er eerst vanaf</h3>
+                        <p>U telt een percentage van de WOZ-waarde bij uw inkomen op voordat de rente wordt afgetrokken. Bij een hoge WOZ en een laag leenbedrag kan het forfait de aftrek grotendeels opeten. Daarom vraagt deze berekening naar uw WOZ-waarde.</p>
+                    </article>
+                    <article>
+                        <h3>De Hillen-aftrek verdwijnt geleidelijk</h3>
+                        <p>Is uw rente lager dan het eigenwoningforfait, dan corrigeert de Hillen-regeling het verschil, maar die wordt tot 2048 stapsgewijs afgebouwd. Het percentage voor 2026 staat bij de uitgangspunten.</p>
+                    </article>
+                    <article>
+                        <h3>Bij een bouwdepot let u op de termijnen</h3>
+                        <p>Rente over een bouwdepot is aftrekbaar binnen bepaalde termijnen: doorgaans zes maanden vóór en twee jaar ná het afsluiten. Loopt uw verbouwing uit, dan kan een deel van de aftrek vervallen. Zie de <a href="hypotheekrenteaftrek-gids.html">gids over renteaftrek bij een depot</a>.</p>
+                    </article>
                 </div>
             </div>
-            
-        </aside>
+        </section>
 
+        <section class="ds-sectie">
+            <div class="ds-wrap">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Verder rekenen</p>
+                    <h2 class="ds-title">Andere vragen over uw bouwdepot</h2>
+                </div>
+                <div class="ds-keuzes">
+                    <a class="ds-keuze" href="verbouwbegroting.html">
+                        <span class="ds-keuze__titel">Weet u het depotbedrag nog niet?</span>
+                        <span class="ds-keuze__uitleg">Stel eerst uw verbouwkosten samen; de begroting rekent uit welk deel uit het depot komt.</span>
+                        <span class="ds-keuze__meta">Begroting samenstellen &rarr;</span>
+                    </a>
+                    <a class="ds-keuze" href="/">
+                        <span class="ds-keuze__titel">Maandlast berekenen</span>
+                        <span class="ds-keuze__uitleg">Wat een bouwdepot met uw maandlast doet, zonder fiscale details.</span>
+                        <span class="ds-keuze__meta">Naar de hoofdberekening &rarr;</span>
+                    </a>
+                    <a class="ds-keuze" href="hypotheekrenteaftrek-gids.html">
+                        <span class="ds-keuze__titel">Renteaftrek bij een depot</span>
+                        <span class="ds-keuze__uitleg">De termijnen waarbinnen rente over een bouwdepot aftrekbaar blijft.</span>
+                        <span class="ds-keuze__meta">Naar de gids &rarr;</span>
+                    </a>
+                    <a class="ds-keuze" href="bouwdepot-voorwaarden-vergelijken.html">
+                        <span class="ds-keuze__titel">Voorwaarden per bank</span>
+                        <span class="ds-keuze__uitleg">Hoe lang uw depot geldig is, want dat raakt ook de aftrektermijn.</span>
+                        <span class="ds-keuze__meta">Bekijk de vergelijking &rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="ds-sectie">
+            <div class="ds-wrap">
+                <div class="melding">
+                    <p><strong>Indicatie, geen aangifte.</strong> Deze berekening gebruikt de fiscale regels van 2026 en de gegevens die u invult. Uw werkelijke aanslag hangt af van uw volledige aangifte, fiscaal partnerschap, eigenwoningverleden en eventuele uitzonderingen.</p>
+                    <p>Bron: <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/tariefsaanpassing-eigen-woning" target="_blank" rel="noopener noreferrer nofollow">Belastingdienst over de tariefsaanpassing eigen woning</a>. Lees ook de <a href="methodologie.html">rekenregels en beperkingen</a>.</p>
+                </div>
+            </div>
+        </section>
     </main>
-    <!-- Sticky Mobile Result Bar -->
-    <div class="sticky-result-bar" id="sticky-result-bar" role="status" aria-live="polite">
-        <span class="sticky-result-bar__label">Netto maandlast</span>
-        <span class="sticky-result-bar__amount" id="sticky-result-amount">€ 0</span>
-        <span class="sticky-result-bar__arrow">↑</span>
-    </div>
 
-
-
-    <footer>
-        <div class="container text-center py-8">
-            <div class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="calculators.html">Alle calculators</a>
+    <footer class="voet">
+        <div class="ds-wrap">
+            <nav class="voet__links" aria-label="Voettekst">
+                <a href="/">Home</a>
+                <a href="verbouwbegroting.html">Verbouwbegroting</a>
+                <a href="leenruimte.html">Leenruimte</a>
+                <a href="depotplanner.html">Depotplanner</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
                 <a href="kennisbank.html">Kennisbank</a>
                 <a href="over-ons.html">Over ons</a>
+                <a href="methodologie.html">Methodologie</a>
                 <a href="contact.html">Contact</a>
                 <a href="privacy.html">Privacy</a>
                 <a href="cookies.html">Cookies</a>
                 <a href="voorwaarden.html">Voorwaarden</a>
-            </div>
-            <p class="text-sm text-gray-400">&copy; 2026 BouwdepotCalculator.nl - Alle rechten voorbehouden.</p>
+            </nav>
+            <p class="ds-caption">&copy; 2026 BouwdepotCalculator.nl &middot; Onafhankelijk informatieplatform, geen aanbieder van hypotheken.</p>
         </div>
     </footer>
-    
+
     <script type="module" src="/src/js/reporting.js"></script>
     <script type="module" src="/src/js/main.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Belastingvoordeel bouwdepot berekenen",
+      "description": "Netto maandlast na hypotheekrenteaftrek, met eigenwoningforfait, Hillen-aftrek en aftrekbare eenmalige kosten volgens de regels van 2026.",
+      "author": { "@type": "Person", "name": "Simeon", "url": "https://www.bouwdepotcalculator.nl/over-ons.html" },
+      "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl/" },
+      "dateModified": "2026-08-14",
+      "isAccessibleForFree": true,
+      "mainEntityOfPage": "https://www.bouwdepotcalculator.nl/belasting.html"
+    }
+    </script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bouwdepotcalculator.nl/"},
-        {"@type": "ListItem", "position": 2, "name": "Calculators", "item": "https://www.bouwdepotcalculator.nl/calculators.html"},
-        {"@type": "ListItem", "position": 3, "name": "Belastingvoordeel"}
+        {"@type": "ListItem", "position": 2, "name": "Belastingeffect"}
       ]
     }
     </script>

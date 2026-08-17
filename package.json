@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "test": "node --test",
-    "build": "npm test && vite build",
+    "build": "npm test && npm run build:voorwaarden && vite build",
+    "build:voorwaarden": "node scripts/build-bankdata.mjs && node scripts/build-voorwaarden.mjs && node scripts/build-declaratie.mjs && node scripts/build-begroting.mjs",
+    "check:voorwaarden": "node scripts/check-voorwaarden.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -15,5 +17,8 @@
   },
   "devDependencies": {
     "vite": "^5.4.0"
+  },
+  "allowScripts": {
+    "esbuild@0.21.5": true
   }
 }

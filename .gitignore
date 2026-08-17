@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.vercel/
+
+.DS_Store
+*.log
+npm-debug.log*
+
+.env
+.env.local
+
+# Transient rapport van de wekelijkse voorwaardencontrole
+voorwaarden-rapport.md
