@@ -148,6 +148,8 @@ const NAV = [
 
 const VOET = [
   ['/', 'Home'],
+  ['verbouwbegroting.html', 'Verbouwbegroting'],
+  ['leenruimte.html', 'Leenruimte'],
   ['depotplanner.html', 'Depotplanner'],
   [HUB, 'Voorwaarden per bank'],
   ['kennisbank.html', 'Kennisbank'],

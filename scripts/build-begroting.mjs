@@ -33,7 +33,7 @@ const NAV = [
 ];
 
 const VOET = [
-  ['/', 'Home'], [BESTAND, 'Verbouwbegroting'], ['depotplanner.html', 'Depotplanner'], [HUB, 'Voorwaarden per bank'],
+  ['/', 'Home'], [BESTAND, 'Verbouwbegroting'], ['leenruimte.html', 'Leenruimte'], ['depotplanner.html', 'Depotplanner'], [HUB, 'Voorwaarden per bank'],
   ['kennisbank.html', 'Kennisbank'], ['over-ons.html', 'Over ons'], ['methodologie.html', 'Methodologie'],
   ['contact.html', 'Contact'], ['privacy.html', 'Privacy'], ['cookies.html', 'Cookies'], ['voorwaarden.html', 'Voorwaarden'],
 ];
@@ -211,6 +211,11 @@ ${categorieen}
                     <h2 class="ds-title">Van begroting naar financiering</h2>
                 </div>
                 <div class="ds-keuzes">
+                    <a class="ds-keuze" href="leenruimte.html">
+                        <span class="ds-keuze__titel">Kunt u dit bedrag lenen?</span>
+                        <span class="ds-keuze__uitleg">De vraag die vóór de maandlast komt: past dit bedrag binnen de waarde van uw woning na verbouwing, en hoeveel eigen geld heeft u nodig?</span>
+                        <span class="ds-keuze__meta">Leenruimte berekenen &rarr;</span>
+                    </a>
                     <a class="ds-keuze" href="/">
                         <span class="ds-keuze__titel">Wat kost dit per maand?</span>
                         <span class="ds-keuze__uitleg">Het depotbedrag omgerekend naar een maandlast, met uw eigen rente en looptijd.</span>
