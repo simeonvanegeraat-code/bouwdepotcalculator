@@ -526,3 +526,106 @@ select.ds-invoer {
 
 /* Tekort in rood: een negatieve buffer is een signaal, geen getal. */
 .is-tekort { color: var(--ds-warn); }
+
+/* ---------------------------------------------------------------- tijdlijn
+   De depotplanner levert geen bedrag maar een reeks datums. Een verticale lijn
+   met stippen leest als een agenda; een tabel zou het als naslag laten voelen.
+   Gebeurtenissen zonder datum staan er bewust tussen: dat een aanbieder een
+   termijn niet publiceert is zelf informatie die de bezoeker nodig heeft. */
+
+.tijdlijn {
+    list-style: none;
+    margin: var(--ds-5) 0 0;
+    padding: 0;
+    position: relative;
+}
+
+/* De lijn loopt tussen de eerste en laatste stip, niet erbuiten. */
+.tijdlijn::before {
+    background: var(--ds-line);
+    bottom: 1.5rem;
+    content: '';
+    left: 5.5rem;
+    position: absolute;
+    top: 0.6rem;
+    width: 2px;
+}
+
+.stap {
+    display: grid;
+    gap: var(--ds-4);
+    grid-template-columns: 5rem 1fr;
+    padding-bottom: var(--ds-5);
+    position: relative;
+}
+
+.stap:last-child { padding-bottom: 0; }
+
+.stap__datum {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-caption);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.35;
+    padding-top: 1px;
+    text-align: right;
+}
+
+.stap__inhoud { display: grid; gap: var(--ds-1); padding-left: var(--ds-4); }
+.stap__inhoud strong { font-size: var(--ds-t-small); }
+.stap__inhoud .ds-caption { margin: 0; }
+
+/* De stip zit op de lijn: 5,5rem is de kolombreedte plus de helft van de gap. */
+.stap::after {
+    background: var(--ds-surface);
+    border: 2px solid var(--ds-accent);
+    border-radius: 50%;
+    content: '';
+    height: 11px;
+    left: calc(5.5rem - 4.5px);
+    position: absolute;
+    top: 0.35rem;
+    width: 11px;
+}
+
+/* Wat al gebeurd is hoeft niet meer op te vallen, maar moet wel leesbaar
+   blijven: het is nog steeds de uitleg bij die datum. Vandaar een gedempte
+   kleur en een gevulde grijze stip in plaats van transparantie, want opacity
+   bracht het contrast onder de norm. */
+.stap--geweest .stap__inhoud strong { color: var(--ds-ink-muted); font-weight: 560; }
+.stap--geweest::after { background: var(--ds-line-strong); border-color: var(--ds-line-strong); }
+
+/* Een datum waarop iets van de bezoeker verwacht wordt. */
+.stap--letop::after { background: var(--ds-warn); border-color: var(--ds-warn); }
+.stap--letop .stap__inhoud strong { color: var(--ds-warn); }
+
+/* Zonder datum is er niets te markeren op de lijn: open stip. */
+.stap--zonder-datum::after { border-color: var(--ds-line-strong); border-style: dashed; }
+.stap--zonder-datum .stap__datum { font-style: italic; }
+
+@media (max-width: 640px) {
+    .tijdlijn::before { left: 4px; }
+    .stap { grid-template-columns: 1fr; gap: 0; padding-left: var(--ds-5); }
+    .stap::after { left: -0.5px; }
+    .stap__datum { text-align: left; }
+    .stap__inhoud { padding-left: 0; }
+}
+
+/* Een knop die als link in een alinea meeloopt. */
+.knop-in-tekst {
+    background: none;
+    border: 0;
+    color: var(--ds-accent);
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+    text-decoration: underline;
+}
+.knop-in-tekst:hover { color: var(--ds-accent-hover); }
+
+@media print {
+    .tijdlijn { margin-top: var(--ds-4); }
+    .stap { break-inside: avoid; }
+    #depotplanner .reken__invoer { display: block !important; }
+    #depotplanner .reken__grid { display: block; }
+    #depotplanner .ds-veld, #depotplanner .veldrij { display: none; }
+}

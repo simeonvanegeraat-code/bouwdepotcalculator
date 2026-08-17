@@ -38,10 +38,18 @@ export const BANKEN = [
         "nieuwbouw": "niet-gepubliceerd"
       }
     },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": 3,
+      "soort": "bericht-van-bank",
+      "detail": "Drie maanden voor de einddatum ontvangt u een brief over verlengen of beeindigen. Regelen kan via Internet Bankieren of met een formulier per post."
+    },
     "opnamemethode": "declaratie",
     "uitbetaling": "Meestal binnen 5 werkdagen",
     "voorschieten": null,
-    "restant": "Gaat van de lening af",
+    "restant": {
+      "waarde": "Gaat van de lening af",
+      "detail": "Telt niet mee voor het bedrag dat je jaarlijks zonder extra kosten mag terugbetalen. Bij meerdere leningdelen bepaalt de bank de volgorde en kan die volgorde wijzigen."
+    },
     "eigenArbeid": null
   },
   {
@@ -75,10 +83,18 @@ export const BANKEN = [
         "nieuwbouw": "gelijk-aan-hypotheekrente"
       }
     },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": null,
+      "soort": null,
+      "detail": null
+    },
     "opnamemethode": "zelf-betalen",
     "uitbetaling": "Direct - je betaalt zelf vanuit het depot via Online Bankieren of de Rabo App",
     "voorschieten": "Niet nodig",
-    "restant": "Wordt standaard afgelost op de lening",
+    "restant": {
+      "waarde": "Wordt standaard afgelost op de lening",
+      "detail": "Wil je het bedrag op je betaalrekening laten storten, dan is eerst een nieuwe inkomenstoets nodig via je adviseur."
+    },
     "eigenArbeid": null
   },
   {
@@ -112,10 +128,18 @@ export const BANKEN = [
         "nieuwbouw": "geen"
       }
     },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": 4,
+      "soort": "aanvraagvenster",
+      "detail": "Aanvragen kan vanaf vier maanden voor de einddatum. Het verzoek wordt binnen vijf werkdagen afgehandeld."
+    },
     "opnamemethode": "declaratie",
     "uitbetaling": "Binnen vijf werkdagen bij een digitale declaratie die aan de voorwaarden voldoet",
     "voorschieten": "Ja, met bankafschrift",
-    "restant": "Wordt afgelost op de hypotheek",
+    "restant": {
+      "waarde": "Wordt afgelost op de hypotheek",
+      "detail": "Is het restant hoger dan EUR 2.500, dan verlaagt ING de bij het afsluiten vastgestelde marktwaarde van de woning met dat bedrag. Ben je het daar niet mee eens, dan moet je een hogere waarde aantonen met een recent taxatierapport (waardepeildatum niet ouder dan zes maanden), een Calcasa Desktoptaxatie of een WOZ-beschikking."
+    },
     "eigenArbeid": null
   },
   {
@@ -149,10 +173,18 @@ export const BANKEN = [
         "nieuwbouw": "niet-gepubliceerd"
       }
     },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": null,
+      "soort": null,
+      "detail": "Aanvragen via MijnHypotheekOnline voordat de lopende termijn afloopt; een aantal maanden wordt niet genoemd."
+    },
     "opnamemethode": "declaratie",
     "uitbetaling": "Goedgekeurde nota's worden binnen vijf werkdagen na ontvangst uitbetaald",
     "voorschieten": null,
-    "restant": "Onder EUR 1.000 uitbetaald, daarboven afgelost",
+    "restant": {
+      "waarde": "Onder EUR 1.000 uitbetaald, daarboven afgelost",
+      "detail": "Een restantbedrag lager dan EUR 1.000 wordt bij beeindiging uitgekeerd op uw bankrekening. Is het hoger, dan gebruikt MUNT het volledige bedrag voor aflossing op de hypotheek."
+    },
     "eigenArbeid": null
   },
   {
@@ -186,10 +218,18 @@ export const BANKEN = [
         "nieuwbouw": "gelijk-aan-hypotheekrente"
       }
     },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": null,
+      "soort": null,
+      "detail": "Een keer aan te vragen via mijnFlorius; een termijn wordt niet genoemd."
+    },
     "opnamemethode": "declaratie",
     "uitbetaling": "Binnen vijf werkdagen na goedkeuring",
     "voorschieten": null,
-    "restant": null,
+    "restant": {
+      "waarde": null,
+      "detail": null
+    },
     "eigenArbeid": null
   },
   {
@@ -223,10 +263,18 @@ export const BANKEN = [
         "nieuwbouw": "gelijk-aan-hypotheekrente"
       }
     },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": null,
+      "soort": null,
+      "detail": null
+    },
     "opnamemethode": "declaratie",
     "uitbetaling": "Verwerking duurt maximaal drie werkdagen; na goedkeuring wordt direct uitbetaald",
     "voorschieten": "Ja, met betaalbewijs",
-    "restant": "Wordt gebruikt om de hypotheek af te lossen",
+    "restant": {
+      "waarde": "Wordt gebruikt om de hypotheek af te lossen",
+      "detail": "Aan die aflossing zijn geen kosten verbonden. Heeft u meerdere bouwdepots, dan worden die tegelijk gesloten; afzonderlijk sluiten kan niet. Beeindigen regelt u zelf via mijn.nn of de NN App."
+    },
     "eigenArbeid": null
   }
 ];

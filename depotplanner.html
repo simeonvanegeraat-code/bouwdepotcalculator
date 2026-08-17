@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depotplanner | Wanneer loopt mijn bouwdepot af en wat moet ik regelen?</title>
+    <meta name="description" content="Bereken de einddatum van uw bouwdepot, wanneer de rentevergoeding stopt en wanneer u verlenging moet regelen. Met de gepubliceerde termijnen van zes geldverstrekkers.">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Simeon">
+    <link rel="canonical" href="https://www.bouwdepotcalculator.nl/depotplanner.html">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
+      crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/src/styles/design-system.css">
+    <link rel="stylesheet" href="/src/styles/pagina.css">
+    <link rel="stylesheet" href="/src/styles/calculator.css">
+</head>
+<body class="ds">
+
+    <header class="kop no-print">
+        <div class="ds-wrap kop__inner">
+            <a class="merk" href="/">Bouwdepot<span>Calculator</span>.nl</a>
+            <nav aria-label="Hoofdnavigatie">
+                <a href="/">Bereken</a>
+                <a href="verbouwbegroting.html">Begroting</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="kennisbank.html">Uitleg</a>
+            </nav>
+        </div>
+    </header>
+
+    <nav class="kruimel no-print" aria-label="Kruimelpad">
+      <div class="ds-wrap">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li aria-current="page">Depotplanner</li>
+        </ol>
+      </div>
+    </nav>
+
+    <main id="depotplanner">
+        <section class="ds-wrap reken" aria-labelledby="reken-titel">
+            <div class="aanhef">
+                <p class="ds-eyebrow">Voor wie er middenin zit</p>
+                <h1 id="reken-titel">Wanneer loopt uw bouwdepot af?</h1>
+                <p class="ds-caption">Geen rekenmachine maar een agenda: einddatum, het moment waarop de vergoeding stopt, en wanneer u moet verlengen.</p>
+            </div>
+
+            <div class="reken__grid">
+                <div class="reken__uitkomst">
+                    <div class="ds-uitkomst">
+                        <p class="ds-uitkomst__label" id="dp-koptekst">Kies uw geldverstrekker</p>
+                        <strong class="ds-uitkomst__bedrag" id="dp-resterend">&mdash;</strong>
+                        <p class="ds-uitkomst__toelichting" id="dp-resterend-zin">De termijnen verschillen per aanbieder. Zonder die keuze kunnen wij geen datums berekenen.</p>
+
+                        <div class="verhouding" aria-hidden="true">
+                            <div class="verhouding__balk">
+                                <div class="verhouding__deel verhouding__deel--aflossing" id="dp-balk-opgenomen" style="width:0%"></div>
+                            </div>
+                            <div class="verhouding__legenda">
+                                <span class="verhouding__item" id="dp-opgenomen-pct">Vul uw depotbedrag in.</span>
+                            </div>
+                        </div>
+
+                        <dl class="ds-uitsplitsing">
+                            <div><span>Nog in het depot</span><strong id="dp-saldo" data-bedrag>&euro; 0</strong></div>
+                        </dl>
+
+                        <div class="bankmelding" id="dp-waarschuwing" hidden style="margin-top: var(--ds-4)">
+                            <p></p>
+                        </div>
+
+                        <p class="notitie" id="dp-restant" hidden style="margin-top: var(--ds-4)"></p>
+
+                        <div class="uitkomst-acties no-print">
+                            <button id="dp-printen" class="ds-knop ds-knop--rustig" type="button">Planning printen</button>
+                        </div>
+                    </div>
+
+                    <p class="ds-caption no-print" style="margin-top: var(--ds-3)">Uw invoer blijft op dit apparaat. De datums zijn afgeleid uit gepubliceerde termijnen en zijn geen toezegging van uw geldverstrekker.</p>
+                </div>
+
+                <div class="reken__invoer">
+                    <div data-bankkeuze style="margin-bottom: var(--ds-5)"></div>
+
+                    <div class="ds-veld">
+                        <div class="ds-veld__kop"><label class="ds-veld__naam" for="dp-soort">Wat voor depot heeft u?</label></div>
+                        <select class="ds-invoer" id="dp-soort">
+                            <option value="verbouw">Verbouwing van een bestaande woning</option>
+                            <option value="nieuwbouw">Nieuwbouw</option>
+                        </select>
+                        <p class="ds-caption">Dit verschil is groot: bij vier van de zes aanbieders loopt het nieuwbouwdepot langer dan het verbouwdepot.</p>
+                    </div>
+
+                    <div class="ds-veld">
+                        <div class="ds-veld__kop"><label class="ds-veld__naam" for="dp-start">Datum waarop uw hypotheek is gepasseerd</label></div>
+                        <input class="ds-invoer" type="date" id="dp-start">
+                        <p class="ds-caption">Vanaf het passeren loopt de termijn, niet vanaf de start van de bouw. <button type="button" class="knop-in-tekst" id="dp-vandaag">Vandaag invullen</button></p>
+                    </div>
+
+                    <div class="veldrij veldrij--twee">
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="dp-bedrag">Depotbedrag</label></div>
+                            <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="dp-bedrag" value="50000" min="0" step="500" inputmode="numeric"></div>
+                        </div>
+                        <div class="ds-veld">
+                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="dp-opgenomen">Al opgenomen</label></div>
+                            <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="dp-opgenomen" value="0" min="0" step="500" inputmode="numeric"></div>
+                        </div>
+                    </div>
+
+                    <div class="melding no-print" id="dp-geen-bank">
+                        <p><strong>Kies eerst uw geldverstrekker hierboven.</strong> Een bouwdepot heeft geen algemene looptijd: die verschilt van twaalf tot vierentwintig maanden, en de verlenging van zes tot achttien. Zonder te weten bij wie uw hypotheek loopt zou elke datum hier een gok zijn.</p>
+                    </div>
+
+                    <ol class="tijdlijn" id="dp-tijdlijn" hidden></ol>
+                </div>
+            </div>
+        </section>
+
+        <section class="ds-sectie ds-sectie--gevuld no-print">
+            <div class="ds-wrap ds-wrap--smal">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Waarom deze datums</p>
+                    <h2 class="ds-title">De einddatum is niet de datum die u het eerst raakt</h2>
+                </div>
+                <div class="proza">
+                    <p>De meeste mensen kennen één datum van hun bouwdepot: de dag waarop het afloopt. Er zit bijna altijd een eerdere datum vóór, die minder zichtbaar is en meer kost.</p>
+                    <p><strong>Vijf van de zes vergeleken aanbieders stoppen de rentevergoeding voordat het depot afloopt.</strong> Bij Nationale-Nederlanden loopt de vergoeding bij een verbouwdepot twaalf maanden terwijl het depot vierentwintig maanden kan bestaan; bij MUNT twaalf tegenover maximaal tweeënveertig. In die tussenperiode betaalt u hypotheekrente over geld dat u nog niet gebruikt, zonder er iets voor terug te krijgen. Hoeveel dat is, rekent de <a href="renteverlies-bouwdepot.html">renteverliescalculator</a> uit.</p>
+                    <p>De tweede datum is het moment waarop verlengen nog kan. Slechts twee aanbieders noemen daar een termijn bij: ABN AMRO stuurt drie maanden voor de einddatum een brief, en bij ING kunt u vanaf vier maanden voor de einddatum aanvragen. De andere vier publiceren geen termijn. Wij rekenen daar geen datum voor uit, want een deadline waar u op vertrouwt moet kloppen.</p>
+                    <p>Wat er met een restant gebeurt, is bij vrijwel elke aanbieder hetzelfde: het gaat van de lening af. Dat klinkt onschuldig, maar het betekent dat geld dat u had willen besteden verdwijnt in een aflossing die u niet had gepland. Bij Rabobank is een nieuwe inkomenstoets nodig om het in plaats daarvan uitgekeerd te krijgen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="ds-sectie no-print">
+            <div class="ds-wrap">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Verder</p>
+                    <h2 class="ds-title">Wat u met deze datums kunt doen</h2>
+                </div>
+                <div class="ds-keuzes">
+                    <a class="ds-keuze" href="renteverlies-bouwdepot.html">
+                        <span class="ds-keuze__titel">Wat kost het stilstaande deel?</span>
+                        <span class="ds-keuze__uitleg">Reken uit wat u kwijt bent aan rente over depotgeld dat nog niet is opgenomen, met de vergoedingsduur van uw eigen bank.</span>
+                        <span class="ds-keuze__meta">Renteverlies berekenen &rarr;</span>
+                    </a>
+                    <a class="ds-keuze" href="bouwdepot-declaratie-afgewezen.html">
+                        <span class="ds-keuze__titel">Mijn declaratie is afgewezen</span>
+                        <span class="ds-keuze__uitleg">De veelvoorkomende afwijsredenen per aanbieder, en welk bewijsstuk er wel wordt geaccepteerd.</span>
+                        <span class="ds-keuze__meta">Declaratiegids bekijken &rarr;</span>
+                    </a>
+                    <a class="ds-keuze" href="bouwdepot-voorwaarden-vergelijken.html">
+                        <span class="ds-keuze__titel">Alle voorwaarden vergelijken</span>
+                        <span class="ds-keuze__uitleg">Looptijd, vergoeding, opnamemethode en bewijsstukken van zes geldverstrekkers naast elkaar.</span>
+                        <span class="ds-keuze__meta">Vergelijking bekijken &rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="ds-sectie no-print">
+            <div class="ds-wrap ds-wrap--smal">
+                <div class="melding">
+                    <p><strong>Indicatieve planning.</strong> De datums volgen uit de standaardtermijnen die de aanbieders publiceren, gerekend vanaf de door u ingevulde passeerdatum. Uw eigen hypotheekakte en depotvoorwaarden zijn bepalend, en die kunnen afwijken; bij ABN AMRO geldt voor hypotheken aangevraagd voor 28 januari 2019 bijvoorbeeld ander beleid.</p>
+                    <p>Lees de <a href="methodologie.html">rekenregels en beperkingen</a>. Wijkt uw depot af van wat hier staat? <a href="contact.html">Laat het weten</a>.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="voet no-print">
+        <div class="ds-wrap">
+            <nav class="voet__links" aria-label="Voettekst">
+                <a href="/">Home</a>
+                <a href="verbouwbegroting.html">Verbouwbegroting</a>
+                <a href="leenruimte.html">Leenruimte</a>
+                <a href="depotplanner.html">Depotplanner</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="kennisbank.html">Kennisbank</a>
+                <a href="over-ons.html">Over ons</a>
+                <a href="methodologie.html">Methodologie</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy.html">Privacy</a>
+                <a href="voorwaarden.html">Voorwaarden</a>
+            </nav>
+            <p class="ds-caption">&copy; 2026 BouwdepotCalculator.nl &middot; Onafhankelijk informatieplatform, geen aanbieder van hypotheken.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="/src/js/depotplanner.js"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Depotplanner bouwdepot",
+      "url": "https://www.bouwdepotcalculator.nl/depotplanner.html",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript",
+      "description": "Bereken de einddatum van een bouwdepot, het moment waarop de rentevergoeding stopt en wanneer verlenging geregeld moet zijn, op basis van de gepubliceerde termijnen per geldverstrekker.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+      "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bouwdepotcalculator.nl/"},
+        {"@type": "ListItem", "position": 2, "name": "Depotplanner"}
+      ]
+    }
+    </script>
+</body>
+</html>

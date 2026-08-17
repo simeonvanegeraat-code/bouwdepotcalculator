@@ -148,6 +148,7 @@ const NAV = [
 
 const VOET = [
   ['/', 'Home'],
+  ['depotplanner.html', 'Depotplanner'],
   [HUB, 'Voorwaarden per bank'],
   ['kennisbank.html', 'Kennisbank'],
   ['over-ons.html', 'Over ons'],
@@ -305,7 +306,7 @@ ${DISCLAIMER}
                 <div class="uitleg">
                     <article>
                         <h3>De looptijd is een harde grens</h3>
-                        <p>Loopt uw verbouwing uit voorbij de depottermijn, dan wordt het restant meestal afgelost op uw hypotheek. Het geld is niet weg, maar u kunt het niet meer voor de verbouwing gebruiken zonder nieuwe financiering. Verlenging is bij de meeste aanbieders eenmalig en moet vóór de einddatum worden aangevraagd.</p>
+                        <p>Loopt uw verbouwing uit voorbij de depottermijn, dan wordt het restant meestal afgelost op uw hypotheek. Het geld is niet weg, maar u kunt het niet meer voor de verbouwing gebruiken zonder nieuwe financiering. Verlenging is bij de meeste aanbieders eenmalig en moet vóór de einddatum worden aangevraagd. De <a href="depotplanner.html">depotplanner</a> rekent die datums voor u uit vanaf uw passeerdatum.</p>
                     </article>
                     <article>
                         <h3>Niet iedereen betaalt rente over uw depot</h3>
@@ -434,6 +435,25 @@ function bouwAanbieder(a) {
         ? (v.verbouw === v.nieuwbouw ? mnd(v.verbouw) : `verbouwing ${mnd(v.verbouw)}, nieuwbouw ${mnd(v.nieuwbouw)}`)
         : LEEG, v.detail),
     rij('Vergoeding over depotsaldo', waarde(a.rentevergoeding), a.rentevergoeding?.detail),
+    // De vergoedingsduur is afgeleid uit het detail hierboven en staat er los bij,
+    // omdat juist die duur bepaalt hoeveel stilstaand depotgeld kost.
+    rij('Vergoeding loopt',
+      a.rentevergoeding?.model === 'rente-alleen-over-opgenomen'
+        ? 'Niet van toepassing'
+        : a.rentevergoeding?.vergoedingMaanden
+          ? (a.rentevergoeding.vergoedingMaanden.verbouw === a.rentevergoeding.vergoedingMaanden.nieuwbouw
+              ? mnd(a.rentevergoeding.vergoedingMaanden.verbouw)
+              : `verbouwing ${mnd(a.rentevergoeding.vergoedingMaanden.verbouw)}, nieuwbouw ${mnd(a.rentevergoeding.vergoedingMaanden.nieuwbouw)}`)
+          : LEEG),
+    // Het verschil tussen zelf mogen aanvragen en bericht krijgen is wezenlijk:
+    // in het tweede geval hoeft de klant niets te onthouden, in het eerste wel.
+    rij('Verlenging regelen',
+      a.verlengingAanvragen?.maandenVoorEinde == null
+        ? LEEG
+        : a.verlengingAanvragen.soort === 'bericht-van-bank'
+          ? `Bericht van de aanbieder ${a.verlengingAanvragen.maandenVoorEinde} maanden voor de einddatum`
+          : `Zelf aanvragen, vanaf ${a.verlengingAanvragen.maandenVoorEinde} maanden voor de einddatum`,
+      a.verlengingAanvragen?.detail),
     rij('Manier van opnemen',
       a.opnamemethode === 'declaratie' ? 'Declareren: bewijsstuk indienen, daarna uitbetaling' : esc(a.opnamemethode),
       a.opnamemethodeDetail),

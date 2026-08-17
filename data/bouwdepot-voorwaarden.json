@@ -7,6 +7,7 @@
     "looptijdNieuwbouwMaanden": "Standaardlooptijd depot bij nieuwbouw",
     "verlengingMaanden": "Eenmalige verlenging indien mogelijk",
     "rentevergoeding": "Wat je aan rente ontvangt over het saldo in het depot. 'model' zegt hoe de aanbieder rekent: 'beperkt-in-duur' betekent vergoeding over een deel van de looptijd, 'rente-alleen-over-opgenomen' betekent geen rente over het depotsaldo maar ook geen rentelast erover. 'vergoedingMaanden' is het aantal maanden waarover vergoeding loopt, afgeleid uit het detail hiernaast; nul betekent geen vergoeding. 'tarief' zegt hoe hoog de vergoeding is ten opzichte van de hypotheekrente: 'gelijk-aan-hypotheekrente', 'hypotheekrente-min-1', 'geen', of 'niet-gepubliceerd' als de aanbieder het niveau niet noemt. Alleen de eerste twee zijn te berekenen; bij 'niet-gepubliceerd' vullen wij nooit een schatting in.",
+    "verlengingAanvragen": "Wanneer een verlenging geregeld moet worden. 'maandenVoorEinde' is het aantal maanden voor de einddatum dat de aanbieder noemt, met 'soort': 'aanvraagvenster' als de klant vanaf dat moment zelf kan aanvragen, 'bericht-van-bank' als de aanbieder op dat moment zelf bericht stuurt. Slechts twee van de zes noemen een termijn; bij de rest staat 'niet-gepubliceerd' en mag geen datum berekend worden.",
     "opnamemethode": "declaratie = bank keurt vooraf goed; zelf-betalen = je betaalt direct vanuit het depot",
     "maxPerOpname": "Grens per opname. Bij declareren het maximum per declaratie; bij zelf overboeken bestaat zo'n productgrens niet.",
     "minPerOpname": "Minimumbedrag per declaratie",
@@ -37,6 +38,7 @@
         "vergoedingMaanden": { "verbouw": 18, "nieuwbouw": 30 },
         "tarief": { "verbouw": "niet-gepubliceerd", "nieuwbouw": "niet-gepubliceerd" }
       },
+      "verlengingAanvragen": { "maandenVoorEinde": 3, "soort": "bericht-van-bank", "detail": "Drie maanden voor de einddatum ontvangt u een brief over verlengen of beeindigen. Regelen kan via Internet Bankieren of met een formulier per post." },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
         "bedrag": 250000,
@@ -102,6 +104,7 @@
         "vergoedingMaanden": { "verbouw": 24, "nieuwbouw": 24 },
         "tarief": { "verbouw": "gelijk-aan-hypotheekrente", "nieuwbouw": "gelijk-aan-hypotheekrente" }
       },
+      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd" },
       "opnamemethode": "zelf-betalen",
       "maxPerOpname": {
         "bedrag": null,
@@ -170,6 +173,7 @@
         "vergoedingMaanden": { "verbouw": 0, "nieuwbouw": 0 },
         "tarief": { "verbouw": "geen", "nieuwbouw": "geen" }
       },
+      "verlengingAanvragen": { "maandenVoorEinde": 4, "soort": "aanvraagvenster", "detail": "Aanvragen kan vanaf vier maanden voor de einddatum. Het verzoek wordt binnen vijf werkdagen afgehandeld." },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
         "bedrag": null,
@@ -257,6 +261,7 @@
         "vergoedingMaanden": { "verbouw": 12, "nieuwbouw": 24 },
         "tarief": { "verbouw": "niet-gepubliceerd", "nieuwbouw": "niet-gepubliceerd" }
       },
+      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd", "detail": "Aanvragen via MijnHypotheekOnline voordat de lopende termijn afloopt; een aantal maanden wordt niet genoemd." },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
         "bedrag": null,
@@ -317,6 +322,7 @@
         "vergoedingMaanden": { "verbouw": 18, "nieuwbouw": 30 },
         "tarief": { "verbouw": "gelijk-aan-hypotheekrente", "nieuwbouw": "gelijk-aan-hypotheekrente" }
       },
+      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd", "detail": "Een keer aan te vragen via mijnFlorius; een termijn wordt niet genoemd." },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
         "bedrag": null,
@@ -382,6 +388,7 @@
         "vergoedingMaanden": { "verbouw": 12, "nieuwbouw": 24 },
         "tarief": { "verbouw": "hypotheekrente-min-1", "nieuwbouw": "gelijk-aan-hypotheekrente" }
       },
+      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd" },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
         "bedrag": null,

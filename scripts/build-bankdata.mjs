@@ -57,10 +57,18 @@ const banken = data.aanbieders.map((a) => {
         nieuwbouw: a.rentevergoeding?.tarief?.nieuwbouw ?? null,
       },
     },
+    verlengingAanvragen: {
+      maandenVoorEinde: a.verlengingAanvragen?.maandenVoorEinde ?? null,
+      soort: a.verlengingAanvragen?.soort ?? null,
+      detail: a.verlengingAanvragen?.detail ?? null,
+    },
     opnamemethode: a.opnamemethode ?? null,
     uitbetaling: a.doorlooptijdUitbetaling?.digitaal ?? null,
     voorschieten: a.voorschieten?.waarde ?? null,
-    restant: a.restant?.waarde ?? null,
+    restant: {
+      waarde: a.restant?.waarde ?? null,
+      detail: a.restant?.detail ?? null,
+    },
     eigenArbeid: a.eigenArbeid?.waarde ?? null,
   };
 });

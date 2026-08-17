@@ -95,7 +95,7 @@ function velden(bank) {
             : bank.opnamemethode === 'declaratie' ? 'U declareert met een factuur' : 'niet gepubliceerd',
         uitbetaling: bank.uitbetaling || 'niet gepubliceerd',
         voorschieten: bank.voorschieten || 'niet gepubliceerd',
-        restant: bank.restant || 'niet gepubliceerd',
+        restant: bank.restant?.waarde || 'niet gepubliceerd',
     };
 }
 

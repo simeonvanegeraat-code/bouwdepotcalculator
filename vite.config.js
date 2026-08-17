@@ -10,6 +10,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         leenruimte: resolve(__dirname, 'leenruimte.html'),
+        depotplanner: resolve(__dirname, 'depotplanner.html'),
         verbouwbegroting: resolve(__dirname, 'verbouwbegroting.html'),
         adviesgesprekChecklist: resolve(__dirname, 'adviesgesprek-checklist.html'),
         belasting: resolve(__dirname, 'belasting.html'),
