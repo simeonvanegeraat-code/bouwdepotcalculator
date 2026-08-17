@@ -187,7 +187,7 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
 <body class="ds">
     <header class="kop">
         <div class="ds-wrap kop__inner">
-            <a class="merk" href="/">Bouwdepot<span>Calculator</span>.nl</a>
+            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
             <nav aria-label="Hoofdnavigatie">
 ${NAV.map(([h, t]) => `                <a href="${h}">${t}</a>`).join('\n')}
             </nav>

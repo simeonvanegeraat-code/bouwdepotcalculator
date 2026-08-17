@@ -54,9 +54,12 @@
     --ds-t-small:   0.9375rem;                        /* 15 */
     --ds-t-body:    1.0625rem;                        /* 17 — leesbaarheidsondergrens */
     --ds-t-lead:    1.25rem;                          /* 20 */
-    --ds-t-title:   clamp(1.5rem, 3.5vw, 1.875rem);
-    --ds-t-heading: clamp(1.875rem, 5vw, 2.5rem);
-    --ds-t-display: clamp(2.25rem, 7vw, 3.5rem);
+    /* Drie kopmaten en niet meer. --ds-t-heading is de paginatitel op elke
+       pagina, --ds-t-title de sectiekop daaronder. Er stond hier ook een
+       --ds-t-display van 56px die nergens werd gebruikt; die is weg, want een
+       vierde maat die niemand kiest maakt de schaal alleen onduidelijk. */
+    --ds-t-title:   clamp(1.5rem, 3.5vw, 1.875rem);   /* 24 - 30 */
+    --ds-t-heading: clamp(1.875rem, 5vw, 2.5rem);     /* 30 - 40 */
     --ds-t-figure:  clamp(2.75rem, 11vw, 4.25rem);    /* het bedrag zelf */
 
     --ds-lh-tight: 1.1;
@@ -114,6 +117,19 @@
    Basis
    ========================================================================== */
 
+/* De site heeft korte pagina's (contact) en lange (de begroting). Zonder deze
+   regel verschuift de layout horizontaal zodra de schuifbalk verschijnt of
+   verdwijnt, en dat gebeurt bij vrijwel elke navigatie. */
+html { scrollbar-gutter: stable; }
+
+/* Hier stond `@view-transition { navigation: auto }` om de navigatie tussen de
+   bijna dertig losse documenten vloeiend te maken. Bij het nalopen bleek elke
+   klik een onopgevangen AbortError ("Transition was skipped") in de console te
+   zetten, ook zonder reduced-motion en zonder onderbroken navigatie. Voor een
+   site die op beoordeling wacht is een console-fout per paginawissel een te
+   hoge prijs voor een verfraaiing, dus is het eruit. Terug te overwegen zodra
+   dat gedrag verklaard of verholpen is. */
+
 .ds {
     background: var(--ds-paper);
     color: var(--ds-ink);
@@ -147,12 +163,11 @@
 
 .ds h1, .ds h2, .ds h3 { margin: 0; text-wrap: balance; }
 
-.ds-display {
-    font-size: var(--ds-t-display);
-    font-weight: 680;
-    letter-spacing: -0.035em;
-    line-height: var(--ds-lh-tight);
-}
+/* Lopende tekst breekt netter met 'pretty': geen weduwe van één woord op de
+   laatste regel en een gelijkmatiger rechterrand. Koppen krijgen 'balance'
+   hierboven, wat voor korte regels de betere van de twee is. */
+.ds p, .ds li, .ds dd { text-wrap: pretty; }
+
 .ds-heading {
     font-size: var(--ds-t-heading);
     font-weight: 660;
@@ -189,10 +204,20 @@
 
 .ds-muted { color: var(--ds-ink-muted); }
 
-/* Knoppen uitsluiten: een link met .ds-knop haalt zijn kleur uit de variant,
-   en .ds a zou daar anders overheen gaan omdat het specifieker is. */
-.ds a:not(.ds-knop) { color: var(--ds-accent); text-underline-offset: 3px; }
-.ds a:not(.ds-knop):hover { color: var(--ds-accent-hover); }
+/* De accentkleur voor links is een standaard, geen voorschrift.
+   Dit stond eerder als `.ds a:not(.ds-knop)`, met specificiteit (0,2,1). Dat
+   verslaat zowat elke component die zijn eigen linkkleur zet, en dat waren er
+   vier: het woordmerk (bedoeld: inkt), de navigatie (inkt-zacht), de voetlinks
+   en elke .ds-keuze-kaart (bedoeld: inherit). Al die declaraties stonden er wel
+   maar deden niets, waardoor de hele site in accentkleur stond.
+
+   :where() maakt de specificiteit nul. De kleur geldt nu voor elke losse link
+   in lopende tekst, en wijkt zodra een component iets anders bepaalt. Een
+   expliciete declaratie verslaat overerving ongeacht specificiteit, dus links
+   binnen gekleurde blokken blijven gewoon accentkleurig. */
+:where(.ds a:not(.ds-knop)) { color: var(--ds-accent); }
+:where(.ds a:not(.ds-knop):hover) { color: var(--ds-accent-hover); }
+.ds a { text-underline-offset: 3px; }
 
 /* ==========================================================================
    Oppervlakken

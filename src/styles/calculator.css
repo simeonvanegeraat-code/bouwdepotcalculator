@@ -8,14 +8,36 @@
 
 .reken { padding-block: var(--ds-5) var(--ds-7); }
 
-.aanhef { margin-bottom: var(--ds-5); }
-.aanhef h1 {
-    font-size: var(--ds-t-title);
-    font-weight: 640;
-    letter-spacing: -0.025em;
-    line-height: 1.2;
-    margin-bottom: var(--ds-2);
+/* Vanaf tabletbreedte meer lucht boven de ingang van de pagina; op telefoon
+   blijft die krap, want daar is verticale ruimte het schaarst. */
+@media (min-width: 768px) {
+    .reken { padding-block: var(--ds-7); }
 }
+
+/* De hero van een rekenpagina.
+   Hier stond een eigen font-size die uitkwam op --ds-t-title, de sectiemaat.
+   Daardoor was de paginatitel even groot als een kop eronder en kleiner dan de
+   .ds-heading verderop: de titel was het kleinste grote ding op de pagina. Deze
+   hero gebruikt nu dezelfde maat als de twintig tekstpagina's.
+
+   De max-width is er zodat de kop over twee regels valt. Zonder die begrenzing
+   liep hij over 1016 van 1080px als één dunne streep, en had de text-wrap:
+   balance uit het designsysteem niets om te balanceren. */
+.aanhef { margin-bottom: var(--ds-6); }
+.aanhef h1 {
+    font-size: var(--ds-t-heading);
+    font-weight: 660;
+    letter-spacing: -0.028em;
+    line-height: var(--ds-lh-tight);
+    margin-bottom: var(--ds-3);
+    /* De ch-eenheid hoort op de kop zelf te staan en niet op de wikkel: daar
+       rekent hij tegen de basistekst van 17px, wat de maat ruim halveert en de
+       kop over drie regels duwde. */
+    max-width: 24ch;
+}
+/* De regel onder de kop is een lead, geen voetnoot: hij vulde het gat tussen
+   40px en 13px niet en las daardoor als kleine lettertjes. */
+.aanhef .ds-lead { margin: 0; max-width: 46ch; }
 
 .reken__grid { display: grid; gap: var(--ds-5); }
 
@@ -447,7 +469,10 @@ select.ds-invoer {
 
 .cat { margin-bottom: var(--ds-6); }
 .cat__kop { margin-bottom: var(--ds-4); }
-.cat__kop h3 {
+/* Een h2, want dit is een onderdeel van het formulier onder de h1; als h3 sloeg
+   de begroting een niveau over. De maat blijft klein: de rangorde in de opmaak
+   hoeft niet dezelfde te zijn als de rangorde in de typografie. */
+.cat__kop h2 {
     font-size: var(--ds-t-lead);
     font-weight: 620;
     letter-spacing: -0.018em;

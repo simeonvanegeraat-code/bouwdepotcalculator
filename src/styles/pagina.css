@@ -31,16 +31,25 @@ body { margin: 0; }
     min-height: 56px;
 }
 
+/* Het woordmerk mag de navigatie overstemmen; eerder waren ze even groot en
+   allebei in accentkleur, waardoor de balk geen rangorde had. "Calculator"
+   krijgt het accent en de rest de inktkleur, zoals de opmaak altijd al bedoelde;
+   het domeinachtervoegsel wijkt naar achter, want dat is het minst van de naam. */
 .merk {
     color: var(--ds-ink);
     flex: none;
     font-size: var(--ds-t-small);
-    font-weight: 640;
-    letter-spacing: -0.015em;
+    font-weight: 660;
+    letter-spacing: -0.02em;
     text-decoration: none;
 }
+/* Pas ruimte voor een groter woordmerk zodra de navigatie niet meer hoeft te
+   schuiven; op telefoon zou het de nav middenin een woord afkappen. */
+@media (min-width: 768px) { .merk { font-size: var(--ds-t-body); } }
 .merk span { color: var(--ds-accent); }
+.merk b { color: var(--ds-ink-faint); font-weight: inherit; }
 .merk:hover { color: var(--ds-ink); }
+.merk:hover span { color: var(--ds-accent-hover); }
 
 .kop nav {
     display: flex;
@@ -50,14 +59,19 @@ body { margin: 0; }
 }
 .kop nav::-webkit-scrollbar { display: none; }
 
+/* Navigatie hoort te wijken. Deze kleur stond er al maar kwam nooit aan, omdat
+   de globale linkregel specifieker was; de balk stond daardoor voluit in
+   accentkleur en concurreerde met de paginatitel. */
 .kop nav a {
-    color: var(--ds-ink-soft);
+    color: var(--ds-ink-muted);
     font-size: var(--ds-t-small);
-    font-weight: 530;
+    font-weight: 520;
     text-decoration: none;
     white-space: nowrap;
 }
 .kop nav a:hover { color: var(--ds-accent); }
+/* De pagina waar je bent mag zich wel melden. */
+.kop nav a[aria-current="page"] { color: var(--ds-ink); font-weight: 600; }
 
 @media (min-width: 768px) { .kop nav { gap: var(--ds-5); } }
 

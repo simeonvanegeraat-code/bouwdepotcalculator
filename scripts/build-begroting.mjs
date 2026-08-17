@@ -45,7 +45,7 @@ const nietVast = posten.categorieen.flatMap((c) => c.posten).filter((p) => !p.va
 
 const categorieen = posten.categorieen.map((c) => `                <section class="cat">
                     <div class="cat__kop">
-                        <h3>${esc(c.naam)}</h3>
+                        <h2>${esc(c.naam)}</h2>
                         <p class="ds-caption">${esc(c.toelichting)}</p>
                     </div>
                     <div class="cat__posten">
@@ -100,7 +100,7 @@ const html = `<!DOCTYPE html>
 <body class="ds">
     <header class="kop no-print">
         <div class="ds-wrap kop__inner">
-            <a class="merk" href="/">Bouwdepot<span>Calculator</span>.nl</a>
+            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
             <nav aria-label="Hoofdnavigatie">
 ${NAV.map(([h, t]) => `                <a href="${h}">${t}</a>`).join('\n')}
             </nav>
@@ -121,7 +121,7 @@ ${NAV.map(([h, t]) => `                <a href="${h}">${t}</a>`).join('\n')}
             <div class="aanhef">
                 <p class="ds-eyebrow">Stap 1 van uw verbouwing</p>
                 <h1 id="reken-titel">Wat gaat uw verbouwing kosten?</h1>
-                <p class="ds-caption">En vooral: welk deel mag uit het bouwdepot en welk deel betaalt u zelf?</p>
+                <p class="ds-lead">En vooral: welk deel mag uit het bouwdepot en welk deel betaalt u zelf?</p>
             </div>
 
             <div class="reken__grid">

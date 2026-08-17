@@ -147,7 +147,7 @@ if (wortel) {
 
             if (!regels) return '';
             return `<tbody class="spec__groep">
-                <tr class="spec__kopregel"><th colspan="4">${cat.querySelector('h3').textContent}</th></tr>
+                <tr class="spec__kopregel"><th colspan="4">${cat.querySelector('.cat__kop :is(h2, h3)').textContent}</th></tr>
                 ${regels}
             </tbody>`;
         }).filter(Boolean).join('');
