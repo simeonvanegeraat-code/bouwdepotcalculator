@@ -3,6 +3,7 @@
 // Die zet onder meer h2 op --color-primary (#000066), wat op een donkere sectie
 // vrijwel onleesbaar wordt.
 import { initSharedFormMemory, setMemoryLockById } from './shared-form-memory';
+import { huidigeBank, opBankwissel, vergoedingsTarief } from './bankkeuze.js';
 import {
     TAX_RULES_2026,
     calculateEffectiveDeductionRate,
@@ -99,17 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const summaryInterest = document.getElementById('sum-interest');
         const summaryDuration = document.getElementById('sum-duration');
         const summaryTax = document.getElementById('sum-tax');
-        const inputCurrentMortgage = document.getElementById('input-current-mortgage');
-        const inputValueAfter = document.getElementById('input-value-after');
-        const inputOwnFunds = document.getElementById('input-own-funds');
-        const inputOutsideCosts = document.getElementById('input-outside-costs');
-        const resValueHeadroom = document.getElementById('res-value-headroom');
-        const resFinancingGap = document.getElementById('res-financing-gap');
-        const resOwnRequired = document.getElementById('res-own-required');
-        const resOwnRemaining = document.getElementById('res-own-remaining');
-        const resPlanStatus = document.getElementById('res-plan-status');
-        const loadRenovationCase = document.getElementById('load-renovation-case');
-        const renovationPlanDetails = document.getElementById('renovation-plan-details');
 
         // --- NIEUW: Snelkeuze & Accordion Variabelen ---
         const costBtns = document.querySelectorAll('.cost-btn');
@@ -136,23 +126,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     interestRate: data.interestRate,
                     durationYears: data.durationYears,
                     taxIndicationEnabled: data.taxIndicationEnabled,
-                    currentMortgage: data.currentMortgage,
-                    valueAfterRenovation: data.valueAfterRenovation,
-                    availableOwnFunds: data.availableOwnFunds,
-                    costsOutsideDepot: data.costsOutsideDepot
+                    geldverstrekker: data.geldverstrekker
                 },
                 results: {
                     netMonthly: data.netMonthly,
                     grossMonthly: data.grossMonthly,
-                    indicativeTaxBenefit: data.taxBenefit,
-                    valueBasedHeadroom: data.valueBasedHeadroom,
-                    financingGapOnValue: data.financingGapOnValue,
-                    ownFundsRequired: data.ownFundsRequired,
-                    ownFundsRemaining: data.ownFundsRemaining
+                    indicativeTaxBenefit: data.taxBenefit
                 },
-                conclusion: `Bij deze invoer geeft het bouwdepot een indicatieve netto maandlast van ${formatEuro(data.netMonthly)} per maand.`,
-                interpretation: data.planConclusion,
-                assumptions: 'Maandlast op basis van bedrag, rente, hypotheekvorm en looptijd. De optionele haalbaarheidscheck gebruikt maximaal 100% van de ingevulde waarde na verbouwing en toetst geen inkomen, energiemaatregelen of acceptatievoorwaarden. De renteaftrekindicatie gebruikt maximaal 37,56%, vóór eigenwoningforfait en zonder persoonlijke aangiftegegevens.'
+                // Zonder renteaftrek is er niets afgetrokken; "netto" zou dan hetzelfde
+                // bedrag een onterecht gunstige naam geven.
+                conclusion: data.taxIndicationEnabled
+                    ? `Bij deze invoer geeft het bouwdepot een indicatieve netto maandlast van ${formatEuro(data.netMonthly)} per maand, na renteaftrek.`
+                    : `Bij deze invoer geeft het bouwdepot een indicatieve bruto maandlast van ${formatEuro(data.netMonthly)} per maand.`,
+                assumptions: 'Maandlast op basis van bedrag, rente, hypotheekvorm en looptijd. De renteaftrekindicatie gebruikt maximaal 37,56%, vóór eigenwoningforfait en zonder persoonlijke aangiftegegevens. Voor waarderuimte en eigen geld staat een aparte berekening op leenruimte.html.'
             };
         }
 
@@ -161,22 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const amount = parseFloat(inputAmount.value) || 0;
             const interest = parseFloat(inputInterest.value) || 0;
             const years = parseInt(rangeDuration.value, 10) || 30;
-            const currentMortgage = parseFloat(inputCurrentMortgage?.value) || 0;
-            const valueAfterRenovation = parseFloat(inputValueAfter?.value) || 0;
-            const availableOwnFunds = parseFloat(inputOwnFunds?.value) || 0;
-            const costsOutsideDepot = parseFloat(inputOutsideCosts?.value) || 0;
-            const valueBasedHeadroom = Math.max(0, valueAfterRenovation - currentMortgage);
-            const financingGapOnValue = Math.max(0, amount - valueBasedHeadroom);
-            const ownFundsRequired = financingGapOnValue + costsOutsideDepot;
-            const ownFundsRemaining = availableOwnFunds - ownFundsRequired;
-            const planConclusion = valueAfterRenovation <= 0
-                ? 'Vul de verwachte woningwaarde na verbouwing in om de waarderuimte te beoordelen.'
-                : ownFundsRemaining > 0
-                    ? `Na het financieringsgat en de kosten buiten het depot blijft in dit model ${formatEuro(ownFundsRemaining)} eigen buffer over.`
-                    : ownFundsRemaining === 0
-                        ? 'Uw beschikbare eigen geld sluit in dit model precies aan; er blijft geen extra buffer over.'
-                        : `Voor dit plan ontbreekt indicatief ${formatEuro(Math.abs(ownFundsRemaining))} aan eigen middelen.`;
-            
+
             valDuration.textContent = `${years} Jaar`;
 
             const monthlyRate = (interest / 100) / 12;
@@ -219,15 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 interestRate: interest,
                 durationYears: years,
                 taxIndicationEnabled: checkAftrek.checked,
-                currentMortgage,
-                valueAfterRenovation,
-                availableOwnFunds,
-                costsOutsideDepot,
-                valueBasedHeadroom,
-                financingGapOnValue,
-                ownFundsRequired,
-                ownFundsRemaining,
-                planConclusion,
+                geldverstrekker: huidigeBank()?.naam || 'Niet opgegeven',
                 netMonthly,
                 grossMonthly,
                 taxBenefit,
@@ -245,6 +208,12 @@ document.addEventListener('DOMContentLoaded', () => {
             resNetto.textContent = formatEuro(netMonthly);
 
             // --- Sticky mobile result bar ---
+            // Het label volgt de renteaftrek, net als de kop bij het bedrag zelf.
+            // Anders staat er "netto" onder een bedrag waar niets van af is.
+            const stickyLabel = document.getElementById('sticky-result-label');
+            if (stickyLabel) {
+                stickyLabel.textContent = checkAftrek.checked ? 'Netto maandlast' : 'Bruto maandlast';
+            }
             const stickyAmount = document.getElementById('sticky-result-amount');
             if (stickyAmount) {
                 stickyAmount.textContent = formatEuro(netMonthly);
@@ -258,17 +227,6 @@ document.addEventListener('DOMContentLoaded', () => {
             void resNetto.offsetWidth;
             resNetto.classList.add('updating');
             setTimeout(() => resNetto.classList.remove('updating'), 500);
-            if (resValueHeadroom) resValueHeadroom.textContent = formatEuro(valueBasedHeadroom);
-            if (resFinancingGap) resFinancingGap.textContent = formatEuro(financingGapOnValue);
-            if (resOwnRequired) resOwnRequired.textContent = formatEuro(ownFundsRequired);
-            if (resOwnRemaining) {
-                resOwnRemaining.textContent = formatEuro(ownFundsRemaining);
-                resOwnRemaining.classList.toggle('is-shortage', ownFundsRemaining < 0);
-            }
-            if (resPlanStatus) {
-                resPlanStatus.textContent = planConclusion;
-                resPlanStatus.classList.toggle('is-shortage', ownFundsRemaining < 0);
-            }
 
             if (summaryAmount) summaryAmount.textContent = formatEuro(reportData.inputs.amount);
             if (summaryType) summaryType.textContent = reportData.inputs.mortgageType;
@@ -393,22 +351,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        if (loadRenovationCase) {
-            loadRenovationCase.addEventListener('click', () => {
-                inputAmount.value = 75000;
-                rangeAmount.value = 75000;
-                inputCurrentMortgage.value = 300000;
-                inputValueAfter.value = 360000;
-                inputOwnFunds.value = 25000;
-                inputOutsideCosts.value = 10000;
-                calculate();
-            });
-        }
-
-        [inputCurrentMortgage, inputValueAfter, inputOwnFunds, inputOutsideCosts].forEach((input) => {
-            if (input) input.addEventListener('input', calculate);
-        });
-
         // Event Listeners Inputs
         if(inputType) inputType.addEventListener('change', calculate);
         rangeAmount.addEventListener('input', (e) => { inputAmount.value = e.target.value; calculate(); });
@@ -418,11 +360,19 @@ document.addEventListener('DOMContentLoaded', () => {
         rangeDuration.addEventListener('input', calculate);
         checkAftrek.addEventListener('change', calculate);
 
-        if (renovationPlanDetails && new URLSearchParams(window.location.search).get('plan') === 'haalbaarheid') {
-            renovationPlanDetails.open = true;
-            setTimeout(() => renovationPlanDetails.scrollIntoView({ block: 'start' }), 0);
+        // De bankkeuze verandert de maandlast niet, maar hoort wel op het overzicht
+        // dat de bezoeker meeneemt naar zijn adviseur.
+        opBankwissel(() => { if (rangeAmount) calculate(); });
+
+        // De haalbaarheidscheck zat hier als uitklapblok en woont nu op een eigen
+        // pagina. Oude links met ?plan=haalbaarheid mogen niet stilletjes op een
+        // pagina uitkomen waar dat blok niet meer bestaat.
+        if (new URLSearchParams(window.location.search).get('plan') === 'haalbaarheid') {
+            const bedrag = Math.round(parseFloat(inputAmount.value) || 0);
+            window.location.replace(bedrag > 0 ? `leenruimte.html?bedrag=${bedrag}` : 'leenruimte.html');
+            return;
         }
-        
+
         if(rangeAmount) calculate();
     }
 
@@ -612,6 +562,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (btn.dataset.pattern) opnamePattern.value = btn.dataset.pattern;
                 calculate();
             });
+        });
+
+        // Twee aanbieders publiceren de vergoeding als "gelijk aan je
+        // hypotheekrente" en een derde als "1% lager"; bij ING is er geen. Die
+        // niveaus kunnen wij invullen. Publiceert de aanbieder het niveau niet,
+        // dan blijft staan wat de bezoeker zelf invulde: een schatting van ons
+        // zou niet van een geverifieerd cijfer te onderscheiden zijn.
+        const depotRateNote = document.getElementById('depot-rate-note');
+        const depotRateNoteBasis = depotRateNote?.innerHTML;
+
+        opBankwissel((bank) => {
+            if (bank && inputDepotRate) {
+                const tarief = vergoedingsTarief(bank, parseFloat(inputRate?.value) || 0);
+                if (tarief != null) inputDepotRate.value = tarief.toFixed(2);
+
+                // Anders staat er een percentage dat van de vorige bank kwam en dat
+                // net zo betrouwbaar lijkt als een cijfer dat we wel kunnen hard maken.
+                if (depotRateNote) {
+                    depotRateNote.innerHTML = tarief == null
+                        ? `<strong>${bank.naam} publiceert niet hoe hoog de vergoeding is</strong>, alleen dat u die ontvangt. Vul hier het percentage uit uw eigen offerte in; wij vullen liever niets in dan een schatting.`
+                        : depotRateNoteBasis;
+                }
+            }
+            calculate();
         });
 
         calculate();
@@ -822,6 +796,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputPattern = document.getElementById('input-renteverlies-pattern');
         const inputModel = document.getElementById('input-renteverlies-model');
         const modelNote = document.getElementById('renteverlies-model-note');
+        const inputPayoutMonths = document.getElementById('input-renteverlies-vergoedingsduur');
+        const payoutNote = document.getElementById('renteverlies-duur-note');
+        const veldPayout = document.getElementById('veld-vergoedingsduur');
 
         const resMortgage = document.getElementById('res-renteverlies-hypotheek');
         const resCompensation = document.getElementById('res-renteverlies-vergoeding');
@@ -840,6 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const sumDepotRate = document.getElementById('sum-renteverlies-depot-rate');
         const sumMonths = document.getElementById('sum-renteverlies-months');
         const sumPattern = document.getElementById('sum-renteverlies-pattern');
+        const sumPayout = document.getElementById('sum-renteverlies-payout');
 
         const scenarioButtons = document.querySelectorAll('.renteverlies-scenario');
 
@@ -911,6 +889,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const monthlyMortgageRate = (mortgageRate / 100) / 12;
             const monthlyDepotRate = model === 'opname' ? 0 : (depotRate / 100) / 12;
 
+            // Vijf van de zes vergeleken aanbieders stoppen de vergoeding voordat het
+            // depot afloopt. Wie daarna nog geld in het depot heeft staan, betaalt wel
+            // rente maar ontvangt niets meer terug. Dat is precies de periode waarin
+            // het renteverlies oploopt, dus die mag niet buiten de berekening blijven.
+            const payoutMonths = inputPayoutMonths
+                ? Math.min(months, Math.max(0, parseInt(inputPayoutMonths.value || '0', 10)))
+                : months;
+
             const weights = getWeights(months, pattern);
             const totalWeight = weights.reduce((sum, weight) => sum + weight, 0) || 1;
 
@@ -924,7 +910,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const endBalance = Math.max(0, remaining - monthlyWithdrawal);
                 const averageBalance = (remaining + endBalance) / 2;
 
-                totalCompensation += averageBalance * monthlyDepotRate;
+                if (i < payoutMonths) totalCompensation += averageBalance * monthlyDepotRate;
 
                 const endWithdrawn = Math.min(depot, withdrawn + monthlyWithdrawal);
                 interestOnWithdrawn += ((withdrawn + endWithdrawn) / 2) * monthlyMortgageRate;
@@ -951,6 +937,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 conclusion = `Bij dit scenario is de depotvergoeding lager dan de hypotheekrente. Daardoor ontstaat een renteverschil van ongeveer ${formatEuro(netDifference)} over ${months} maanden.`;
             }
 
+            // De maanden zonder vergoeding zijn het duurst: volle rente, niets terug.
+            // Wie dat niet apart benoemd ziet, denkt dat het verschil gelijkmatig
+            // over de hele bouwperiode ontstaat.
+            const maandenZonder = months - payoutMonths;
+            if (model !== 'opname' && maandenZonder > 0) {
+                conclusion += ` Over de laatste ${maandenZonder} ${maandenZonder === 1 ? 'maand' : 'maanden'} betaalt u wel rente maar ontvangt u geen vergoeding meer; juist daar loopt het verschil op.`;
+            }
+
             if (inputDepotRate) {
                 inputDepotRate.disabled = model === 'opname';
                 // .ds-veld is de wikkel in het nieuwe ontwerp; .input-group nog in de oude.
@@ -967,8 +961,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const assumptions = model === 'opname'
                 ? 'Indicatieve maandbenadering waarbij alleen rente wordt gerekend over het reeds opgenomen bedrag; werkelijke bankboekingen en opnamedata kunnen afwijken.'
-                : 'Indicatieve maandbenadering op basis van gekozen opnamepatroon; werkelijke bankboekingen en opnamedata kunnen afwijken.';
+                : `Indicatieve maandbenadering op basis van gekozen opnamepatroon, met vergoeding over de eerste ${payoutMonths} van de ${months} maanden; werkelijke bankboekingen en opnamedata kunnen afwijken.`;
             const now = new Date();
+
+            if (veldPayout) veldPayout.hidden = model === 'opname';
+            if (payoutNote) {
+                payoutNote.textContent = model === 'opname'
+                    ? 'In dit rekenmodel bestaat er geen depotvergoeding, dus ook geen vergoedingsduur.'
+                    : maandenZonder > 0
+                        ? `Vanaf maand ${payoutMonths + 1} ontvangt u geen vergoeding meer over wat er nog staat. Dat is ${maandenZonder} van uw ${months} maanden.`
+                        : 'De vergoeding loopt in dit scenario door tot het einde van uw bouwperiode.';
+            }
 
             if (patternNote) patternNote.textContent = patternDescriptions[pattern] || patternDescriptions.even;
             if (resMortgage) resMortgage.textContent = formatEuro(totalMortgageInterest);
@@ -985,6 +988,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (sumDepotRate) sumDepotRate.textContent = model === 'opname' ? 'Niet van toepassing' : formatPercentage(depotRate);
             if (sumMonths) sumMonths.textContent = `${months} maanden`;
             if (sumPattern) sumPattern.textContent = patternLabels[pattern] || pattern;
+            if (sumPayout) sumPayout.textContent = model === 'opname' ? 'Niet van toepassing' : `${payoutMonths} maanden`;
 
             const report = buildRenteverliesReport({
                 depotAmount: depot,
@@ -1014,12 +1018,32 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        [inputDepot, inputMortgageRate, inputDepotRate, inputMonths].forEach((el) => {
+        [inputDepot, inputMortgageRate, inputDepotRate, inputMonths, inputPayoutMonths].forEach((el) => {
             if (el) el.addEventListener('input', calculate);
         });
 
         if (inputPattern) inputPattern.addEventListener('change', calculate);
         if (inputModel) inputModel.addEventListener('change', calculate);
+
+        // Wie zijn bank kiest, hoeft het rekenmodel en de vergoedingsduur niet zelf
+        // op te zoeken; dat zijn juist de twee dingen die niemand uit zijn hoofd
+        // weet en die de uitkomst het sterkst bepalen. Beide blijven daarna met de
+        // hand aan te passen: de bezoeker kent zijn eigen offerte beter dan wij.
+        opBankwissel((bank) => {
+            if (!bank) return;
+            if (inputModel) {
+                inputModel.value = bank.vergoeding.model === 'rente-alleen-over-opgenomen' ? 'opname' : 'vergoeding';
+            }
+            const duur = bank.vergoeding.maanden.verbouw;
+            if (inputPayoutMonths && typeof duur === 'number') inputPayoutMonths.value = duur;
+            // Publiceert de aanbieder het vergoedingsniveau, dan vullen we het in;
+            // anders blijft het percentage van de bezoeker staan.
+            if (inputDepotRate) {
+                const tarief = vergoedingsTarief(bank, parseFloat(inputMortgageRate?.value) || 0);
+                if (tarief != null) inputDepotRate.value = tarief.toFixed(2);
+            }
+            calculate();
+        });
 
         scenarioButtons.forEach((button) => {
             button.addEventListener('click', () => {

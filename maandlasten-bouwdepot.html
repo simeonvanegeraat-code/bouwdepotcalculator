@@ -97,6 +97,12 @@
                 </div>
 
                 <div class="reken__invoer">
+                    <div data-bankkeuze style="margin-bottom: var(--ds-5)"></div>
+
+                    <div class="bankmelding" data-bank-toont="geenVergoeding" hidden style="margin-bottom: var(--ds-5)">
+                        <p><strong>Let op:</strong> <span data-bank-naam></span> betaalt geen depotvergoeding, maar rekent ook geen hypotheekrente over het deel dat nog in het depot staat. Wij hebben de vergoeding daarom op nul gezet. Uw werkelijke maandlast tijdens de bouw begint dan lager en loopt op naarmate u opneemt.</p>
+                    </div>
+
                     <div class="ds-chips" role="group" aria-label="Voorbeeldscenario's" style="margin-bottom: var(--ds-5)">
                         <button type="button" class="ds-chip scenario-btn" data-mortgage="325000" data-depot="25000" data-rate="3.7" data-depot-rate="3.0" data-months="10" data-housing="0" data-pattern="even">Depot &euro; 25.000</button>
                         <button type="button" class="ds-chip scenario-btn" data-mortgage="400000" data-depot="50000" data-rate="3.8" data-depot-rate="3.0" data-months="12" data-housing="0" data-pattern="even">Depot &euro; 50.000</button>
@@ -120,7 +126,7 @@
                         <div class="ds-veld">
                             <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-depot-rate">Depotvergoeding</label></div>
                             <div class="suffix-veld"><input class="ds-invoer" type="number" id="input-depot-rate" value="3.00" min="0" max="15" step="0.01" inputmode="decimal"><span>%</span></div>
-                            <p class="ds-caption">Nul invullen als uw aanbieder geen vergoeding betaalt. <a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet uw bank?</a></p>
+                            <p class="ds-caption" id="depot-rate-note">Nul invullen als uw aanbieder geen vergoeding betaalt. <a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet uw bank?</a></p>
                         </div>
                     </div>
 

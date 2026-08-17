@@ -6,7 +6,7 @@
     "looptijdVerbouwMaanden": "Standaardlooptijd depot bij verbouwing bestaande woning",
     "looptijdNieuwbouwMaanden": "Standaardlooptijd depot bij nieuwbouw",
     "verlengingMaanden": "Eenmalige verlenging indien mogelijk",
-    "rentevergoeding": "Wat je aan rente ontvangt over het saldo in het depot",
+    "rentevergoeding": "Wat je aan rente ontvangt over het saldo in het depot. 'model' zegt hoe de aanbieder rekent: 'beperkt-in-duur' betekent vergoeding over een deel van de looptijd, 'rente-alleen-over-opgenomen' betekent geen rente over het depotsaldo maar ook geen rentelast erover. 'vergoedingMaanden' is het aantal maanden waarover vergoeding loopt, afgeleid uit het detail hiernaast; nul betekent geen vergoeding. 'tarief' zegt hoe hoog de vergoeding is ten opzichte van de hypotheekrente: 'gelijk-aan-hypotheekrente', 'hypotheekrente-min-1', 'geen', of 'niet-gepubliceerd' als de aanbieder het niveau niet noemt. Alleen de eerste twee zijn te berekenen; bij 'niet-gepubliceerd' vullen wij nooit een schatting in.",
     "opnamemethode": "declaratie = bank keurt vooraf goed; zelf-betalen = je betaalt direct vanuit het depot",
     "maxPerOpname": "Grens per opname. Bij declareren het maximum per declaratie; bij zelf overboeken bestaat zo'n productgrens niet.",
     "minPerOpname": "Minimumbedrag per declaratie",
@@ -32,7 +32,10 @@
       },
       "rentevergoeding": {
         "waarde": "Ja, maar niet de hele verlenging",
-        "detail": "Tijdens de standaardlooptijd ontvangt u vergoeding. Verlengt u, dan krijgt u over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen."
+        "detail": "Tijdens de standaardlooptijd ontvangt u vergoeding. Verlengt u, dan krijgt u over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": { "verbouw": 18, "nieuwbouw": 30 },
+        "tarief": { "verbouw": "niet-gepubliceerd", "nieuwbouw": "niet-gepubliceerd" }
       },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
@@ -94,7 +97,10 @@
       },
       "rentevergoeding": {
         "waarde": "Ja, gelijk aan je hypotheekrente bij aanvang",
-        "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. Na verlenging voorbij 2 jaar ontvang je geen rente meer."
+        "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. Na verlenging voorbij 2 jaar ontvang je geen rente meer.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": { "verbouw": 24, "nieuwbouw": 24 },
+        "tarief": { "verbouw": "gelijk-aan-hypotheekrente", "nieuwbouw": "gelijk-aan-hypotheekrente" }
       },
       "opnamemethode": "zelf-betalen",
       "maxPerOpname": {
@@ -159,7 +165,10 @@
       },
       "rentevergoeding": {
         "waarde": "Geen",
-        "detail": "ING hanteert een afwijkend model: je betaalt alleen rente over het bedrag dat je al hebt opgenomen. Over het saldo dat nog in het depot staat betaal je geen rente en ontvang je ook geen rente. Voor de belastingaangifte vul je EUR 0,00 aan ontvangen rente in."
+        "detail": "ING hanteert een afwijkend model: je betaalt alleen rente over het bedrag dat je al hebt opgenomen. Over het saldo dat nog in het depot staat betaal je geen rente en ontvang je ook geen rente. Voor de belastingaangifte vul je EUR 0,00 aan ontvangen rente in.",
+        "model": "rente-alleen-over-opgenomen",
+        "vergoedingMaanden": { "verbouw": 0, "nieuwbouw": 0 },
+        "tarief": { "verbouw": "geen", "nieuwbouw": "geen" }
       },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
@@ -243,7 +252,10 @@
       },
       "rentevergoeding": {
         "waarde": "Ja, maar beperkt in duur",
-        "detail": "Bij bestaande bouw over de eerste 12 maanden. Bij nieuwbouw en energiebesparende maatregelen over de eerste 24 maanden."
+        "detail": "Bij bestaande bouw over de eerste 12 maanden. Bij nieuwbouw en energiebesparende maatregelen over de eerste 24 maanden.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": { "verbouw": 12, "nieuwbouw": 24 },
+        "tarief": { "verbouw": "niet-gepubliceerd", "nieuwbouw": "niet-gepubliceerd" }
       },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
@@ -300,7 +312,10 @@
       },
       "rentevergoeding": {
         "waarde": "Ja, gelijk aan je hypotheekrente",
-        "detail": "Bij meerdere leningdelen met verschillende rentes ontvang je een gewogen gemiddelde van die rentes. De vergoeding stopt na 18 maanden bij verbouwing van een bestaande woning en na 30 maanden bij nieuwbouw."
+        "detail": "Bij meerdere leningdelen met verschillende rentes ontvang je een gewogen gemiddelde van die rentes. De vergoeding stopt na 18 maanden bij verbouwing van een bestaande woning en na 30 maanden bij nieuwbouw.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": { "verbouw": 18, "nieuwbouw": 30 },
+        "tarief": { "verbouw": "gelijk-aan-hypotheekrente", "nieuwbouw": "gelijk-aan-hypotheekrente" }
       },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
@@ -362,7 +377,10 @@
       },
       "rentevergoeding": {
         "waarde": "Ja, maar verschilt per depotsoort",
-        "detail": "Bij het nieuwbouwdepot is de vergoeding gelijk aan de gemiddelde rente die je over je hypotheek betaalt. Bij het verbouwdepot ligt de vergoeding 1% lager dan die gemiddelde hypotheekrente. De vergoeding loopt 24 maanden bij nieuwbouw en 12 maanden bij verbouwing, en wordt automatisch verrekend met je maandbedrag."
+        "detail": "Bij het nieuwbouwdepot is de vergoeding gelijk aan de gemiddelde rente die je over je hypotheek betaalt. Bij het verbouwdepot ligt de vergoeding 1% lager dan die gemiddelde hypotheekrente. De vergoeding loopt 24 maanden bij nieuwbouw en 12 maanden bij verbouwing, en wordt automatisch verrekend met je maandbedrag.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": { "verbouw": 12, "nieuwbouw": 24 },
+        "tarief": { "verbouw": "hypotheekrente-min-1", "nieuwbouw": "gelijk-aan-hypotheekrente" }
       },
       "opnamemethode": "declaratie",
       "maxPerOpname": {

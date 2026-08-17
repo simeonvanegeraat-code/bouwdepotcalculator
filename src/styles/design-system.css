@@ -494,6 +494,17 @@
     padding-top: var(--ds-2);
 }
 
+/* Een losse verwijzing tussen invoervelden. Zelfde kaart, maar ingetogener:
+   hij staat tussen het formulier en mag niet met de invoer concurreren. */
+.ds-keuze--inline {
+    background: var(--ds-surface-sunk);
+    border-radius: var(--ds-r-md);
+    gap: var(--ds-1);
+    padding: var(--ds-4);
+}
+.ds-keuze--inline .ds-keuze__titel { font-size: var(--ds-t-body); }
+.ds-keuze--inline:hover { box-shadow: var(--ds-shadow-1); transform: none; border-color: var(--ds-line-strong); }
+
 /* ==========================================================================
    Ritme: secties moeten niet allemaal hetzelfde voelen
    ========================================================================== */

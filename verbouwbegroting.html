@@ -101,6 +101,12 @@
                         <p>Wat wij wél toevoegen: per post of die doorgaans uit het bouwdepot mag. Dat is afgeleid uit wat de 6 vergeleken geldverstrekkers zelf publiceren.</p>
                     </div>
 
+                    <div data-bankkeuze class="no-print" style="margin-bottom: var(--ds-5)"></div>
+
+                    <div class="bankmelding no-print" id="begroting-bankmelding" hidden style="margin-bottom: var(--ds-5)">
+                        <p id="begroting-bankmelding-tekst"></p>
+                    </div>
+
                 <section class="cat">
                     <div class="cat__kop">
                         <h3>Ruwbouw en constructie</h3>
@@ -112,7 +118,7 @@
                                 <label for="post-uitbouw">Uitbouw of aanbouw</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door ING</small>
+                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -130,7 +136,7 @@
                                 <label for="post-dakkapel">Dakkapel</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door ING</small>
+                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -166,7 +172,7 @@
                                 <label for="post-aannemer">Aannemer, arbeidsloon</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door Rabobank</small>
+                                <small class="post__bron" data-genoemd-door="rabobank">Expliciet genoemd door Rabobank</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -184,7 +190,7 @@
                                 <label for="post-architect">Architect of constructeur</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door Rabobank</small>
+                                <small class="post__bron" data-genoemd-door="rabobank">Expliciet genoemd door Rabobank</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -202,7 +208,7 @@
                                 <label for="post-bouwmaterialen">Bouwmaterialen</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door Rabobank</small>
+                                <small class="post__bron" data-genoemd-door="rabobank">Expliciet genoemd door Rabobank</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -220,7 +226,7 @@
                                 <label for="post-asbest">Asbestverwijdering bij verbouwing</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door ING</small>
+                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -246,7 +252,7 @@
                                 <label for="post-keuken">Keuken met inbouwapparatuur</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door ABN AMRO, Rabobank, ING</small>
+                                <small class="post__bron" data-genoemd-door="abn-amro rabobank ing">Expliciet genoemd door ABN AMRO, Rabobank, ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -282,7 +288,7 @@
                                 <label for="post-badkamer">Badkamer, vast sanitair en tegelwerk</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door Rabobank, ING</small>
+                                <small class="post__bron" data-genoemd-door="rabobank ing">Expliciet genoemd door Rabobank, ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -326,7 +332,7 @@
                                 <label for="post-vloer-vast">Vloer die vastzit, zoals gelijmd parket of tegels</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door ABN AMRO, ING</small>
+                                <small class="post__bron" data-genoemd-door="abn-amro ing">Expliciet genoemd door ABN AMRO, ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -362,7 +368,7 @@
                                 <label for="post-kozijnen">Kozijnen, ramen en deuren</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door ING</small>
+                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -398,7 +404,7 @@
                                 <label for="post-schilderwerk">Onderhoudsschilderwerk</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door ING</small>
+                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -416,7 +422,7 @@
                                 <label for="post-verlichting-vast">Ingebouwde verlichting, zoals inbouwspots</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door ING</small>
+                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -550,7 +556,7 @@
                                 <label for="post-zonnepanelen">Zonnepanelen</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door ING</small>
+                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -630,7 +636,7 @@
                                 <label for="post-tuin">Aanleg, onderhoud en inrichting van de tuin</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 <small class="post__letop">ING noemt de tuin expliciet als declarabel. Niet elke aanbieder doet dat; controleer uw eigen voorwaarden.</small>
-                                <small class="post__bron">Expliciet genoemd door ING</small>
+                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -648,7 +654,7 @@
                                 <label for="post-zonwering">Op maat gemaakte zonwering, vast bevestigd</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron">Expliciet genoemd door ING</small>
+                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">

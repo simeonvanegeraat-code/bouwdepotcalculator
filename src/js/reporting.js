@@ -9,6 +9,7 @@ import { jsPDF } from 'jspdf';
         interestRate: { label: 'Hypotheekrente', type: 'percentage' },
         durationYears: { label: 'Looptijd', type: 'years' },
         taxIndicationEnabled: { label: 'Belastingindicatie', type: 'boolean' },
+        geldverstrekker: { label: 'Geldverstrekker', type: 'text' },
         netMonthly: { label: 'Netto per maand', type: 'currency' },
         grossMonthly: { label: 'Bruto per maand', type: 'currency' },
         indicativeTaxBenefit: { label: 'Indicatief belastingvoordeel', type: 'currency' },

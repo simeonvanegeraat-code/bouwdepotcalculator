@@ -56,7 +56,7 @@ ${c.posten.map((p) => `                        <div class="post${p.vastAanWoning
                                   ? '<span class="merkje merkje--depot">uit depot</span>'
                                   : '<span class="merkje merkje--eigen">eigen geld</span>'}</span>
                                 ${p.let_op ? `<small class="post__letop">${esc(p.let_op)}</small>` : ''}
-                                ${p.genoemdDoor?.length ? `<small class="post__bron">Expliciet genoemd door ${p.genoemdDoor.map(naamVan).map(esc).join(', ')}</small>` : ''}
+                                ${p.genoemdDoor?.length ? `<small class="post__bron" data-genoemd-door="${esc(p.genoemdDoor.join(' '))}">Expliciet genoemd door ${p.genoemdDoor.map(naamVan).map(esc).join(', ')}</small>` : ''}
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
@@ -172,6 +172,12 @@ ${NAV.map(([h, t]) => `                <a href="${h}">${t}</a>`).join('\n')}
                     <div class="melding no-print" style="margin-bottom: var(--ds-5)">
                         <p><strong>Wij vullen bewust geen prijzen voor u in.</strong> Verbouwkosten verschillen te sterk per woning, regio en uitvoering om een bedrag te noemen dat wij kunnen onderbouwen. Gebruik uw eigen offertes; dat is bovendien wat uw geldverstrekker wil zien.</p>
                         <p>Wat wij wél toevoegen: per post of die doorgaans uit het bouwdepot mag. Dat is afgeleid uit wat de ${banken.aanbieders.length} vergeleken geldverstrekkers zelf publiceren.</p>
+                    </div>
+
+                    <div data-bankkeuze class="no-print" style="margin-bottom: var(--ds-5)"></div>
+
+                    <div class="bankmelding no-print" id="begroting-bankmelding" hidden style="margin-bottom: var(--ds-5)">
+                        <p id="begroting-bankmelding-tekst"></p>
                     </div>
 
 ${categorieen}

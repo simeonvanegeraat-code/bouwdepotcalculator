@@ -12,6 +12,8 @@
  * Alles blijft in localStorage op het apparaat van de bezoeker.
  */
 
+import { opBankwissel } from './bankkeuze.js';
+
 const wortel = document.getElementById('begroting');
 
 if (wortel) {
@@ -123,6 +125,53 @@ if (wortel) {
     });
 
     el('begroting-printen')?.addEventListener('click', () => window.print());
+
+    /* ------------------------------------------------------------- bankkeuze */
+
+    // De data houdt per post bij welke aanbieders die post bij naam noemen. Dat
+    // stond er al als opsomming van alle zes; wie zijn eigen bank kiest wil weten
+    // welke regel over hem gaat. Markeren is bewust eenrichtingsverkeer: geen
+    // markering betekent niet dat de bank de post afwijst, want vrijwel geen
+    // aanbieder publiceert een volledige lijst.
+    //
+    // Drie van de zes aanbieders noemen geen enkele post bij naam. Een uitleg over
+    // markeringen die dan nergens verschijnt is een loze belofte, dus de tekst
+    // volgt het werkelijke aantal in plaats van de keuze.
+    const bronnen = Array.from(wortel.querySelectorAll('[data-genoemd-door]'));
+    const melding = el('begroting-bankmelding');
+    const meldingTekst = el('begroting-bankmelding-tekst');
+
+    opBankwissel((bank) => {
+        let aantal = 0;
+
+        for (const bron of bronnen) {
+            const genoemd = !!bank && bron.dataset.genoemdDoor.split(' ').includes(bank.id);
+            if (genoemd) aantal += 1;
+            bron.closest('.post')?.classList.toggle('post--eigen-bank', genoemd);
+            let merk = bron.parentElement.querySelector('.merkje--eigenbank');
+            if (genoemd && !merk) {
+                merk = document.createElement('span');
+                merk.className = 'merkje merkje--eigenbank';
+                merk.textContent = 'uw bank';
+                bron.parentElement.querySelector('.post__merk')?.append(merk);
+            } else if (!genoemd && merk) {
+                merk.remove();
+            }
+        }
+
+        if (!melding || !meldingTekst) return;
+        melding.hidden = !bank;
+        if (!bank) return;
+
+        meldingTekst.textContent = aantal > 0
+            ? `${bank.naam} noemt ${aantal} van deze posten in de eigen voorwaarden bij naam. Die staan hieronder gemarkeerd. Dat een post niet gemarkeerd is zegt niets over goedkeuring: geen enkele aanbieder publiceert een volledige lijst.`
+            : `${bank.naam} publiceert geen lijst met posten die wel of niet uit het depot mogen, alleen de algemene regel dat het om verbeteringen moet gaan die vast aan de woning zitten. Hieronder is daarom niets voor uw bank gemarkeerd; vraag twijfelgevallen schriftelijk na en bewaar het antwoord.`;
+
+        const link = document.createElement('a');
+        link.href = bank.pagina;
+        link.textContent = ` Voorwaarden van ${bank.naam}`;
+        meldingTekst.append(link);
+    });
 
     herstel();
     bereken();

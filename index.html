@@ -92,6 +92,28 @@
                         </div>
                     </div>
 
+                    <!-- De voorwaarden van de eigen bank naast de uitkomst. Eenmaal
+                         gekozen loopt die keuze mee naar de andere rekenpagina's. -->
+                    <div class="bankstrook no-print" style="margin-top: var(--ds-4)">
+                        <p class="bankstrook__kop">
+                            <span>Uw bouwdepot bij <span data-bank-naam>uw geldverstrekker</span></span>
+                            <a data-bank-link href="#" hidden>Alle voorwaarden &rarr;</a>
+                        </p>
+                        <div data-bankkeuze></div>
+                        <dl class="bankstrook__feiten" data-bank-toont="gekozen" hidden>
+                            <div><dt>Depot bij verbouwing</dt><dd data-bank-veld="maximaalVerbouw">&mdash;</dd></div>
+                            <div><dt>Depot bij nieuwbouw</dt><dd data-bank-veld="maximaalNieuwbouw">&mdash;</dd></div>
+                            <div><dt>Vergoeding over uw saldo</dt><dd data-bank-veld="vergoeding">&mdash;</dd></div>
+                            <div><dt>Geld opnemen</dt><dd data-bank-veld="opnamemethode">&mdash;</dd></div>
+                        </dl>
+                        <div class="bankmelding" data-bank-toont="geenVergoeding" hidden>
+                            <p><strong>Let op:</strong> <span data-bank-naam></span> vergoedt geen rente over uw depotsaldo, maar rekent er ook geen rente over. U betaalt alleen over wat u al hebt opgenomen. De maandlast hierboven gaat uit van het volledige bedrag en is bij deze aanbieder dus pas aan de orde als het depot leeg is.</p>
+                        </div>
+                        <div class="bankmelding" data-bank-toont="vergoedingStoptEerder" hidden>
+                            <p><strong>Let op:</strong> bij <span data-bank-naam></span> loopt de depotvergoeding <span data-bank-veld="vergoedingVerbouw"></span> bij verbouwing, terwijl het depot langer kan doorlopen. Over die laatste maanden betaalt u wel rente en ontvangt u niets meer. <a href="renteverlies-bouwdepot.html">Bereken wat dat kost</a>.</p>
+                        </div>
+                    </div>
+
                     <p class="ds-caption no-print" style="margin-top: var(--ds-3)">Indicatief hulpmiddel. Uw werkelijke last hangt af van acceptatie, productvoorwaarden en uw fiscale situatie.</p>
                 </div>
 
@@ -149,43 +171,14 @@
                         <span>Toon renteaftrekindicatie <small>Maximaal 37,56%, vóór eigenwoningforfait</small></span>
                     </label>
 
-                    <!-- Optionele tweede stap: bewust ingeklapt, want dit is extra invoer. -->
-                    <details class="uitleg-details" id="renovation-plan-details">
-                        <summary>Ook waarderuimte en eigen geld toetsen</summary>
-                        <div class="uitleg-details__body">
-                            <p class="ds-caption">Alleen een waardetoets en kasstroomcheck. Uw inkomen en de acceptatievoorwaarden worden hier niet beoordeeld.</p>
-
-                            <div class="veldrij veldrij--twee">
-                                <div class="ds-veld">
-                                    <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-current-mortgage">Huidige hypotheek</label></div>
-                                    <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="input-current-mortgage" value="300000" min="0" step="1000" inputmode="numeric"></div>
-                                </div>
-                                <div class="ds-veld">
-                                    <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-value-after">Waarde na verbouwing</label></div>
-                                    <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="input-value-after" value="360000" min="0" step="1000" inputmode="numeric"></div>
-                                </div>
-                                <div class="ds-veld">
-                                    <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-own-funds">Beschikbaar eigen geld</label></div>
-                                    <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="input-own-funds" value="25000" min="0" step="500" inputmode="numeric"></div>
-                                </div>
-                                <div class="ds-veld">
-                                    <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-outside-costs">Kosten buiten depot</label></div>
-                                    <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="input-outside-costs" value="10000" min="0" step="500" inputmode="numeric"></div>
-                                </div>
-                            </div>
-
-                            <button class="ds-knop ds-knop--rustig" id="load-renovation-case" type="button">Laad praktijkcase van &euro; 75.000</button>
-
-                            <dl class="ds-uitsplitsing" aria-live="polite">
-                                <div><span>Theoretische ruimte op waarde</span><strong id="res-value-headroom">&euro; 0</strong></div>
-                                <div><span>Niet gedekt door waarderuimte</span><strong id="res-financing-gap">&euro; 0</strong></div>
-                                <div><span>Eigen geld nodig in dit model</span><strong id="res-own-required">&euro; 0</strong></div>
-                                <div><span>Eigen buffer daarna</span><strong id="res-own-remaining">&euro; 0</strong></div>
-                            </dl>
-                            <p class="ds-caption" id="res-plan-status">Vul uw gegevens in om de waarderuimte te controleren.</p>
-                            <p class="ds-caption">Hoofdregel is maximaal 100% van de woningwaarde. Inkomen, energiemaatregelen, overwaarde en taxatie kunnen uw werkelijke financiering veranderen.</p>
-                        </div>
-                    </details>
+                    <!-- De waardetoets stond hier als uitklapblok en heeft sinds kort
+                         een eigen pagina. Op twee plaatsen onderhouden loopt vroeg of
+                         laat uit elkaar, dus staat hier alleen nog de verwijzing. -->
+                    <a class="ds-keuze ds-keuze--inline" href="leenruimte.html">
+                        <span class="ds-keuze__titel">Kunt u dit bedrag wel lenen?</span>
+                        <span class="ds-keuze__uitleg">Toets uw waarderuimte en eigen geld tegen de woningwaarde na verbouwing.</span>
+                        <span class="ds-keuze__meta">Leenruimte berekenen &rarr;</span>
+                    </a>
 
                     <!-- Budget samenstellen: optioneel, dus dicht bij start. -->
                     <div class="budget">
@@ -328,7 +321,7 @@
 
     <!-- Blijft: springt naar de uitkomst op mobiel. -->
     <div class="sticky-result-bar" id="sticky-result-bar" role="status" aria-live="polite">
-        <span class="sticky-result-bar__label">Netto maandlast</span>
+        <span class="sticky-result-bar__label" id="sticky-result-label">Bruto maandlast</span>
         <span class="sticky-result-bar__amount tnum" id="sticky-result-amount">&euro; 0</span>
         <span class="sticky-result-bar__arrow" aria-hidden="true">&uarr;</span>
     </div>

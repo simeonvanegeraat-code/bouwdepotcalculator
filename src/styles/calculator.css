@@ -487,6 +487,11 @@ select.ds-invoer {
 .merkje--depot { background: var(--ds-accent-wash); color: var(--ds-accent); }
 .merkje--eigen { background: var(--ds-surface); color: var(--ds-warn); }
 
+/* Posten die de gekozen bank zelf bij naam noemt. Een lijn links in plaats van
+   een vlak: de post moet opvallen zonder de depot-markering te overschreeuwen. */
+.merkje--eigenbank { background: var(--ds-accent); color: var(--ds-surface); }
+.post--eigen-bank { box-shadow: inset 3px 0 0 var(--ds-accent); }
+
 .post__letop, .post__bron {
     color: var(--ds-ink-muted);
     display: block;

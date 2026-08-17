@@ -76,6 +76,7 @@
                                     <li><span>Hypotheekrente</span><strong id="sum-renteverlies-mortgage-rate">-</strong></li>
                                     <li><span>Depotvergoeding</span><strong id="sum-renteverlies-depot-rate">-</strong></li>
                                     <li><span>Bouwperiode</span><strong id="sum-renteverlies-months">-</strong></li>
+                                    <li><span>Vergoeding loopt</span><strong id="sum-renteverlies-payout">-</strong></li>
                                     <li><span>Opnamepatroon</span><strong id="sum-renteverlies-pattern">-</strong></li>
                                 </ul>
                                 <p class="ds-caption" id="report-renteverlies-generated-at">Berekening klaar voor vergelijking.</p>
@@ -94,13 +95,15 @@
                 </div>
 
                 <div class="reken__invoer">
+                    <div data-bankkeuze style="margin-bottom: var(--ds-5)"></div>
+
                     <div class="ds-veld">
                         <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-renteverlies-model">Hoe rekent uw geldverstrekker?</label></div>
                         <select class="ds-invoer" id="input-renteverlies-model">
                             <option value="vergoeding">Rente over het hele depot, mét vergoeding</option>
                             <option value="opname">Alleen rente over het opgenomen deel</option>
                         </select>
-                        <p class="ds-caption">Dit bepaalt of er überhaupt renteverlies kan ontstaan. <a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet uw bank?</a></p>
+                        <p class="ds-caption">Dit bepaalt of er überhaupt renteverlies kan ontstaan. Kiest u hierboven uw bank, dan vullen wij het in. <a href="bouwdepot-voorwaarden-vergelijken.html">Alle aanbieders vergelijken</a>.</p>
                         <p class="notitie" id="renteverlies-model-note" aria-live="polite" style="margin-top: var(--ds-3)"></p>
                     </div>
 
@@ -134,6 +137,14 @@
                             <span class="ds-veld__waarde tnum"><input class="ds-invoer ds-invoer--kort" type="number" id="input-renteverlies-maanden" value="12" min="1" max="36" step="1" inputmode="numeric"> mnd</span>
                         </div>
                         <input class="ds-schuif" type="range" id="range-renteverlies-maanden" min="1" max="36" step="1" value="12" aria-label="Bouwperiode in maanden">
+                    </div>
+
+                    <div class="ds-veld" id="veld-vergoedingsduur">
+                        <div class="ds-veld__kop">
+                            <label class="ds-veld__naam" for="input-renteverlies-vergoedingsduur">Vergoeding loopt</label>
+                            <span class="ds-veld__waarde tnum"><input class="ds-invoer ds-invoer--kort" type="number" id="input-renteverlies-vergoedingsduur" value="12" min="0" max="36" step="1" inputmode="numeric"> mnd</span>
+                        </div>
+                        <p class="ds-caption" id="renteverlies-duur-note">Vrijwel geen enkele aanbieder vergoedt de hele looptijd. Staat dit getal lager dan uw bouwperiode, dan telt de vergoeding alleen over de eerste maanden mee.</p>
                     </div>
 
                     <div class="ds-veld">

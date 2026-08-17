@@ -573,3 +573,94 @@ body { margin: 0; }
     line-height: 1.45;
     margin-top: var(--ds-1);
 }
+
+/* ------------------------------------------------------------ bankkeuze
+   Eén keuze die op elke rekenpagina terugkomt. Bewust rustig vormgegeven:
+   het is context bij de berekening, geen tweede call-to-action die met de
+   uitkomst om aandacht concurreert. */
+
+.bankkeuze {
+    background: var(--ds-accent-wash);
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-md);
+    padding: var(--ds-4);
+    display: grid;
+    gap: var(--ds-2);
+}
+
+.bankkeuze__label {
+    font-size: var(--ds-t-small);
+    font-weight: 600;
+    color: var(--ds-ink);
+}
+
+.bankkeuze__kiezer { max-width: 26rem; }
+
+.bankkeuze__uitleg { margin: 0; }
+
+.bankkeuze__meer { display: inline-block; margin-top: var(--ds-1); }
+
+/* Een veld waar nog geen bank voor gekozen is toont een streepje. Dat moet
+   leesbaar zijn maar niet de aandacht trekken die een echt cijfer verdient. */
+.bank-veld--leeg { color: var(--ds-ink-faint); }
+
+/* De strook met voorwaarden van de gekozen bank, naast de uitkomst. */
+.bankstrook {
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-md);
+    background: var(--ds-surface);
+    padding: var(--ds-4);
+    display: grid;
+    gap: var(--ds-3);
+}
+
+.bankstrook__kop {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--ds-2);
+    margin: 0;
+    font-size: var(--ds-t-small);
+    font-weight: 600;
+}
+
+.bankstrook__kop a { font-weight: 400; font-size: var(--ds-t-caption); }
+
+.bankstrook__feiten {
+    display: grid;
+    gap: var(--ds-2);
+    margin: 0;
+}
+
+.bankstrook__feiten > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--ds-4);
+    font-size: var(--ds-t-small);
+    padding-bottom: var(--ds-2);
+    border-bottom: 1px solid var(--ds-line);
+}
+
+.bankstrook__feiten > div:last-child { border-bottom: 0; padding-bottom: 0; }
+.bankstrook__feiten dt { color: var(--ds-ink-muted); }
+.bankstrook__feiten dd { margin: 0; font-weight: 600; text-align: right; }
+
+/* Waarschuwing die alleen bij bepaalde aanbieders verschijnt. */
+.bankmelding {
+    border-left: 3px solid var(--ds-warn);
+    background: var(--ds-warn-wash);
+    border-radius: 0 var(--ds-r-sm) var(--ds-r-sm) 0;
+    padding: var(--ds-3) var(--ds-4);
+    font-size: var(--ds-t-small);
+    line-height: var(--ds-lh-body);
+}
+
+.bankmelding p { margin: 0; }
+.bankmelding p + p { margin-top: var(--ds-2); }
+
+@media print {
+    .bankkeuze { display: none; }
+    .bankstrook { break-inside: avoid; }
+}
