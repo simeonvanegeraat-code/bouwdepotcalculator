@@ -439,3 +439,82 @@ select.ds-invoer {
 .verhouding__stip { border-radius: 3px; flex: none; height: 10px; width: 10px; }
 .verhouding__stip--rente { background: var(--ds-data-2); }
 .verhouding__stip--aflossing { background: var(--ds-data-1); }
+
+
+/* ==========================================================================
+   Verbouwbegroting
+   ========================================================================== */
+
+.cat { margin-bottom: var(--ds-6); }
+.cat__kop { margin-bottom: var(--ds-4); }
+.cat__kop h3 {
+    font-size: var(--ds-t-lead);
+    font-weight: 620;
+    letter-spacing: -0.018em;
+    margin-bottom: var(--ds-1);
+}
+.cat__posten { display: grid; gap: var(--ds-3); }
+
+.post {
+    align-items: start;
+    border: 1px solid var(--ds-line);
+    border-radius: var(--ds-r-md);
+    display: grid;
+    gap: var(--ds-3);
+    padding: var(--ds-3) var(--ds-4);
+    transition: border-color var(--ds-quick), background var(--ds-quick);
+}
+@media (min-width: 640px) { .post { grid-template-columns: 1fr 15rem; align-items: center; } }
+
+.post--gevuld { border-color: var(--ds-accent); background: var(--ds-surface); }
+
+/* Posten die doorgaans niet uit het depot mogen, blijven zichtbaar maar
+   gemarkeerd. Weglaten zou de begroting incompleet maken; ze kosten wel geld. */
+.post--eigen-geld { background: var(--ds-warn-wash); border-color: transparent; }
+.post--eigen-geld.post--gevuld { border-color: var(--ds-warn); }
+
+.post__naam label { display: block; font-size: var(--ds-t-small); font-weight: 560; }
+.post__merk { display: inline-block; margin-top: 3px; }
+
+.merkje {
+    border-radius: 999px;
+    font-size: 0.6875rem;
+    font-weight: 620;
+    letter-spacing: 0.03em;
+    padding: 2px var(--ds-2);
+    text-transform: uppercase;
+}
+.merkje--depot { background: var(--ds-accent-wash); color: var(--ds-accent); }
+.merkje--eigen { background: var(--ds-surface); color: var(--ds-warn); }
+
+.post__letop, .post__bron {
+    color: var(--ds-ink-muted);
+    display: block;
+    font-size: var(--ds-t-caption);
+    line-height: 1.4;
+    margin-top: var(--ds-1);
+}
+.post__bron { font-style: italic; }
+
+.post__invoer { display: grid; gap: var(--ds-2); grid-template-columns: 1fr 8.5rem; }
+.post__prioriteit { font-size: var(--ds-t-small); }
+
+.uitkomst-acties { display: grid; gap: var(--ds-2); }
+.uitkomst-acties .ds-knop { width: 100%; }
+
+@media print {
+    .post--eigen-geld { background: none; border: 1px dashed #999; }
+    .post:not(.post--gevuld) { display: none; }
+    .cat__kop p { display: none; }
+    .ds-uitkomst { break-inside: avoid; }
+}
+
+/* Op de begroting is de invoerkolom juist het document dat geprint moet worden.
+   De algemene printregel hierboven verbergt .reken__invoer; dat mag hier niet. */
+@media print {
+    #begroting .reken__invoer { display: block !important; }
+    #begroting .reken__grid { display: block; }
+    #begroting .ds-uitkomst { margin-bottom: 1.5rem; }
+    #begroting .post__prioriteit { border: 0; padding-left: 0; }
+    #begroting .cat { break-inside: avoid; }
+}

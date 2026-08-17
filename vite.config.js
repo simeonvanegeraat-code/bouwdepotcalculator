@@ -9,6 +9,7 @@ export default defineConfig({
     outDir: 'dist',
     rollupOptions: {
       input: {
+        verbouwbegroting: resolve(__dirname, 'verbouwbegroting.html'),
         adviesgesprekChecklist: resolve(__dirname, 'adviesgesprek-checklist.html'),
         belasting: resolve(__dirname, 'belasting.html'),
         bouwdepotDeclaratieAfgewezen: resolve(__dirname, 'bouwdepot-declaratie-afgewezen.html'),

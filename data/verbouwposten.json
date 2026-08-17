@@ -1,0 +1,88 @@
+{
+  "_toelichting": "Posten voor de verbouwbegroting. Bewust zonder prijzen: kosten verschillen te sterk per woning, regio en uitvoering om een bedrag te publiceren dat we niet kunnen onderbouwen. De waarde zit in de indeling en in of een post uit het bouwdepot betaald mag worden. Dat laatste is afgeleid uit wat de geldverstrekkers zelf publiceren; zie bouwdepot-voorwaarden.json.",
+  "_versie": "1.0",
+  "_laatstBijgewerkt": "2026-08-16",
+  "_uitleg": {
+    "vastAanWoning": "true = zit vast aan de woning en komt doorgaans in aanmerking; false = neemt u mee bij verhuizing en wordt doorgaans afgewezen",
+    "let_op": "Waarschuwing die bij deze post hoort, bijvoorbeeld omdat aanbieders er verschillend mee omgaan",
+    "genoemdDoor": "Aanbieders die deze post expliciet noemen in hun publieke voorwaarden"
+  },
+  "categorieen": [
+    {
+      "id": "ruwbouw",
+      "naam": "Ruwbouw en constructie",
+      "toelichting": "Werk aan de structuur van de woning. Vrijwel altijd declarabel, maar vaak wel het duurst en het meest gevoelig voor meerwerk.",
+      "posten": [
+        { "id": "uitbouw", "naam": "Uitbouw of aanbouw", "vastAanWoning": true, "genoemdDoor": ["ing"] },
+        { "id": "dakkapel", "naam": "Dakkapel", "vastAanWoning": true, "genoemdDoor": ["ing"] },
+        { "id": "constructie", "naam": "Constructieve aanpassing, muur doorbreken", "vastAanWoning": true },
+        { "id": "aannemer", "naam": "Aannemer, arbeidsloon", "vastAanWoning": true, "genoemdDoor": ["rabobank"] },
+        { "id": "architect", "naam": "Architect of constructeur", "vastAanWoning": true, "genoemdDoor": ["rabobank"] },
+        { "id": "bouwmaterialen", "naam": "Bouwmaterialen", "vastAanWoning": true, "genoemdDoor": ["rabobank"] },
+        { "id": "asbest", "naam": "Asbestverwijdering bij verbouwing", "vastAanWoning": true, "genoemdDoor": ["ing"] }
+      ]
+    },
+    {
+      "id": "keuken-badkamer",
+      "naam": "Keuken en badkamer",
+      "toelichting": "De meest voorkomende verbouwposten. Let op het onderscheid tussen vast ingebouwd en los meubilair of apparatuur.",
+      "posten": [
+        { "id": "keuken", "naam": "Keuken met inbouwapparatuur", "vastAanWoning": true, "genoemdDoor": ["abn-amro", "rabobank", "ing"] },
+        { "id": "keuken-los", "naam": "Losse apparatuur, niet ingebouwd", "vastAanWoning": false, "let_op": "Een vrijstaande koelkast of losse magnetron neemt u mee bij verhuizing en wordt doorgaans afgewezen." },
+        { "id": "badkamer", "naam": "Badkamer, vast sanitair en tegelwerk", "vastAanWoning": true, "genoemdDoor": ["rabobank", "ing"] },
+        { "id": "toilet", "naam": "Toilet vernieuwen", "vastAanWoning": true }
+      ]
+    },
+    {
+      "id": "afbouw",
+      "naam": "Afbouw en afwerking",
+      "toelichting": "Hier zit de meeste twijfel. De vuistregel: zit het vast en gaat het niet mee bij verhuizing, dan komt het doorgaans in aanmerking.",
+      "posten": [
+        { "id": "vloer-vast", "naam": "Vloer die vastzit, zoals gelijmd parket of tegels", "vastAanWoning": true, "genoemdDoor": ["abn-amro", "ing"] },
+        { "id": "vloer-los", "naam": "Losliggende vloer of tapijt", "vastAanWoning": false, "let_op": "Een zwevende of losliggende vloer wordt vaak niet als verbetering gezien." },
+        { "id": "kozijnen", "naam": "Kozijnen, ramen en deuren", "vastAanWoning": true, "genoemdDoor": ["ing"] },
+        { "id": "stucwerk", "naam": "Stucwerk en binnenwanden", "vastAanWoning": true },
+        { "id": "schilderwerk", "naam": "Onderhoudsschilderwerk", "vastAanWoning": true, "genoemdDoor": ["ing"] },
+        { "id": "verlichting-vast", "naam": "Ingebouwde verlichting, zoals inbouwspots", "vastAanWoning": true, "genoemdDoor": ["ing"] },
+        { "id": "verlichting-los", "naam": "Losse verlichting, zoals een wandlamp", "vastAanWoning": false, "let_op": "ING noemt losse verlichting expliciet als niet-declarabel." },
+        { "id": "raamdecoratie", "naam": "Gordijnen, jaloezieën of shutters", "vastAanWoning": false, "let_op": "ING en Rabobank noemen raamdecoratie expliciet als niet-declarabel." },
+        { "id": "meubels", "naam": "Meubels en inboedel", "vastAanWoning": false, "let_op": "Rabobank noemt spullen die u bij verhuizing meeneemt expliciet als niet-declarabel." }
+      ]
+    },
+    {
+      "id": "verduurzaming",
+      "naam": "Verduurzaming",
+      "toelichting": "Vaak een aparte pot met eigen regels. Sommige aanbieders openen hiervoor een verduurzamingsdepot met een eigen lijst toegestane maatregelen.",
+      "posten": [
+        { "id": "isolatie", "naam": "Gevel-, dak-, vloer- of leidingisolatie", "vastAanWoning": true },
+        { "id": "beglazing", "naam": "Hoogrendementsbeglazing, minimaal HR++", "vastAanWoning": true },
+        { "id": "warmtepomp", "naam": "Warmtepomp", "vastAanWoning": true },
+        { "id": "zonnepanelen", "naam": "Zonnepanelen", "vastAanWoning": true, "genoemdDoor": ["ing"] },
+        { "id": "ventilatie", "naam": "Energiezuinig ventilatiesysteem", "vastAanWoning": true, "let_op": "ING vergoedt dit alleen in combinatie met een andere energiebesparende maatregel." },
+        { "id": "wtw-douche", "naam": "Douche-warmteterugwinning", "vastAanWoning": true },
+        { "id": "thuisbatterij", "naam": "Thuisbatterij", "vastAanWoning": false, "let_op": "ING sluit thuisbatterij, HR-cv-ketel, zonneboiler en vloerverwarming uit van het verduurzamingsdepot." }
+      ]
+    },
+    {
+      "id": "buiten",
+      "naam": "Buiten en terrein",
+      "toelichting": "Hier lopen de voorwaarden het meest uiteen. Vraag dit vooraf na bij uw eigen geldverstrekker.",
+      "posten": [
+        { "id": "tuin", "naam": "Aanleg, onderhoud en inrichting van de tuin", "vastAanWoning": true, "genoemdDoor": ["ing"], "let_op": "ING noemt de tuin expliciet als declarabel. Niet elke aanbieder doet dat; controleer uw eigen voorwaarden." },
+        { "id": "zonwering", "naam": "Op maat gemaakte zonwering, vast bevestigd", "vastAanWoning": true, "genoemdDoor": ["ing"] },
+        { "id": "oprit", "naam": "Bestrating, oprit of terras", "vastAanWoning": true }
+      ]
+    },
+    {
+      "id": "overig",
+      "naam": "Overige kosten",
+      "toelichting": "Posten die vaak vergeten worden in de begroting maar wel geld kosten. Let op: sommige mogen niet uit het depot en moet u uit eigen geld betalen.",
+      "posten": [
+        { "id": "vergunning", "naam": "Omgevingsvergunning en leges", "vastAanWoning": true },
+        { "id": "gereedschap", "naam": "Gereedschap, zoals een boor of zaagmachine", "vastAanWoning": false, "let_op": "ING noemt gereedschap expliciet als niet-declarabel." },
+        { "id": "opslag", "naam": "Tijdelijke opslag of huisvesting", "vastAanWoning": false, "let_op": "Dit verbetert de woning niet en komt doorgaans niet uit het depot. Reken hier eigen geld voor." },
+        { "id": "onvoorzien", "naam": "Onvoorzien en meerwerk", "vastAanWoning": true, "let_op": "Geen bewijsstuk vooraf, maar wel de post waar begrotingen het vaakst op stuklopen. Reserveer hier bewust ruimte voor." }
+      ]
+    }
+  ]
+}

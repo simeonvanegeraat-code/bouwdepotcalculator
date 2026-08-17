@@ -63,6 +63,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkAftrek = document.getElementById('check-aftrek');
         const rowVoordeel = document.getElementById('row-voordeel');
 
+        // De verbouwbegroting linkt hierheen met het depotbedrag in de URL, zodat
+        // de reeks begroting -> maandlast doorloopt. Zonder deze afhandeling was
+        // die link een loze belofte: het bedrag kwam niet mee.
+        const urlParams = new URLSearchParams(window.location.search);
+        const bedragUitUrl = urlParams.get('bedrag') || urlParams.get('amount');
+        if (bedragUitUrl && Number(bedragUitUrl) > 0) {
+            inputAmount.value = bedragUitUrl;
+            if (rangeAmount) {
+                const min = Number(rangeAmount.min) || 0;
+                const max = Number(rangeAmount.max) || Number(bedragUitUrl);
+                rangeAmount.value = Math.min(Math.max(Number(bedragUitUrl), min), max);
+            }
+            // Voorkomt dat de onthouden invoer het meegegeven bedrag overschrijft.
+            setMemoryLockById('input-amount');
+            setMemoryLockById('range-amount');
+        }
+
         const valDuration = document.getElementById('val-duration');
         const resBruto = document.getElementById('res-bruto');
         const rowBruto = document.getElementById('row-bruto');
