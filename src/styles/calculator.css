@@ -57,6 +57,20 @@
 .veldrij { display: grid; gap: var(--ds-4); }
 @media (min-width: 560px) { .veldrij--twee { grid-template-columns: 1fr 1fr; } }
 
+/* Naast elkaar staande velden hebben niet altijd dezelfde onderdelen: bij
+   "Hypotheekrente" hoort een invoerveld boven de schuif, bij "Looptijd" niet.
+   Zonder deze regel volgt elke schuif zijn eigen stapel en staan twee identieke
+   regelaars in dezelfde rij 37px verticaal uit elkaar.
+
+   De rasterrijen zijn even hoog (stretch is de standaard), dus het volstaat de
+   schuif naar de onderkant van zijn cel te duwen. Dat werkt ook in de rijen met
+   vier velden, waar het raster afbreekt naar twee bij twee; subgrid zou daar op
+   een vast aantal rijen stuklopen. */
+@media (min-width: 560px) {
+    .veldrij--twee > .ds-veld { display: flex; flex-direction: column; }
+    .veldrij--twee > .ds-veld > .ds-schuif { margin-top: auto; }
+}
+
 .prefix-veld, .suffix-veld { align-items: center; display: flex; gap: var(--ds-2); }
 .prefix-veld > span, .suffix-veld > span {
     color: var(--ds-ink-muted);
