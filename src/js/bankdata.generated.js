@@ -46,7 +46,7 @@ export const BANKEN = [
     },
     "opnamemethode": "declaratie",
     "uitbetaling": "Meestal binnen 5 werkdagen",
-    "voorschieten": null,
+    "voorschieten": "Bij verbouwing schiet u voor, bij nieuwbouw niet altijd",
     "restant": {
       "waarde": "Gaat van de lening af",
       "detail": "Telt niet mee voor het bedrag dat je jaarlijks zonder extra kosten mag terugbetalen. Bij meerdere leningdelen bepaalt de bank de volgorde en kan die volgorde wijzigen."
@@ -277,20 +277,28 @@ export const BANKEN = [
       "detail": "Een keer aan te vragen via mijnFlorius; een termijn wordt niet genoemd."
     },
     "opnamemethode": "declaratie",
-    "uitbetaling": "Binnen vijf werkdagen na goedkeuring",
+    "uitbetaling": "Binnen 2 werkdagen beoordeeld, bij akkoord direct uitbetaald",
     "voorschieten": null,
     "restant": {
-      "waarde": null,
-      "detail": null
+      "waarde": "Tot EUR 7.500 naar uw eigen rekening",
+      "detail": "Florius maakt het restbedrag over naar uw bankrekening. Twee uitzonderingen: met NHG wordt het altijd afgelost op de lening, en blijft er meer dan EUR 7.500 over dan wordt het afgelost ongeacht NHG. Voor energiebesparende maatregelen en de Florius Verduurzaam Hypotheek kunnen andere regels gelden."
     },
     "eigenArbeid": null,
     "eisen": [
       {
         "eis": "soort-bewijs",
-        "waarde": "Bon of rekening"
+        "waarde": "Volledige factuur of ordernota"
+      },
+      {
+        "eis": "factuurouderdom",
+        "waarde": "Niet ouder dan 6 maanden"
+      },
+      {
+        "eis": "vast-aan-woning",
+        "waarde": "Verplicht"
       }
     ],
-    "declarabel": "Declareren op basis van een bon of rekening; je uploadt een foto of scan via mijnFlorius."
+    "declarabel": "Bouwmaterialen, arbeidskosten, binnenhuisinrichting zoals keukenapparatuur en badkamerinrichting, tuinaanleg en energiebesparende maatregelen. Niet: meubilair en accessoires, zoals een bankstel, niet-ingebouwde verlichting en raamdecoratie."
   },
   {
     "id": "nn",
