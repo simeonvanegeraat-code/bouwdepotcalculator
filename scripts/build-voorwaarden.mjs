@@ -84,6 +84,111 @@ function controle(a) {
     v ? 'controle openstaand &middot; ' : ''}gecontroleerd ${datum(a.gecontroleerd)}</span>`;
 }
 
+/**
+ * De hoogte van de depotvergoeding als regel, niet als tarief.
+ *
+ * Bewust geen rentepercentages op deze site. Een hypotheekrente hangt af van
+ * rentevastperiode, de verhouding tussen lening en woningwaarde en soms het
+ * energielabel; dat zijn tientallen waarden per aanbieder die wekelijks
+ * wijzigen. Wat wel stabiel is, is de regel waarmee de aanbieder de
+ * depotvergoeding aan uw eigen hypotheekrente koppelt. Die regel staat hier, en
+ * de calculators passen hem toe op de rente die de bezoeker zelf invult. Zo is
+ * de uitkomst persoonlijk in plaats van een marktgemiddelde, en veroudert er
+ * niets.
+ */
+const TARIEFTEKST = {
+  'gelijk-aan-hypotheekrente': 'Gelijk aan uw hypotheekrente',
+  'hypotheekrente-min-1': 'Uw hypotheekrente min 1 procentpunt',
+  'geen': 'Geen vergoeding over het depotsaldo',
+};
+
+function tariefVeld(a) {
+  const t = a.rentevergoeding?.tarief || {};
+  if (t.verbouw == null) return { waarde: null, status: undefined };
+  const zelfde = t.verbouw === t.nieuwbouw;
+  if (t.verbouw === 'niet-gepubliceerd' && (zelfde || t.nieuwbouw === 'niet-gepubliceerd')) {
+    return {
+      waarde: null,
+      detail: 'Deze aanbieder publiceert wel dat u vergoeding krijgt, maar niet hoe hoog die is ten opzichte van uw hypotheekrente. Vraag dat na in uw offerte.',
+    };
+  }
+  const v = TARIEFTEKST[t.verbouw] || null;
+  const n = TARIEFTEKST[t.nieuwbouw] || null;
+  if (zelfde || !n) return { waarde: v, detail: null };
+  return { waarde: v, detail: `Bij nieuwbouw geldt een andere regel: ${n.toLowerCase()}.` };
+}
+
+/** Het bewijsstuk dat bij een declaratie moet, uit de gestructureerde eisen. */
+function bewijsVeld(a) {
+  const bewijs = (a.declaratieEisen || []).find((e) => e.eis === 'soort-bewijs');
+  if (!bewijs) return { waarde: null };
+  return { waarde: bewijs.waarde, detail: bewijs.detail || null };
+}
+
+/** Wanneer een verlenging geregeld moet zijn. */
+function verlengVeld(a) {
+  const v = a.verlengingAanvragen || {};
+  if (typeof v.maandenVoorEinde !== 'number') {
+    return { waarde: null, detail: v.detail || null };
+  }
+  const soort = v.soort === 'bericht-van-bank'
+    ? `U krijgt ${v.maandenVoorEinde} maanden voor de einddatum bericht`
+    : `Vanaf ${v.maandenVoorEinde} maanden voor de einddatum aan te vragen`;
+  return { waarde: soort, detail: v.detail || null };
+}
+const tariefBerekenbaar = data.aanbieders.filter((a) =>
+  ['gelijk-aan-hypotheekrente', 'hypotheekrente-min-1'].includes(a.rentevergoeding?.tarief?.verbouw)
+).length;
+
+/**
+ * Hoeveel maanden de vergoeding loopt, afgezet tegen de looptijd.
+ *
+ * Dit is het onderscheidende gegeven van deze vergelijking: vijf van de zes
+ * aanbieders vergoeden niet de hele periode waarin het depot open kan staan.
+ * De maanden zonder vergoeding zijn de duurste van het traject, want dan
+ * betaalt u wel rente en ontvangt u niets terug.
+ */
+function vergoedingsduurVeld(a) {
+  const v = a.rentevergoeding || {};
+  const duur = v.vergoedingMaanden || {};
+  if (v.model === 'rente-alleen-over-opgenomen') {
+    return {
+      waarde: 'Niet van toepassing',
+      detail: 'Deze aanbieder vergoedt niets over het depotsaldo, maar rekent er ook geen rente over.',
+    };
+  }
+  if (typeof duur.verbouw !== 'number') return { waarde: null };
+  const gelijk = duur.verbouw === duur.nieuwbouw;
+  const waarde = gelijk
+    ? `${duur.verbouw} maanden`
+    : `${duur.verbouw} maanden bij verbouwing, ${duur.nieuwbouw} bij nieuwbouw`;
+
+  const max = typeof a.verlengingMaanden?.verbouw === 'number'
+    ? a.looptijdVerbouwMaanden + a.verlengingMaanden.verbouw
+    : a.looptijdVerbouwMaanden;
+  const gat = max - duur.verbouw;
+  const detail = gat > 0
+    ? `Het depot kan bij verbouwing tot ${max} maanden lopen. Over de laatste ${gat} maanden betaalt u wel rente maar ontvangt u geen vergoeding meer.`
+    : 'De vergoeding loopt door tot het einde van de looptijd.';
+  return { waarde, detail };
+}
+
+/** Hoe u aan het geld komt: declareren of zelf overboeken. */
+function opnameVeld(a) {
+  if (a.opnamemethode === 'zelf-betalen') {
+    return {
+      waarde: 'U betaalt zelf vanuit het depot',
+      detail: 'Geen goedkeuring vooraf per betaling; de aanbieder kan achteraf controleren.',
+    };
+  }
+  if (a.opnamemethode === 'declaratie') {
+    return {
+      waarde: 'U declareert met een bewijsstuk',
+      detail: 'De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.',
+    };
+  }
+  return { waarde: null };
+}
 const bestandsnaam = (a) => `bouwdepot-${a.id}.html`;
 
 /**
@@ -100,7 +205,7 @@ function feit(label, veld, opties = {}) {
   const heeftWaarde = veld && (veld.waarde != null || veld.bedrag != null || veld.status);
   const inhoud = heeftWaarde ? waarde(veld) : LEEG;
   const detail = veld?.detail ? `<small>${esc(veld.detail)}</small>` : '';
-  return `                        <div class="vgl-feit"><dt>${esc(label)}</dt><dd${
+  return `                        <div class="vgl-feit${opties.proza ? ' vgl-feit--proza' : ''}"><dt>${esc(label)}</dt><dd${
     opties.gedempt ? ' class="vgl-leeg"' : ''
   }>${inhoud}${detail}</dd></div>`;
 }
@@ -263,8 +368,17 @@ ${balk('Nieuwbouw', a.looptijdNieuwbouwMaanden, v.nieuwbouw, v.mogelijkMaarDuurO
 
                     <dl class="vgl-feiten">
 ${feit('Vergoeding over depot', a.rentevergoeding, { gedempt: geenRente })}
+${feit('Hoogte van die vergoeding', tariefVeld(a))}
+${feit('Vergoeding loopt', vergoedingsduurVeld(a))}
+${feit('Wat mag eruit betaald worden', { waarde: a.declarabel }, { proza: true })}
+${feit('Bewijsstuk bij declareren', bewijsVeld(a))}
+${feit('Manier van opnemen', opnameVeld(a))}
 ${feit('Uitbetaling', { waarde: a.doorlooptijdUitbetaling?.digitaal, detail: a.doorlooptijdUitbetaling?.post })}
+${feit('Zelf voorschieten', a.voorschieten)}
+${feit('Verlengen regelen', verlengVeld(a))}
 ${feit('Grens per opname', a.maxPerOpname)}
+${feit('Minimum per opname', a.minPerOpname)}
+${feit('Eigen arbeid declarabel', a.eigenArbeid)}
 ${feit('Restant bij beëindiging', a.restant)}
                     </dl>
                 </article>`;
@@ -332,6 +446,28 @@ ${DISCLAIMER}
                     <article>
                         <h3>Een bon is niet overal een factuur</h3>
                         <p>Sommige aanbieders accepteren een kassabon, andere uitsluitend een factuur op naam met KvK- en btw-nummer. Offertes en pro-formafacturen worden vrijwel nergens geaccepteerd. Dat verschil bepaalt hoe u uw inkopen organiseert. Bekijk ook de <a href="bouwdepot-fouten.html">veelgemaakte fouten bij declaraties</a>.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="ds-sectie ds-sectie--gevuld">
+            <div class="ds-wrap ds-wrap--smal">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Twee bewuste keuzes</p>
+                    <h2 class="ds-title">Wat u hier niet vindt, en waarom</h2>
+                </div>
+
+                <div class="uitleg">
+                    <article>
+                        <h3>Geen rentepercentages, wel de rekenregel</h3>
+                        <p>Wij publiceren geen hypotheekrentes. Een rente hangt af van de rentevastperiode, van de verhouding tussen uw lening en de woningwaarde en soms van het energielabel. Dat zijn tientallen waarden per aanbieder die wekelijks wijzigen, en een rente van twee dagen oud is simpelweg onjuist.</p>
+                        <p>Wat wel stabiel is, is de <strong>regel</strong> waarmee een aanbieder de depotvergoeding aan uw eigen hypotheekrente koppelt. Die staat hierboven per aanbieder: gelijk aan uw rente, een procentpunt lager, of geen vergoeding. Bij ${tariefBerekenbaar} van de ${data.aanbieders.length} aanbieders is de vergoeding daarmee uit te rekenen zodra u uw eigen rente invult, en dat doen de <a href="maandlasten-bouwdepot.html">maandlastberekening</a> en de <a href="renteverlies-bouwdepot.html">renteverliesberekening</a> ook. Die uitkomst gaat over uw eigen offerte in plaats van over een marktgemiddelde, en veroudert niet.</p>
+                    </article>
+                    <article>
+                        <h3>Wat geen enkele aanbieder publiceert</h3>
+                        <p>Drie gegevens ontbreken bij alle ${data.aanbieders.length}: het <strong>minimumbedrag per opname</strong>, de <strong>grens per opname</strong> bij aanbieders zonder declaratieproces, en of <strong>eigen arbeid</strong> declarabel is. Dat laatste is de meest gestelde vraag van wie zelf klust, en niemand geeft er publiek antwoord op.</p>
+                        <p>Wij vullen die gaten niet met een aanname. Ze staan hierboven als &quot;niet gepubliceerd&quot;, en dat is zelf het antwoord: <strong>u moet dit schriftelijk navragen en het antwoord bewaren</strong>. Een mondelinge toezegging helpt u niet als een declaratie later wordt afgewezen. De <a href="adviesgesprek-checklist.html">advieschecklist</a> heeft hier vragen voor staan.</p>
                     </article>
                 </div>
             </div>

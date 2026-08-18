@@ -679,6 +679,16 @@ html { scrollbar-gutter: stable; }
     font-weight: 560;
     line-height: 1.4;
     margin: 0;
+    /* Termen als koop-/aannemingsovereenkomst breken anders uit hun kolom. */
+    overflow-wrap: anywhere;
+}
+
+/* Een veld dat uit lopende tekst bestaat in plaats van uit een korte waarde.
+   De halfvette waardestijl maakt daar een muur van; dit leest als tekst. */
+.vgl-feit--proza dd {
+    color: var(--ds-ink-soft);
+    font-size: var(--ds-t-caption);
+    font-weight: 400;
 }
 
 /* Ontbrekende gegevens blijven zichtbaar leeg. Nooit invullen met een schatting. */
