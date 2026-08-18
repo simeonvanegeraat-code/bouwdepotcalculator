@@ -3,7 +3,7 @@
  * Bron: data/bouwdepot-voorwaarden.json
  * Opnieuw maken: node scripts/build-bankdata.mjs
  *
- * Laatst bijgewerkt volgens de bron: 2026-08-16
+ * Laatst bijgewerkt volgens de bron: 2026-08-18
  */
 
 export const BANKEN = [
@@ -368,7 +368,125 @@ export const BANKEN = [
       }
     ],
     "declarabel": "Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Losse spullen zoals meubilair of apparaten vallen er niet onder."
+  },
+  {
+    "id": "obvion",
+    "naam": "Obvion",
+    "pagina": "bouwdepot-obvion.html",
+    "looptijd": {
+      "verbouw": 24,
+      "nieuwbouw": 36
+    },
+    "verlenging": {
+      "verbouw": null,
+      "nieuwbouw": null,
+      "eenmalig": null,
+      "duurOnbekend": true,
+      "geen": false
+    },
+    "maximaal": {
+      "verbouw": null,
+      "nieuwbouw": null
+    },
+    "vergoeding": {
+      "samenvatting": "Ja, maar hoogte en duur verschillen per hypotheekvorm",
+      "detail": "Bij de Woon Hypotheek is de vergoeding gelijk aan uw hypotheekrente en loopt die 12 maanden bij bestaande bouw en 24 maanden bij nieuwbouw. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.",
+      "model": "beperkt-in-duur",
+      "maanden": {
+        "verbouw": 12,
+        "nieuwbouw": 24
+      },
+      "tarief": {
+        "verbouw": "verschilt-per-product",
+        "nieuwbouw": "verschilt-per-product"
+      }
+    },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": null,
+      "soort": null,
+      "detail": null
+    },
+    "opnamemethode": "declaratie",
+    "uitbetaling": null,
+    "voorschieten": null,
+    "restant": {
+      "waarde": "Tot EUR 2.500 naar uw eigen rekening",
+      "detail": "Blijft er minder dan EUR 2.500 over, dan betaalt Obvion dat aan u uit. Is het meer, dan wordt het verwerkt als extra vergoedingsvrije terugbetaling op uw lening."
+    },
+    "eigenArbeid": null,
+    "eisen": [
+      {
+        "eis": "soort-bewijs",
+        "waarde": "Kopiefactuur, getekend voor akkoord"
+      },
+      {
+        "eis": "vast-aan-woning",
+        "waarde": "Verplicht"
+      }
+    ],
+    "declarabel": "Kosten voor zaken die aan de woning vastzitten, zoals een keuken, badkamer of nieuwe vloer. De facturen moeten overeenkomen met de verbouwingsspecificatie en waardevermeerderend zijn."
+  },
+  {
+    "id": "sns",
+    "naam": "SNS",
+    "pagina": "bouwdepot-sns.html",
+    "looptijd": {
+      "verbouw": 24,
+      "nieuwbouw": 24
+    },
+    "verlenging": {
+      "verbouw": 12,
+      "nieuwbouw": 12,
+      "eenmalig": true,
+      "duurOnbekend": false,
+      "geen": false
+    },
+    "maximaal": {
+      "verbouw": 36,
+      "nieuwbouw": 36
+    },
+    "vergoeding": {
+      "samenvatting": "Ja, gelijk aan je hypotheekrente",
+      "detail": "De vergoeding loopt over de hele looptijd, dus ook over een verlenging en daarmee tot 36 maanden. Daardoor betaalt u per saldo alleen hypotheekrente over het geld dat al aan de bouw of verbouwing is uitgegeven. Bij de SNS Bespaarhypotheek wordt de depotrente maandelijks opnieuw bepaald op het gewogen gemiddelde van uw hypotheekrentes.",
+      "model": "beperkt-in-duur",
+      "maanden": {
+        "verbouw": 36,
+        "nieuwbouw": 36
+      },
+      "tarief": {
+        "verbouw": "gelijk-aan-hypotheekrente",
+        "nieuwbouw": "gelijk-aan-hypotheekrente"
+      }
+    },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": null,
+      "soort": null,
+      "detail": null
+    },
+    "opnamemethode": "declaratie",
+    "uitbetaling": null,
+    "voorschieten": "Ja, met een betaalbewijs",
+    "restant": {
+      "waarde": "Wordt afgelost op de hypotheek",
+      "detail": "Zit er bij beeindiging nog geld in het depot, dan gebruikt SNS dat om een deel van de hypotheek mee af te lossen."
+    },
+    "eigenArbeid": null,
+    "eisen": [
+      {
+        "eis": "soort-bewijs",
+        "waarde": "Factuur of kassabon"
+      },
+      {
+        "eis": "factuurouderdom",
+        "waarde": "Niet ouder dan 6 maanden"
+      },
+      {
+        "eis": "vast-aan-woning",
+        "waarde": "Verplicht"
+      }
+    ],
+    "declarabel": "Arbeidsuren en materialen die zijn besteed aan de bouw, verbouwing of verbetering van de woning. De materialen moeten aan de woning vastzitten en mogen niet roerend zijn."
   }
 ];
 
-export const BRON_BIJGEWERKT = "2026-08-16";
+export const BRON_BIJGEWERKT = "2026-08-18";

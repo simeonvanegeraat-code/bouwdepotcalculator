@@ -1,7 +1,7 @@
 {
   "_toelichting": "Bouwdepotvoorwaarden per geldverstrekker. Elke waarde is overgenomen van de officiele publieke pagina van de aanbieder. Waar een aanbieder iets niet publiceert staat null met status 'niet-gepubliceerd' - nooit een schatting. Controleer voor publicatie; zie JURIDISCHE-CHECK.md.",
   "_versie": "0.1",
-  "_laatstBijgewerkt": "2026-08-16",
+  "_laatstBijgewerkt": "2026-08-18",
   "_veldUitleg": {
     "looptijdVerbouwMaanden": "Standaardlooptijd depot bij verbouwing bestaande woning",
     "looptijdNieuwbouwMaanden": "Standaardlooptijd depot bij nieuwbouw",
@@ -469,6 +469,164 @@
           "eis": "vast-aan-woning",
           "waarde": "Verplicht",
           "detail": "Losse spullen zoals meubilair of apparaten vallen er niet onder."
+        }
+      ]
+    },
+    {
+      "id": "obvion",
+      "naam": "Obvion",
+      "bron": "https://obvion.nl/hypotheek/afsluiten/bouwdepot/",
+      "gecontroleerd": "2026-08-18",
+      "geverifieerdDoor": null,
+      "looptijdVerbouwMaanden": 24,
+      "looptijdNieuwbouwMaanden": 36,
+      "verlengingMaanden": {
+        "verbouw": null,
+        "nieuwbouw": null,
+        "mogelijkMaarDuurOnbekend": true,
+        "detail": "Obvion schrijft dat een langere looptijd soms wordt toegestaan, maar publiceert niet met hoeveel maanden. U vraagt het aan met een digitaal formulier en beantwoordt daarbij enkele vragen zodat Obvion de aanvraag kan beoordelen."
+      },
+      "rentevergoeding": {
+        "waarde": "Ja, maar hoogte en duur verschillen per hypotheekvorm",
+        "detail": "Bij de Woon Hypotheek is de vergoeding gelijk aan uw hypotheekrente en loopt die 12 maanden bij bestaande bouw en 24 maanden bij nieuwbouw. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": {
+          "verbouw": 12,
+          "nieuwbouw": 24
+        },
+        "tarief": {
+          "verbouw": "verschilt-per-product",
+          "nieuwbouw": "verschilt-per-product"
+        }
+      },
+      "verlengingAanvragen": {
+        "maandenVoorEinde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "opnamemethode": "declaratie",
+      "maxPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "minPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "doorlooptijdUitbetaling": {
+        "digitaal": null,
+        "post": null
+      },
+      "declarabel": "Kosten voor zaken die aan de woning vastzitten, zoals een keuken, badkamer of nieuwe vloer. De facturen moeten overeenkomen met de verbouwingsspecificatie en waardevermeerderend zijn.",
+      "restant": {
+        "waarde": "Tot EUR 2.500 naar uw eigen rekening",
+        "detail": "Blijft er minder dan EUR 2.500 over, dan betaalt Obvion dat aan u uit. Is het meer, dan wordt het verwerkt als extra vergoedingsvrije terugbetaling op uw lening."
+      },
+      "eigenArbeid": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "bijzonderheden": [
+        "De betaling van facturen regelt u zelf online via MijnObvion; u uploadt daar de kopiefactuur.",
+        "In MijnObvion ziet u de status van ingediende facturen en de bijgeschreven rentevergoeding.",
+        "Obvion publiceert geen vaste verwerkingstermijn maar verwijst naar een actueel overzicht van doorlooptijden."
+      ],
+      "voorschieten": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Kopiefactuur, getekend voor akkoord",
+          "detail": "U tekent de kopie van de factuur voor akkoord met betaling en uploadt die via MijnObvion."
+        },
+        {
+          "eis": "vast-aan-woning",
+          "waarde": "Verplicht",
+          "detail": "Het moet gaan om zaken die aan de woning vastzitten en die de waarde verhogen, conform de verbouwingsspecificatie."
+        }
+      ]
+    },
+    {
+      "id": "sns",
+      "naam": "SNS",
+      "bron": "https://www.snsbank.nl/particulier/hypotheken/bouwdepot-hypotheek.html",
+      "bronnen": [
+        "https://www.snsbank.nl/particulier/hypotheken/bouwdepotdeclaratie-spelregels.html"
+      ],
+      "gecontroleerd": "2026-08-18",
+      "geverifieerdDoor": null,
+      "looptijdVerbouwMaanden": 24,
+      "looptijdNieuwbouwMaanden": 24,
+      "verlengingMaanden": {
+        "verbouw": 12,
+        "nieuwbouw": 12,
+        "eenmalig": true,
+        "detail": "De reguliere looptijd is 1 jaar en wordt automatisch met een jaar verlengd zolang er geld in het depot zit. Die eerste twee jaar kosten dus geen actie. Bent u daarna nog niet klaar, dan kan het depot onder voorwaarden nog eens met maximaal 12 maanden worden verlengd."
+      },
+      "rentevergoeding": {
+        "waarde": "Ja, gelijk aan je hypotheekrente",
+        "detail": "De vergoeding loopt over de hele looptijd, dus ook over een verlenging en daarmee tot 36 maanden. Daardoor betaalt u per saldo alleen hypotheekrente over het geld dat al aan de bouw of verbouwing is uitgegeven. Bij de SNS Bespaarhypotheek wordt de depotrente maandelijks opnieuw bepaald op het gewogen gemiddelde van uw hypotheekrentes.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": {
+          "verbouw": 36,
+          "nieuwbouw": 36
+        },
+        "tarief": {
+          "verbouw": "gelijk-aan-hypotheekrente",
+          "nieuwbouw": "gelijk-aan-hypotheekrente"
+        }
+      },
+      "verlengingAanvragen": {
+        "maandenVoorEinde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "opnamemethode": "declaratie",
+      "maxPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "minPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "doorlooptijdUitbetaling": {
+        "digitaal": null,
+        "post": null
+      },
+      "declarabel": "Arbeidsuren en materialen die zijn besteed aan de bouw, verbouwing of verbetering van de woning. De materialen moeten aan de woning vastzitten en mogen niet roerend zijn.",
+      "restant": {
+        "waarde": "Wordt afgelost op de hypotheek",
+        "detail": "Zit er bij beeindiging nog geld in het depot, dan gebruikt SNS dat om een deel van de hypotheek mee af te lossen."
+      },
+      "eigenArbeid": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "bijzonderheden": [
+        "SNS betaalt de factuur rechtstreeks aan uw leverancier, op het rekeningnummer dat op de factuur staat. Heeft u zelf al betaald, stuur dan ook een betaalbewijs mee; dan gaat het bedrag naar de incassorekening van uw hypotheek.",
+        "Vooruitbetalen mag tot EUR 5.000. Bij keukens en badkamers geldt maximaal 15% van het aankoopbedrag, eveneens tot EUR 5.000.",
+        "Facturen in een andere taal dan Nederlands, Engels of Duits worden niet geaccepteerd."
+      ],
+      "voorschieten": {
+        "waarde": "Ja, met een betaalbewijs",
+        "detail": "Stuurt u een kopie van de factuur of kassabon mee met een betaalbewijs, dan betaalt SNS het bedrag uit op de incassorekening van uw hypotheek."
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Factuur of kassabon",
+          "detail": "Heeft u zelf voorgeschoten, dan hoort daar een betaalbewijs bij: een kopie bankafschrift of de bon van de pinbetaling. Ongespecificeerde facturen voor diensten worden afgekeurd."
+        },
+        {
+          "eis": "factuurouderdom",
+          "waarde": "Niet ouder dan 6 maanden",
+          "detail": "Facturen ouder dan zes maanden worden niet geaccepteerd."
+        },
+        {
+          "eis": "vast-aan-woning",
+          "waarde": "Verplicht",
+          "detail": "De materialen moeten aan de woning vastzitten en mogen niet roerend zijn."
         }
       ]
     }

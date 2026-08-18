@@ -21,6 +21,8 @@ export default defineConfig({
         bouwdepotIng: resolve(__dirname, 'bouwdepot-ing.html'),
         bouwdepotMunt: resolve(__dirname, 'bouwdepot-munt.html'),
         bouwdepotNn: resolve(__dirname, 'bouwdepot-nn.html'),
+        bouwdepotObvion: resolve(__dirname, 'bouwdepot-obvion.html'),
+        bouwdepotSns: resolve(__dirname, 'bouwdepot-sns.html'),
         bouwdepotRabobank: resolve(__dirname, 'bouwdepot-rabobank.html'),
         bouwdepotVoorwaardenVergelijken: resolve(__dirname, 'bouwdepot-voorwaarden-vergelijken.html'),
         bouwrenteNieuwbouw: resolve(__dirname, 'bouwrente-nieuwbouw.html'),

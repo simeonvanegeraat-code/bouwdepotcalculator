@@ -17,7 +17,7 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/bouwdepot-voorwaarden.json'), 'utf8'));
 
 const MODELLEN = ['beperkt-in-duur', 'rente-alleen-over-opgenomen'];
-const TARIEVEN = ['gelijk-aan-hypotheekrente', 'hypotheekrente-min-1', 'geen', 'niet-gepubliceerd'];
+const TARIEVEN = ['gelijk-aan-hypotheekrente', 'hypotheekrente-min-1', 'geen', 'niet-gepubliceerd', 'verschilt-per-product'];
 
 const maxLooptijd = (a, soort) => {
     const basis = soort === 'verbouw' ? a.looptijdVerbouwMaanden : a.looptijdNieuwbouwMaanden;
