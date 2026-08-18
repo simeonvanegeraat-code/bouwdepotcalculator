@@ -217,7 +217,7 @@ if (wortel) {
     // markering betekent niet dat de bank de post afwijst, want vrijwel geen
     // aanbieder publiceert een volledige lijst.
     //
-    // Drie van de zes aanbieders noemen geen enkele post bij naam. Een uitleg over
+    // Lang niet elke aanbieder noemt posten bij naam. Een uitleg over
     // markeringen die dan nergens verschijnt is een loze belofte, dus de tekst
     // volgt het werkelijke aantal in plaats van de keuze.
     const bronnen = Array.from(wortel.querySelectorAll('[data-genoemd-door]'));

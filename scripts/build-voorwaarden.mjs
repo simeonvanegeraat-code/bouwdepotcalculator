@@ -149,7 +149,7 @@ const tariefBerekenbaar = data.aanbieders.filter((a) =>
 /**
  * Hoeveel maanden de vergoeding loopt, afgezet tegen de looptijd.
  *
- * Dit is het onderscheidende gegeven van deze vergelijking: vijf van de zes
+ * Dit is het onderscheidende gegeven van deze vergelijking: de meeste
  * aanbieders vergoeden niet de hele periode waarin het depot open kan staan.
  * De maanden zonder vergoeding zijn de duurste van het traject, want dan
  * betaalt u wel rente en ontvangt u niets terug.
@@ -623,7 +623,7 @@ function bouwAanbieder(a) {
       a.doorlooptijdUitbetaling?.digitaal ? esc(a.doorlooptijdUitbetaling.digitaal) : LEEG,
       a.doorlooptijdUitbetaling?.post),
     rij('Zelf voorschieten en terugvragen', waarde(a.voorschieten), a.voorschieten?.detail),
-    // Las eerder a.bewijsstuk, een veld dat maar bij twee van de zes bestaat en
+    // Las eerder a.bewijsstuk, een veld dat bij vrijwel geen aanbieder bestaat en
     // nergens werd gevuld; daardoor stond deze rij op alle aanbiederpagina's leeg
     // terwijl het antwoord in declaratieEisen staat.
     rij('Vereist bewijsstuk', waarde(bewijsVeld(a)), bewijsVeld(a).detail),

@@ -915,7 +915,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const monthlyMortgageRate = (mortgageRate / 100) / 12;
             const monthlyDepotRate = model === 'opname' ? 0 : (depotRate / 100) / 12;
 
-            // Vijf van de zes vergeleken aanbieders stoppen de vergoeding voordat het
+            // De meeste vergeleken aanbieders stoppen de vergoeding voordat het
             // depot afloopt. Wie daarna nog geld in het depot heeft staan, betaalt wel
             // rente maar ontvangt niets meer terug. Dat is precies de periode waarin
             // het renteverlies oploopt, dus die mag niet buiten de berekening blijven.
