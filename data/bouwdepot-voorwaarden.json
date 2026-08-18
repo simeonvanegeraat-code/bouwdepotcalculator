@@ -23,7 +23,7 @@
       "id": "abn-amro",
       "naam": "ABN AMRO",
       "bron": "https://www.abnamro.nl/nl/prive/hypotheken/hypotheek-afsluiten/bouwdepot/voorwaarden-bouwdepot.html",
-      "gecontroleerd": "2026-08-16",
+      "gecontroleerd": "2026-08-18",
       "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 18,
       "looptijdNieuwbouwMaanden": 24,
@@ -65,11 +65,15 @@
       "bijzonderheden": [
         "Drie maanden voor de einddatum ontvang je een brief over verlengen of beeindigen.",
         "Verlengen of beeindigen kan via Internet Bankieren of met een formulier per post naar Amersfoort.",
-        "Voor hypotheken aangevraagd voor 28 januari 2019 geldt het beleid bij 'Verbouw van een bestaande woning'."
+        "Voor hypotheken aangevraagd voor 28 januari 2019 geldt het beleid bij 'Verbouw van een bestaande woning'.",
+        "ABN AMRO betaalt een declaratie niet uit zolang u achterloopt met uw maandelijkse hypotheekbedrag.",
+        "Het depot wordt binnen 5 werkdagen actief na ontvangst van de getekende hypotheekakte van de notaris.",
+        "Is uw laatste declaratie hoger dan het resterende saldo, dan betaalt u het verschil zelf.",
+        "Verlengt u voorbij twee jaar, dan gelden andere fiscale regels voor de renteaftrek; laat u daarover adviseren."
       ],
       "voorschieten": {
-        "waarde": null,
-        "status": "niet-gepubliceerd"
+        "waarde": "Bij verbouwing schiet u voor, bij nieuwbouw niet altijd",
+        "detail": "Bij een verbouwing of energiebesparende voorzieningen betaalt ABN AMRO de declaratie aan u en betaalt u zelf de aannemer of leverancier. Bij nieuwbouw kunnen termijn- en meerwerkrekeningen rechtstreeks aan de aannemer worden betaald."
       },
       "declaratieEisen": [
         {
@@ -251,7 +255,7 @@
         "https://www.munthypotheken.nl/veelgestelde-vragen/bouwdepot/hoe-lang-is-mijn-bouwdepot-geldig/",
         "https://www.munthypotheken.nl/veelgestelde-vragen/bouwdepot/wanneer-wordt-mijn-declaratie-betaald/"
       ],
-      "gecontroleerd": "2026-08-14",
+      "gecontroleerd": "2026-08-18",
       "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 24,
       "looptijdNieuwbouwMaanden": 24,
@@ -312,7 +316,7 @@
       "id": "florius",
       "naam": "Florius",
       "bron": "https://www.florius.nl/hypotheek/bouwdepot-beheren",
-      "gecontroleerd": "2026-08-14",
+      "gecontroleerd": "2026-08-18",
       "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 18,
       "looptijdNieuwbouwMaanden": 24,
@@ -340,13 +344,13 @@
         "status": "niet-gepubliceerd"
       },
       "doorlooptijdUitbetaling": {
-        "digitaal": "Binnen vijf werkdagen na goedkeuring",
-        "post": "Declaratieformulier op te vragen via 033 - 752 50 00"
+        "digitaal": "Binnen 2 werkdagen beoordeeld, bij akkoord direct uitbetaald",
+        "post": "Per post of e-mail binnen 4 werkdagen na ontvangst beoordeeld"
       },
-      "declarabel": "Declareren op basis van een bon of rekening; je uploadt een foto of scan via mijnFlorius.",
+      "declarabel": "Bouwmaterialen, arbeidskosten, binnenhuisinrichting zoals keukenapparatuur en badkamerinrichting, tuinaanleg en energiebesparende maatregelen. Niet: meubilair en accessoires, zoals een bankstel, niet-ingebouwde verlichting en raamdecoratie.",
       "restant": {
-        "waarde": null,
-        "status": "niet-gepubliceerd"
+        "waarde": "Tot EUR 7.500 naar uw eigen rekening",
+        "detail": "Florius maakt het restbedrag over naar uw bankrekening. Twee uitzonderingen: met NHG wordt het altijd afgelost op de lening, en blijft er meer dan EUR 7.500 over dan wordt het afgelost ongeacht NHG. Voor energiebesparende maatregelen en de Florius Verduurzaam Hypotheek kunnen andere regels gelden."
       },
       "eigenArbeid": {
         "waarde": null,
@@ -365,8 +369,18 @@
       "declaratieEisen": [
         {
           "eis": "soort-bewijs",
-          "waarde": "Bon of rekening",
-          "detail": "U uploadt een foto of scan van de bon of rekening via mijnFlorius."
+          "waarde": "Volledige factuur of ordernota",
+          "detail": "U uploadt een foto of scan via mijnFlorius. Afgekeurd worden: offertes, handgeschreven bonnen, een onvolledige factuur, en een nota die alleen naar een offerte verwijst zonder eigen specificatie."
+        },
+        {
+          "eis": "factuurouderdom",
+          "waarde": "Niet ouder dan 6 maanden",
+          "detail": "Een nota van voor de datum waarop de hypotheekofferte is uitgebracht wordt eveneens afgekeurd."
+        },
+        {
+          "eis": "vast-aan-woning",
+          "waarde": "Verplicht",
+          "detail": "Twee eisen: het gaat om kwaliteitsverbetering waardoor de woning in waarde stijgt, en de verbetering zit vast aan de woning en is bij verkoop niet te verwijderen."
         }
       ]
     },
@@ -378,7 +392,7 @@
         "https://www.nn.nl/Particulier/Hypotheken/Mijn-Nationale-Nederlanden-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-declareren.htm",
         "https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-beeindigen.htm"
       ],
-      "gecontroleerd": "2026-08-16",
+      "gecontroleerd": "2026-08-18",
       "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 12,
       "looptijdNieuwbouwMaanden": 24,
