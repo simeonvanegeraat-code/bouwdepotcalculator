@@ -65,6 +65,9 @@ if (amountInput && rateInput && monthsInput && financedInput) {
                 interpretationLabel: data.interpretationLabel
             },
             conclusion: data.conclusion,
+            // De volle zin staat al op het scherm; het rapport kreeg alleen het
+            // kale label mee en maakte daar "De effectinschatting is beperkt" van.
+            interpretation: data.interpretation,
             assumptions: data.assumptions
         };
     }
@@ -147,6 +150,7 @@ if (amountInput && rateInput && monthsInput && financedInput) {
             financingImpact,
             total,
             interpretationLabel,
+            interpretation,
             conclusion,
             assumptions,
             generatedAt: now.toISOString()
