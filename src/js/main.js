@@ -118,7 +118,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function buildHomepageReport(data) {
             return {
-                toolTitle: 'Algemene bouwdepot calculator',
+                // Zonder eigen toolId leidt reporting.js hem af uit het pad, en dat
+                // is op de homepage leeg. Het bestand heette daardoor
+                // "calculator-overzicht.pdf": de minst zeggende naam van alle zeven.
+                toolId: 'bouwdepot-maandlast',
+                toolTitle: 'Bouwdepot maandlast berekening',
                 generatedAt: data.generatedAt,
                 inputs: {
                     amount: data.amount,
@@ -128,16 +132,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     taxIndicationEnabled: data.taxIndicationEnabled,
                     geldverstrekker: data.geldverstrekker
                 },
-                results: {
-                    netMonthly: data.netMonthly,
-                    grossMonthly: data.grossMonthly,
-                    indicativeTaxBenefit: data.taxBenefit
-                },
+                // Staat de renteaftrek uit, dan is netto gelijk aan bruto en is het
+                // voordeel nul. Drie regels die hetzelfde zeggen maken het overzicht
+                // niet vollediger; ze suggereren alleen dat er iets is afgetrokken.
+                results: data.taxIndicationEnabled
+                    ? {
+                        netMonthly: data.netMonthly,
+                        grossMonthly: data.grossMonthly,
+                        indicativeTaxBenefit: data.taxBenefit
+                    }
+                    : { grossMonthly: data.grossMonthly },
                 // Zonder renteaftrek is er niets afgetrokken; "netto" zou dan hetzelfde
                 // bedrag een onterecht gunstige naam geven.
                 conclusion: data.taxIndicationEnabled
                     ? `Bij deze invoer geeft het bouwdepot een indicatieve netto maandlast van ${formatEuro(data.netMonthly)} per maand, na renteaftrek.`
                     : `Bij deze invoer geeft het bouwdepot een indicatieve bruto maandlast van ${formatEuro(data.netMonthly)} per maand.`,
+                interpretation: data.verloopZin,
                 assumptions: 'Maandlast op basis van bedrag, rente, hypotheekvorm en looptijd. De renteaftrekindicatie gebruikt maximaal 37,56%, vóór eigenwoningforfait en zonder persoonlijke aangiftegegevens. Voor waarderuimte en eigen geld staat een aparte berekening op leenruimte.html.'
             };
         }
@@ -183,8 +193,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? monthlyRate * amount * (totalMonths + 1) / 2
                 : grossMonthly * totalMonths - amount;
 
+            // Wat het bedrag zelf niet zegt: hoe de last zich over de looptijd
+            // ontwikkelt. Deze zin stond alleen op het scherm, terwijl hij juist
+            // hoort bij een overzicht dat mee gaat naar een adviseur.
+            const verloopZin = type === 'linear'
+                ? 'Bij lineair is dit uw hoogste maand. De aflossing blijft gelijk, het rentedeel daalt, dus uw last wordt elke maand iets lager.'
+                : 'Bij annuïteiten blijft dit bedrag de hele looptijd gelijk. Alleen de verhouding schuift: het rentedeel daalt, de aflossing stijgt.';
+
             const now = new Date();
             const reportData = buildHomepageReport({
+                verloopZin,
                 amount,
                 mortgageType: mortgageTypeLabels[type] || type,
                 interestRate: interest,
@@ -253,12 +271,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 balkAflossing.style.width = (100 - deel).toFixed(1) + '%';
             }
 
-            // De zin zegt wat het getal niet zegt: hoe de last zich ontwikkelt.
-            if (resConclusion) {
-                resConclusion.textContent = type === 'linear'
-                    ? 'Bij lineair is dit uw hoogste maand. De aflossing blijft gelijk, het rentedeel daalt, dus uw last wordt elke maand iets lager.'
-                    : 'Bij annuïteiten blijft dit bedrag de hele looptijd gelijk. Alleen de verhouding schuift: het rentedeel daalt, de aflossing stijgt.';
-            }
+            // Dezelfde zin als in het gedownloade overzicht; hij stond hier
+            // eerder apart, wat betekende dat scherm en document uit elkaar
+            // konden lopen.
+            if (resConclusion) resConclusion.textContent = verloopZin;
             if (resMethod) resMethod.textContent = reportData.assumptions;
             if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
 
@@ -479,7 +495,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (ratioToMortgage >= 0.003) impactLabel = 'substantieel';
             else if (ratioToMortgage >= 0.0015) impactLabel = 'merkbaar';
 
-            const interpretation = `De maandimpact is ${impactLabel}. Een ${patternNames[pattern]?.toLowerCase() || 'gekozen'} opnamepatroon en een duur van ${months} maanden bepalen hoe lang de netto maanddruk aanhoudt en hoeveel vergoeding u ontvangt.`;
+            // De labels uit patternNames zijn werkwoordgroepen ("Gelijkmatig
+            // opnemen"), en die kwamen als bijvoeglijk naamwoord vóór
+            // "opnamepatroon" te staan: "Een gelijkmatig opnemen opnamepatroon".
+            // In het overzicht dat iemand meeneemt naar zijn adviseur hoort dat
+            // gewoon te lopen.
+            const patroonZin = {
+                even: 'U neemt gelijkmatig op',
+                slow: 'U begint rustig en neemt later meer op',
+                fast: 'U neemt in de eerste maanden snel op',
+            }[pattern] || 'Bij het gekozen opnamepatroon';
+            const interpretation = `De maandimpact is ${impactLabel}. ${patroonZin} over ${months} maanden; dat bepaalt hoe lang de maanddruk aanhoudt en hoeveel vergoeding u ontvangt.`;
             const now = new Date();
             const report = buildMaandlastenReport({
                 totalMortgage: mortgage,
@@ -1346,7 +1372,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 : 'De termijnverdeling is redelijk gespreid; de maanddruk loopt daardoor gelijkmatiger op.';
 
             const conclusion = `Bij deze invoer ligt de hoogste maanddruk indicatief in maand ${peakMonth} op ${formatEuro(peakTotalMonthly)} totaal per maand.`;
-            const interpretation = `Uw nieuwbouwscenario voelt ${pressureLabel}: de combinatie van overlaplasten en opnametempo bepaalt de piekdruk het meest.`;
+            // Stond eerder als "Uw nieuwbouwscenario voelt zwaar". Hoe een
+            // scenario voelt is aan de bezoeker; deze site beschrijft wat er
+            // rekenkundig gebeurt en velt geen oordeel over iemands situatie.
+            const interpretation = `De piekdruk in dit scenario is ${pressureLabel}. Die wordt vooral bepaald door de combinatie van overlaplasten en het tempo waarin de bouwtermijnen vervallen.`;
             if (resConclusion) resConclusion.textContent = conclusion;
             if (resInterpretation) resInterpretation.textContent = interpretation;
             if (resTimeline) resTimeline.textContent = timelineLine;

@@ -26,6 +26,7 @@ import { jsPDF } from 'jspdf';
         depotAmount: { label: 'Bouwdepot bedrag', type: 'currency' },
         mortgageRate: { label: 'Hypotheekrente', type: 'percentage' },
         depotCompensationRate: { label: 'Depotvergoeding', type: 'percentage' },
+        rekenmodel: { label: 'Rekenmodel van de aanbieder', type: 'text' },
         durationMonths: { label: 'Looptijd', type: 'months' },
         opnamePattern: { label: 'Opnamepatroon', type: 'text' },
         extraHousingCost: { label: 'Extra woonlast tijdens bouw', type: 'currency' },
@@ -51,6 +52,17 @@ import { jsPDF } from 'jspdf';
         totalMortgageInterest: { label: 'Totale hypotheekrente', type: 'currency' },
         totalCompensation: { label: 'Totale vergoeding', type: 'currency' },
         interpretationLabel: { label: 'Effectinschatting', type: 'interpretation' },
+
+        // Bouwrente. Deze zes ontbraken, waardoor het overzicht terugviel op de
+        // sleutelnaam en de rauwe waarde: "Average Monthly Cost" met daaronder
+        // 333.3333333333333. Engelse koppen en ongeformatteerde getallen in een
+        // document dat iemand meeneemt naar zijn adviseur.
+        rate: { label: 'Bouwrentepercentage', type: 'percentage' },
+        financed: { label: 'Bouwrente meegefinancierd', type: 'boolean' },
+        totalIndicativeBouwrente: { label: 'Totale bouwrente', type: 'currency' },
+        averageMonthlyCost: { label: 'Gemiddeld per maand', type: 'currency' },
+        financingImpact: { label: 'Effect van meefinancieren', type: 'currency' },
+        totalIncludingFinancingImpact: { label: 'Totaal inclusief financieringseffect', type: 'currency' },
 
         landCost: { label: 'Grondkosten', type: 'currency' },
         constructionCost: { label: 'Aanneemsom', type: 'currency' },
@@ -193,7 +205,13 @@ import { jsPDF } from 'jspdf';
 
         if (!section || typeof section !== 'object') return [];
 
-        return Object.entries(section).map(([key, value]) => mapRow(key, value, labels));
+        // Een leeg veld hoort in een persoonlijk overzicht niet als streepje te
+        // verschijnen. "Totaal incl. dubbele lasten —" stond er ook wanneer
+        // iemand helemaal geen dubbele lasten had opgegeven; dan is de regel
+        // geen ontbrekend gegeven maar een vraag die niet speelt.
+        return Object.entries(section)
+            .filter(([, value]) => value !== null && value !== undefined && value !== '')
+            .map(([key, value]) => mapRow(key, value, labels));
     };
 
     const inferToolId = () => {
@@ -206,6 +224,17 @@ import { jsPDF } from 'jspdf';
         return heading?.textContent?.trim() || 'Bouwdepot calculator';
     };
 
+    /** De velden die als Interpretatie-sectie worden afgedrukt en dus niet ook
+     *  nog als resultaatregel horen te verschijnen. */
+    const INTERPRETATIEVELDEN = ['overlapInterpretation', 'interpretationLabel'];
+
+    const zonderInterpretatievelden = (results) => {
+        if (!results || typeof results !== 'object' || Array.isArray(results)) return results;
+        const kopie = { ...results };
+        INTERPRETATIEVELDEN.forEach((k) => delete kopie[k]);
+        return kopie;
+    };
+
     const normalizeReport = (rawReport = {}, options = {}) => {
         const generatedAt = rawReport.generatedAt || new Date().toISOString();
         const rawInterpretation = rawReport.interpretation
@@ -213,7 +242,11 @@ import { jsPDF } from 'jspdf';
             || rawReport.results?.overlapInterpretation
             || rawReport.results?.interpretationLabel
             || options.interpretation;
-        const interpretation = normalizeInterpretationText(rawInterpretation);
+        // Geen interpretatie is beter dan een lege. Drie van de zeven overzichten
+        // drukten een kopje "Interpretatie" af met de zin "Indicatieve
+        // interpretatie op basis van uw invoer", die niets toevoegt aan een
+        // document dat iemand meeneemt naar zijn adviseur.
+        const interpretation = rawInterpretation ? normalizeInterpretationText(rawInterpretation) : null;
 
         return {
             version: SCHEMA_VERSION,
@@ -221,7 +254,10 @@ import { jsPDF } from 'jspdf';
             toolTitle: rawReport.toolTitle || options.toolTitle || inferToolTitle(),
             generatedAt,
             inputs: toRows(rawReport.inputs, options.inputLabels),
-            results: toRows(rawReport.results, options.resultLabels),
+            // De effectinschatting wordt hierboven al tot de Interpretatie-sectie
+            // gemaakt. Stond hij ook nog tussen de resultaten, dan las je dezelfde
+            // zin twee keer in hetzelfde overzicht.
+            results: toRows(zonderInterpretatievelden(rawReport.results), options.resultLabels),
             conclusion: rawReport.conclusion || options.conclusion || 'Indicatieve uitkomst op basis van uw invoer.',
             interpretation,
             assumptions: rawReport.assumptions || options.assumptions || 'Indicatieve berekening; laat persoonlijke details toetsen door een adviseur.',
@@ -335,9 +371,11 @@ import { jsPDF } from 'jspdf';
         addParagraph(report.conclusion);
         y += sectionGap;
 
-        addSectionTitle('Interpretatie');
-        addParagraph(report.interpretation);
-        y += sectionGap;
+        if (report.interpretation) {
+            addSectionTitle('Interpretatie');
+            addParagraph(report.interpretation);
+            y += sectionGap;
+        }
 
         addSectionTitle('Aannames');
         addParagraph(report.assumptions);
