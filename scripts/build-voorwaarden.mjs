@@ -118,6 +118,12 @@ function tariefVeld(a) {
   return { waarde: v, detail: `Bij nieuwbouw geldt een andere regel: ${n.toLowerCase()}.` };
 }
 
+/** Een gestructureerde declaratie-eis opzoeken, of een leeg veld. */
+function eisVeld(a, naam) {
+  const e = (a.declaratieEisen || []).find((x) => x.eis === naam);
+  return e ? { waarde: e.waarde, detail: e.detail || null } : { waarde: null };
+}
+
 /** Het bewijsstuk dat bij een declaratie moet, uit de gestructureerde eisen. */
 function bewijsVeld(a) {
   const bewijs = (a.declaratieEisen || []).find((e) => e.eis === 'soort-bewijs');
@@ -617,7 +623,11 @@ function bouwAanbieder(a) {
       a.doorlooptijdUitbetaling?.digitaal ? esc(a.doorlooptijdUitbetaling.digitaal) : LEEG,
       a.doorlooptijdUitbetaling?.post),
     rij('Zelf voorschieten en terugvragen', waarde(a.voorschieten), a.voorschieten?.detail),
-    rij('Vereist bewijsstuk', a.bewijsstuk ? esc(a.bewijsstuk) : LEEG),
+    // Las eerder a.bewijsstuk, een veld dat maar bij twee van de zes bestaat en
+    // nergens werd gevuld; daardoor stond deze rij op alle aanbiederpagina's leeg
+    // terwijl het antwoord in declaratieEisen staat.
+    rij('Vereist bewijsstuk', waarde(bewijsVeld(a)), bewijsVeld(a).detail),
+    rij('Ouderdom van de factuur', waarde(eisVeld(a, 'factuurouderdom')), eisVeld(a, 'factuurouderdom').detail),
     rij('Wat u mag declareren', a.declarabel ? esc(a.declarabel) : LEEG),
     rij('Restant bij beëindiging', waarde(a.restant), a.restant?.detail),
     rij('Eigen arbeid', waarde(a.eigenArbeid), a.eigenArbeid?.detail),
