@@ -79,7 +79,12 @@
                         <p class="notitie" id="dp-restant" hidden style="margin-top: var(--ds-4)"></p>
 
                         <div class="uitkomst-acties no-print">
+                            <!-- De datums hier liggen een tot twee jaar vooruit. Een afdruk
+                                 helpt daar niet tegen; een agendabestand met een herinnering
+                                 wel. Het wordt in de browser gemaakt en gaat nergens heen. -->
+                            <button id="dp-agenda" class="ds-knop ds-knop--primair" type="button">Zet de datums in mijn agenda</button>
                             <button id="dp-printen" class="ds-knop ds-knop--rustig" type="button">Planning printen</button>
+                            <p class="ds-caption" id="dp-agenda-uitleg">U krijgt een agendabestand met een herinnering vóór de momenten waarop u iets moet regelen.</p>
                         </div>
                     </div>
 
@@ -112,6 +117,7 @@
                         <div class="ds-veld">
                             <div class="ds-veld__kop"><label class="ds-veld__naam" for="dp-opgenomen">Al opgenomen</label></div>
                             <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="dp-opgenomen" value="0" min="0" step="500" inputmode="numeric"></div>
+                            <span class="ds-veld__fout" id="dp-fout-opgenomen" role="alert"></span>
                         </div>
                     </div>
 

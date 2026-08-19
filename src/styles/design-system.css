@@ -456,6 +456,19 @@ html { scrollbar-gutter: stable; }
 }
 .ds-knop:active { transform: scale(0.985); }
 
+/* Een knop die nog niets kan doen. Zonder deze regel valt hij terug op de
+   grijze standaardknop van de browser, en dan staat er midden in een verzorgd
+   scherm ineens iets dat er niet bij hoort. De variant wint het niet van deze
+   regel, want :disabled is specifieker. */
+.ds-knop:disabled,
+.ds-knop[aria-disabled="true"] {
+    background: var(--ds-surface-sunk);
+    border-color: var(--ds-line);
+    color: var(--ds-ink-faint);
+    cursor: not-allowed;
+}
+.ds-knop:disabled:active { transform: none; }
+
 .ds-knop--primair { background: var(--ds-accent); color: #fff; }
 .ds-knop--primair:hover { background: var(--ds-accent-hover); color: #fff; }
 

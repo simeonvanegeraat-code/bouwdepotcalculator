@@ -18,6 +18,7 @@
  */
 
 import { huidigeBank, opBankwissel } from './bankkeuze.js';
+import { maakAgenda, downloadAgenda } from './agenda.js';
 
 const wortel = document.getElementById('depotplanner');
 
@@ -42,6 +43,8 @@ if (wortel) {
         opgenomenPct: el('dp-opgenomen-pct'),
         balkOpgenomen: el('dp-balk-opgenomen'),
         tijdlijn: el('dp-tijdlijn'),
+        agendaKnop: el('dp-agenda'),
+        foutOpgenomen: el('dp-fout-opgenomen'),
         restantRegel: el('dp-restant'),
         waarschuwing: el('dp-waarschuwing'),
         geenBank: el('dp-geen-bank'),
@@ -63,6 +66,9 @@ if (wortel) {
         const dagen = (tot - van) / 86400000;
         return dagen / 30.44;
     };
+
+    // Wat de agendaknop nodig heeft, bijgewerkt bij elke berekening.
+    let laatsteAgenda = null;
 
     const vandaag = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
 
@@ -212,10 +218,30 @@ if (wortel) {
     function bereken() {
         bewaar();
 
+        // De agenda staat uit tot er datums zijn. Zonder bank of zonder
+        // passeerdatum is er niets te exporteren, en een knop die niets doet is
+        // erger dan geen knop: je denkt dat het gelukt is.
+        laatsteAgenda = null;
+        if (uit.agendaKnop) uit.agendaKnop.disabled = true;
+
         const bank = huidigeBank();
         const soort = velden.soort?.value === 'nieuwbouw' ? 'nieuwbouw' : 'verbouw';
         const bedrag = Math.max(0, Number(velden.bedrag?.value) || 0);
-        const opgenomen = Math.min(bedrag, Math.max(0, Number(velden.opgenomen?.value) || 0));
+        // Stil afkappen is precies waar deze site niet voor staat: de bezoeker
+        // typt 80.000, ziet 50.000 terug en weet niet of de tool hem begrepen
+        // heeft. We rekenen wel door met een bruikbare waarde, maar zeggen het.
+        const ingevoerdOpgenomen = Number(velden.opgenomen?.value) || 0;
+        const opgenomen = Math.min(bedrag, Math.max(0, ingevoerdOpgenomen));
+        if (uit.foutOpgenomen) {
+            let melding = '';
+            if (ingevoerdOpgenomen < 0) {
+                melding = 'Een opgenomen bedrag onder nul bestaat niet; we rekenen met nul.';
+            } else if (bedrag > 0 && ingevoerdOpgenomen > bedrag) {
+                melding = `U kunt niet meer opnemen dan er in het depot zit. We rekenen met het volledige depot van ${euro.format(bedrag)}.`;
+            }
+            uit.foutOpgenomen.textContent = melding;
+            velden.opgenomen?.setAttribute('aria-invalid', melding ? 'true' : 'false');
+        }
         const saldo = bedrag - opgenomen;
 
         uit.saldo.textContent = euro.format(saldo);
@@ -257,7 +283,17 @@ if (wortel) {
         const einde = typeof looptijd === 'number' ? maandenErbij(start, looptijd) : null;
         const resterend = einde ? maandenTussen(nu, einde) : null;
 
-        if (resterend == null) {
+        // Een passeerdatum in de toekomst is een echt geval: wie volgende maand
+        // passeert wil weten wanneer zijn depot afloopt. Maar "resterend" telt
+        // vanaf vandaag, en dat gaf een kop van 33 maanden bij een termijn die
+        // 24 maanden duurt -- meer tijd dan het depot lang is. De tijdlijn klopt
+        // wel, dus die laten we staan; alleen de kop vertelt iets anders.
+        const nogNietGeopend = start > nu;
+
+        if (nogNietGeopend && einde) {
+            uit.resterend.textContent = 'Nog niet gestart';
+            uit.resterendZin.textContent = `Uw depot opent op ${datum.format(start)}. Vanaf dat moment loopt de standaardtermijn van ${looptijd} maanden, tot ${datum.format(einde)}.`;
+        } else if (resterend == null) {
             uit.resterend.textContent = '—';
             uit.resterendZin.textContent = `${bank.naam} publiceert geen standaardlooptijd voor dit deposoort.`;
         } else if (resterend <= 0) {
@@ -272,7 +308,12 @@ if (wortel) {
                 : 'Volgens uw invoer is het depot leeg.'}`;
         }
 
-        toonTijdlijn(gebeurtenissen(bank, start, soort), nu);
+        const rij = gebeurtenissen(bank, start, soort);
+        toonTijdlijn(rij, nu);
+        // De agendaknop werkt met dezelfde gebeurtenissen als de tijdlijn, zodat
+        // wat iemand meeneemt niet kan afwijken van wat hij op het scherm zag.
+        laatsteAgenda = { bank, soort, rij };
+        if (uit.agendaKnop) uit.agendaKnop.disabled = !rij.some((g) => g.datum);
 
         if (uit.restantRegel) {
             uit.restantRegel.hidden = false;
@@ -310,6 +351,31 @@ if (wortel) {
     });
 
     el('dp-printen')?.addEventListener('click', () => window.print());
+
+    // Een herinnering hoort alleen bij een moment waarop iets te regelen valt.
+    // De tijdlijn markeert die al met let_op; dat hergebruiken we hier, zodat de
+    // agenda niet bij elke gebeurtenis piept. Een agenda die te vaak piept wordt
+    // uitgezet, en werkt dan niet meer op het moment dat het ertoe doet.
+    const DAGEN_VOORAF = 30;
+
+    el('dp-agenda')?.addEventListener('click', () => {
+        if (!laatsteAgenda) return;
+        const { bank, soort, rij } = laatsteAgenda;
+        const naam = `Bouwdepot ${bank.naam}`;
+        const inhoud = maakAgenda({
+            naam,
+            bron: 'bouwdepotcalculator.nl/depotplanner.html',
+            gebeurtenissen: rij.map((g) => ({
+                naam: g.naam,
+                datum: g.datum,
+                uitleg: g.uitleg,
+                herinnering: g.let_op ? DAGEN_VOORAF : null,
+            })),
+        });
+        if (!inhoud) return;
+        const kern = `${bank.id}-${soort}`;
+        downloadAgenda(`bouwdepot-${kern}.ics`, inhoud);
+    });
 
     el('dp-vandaag')?.addEventListener('click', () => {
         // Handig voor wie zijn depot vandaag opent, en het maakt de tijdlijn
