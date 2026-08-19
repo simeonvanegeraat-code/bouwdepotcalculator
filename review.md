@@ -1,0 +1,90 @@
+# Review
+
+Drie dingen: waar je op nakijkt, hoe je bevindingen indeelt, en wat er al
+opgeleverd is.
+
+---
+
+## 1. Checklist vóór opleveren
+
+Loop af wat van toepassing is. Sla je iets over, zeg dan wélk punt.
+
+### Product en UX
+- [ ] Snapt een nieuwe bezoeker de tool binnen vijf seconden — wat vul ik in, waar verschijnt het antwoord — zonder uitleg te lezen?
+- [ ] Ziet het er professioneel en betrouwbaar uit? Rust en precisie, geen drukte.
+- [ ] Volledig responsive: geen layoutproblemen op 375px, niets loopt over of valt weg.
+- [ ] Is er structurele ruimte voor SEO-content en advertenties, zonder dat die het rekenwerk onderbreken?
+
+### Code en scope
+- [ ] Is de wijziging klein genoeg om te beoordelen? Eén onderwerp.
+- [ ] Geen onnodige complexiteit toegevoegd: geen tweede manier om iets te doen dat al bestaat, geen bibliotheek voor wat in twintig regels kan.
+- [ ] Zijn invoerfouten afgevangen? Leeg veld, nul, negatief bedrag, tekst in een getalveld, onrealistisch hoge invoer — de bezoeker krijgt een begrijpelijke melding, geen `NaN` en geen lege uitkomst.
+- [ ] Past de wijziging bij het huidige blok in [roadmap.md](roadmap.md)?
+
+### Altijd
+- [ ] `npm test` slaagt.
+- [ ] `npm run build` slaagt (die draait de tests en de generatoren).
+- [ ] Geen gegenereerd bestand met de hand aangepast (`src/js/bankdata.generated.js`).
+- [ ] Nieuwe of hernoemde pagina staat in `vite.config.js` én in `public/sitemap.xml`.
+- [ ] Commentaar, teksten en commit zijn in het Nederlands.
+
+### Bij wijzigingen aan de UI
+- [ ] Zelf in de browser bekeken — desktop (1440px) én mobiel (375px).
+- [ ] Kleur, maat en ruimte komen uit `src/styles/design-system.css`, geen losse waarden — ook niet in JavaScript.
+- [ ] Aanraakzones minimaal 44 × 44px, contrast haalt WCAG AA.
+- [ ] De uitkomst staat bovenaan, de uitleg eronder.
+- [ ] Bedragen verspringen niet tijdens het typen.
+- [ ] Voor-en-na met gemeten waarden vastgelegd in [demo/](demo/).
+
+### Bij wijzigingen aan data of voorwaarden
+- [ ] Elke gewijzigde waarde heeft een bron-URL en een controledatum.
+- [ ] Niets gepubliceerd? Dan `null` met status `niet-gepubliceerd`, geen schatting.
+- [ ] Elke `detail` komt overal mee, ook op de vergelijkingspagina.
+- [ ] Geen kop die meer belooft dan de toelichting waarmaakt.
+- [ ] Geen persoonlijke aanbeveling, geen "beste keuze".
+
+### Bij wijzigingen die SEO of laadtijd raken
+- [ ] Titel en metabeschrijving zijn uniek en beschrijven deze pagina.
+- [ ] Eén `<h1>`, en de koppen lopen op zonder niveaus over te slaan.
+- [ ] De inhoud staat in de HTML, niet alleen achter JavaScript.
+- [ ] Verdieping via echte links naar echte pagina's.
+- [ ] `lastmod` in de sitemap bijgewerkt.
+- [ ] Geen nieuwe afhankelijkheid zonder afweging; wat je toevoegt laadt alleen op de pagina's die het gebruiken.
+- [ ] De bundel van de gewijzigde pagina is niet zonder reden gegroeid.
+
+---
+
+## 2. Bevindingen indelen
+
+Alles wat uit een review komt, krijgt één van deze drie. Zonder indeling wordt
+elke opmerking even zwaar, en dan blijft er niets over dat écht moet.
+
+| Categorie | Wat erin hoort | Wat ermee gebeurt |
+|---|---|---|
+| **Must fix** | Bugs, kapotte UI, verkeerde berekeningen, onjuiste of ongenuanceerde data | Blokkeert opleveren. Eerst dit |
+| **Should fix** | UX-verbeteringen, opmaak, naamgeving, dubbele code | Mag mee als het klein is, anders naar de roadmap |
+| **Okay to ship** | Voldoet aan de eisen | Opleveren en in het logboek zetten |
+
+Een verkeerde berekening of een dataveld dat zijn nuance verliest is altijd
+**must fix**, ook als het onbeduidend lijkt. Daar hangt het vertrouwen aan, en
+dat is het hele product.
+
+---
+
+## 3. Logboek
+
+Nieuwste bovenaan. Eén regel per opgeleverd stuk werk: wat er veranderde, hoe
+het is nagekeken, en wat er open bleef staan.
+
+| Datum | Wat | Nagekeken met | Open gebleven |
+|---|---|---|---|
+| 19-08-2026 | Termijnschema bruikbaar gemaakt: Nederlandse getalnotatie wordt gelezen, kolomkoppen en veldnamen toegevoegd, geen uitkomst meer bij een schema dat niet klopt, alles naar 44px | Alle vijf schrijfwijzen van "87.500" geven nu dezelfde uitkomst (was: vier van de vijf fout). Blokkade en herstel getest bij 80%, 125% en een termijn na het bouweinde. Typen wordt niet meer onderbroken; opmaak volgt bij verlaten van het veld. Mobiel 375px: kaartweergave met eigen maandlabel. Nieuwe `tests/getallen.test.mjs`, 34/34 tests | `leesGetal` hoort alleen op vrije tekstvelden; op `type="number"`-velden leest hij "3.80" als 380 |
+| 19-08-2026 | De fiscale grafiek op `belasting.html` ook omgezet; tekenwerk verhuisd naar de gedeelde module `src/js/staafgrafiek.js`; `chart.js` uit package.json en lockfile | Belasting: 30 staven = 30 tabelrijen, netto stijgt, voordeel daalt, geen bovenstuk zodra het voordeel negatief wordt (vanaf jaar 14). Nieuwbouw na de refactor opnieuw nagemeten op 12 en 24 mnd. Mobiel 375px en donkere modus. `npm run build`, 29/29 tests | Geen enkele verwijzing naar Chart meer in de codebase |
+| 19-08-2026 | Nieuwbouw: het lege grafiekvlak vervangen door een eigen SVG-staafgrafiek uit de tokens; Chart.js-code en de arrays die hem voedden verwijderd | Meetkundig gecontroleerd op 3, 12, 24 en 36 maanden: staafaantal gelijk aan de tabel, niets buiten het tekenvlak, geen stapelfouten, eigen last stijgt monotoon. Mobiel 375px en donkere modus nagelopen. 0 hex-waarden in de SVG, 0 consolefouten, 29/29 tests | Nog te doen: hetzelfde voor `belasting.html` (fiscalChart), daarna kan `chart.js` uit package.json |
+| 19-08-2026 | Rapportschema uitgebreid met tabellen (v1.2.0); de nieuwbouwpagina stuurt het maand-tot-maand verloop mee in de PDF, inclusief een kolom "incl. woonlast" die op het scherm ontbreekt | PDF onderschept zonder te downloaden: 26 rijen bij 24 mnd, gelijk aan het scherm. Paginawissel getest met 122 rijen: 4 pagina's, kolomkop 3x herhaald. Homepage (zonder tabel) onveranderd 1 pagina. 29/29 tests | Zes andere calculators kunnen nu ook een tabel meesturen; nog niet gedaan |
+| 19-08-2026 | Nieuwbouw: het standaard termijnschema schaalt nu mee met de bouwduur in plaats van vast te staan op maand 1/3/6/9/12 | Browser op 1, 6, 12, 24 en 36 maanden: termijnen en piekmaand schuiven mee, depot loopt tot het einde van de bouw. Zelf ingevulde schema's blijven staan bij het wijzigen van de bouwduur. `npm run build`, 29/29 tests, 0 consolefouten | De maand-tot-maand tabel zit **niet** in de PDF-download; alleen samenvattende cijfers |
+| 19-08-2026 | De drie must fixes van de homepage: invoervalidatie met melding, "Zes banken" naar acht plus een test die koppen bewaakt, en de FAQ-vragen zichtbaar op de pagina | Browser: negatief/leeg/nul/miljard/negatieve rente geven nu een melding en geen bedrag; 0% rente rekent gewoon door. Regressietest bewezen door de oude kop terug te zetten. `npm run build`, 29/29 tests, 0 consolefouten | Should fix 4 t/m 8 uit [spec/homepage.md](spec/homepage.md); pagina werd 0,9 scherm langer door de FAQ |
+| 19-08-2026 | Selectie op de bedragknoppen hersteld via `aria-pressed` in plaats van de klasse `.selected`; jsPDF wordt pas bij de klik geladen | Browser: chip wit → teal met witte tekst, bedrag en uitkomst volgen mee. Build: homepage van 423 kB naar **74 kB** JS, jsPDF als losse chunk. `npm test` 28/28 | Volledige inspectie van de homepage staat in [spec/homepage.md](spec/homepage.md): 3 must fix, 5 should fix |
+| 19-08-2026 | `src/styles/main.css` verwijderd (3.658 regels, door geen enkele pagina geladen); stale commentaar in `main.js` bijgewerkt | `npm run build`, `npm test` (28/28), homepage in de browser op 1280 en 375: 0 ongestyleerde knoppen, 0 consolefouten, geen verweesde CSS-variabelen | **Must fix:** selectie op de homepageknoppen is onzichtbaar (`.selected` had alleen styling in main.css) |
+| 19-08-2026 | Nulmeting homepage en ontwerpreferenties vastgelegd; roadmap gecorrigeerd op twee achterhaalde aannames | Live site uitgelezen op 375px; rabobank.nl en belastingdienst.nl op 1280px | Zoekdata volgt rond 26-08 |
+| 19-08-2026 | Werkmap ingericht: CLAUDE.md, roadmap, review, en de mappen context/customers/spec/demo/routines | `npm test` (28/28), links gecontroleerd; geen code geraakt | Eerste spec moet nog geschreven worden |
