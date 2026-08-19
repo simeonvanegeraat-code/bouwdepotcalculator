@@ -1,7 +1,10 @@
-import { jsPDF } from 'jspdf';
+// jsPDF wordt bewust niet bovenaan geimporteerd. Die bibliotheek is 359 kB en
+// stond daarmee voor 85% van alle JavaScript op de homepage, terwijl de meeste
+// bezoekers de downloadknop nooit aanraken. Hij wordt nu pas opgehaald op het
+// moment dat er echt een PDF gemaakt moet worden; zie createPdfReport.
 
 (function initBouwdepotReporting(global) {
-    const SCHEMA_VERSION = '1.1.0';
+    const SCHEMA_VERSION = '1.2.0';
 
     const FIELD_DEFINITIONS = {
         amount: { label: 'Bouwdepot bedrag', type: 'currency' },
@@ -214,6 +217,43 @@ import { jsPDF } from 'jspdf';
             .map(([key, value]) => mapRow(key, value, labels));
     };
 
+    /**
+     * Tabellen in een overzicht. Tot nu toe kende het rapport alleen losse
+     * veldwaarden, waardoor het maand-tot-maand verloop wel op het scherm stond
+     * maar niet in het document dat iemand meeneemt naar zijn adviseur.
+     *
+     * Vorm:
+     *   tables: [{ title, columns: [{ key, label, type, align }], rows: [{...}] }]
+     *
+     * De waarden worden hier al opgemaakt met dezelfde formatters als de rest
+     * van het overzicht, zodat de PDF-laag alleen nog tekst hoeft te plaatsen.
+     */
+    const normalizeTables = (rawTables) => {
+        if (!Array.isArray(rawTables)) return [];
+
+        return rawTables
+            .filter((table) => table && Array.isArray(table.columns) && Array.isArray(table.rows) && table.rows.length)
+            .map((table) => {
+                const columns = table.columns.map((kolom, index) => {
+                    const definition = FIELD_DEFINITIONS[kolom.key] || {};
+                    const type = kolom.type || definition.type || 'text';
+                    return {
+                        key: kolom.key || `kolom_${index + 1}`,
+                        label: kolom.label || definition.label || `Kolom ${index + 1}`,
+                        type,
+                        // Getallen lezen rechts uitgelijnd het prettigst; tekst links.
+                        align: kolom.align || (type === 'text' ? 'left' : 'right'),
+                    };
+                });
+
+                return {
+                    title: table.title || 'Overzicht',
+                    columns,
+                    rows: table.rows.map((row) => columns.map((kolom) => formatByType(row[kolom.key], kolom.type))),
+                };
+            });
+    };
+
     const inferToolId = () => {
         const slug = global.location?.pathname?.split('/').pop()?.replace('.html', '') || 'calculator';
         return slug === 'index' || slug === '' ? 'homepage-bouwdepot' : slug;
@@ -260,6 +300,7 @@ import { jsPDF } from 'jspdf';
             results: toRows(zonderInterpretatievelden(rawReport.results), options.resultLabels),
             conclusion: rawReport.conclusion || options.conclusion || 'Indicatieve uitkomst op basis van uw invoer.',
             interpretation,
+            tables: normalizeTables(rawReport.tables),
             assumptions: rawReport.assumptions || options.assumptions || 'Indicatieve berekening; laat persoonlijke details toetsen door een adviseur.',
             metadata: {
                 sourcePath: global.location?.pathname || '',
@@ -289,7 +330,8 @@ import { jsPDF } from 'jspdf';
         return y + (lines.length * lineHeight);
     };
 
-    const createPdfReport = (report) => {
+    const createPdfReport = async (report) => {
+        const { jsPDF } = await import('jspdf');
         const doc = new jsPDF({ unit: 'mm', format: 'a4' });
         const margin = 14;
         const pageWidth = doc.internal.pageSize.getWidth();
@@ -346,6 +388,55 @@ import { jsPDF } from 'jspdf';
             });
         };
 
+        /**
+         * Een tabel over meerdere pagina's. De kolomkoppen worden na elke
+         * paginawissel herhaald: een maandoverzicht van 38 regels loopt over
+         * twee pagina's, en zonder koppen is de tweede pagina een muur van
+         * bedragen zonder betekenis.
+         */
+        const addTable = (table) => {
+            const kolommen = table.columns;
+            // De eerste kolom is doorgaans een maandnummer en mag smal blijven;
+            // de rest verdeelt de overgebleven breedte gelijk.
+            const eersteBreedte = 16;
+            const restBreedte = (contentWidth - eersteBreedte) / Math.max(1, kolommen.length - 1);
+            const breedtes = kolommen.map((_, i) => (i === 0 ? eersteBreedte : restBreedte));
+            const x = kolommen.map((_, i) => margin + breedtes.slice(0, i).reduce((a, b) => a + b, 0));
+
+            const plaats = (tekst, index, vet) => {
+                doc.setFont('helvetica', vet ? 'bold' : 'normal');
+                const rechts = kolommen[index].align === 'right';
+                const positie = rechts ? x[index] + breedtes[index] - 1 : x[index];
+                doc.text(String(tekst), positie, y, rechts ? { align: 'right' } : undefined);
+            };
+
+            const kopregel = () => {
+                doc.setFontSize(9);
+                kolommen.forEach((kolom, i) => plaats(kolom.label, i, true));
+                y += 1.5;
+                doc.setDrawColor(200);
+                doc.line(margin, y, margin + contentWidth, y);
+                y += lineHeight - 1;
+            };
+
+            doc.setFontSize(9);
+            ensurePageSpace(lineHeight * 3);
+            y += lineHeight - 2;
+            kopregel();
+
+            table.rows.forEach((rij) => {
+                if ((y + lineHeight) > (pageHeight - margin)) {
+                    doc.addPage();
+                    y = margin;
+                    kopregel();
+                }
+                rij.forEach((cel, i) => plaats(cel, i, false));
+                y += lineHeight - 0.8;
+            });
+
+            doc.setFontSize(10.5);
+        };
+
         const generatedAt = new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' })
             .format(new Date(report.generatedAt));
 
@@ -377,15 +468,23 @@ import { jsPDF } from 'jspdf';
             y += sectionGap;
         }
 
+        // Tabellen staan na de samenvatting en vóór de aannames: eerst het
+        // verhaal op één pagina, dan pas het detail dat over meer pagina's loopt.
+        (report.tables || []).forEach((table) => {
+            addSectionTitle(table.title);
+            addTable(table);
+            y += sectionGap;
+        });
+
         addSectionTitle('Aannames');
         addParagraph(report.assumptions);
 
         doc.save(getReportFilename(report));
     };
 
-    const downloadReportPdf = (normalizedReport) => {
+    const downloadReportPdf = async (normalizedReport) => {
         try {
-            createPdfReport(normalizedReport);
+            await createPdfReport(normalizedReport);
         } catch (error) {
             console.error('Kon PDF-overzicht niet genereren.', error);
         }
