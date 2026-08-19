@@ -35,7 +35,7 @@ const paginas = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
  * Bewust niet losser: een patroon op "van de N" ving ook "van de 34 posten" en
  * "van de twee rekenmodellen", en die hebben niets met aanbieders te maken.
  */
-const PATROON = /(\d+|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|elf|twaalf)\s+(?:vergeleken\s+)?(?:geldverstrekkers|aanbieders)/gi;
+const PATROON = /(\d+|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|elf|twaalf)\s+(?:vergeleken\s+)?(?:geldverstrekkers|aanbieders|banken)/gi;
 
 const alsGetal = (woord) => {
     const n = Number(woord);
@@ -69,6 +69,38 @@ test('elke vermelding van het totaal aantal aanbieders klopt met de data', () =>
     }
 
     assert.deepEqual(fouten, [], `onjuiste aantallen:\n    ${fouten.join('\n    ')}`);
+});
+
+/**
+ * Een kop die een aantal noemt, gaat over het geheel. "Zes banken, zes
+ * verschillende bouwdepots" bleef als kop op de homepage staan toen Obvion en
+ * SNS erbij kwamen, terwijl het cijfer in dezelfde sectie al 7/8 zei.
+ *
+ * De test hierboven ving dat niet: die eist "van de", "alle" of een haakje voor
+ * het getal, om een bevinding ("slechts twee aanbieders publiceren een termijn")
+ * te kunnen onderscheiden van een totaal. In een kop ontbreekt die aanloop. Daar
+ * geldt de omgekeerde regel: een kop vat samen en noemt dus het totaal.
+ */
+test('een kop die een aantal aanbieders noemt, noemt het totaal', () => {
+    const fouten = [];
+    const KOPPEN = /<h[1-3][^>]*>([\s\S]*?)<\/h[1-3]>/gi;
+
+    for (const bestand of paginas) {
+        const html = fs.readFileSync(path.join(ROOT, bestand), 'utf8');
+
+        for (const kop of html.matchAll(KOPPEN)) {
+            const tekst = kop[1].replace(/<[^>]+>/g, ' ');
+
+            for (const m of tekst.matchAll(PATROON)) {
+                const getal = alsGetal(m[1]);
+                if (getal == null || getal === AANTAL) continue;
+
+                fouten.push(`${bestand}: kop "${tekst.trim()}" noemt ${getal}, verwacht ${AANTAL}`);
+            }
+        }
+    }
+
+    assert.deepEqual(fouten, [], `onjuiste aantallen in koppen:\n    ${fouten.join('\n    ')}`);
 });
 
 test('het telwoord voor het aantal aanbieders bestaat', () => {

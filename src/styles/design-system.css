@@ -348,6 +348,23 @@ html { scrollbar-gutter: stable; }
     outline: none;
 }
 
+/* Ongeldige invoer. De rand alleen is niet genoeg: kleur draagt de boodschap
+   niet voor wie hem niet ziet, en een rode rand zegt ook niet wát er mis is.
+   Daarom altijd een regel tekst erbij, gekoppeld via aria-describedby. */
+.ds-invoer[aria-invalid="true"] {
+    border-color: var(--ds-warn);
+}
+.ds-invoer[aria-invalid="true"]:focus-visible {
+    box-shadow: 0 0 0 4px var(--ds-warn-wash);
+}
+.ds-veld__fout {
+    color: var(--ds-warn);
+    display: block;
+    font-size: var(--ds-t-small);
+    margin-top: var(--ds-2);
+}
+.ds-veld__fout:empty { display: none; }
+
 /* Schuifregelaar */
 .ds-schuif {
     -webkit-appearance: none; appearance: none;

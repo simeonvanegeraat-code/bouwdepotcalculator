@@ -160,7 +160,15 @@
                 </div>
 
                 <div class="verloop">
-                    <canvas id="fiscalChart" height="120" aria-label="Grafiek van het netto maandlastverloop over de jaren" role="img"></canvas>
+                    <!-- Eigen SVG in plaats van een grafiekbibliotheek; zie
+                         src/js/staafgrafiek.js. De legenda staat in de HTML zodat hij
+                         ook zonder JavaScript leesbaar is. -->
+                    <div class="verloop__grafiek" id="verloop-grafiek"></div>
+                    <p class="verloop__legenda">
+                        <span class="verloop__sleutel verloop__sleutel--eigen">Netto maandlast</span>
+                        <span class="verloop__sleutel verloop__sleutel--vergoeding">Belastingvoordeel</span>
+                    </p>
+                    <p class="ds-caption">Samen vormen de twee delen uw bruto maandlast. U lost af, dus u betaalt minder rente; daardoor slinkt het voordeel en betaalt u een groter deel zelf.</p>
 
                     <button id="toggle-table-btn" class="ds-knop ds-knop--rustig" type="button" style="margin-top: var(--ds-4); width: 100%;">Toon jaar-tot-jaar overzicht</button>
 

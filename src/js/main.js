@@ -1,9 +1,10 @@
-// main.css wordt niet hier geimporteerd maar per pagina gelinkt. Anders bundelt
-// Vite de oude stylesheet mee op elke pagina die main.js laadt, ook de nieuwe.
-// Die zet onder meer h2 op --color-primary (#000066), wat op een donkere sectie
-// vrijwel onleesbaar wordt.
+// Dit bestand bedient zes rekenpagina's. De vorm komt volledig uit
+// src/styles/, dat elke pagina zelf linkt; hier wordt geen stylesheet
+// geimporteerd.
 import { initSharedFormMemory, setMemoryLockById } from './shared-form-memory';
 import { huidigeBank, opBankwissel, vergoedingsTarief } from './bankkeuze.js';
+import { tekenStaafgrafiek } from './staafgrafiek.js';
+import { leesGetal, toonGetal } from './getallen.js';
 import {
     TAX_RULES_2026,
     calculateEffectiveDeductionRate,
@@ -152,13 +153,66 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         }
 
+        // Invoer die nergens op slaat mag niet stilzwijgend doorgerekend worden.
+        // Met alleen `parseFloat(...) || 0` gaf een bedrag van -50.000 een
+        // maandlast van "EUR -233" en een totale rente van "EUR -33.872": een
+        // getal dat er precies zo uitziet als een echte uitkomst. Liever geen
+        // antwoord met uitleg dan een onmogelijk antwoord zonder.
+        const GRENZEN = {
+            'input-amount': {
+                min: 0, max: 1000000, exclusiefNul: true,
+                leeg: 'Vul het bedrag van uw bouwdepot in.',
+                teLaag: 'Vul een bedrag boven de nul in.',
+                teHoog: 'Boven een miljoen euro is geen bouwdepot meer; controleer het bedrag.',
+            },
+            'input-interest': {
+                min: 0, max: 20, exclusiefNul: false,
+                leeg: 'Vul uw hypotheekrente in.',
+                teLaag: 'Een rente onder de nul procent bestaat niet; vul een positief percentage in.',
+                teHoog: 'Boven de 20 procent is geen hypotheekrente; controleer het percentage.',
+            },
+        };
+
+        /** Geeft de waarde terug, of null als het veld ongeldig is. */
+        function leesVeld(veld) {
+            const regels = GRENZEN[veld.id];
+            const melding = document.getElementById(`fout-${veld.id.replace('input-', '')}`);
+            const waarde = parseFloat(veld.value);
+
+            let fout = '';
+            if (veld.value.trim() === '' || Number.isNaN(waarde)) fout = regels.leeg;
+            else if (waarde < regels.min || (regels.exclusiefNul && waarde === 0)) fout = regels.teLaag;
+            else if (waarde > regels.max) fout = regels.teHoog;
+
+            if (melding) melding.textContent = fout;
+            veld.setAttribute('aria-invalid', fout ? 'true' : 'false');
+            return fout ? null : waarde;
+        }
+
+        /** Zet de uitkomst terug op nul zolang de invoer niet klopt. */
+        function toonGeenUitkomst() {
+            const nul = formatEuro(0);
+            [resNetto, resBruto, resRentedeel, resAflossingdeel, resTotaalrente].forEach((el) => {
+                if (el) el.textContent = nul;
+            });
+            if (resConclusion) resConclusion.textContent = 'Pas uw invoer aan voor een indicatie.';
+            const stickyAmount = document.getElementById('sticky-result-amount');
+            if (stickyAmount) stickyAmount.textContent = nul;
+            if (btnDownload) delete btnDownload.dataset.report;
+        }
+
         function calculate() {
             const type = inputType ? inputType.value : 'annuity';
-            const amount = parseFloat(inputAmount.value) || 0;
-            const interest = parseFloat(inputInterest.value) || 0;
             const years = parseInt(rangeDuration.value, 10) || 30;
 
             valDuration.textContent = `${years} Jaar`;
+
+            const amount = leesVeld(inputAmount);
+            const interest = leesVeld(inputInterest);
+            if (amount === null || interest === null) {
+                toonGeenUitkomst();
+                return;
+            }
 
             const monthlyRate = (interest / 100) / 12;
             const totalMonths = years * 12;
@@ -310,13 +364,21 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // --- NIEUW: Logic voor Multiselect Knoppen ---
+        // De selectiestand staat in aria-pressed en niet in een eigen klasse.
+        // Een eigen klasse betekent een eigen stukje CSS dat kan verdwijnen -- en
+        // dat gebeurde ook: de styling voor .selected stond in main.css, die geen
+        // pagina meer laadde, waardoor selecteren onzichtbaar werd. Het
+        // ontwerpsysteem kent .ds-chip[aria-pressed="true"] al, en
+        // schermlezers lezen de stand nu mee.
+        const isGekozen = (btn) => btn.getAttribute('aria-pressed') === 'true';
+        const zetGekozen = (btn, aan) => btn.setAttribute('aria-pressed', aan ? 'true' : 'false');
+
         function updateFromButtons() {
             let totalAddon = 0;
             let activeCount = 0;
 
             costBtns.forEach(btn => {
-                if(btn.classList.contains('selected')) {
+                if(isGekozen(btn)) {
                     totalAddon += parseFloat(btn.getAttribute('data-amount'));
                     activeCount++;
                 }
@@ -335,14 +397,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         costBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                btn.classList.toggle('selected'); // Toggle status
+                zetGekozen(btn, !isGekozen(btn));
                 updateFromButtons();
             });
         });
 
         if(btnResetCosts) {
             btnResetCosts.addEventListener('click', () => {
-                costBtns.forEach(b => b.classList.remove('selected'));
+                costBtns.forEach(b => zetGekozen(b, false));
                 updateFromButtons();
                 // We resetten de input niet naar 0, maar laten de laatste waarde staan, of je kunt hier inputAmount.value = 25000 zetten.
             });
@@ -358,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (rangeAmount) rangeAmount.value = presetAmount;
 
                     if (costBtns.length) {
-                        costBtns.forEach((costBtn) => costBtn.classList.remove('selected'));
+                        costBtns.forEach((costBtn) => zetGekozen(costBtn, false));
                         if (btnResetCosts) btnResetCosts.style.display = 'none';
                     }
 
@@ -1136,15 +1198,47 @@ document.addEventListener('DOMContentLoaded', () => {
         const tableBody = document.getElementById('details-table-body');
         const toggleTableBtn = document.getElementById('toggle-table-btn');
 
-        let costChart = null;
 
-        let terms = [
-            { month: 1, percent: 15, desc: "Ruwbouw begane grond" },
-            { month: 3, percent: 20, desc: "Ruwbouw verdiepingen" },
-            { month: 6, percent: 20, desc: "Dak & Gevelsluiting" },
-            { month: 9, percent: 25, desc: "Afbouw & Installaties" },
-            { month: 12, percent: 20, desc: "Oplevering" }
+        /**
+         * Het standaard termijnschema, meeschalend met de bouwduur.
+         *
+         * Deze vijf fasen stonden vast op maand 1, 3, 6, 9 en 12: een bouw van
+         * een jaar. Zette je de bouwduur op 24 maanden, dan bleven de termijnen
+         * staan en was het depot na twaalf maanden leeg. De helft van de bouw
+         * werd dan doorgerekend met de volle annuiteit en nul depotvergoeding,
+         * wat de piek fors overdreef -- juist in het scenario "lange bouwduur"
+         * dat we zelf als voorbeeldknop aanbieden.
+         *
+         * Een aannemer factureert naar bouwvoortgang, dus schuiven de fasen mee
+         * met de looptijd. De verdeling in procenten blijft gelijk; alleen het
+         * moment verschuift.
+         */
+        const STANDAARD_FASEN = [
+            { deelVanDeBouw: 1 / 12, percent: 15, desc: 'Ruwbouw begane grond' },
+            { deelVanDeBouw: 3 / 12, percent: 20, desc: 'Ruwbouw verdiepingen' },
+            { deelVanDeBouw: 6 / 12, percent: 20, desc: 'Dak & Gevelsluiting' },
+            { deelVanDeBouw: 9 / 12, percent: 25, desc: 'Afbouw & Installaties' },
+            { deelVanDeBouw: 12 / 12, percent: 20, desc: 'Oplevering' },
         ];
+
+        const standaardTermijnen = (bouwduur) => STANDAARD_FASEN.map((fase) => ({
+            month: Math.min(bouwduur, Math.max(1, Math.round(fase.deelVanDeBouw * bouwduur))),
+            percent: fase.percent,
+            desc: fase.desc,
+        }));
+
+        // Zodra de bezoeker het schema zelf aanpast, laten we het met rust. Zijn
+        // eigen termijnen overschrijven omdat hij de bouwduur bijstelt is erger
+        // dan een schema dat niet meer bij die duur past.
+        let termijnenZelfIngesteld = false;
+
+        const volgBouwduur = () => {
+            if (termijnenZelfIngesteld) return;
+            terms = standaardTermijnen(parseInt(inputBuildMonths?.value, 10) || 12);
+            renderTerms();
+        };
+
+        let terms = standaardTermijnen(parseInt(inputBuildMonths?.value, 10) || 12);
         const formatPercentage = (value) => `${value.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
         const formatDateTime = (date) => new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
 
@@ -1173,6 +1267,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 conclusion: data.conclusion,
                 interpretation: data.interpretation,
                 timelineMeaning: data.timelineMeaning,
+                // Het maandverloop stond alleen op het scherm, terwijl juist dat
+                // het stuk is dat iemand meeneemt naar zijn adviseur of naast de
+                // aannemingsovereenkomst legt.
+                tables: [{
+                    title: 'Maand voor maand',
+                    columns: [
+                        { key: 'maand', label: 'Mnd', type: 'text' },
+                        { key: 'restantDepot', label: 'Restant depot', type: 'currency' },
+                        { key: 'brutoLast', label: 'Bruto last', type: 'currency' },
+                        { key: 'depotvergoeding', label: 'Depotvergoeding', type: 'currency' },
+                        { key: 'naVergoeding', label: 'Na vergoeding', type: 'currency' },
+                        { key: 'totaalMetWoonlast', label: 'Incl. woonlast', type: 'currency' },
+                    ],
+                    rows: data.maandregels || [],
+                }],
                 assumptions: 'Indicatieve nieuwbouwplanning op basis van vaste rente, bouwduur en ingevoerde termijnen. Werkelijke timing, declaraties en bankvoorwaarden kunnen afwijken.'
             };
         }
@@ -1187,31 +1296,71 @@ document.addEventListener('DOMContentLoaded', () => {
                 const euroAmount = Math.round((term.percent / 100) * totalConstruction);
                 const row = document.createElement('div');
                 row.className = 'term-row';
+                // Elk veld krijgt een eigen naam met het rijnummer erin. De
+                // kolomkoppen erboven vertellen het oog wat een kolom betekent,
+                // maar een schermlezer springt van veld naar veld en hoorde
+                // eerder alleen "invoerveld, 1".
+                const nr = index + 1;
                 row.innerHTML = `
-                    <div><input type="number" min="1" max="36" value="${term.month}" data-idx="${index}" class="term-month-input term-trigger-sort"></div>
-                    <div><input type="text" value="${term.desc}" data-idx="${index}" class="term-desc-input term-trigger-desc"></div>
-                    <div class="input-icon-wrapper input-wrapper-euro"><span class="icon">€</span><input type="number" value="${euroAmount}" data-idx="${index}" class="term-amount-input"></div>
-                    <div class="input-icon-wrapper input-wrapper-pct pct"><input type="number" min="0" max="100" step="0.1" value="${parseFloat(term.percent.toFixed(2))}" data-idx="${index}" class="term-percent-input"><span class="icon">%</span></div>
-                    <button class="btn-remove" data-idx="${index}">×</button>
+                    <div><span class="term-veldnaam" aria-hidden="true">Maand</span><input type="number" min="1" max="36" value="${term.month}" data-idx="${index}" class="term-month-input term-trigger-sort" aria-label="Termijn ${nr}: in welke bouwmaand"></div>
+                    <div><input type="text" value="${term.desc}" data-idx="${index}" class="term-desc-input term-trigger-desc" aria-label="Termijn ${nr}: omschrijving"></div>
+                    <div class="input-icon-wrapper input-wrapper-euro"><span class="icon" aria-hidden="true">€</span><input type="text" inputmode="decimal" value="${toonGetal(euroAmount)}" data-idx="${index}" class="term-amount-input" aria-label="Termijn ${nr}: bedrag in euro"></div>
+                    <div class="input-icon-wrapper input-wrapper-pct pct"><input type="text" inputmode="decimal" value="${toonGetal(parseFloat(term.percent.toFixed(2)), term.percent % 1 === 0 ? 0 : 1)}" data-idx="${index}" class="term-percent-input" aria-label="Termijn ${nr}: deel van de aanneemsom in procent"><span class="icon" aria-hidden="true">%</span></div>
+                    <button type="button" class="btn-remove" data-idx="${index}" aria-label="Termijn ${nr} verwijderen" title="Termijn ${nr} verwijderen">×</button>
                 `;
                 termsContainer.appendChild(row);
             });
             bindRowEvents();
-            
+            werkTotaalBij();
+        }
+
+        /** Telt de percentages op en meldt wat er niet klopt aan het schema. */
+        function werkTotaalBij() {
             // Status via een attribuut in plaats van een inline kleur: zo volgt de
             // opmaak het ontwerpsysteem en klopt hij ook in donkere modus.
-            const displayTotal = Math.round(totalP * 10) / 10;
-            const wijktAf = Math.abs(displayTotal - 100) > 0.1;
+            const totaal = Math.round(terms.reduce((som, t) => som + t.percent, 0) * 10) / 10;
+            const wijktAf = Math.abs(totaal - 100) > 0.1;
             totalPercentEl.dataset.status = wijktAf ? 'afwijkend' : 'goed';
             totalPercentEl.textContent = wijktAf
-                ? `${displayTotal}% (moet 100% zijn)`
+                ? `${toonGetal(totaal, totaal % 1 === 0 ? 0 : 1)}% (moet 100% zijn)`
                 : '100% toegewezen';
+            return { totaal, wijktAf };
+        }
+
+        /**
+         * Wat er mis is met het schema, in woorden voor de bezoeker.
+         *
+         * Zonder dit rekende de pagina gewoon door: bij 90% toegewezen stond er
+         * nog steeds een piekbedrag, en een termijn ná het einde van de bouw gaf
+         * helemaal geen signaal. Een half ingevuld schema hoort geen antwoord op
+         * te leveren dat er hetzelfde uitziet als een goed antwoord.
+         */
+        function schemaKlachten() {
+            const klachten = [];
+            const { totaal, wijktAf } = werkTotaalBij();
+            const alsPercentage = (waarde) => `${toonGetal(waarde, waarde % 1 === 0 ? 0 : 1)}%`;
+            if (wijktAf) {
+                const ontbreekt = Math.round((100 - totaal) * 10) / 10;
+                klachten.push(totaal < 100
+                    ? `De termijnen tellen op tot ${alsPercentage(totaal)} van de aanneemsom. Er ontbreekt nog ${alsPercentage(ontbreekt)}.`
+                    : `De termijnen tellen op tot ${alsPercentage(totaal)} van de aanneemsom, dat is meer dan het geheel.`);
+            }
+
+            const bouwduur = parseInt(inputBuildMonths?.value, 10) || 12;
+            const teLaat = terms.filter((t) => t.month > bouwduur);
+            if (teLaat.length) {
+                klachten.push(teLaat.length === 1
+                    ? `Er staat een termijn in maand ${teLaat[0].month}, terwijl de bouw ${bouwduur} maanden duurt.`
+                    : `Er staan ${teLaat.length} termijnen na maand ${bouwduur}, terwijl de bouw zo lang duurt.`);
+            }
+            return klachten;
         }
 
         function bindRowEvents() {
             document.querySelectorAll('.term-trigger-sort').forEach(el => {
                 el.addEventListener('change', (e) => {
                     const idx = e.target.dataset.idx;
+                    termijnenZelfIngesteld = true;
                     terms[idx].month = parseInt(e.target.value) || 1;
                     terms.sort((a, b) => a.month - b.month);
                     renderTerms(); calculate();
@@ -1220,28 +1369,53 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.term-trigger-desc').forEach(el => el.addEventListener('input', (e) => terms[e.target.dataset.idx].desc = e.target.value));
             document.querySelectorAll('.btn-remove').forEach(el => el.addEventListener('click', (e) => {
                 const btn = e.target.closest('.btn-remove');
-                if(btn) { terms.splice(btn.dataset.idx, 1); renderTerms(); calculate(); }
+                if(btn) { termijnenZelfIngesteld = true; terms.splice(btn.dataset.idx, 1); renderTerms(); calculate(); }
             }));
-            document.querySelectorAll('.term-amount-input').forEach(el => {
-                el.addEventListener('input', (e) => {
-                    const idx = e.target.dataset.idx;
-                    const val = parseFloat(e.target.value) || 0;
-                    const total = parseFloat(inputConstruction.value) || 1;
-                    terms[idx].percent = (val / total) * 100;
-                    renderTerms(); calculate();
+            // Bedrag en percentage zijn twee vensters op dezelfde waarde. Tijdens
+            // het typen werken we alleen het model, het andere venster en de
+            // totaalteller bij -- niet de hele lijst. Opnieuw tekenen zou de
+            // opgemaakte waarde terugschrijven in het veld waarin iemand nog
+            // bezig is, en dan springt de cursor weg bij elke toetsaanslag.
+            // Pas als het veld de aandacht verliest, maken we het netjes op.
+            const koppelVeld = (klasse, naarPercent) => {
+                document.querySelectorAll(klasse).forEach((el) => {
+                    el.addEventListener('input', (e) => {
+                        termijnenZelfIngesteld = true;
+                        const idx = e.target.dataset.idx;
+                        // leesGetal in plaats van parseFloat: "87.500" is hier
+                        // 87.500 euro en niet 87 euro 50.
+                        terms[idx].percent = naarPercent(leesGetal(e.target.value) ?? 0);
+                        werkTegenhangerBij(e.target, idx);
+                        werkTotaalBij();
+                        calculate();
+                    });
+                    el.addEventListener('change', () => renderTerms());
                 });
-            });
-            document.querySelectorAll('.term-percent-input').forEach(el => {
-                el.addEventListener('input', (e) => {
-                    const idx = e.target.dataset.idx;
-                    const val = parseFloat(e.target.value) || 0;
-                    terms[idx].percent = val;
-                    renderTerms(); calculate();
-                });
-            });
+            };
+
+            const aanneemsom = () => parseFloat(inputConstruction.value) || 1;
+            koppelVeld('.term-amount-input', (bedrag) => (bedrag / aanneemsom()) * 100);
+            koppelVeld('.term-percent-input', (percent) => percent);
+        }
+
+        /** Werkt het veld bij dat dezelfde waarde anders uitdrukt. */
+        function werkTegenhangerBij(bron, idx) {
+            const rij = bron.closest('.term-row');
+            if (!rij) return;
+            const percent = terms[idx].percent;
+            const totaal = parseFloat(inputConstruction.value) || 0;
+
+            if (bron.classList.contains('term-amount-input')) {
+                const veld = rij.querySelector('.term-percent-input');
+                if (veld) veld.value = toonGetal(Math.round(percent * 10) / 10, percent % 1 === 0 ? 0 : 1);
+            } else {
+                const veld = rij.querySelector('.term-amount-input');
+                if (veld) veld.value = toonGetal(Math.round((percent / 100) * totaal));
+            }
         }
 
         addTermBtn.addEventListener('click', () => {
+            termijnenZelfIngesteld = true;
             const lastMonth = terms.length > 0 ? terms[terms.length-1].month : 0;
             terms.push({ month: lastMonth + 1, percent: 0, desc: "Nieuwe fase" });
             renderTerms();
@@ -1249,6 +1423,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (autoSpreadBtn) {
             autoSpreadBtn.addEventListener('click', () => {
+                termijnenZelfIngesteld = true;
                 const duration = parseInt(inputBuildMonths?.value, 10) || 12;
                 const phaseCount = Math.min(Math.max(Math.round(duration / 3), 3), 8);
                 const step = Math.max(1, Math.floor(duration / phaseCount));
@@ -1282,7 +1457,40 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        /** Zet de uitkomst op nul en zegt wat er aan het schema mankeert. */
+        function toonGeenUitkomst(klachten) {
+            const nul = formatEuro(0);
+            [resPeakTotal, resAverageMonthly, resOverlapTotal, resExtraNow, resLoss].forEach((el) => {
+                if (el) el.textContent = nul;
+            });
+            if (resPeakMonth) resPeakMonth.textContent = 'Nog geen piekmaand te bepalen';
+            if (resConclusion) {
+                resConclusion.dataset.status = 'afwijkend';
+                resConclusion.textContent = klachten.join(' ') + ' Pas het termijnschema aan voor een uitkomst.';
+            }
+            if (btnDownload) delete btnDownload.dataset.report;
+            const grafiek = document.getElementById('verloop-grafiek');
+            if (grafiek) grafiek.innerHTML = '';
+            if (tableBody) tableBody.innerHTML = '';
+        }
+
         function calculate() {
+            // Een schema dat niet klopt levert geen getal op. Eerder rekende de
+            // pagina bij 90% toegewezen gewoon door, en dan staat er een
+            // piekbedrag dat nergens op slaat.
+            const klachten = schemaKlachten();
+            if (klachten.length) {
+                toonGeenUitkomst(klachten);
+                return;
+            }
+            if (resConclusion) delete resConclusion.dataset.status;
+
+            // Let op: hier staat bewust parseFloat en niet leesGetal. Dit zijn
+            // `type="number"`-velden, en die geven hun waarde altijd canoniek
+            // terug met een punt als decimaalteken -- "3.80" is hier 3,8 procent.
+            // leesGetal leest een punt als duizendscheiding en maakte daar 380
+            // procent van. Die parser hoort alleen op de vrije tekstvelden van
+            // het termijnschema, waar de bezoeker zelf de notatie kiest.
             const landPrice = parseFloat(inputLand.value) || 0;
             const constructPrice = parseFloat(inputConstruction.value) || 0;
             const interest = parseFloat(inputInterest.value) || 0;
@@ -1306,8 +1514,10 @@ document.addEventListener('DOMContentLoaded', () => {
             );
             let currentDepot = constructPrice;
             let totalLoss = 0;
-            const chartLabels = []; const dataUserPays = []; const dataDepotPays = [];
             let tableHTML = '';
+            // Dezelfde regels als in de tabel op het scherm, maar als ruwe
+            // getallen, zodat het overzicht ze kan meenemen naar de PDF.
+            const maandregels = [];
             let peakMonth = 1;
             let peakTotalMonthly = 0;
             let totalNetPayments = 0;
@@ -1337,12 +1547,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalLoss += (grossInterest - interestReceivable);
                 totalNetPayments += netPayment;
 
-                chartLabels.push(`Mnd ${m}`);
-                dataUserPays.push(netPayment);
-                dataDepotPays.push(interestReceivable);
-
                 // Kleuren via klassen, niet inline: anders volgen ze de donkere modus niet.
                 tableHTML += `<tr><td>${m}</td><td class="col-amount">${formatEuro(currentDepot)}</td><td class="col-amount col-gedempt">${formatEuro(fullAnnuity)}</td><td class="col-amount col-vergoeding">-${formatEuro(interestReceivable)}</td><td class="col-amount netto-column">${formatEuro(netPayment)}</td></tr>`;
+                maandregels.push({
+                    maand: m,
+                    restantDepot: currentDepot,
+                    brutoLast: fullAnnuity,
+                    depotvergoeding: interestReceivable,
+                    naVergoeding: netPayment,
+                    totaalMetWoonlast: totalMonthlyWithCurrent,
+                });
             }
 
             resTotalLoan.textContent = formatEuro(totalLoan);
@@ -1390,6 +1604,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (sumTerms) sumTerms.textContent = `${terms.length} termijnen`;
 
             const report = buildNieuwbouwReport({
+                maandregels,
                 landCost: landPrice,
                 constructionCost: constructPrice,
                 mortgageRate: interest,
@@ -1413,37 +1628,22 @@ document.addEventListener('DOMContentLoaded', () => {
             if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(new Date(report.generatedAt))}.`;
             if (btnDownload) btnDownload.dataset.report = JSON.stringify(report);
             
-            updateChart(chartLabels, dataUserPays, dataDepotPays);
+            // De staaf is elke maand even hoog -- dat is de volledige maandtermijn.
+            // Wat schuift is de verhouding: het deel dat u zelf betaalt groeit
+            // naarmate het depot leegloopt en de vergoeding verdwijnt.
+            const eersteMaand = maandregels[0];
+            const laatsteMaand = maandregels[maandregels.length - 1];
+            tekenStaafgrafiek('verloop-grafiek', {
+                regels: maandregels.map((r) => ({ onder: r.naVergoeding, boven: r.depotvergoeding })),
+                eersteLabel: 'Mnd 1',
+                laatsteLabel: `Mnd ${maandregels.length}`,
+                piek: { index: peakMonth - 1, tekst: 'Zwaarste maand' },
+                omschrijving: `Maandverloop over ${maandregels.length} maanden. Uw eigen last gaat van `
+                    + `${formatEuro(eersteMaand.naVergoeding)} in maand 1 naar ${formatEuro(laatsteMaand.naVergoeding)} `
+                    + `in maand ${maandregels.length}; de depotvergoeding daalt in dezelfde periode van `
+                    + `${formatEuro(eersteMaand.depotvergoeding)} naar ${formatEuro(laatsteMaand.depotvergoeding)}.`,
+            });
             if(tableBody) tableBody.innerHTML = tableHTML;
-        }
-
-        function updateChart(labels, dataUser, dataDepot) {
-            if(typeof Chart === 'undefined') return;
-            const ctx = document.getElementById('costChart');
-            if(!ctx) return;
-            if(costChart) {
-                costChart.data.labels = labels;
-                costChart.data.datasets[0].data = dataUser;
-                costChart.data.datasets[1].data = dataDepot;
-                costChart.update();
-            } else {
-                costChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [
-                            { label: 'Na depotvergoeding', data: dataUser, backgroundColor: '#000066', borderRadius: 2 },
-                            { label: 'Rente Vergoeding (Depot)', data: dataDepot, backgroundColor: '#4ade80', borderRadius: 2 }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, beginAtZero: true } },
-                        plugins: { tooltip: { mode: 'index', intersect: false }, legend: { display: false } }
-                    }
-                });
-            }
         }
 
         rangeLand.addEventListener('input', (e) => { inputLand.value = e.target.value; calculate(); });
@@ -1453,8 +1653,8 @@ document.addEventListener('DOMContentLoaded', () => {
         rangeInterest.addEventListener('input', (e) => { inputInterest.value = e.target.value; calculate(); });
         inputInterest.addEventListener('input', (e) => { rangeInterest.value = e.target.value; calculate(); });
         inputDiscount.addEventListener('input', calculate);
-        if(rangeBuildMonths) rangeBuildMonths.addEventListener('input', (e) => { inputBuildMonths.value = e.target.value; calculate(); });
-        if(inputBuildMonths) inputBuildMonths.addEventListener('input', (e) => { rangeBuildMonths.value = e.target.value; calculate(); });
+        if(rangeBuildMonths) rangeBuildMonths.addEventListener('input', (e) => { inputBuildMonths.value = e.target.value; volgBouwduur(); calculate(); });
+        if(inputBuildMonths) inputBuildMonths.addEventListener('input', (e) => { rangeBuildMonths.value = e.target.value; volgBouwduur(); calculate(); });
         if(inputCurrentHousing) inputCurrentHousing.addEventListener('input', calculate);
         document.querySelectorAll('.nieuwbouw-scenario-chip').forEach((button) => {
             button.addEventListener('click', () => {
@@ -1468,6 +1668,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (rangeConstruction) rangeConstruction.value = inputConstruction.value;
                 if (rangeInterest) rangeInterest.value = inputInterest.value;
                 if (rangeBuildMonths) rangeBuildMonths.value = inputBuildMonths.value;
+                volgBouwduur();
                 calculate();
             });
         });
@@ -1522,7 +1723,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const tableBody = document.getElementById('details-table-body');
         const toggleTableBtn = document.getElementById('toggle-table-btn');
 
-        let fiscalChart = null;
 
         const params = new URLSearchParams(window.location.search);
         if(params.has('amount')) {
@@ -1601,9 +1801,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const linearRedemption = amount / totalMonths;
             const annuityPayment = (interestPct === 0) ? (amount/totalMonths) : (amount * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -totalMonths))));
 
-            const labels = [];
-            const dataBruto = [];
-            const dataNetto = [];
+            // Dezelfde regels als in de tabel op het scherm, als ruwe getallen,
+            // zodat de grafiek en het overzicht uit dezelfde bron putten.
+            const jaarregels = [];
             
             let firstYearNetto = 0;
             let firstYearBruto = 0;
@@ -1636,9 +1836,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const taxBenefit = calculateHomeTaxEffect(income, homeDeductionBalance);
                 const yearNetto = yearGrossPayment - taxBenefit;
 
-                labels.push(`Jaar ${year}`);
-                dataBruto.push(yearGrossPayment / 12);
-                dataNetto.push(yearNetto / 12);
+                jaarregels.push({
+                    jaar: year,
+                    bruto: yearGrossPayment / 12,
+                    netto: yearNetto / 12,
+                    voordeel: taxBenefit / 12,
+                });
                 
                 tableHTML += `
                     <tr>
@@ -1726,57 +1929,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 rowCostsMonth.style.display = 'none';
             }
 
-            updateFiscalProChart(labels, dataBruto, dataNetto);
+            // Netto onderop, het voordeel als lichter deel daarboven: samen de
+            // bruto last. Het voordeel kan negatief zijn -- bij een hoge WOZ en een
+            // klein leenbedrag is het eigenwoningforfait groter dan de aftrek, en
+            // betaalt u per saldo meer dan bruto. Dan is er niets te stapelen en
+            // toont de staaf gewoon het nettobedrag, dat dan hoger uitvalt.
+            const eersteJaar = jaarregels[0];
+            const laatsteJaar = jaarregels[jaarregels.length - 1];
+            tekenStaafgrafiek('verloop-grafiek', {
+                regels: jaarregels.map((r) => ({ onder: r.netto, boven: Math.max(0, r.voordeel) })),
+                eersteLabel: 'Jaar 1',
+                laatsteLabel: `Jaar ${jaarregels.length}`,
+                omschrijving: `Verloop over ${jaarregels.length} jaar. Uw netto maandlast gaat van `
+                    + `${formatEuro(eersteJaar.netto)} in jaar 1 naar ${formatEuro(laatsteJaar.netto)} in jaar ${jaarregels.length}; `
+                    + `het belastingvoordeel gaat van ${formatEuro(eersteJaar.voordeel)} naar ${formatEuro(laatsteJaar.voordeel)} per maand.`,
+            });
             if(tableBody) tableBody.innerHTML = tableHTML;
         }
 
-        function updateFiscalProChart(labels, dataBruto, dataNetto) {
-            if(typeof Chart === 'undefined') return;
-            const ctx = document.getElementById('fiscalChart');
-            if(!ctx) return;
-
-            if(fiscalChart) {
-                fiscalChart.data.labels = labels;
-                fiscalChart.data.datasets[0].data = dataBruto;
-                fiscalChart.data.datasets[1].data = dataNetto;
-                fiscalChart.update();
-            } else {
-                fiscalChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [
-                            { 
-                                label: 'Bruto Maandlast', 
-                                data: dataBruto, 
-                                borderColor: '#ef4444', 
-                                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                                tension: 0.3,
-                                fill: false 
-                            },
-                            { 
-                                label: 'Netto Maandlast', 
-                                data: dataNetto, 
-                                borderColor: '#16a34a', 
-                                backgroundColor: 'rgba(22, 163, 74, 0.1)',
-                                tension: 0.3,
-                                fill: true 
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
-                        scales: { 
-                            y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
-                            x: { grid: { display: false }, ticks: { maxTicksLimit: 6 } }
-                        },
-                        interaction: { mode: 'nearest', axis: 'x', intersect: false }
-                    }
-                });
-            }
-        }
 
         inputType.addEventListener('change', calculateFiscalPro);
         inputIncome.addEventListener('input', calculateFiscalPro);

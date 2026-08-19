@@ -123,8 +123,9 @@
                         </div>
                         <div class="prefix-veld">
                             <span>&euro;</span>
-                            <input class="ds-invoer" type="number" id="input-amount" value="25000" step="500" inputmode="numeric">
+                            <input class="ds-invoer" type="number" id="input-amount" value="25000" step="500" min="0" max="1000000" inputmode="numeric" aria-describedby="fout-amount">
                         </div>
+                        <span class="ds-veld__fout" id="fout-amount" role="alert"></span>
                         <input class="ds-schuif" type="range" id="range-amount" min="5000" max="150000" step="500" value="25000" aria-label="Bedrag bouwdepot">
                         <div class="ds-chips" role="group" aria-label="Veelgekozen bedragen">
                             <button class="ds-chip preset-btn" type="button" data-preset-amount="15000">15.000</button>
@@ -140,9 +141,10 @@
                                 <label class="ds-veld__naam" for="input-interest">Hypotheekrente</label>
                             </div>
                             <div class="suffix-veld">
-                                <input class="ds-invoer" type="number" id="input-interest" value="3.80" step="0.01" inputmode="decimal">
+                                <input class="ds-invoer" type="number" id="input-interest" value="3.80" step="0.01" min="0" max="20" inputmode="decimal" aria-describedby="fout-interest">
                                 <span>%</span>
                             </div>
+                            <span class="ds-veld__fout" id="fout-interest" role="alert"></span>
                             <input class="ds-schuif" type="range" id="range-interest" min="0.1" max="10" step="0.1" value="3.8" aria-label="Hypotheekrente">
                         </div>
 
@@ -190,12 +192,12 @@
                         </button>
                         <div id="cost-content" style="display: none;">
                             <div class="budget__grid">
-                                <button class="ds-chip cost-btn" type="button" data-amount="15000">Badkamer &middot; 15.000</button>
-                                <button class="ds-chip cost-btn" type="button" data-amount="20000">Keuken &middot; 20.000</button>
-                                <button class="ds-chip cost-btn" type="button" data-amount="8500">Dakkapel &middot; 8.500</button>
-                                <button class="ds-chip cost-btn" type="button" data-amount="25000">Uitbouw &middot; 25.000</button>
-                                <button class="ds-chip cost-btn" type="button" data-amount="45000">Verduurzamen &middot; 45.000</button>
-                                <button class="ds-chip cost-btn" type="button" data-amount="7500">Toilet of hal &middot; 7.500</button>
+                                <button class="ds-chip cost-btn" type="button" aria-pressed="false" data-amount="15000">Badkamer &middot; 15.000</button>
+                                <button class="ds-chip cost-btn" type="button" aria-pressed="false" data-amount="20000">Keuken &middot; 20.000</button>
+                                <button class="ds-chip cost-btn" type="button" aria-pressed="false" data-amount="8500">Dakkapel &middot; 8.500</button>
+                                <button class="ds-chip cost-btn" type="button" aria-pressed="false" data-amount="25000">Uitbouw &middot; 25.000</button>
+                                <button class="ds-chip cost-btn" type="button" aria-pressed="false" data-amount="45000">Verduurzamen &middot; 45.000</button>
+                                <button class="ds-chip cost-btn" type="button" aria-pressed="false" data-amount="7500">Toilet of hal &middot; 7.500</button>
                             </div>
                             <button id="btn-reset-costs" class="ds-knop ds-knop--rustig" type="button" style="display: none; margin-top: var(--ds-3);">Selectie wissen</button>
                         </div>
@@ -257,7 +259,7 @@
             <div class="ds-wrap">
                 <div class="ds-sectiekop">
                     <p class="ds-eyebrow">Eigen onderzoek</p>
-                    <h2 class="ds-title">Zes banken, zes verschillende bouwdepots</h2>
+                    <h2 class="ds-title">Acht banken, acht verschillende bouwdepots</h2>
                     <p class="ds-lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Wij zochten ze op bij de bron en zetten ze naast elkaar.</p>
                 </div>
 
@@ -303,6 +305,33 @@
                     <article>
                         <h3>Wat hier niet in zit</h3>
                         <p>Deze berekening kent uw inkomen, verplichtingen en taxatie niet, en zegt dus niets over acceptatie. Gebruik de uitkomst als voorbereiding op een gesprek, niet als toezegging. Lees de <a href="methodologie.html">methodologie en beperkingen</a>.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deze drie vragen staan ook in de FAQPage-structured data onderaan.
+             Ze stonden daar eerder alleen: markup zonder zichtbare tegenhanger,
+             wat Google als misleidend aanmerkt. Tekst en markup horen gelijk te
+             blijven; wijzig je hier iets, wijzig het dan ook daar. -->
+        <section class="ds-sectie" aria-labelledby="vragen-titel">
+            <div class="ds-wrap ds-wrap--smal">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Veelgesteld</p>
+                    <h2 class="ds-title" id="vragen-titel">Vragen over het bouwdepot</h2>
+                </div>
+                <div class="uitleg">
+                    <article>
+                        <h3>Wat kunt u betalen uit een bouwdepot?</h3>
+                        <p>Doorgaans alleen kosten voor verbetering en onderhoud van de eigen woning, zoals vaste bouwkundige onderdelen. Wat precies is toegestaan verschilt per geldverstrekker. Bekijk de <a href="bouwdepot-voorwaarden-vergelijken.html">voorwaarden per bank</a>.</p>
+                    </article>
+                    <article>
+                        <h3>Hoe lang is een bouwdepot geldig?</h3>
+                        <p>Bij een verbouwing loopt dat van 24 tot 42 maanden inclusief verlenging, afhankelijk van de geldverstrekker. Bij nieuwbouw is de termijn doorgaans langer. Met de <a href="depotplanner.html">depotplanner</a> ziet u wanneer het uwe afloopt.</p>
+                    </article>
+                    <article>
+                        <h3>Wat bepaalt de netto maandlast?</h3>
+                        <p>De netto maandlast hangt af van rente, looptijd, hypotheekvorm en het fiscale voordeel in uw persoonlijke situatie.</p>
                     </article>
                 </div>
             </div>

@@ -159,6 +159,15 @@
                                 <span class="terms-totaal" id="total-percent">100% toegewezen</span>
                             </div>
 
+                            <!-- Kolomkoppen: de eerste kolom was een kaal getal in een
+                                 vakje, waar nergens uit bleek dat het om een bouwmaand ging. -->
+                            <div class="term-kop" aria-hidden="true">
+                                <span>Maand</span>
+                                <span>Onderdeel</span>
+                                <span>Bedrag</span>
+                                <span>Deel</span>
+                                <span></span>
+                            </div>
                             <div id="terms-container"></div>
                         </div>
                     </details>
@@ -175,7 +184,16 @@
                 </div>
 
                 <div class="verloop">
-                    <canvas id="costChart" height="120" aria-label="Grafiek van het maandlastverloop tijdens de bouw" role="img"></canvas>
+                    <!-- Eigen SVG in plaats van een grafiekbibliotheek: de vorm komt uit
+                         de tokens, volgt de donkere modus, en kost geen kilobyte extra.
+                         De legenda staat in de HTML en niet in het beeld, zodat hij ook
+                         zonder JavaScript leesbaar is. -->
+                    <div class="verloop__grafiek" id="verloop-grafiek"></div>
+                    <p class="verloop__legenda">
+                        <span class="verloop__sleutel verloop__sleutel--eigen">Uw eigen last</span>
+                        <span class="verloop__sleutel verloop__sleutel--vergoeding">Depotvergoeding</span>
+                    </p>
+                    <p class="ds-caption">Samen vormen de twee delen de volledige maandtermijn. Naarmate het depot leegloopt verdwijnt de vergoeding en betaalt u het hele bedrag zelf.</p>
 
                     <button id="toggle-table-btn" class="ds-knop ds-knop--rustig" type="button" style="margin-top: var(--ds-4); width: 100%;">Toon maand-tot-maand overzicht</button>
 
