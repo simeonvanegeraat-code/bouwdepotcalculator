@@ -72,7 +72,11 @@ const banken = data.aanbieders.map((a) => {
       detail: a.verlengingAanvragen?.detail ?? null,
     },
     opnamemethode: a.opnamemethode ?? null,
+    // De tekst en het rekenbare getal gaan allebei mee. De depotplanner leidt
+    // uit het getal de uiterste declaratiedatum af; de tekst hoort daar altijd
+    // bij te staan, want "5 werkdagen" is iets anders dan "meestal 5 werkdagen".
     uitbetaling: a.doorlooptijdUitbetaling?.digitaal ?? null,
+    uitbetalingWerkdagen: a.doorlooptijdUitbetaling?.werkdagenDigitaal ?? null,
     voorschieten: a.voorschieten?.waarde ?? null,
     restant: {
       waarde: a.restant?.waarde ?? null,
@@ -81,7 +85,9 @@ const banken = data.aanbieders.map((a) => {
     eigenArbeid: a.eigenArbeid?.waarde ?? null,
     // Wat er bij een declaratie mee moet. Staat in de specificatie die de
     // bezoeker meeneemt, zodat hij niet met het verkeerde bewijsstuk aankomt.
-    eisen: (a.declaratieEisen || []).map((e) => ({ eis: e.eis, waarde: e.waarde })),
+    // De toelichting gaat mee. Zonder detail staat er bij een eis alleen
+    // "Verplicht", en dat zegt niets: de nuance zit in de zin eronder.
+    eisen: (a.declaratieEisen || []).map((e) => ({ eis: e.eis, waarde: e.waarde, detail: e.detail ?? null })),
     declarabel: a.declarabel ?? null,
   };
 });

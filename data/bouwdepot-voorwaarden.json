@@ -1,7 +1,7 @@
 {
   "_toelichting": "Bouwdepotvoorwaarden per geldverstrekker. Elke waarde is overgenomen van de officiele publieke pagina van de aanbieder. Waar een aanbieder iets niet publiceert staat null met status 'niet-gepubliceerd' - nooit een schatting. Controleer voor publicatie; zie JURIDISCHE-CHECK.md.",
   "_versie": "0.1",
-  "_laatstBijgewerkt": "2026-08-18",
+  "_laatstBijgewerkt": "2026-08-19",
   "_veldUitleg": {
     "looptijdVerbouwMaanden": "Standaardlooptijd depot bij verbouwing bestaande woning",
     "looptijdNieuwbouwMaanden": "Standaardlooptijd depot bij nieuwbouw",
@@ -11,7 +11,7 @@
     "opnamemethode": "declaratie = bank keurt vooraf goed; zelf-betalen = je betaalt direct vanuit het depot",
     "maxPerOpname": "Grens per opname. Bij declareren het maximum per declaratie; bij zelf overboeken bestaat zo'n productgrens niet.",
     "minPerOpname": "Minimumbedrag per declaratie",
-    "doorlooptijdUitbetaling": "Tijd tussen indienen en uitbetaling",
+    "doorlooptijdUitbetaling": "Hoe lang de aanbieder over een declaratie doet. werkdagenDigitaal is het aantal werkdagen uit dezelfde bron, rekenbaar gemaakt om de uiterste declaratiedatum te bepalen. Null betekent niet-gepubliceerd; dan tonen we geen datum.",
     "restant": "Wat er gebeurt met het bedrag dat overblijft",
     "eigenArbeid": "Of eigen arbeid gedeclareerd mag worden",
     "voorschieten": "Of u een rekening eerst zelf mag betalen en het bedrag daarna kunt terugvragen",
@@ -36,10 +36,20 @@
         "waarde": "Ja, maar niet de hele verlenging",
         "detail": "Tijdens de standaardlooptijd ontvangt u vergoeding. Verlengt u, dan krijgt u over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen.",
         "model": "beperkt-in-duur",
-        "vergoedingMaanden": { "verbouw": 18, "nieuwbouw": 30 },
-        "tarief": { "verbouw": "niet-gepubliceerd", "nieuwbouw": "niet-gepubliceerd" }
+        "vergoedingMaanden": {
+          "verbouw": 18,
+          "nieuwbouw": 30
+        },
+        "tarief": {
+          "verbouw": "niet-gepubliceerd",
+          "nieuwbouw": "niet-gepubliceerd"
+        }
       },
-      "verlengingAanvragen": { "maandenVoorEinde": 3, "soort": "bericht-van-bank", "detail": "Drie maanden voor de einddatum ontvangt u een brief over verlengen of beeindigen. Regelen kan via Internet Bankieren of met een formulier per post." },
+      "verlengingAanvragen": {
+        "maandenVoorEinde": 3,
+        "soort": "bericht-van-bank",
+        "detail": "Drie maanden voor de einddatum ontvangt u een brief over verlengen of beeindigen. Regelen kan via Internet Bankieren of met een formulier per post."
+      },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
         "bedrag": 250000,
@@ -51,7 +61,9 @@
       },
       "doorlooptijdUitbetaling": {
         "digitaal": "Meestal binnen 5 werkdagen",
-        "post": "Meestal binnen 10 werkdagen"
+        "post": "Meestal binnen 10 werkdagen",
+        "werkdagenDigitaal": 5,
+        "status": "gepubliceerd"
       },
       "declarabel": "Nieuwbouw: alleen bedragen uit de koop-/aannemingsovereenkomst en meerwerklijst. Verbouwing: alleen bedragen uit het verbouwingsplan. Alleen verbeteringen die vast aan de woning zitten, zoals gelijmd parket en inbouwapparatuur.",
       "restant": {
@@ -108,10 +120,19 @@
         "waarde": "Ja, gelijk aan je hypotheekrente bij aanvang",
         "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. De vergoeding loopt daarmee over de hele looptijd van 2 jaar.",
         "model": "beperkt-in-duur",
-        "vergoedingMaanden": { "verbouw": 24, "nieuwbouw": 24 },
-        "tarief": { "verbouw": "gelijk-aan-hypotheekrente", "nieuwbouw": "gelijk-aan-hypotheekrente" }
+        "vergoedingMaanden": {
+          "verbouw": 24,
+          "nieuwbouw": 24
+        },
+        "tarief": {
+          "verbouw": "gelijk-aan-hypotheekrente",
+          "nieuwbouw": "gelijk-aan-hypotheekrente"
+        }
       },
-      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd" },
+      "verlengingAanvragen": {
+        "maandenVoorEinde": null,
+        "status": "niet-gepubliceerd"
+      },
       "opnamemethode": "zelf-betalen",
       "maxPerOpname": {
         "bedrag": null,
@@ -124,7 +145,9 @@
       },
       "doorlooptijdUitbetaling": {
         "digitaal": "Direct - je betaalt zelf vanuit het depot via Online Bankieren of de Rabo App",
-        "post": "Overboekingsformulieren mogelijk"
+        "post": "Overboekingsformulieren mogelijk",
+        "werkdagenDigitaal": 0,
+        "status": "gepubliceerd"
       },
       "declarabel": "Alle kosten die nodig zijn voor bouw, verbouwing of verduurzaming: aannemer, architect, bouwmaterialen, keuken, badkamer. Niet: inboedel en spullen die je bij een verhuizing meeneemt, zoals gordijnen en meubels.",
       "restant": {
@@ -179,10 +202,20 @@
         "waarde": "Geen",
         "detail": "ING hanteert een afwijkend model: je betaalt alleen rente over het bedrag dat je al hebt opgenomen. Over het saldo dat nog in het depot staat betaal je geen rente en ontvang je ook geen rente. Voor de belastingaangifte vul je EUR 0,00 aan ontvangen rente in.",
         "model": "rente-alleen-over-opgenomen",
-        "vergoedingMaanden": { "verbouw": 0, "nieuwbouw": 0 },
-        "tarief": { "verbouw": "geen", "nieuwbouw": "geen" }
+        "vergoedingMaanden": {
+          "verbouw": 0,
+          "nieuwbouw": 0
+        },
+        "tarief": {
+          "verbouw": "geen",
+          "nieuwbouw": "geen"
+        }
       },
-      "verlengingAanvragen": { "maandenVoorEinde": 4, "soort": "aanvraagvenster", "detail": "Aanvragen kan vanaf vier maanden voor de einddatum. Het verzoek wordt binnen vijf werkdagen afgehandeld." },
+      "verlengingAanvragen": {
+        "maandenVoorEinde": 4,
+        "soort": "aanvraagvenster",
+        "detail": "Aanvragen kan vanaf vier maanden voor de einddatum. Het verzoek wordt binnen vijf werkdagen afgehandeld."
+      },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
         "bedrag": null,
@@ -198,7 +231,9 @@
       },
       "doorlooptijdUitbetaling": {
         "digitaal": "Binnen vijf werkdagen bij een digitale declaratie die aan de voorwaarden voldoet",
-        "post": null
+        "post": null,
+        "werkdagenDigitaal": 5,
+        "status": "gepubliceerd"
       },
       "declarabel": "Verbouwing van de woning zoals uitbouw of dakkapel, aanleg en inrichting van de tuin, vervanging van kozijnen, ramen en deuren, vloeren die onlosmakelijk met het huis verbonden zijn, ingebouwde verlichting, onderhoudsschilderwerk, op maat gemaakt zonnescherm, badkamer en keuken, asbestverwijdering en zonnepanelen. Voorwaarde bij verbouwing: de woning verbetert in kwaliteit en wordt meer waard, en de verbetering zit vast aan de woning. Niet: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting.",
       "bewijsstuk": "Factuur of kassabon, goed leesbaar, in het Nederlands, Engels, Frans of Duits, met bedragen in euro's. Een offerte, orderbevestiging, koopovereenkomst of pro-formafactuur is niet voldoende. Alleen facturen met een datum na de offertedatum worden in behandeling genomen.",
@@ -269,10 +304,20 @@
         "waarde": "Ja, maar beperkt in duur",
         "detail": "Bij bestaande bouw over de eerste 12 maanden. Bij nieuwbouw en energiebesparende maatregelen over de eerste 24 maanden.",
         "model": "beperkt-in-duur",
-        "vergoedingMaanden": { "verbouw": 12, "nieuwbouw": 24 },
-        "tarief": { "verbouw": "niet-gepubliceerd", "nieuwbouw": "niet-gepubliceerd" }
+        "vergoedingMaanden": {
+          "verbouw": 12,
+          "nieuwbouw": 24
+        },
+        "tarief": {
+          "verbouw": "niet-gepubliceerd",
+          "nieuwbouw": "niet-gepubliceerd"
+        }
       },
-      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd", "detail": "Aanvragen via MijnHypotheekOnline voordat de lopende termijn afloopt; een aantal maanden wordt niet genoemd." },
+      "verlengingAanvragen": {
+        "maandenVoorEinde": null,
+        "status": "niet-gepubliceerd",
+        "detail": "Aanvragen via MijnHypotheekOnline voordat de lopende termijn afloopt; een aantal maanden wordt niet genoemd."
+      },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
         "bedrag": null,
@@ -284,7 +329,9 @@
       },
       "doorlooptijdUitbetaling": {
         "digitaal": "Goedgekeurde nota's worden binnen vijf werkdagen na ontvangst uitbetaald",
-        "post": "Declaratie per e-mail of post duurt langer dan via MijnHypotheekOnline"
+        "post": "Declaratie per e-mail of post duurt langer dan via MijnHypotheekOnline",
+        "werkdagenDigitaal": 5,
+        "status": "gepubliceerd"
       },
       "declarabel": "Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Een offerte volstaat niet: op basis daarvan wordt niet uitbetaald. De factuur moet duidelijk tonen welk werk is uitgevoerd of welke zaken zijn gekocht.",
       "restant": {
@@ -330,10 +377,20 @@
         "waarde": "Ja, gelijk aan je hypotheekrente",
         "detail": "Bij meerdere leningdelen met verschillende rentes ontvang je een gewogen gemiddelde van die rentes. De vergoeding stopt na 18 maanden bij verbouwing van een bestaande woning en na 30 maanden bij nieuwbouw.",
         "model": "beperkt-in-duur",
-        "vergoedingMaanden": { "verbouw": 18, "nieuwbouw": 30 },
-        "tarief": { "verbouw": "gelijk-aan-hypotheekrente", "nieuwbouw": "gelijk-aan-hypotheekrente" }
+        "vergoedingMaanden": {
+          "verbouw": 18,
+          "nieuwbouw": 30
+        },
+        "tarief": {
+          "verbouw": "gelijk-aan-hypotheekrente",
+          "nieuwbouw": "gelijk-aan-hypotheekrente"
+        }
       },
-      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd", "detail": "Een keer aan te vragen via mijnFlorius; een termijn wordt niet genoemd." },
+      "verlengingAanvragen": {
+        "maandenVoorEinde": null,
+        "status": "niet-gepubliceerd",
+        "detail": "Een keer aan te vragen via mijnFlorius; een termijn wordt niet genoemd."
+      },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
         "bedrag": null,
@@ -345,7 +402,9 @@
       },
       "doorlooptijdUitbetaling": {
         "digitaal": "Binnen 2 werkdagen beoordeeld, bij akkoord direct uitbetaald",
-        "post": "Per post of e-mail binnen 4 werkdagen na ontvangst beoordeeld"
+        "post": "Per post of e-mail binnen 4 werkdagen na ontvangst beoordeeld",
+        "werkdagenDigitaal": 2,
+        "status": "gepubliceerd"
       },
       "declarabel": "Bouwmaterialen, arbeidskosten, binnenhuisinrichting zoals keukenapparatuur en badkamerinrichting, tuinaanleg en energiebesparende maatregelen. Niet: meubilair en accessoires, zoals een bankstel, niet-ingebouwde verlichting en raamdecoratie.",
       "restant": {
@@ -406,10 +465,19 @@
         "waarde": "Ja, maar verschilt per depotsoort",
         "detail": "Bij het nieuwbouwdepot is de vergoeding gelijk aan de gemiddelde rente die je over je hypotheek betaalt. Bij het verbouwdepot ligt de vergoeding 1% lager dan die gemiddelde hypotheekrente. De vergoeding loopt 24 maanden bij nieuwbouw en 12 maanden bij verbouwing, en wordt automatisch verrekend met je maandbedrag.",
         "model": "beperkt-in-duur",
-        "vergoedingMaanden": { "verbouw": 12, "nieuwbouw": 24 },
-        "tarief": { "verbouw": "hypotheekrente-min-1", "nieuwbouw": "gelijk-aan-hypotheekrente" }
+        "vergoedingMaanden": {
+          "verbouw": 12,
+          "nieuwbouw": 24
+        },
+        "tarief": {
+          "verbouw": "hypotheekrente-min-1",
+          "nieuwbouw": "gelijk-aan-hypotheekrente"
+        }
       },
-      "verlengingAanvragen": { "maandenVoorEinde": null, "status": "niet-gepubliceerd" },
+      "verlengingAanvragen": {
+        "maandenVoorEinde": null,
+        "status": "niet-gepubliceerd"
+      },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
         "bedrag": null,
@@ -421,7 +489,9 @@
       },
       "doorlooptijdUitbetaling": {
         "digitaal": "Verwerking duurt maximaal drie werkdagen; na goedkeuring wordt direct uitbetaald",
-        "post": "Declaraties per post of e-mail worden niet geaccepteerd; alleen via mijn.nn of de NN App"
+        "post": "Declaraties per post of e-mail worden niet geaccepteerd; alleen via mijn.nn of de NN App",
+        "werkdagenDigitaal": 3,
+        "status": "gepubliceerd"
       },
       "declarabel": "Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Losse spullen zoals meubilair of apparaten vallen er niet onder.",
       "bewijsstuk": "Factuur of kassabon, in een gangbaar formaat zoals JPG, PNG of PDF, goed leesbaar zonder schaduw of weerspiegeling. Een offerte, opdrachtbevestiging of koopovereenkomst wordt niet geaccepteerd. Het bewijsstuk mag bij declaratie niet ouder zijn dan zes maanden. Een factuur moet naam en adres van de verkoper, KvK-nummer, btw-nummer, IBAN, gegevens van de koper, factuurnummer, datum, omschrijving, totaalbedrag en btw vermelden.",
@@ -514,7 +584,9 @@
       },
       "doorlooptijdUitbetaling": {
         "digitaal": null,
-        "post": null
+        "post": null,
+        "werkdagenDigitaal": null,
+        "status": "niet-gepubliceerd"
       },
       "declarabel": "Kosten voor zaken die aan de woning vastzitten, zoals een keuken, badkamer of nieuwe vloer. De facturen moeten overeenkomen met de verbouwingsspecificatie en waardevermeerderend zijn.",
       "restant": {
@@ -592,7 +664,9 @@
       },
       "doorlooptijdUitbetaling": {
         "digitaal": null,
-        "post": null
+        "post": null,
+        "werkdagenDigitaal": null,
+        "status": "niet-gepubliceerd"
       },
       "declarabel": "Arbeidsuren en materialen die zijn besteed aan de bouw, verbouwing of verbetering van de woning. De materialen moeten aan de woning vastzitten en mogen niet roerend zijn.",
       "restant": {
