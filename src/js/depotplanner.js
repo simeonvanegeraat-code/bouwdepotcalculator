@@ -19,11 +19,13 @@
 
 import { huidigeBank, opBankwissel } from './bankkeuze.js';
 import { maakAgenda, downloadAgenda } from './agenda.js';
+import { maakPlan } from './declaratieplan.js';
+import { leesGetal, toonGetal } from './getallen.js';
 
 const wortel = document.getElementById('depotplanner');
 
 if (wortel) {
-    const SLEUTEL = 'bouwdepot-planner-v1';
+    const SLEUTEL = 'bouwdepot-planner-v3';
     const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
     const datum = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
     const el = (id) => document.getElementById(id);
@@ -32,7 +34,7 @@ if (wortel) {
         soort: el('dp-soort'),
         start: el('dp-start'),
         bedrag: el('dp-bedrag'),
-        opgenomen: el('dp-opgenomen'),
+        stand: el('dp-stand'),
     };
 
     const uit = {
@@ -44,11 +46,31 @@ if (wortel) {
         balkOpgenomen: el('dp-balk-opgenomen'),
         tijdlijn: el('dp-tijdlijn'),
         agendaKnop: el('dp-agenda'),
-        foutOpgenomen: el('dp-fout-opgenomen'),
+        foutStand: el('dp-fout-stand'),
+        standLabel: el('dp-stand-label'),
+        standUitleg: el('dp-stand-uitleg'),
         restantRegel: el('dp-restant'),
         waarschuwing: el('dp-waarschuwing'),
         geenBank: el('dp-geen-bank'),
+        postenLijst: el('dp-posten'),
+        postenTotaal: el('dp-posten-totaal'),
+        postenFout: el('dp-fout-posten'),
+        planSectie: el('dp-plan-sectie'),
+        planLead: el('dp-plan-lead'),
+        planTabel: el('dp-plan-tabel'),
+        planSaldo: el('dp-plan-saldo'),
+        planBewijs: el('dp-plan-bewijs'),
     };
+
+    /* ----------------------------------------------------------------- posten */
+
+    /**
+     * De posten die nog uit het depot betaald moeten worden. Deze lijst is het
+     * verschil tussen een aftelklok en een planning: zonder posten weet de
+     * pagina alleen wanneer het depot afloopt, met posten of het geld op tijd
+     * besteed raakt.
+     */
+    let posten = [];
 
     /* ------------------------------------------------------------ hulpmiddel */
 
@@ -70,13 +92,58 @@ if (wortel) {
     // Wat de agendaknop nodig heeft, bijgewerkt bij elke berekening.
     let laatsteAgenda = null;
 
+    /**
+     * Welk van de twee bedragen de bezoeker invult.
+     *
+     * 'restant'   het bedrag dat nog in het depot staat -- wat bankapps tonen
+     * 'opgenomen' de som van wat er al uit is gegaan
+     *
+     * Het een volgt uit het ander zodra het depotbedrag bekend is, dus intern
+     * rekenen we altijd met allebei. De keuze bepaalt alleen wat we vragen.
+     */
+    let modus = 'restant';
+
+    const TEKSTEN = {
+        restant: {
+            label: 'Nog in het depot',
+            uitleg: 'Het bedrag dat uw bank als resterend depotsaldo toont.',
+            teHoog: (max) => `Er kan niet meer in het depot staan dan de ${max} waarmee het begon.`,
+            negatief: 'Een negatief saldo bestaat niet; we rekenen met nul.',
+        },
+        opgenomen: {
+            label: 'Al opgenomen',
+            uitleg: 'Alles wat u tot nu toe uit het depot hebt laten betalen, bij elkaar opgeteld.',
+            teHoog: (max) => `U kunt niet meer opnemen dan de ${max} die in het depot zat. We rekenen met het volledige depot.`,
+            negatief: 'Een opgenomen bedrag onder nul bestaat niet; we rekenen met nul.',
+        },
+    };
+
+    /** Zet de modus en past het label, de uitleg en de knoppen aan. */
+    function zetModus(nieuweModus, herberekenen = true) {
+        modus = nieuweModus === 'opgenomen' ? 'opgenomen' : 'restant';
+        const t = TEKSTEN[modus];
+        if (uit.standLabel) uit.standLabel.textContent = t.label;
+        if (uit.standUitleg) uit.standUitleg.textContent = t.uitleg;
+        document.querySelectorAll('.ds-segment [data-modus]').forEach((knop) => {
+            knop.setAttribute('aria-pressed', knop.dataset.modus === modus ? 'true' : 'false');
+        });
+        if (herberekenen) bereken();
+    }
+
     const vandaag = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
+
+    /** JJJJ-MM-DD in de lokale tijd, voor een input[type=date]. */
+    const alsInvoerdatum = (d) => [
+        d.getFullYear(),
+        String(d.getMonth() + 1).padStart(2, '0'),
+        String(d.getDate()).padStart(2, '0'),
+    ].join('-');
 
     /* ---------------------------------------------------------------- opslag */
 
     const bewaar = () => {
         try {
-            const staat = {};
+            const staat = { posten, modus };
             for (const [naam, veld] of Object.entries(velden)) if (veld) staat[naam] = veld.value;
             localStorage.setItem(SLEUTEL, JSON.stringify(staat));
         } catch (_) {}
@@ -85,11 +152,121 @@ if (wortel) {
     const herstel = () => {
         try {
             const staat = JSON.parse(localStorage.getItem(SLEUTEL) || '{}');
+            if (Array.isArray(staat.posten)) posten = staat.posten;
+            if (staat.modus) zetModus(staat.modus, false);
             for (const [naam, waarde] of Object.entries(staat)) {
                 if (velden[naam] && waarde) velden[naam].value = waarde;
             }
         } catch (_) {}
     };
+
+
+    function tekenPosten() {
+        if (!uit.postenLijst) return;
+        uit.postenLijst.innerHTML = posten.map((post, i) => {
+            const nr = i + 1;
+            return `<div class="post-rij">
+                <div><input class="ds-invoer" type="text" value="${post.omschrijving ?? ''}" data-idx="${i}" data-veld="omschrijving" aria-label="Post ${nr}: omschrijving" placeholder="Bijvoorbeeld keuken"></div>
+                <div class="prefix-veld"><span aria-hidden="true">&euro;</span><input class="ds-invoer" type="text" inputmode="decimal" value="${post.bedrag ? toonGetal(post.bedrag) : ''}" data-idx="${i}" data-veld="bedrag" aria-label="Post ${nr}: bedrag in euro"></div>
+                <div><input class="ds-invoer" type="month" value="${post.maand ?? ''}" data-idx="${i}" data-veld="maand" aria-label="Post ${nr}: in welke maand verwacht"></div>
+                <button type="button" class="btn-remove" data-idx="${i}" aria-label="Post ${nr} verwijderen" title="Post ${nr} verwijderen">&times;</button>
+            </div>`;
+        }).join('');
+
+        uit.postenLijst.querySelectorAll('input').forEach((veld) => {
+            veld.addEventListener('input', (e) => {
+                const { idx, veld: naam } = e.target.dataset;
+                posten[idx][naam] = naam === 'bedrag' ? (leesGetal(e.target.value) ?? 0) : e.target.value;
+                bereken();
+            });
+            // Pas bij het verlaten opmaken, anders vecht de opmaak met wie typt.
+            if (veld.dataset.veld === 'bedrag') {
+                veld.addEventListener('change', () => tekenPosten());
+            }
+        });
+        uit.postenLijst.querySelectorAll('.btn-remove').forEach((knop) => {
+            knop.addEventListener('click', (e) => {
+                posten.splice(Number(e.currentTarget.dataset.idx), 1);
+                tekenPosten();
+                bereken();
+            });
+        });
+    }
+
+    /** Zet het declaratieplan op het scherm. */
+    function toonPlan(bank, einde, saldoNu) {
+        const plan = maakPlan({
+            einde,
+            werkdagen: bank.uitbetalingWerkdagen,
+            saldo: saldoNu,
+            posten,
+        });
+
+        if (uit.postenTotaal) {
+            uit.postenTotaal.textContent = plan.regels.length
+                ? `${euro.format(plan.totaalPosten)} gepland`
+                : '';
+        }
+
+        const heeftPosten = plan.regels.length > 0;
+        if (uit.planSectie) uit.planSectie.hidden = !heeftPosten;
+        if (!heeftPosten) {
+            if (uit.postenFout) uit.postenFout.textContent = '';
+            return plan;
+        }
+
+        // De uiterste indiendatum is het stuk dat de bank niet uit zichzelf
+        // vertelt. Publiceert de aanbieder geen doorlooptijd, dan staat er geen
+        // datum maar de reden waarom niet.
+        const uiterlijk = plan.uiterste
+            ? datum.format(plan.uiterste)
+            : 'niet te bepalen';
+
+        if (uit.planLead) {
+            uit.planLead.textContent = plan.uiterste
+                ? `${bank.naam} doet er ${bank.uitbetalingWerkdagen === 0 ? 'geen wachttijd over' : `ongeveer ${bank.uitbetalingWerkdagen} werkdagen over`} om een declaratie te verwerken. Wat op ${datum.format(einde)} betaald moet zijn, dient u dus uiterlijk ${uiterlijk} in.`
+                : `${bank.naam} publiceert niet hoe lang een declaratie duurt. Wij rekenen daar geen uiterste datum voor uit; houd zelf ruime marge voor ${datum.format(einde)}.`;
+        }
+
+        if (uit.planTabel) {
+            uit.planTabel.innerHTML = plan.regels.map((r) => `<tr${r.teLaat ? ' class="rij--letop"' : ''}>
+                <td>${r.omschrijving}</td>
+                <td class="col-amount">${euro.format(r.bedrag)}</td>
+                <td>${r.verwacht ? new Intl.DateTimeFormat('nl-NL', { month: 'long', year: 'numeric' }).format(r.verwacht) : '—'}</td>
+                <td>${r.teLaat ? `<strong>na ${uiterlijk}</strong>` : uiterlijk}</td>
+            </tr>`).join('');
+        }
+
+        if (uit.planSaldo) {
+            const delen = [];
+            if (plan.tekort > 0) {
+                delen.push(`U plant ${euro.format(plan.totaalPosten)} terwijl er nog ${euro.format(saldoNu)} in het depot staat. Er ontbreekt ${euro.format(plan.tekort)}, dat u dus uit eigen geld betaalt.`);
+            } else if (plan.nietBelegd > 0) {
+                delen.push(`Van de ${euro.format(saldoNu)} die nog in het depot staat is ${euro.format(plan.totaalPosten)} belegd met posten. De resterende ${euro.format(plan.nietBelegd)} heeft nog geen bestemming.`);
+            } else {
+                delen.push(`Uw posten sluiten precies aan op wat er nog in het depot staat.`);
+            }
+            if (plan.teLaat > 0) {
+                delen.push(`${plan.teLaat === 1 ? 'Eén post valt' : `${plan.teLaat} posten vallen`} na de uiterste indiendatum. Dat deel raakt niet meer op tijd uitbetaald.`);
+            }
+            uit.planSaldo.textContent = delen.join(' ');
+            uit.planSaldo.dataset.status = (plan.tekort > 0 || plan.teLaat > 0) ? 'afwijkend' : '';
+        }
+
+        if (uit.planBewijs) {
+            // Wat er bij een declaratie mee moet, staat al per aanbieder in de
+            // data. Hier hoort het thuis: op het moment dat iemand zijn indienen
+            // plant, niet drie pagina's verderop.
+            const eisen = (bank.eisen || []).filter((e) => e.waarde);
+            uit.planBewijs.innerHTML = eisen.length
+                ? `<strong>Wat ${bank.naam} bij een declaratie wil zien</strong><ul class="plan-eisen">`
+                    + eisen.map((e) => `<li><strong>${e.waarde}</strong>${e.detail ? ` &mdash; ${e.detail}` : ''}</li>`).join('')
+                    + '</ul>'
+                : `<strong>${bank.naam}</strong> publiceert niet welk bewijsstuk bij een declaratie hoort. Vraag dat na voordat u indient.`;
+        }
+
+        return plan;
+    }
 
     /* -------------------------------------------------------------- tijdlijn */
 
@@ -230,24 +407,30 @@ if (wortel) {
         // Stil afkappen is precies waar deze site niet voor staat: de bezoeker
         // typt 80.000, ziet 50.000 terug en weet niet of de tool hem begrepen
         // heeft. We rekenen wel door met een bruikbare waarde, maar zeggen het.
-        const ingevoerdOpgenomen = Number(velden.opgenomen?.value) || 0;
-        const opgenomen = Math.min(bedrag, Math.max(0, ingevoerdOpgenomen));
-        if (uit.foutOpgenomen) {
+        const ingevoerd = Number(velden.stand?.value) || 0;
+        const begrensd = Math.min(bedrag, Math.max(0, ingevoerd));
+
+        // Het ene bedrag volgt uit het andere; welk van de twee is ingevuld
+        // maakt voor de rest van de berekening niet uit.
+        const opgenomen = modus === 'restant' ? bedrag - begrensd : begrensd;
+        const saldo = modus === 'restant' ? begrensd : bedrag - opgenomen;
+
+        if (uit.foutStand) {
+            const t = TEKSTEN[modus];
             let melding = '';
-            if (ingevoerdOpgenomen < 0) {
-                melding = 'Een opgenomen bedrag onder nul bestaat niet; we rekenen met nul.';
-            } else if (bedrag > 0 && ingevoerdOpgenomen > bedrag) {
-                melding = `U kunt niet meer opnemen dan er in het depot zit. We rekenen met het volledige depot van ${euro.format(bedrag)}.`;
-            }
-            uit.foutOpgenomen.textContent = melding;
-            velden.opgenomen?.setAttribute('aria-invalid', melding ? 'true' : 'false');
+            if (ingevoerd < 0) melding = t.negatief;
+            else if (bedrag > 0 && ingevoerd > bedrag) melding = t.teHoog(euro.format(bedrag));
+            uit.foutStand.textContent = melding;
+            velden.stand?.setAttribute('aria-invalid', melding ? 'true' : 'false');
         }
-        const saldo = bedrag - opgenomen;
 
         uit.saldo.textContent = euro.format(saldo);
         const pct = bedrag > 0 ? (opgenomen / bedrag) * 100 : 0;
-        uit.opgenomenPct.textContent = bedrag > 0
-            ? `${Math.round(pct)}% opgenomen, ${euro.format(opgenomen)} van ${euro.format(bedrag)}`
+        // De bedragen dragen de regel, niet het percentage: "142.374 van 334.110"
+        // is wat iemand met zijn bankafschrift vergelijkt. Het percentage is de
+        // samenvatting daarvan en hoort dus achteraan, niet vooraan.
+        uit.opgenomenPct.innerHTML = bedrag > 0
+            ? `<strong>${euro.format(opgenomen)}</strong> van ${euro.format(bedrag)} opgenomen &middot; ${Math.round(pct)}%`
             : 'Vul uw depotbedrag in.';
         if (uit.balkOpgenomen) uit.balkOpgenomen.style.width = `${pct.toFixed(1)}%`;
 
@@ -312,7 +495,8 @@ if (wortel) {
         toonTijdlijn(rij, nu);
         // De agendaknop werkt met dezelfde gebeurtenissen als de tijdlijn, zodat
         // wat iemand meeneemt niet kan afwijken van wat hij op het scherm zag.
-        laatsteAgenda = { bank, soort, rij };
+        const plan = toonPlan(bank, einde, saldo);
+        laatsteAgenda = { bank, soort, rij, plan };
         if (uit.agendaKnop) uit.agendaKnop.disabled = !rij.some((g) => g.datum);
 
         if (uit.restantRegel) {
@@ -350,6 +534,29 @@ if (wortel) {
         if (v?.tagName === 'SELECT') v.addEventListener('change', bereken);
     });
 
+    document.querySelectorAll('.ds-segment [data-modus]').forEach((knop) => {
+        knop.addEventListener('click', () => {
+            if (knop.dataset.modus === modus) return;
+            // Het getal in het veld hoort mee te veranderen: wie 20.000 opgenomen
+            // heeft van 50.000, ziet na het wisselen 30.000 staan. Zonder die
+            // omrekening zou dezelfde invoer ineens iets anders betekenen.
+            const bedrag = Number(velden.bedrag?.value) || 0;
+            const huidig = Number(velden.stand?.value) || 0;
+            if (velden.stand && bedrag > 0) {
+                velden.stand.value = Math.max(0, bedrag - Math.min(bedrag, Math.max(0, huidig)));
+            }
+            zetModus(knop.dataset.modus);
+        });
+    });
+
+    el('dp-post-toevoegen')?.addEventListener('click', () => {
+        posten.push({ omschrijving: '', bedrag: 0, maand: '' });
+        tekenPosten();
+        bereken();
+        // De cursor hoort in het veld te staan dat er net bij kwam.
+        uit.postenLijst?.querySelector('.post-rij:last-child input')?.focus();
+    });
+
     el('dp-printen')?.addEventListener('click', () => window.print());
 
     // Een herinnering hoort alleen bij een moment waarop iets te regelen valt.
@@ -360,12 +567,21 @@ if (wortel) {
 
     el('dp-agenda')?.addEventListener('click', () => {
         if (!laatsteAgenda) return;
-        const { bank, soort, rij } = laatsteAgenda;
+        const { bank, soort, rij, plan } = laatsteAgenda;
+        const extra = [];
+        if (plan?.uiterste && plan.regels.length) {
+            extra.push({
+                naam: 'Uiterlijk declareren',
+                datum: plan.uiterste,
+                uitleg: `Na deze datum is een declaratie bij ${bank.naam} niet meer op tijd verwerkt voor het einde van uw depot.`,
+                let_op: true,
+            });
+        }
         const naam = `Bouwdepot ${bank.naam}`;
         const inhoud = maakAgenda({
             naam,
             bron: 'bouwdepotcalculator.nl/depotplanner.html',
-            gebeurtenissen: rij.map((g) => ({
+            gebeurtenissen: [...rij, ...extra].map((g) => ({
                 naam: g.naam,
                 datum: g.datum,
                 uitleg: g.uitleg,
@@ -380,7 +596,10 @@ if (wortel) {
     el('dp-vandaag')?.addEventListener('click', () => {
         // Handig voor wie zijn depot vandaag opent, en het maakt de tijdlijn
         // meteen zichtbaar voor wie komt kijken hoe de pagina werkt.
-        velden.start.value = vandaag().toISOString().slice(0, 10);
+        // Niet toISOString: die rekent naar UTC, en in onze zomertijd levert
+        // lokale middernacht dan de dag ervoor op. De knop vulde daardoor
+        // gisteren in, en op deze pagina schuift dat elke datum een dag mee.
+        velden.start.value = alsInvoerdatum(vandaag());
         bereken();
     });
 
@@ -388,5 +607,9 @@ if (wortel) {
     // invullen zou een tijdlijn opleveren die eruitziet als de zijne maar het niet
     // is, en op deze pagina zijn de datums het hele product.
     herstel();
+    // Zonder dit staan teruggehaalde posten wel in het geheugen -- het plan
+    // rekent er dan mee -- maar is de lijst op het scherm leeg. Een plan met
+    // posten boven een lege invoerlijst is niet te rijmen.
+    tekenPosten();
     opBankwissel(bereken);
 }

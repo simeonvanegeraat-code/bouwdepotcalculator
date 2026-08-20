@@ -349,7 +349,13 @@ body { margin: 0; }
 
 /* Tijdlijn met fasen die elkaar opvolgen. */
 .tijdlijn { display: grid; gap: var(--ds-4); }
-@media (min-width: 820px) { .tijdlijn { grid-template-columns: repeat(3, 1fr); } }
+/* Drie kolommen horen bij een tijdlijn van fase-blokken. De depotplanner zet er
+   losse stappen in met een datumkolom en een stippellijn; die werd hierdoor op
+   brede schermen in kolommen van 200px geperst, waar elke zin over vijf regels
+   brak. Een verticale tijdlijn houdt de tekst leesbaar op elke breedte. */
+@media (min-width: 820px) {
+    .tijdlijn:has(.fase-blok) { grid-template-columns: repeat(3, 1fr); }
+}
 
 .fase-blok {
     background: var(--ds-surface);

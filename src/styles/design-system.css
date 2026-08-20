@@ -424,7 +424,9 @@ html { scrollbar-gutter: stable; }
     font: inherit;
     font-size: var(--ds-t-small);
     font-weight: 560;
-    min-height: 38px;
+    /* Dit component stond nog op 38px en werd nergens gebruikt. Bij de eerste
+       toepassing hoort het gewoon de aanraakzone uit de kwaliteitslat te halen. */
+    min-height: var(--ds-tap);
     transition: background var(--ds-quick), color var(--ds-quick);
 }
 .ds-segment button[aria-pressed="true"] {

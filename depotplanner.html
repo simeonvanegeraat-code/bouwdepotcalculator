@@ -109,18 +109,51 @@
                         <p class="ds-caption">Vanaf het passeren loopt de termijn, niet vanaf de start van de bouw. <button type="button" class="knop-in-tekst" id="dp-vandaag">Vandaag invullen</button></p>
                     </div>
 
-                    <div class="veldrij veldrij--twee">
+                    <div class="veldrij veldrij--twee veldrij--met-keuze">
                         <div class="ds-veld">
                             <div class="ds-veld__kop"><label class="ds-veld__naam" for="dp-bedrag">Depotbedrag</label></div>
                             <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="dp-bedrag" value="50000" min="0" step="500" inputmode="numeric"></div>
                         </div>
                         <div class="ds-veld">
-                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="dp-opgenomen">Al opgenomen</label></div>
-                            <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="dp-opgenomen" value="0" min="0" step="500" inputmode="numeric"></div>
-                            <span class="ds-veld__fout" id="dp-fout-opgenomen" role="alert"></span>
+                            <!-- Bankapps tonen het restant, niet de som van wat u hebt
+                                 opgenomen. Alleen naar "al opgenomen" vragen betekent dat de
+                                 bezoeker eerst zelf zijn afschriften moet optellen. Hij kiest
+                                 dus zelf welk getal hij invult; wij rekenen het andere erbij. -->
+                            <div class="ds-veld__kop">
+                                <div class="ds-segment no-print" role="group" aria-label="Welk bedrag vult u in?">
+                                    <button type="button" id="dp-modus-restant" data-modus="restant" aria-pressed="true">In het depot</button>
+                                    <button type="button" id="dp-modus-opgenomen" data-modus="opgenomen" aria-pressed="false">Opgenomen</button>
+                                </div>
+                            </div>
+                            <div class="prefix-veld"><span aria-hidden="true">&euro;</span><input class="ds-invoer" type="number" id="dp-stand" value="50000" min="0" step="500" inputmode="numeric"></div>
+                            <span class="ds-veld__fout" id="dp-fout-stand" role="alert"></span>
+                            <p class="ds-caption" id="dp-stand-uitleg">Het bedrag dat uw bank als resterend depotsaldo toont.</p>
                         </div>
                     </div>
 
+                    <!-- Het hart van de planner. Zonder deze posten rekent de pagina
+                         alleen passeerdatum plus looptijd uit, en dat weet de bezoeker
+                         al uit zijn hypotheekakte. Mét de posten kan hij zien of zijn
+                         geld op tijd besteed raakt, en wanneer hij uiterlijk moet
+                         indienen om het nog uitbetaald te krijgen. -->
+                    <div class="posten" id="dp-posten-blok">
+                        <div class="ds-veld__kop">
+                            <span class="ds-veld__naam">Wat moet er nog uit het depot betaald worden?</span>
+                            <span class="posten__totaal" id="dp-posten-totaal"></span>
+                        </div>
+                        <p class="ds-caption">De facturen of werkzaamheden die nog komen. Weet u de maand nog niet, laat die dan leeg.</p>
+
+                        <div class="post-kop" aria-hidden="true">
+                            <span>Omschrijving</span>
+                            <span>Bedrag</span>
+                            <span>Verwacht</span>
+                            <span></span>
+                        </div>
+                        <div id="dp-posten"></div>
+
+                        <button class="ds-knop ds-knop--rustig" id="dp-post-toevoegen" type="button">+ Post toevoegen</button>
+                        <span class="ds-veld__fout" id="dp-fout-posten" role="alert"></span>
+                    </div>
                     <div class="melding no-print" id="dp-geen-bank">
                         <p><strong>Kies eerst uw geldverstrekker hierboven.</strong> Een bouwdepot heeft geen algemene looptijd: die verschilt van twaalf tot vierentwintig maanden, en de verlenging van zes tot achttien. Zonder te weten bij wie uw hypotheek loopt zou elke datum hier een gok zijn.</p>
                     </div>
@@ -130,6 +163,35 @@
             </div>
         </section>
 
+        <!-- Dit is wat de bezoeker meeneemt. Bewust zonder no-print: de tijdlijn
+             en het declaratieplan zijn het document, de rest van de pagina is
+             uitleg die je niet op papier hoeft. -->
+        <section class="ds-sectie" id="dp-plan-sectie" hidden>
+            <div class="ds-wrap">
+                <div class="ds-sectiekop">
+                    <p class="ds-eyebrow">Uw declaratieplan</p>
+                    <h2 class="ds-title">Wat moet er wanneer ingediend zijn?</h2>
+                    <p class="ds-lead" id="dp-plan-lead"></p>
+                </div>
+
+                <div class="details-table-wrapper">
+                    <table class="details-table plan-tabel">
+                        <thead>
+                            <tr>
+                                <th scope="col">Post</th>
+                                <th scope="col" class="col-amount">Bedrag</th>
+                                <th scope="col">Verwacht</th>
+                                <th scope="col">Uiterlijk indienen</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dp-plan-tabel"></tbody>
+                    </table>
+                </div>
+
+                <p class="notitie" id="dp-plan-saldo"></p>
+                <p class="notitie" id="dp-plan-bewijs"></p>
+            </div>
+        </section>
         <section class="ds-sectie ds-sectie--gevuld no-print">
             <div class="ds-wrap ds-wrap--smal">
                 <div class="ds-sectiekop">
