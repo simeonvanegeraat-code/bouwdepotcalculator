@@ -732,6 +732,27 @@ select.ds-invoer {
 .post__prioriteit { font-size: var(--ds-t-small); }
 
 .uitkomst-acties { display: grid; gap: var(--ds-2); }
+
+/* --------------------------------------------------------- vervolgstap
+   De volgende vraag, onderaan de uitkomstkolom. Stond eerder pas in de
+   lopende tekst halverwege de pagina: op de maandlastenpagina op 5,98 van
+   de 8,16 schermen, ver voorbij het punt waarop iemand met zijn antwoord
+   weg is.
+
+   Bewust een tekstregel en geen knop. Een tweede knop onder de printknop
+   maakt van de uitkomst een keuzemenu; dan is het bedrag niet meer het
+   antwoord maar een van de dingen die je kunt doen. Een kader kost boven-
+   dien 134px waar deze regel er 60 kost, en op de homepage is maar 25px
+   speling boven de stickybalk. */
+.vervolgstap {
+    border-top: 1px solid var(--ds-line);
+    color: var(--ds-ink-soft);
+    font-size: var(--ds-t-small);
+    line-height: var(--ds-lh-body);
+    margin-top: var(--ds-4);
+    padding-top: var(--ds-4);
+}
+.vervolgstap a { font-weight: 600; }
 .uitkomst-acties .ds-knop { width: 100%; }
 
 @media print {
