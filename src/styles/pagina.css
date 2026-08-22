@@ -210,18 +210,45 @@ body { margin: 0; }
     margin-top: var(--ds-8);
     padding-block: var(--ds-6);
 }
-.voet__links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--ds-2) var(--ds-5);
-    margin-bottom: var(--ds-4);
+/* De voettekst is het vangnet voor wie via Google op een subpagina binnenkomt
+   en de kopnavigatie geen enkele rekentool noemt. Er stonden twaalf losse
+   links op een rij; zes rekentools en beide checklists ontbraken, en het
+   stappenplan en de advieschecklist stonden op geen enkele pagina. Nu vier
+   groepen langs de twee reizen, en elke tool heeft een plek. */
+.voet__kolommen {
+    display: grid;
+    gap: var(--ds-5) var(--ds-6);
+    /* 9rem zodat er op 375px twee kolommen passen: als enkele kolom werd de
+       voettekst 1186px hoog, ruim anderhalf scherm.
+       Labels mogen daarbinnen afbreken. */
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    margin-bottom: var(--ds-5);
 }
-.voet__links a {
-    color: var(--ds-ink-soft);
+.voet__kop {
+    color: var(--ds-ink);
     font-size: var(--ds-t-small);
+    font-weight: 600;
+    margin: 0 0 var(--ds-1);
+}
+.voet__kolommen ul { list-style: none; margin: 0; padding: 0; }
+.voet__kolommen a {
+    color: var(--ds-ink-soft);
+    display: flex;
+    font-size: var(--ds-t-small);
+    /* Als losse regel in een kolom is er ruimte om de tikzone op hoogte te
+       brengen; op een rij van twaalf bleef die op 24px steken. */
+    align-items: center;
+    min-height: var(--ds-tap);
+    padding: var(--ds-1) 0;
     text-decoration: none;
 }
-.voet__links a:hover { color: var(--ds-accent); }
+.voet__kolommen a:hover { color: var(--ds-accent); }
+
+/* Vier groepen, dus vier kolommen. Zonder deze regel maakt auto-fit er op een
+   breed scherm vijf, en blijft de vijfde leeg. */
+@media (min-width: 760px) {
+    .voet__kolommen { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
 
 
 /* ==========================================================================
