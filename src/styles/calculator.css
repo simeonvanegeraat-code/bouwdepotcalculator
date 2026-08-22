@@ -316,7 +316,7 @@ select.ds-invoer {
 }
 
 @media print {
-    .kop, .voet, .no-print, .sticky-result-bar, .reken__invoer { display: none !important; }
+    .kop, .kruimel, .voet, .no-print, .sticky-result-bar, .reken__invoer { display: none !important; }
     .reken__grid { display: block; }
     .ds-uitkomst { box-shadow: none; border: 1px solid #ccc; }
 }
@@ -750,8 +750,14 @@ select.ds-invoer {
 .alleen-print { display: none; }
 
 @media print {
-    #begroting .reken { display: none; }
+    /* Op de begroting staat het document altijd klaar. Op de rekenpagina's
+       zet drukAf() de klasse pas als de bezoeker om zijn overzicht vraagt --
+       wie daarna gewoon Ctrl+P drukt hoort het scherm te krijgen, niet een
+       document van een berekening van een kwartier geleden. */
+    #begroting .reken,
+    body.afdrukken main { display: none; }
     .alleen-print { display: block; }
+    body:not(.afdrukken) #afdrukdocument { display: none; }
 
     .spec__kop { border-bottom: 2px solid #000; margin-bottom: 1rem; padding-bottom: 0.5rem; }
     .spec__kop h2 { font-size: 1.4rem; margin: 0; }
@@ -785,6 +791,14 @@ select.ds-invoer {
     .spec__voet ul { margin: 0.25rem 0; padding-left: 1.1rem; }
     .spec__voet li strong { text-transform: capitalize; }
 
+    /* De slotalinea is de voorwaardentekst, geen inhoud. Een dunne lijn houdt
+       hem los van de aannames erboven, die de bezoeker wel moet lezen. */
+    .spec__voet > p:last-child {
+        border-top: 1px solid #ddd;
+        color: #555;
+        margin-top: 0.9rem;
+        padding-top: 0.5rem;
+    }
 }
 
 /* Tekort in rood: een negatieve buffer is een signaal, geen getal. */

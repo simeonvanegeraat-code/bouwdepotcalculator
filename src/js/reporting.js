@@ -1,7 +1,16 @@
-// jsPDF wordt bewust niet bovenaan geimporteerd. Die bibliotheek is 359 kB en
-// stond daarmee voor 85% van alle JavaScript op de homepage, terwijl de meeste
-// bezoekers de downloadknop nooit aanraken. Hij wordt nu pas opgehaald op het
-// moment dat er echt een PDF gemaakt moet worden; zie createPdfReport.
+// Het overzicht dat de bezoeker meeneemt.
+//
+// Deze module maakt van ruwe invoer een rapport met Nederlandse labels en
+// opgemaakte bedragen. Het tekenen gebeurt niet meer hier: jsPDF zette per
+// gegeven twee regels -- label vet, waarde eronder ingesprongen -- en dat leest
+// als een lijst, niet als een document. Zie afdrukdocument.js, dat dezelfde
+// vorm gebruikt als de verbouwingsspecificatie.
+//
+// Het scheelt ook een download van 359 kB op het moment dat de bezoeker om
+// zijn overzicht vraagt: jsPDF werd lui geladen, dus juist bij de klik waar hij
+// staat te wachten.
+
+import { drukAf } from './afdrukdocument.js';
 
 (function initBouwdepotReporting(global) {
     const SCHEMA_VERSION = '1.2.0';
@@ -320,173 +329,17 @@
 
     const getReportFilename = (report) => {
         const base = sanitizeFilePart(report.toolId) || sanitizeFilePart(report.toolTitle) || 'bouwdepot';
-        return `${base}-overzicht.pdf`;
+        // Zonder extensie: dit wordt de documenttitel, die Chrome voorstelt als
+        // bestandsnaam bij "Opslaan als PDF".
+        return `${base}-overzicht`;
     };
 
-    const addWrappedText = (doc, text, x, y, maxWidth, lineHeight) => {
-        const safeText = text || '—';
-        const lines = doc.splitTextToSize(String(safeText), maxWidth);
-        doc.text(lines, x, y);
-        return y + (lines.length * lineHeight);
-    };
 
-    const createPdfReport = async (report) => {
-        const { jsPDF } = await import('jspdf');
-        const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-        const margin = 14;
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
-        const contentWidth = pageWidth - (margin * 2);
-        const lineHeight = 5.5;
-        const sectionGap = 8;
-        let y = margin;
-
-        const ensurePageSpace = (requiredHeight = 10) => {
-            if ((y + requiredHeight) <= (pageHeight - margin)) return;
-            doc.addPage();
-            y = margin;
-        };
-
-        const addSectionTitle = (title) => {
-            ensurePageSpace(10);
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(13);
-            y = addWrappedText(doc, title, margin, y, contentWidth, lineHeight);
-            y += 2;
-        };
-
-        const addParagraph = (text) => {
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10.5);
-            const lines = doc.splitTextToSize(String(text || '—'), contentWidth);
-            lines.forEach((line) => {
-                ensurePageSpace(lineHeight);
-                doc.text(line, margin, y);
-                y += lineHeight;
-            });
-        };
-
-        const addRows = (rows) => {
-            if (!rows.length) {
-                addParagraph('Geen gegevens beschikbaar.');
-                return;
-            }
-
-            rows.forEach((row) => {
-                const labelText = row.label || 'Waarde';
-                const valueText = row.value || '—';
-
-                ensurePageSpace(lineHeight * 2);
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(10.5);
-                y = addWrappedText(doc, labelText, margin, y, contentWidth, lineHeight);
-
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(10.5);
-                y = addWrappedText(doc, valueText, margin + 2, y, contentWidth - 2, lineHeight);
-                y += 1.5;
-            });
-        };
-
-        /**
-         * Een tabel over meerdere pagina's. De kolomkoppen worden na elke
-         * paginawissel herhaald: een maandoverzicht van 38 regels loopt over
-         * twee pagina's, en zonder koppen is de tweede pagina een muur van
-         * bedragen zonder betekenis.
-         */
-        const addTable = (table) => {
-            const kolommen = table.columns;
-            // De eerste kolom is doorgaans een maandnummer en mag smal blijven;
-            // de rest verdeelt de overgebleven breedte gelijk.
-            const eersteBreedte = 16;
-            const restBreedte = (contentWidth - eersteBreedte) / Math.max(1, kolommen.length - 1);
-            const breedtes = kolommen.map((_, i) => (i === 0 ? eersteBreedte : restBreedte));
-            const x = kolommen.map((_, i) => margin + breedtes.slice(0, i).reduce((a, b) => a + b, 0));
-
-            const plaats = (tekst, index, vet) => {
-                doc.setFont('helvetica', vet ? 'bold' : 'normal');
-                const rechts = kolommen[index].align === 'right';
-                const positie = rechts ? x[index] + breedtes[index] - 1 : x[index];
-                doc.text(String(tekst), positie, y, rechts ? { align: 'right' } : undefined);
-            };
-
-            const kopregel = () => {
-                doc.setFontSize(9);
-                kolommen.forEach((kolom, i) => plaats(kolom.label, i, true));
-                y += 1.5;
-                doc.setDrawColor(200);
-                doc.line(margin, y, margin + contentWidth, y);
-                y += lineHeight - 1;
-            };
-
-            doc.setFontSize(9);
-            ensurePageSpace(lineHeight * 3);
-            y += lineHeight - 2;
-            kopregel();
-
-            table.rows.forEach((rij) => {
-                if ((y + lineHeight) > (pageHeight - margin)) {
-                    doc.addPage();
-                    y = margin;
-                    kopregel();
-                }
-                rij.forEach((cel, i) => plaats(cel, i, false));
-                y += lineHeight - 0.8;
-            });
-
-            doc.setFontSize(10.5);
-        };
-
-        const generatedAt = new Intl.DateTimeFormat('nl-NL', { dateStyle: 'medium', timeStyle: 'short' })
-            .format(new Date(report.generatedAt));
-
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(18);
-        y = addWrappedText(doc, report.toolTitle || 'Bouwdepot calculator', margin, y, contentWidth, 7);
-        y += 2;
-
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
-        y = addWrappedText(doc, `Gegenereerd op: ${generatedAt}`, margin, y, contentWidth, lineHeight);
-        y += sectionGap;
-
-        addSectionTitle('Inputoverzicht');
-        addRows(report.inputs || []);
-        y += sectionGap;
-
-        addSectionTitle('Resultaatoverzicht');
-        addRows(report.results || []);
-        y += sectionGap;
-
-        addSectionTitle('Conclusie');
-        addParagraph(report.conclusion);
-        y += sectionGap;
-
-        if (report.interpretation) {
-            addSectionTitle('Interpretatie');
-            addParagraph(report.interpretation);
-            y += sectionGap;
-        }
-
-        // Tabellen staan na de samenvatting en vóór de aannames: eerst het
-        // verhaal op één pagina, dan pas het detail dat over meer pagina's loopt.
-        (report.tables || []).forEach((table) => {
-            addSectionTitle(table.title);
-            addTable(table);
-            y += sectionGap;
-        });
-
-        addSectionTitle('Aannames');
-        addParagraph(report.assumptions);
-
-        doc.save(getReportFilename(report));
-    };
-
-    const downloadReportPdf = async (normalizedReport) => {
+    const toonOverzicht = (normalizedReport) => {
         try {
-            await createPdfReport(normalizedReport);
+            drukAf(normalizedReport, getReportFilename(normalizedReport));
         } catch (error) {
-            console.error('Kon PDF-overzicht niet genereren.', error);
+            console.error('Kon het overzicht niet opstellen.', error);
         }
     };
 
@@ -506,7 +359,7 @@
             }
 
             const normalizedReport = normalizeReport(rawReport, options);
-            downloadReportPdf(normalizedReport);
+            toonOverzicht(normalizedReport);
         });
 
         button.dataset.reportBound = 'true';

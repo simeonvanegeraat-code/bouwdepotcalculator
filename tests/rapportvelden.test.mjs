@@ -17,6 +17,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import { bouwAfdrukdocument } from '../src/js/afdrukdocument.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const rapport = fs.readFileSync(path.join(ROOT, 'src/js/reporting.js'), 'utf8');
@@ -77,12 +78,27 @@ test('de labelkaart bevat geen Engelse labels', () => {
 test('geen enkel overzicht drukt een lege interpretatie af', () => {
     // De sectie hoort weg te vallen als er niets te interpreteren valt, in plaats
     // van een kopje met "Indicatieve interpretatie op basis van uw invoer".
-    assert.match(
-        rapport, /if \(report\.interpretation\) \{/,
-        'de Interpretatie-sectie wordt onvoorwaardelijk afgedrukt',
-    );
-    assert.match(
-        rapport, /rawInterpretation \? normalizeInterpretationText\(rawInterpretation\) : null/,
+    assert.ok(
+        rapport.includes('rawInterpretation ? normalizeInterpretationText(rawInterpretation) : null'),
         'een ontbrekende interpretatie wordt nog met een standaardzin opgevuld',
     );
+
+    const zonder = bouwAfdrukdocument({ toolTitle: 'Test', inputs: [], results: [] });
+    assert.ok(!zonder.includes('Interpretatie'), 'de Interpretatie-kop staat er terwijl er geen tekst is');
+    assert.ok(!zonder.includes('Conclusie'), 'de Conclusie-kop staat er terwijl er geen tekst is');
+
+    const met = bouwAfdrukdocument({ toolTitle: 'Test', inputs: [], results: [], interpretation: 'Merkbaar effect.' });
+    assert.ok(met.includes('Interpretatie'), 'de Interpretatie-kop ontbreekt terwijl er wel tekst is');
+});
+
+test('het afdrukdocument ontsnapt tekst die de bezoeker zelf invoert', () => {
+    // De labels en waarden komen uit invoervelden. Zonder ontsnapping schrijft
+    // iemand met een < in zijn omschrijving zijn eigen opmaak in het document.
+    const html = bouwAfdrukdocument({
+        toolTitle: '<script>kwaad()</script>',
+        inputs: [{ label: 'Aannemer <B&B>', value: '€ 1' }],
+        results: [],
+    });
+    assert.ok(!html.includes('<script>'), 'ongefilterde HTML uit de titel komt in het document');
+    assert.ok(html.includes('Aannemer &lt;B&amp;B&gt;'), 'het label wordt niet ontsnapt');
 });

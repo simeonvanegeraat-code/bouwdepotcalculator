@@ -512,7 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function buildMaandlastenReport(data) {
             return {
-                toolTitle: 'Maandlasten bouwdepot calculator',
+                toolTitle: 'Maandlasten tijdens het bouwdepot',
                 generatedAt: data.generatedAt,
                 inputs: {
                     totalMortgage: data.totalMortgage,
@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function buildDubbeleLastenReport(data) {
             return {
-                toolTitle: 'Dubbele lasten nieuwbouw calculator',
+                toolTitle: 'Dubbele lasten tijdens de nieuwbouw',
                 generatedAt: data.generatedAt,
                 inputs: {
                     situationType: data.situationType,
@@ -924,7 +924,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function buildRenteverliesReport(data) {
             return {
-                toolTitle: 'Renteverlies bouwdepot calculator',
+                toolTitle: 'Renteverlies op het bouwdepot',
                 generatedAt: data.generatedAt,
                 inputs: {
                     depotAmount: data.depotAmount,
@@ -1244,7 +1244,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function buildNieuwbouwReport(data) {
             return {
-                toolTitle: 'Nieuwbouw calculator',
+                toolTitle: 'Nieuwbouwplanning en piekmaand',
                 generatedAt: data.generatedAt,
                 inputs: {
                     landCost: data.landCost,
@@ -1745,7 +1745,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function buildFiscalReport(data) {
             return {
-                toolTitle: 'Belastingvoordeel / netto maandlast calculator',
+                toolTitle: 'Belastingvoordeel en netto maandlast',
                 generatedAt: data.generatedAt,
                 inputs: {
                     mortgageType: data.mortgageType,

@@ -48,7 +48,7 @@ if (amountInput && rateInput && monthsInput && financedInput) {
 
     function buildBouwrenteReport(data) {
         return {
-            toolTitle: 'Bouwrente nieuwbouw calculator',
+            toolTitle: 'Bouwrente bij nieuwbouw',
             generatedAt: data.generatedAt,
             inputs: {
                 amount: data.amount,

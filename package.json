@@ -11,9 +11,6 @@
     "check:voorwaarden": "node scripts/check-voorwaarden.mjs",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "jspdf": "^2.5.1"
-  },
   "devDependencies": {
     "vite": "^5.4.0"
   },
