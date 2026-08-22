@@ -310,9 +310,12 @@ select.ds-invoer {
 .sticky-result-bar__amount { font-size: var(--ds-t-body); font-weight: 660; }
 .sticky-result-bar__arrow { opacity: 0.6; }
 
-/* Alleen tonen waar de uitkomst uit beeld kan raken. */
+/* Alleen op smalle schermen, en pas als de uitkomstkaart daadwerkelijk uit
+   beeld is. Altijd zichtbaar kostte 66px onderaan het scherm terwijl er op de
+   homepage maar 25px speling was boven de vouw; hij dekte daar ook de
+   voettekst af. stickybalk.js zet de klasse. */
 @media (max-width: 899px) {
-    .sticky-result-bar { display: flex; }
+    .sticky-result-bar.is-zichtbaar { display: flex; }
 }
 
 @media print {

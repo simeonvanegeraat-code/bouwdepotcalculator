@@ -42,15 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     bindReportButton(btnDownload);
 
-    // --- Sticky Result Bar: scroll to results on tap ---
-    const stickyBar = document.getElementById('sticky-result-bar');
-    if (stickyBar) {
-        stickyBar.addEventListener('click', () => {
-            const resultCard = document.getElementById('print-area');
-            if (resultCard) resultCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-    }
-
 
     // ----------------------------------------------
     // 1. VERBOUW CALCULATOR (Homepage)
@@ -196,8 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (el) el.textContent = nul;
             });
             if (resConclusion) resConclusion.textContent = 'Pas uw invoer aan voor een indicatie.';
-            const stickyAmount = document.getElementById('sticky-result-amount');
-            if (stickyAmount) stickyAmount.textContent = nul;
             if (btnDownload) delete btnDownload.dataset.report;
         }
 
@@ -279,21 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             resNetto.textContent = formatEuro(netMonthly);
 
-            // --- Sticky mobile result bar ---
-            // Het label volgt de renteaftrek, net als de kop bij het bedrag zelf.
-            // Anders staat er "netto" onder een bedrag waar niets van af is.
-            const stickyLabel = document.getElementById('sticky-result-label');
-            if (stickyLabel) {
-                stickyLabel.textContent = checkAftrek.checked ? 'Netto maandlast' : 'Bruto maandlast';
-            }
-            const stickyAmount = document.getElementById('sticky-result-amount');
-            if (stickyAmount) {
-                stickyAmount.textContent = formatEuro(netMonthly);
-                stickyAmount.classList.remove('pulse');
-                void stickyAmount.offsetWidth; // Force reflow for re-trigger
-                stickyAmount.classList.add('pulse');
-                setTimeout(() => stickyAmount.classList.remove('pulse'), 300);
-            }
             // --- Result highlight pulse ---
             resNetto.classList.remove('updating');
             void resNetto.offsetWidth;

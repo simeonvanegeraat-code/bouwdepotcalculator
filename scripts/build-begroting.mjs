@@ -320,6 +320,7 @@ ${categorieen}
     </footer>
 
     <script type="module" src="/src/js/begroting.js"></script>
+    <script type="module" src="/src/js/stickybalk.js"></script>
 
     <script type="application/ld+json">
     ${JSON.stringify({
