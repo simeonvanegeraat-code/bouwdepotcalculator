@@ -70,7 +70,7 @@
                                 <span class="ds-veld__waarde tnum" id="toon-onvoorzien">10%</span>
                             </div>
                             <input class="ds-schuif" type="range" id="in-onvoorzien" min="0" max="30" step="1" value="10">
-                            <p class="ds-caption">Sloopwerk legt vaak verborgen gebreken bloot. Een begroting zonder marge loopt bijna altijd vast.</p>
+                            <p class="ds-caption">Sloopwerk legt vaak verborgen gebreken bloot. Een begroting zonder marge loopt bijna altijd vast. Tien procent is in de bouw de gangbare vuistregel; bij oudere woningen wordt vijftien tot twintig procent aangehouden.</p>
                         </div>
 
                         <details class="uitleg-details">
@@ -79,7 +79,9 @@
                                 <ul class="ds-uitsplitsing ds-uitsplitsing--vlak">
                                     <li><span>Noodzakelijk</span><strong id="res-noodzakelijk">&euro; 0</strong></li>
                                     <li><span>Gewenst</span><strong id="res-gewenst">&euro; 0</strong></li>
+                                    <li><span>Reserve voor onvoorzien</span><strong id="res-marge-split">&euro; 0</strong></li>
                                 </ul>
+                                <p class="ds-caption">De reserve staat apart: die hoort bij geen van beide, want u weet nog niet waaraan u hem kwijtraakt. Samen met de twee bedragen erboven vormt hij het totaal.</p>
                                 <p class="ds-caption">Leg vóór de start vast welke wens als eerste vervalt als het budget onder druk komt. Dan hoeft u die keuze niet te maken terwijl de aannemer staat te wachten.</p>
                                 <p class="ds-caption" id="res-aantal">0 posten ingevuld</p>
                             </div>
@@ -107,666 +109,866 @@
                         <p id="begroting-bankmelding-tekst"></p>
                     </div>
 
-                <section class="cat">
-                    <div class="cat__kop">
+                <details class="cat">
+                    <summary class="cat__kop">
                         <h2>Ruwbouw en constructie</h2>
                         <p class="ds-caption">Werk aan de structuur van de woning. Vrijwel altijd declarabel, maar vaak wel het duurst en het meest gevoelig voor meerwerk.</p>
-                    </div>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat, en of een
+                             categorie waar je niets aan doet al afgehandeld is. -->
+                        <p class="cat__subtotaal" data-subtotaal="ruwbouw"></p>
+                        <span class="cat__aantal">7 posten</span>
+                    </summary>
                     <div class="cat__posten">
-                        <div class="post">
+                        <div class="post" data-genoemd-door="ing">
                             <div class="post__naam">
                                 <label for="post-uitbouw">Uitbouw of aanbouw</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-uitbouw" data-post="uitbouw" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-uitbouw" data-post="uitbouw" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="uitbouw" aria-label="Prioriteit Uitbouw of aanbouw">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
-                        <div class="post">
+                        <div class="post" data-genoemd-door="ing">
                             <div class="post__naam">
                                 <label for="post-dakkapel">Dakkapel</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-dakkapel" data-post="dakkapel" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-dakkapel" data-post="dakkapel" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="dakkapel" aria-label="Prioriteit Dakkapel">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post">
                             <div class="post__naam">
                                 <label for="post-constructie">Constructieve aanpassing, muur doorbreken</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-constructie" data-post="constructie" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-constructie" data-post="constructie" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="constructie" aria-label="Prioriteit Constructieve aanpassing, muur doorbreken">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
-                        <div class="post">
+                        <div class="post" data-genoemd-door="rabobank">
                             <div class="post__naam">
                                 <label for="post-aannemer">Aannemer, arbeidsloon</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="rabobank">Expliciet genoemd door Rabobank</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-aannemer" data-post="aannemer" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-aannemer" data-post="aannemer" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="aannemer" aria-label="Prioriteit Aannemer, arbeidsloon">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
-                        <div class="post">
+                        <div class="post" data-genoemd-door="rabobank">
                             <div class="post__naam">
                                 <label for="post-architect">Architect of constructeur</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="rabobank">Expliciet genoemd door Rabobank</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-architect" data-post="architect" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-architect" data-post="architect" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="architect" aria-label="Prioriteit Architect of constructeur">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
-                        <div class="post">
+                        <div class="post" data-genoemd-door="rabobank">
                             <div class="post__naam">
                                 <label for="post-bouwmaterialen">Bouwmaterialen</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="rabobank">Expliciet genoemd door Rabobank</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-bouwmaterialen" data-post="bouwmaterialen" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-bouwmaterialen" data-post="bouwmaterialen" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="bouwmaterialen" aria-label="Prioriteit Bouwmaterialen">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
-                        <div class="post">
+                        <div class="post" data-genoemd-door="ing">
                             <div class="post__naam">
                                 <label for="post-asbest">Asbestverwijdering bij verbouwing</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-asbest" data-post="asbest" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-asbest" data-post="asbest" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="asbest" aria-label="Prioriteit Asbestverwijdering bij verbouwing">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                     </div>
-                </section>
-                <section class="cat">
-                    <div class="cat__kop">
+                </details>
+                <details class="cat">
+                    <summary class="cat__kop">
                         <h2>Keuken en badkamer</h2>
                         <p class="ds-caption">De meest voorkomende verbouwposten. Let op het onderscheid tussen vast ingebouwd en los meubilair of apparatuur.</p>
-                    </div>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat, en of een
+                             categorie waar je niets aan doet al afgehandeld is. -->
+                        <p class="cat__subtotaal" data-subtotaal="keuken-badkamer"></p>
+                        <span class="cat__aantal">4 posten</span>
+                    </summary>
                     <div class="cat__posten">
-                        <div class="post">
+                        <div class="post" data-genoemd-door="abn-amro rabobank ing">
                             <div class="post__naam">
                                 <label for="post-keuken">Keuken met inbouwapparatuur</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="abn-amro rabobank ing">Expliciet genoemd door ABN AMRO, Rabobank, ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-keuken" data-post="keuken" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-keuken" data-post="keuken" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="keuken" aria-label="Prioriteit Keuken met inbouwapparatuur">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post post--eigen-geld">
                             <div class="post__naam">
                                 <label for="post-keuken-los">Losse apparatuur, niet ingebouwd</label>
                                 <span class="post__merk"><span class="merkje merkje--eigen">eigen geld</span></span>
                                 <small class="post__letop">Een vrijstaande koelkast of losse magnetron neemt u mee bij verhuizing en wordt doorgaans afgewezen.</small>
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-keuken-los" data-post="keuken-los" data-vast="false" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-keuken-los" data-post="keuken-los" data-vast="false" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="keuken-los" aria-label="Prioriteit Losse apparatuur, niet ingebouwd">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
-                        <div class="post">
+                        <div class="post" data-genoemd-door="rabobank ing">
                             <div class="post__naam">
                                 <label for="post-badkamer">Badkamer, vast sanitair en tegelwerk</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="rabobank ing">Expliciet genoemd door Rabobank, ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-badkamer" data-post="badkamer" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-badkamer" data-post="badkamer" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="badkamer" aria-label="Prioriteit Badkamer, vast sanitair en tegelwerk">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post">
                             <div class="post__naam">
                                 <label for="post-toilet">Toilet vernieuwen</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-toilet" data-post="toilet" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-toilet" data-post="toilet" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="toilet" aria-label="Prioriteit Toilet vernieuwen">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                     </div>
-                </section>
-                <section class="cat">
-                    <div class="cat__kop">
+                </details>
+                <details class="cat">
+                    <summary class="cat__kop">
                         <h2>Afbouw en afwerking</h2>
                         <p class="ds-caption">Hier zit de meeste twijfel. De vuistregel: zit het vast en gaat het niet mee bij verhuizing, dan komt het doorgaans in aanmerking.</p>
-                    </div>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat, en of een
+                             categorie waar je niets aan doet al afgehandeld is. -->
+                        <p class="cat__subtotaal" data-subtotaal="afbouw"></p>
+                        <span class="cat__aantal">9 posten</span>
+                    </summary>
                     <div class="cat__posten">
-                        <div class="post">
+                        <div class="post" data-genoemd-door="abn-amro ing">
                             <div class="post__naam">
                                 <label for="post-vloer-vast">Vloer die vastzit, zoals gelijmd parket of tegels</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="abn-amro ing">Expliciet genoemd door ABN AMRO, ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-vloer-vast" data-post="vloer-vast" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-vloer-vast" data-post="vloer-vast" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="vloer-vast" aria-label="Prioriteit Vloer die vastzit, zoals gelijmd parket of tegels">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post post--eigen-geld">
                             <div class="post__naam">
                                 <label for="post-vloer-los">Losliggende vloer of tapijt</label>
                                 <span class="post__merk"><span class="merkje merkje--eigen">eigen geld</span></span>
                                 <small class="post__letop">Een zwevende of losliggende vloer wordt vaak niet als verbetering gezien.</small>
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-vloer-los" data-post="vloer-los" data-vast="false" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-vloer-los" data-post="vloer-los" data-vast="false" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="vloer-los" aria-label="Prioriteit Losliggende vloer of tapijt">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
-                        <div class="post">
+                        <div class="post" data-genoemd-door="ing">
                             <div class="post__naam">
                                 <label for="post-kozijnen">Kozijnen, ramen en deuren</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-kozijnen" data-post="kozijnen" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-kozijnen" data-post="kozijnen" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="kozijnen" aria-label="Prioriteit Kozijnen, ramen en deuren">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post">
                             <div class="post__naam">
                                 <label for="post-stucwerk">Stucwerk en binnenwanden</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-stucwerk" data-post="stucwerk" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-stucwerk" data-post="stucwerk" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="stucwerk" aria-label="Prioriteit Stucwerk en binnenwanden">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
-                        <div class="post">
+                        <div class="post" data-genoemd-door="ing">
                             <div class="post__naam">
                                 <label for="post-schilderwerk">Onderhoudsschilderwerk</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-schilderwerk" data-post="schilderwerk" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-schilderwerk" data-post="schilderwerk" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="schilderwerk" aria-label="Prioriteit Onderhoudsschilderwerk">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
-                        <div class="post">
+                        <div class="post" data-genoemd-door="ing">
                             <div class="post__naam">
                                 <label for="post-verlichting-vast">Ingebouwde verlichting, zoals inbouwspots</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-verlichting-vast" data-post="verlichting-vast" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-verlichting-vast" data-post="verlichting-vast" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="verlichting-vast" aria-label="Prioriteit Ingebouwde verlichting, zoals inbouwspots">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post post--eigen-geld">
                             <div class="post__naam">
                                 <label for="post-verlichting-los">Losse verlichting, zoals een wandlamp</label>
                                 <span class="post__merk"><span class="merkje merkje--eigen">eigen geld</span></span>
                                 <small class="post__letop">ING noemt losse verlichting expliciet als niet-declarabel.</small>
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-verlichting-los" data-post="verlichting-los" data-vast="false" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-verlichting-los" data-post="verlichting-los" data-vast="false" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="verlichting-los" aria-label="Prioriteit Losse verlichting, zoals een wandlamp">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post post--eigen-geld">
                             <div class="post__naam">
                                 <label for="post-raamdecoratie">Gordijnen, jaloezieën of shutters</label>
                                 <span class="post__merk"><span class="merkje merkje--eigen">eigen geld</span></span>
                                 <small class="post__letop">ING en Rabobank noemen raamdecoratie expliciet als niet-declarabel.</small>
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-raamdecoratie" data-post="raamdecoratie" data-vast="false" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-raamdecoratie" data-post="raamdecoratie" data-vast="false" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="raamdecoratie" aria-label="Prioriteit Gordijnen, jaloezieën of shutters">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post post--eigen-geld">
                             <div class="post__naam">
                                 <label for="post-meubels">Meubels en inboedel</label>
                                 <span class="post__merk"><span class="merkje merkje--eigen">eigen geld</span></span>
                                 <small class="post__letop">Rabobank noemt spullen die u bij verhuizing meeneemt expliciet als niet-declarabel.</small>
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-meubels" data-post="meubels" data-vast="false" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-meubels" data-post="meubels" data-vast="false" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="meubels" aria-label="Prioriteit Meubels en inboedel">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                     </div>
-                </section>
-                <section class="cat">
-                    <div class="cat__kop">
+                </details>
+                <details class="cat">
+                    <summary class="cat__kop">
                         <h2>Verduurzaming</h2>
                         <p class="ds-caption">Vaak een aparte pot met eigen regels. Sommige aanbieders openen hiervoor een verduurzamingsdepot met een eigen lijst toegestane maatregelen.</p>
-                    </div>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat, en of een
+                             categorie waar je niets aan doet al afgehandeld is. -->
+                        <p class="cat__subtotaal" data-subtotaal="verduurzaming"></p>
+                        <span class="cat__aantal">7 posten</span>
+                    </summary>
                     <div class="cat__posten">
                         <div class="post">
                             <div class="post__naam">
                                 <label for="post-isolatie">Gevel-, dak-, vloer- of leidingisolatie</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-isolatie" data-post="isolatie" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-isolatie" data-post="isolatie" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="isolatie" aria-label="Prioriteit Gevel-, dak-, vloer- of leidingisolatie">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post">
                             <div class="post__naam">
                                 <label for="post-beglazing">Hoogrendementsbeglazing, minimaal HR++</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-beglazing" data-post="beglazing" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-beglazing" data-post="beglazing" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="beglazing" aria-label="Prioriteit Hoogrendementsbeglazing, minimaal HR++">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post">
                             <div class="post__naam">
                                 <label for="post-warmtepomp">Warmtepomp</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-warmtepomp" data-post="warmtepomp" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-warmtepomp" data-post="warmtepomp" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="warmtepomp" aria-label="Prioriteit Warmtepomp">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
-                        <div class="post">
+                        <div class="post" data-genoemd-door="ing">
                             <div class="post__naam">
                                 <label for="post-zonnepanelen">Zonnepanelen</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-zonnepanelen" data-post="zonnepanelen" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-zonnepanelen" data-post="zonnepanelen" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="zonnepanelen" aria-label="Prioriteit Zonnepanelen">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post">
                             <div class="post__naam">
                                 <label for="post-ventilatie">Energiezuinig ventilatiesysteem</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 <small class="post__letop">ING vergoedt dit alleen in combinatie met een andere energiebesparende maatregel.</small>
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-ventilatie" data-post="ventilatie" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-ventilatie" data-post="ventilatie" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="ventilatie" aria-label="Prioriteit Energiezuinig ventilatiesysteem">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post">
                             <div class="post__naam">
                                 <label for="post-wtw-douche">Douche-warmteterugwinning</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-wtw-douche" data-post="wtw-douche" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-wtw-douche" data-post="wtw-douche" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="wtw-douche" aria-label="Prioriteit Douche-warmteterugwinning">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post post--eigen-geld">
                             <div class="post__naam">
                                 <label for="post-thuisbatterij">Thuisbatterij</label>
                                 <span class="post__merk"><span class="merkje merkje--eigen">eigen geld</span></span>
                                 <small class="post__letop">ING sluit thuisbatterij, HR-cv-ketel, zonneboiler en vloerverwarming uit van het verduurzamingsdepot.</small>
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-thuisbatterij" data-post="thuisbatterij" data-vast="false" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-thuisbatterij" data-post="thuisbatterij" data-vast="false" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="thuisbatterij" aria-label="Prioriteit Thuisbatterij">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                     </div>
-                </section>
-                <section class="cat">
-                    <div class="cat__kop">
+                </details>
+                <details class="cat">
+                    <summary class="cat__kop">
                         <h2>Buiten en terrein</h2>
                         <p class="ds-caption">Hier lopen de voorwaarden het meest uiteen. Vraag dit vooraf na bij uw eigen geldverstrekker.</p>
-                    </div>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat, en of een
+                             categorie waar je niets aan doet al afgehandeld is. -->
+                        <p class="cat__subtotaal" data-subtotaal="buiten"></p>
+                        <span class="cat__aantal">3 posten</span>
+                    </summary>
                     <div class="cat__posten">
-                        <div class="post">
+                        <div class="post" data-genoemd-door="ing">
                             <div class="post__naam">
                                 <label for="post-tuin">Aanleg, onderhoud en inrichting van de tuin</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 <small class="post__letop">ING noemt de tuin expliciet als declarabel. Niet elke aanbieder doet dat; controleer uw eigen voorwaarden.</small>
-                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-tuin" data-post="tuin" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-tuin" data-post="tuin" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="tuin" aria-label="Prioriteit Aanleg, onderhoud en inrichting van de tuin">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
-                        <div class="post">
+                        <div class="post" data-genoemd-door="ing">
                             <div class="post__naam">
                                 <label for="post-zonwering">Op maat gemaakte zonwering, vast bevestigd</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                <small class="post__bron" data-genoemd-door="ing">Expliciet genoemd door ING</small>
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-zonwering" data-post="zonwering" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-zonwering" data-post="zonwering" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="zonwering" aria-label="Prioriteit Op maat gemaakte zonwering, vast bevestigd">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post">
                             <div class="post__naam">
                                 <label for="post-oprit">Bestrating, oprit of terras</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-oprit" data-post="oprit" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-oprit" data-post="oprit" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="oprit" aria-label="Prioriteit Bestrating, oprit of terras">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                     </div>
-                </section>
-                <section class="cat">
-                    <div class="cat__kop">
+                </details>
+                <details class="cat">
+                    <summary class="cat__kop">
                         <h2>Overige kosten</h2>
                         <p class="ds-caption">Posten die vaak vergeten worden in de begroting maar wel geld kosten. Let op: sommige mogen niet uit het depot en moet u uit eigen geld betalen.</p>
-                    </div>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat, en of een
+                             categorie waar je niets aan doet al afgehandeld is. -->
+                        <p class="cat__subtotaal" data-subtotaal="overig"></p>
+                        <span class="cat__aantal">4 posten</span>
+                    </summary>
                     <div class="cat__posten">
                         <div class="post">
                             <div class="post__naam">
                                 <label for="post-vergunning">Omgevingsvergunning en leges</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-vergunning" data-post="vergunning" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-vergunning" data-post="vergunning" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="vergunning" aria-label="Prioriteit Omgevingsvergunning en leges">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post post--eigen-geld">
                             <div class="post__naam">
                                 <label for="post-gereedschap">Gereedschap, zoals een boor of zaagmachine</label>
                                 <span class="post__merk"><span class="merkje merkje--eigen">eigen geld</span></span>
                                 <small class="post__letop">ING noemt gereedschap expliciet als niet-declarabel.</small>
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-gereedschap" data-post="gereedschap" data-vast="false" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-gereedschap" data-post="gereedschap" data-vast="false" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="gereedschap" aria-label="Prioriteit Gereedschap, zoals een boor of zaagmachine">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post post--eigen-geld">
                             <div class="post__naam">
                                 <label for="post-opslag">Tijdelijke opslag of huisvesting</label>
                                 <span class="post__merk"><span class="merkje merkje--eigen">eigen geld</span></span>
                                 <small class="post__letop">Dit verbetert de woning niet en komt doorgaans niet uit het depot. Reken hier eigen geld voor.</small>
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-opslag" data-post="opslag" data-vast="false" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-opslag" data-post="opslag" data-vast="false" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="opslag" aria-label="Prioriteit Tijdelijke opslag of huisvesting">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                         <div class="post">
                             <div class="post__naam">
                                 <label for="post-onvoorzien">Onvoorzien en meerwerk</label>
                                 <span class="post__merk"><span class="merkje merkje--depot">uit depot</span></span>
                                 <small class="post__letop">Geen bewijsstuk vooraf, maar wel de post waar begrotingen het vaakst op stuklopen. Reserveer hier bewust ruimte voor.</small>
-                                
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-onvoorzien" data-post="onvoorzien" data-vast="true" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-onvoorzien" data-post="onvoorzien" data-vast="true" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="onvoorzien" aria-label="Prioriteit Onvoorzien en meerwerk">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>
                     </div>
-                </section>
+                </details>
                 </div>
             </div>
         </section>

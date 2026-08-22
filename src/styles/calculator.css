@@ -687,7 +687,10 @@ select.ds-invoer {
     padding: var(--ds-3) var(--ds-4);
     transition: border-color var(--ds-quick), background var(--ds-quick);
 }
-@media (min-width: 640px) { .post { grid-template-columns: 1fr 15rem; align-items: center; } }
+/* 15rem was te krap: daarvan ging 8,5rem naar de keuzelijst, zodat er vijftig
+   pixels overbleven voor het bedrag. "22000" past daar niet in en werd
+   afgekapt -- op een pagina over geld moet je kunnen zien wat je hebt getypt. */
+@media (min-width: 640px) { .post { grid-template-columns: 1fr 20rem; align-items: center; } }
 
 .post--gevuld { border-color: var(--ds-accent); background: var(--ds-surface); }
 
@@ -715,16 +718,17 @@ select.ds-invoer {
 .merkje--eigenbank { background: var(--ds-accent); color: var(--ds-surface); }
 .post--eigen-bank { box-shadow: inset 3px 0 0 var(--ds-accent); }
 
-.post__letop, .post__bron {
+.post__letop {
     color: var(--ds-ink-muted);
     display: block;
     font-size: var(--ds-t-caption);
     line-height: 1.4;
     margin-top: var(--ds-1);
 }
-.post__bron { font-style: italic; }
 
-.post__invoer { display: grid; gap: var(--ds-2); grid-template-columns: 1fr 8.5rem; }
+/* De keuzelijst heeft rechts ruimte nodig voor het pijltje; met 9,5rem bleef
+   er 92px over voor "Noodzakelijk", dat er 103 vraagt. */
+.post__invoer { display: grid; gap: var(--ds-2); grid-template-columns: 1fr 11rem; }
 .post__prioriteit { font-size: var(--ds-t-small); }
 
 .uitkomst-acties { display: grid; gap: var(--ds-2); }
@@ -780,6 +784,7 @@ select.ds-invoer {
     .spec__voet p, .spec__voet li { color: #333; line-height: 1.45; margin: 0.25rem 0; }
     .spec__voet ul { margin: 0.25rem 0; padding-left: 1.1rem; }
     .spec__voet li strong { text-transform: capitalize; }
+
 }
 
 /* Tekort in rood: een negatieve buffer is een signaal, geen getal. */

@@ -43,34 +43,51 @@ const nietVast = posten.categorieen.flatMap((c) => c.posten).filter((p) => !p.va
 
 /* ---------------------------------------------------------------- categorieen */
 
-const categorieen = posten.categorieen.map((c) => `                <section class="cat">
-                    <div class="cat__kop">
+// Uitklapbaar per categorie. Alle vierendertig velden tegelijk tonen maakte de
+// pagina 10,3 schermen lang, waarvan tweederde invoervelden -- ook voor iemand
+// die alleen zijn keuken verbouwt. Dichtgeklapt is de pagina een keuzelijst van
+// zes regels: je opent wat op jou van toepassing is.
+//
+// Bewust <details> en geen eigen JavaScript: de inhoud blijft in de HTML staan
+// en dus vindbaar, het werkt met het toetsenbord, en het werkt zonder script.
+const categorieen = posten.categorieen.map((c) => `                <details class="cat">
+                    <summary class="cat__kop">
                         <h2>${esc(c.naam)}</h2>
                         <p class="ds-caption">${esc(c.toelichting)}</p>
-                    </div>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat, en of een
+                             categorie waar je niets aan doet al afgehandeld is. -->
+                        <p class="cat__subtotaal" data-subtotaal="${c.id ?? esc(c.naam)}"></p>
+                        <span class="cat__aantal">${c.posten.length} ${c.posten.length === 1 ? 'post' : 'posten'}</span>
+                    </summary>
                     <div class="cat__posten">
-${c.posten.map((p) => `                        <div class="post${p.vastAanWoning ? '' : ' post--eigen-geld'}">
+${c.posten.map((p) => `                        <div class="post${p.vastAanWoning ? '' : ' post--eigen-geld'}"${p.genoemdDoor?.length ? ` data-genoemd-door="${esc(p.genoemdDoor.join(' '))}"` : ''}>
                             <div class="post__naam">
                                 <label for="post-${p.id}">${esc(p.naam)}</label>
                                 <span class="post__merk">${p.vastAanWoning
                                   ? '<span class="merkje merkje--depot">uit depot</span>'
                                   : '<span class="merkje merkje--eigen">eigen geld</span>'}</span>
                                 ${p.let_op ? `<small class="post__letop">${esc(p.let_op)}</small>` : ''}
-                                ${p.genoemdDoor?.length ? `<small class="post__bron" data-genoemd-door="${esc(p.genoemdDoor.join(' '))}">Expliciet genoemd door ${p.genoemdDoor.map(naamVan).map(esc).join(', ')}</small>` : ''}
                             </div>
                             <div class="post__invoer">
                                 <div class="prefix-veld">
                                     <span>&euro;</span>
-                                    <input class="ds-invoer" type="number" id="post-${p.id}" data-post="${p.id}" data-vast="${p.vastAanWoning}" min="0" step="100" inputmode="numeric" placeholder="0">
+                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
+                                         dat er iets misging op het scherm. inputmode houdt het
+                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
+                                    <input class="ds-invoer" type="text" id="post-${p.id}" data-post="${p.id}" data-vast="${p.vastAanWoning}" inputmode="decimal" placeholder="0">
                                 </div>
                                 <select class="ds-invoer post__prioriteit" data-prioriteit="${p.id}" aria-label="Prioriteit ${esc(p.naam)}">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
+                            <span class="ds-veld__fout post__fout" role="alert"></span>
                         </div>`).join('\n')}
                     </div>
-                </section>`).join('\n');
+                </details>`).join('\n');
 
 /* --------------------------------------------------------------------- pagina */
 
@@ -143,7 +160,7 @@ ${NAV.map(([h, t]) => `                <a href="${h}">${t}</a>`).join('\n')}
                                 <span class="ds-veld__waarde tnum" id="toon-onvoorzien">10%</span>
                             </div>
                             <input class="ds-schuif" type="range" id="in-onvoorzien" min="0" max="30" step="1" value="10">
-                            <p class="ds-caption">Sloopwerk legt vaak verborgen gebreken bloot. Een begroting zonder marge loopt bijna altijd vast.</p>
+                            <p class="ds-caption">Sloopwerk legt vaak verborgen gebreken bloot. Een begroting zonder marge loopt bijna altijd vast. Tien procent is in de bouw de gangbare vuistregel; bij oudere woningen wordt vijftien tot twintig procent aangehouden.</p>
                         </div>
 
                         <details class="uitleg-details">
@@ -152,7 +169,9 @@ ${NAV.map(([h, t]) => `                <a href="${h}">${t}</a>`).join('\n')}
                                 <ul class="ds-uitsplitsing ds-uitsplitsing--vlak">
                                     <li><span>Noodzakelijk</span><strong id="res-noodzakelijk">&euro; 0</strong></li>
                                     <li><span>Gewenst</span><strong id="res-gewenst">&euro; 0</strong></li>
+                                    <li><span>Reserve voor onvoorzien</span><strong id="res-marge-split">&euro; 0</strong></li>
                                 </ul>
+                                <p class="ds-caption">De reserve staat apart: die hoort bij geen van beide, want u weet nog niet waaraan u hem kwijtraakt. Samen met de twee bedragen erboven vormt hij het totaal.</p>
                                 <p class="ds-caption">Leg vóór de start vast welke wens als eerste vervalt als het budget onder druk komt. Dan hoeft u die keuze niet te maken terwijl de aannemer staat te wachten.</p>
                                 <p class="ds-caption" id="res-aantal">0 posten ingevuld</p>
                             </div>

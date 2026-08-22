@@ -13,6 +13,8 @@
  */
 
 import { huidigeBank, opBankwissel } from './bankkeuze.js';
+import { leesGetal, toonGetal } from './getallen.js';
+import { berekenBegroting } from './begrotingrekenen.js';
 
 const wortel = document.getElementById('begroting');
 
@@ -34,6 +36,7 @@ if (wortel) {
         noodzakelijk: el('res-noodzakelijk'),
         gewenst: el('res-gewenst'),
         marge: el('res-marge'),
+        margeSplit: el('res-marge-split'),
         aantal: el('res-aantal'),
         zin: el('res-zin'),
     };
@@ -67,34 +70,68 @@ if (wortel) {
     /* ------------------------------------------------------------- berekenen */
 
     function bereken() {
-        let depot = 0, eigen = 0, noodzakelijk = 0, gewenst = 0, aantal = 0;
+        // Een miljard aan verbouwing bestaat niet; boven deze grens is het een
+        // typefout en niet een begroting. We rekenen er niet mee en zeggen het.
+        const MAX_PER_POST = 5000000;
+        let fouten = 0;
+        // De lus hieronder leest de velden en meldt wat er niet klopt; het
+        // optellen gebeurt in begrotingrekenen.js, waar een test op zit.
+        const ingevuld = [];
 
         for (const veld of bedragVelden) {
-            const bedrag = Math.max(0, Number(veld.value) || 0);
+            // leesGetal in plaats van Number: dit veld stond op type="number",
+            // en daarin werd "20.000" gelezen als 20 en "EUR 20.000" helemaal
+            // weggegooid. Wie zijn offerte overtypte zag zijn totaal kelderen
+            // zonder dat er iets misging op het scherm.
+            const gelezen = leesGetal(veld.value);
             const rij = veld.closest('.post');
+
+            let melding = '';
+            if (veld.value.trim() !== '' && gelezen === null) melding = 'Dit lezen wij niet als bedrag.';
+            else if (gelezen !== null && gelezen < 0) melding = 'Een bedrag onder nul bestaat niet.';
+            else if (gelezen !== null && gelezen > MAX_PER_POST) melding = `Boven ${euro.format(MAX_PER_POST)} rekenen wij niet mee; controleer het bedrag.`;
+
+            const foutregel = rij?.querySelector('.post__fout');
+            if (foutregel) foutregel.textContent = melding;
+            veld.setAttribute('aria-invalid', melding ? 'true' : 'false');
+            if (melding) fouten++;
+
+            const bedrag = melding ? 0 : Math.max(0, gelezen ?? 0);
             rij?.classList.toggle('post--gevuld', bedrag > 0);
             if (!bedrag) continue;
 
-            aantal++;
-            // Wat niet vast aan de woning zit, komt doorgaans niet uit het depot.
-            if (veld.dataset.vast === 'true') depot += bedrag; else eigen += bedrag;
-
             const prio = wortel.querySelector(`[data-prioriteit="${veld.dataset.post}"]`);
-            if (prio?.value === 'gewenst') gewenst += bedrag; else noodzakelijk += bedrag;
+            ingevuld.push({
+                bedrag,
+                vast: veld.dataset.vast === 'true',
+                prioriteit: prio?.value === 'gewenst' ? 'gewenst' : 'noodzakelijk',
+            });
+        }
+
+        // Subtotaal per categorie, uit dezelfde lus zodat ze niet uit elkaar lopen.
+        for (const sectie of wortel.querySelectorAll('.cat')) {
+            const doel = sectie.querySelector('[data-subtotaal]');
+            if (!doel) continue;
+            let som = 0, gevuld = 0;
+            for (const veld of sectie.querySelectorAll('[data-post]')) {
+                const waarde = leesGetal(veld.value);
+                if (waarde && waarde > 0 && waarde <= MAX_PER_POST) { som += waarde; gevuld++; }
+            }
+            doel.textContent = gevuld ? `${euro.format(som)} in ${gevuld === 1 ? '1 post' : gevuld + ' posten'}` : '';
         }
 
         const margePct = Number(marge?.value) || 0;
-        // De reserve hoort bij het werk aan de woning en telt dus mee in het depotdeel.
-        const margeBedrag = Math.round(depot * (margePct / 100));
-        const totaal = depot + eigen + margeBedrag;
+        const { depot, eigen, noodzakelijk, gewenst, margeBedrag, depotMetMarge, totaal, aantal } =
+            berekenBegroting(ingevuld, margePct);
 
         if (margeWaarde) margeWaarde.textContent = margePct + '%';
         uit.totaal.textContent = euro.format(totaal);
-        uit.depot.textContent = euro.format(depot + margeBedrag);
+        uit.depot.textContent = euro.format(depotMetMarge);
         uit.eigen.textContent = euro.format(eigen);
         uit.noodzakelijk.textContent = euro.format(noodzakelijk);
         uit.gewenst.textContent = euro.format(gewenst);
         uit.marge.textContent = euro.format(margeBedrag);
+        if (uit.margeSplit) uit.margeSplit.textContent = euro.format(margeBedrag);
         uit.aantal.textContent = aantal === 1 ? '1 post ingevuld' : `${aantal} posten ingevuld`;
 
         uit.zin.textContent = aantal === 0
@@ -134,7 +171,11 @@ if (wortel) {
         const blokken = Array.from(wortel.querySelectorAll('.cat')).map((cat) => {
             const regels = Array.from(cat.querySelectorAll('.post')).map((post) => {
                 const veld = post.querySelector('[data-post]');
-                const bedrag = Math.max(0, Number(veld?.value) || 0);
+                // Ook hier leesGetal: de specificatie las de velden zelf uit en
+                // maakte van "45.000" een bedrag van 45 euro, terwijl de totalen
+                // eronder wel klopten. Scherm en document horen uit dezelfde bron
+                // te komen.
+                const bedrag = Math.max(0, leesGetal(veld?.value) ?? 0);
                 if (!bedrag) return '';
                 const prio = wortel.querySelector(`[data-prioriteit="${veld.dataset.post}"]`);
                 return `<tr>
@@ -232,16 +273,22 @@ if (wortel) {
     opBankwissel((bank) => {
         let aantal = 0;
 
-        for (const bron of bronnen) {
-            const genoemd = !!bank && bron.dataset.genoemdDoor.split(' ').includes(bank.id);
+        // Het attribuut zit sinds kort op de post zelf. Eerder hing het aan een
+        // regel die vertelde welke aanbieders de post noemen, maar die noemde ook
+        // banken waar de bezoeker niet zit: met Rabobank gekozen stond er bij tien
+        // van de vijftien posten "Expliciet genoemd door ING". Dat leest als
+        // relevantie voor een bank die niet de zijne is. Wat blijft is de badge,
+        // want die gaat wel over zijn eigen situatie.
+        for (const post of bronnen) {
+            const genoemd = !!bank && post.dataset.genoemdDoor.split(' ').includes(bank.id);
             if (genoemd) aantal += 1;
-            bron.closest('.post')?.classList.toggle('post--eigen-bank', genoemd);
-            let merk = bron.parentElement.querySelector('.merkje--eigenbank');
+            post.classList.toggle('post--eigen-bank', genoemd);
+            let merk = post.querySelector('.merkje--eigenbank');
             if (genoemd && !merk) {
                 merk = document.createElement('span');
                 merk.className = 'merkje merkje--eigenbank';
                 merk.textContent = 'uw bank';
-                bron.parentElement.querySelector('.post__merk')?.append(merk);
+                post.querySelector('.post__merk')?.append(merk);
             } else if (!genoemd && merk) {
                 merk.remove();
             }
@@ -270,5 +317,13 @@ if (wortel) {
 
     herstel();
     herstelGedaan = true;
+
+    // Wat is ingevuld, staat open. Anders zou iemand terugkomen op een pagina
+    // die leeg lijkt, terwijl zijn bedragen achter een dichtgeklapt blok zitten.
+    for (const categorie of wortel.querySelectorAll('.cat')) {
+        const gevuld = [...categorie.querySelectorAll('[data-post]')].some((v) => v.value.trim() !== '');
+        if (gevuld) categorie.open = true;
+    }
+
     bereken();
 }

@@ -684,3 +684,65 @@ body { margin: 0; }
     .bankkeuze { display: none; }
     .bankstrook { break-inside: avoid; }
 }
+
+/* Subtotaal per categorie op de begroting: rustig, maar wel af te lezen. */
+.cat__subtotaal {
+    color: var(--ds-accent);
+    font-size: var(--ds-t-small);
+    font-variant-numeric: tabular-nums;
+    font-weight: 620;
+    margin-top: var(--ds-2);
+}
+.cat__subtotaal:empty { display: none; }
+
+/* Uitklapbare categorie op de begroting. De samenvattingsregel is de knop: naam,
+   toelichting, aantal posten en -- zodra er iets is ingevuld -- het subtotaal.
+   Zo zie je dichtgeklapt nog steeds waar je staat. */
+.cat { border-bottom: 1px solid var(--ds-line); }
+.cat:first-of-type { border-top: 1px solid var(--ds-line); }
+
+.cat__kop {
+    align-items: center;
+    cursor: pointer;
+    display: grid;
+    gap: 0 var(--ds-4);
+    grid-template-columns: 1fr auto;
+    list-style: none;
+    min-height: var(--ds-tap);
+    padding: var(--ds-4) var(--ds-6) var(--ds-4) 0;
+    position: relative;
+}
+.cat__kop::-webkit-details-marker { display: none; }
+.cat__kop h2 { font-size: var(--ds-t-title); grid-column: 1; margin: 0; }
+.cat__kop .ds-caption { grid-column: 1; margin: 2px 0 0; }
+.cat__subtotaal { grid-column: 1; }
+.cat__aantal {
+    color: var(--ds-ink-muted);
+    font-size: var(--ds-t-caption);
+    font-variant-numeric: tabular-nums;
+    grid-column: 2;
+    white-space: nowrap;
+}
+.cat__kop:hover h2 { color: var(--ds-accent); }
+
+/* Het plusteken volgt hetzelfde patroon als de uitklapblokken elders. */
+.cat__kop::after {
+    color: var(--ds-ink-muted);
+    content: '+';
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.cat[open] > .cat__kop::after { content: '\2212'; }
+.cat[open] > .cat__kop { border-bottom: 1px solid var(--ds-line); }
+.cat__posten { padding: var(--ds-4) 0 var(--ds-5); }
+
+/* Op papier hoort niets dichtgeklapt te staan. */
+@media print {
+    .cat { border: 0; }
+    .cat__kop::after { display: none; }
+}
