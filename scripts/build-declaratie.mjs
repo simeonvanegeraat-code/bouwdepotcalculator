@@ -133,6 +133,12 @@ const html = `<!DOCTYPE html>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
 
+    <!-- Vercel Web Analytics: cookieloos. Geen cookie en geen localStorage; de
+         bezoeker wordt herkend aan een hash van het verzoek die na 24 uur
+         vervalt. Wat er wel wordt vastgelegd staat in privacy.html. -->
+    <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
     <link rel="stylesheet" href="/src/styles/design-system.css">
     <link rel="stylesheet" href="/src/styles/pagina.css">
 </head>
