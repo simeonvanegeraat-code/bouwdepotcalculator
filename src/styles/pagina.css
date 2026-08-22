@@ -51,13 +51,79 @@ body { margin: 0; }
 .merk:hover { color: var(--ds-ink); }
 .merk:hover span { color: var(--ds-accent-hover); }
 
-.kop nav {
-    display: flex;
-    gap: var(--ds-4);
-    overflow-x: auto;
-    scrollbar-width: none;
+.kop nav { display: flex; }
+
+/* De navigatie vroeg 380px terwijl er naast het woordmerk 157px overbleef: 59%
+   stond buiten beeld. De schuifbalk was verborgen en er was geen rand, dus er
+   was ook niets dat verried dát er meer stond -- "Uitleg" en "Over ons" waren
+   op een telefoon onbereikbaar. Vanaf 640px past de rij wel (hij heeft er 598
+   nodig); daaronder klapt hij achter een knop.
+
+   Dat doet <details> zelf, dus er komt geen JavaScript in de kop. Het paneel
+   staat er bewust naast en niet in: een gesloten <details> draagt nul breedte
+   bij aan zijn ouder, ook als de opmaak de inhoud zichtbaar maakt. Op desktop
+   werd de balk daardoor 0px breed en liep hij 160px buiten het scherm. Als
+   buurman is het paneel een gewone div die normaal meet, en stuurt het
+   uitklapblok hem met de buurmanselector aan. */
+.kop__paneel { display: flex; gap: var(--ds-4); }
+.kop__menu { display: none; }
+
+@media (max-width: 639px) {
+    .kop nav { position: relative; }
+    .kop__menu { display: block; }
+
+    .kop__menu > summary {
+        align-items: center;
+        color: var(--ds-ink-muted);
+        cursor: pointer;
+        display: flex;
+        font-size: var(--ds-t-small);
+        font-weight: 520;
+        gap: var(--ds-2);
+        /* Weg met het standaard driehoekje, in beide smaken browser. */
+        list-style: none;
+        min-height: var(--ds-tap);
+        padding-inline: var(--ds-2);
+        /* Zonder dit selecteert een tik het woord "Menu" in plaats van te
+           openen; op een telefoon voelt dat als een mislukte tik. */
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    .kop__menu > summary::-webkit-details-marker { display: none; }
+
+    /* Drie streepjes uit de opmaak zelf. Een icoonbestand voor achttien bij
+       twaalf pixels verdient zijn laadtijd niet. */
+    .kop__streepjes {
+        background: currentColor;
+        box-shadow: 0 -5px 0 currentColor, 0 5px 0 currentColor;
+        height: 2px;
+        width: 18px;
+    }
+
+    .kop__paneel {
+        background: var(--ds-paper);
+        border: 1px solid var(--ds-line);
+        border-radius: var(--ds-r-lg);
+        box-shadow: var(--ds-shadow-3);
+        /* Dicht, tenzij het uitklapblok ernaast openstaat. */
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        min-width: 12rem;
+        padding: var(--ds-2);
+        position: absolute;
+        right: 0;
+        top: calc(100% + var(--ds-2));
+    }
+    .kop__menu[open] ~ .kop__paneel { display: flex; }
+    .kop__paneel a {
+        align-items: center;
+        border-radius: var(--ds-r-sm);
+        display: flex;
+        min-height: var(--ds-tap);
+        padding-inline: var(--ds-3);
+    }
 }
-.kop nav::-webkit-scrollbar { display: none; }
 
 /* Navigatie hoort te wijken. Deze kleur stond er al maar kwam nooit aan, omdat
    de globale linkregel specifieker was; de balk stond daardoor voluit in
