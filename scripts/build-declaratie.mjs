@@ -119,8 +119,8 @@ const html = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Declaratie bouwdepot afgewezen | De redenen en wat u dan doet</title>
-    <meta name="description" content="Waarom banken een bouwdepot-declaratie afwijzen: offerte in plaats van factuur, losse spullen, ontbrekende factuurgegevens of een te oud bewijsstuk. Met de eisen per geldverstrekker.">
+    <title>Declaratie bouwdepot afgewezen | Redenen en oplossingen</title>
+    <meta name="description" content="Waarom banken een bouwdepot-declaratie afwijzen: een offerte in plaats van een factuur, losse spullen of een te oud bewijsstuk. Met de eisen per bank.">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="author" content="Simeon">
     <link rel="canonical" href="${SITE}/${BESTAND}">

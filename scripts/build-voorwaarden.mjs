@@ -565,8 +565,8 @@ ${DISCLAIMER}
 
   return pagina({
     bestand: HUB,
-    titel: `Bouwdepot voorwaarden vergelijken (${data.aanbieders.length} geldverstrekkers) | BouwdepotCalculator.nl`,
-    omschrijving: `Vergelijk de bouwdepotvoorwaarden van ${data.aanbieders.length} Nederlandse geldverstrekkers: looptijd, verlenging, depotvergoeding, uitbetaaltermijn en bewijsstukken. Met bron en controledatum per aanbieder.`,
+    titel: `Bouwdepot voorwaarden vergelijken (${data.aanbieders.length} geldverstrekkers)`,
+    omschrijving: `Vergelijk de bouwdepotvoorwaarden van ${data.aanbieders.length} geldverstrekkers: looptijd, verlenging, vergoeding, uitbetaaltermijn en bewijsstukken. Met bron en datum.`,
     kruimel: [{ naam: 'Voorwaarden vergelijken' }],
     inhoud,
     schema,
@@ -772,8 +772,8 @@ ${bronnen.map((b) => `                    <li><a href="${esc(b)}" target="_blank
 
   return pagina({
     bestand: bestandsnaam(a),
-    titel: `Bouwdepot ${a.naam}: voorwaarden, looptijd en declareren | BouwdepotCalculator.nl`,
-    omschrijving: `De gepubliceerde bouwdepotvoorwaarden van ${a.naam}: looptijd, verlenging, depotvergoeding, uitbetaaltermijn en welke bewijsstukken worden geaccepteerd. Met bron en controledatum.`,
+    titel: `Bouwdepot ${a.naam}: voorwaarden en declareren`,
+    omschrijving: `Bouwdepotvoorwaarden van ${a.naam}: looptijd, verlenging, vergoeding, uitbetaaltermijn en geaccepteerde bewijsstukken. Met bron en datum.`,
     kruimel: [{ naam: 'Voorwaarden vergelijken', href: HUB }, { naam: a.naam }],
     inhoud,
     schema,

@@ -96,8 +96,8 @@ const html = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verbouwbegroting maken | Wat mag uit het bouwdepot en wat niet?</title>
-    <meta name="description" content="Stel uw verbouwbegroting samen en zie direct welk deel uit het bouwdepot mag en welk deel u uit eigen geld moet betalen. Met een specificatie die u meeneemt naar uw adviseur.">
+    <title>Verbouwbegroting maken | Wat mag uit het bouwdepot?</title>
+    <meta name="description" content="Stel uw verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel u zelf betaalt. Met een specificatie voor uw adviseur.">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="author" content="Simeon">
     <link rel="canonical" href="${SITE}/${BESTAND}">
