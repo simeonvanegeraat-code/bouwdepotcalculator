@@ -101,6 +101,18 @@ const html = `<!DOCTYPE html>
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="author" content="Simeon">
     <link rel="canonical" href="${SITE}/${BESTAND}">
+    <!-- Wat een gedeelde link laat zien in WhatsApp, LinkedIn en Slack. Titel,
+         omschrijving en adres zijn bewust dezelfde als hierboven;
+         tests/deelkaart.test.mjs faalt zodra ze uit elkaar lopen. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BouwdepotCalculator.nl">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:title" content="Verbouwbegroting maken | Wat mag uit het bouwdepot?">
+    <meta property="og:description" content="Stel uw verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel u zelf betaalt. Met een specificatie voor uw adviseur.">
+    <meta property="og:url" content="${SITE}/${BESTAND}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Verbouwbegroting maken | Wat mag uit het bouwdepot?">
+    <meta name="twitter:description" content="Stel uw verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel u zelf betaalt. Met een specificatie voor uw adviseur.">
 
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">

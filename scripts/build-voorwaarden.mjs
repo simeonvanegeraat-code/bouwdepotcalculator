@@ -298,6 +298,18 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="author" content="Simeon">
     <link rel="canonical" href="${SITE}/${bestand}">
+    <!-- Wat een gedeelde link laat zien in WhatsApp, LinkedIn en Slack. Titel,
+         omschrijving en adres zijn bewust dezelfde als hierboven;
+         tests/deelkaart.test.mjs faalt zodra ze uit elkaar lopen. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BouwdepotCalculator.nl">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:title" content="${esc(titel)}">
+    <meta property="og:description" content="${esc(omschrijving)}">
+    <meta property="og:url" content="${SITE}/${bestand}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="${esc(titel)}">
+    <meta name="twitter:description" content="${esc(omschrijving)}">
 
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">

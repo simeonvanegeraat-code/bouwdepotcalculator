@@ -124,6 +124,18 @@ const html = `<!DOCTYPE html>
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="author" content="Simeon">
     <link rel="canonical" href="${SITE}/${BESTAND}">
+    <!-- Wat een gedeelde link laat zien in WhatsApp, LinkedIn en Slack. Titel,
+         omschrijving en adres zijn bewust dezelfde als hierboven;
+         tests/deelkaart.test.mjs faalt zodra ze uit elkaar lopen. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BouwdepotCalculator.nl">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:title" content="Declaratie bouwdepot afgewezen | Redenen en oplossingen">
+    <meta property="og:description" content="Waarom banken een bouwdepot-declaratie afwijzen: een offerte in plaats van een factuur, losse spullen of een te oud bewijsstuk. Met de eisen per bank.">
+    <meta property="og:url" content="${SITE}/${BESTAND}">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Declaratie bouwdepot afgewezen | Redenen en oplossingen">
+    <meta name="twitter:description" content="Waarom banken een bouwdepot-declaratie afwijzen: een offerte in plaats van een factuur, losse spullen of een te oud bewijsstuk. Met de eisen per bank.">
 
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
