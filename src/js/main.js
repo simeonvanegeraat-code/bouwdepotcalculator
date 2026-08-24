@@ -419,6 +419,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // De haalbaarheidscheck zat hier als uitklapblok en woont nu op een eigen
         // pagina. Oude links met ?plan=haalbaarheid mogen niet stilletjes op een
         // pagina uitkomen waar dat blok niet meer bestaat.
+        //
+        // In productie vangt vercel.json dit al af met een 308, zodat Google er
+        // geen crawlbeurt aan verspilt. Dit blijft staan voor de ontwikkelserver,
+        // waar vercel.json niet geldt.
         if (new URLSearchParams(window.location.search).get('plan') === 'haalbaarheid') {
             const bedrag = Math.round(parseFloat(inputAmount.value) || 0);
             window.location.replace(bedrag > 0 ? `leenruimte.html?bedrag=${bedrag}` : 'leenruimte.html');

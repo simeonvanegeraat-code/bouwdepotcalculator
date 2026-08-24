@@ -15,6 +15,12 @@
       "source": "/eigen-geld-bouwdepot.html",
       "destination": "/leenruimte.html",
       "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "query", "key": "plan", "value": "haalbaarheid" }],
+      "destination": "/leenruimte.html",
+      "permanent": true
     }
   ]
 }
