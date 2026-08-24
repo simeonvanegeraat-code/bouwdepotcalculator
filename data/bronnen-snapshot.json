@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-08-18",
+  "bijgewerkt": "2026-08-24",
   "bronnen": {
     "https://www.abnamro.nl/nl/prive/hypotheken/hypotheek-afsluiten/bouwdepot/voorwaarden-bouwdepot.html": {
       "hash": "2d8681fcd138bf6b",
@@ -96,6 +96,49 @@
         "Hypotheekrenteaftrek stopt na 2 jaar: Na 2 jaar mag je de rente niet meer aftrekken bij je belastingaangifte.",
         "Op de einddatum verlengen wij je bouwdepot automatisch met 12 maanden.",
         "Op deze pagina: Looptijd van het bouwdepot Je bouwdepot verlengen Je bouwdepot zelf sluiten layf1ae67cb1db84670bc0c9b2dbe8d439b Looptijd van het bouwdepot Hoe lang loopt een bouwdepot?"
+      ]
+    },
+    "https://www.snsbank.nl/particulier/hypotheken/bouwdepot-hypotheek.html": {
+      "hash": "ac8aeaf292e94db0",
+      "aantal": 20,
+      "zinnen": [
+        "Ben je na 2 jaar niet klaar met de bouw of verbouwing?",
+        "Bij een verbouwing mag je de eerste 6 maanden de betaalde rente en kosten aftrekken in box 1 zonder deze te verrekenen met de rente die je hebt gekregen.",
+        "Bij nieuwbouw mag je alleen het verschil tussen de betaalde rente en kosten en de ontvangen rente aftrekken in box 1.",
+        "Dan kun je je bouwdepot, onder voorwaarden, nog met maximaal 1 jaar verlengen.",
+        "Dat kan tot maximaal 4% van de koop-/aanneemsom en meerwerk met een rentefinancieringsrekening.",
+        "De rente over die € 14.600 mag je niet aftrekken in je belastingaangifte.",
+        "Download het overzicht: Overzicht vergoedingen bouwdepot (pdf) 67,62 KB Lees ook de algemene voorwaarden.",
+        "Een nadeel is dat het een box 3 leningdeel is en daarom mag je de rente voor dit leningdeel niet aftrekken in je belastingaangifte.",
+        "En is het niet gelukt om je duurzame plannen na 2 jaar af te ronden?",
+        "Het geld in je bouwdepot of verbouwingsdepot valt in principe onder je vermogen in box 3.",
+        "Je kunt het maximaal 2 jaar gebruiken.",
+        "Je mag een bouwdepot tijdelijk in box 1 plaatsen: Zowel bij nieuwbouw als een verbouwing tot 2 jaar na het openen van het bouwdepot.",
+        "Lees: Je hypotheek en de belasting 2025 (pdf) 115,28 KB Meer over het bouwdepot vind je in de Algemene voorwaarden .",
+        "Looptijd bouwdepot Het bouwdepot heeft standaard een looptijd van 1 jaar.",
+        "Na de 1e betaling krijg je minder rente, omdat het bedrag dat je over hebt is gedaald.",
+        "Na een half jaar trek je in box 1 de ontvangen rente af van de betaalde rente.",
+        "Onder voorwaarden kun je het daarna nog met 1 jaar verlengen.",
+        "Sinds 1 januari 2013 heb je alleen recht op renteaftrek als je bouwdepot aan een lineaire of annuïteitenhypotheek is gekoppeld die je in 30 jaar volledig aflost.",
+        "Stel, dit zijn de kosten van je nieuwbouwhuis: Koop-/aanneemsom (inclusief grond en renteverlies voor de bouw): € 350.000 Kosten meerwerk: € 15.000 Totaal: € 365.000 Je mag maximaal 4% van deze € 365.000 meefinancieren in een rentefinancieringsrekening.",
+        "Voorbeeld bouwdepot termijnen Stel, je hebt € 25.000 in je bouwdepot voor een nieuwe keuken in je nieuwbouwhuis."
+      ]
+    },
+    "https://www.snsbank.nl/particulier/hypotheken/bouwdepotdeclaratie-spelregels.html": {
+      "hash": "ae4bd85adeef7531",
+      "aantal": 11,
+      "zinnen": [
+        "Bij een verbouwing mag je de eerste 6 maanden de betaalde rente en kosten aftrekken in box 1 zonder deze te verrekenen met de rente die je hebt gekregen.",
+        "Bij nieuwbouw mag je alleen het verschil tussen de betaalde rente en kosten en de ontvangen rente aftrekken in box 1.",
+        "Daarvoor gelden de volgende spelregels: Zowel bij nieuwbouw als een verbouwing tot 2 jaar na het tekenen van de koopovereenkomst.",
+        "Dan kun je je bouwdepot nog met maximaal 1 jaar verlengen.",
+        "Download het overzicht: Overzicht vergoedingen bouwdepot (pdf) 67,62 KB 2.",
+        "Is de bouw of verbouwing na die 2 jaar niet klaar?",
+        "Je mag een bouwdepot tijdelijk in box 1 plaatsen.",
+        "Looptijd De reguliere looptijd van een bouwdepot is 1 jaar.",
+        "Na dat eerste jaar wordt de looptijd automatisch verlengd met 1 jaar.",
+        "Na een half jaar trek je in box 1 de ontvangen rente af van de betaalde rente.",
+        "Spelregels Belastingdienst Je bouwdepot of verbouwingsdepot vallen in principe onder je vermogen in box 3."
       ]
     }
   }
