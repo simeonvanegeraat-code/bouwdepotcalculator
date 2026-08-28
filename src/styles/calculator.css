@@ -81,13 +81,13 @@
         grid-template-columns: 1fr 0.85fr;
     }
     /* Uitkomst rechts en meelopend; invoer links waar de aandacht start. */
-    /* Twee lagen plakken. De kolom schuift mee zolang hij korter is dan het
-       raster -- op de meeste rekenpagina's is dat zo. Op de homepage is de
-       kolom even hoog als het raster (958 om 958) door het bankstrookje
-       eronder, en dan heeft de kolom nul ruimte; daar doet de kaart binnen
-       de kolom het werk, met 496px om in te schuiven. */
+    /* De uitkomstkolom schuift mee zolang hij korter is dan het raster.
+       Op de homepage was hij dat even niet: het bankstrookje eronder maakte
+       hem exact even hoog (958 om 958) en dan gebeurt er niets. Dat is
+       opgelost door het strookje naar de invoerkolom te verplaatsen -- het
+       is zelf een keuzeveld -- in plaats van hier een tweede plaklaag bij
+       te bouwen. */
     .reken__uitkomst { grid-column: 2; position: sticky; top: var(--ds-kop-offset); }
-    .reken__uitkomst > .ds-uitkomst { position: sticky; top: var(--ds-kop-offset); }
     .reken__invoer { grid-column: 1; grid-row: 1; }
 }
 

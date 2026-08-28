@@ -111,3 +111,26 @@ geworden, dus de kaart school eronder. Dat is nu `--ds-kop-offset: 122px`.
 
 Mobiel ongemoeid: kop 57px, balk verborgen, kaart niet plakkend, 75px speling
 boven de vouw.
+
+
+## Naronde 2: het bankstrookje verplaatst
+
+De plakkende kaart gleed bij het scrollen over "Uw bouwdepot bij Rabobank",
+dat in dezelfde kolom eronder stond. De founder stelde voor het naar links te
+verplaatsen, en dat bleek de oorzaak weg te nemen in plaats van het gevolg:
+
+| | Voor | Na |
+|---|---|---|
+| Hoogte uitkomstkolom | 958px | **515px** |
+| Hoogte raster | 958px | 1173px |
+| Ruimte om in te schuiven | **0px** | **658px** |
+
+Het strookje is zelf een keuzeveld -- "Bij welke geldverstrekker loopt uw
+hypotheek?" -- en hoort dus bij de andere invoer. Nu de kolom weer korter is
+dan het raster werkt de oorspronkelijke plakregel gewoon, en kon de tweede
+plaklaag uit de vorige ronde er weer uit. Gemeten op vier scrollstanden: de
+kaart blijft op 122px staan en overlapt op geen enkel moment iets.
+
+**Wat het kostte:** op mobiel zakt het strookje van 0,9 naar 2,2 schermen,
+omdat het nu na alle invoervelden komt. Daar staat tegenover dat de bankkeuze
+nu bij de andere keuzes staat in plaats van tussen de uitkomsten.

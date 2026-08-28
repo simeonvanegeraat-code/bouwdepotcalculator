@@ -136,28 +136,6 @@
                         </div>
                     </div>
 
-                    <!-- De voorwaarden van de eigen bank naast de uitkomst. Eenmaal
-                         gekozen loopt die keuze mee naar de andere rekenpagina's. -->
-                    <div class="bankstrook no-print" style="margin-top: var(--ds-4)">
-                        <p class="bankstrook__kop">
-                            <span>Uw bouwdepot bij <span data-bank-naam>uw geldverstrekker</span></span>
-                            <a data-bank-link href="#" hidden>Alle voorwaarden &rarr;</a>
-                        </p>
-                        <div data-bankkeuze></div>
-                        <dl class="bankstrook__feiten" data-bank-toont="gekozen" hidden>
-                            <div><dt>Depot bij verbouwing</dt><dd data-bank-veld="maximaalVerbouw">&mdash;</dd></div>
-                            <div><dt>Depot bij nieuwbouw</dt><dd data-bank-veld="maximaalNieuwbouw">&mdash;</dd></div>
-                            <div><dt>Vergoeding over uw saldo</dt><dd data-bank-veld="vergoeding">&mdash;</dd></div>
-                            <div><dt>Geld opnemen</dt><dd data-bank-veld="opnamemethode">&mdash;</dd></div>
-                        </dl>
-                        <div class="bankmelding" data-bank-toont="geenVergoeding" hidden>
-                            <p><strong>Let op:</strong> <span data-bank-naam></span> vergoedt geen rente over uw depotsaldo, maar rekent er ook geen rente over. U betaalt alleen over wat u al hebt opgenomen. De maandlast hierboven gaat uit van het volledige bedrag en is bij deze aanbieder dus pas aan de orde als het depot leeg is.</p>
-                        </div>
-                        <div class="bankmelding" data-bank-toont="vergoedingStoptEerder" hidden>
-                            <p><strong>Let op:</strong> bij <span data-bank-naam></span> loopt de depotvergoeding <span data-bank-veld="vergoedingVerbouw"></span> bij verbouwing, terwijl het depot langer kan doorlopen. Over die laatste maanden betaalt u wel rente en ontvangt u niets meer. <a href="renteverlies-bouwdepot.html">Bereken wat dat kost</a>.</p>
-                        </div>
-                    </div>
-
                     <p class="ds-caption no-print" style="margin-top: var(--ds-3)">Indicatief hulpmiddel. Uw werkelijke last hangt af van acceptatie, productvoorwaarden en uw fiscale situatie.</p>
                 </div>
 
@@ -245,6 +223,30 @@
                                 <button class="ds-chip cost-btn" type="button" aria-pressed="false" data-amount="7500">Toilet of hal &middot; 7.500</button>
                             </div>
                             <button id="btn-reset-costs" class="ds-knop ds-knop--rustig" type="button" style="display: none; margin-top: var(--ds-3);">Selectie wissen</button>
+                        </div>
+                    </div>
+
+                    <!-- De bankkeuze is zelf een invoerveld en staat daarom bij de andere.
+                         Stond eerder onder de uitkomst, maar sinds die kaart meeschuift bij het
+                         scrollen gleed hij eroverheen. Eenmaal gekozen loopt de keuze
+                         mee naar de andere rekenpagina's. -->
+                    <div class="bankstrook no-print" style="margin-top: var(--ds-4)">
+                        <p class="bankstrook__kop">
+                            <span>Uw bouwdepot bij <span data-bank-naam>uw geldverstrekker</span></span>
+                            <a data-bank-link href="#" hidden>Alle voorwaarden &rarr;</a>
+                        </p>
+                        <div data-bankkeuze></div>
+                        <dl class="bankstrook__feiten" data-bank-toont="gekozen" hidden>
+                            <div><dt>Depot bij verbouwing</dt><dd data-bank-veld="maximaalVerbouw">&mdash;</dd></div>
+                            <div><dt>Depot bij nieuwbouw</dt><dd data-bank-veld="maximaalNieuwbouw">&mdash;</dd></div>
+                            <div><dt>Vergoeding over uw saldo</dt><dd data-bank-veld="vergoeding">&mdash;</dd></div>
+                            <div><dt>Geld opnemen</dt><dd data-bank-veld="opnamemethode">&mdash;</dd></div>
+                        </dl>
+                        <div class="bankmelding" data-bank-toont="geenVergoeding" hidden>
+                            <p><strong>Let op:</strong> <span data-bank-naam></span> vergoedt geen rente over uw depotsaldo, maar rekent er ook geen rente over. U betaalt alleen over wat u al hebt opgenomen. De maandlast hierboven gaat uit van het volledige bedrag en is bij deze aanbieder dus pas aan de orde als het depot leeg is.</p>
+                        </div>
+                        <div class="bankmelding" data-bank-toont="vergoedingStoptEerder" hidden>
+                            <p><strong>Let op:</strong> bij <span data-bank-naam></span> loopt de depotvergoeding <span data-bank-veld="vergoedingVerbouw"></span> bij verbouwing, terwijl het depot langer kan doorlopen. Over die laatste maanden betaalt u wel rente en ontvangt u niets meer. <a href="renteverlies-bouwdepot.html">Bereken wat dat kost</a>.</p>
                         </div>
                     </div>
                 </div>
