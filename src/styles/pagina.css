@@ -203,6 +203,52 @@ body { margin: 0; }
 .kruimel a { color: var(--ds-ink-muted); text-decoration: none; }
 .kruimel a:hover { color: var(--ds-accent); }
 
+/* --- Het veld bovenaan --------------------------------------------------- */
+
+/* Een fijn meetraster dat halverwege het eerste scherm oplost in papier.
+
+   Geen decoratie: een bouwdepot gaat over meten, en millimeterpapier is de
+   drager waar bouwtekeningen en begrotingen op staan. Het geeft de pagina
+   diepte zonder een enkel kader, kleurvlak of afbeelding toe te voegen --
+   precies de drukte die deze site niet moet hebben.
+
+   Alles uit tokens, dus het werkt in beide modi: --ds-line is licht op
+   papier en donker op inkt. Nul verzoeken, nul bytes aan beeld.
+
+   isolation: isolate maakt van main een eigen stapelcontext. Zonder dat zakt
+   een pseudo-element met een negatieve z-index achter de paginakleur en zie
+   je er niets van. */
+main { isolation: isolate; position: relative; }
+main > * { position: relative; z-index: 1; }
+
+main::before {
+    background:
+        linear-gradient(180deg, var(--ds-accent-wash) 0%, transparent 55%),
+        repeating-linear-gradient(90deg, color-mix(in srgb, var(--ds-line) 80%, transparent) 0 1px, transparent 1px 40px),
+        repeating-linear-gradient(180deg, color-mix(in srgb, var(--ds-line) 80%, transparent) 0 1px, transparent 1px 40px);
+    content: "";
+    height: min(105vh, 940px);
+    inset: 0 0 auto;
+    /* Onderaan oplossen, zodat er geen rand ontstaat waar het raster stopt. */
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 38%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0%, #000 38%, transparent 100%);
+    pointer-events: none;
+    position: absolute;
+    z-index: 0;
+}
+
+/* Op een telefoon staat het raster dichter, anders vallen er nog geen twee
+   lijnen in beeld en oogt het als een toevallige streep. */
+@media (max-width: 639px) {
+    main::before {
+        background:
+            linear-gradient(180deg, var(--ds-accent-wash) 0%, transparent 55%),
+            repeating-linear-gradient(90deg, color-mix(in srgb, var(--ds-line) 80%, transparent) 0 1px, transparent 1px 28px),
+            repeating-linear-gradient(180deg, color-mix(in srgb, var(--ds-line) 80%, transparent) 0 1px, transparent 1px 28px);
+    }
+}
+
+@media print { main::before { display: none; } }
 /* --- Kerncijfers: antwoord eerst ----------------------------------------- */
 
 .kern {

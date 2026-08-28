@@ -86,6 +86,11 @@
 
     --ds-tap: 44px;   /* minimale aanraakzone */
 
+    /* De plakkende kop is 56px, plus 50px gereedschapsbalk vanaf 640px.
+       Alles wat eronder blijft plakken houdt deze afstand aan; met de oude
+       84px school de uitkomstkaart onder de balk. */
+    --ds-kop-offset: 122px;
+
     --ds-ease: cubic-bezier(0.4, 0, 0.2, 1);
     --ds-quick: 140ms var(--ds-ease);
     --ds-calm:  260ms var(--ds-ease);
@@ -256,6 +261,11 @@ html { scrollbar-gutter: stable; }
 
 .ds-uitkomst {
     background: var(--ds-surface);
+    /* Elke andere kaart heeft een rand; deze was de uitzondering. Dat viel
+       pas op toen er een getint veld achter kwam te staan: de teal lichtval
+       bovenin had dezelfde kleur als de achtergrond, en de bovenrand loste
+       op. Een haarlijn houdt de kaart los van waar hij ook op ligt. */
+    border: 1px solid var(--ds-line);
     border-radius: var(--ds-r-xl);
     box-shadow: var(--ds-shadow-3);
     padding: var(--ds-5) var(--ds-5) var(--ds-4);

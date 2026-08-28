@@ -76,3 +76,38 @@ nu `.kop__inner nav`.
   dan minder.
 - Koppen in het eerste scherm gingen van 2 naar 1 doordat de hero groeide.
   Independer heeft er vier.
+
+
+## Naronde: het veld bovenaan
+
+De founder vroeg om een achtergrond die halverwege de pagina oplost. Dat werd
+een fijn meetraster plus een tint in de accentkleur, tot 105vh en daarna weg.
+Alles uit CSS-verlopen: nul bestanden, nul verzoeken, werkt in beide modi.
+
+Drie dingen die daaruit volgden:
+
+**Het raster was te bescheiden.** Op 55% van de lijnkleur viel het niet op.
+Nu 80%. Ter ijking: de lijnkleur zelf heeft contrast 1,25 op papier -- precies
+de sterkte van een rand. Een vlak vol lijnen hoort daaronder te blijven.
+
+**De uitkomstkaart loste op.** Hij is wit met een teal lichtval bovenin, en
+dat was nu dezelfde kleur als het veld erachter. Elke andere kaart op de site
+heeft een rand; deze was de uitzondering. Een haarlijn in `--ds-line` houdt
+hem los van waar hij ook op ligt.
+
+**De kaart schoof niet mee.** `position: sticky` stond op de uitkomstkolom en
+werkte overal, behalve hier: op de homepage is die kolom precies even hoog als
+het raster (958 om 958) door het bankstrookje eronder, dus er was nul ruimte
+om in te schuiven. Nu plakt ook de kaart binnen de kolom, met 496px speling.
+
+Daarbij bleek `top: 84px` te krap: de kop is met de gereedschapsbalk 106px
+geworden, dus de kaart school eronder. Dat is nu `--ds-kop-offset: 122px`.
+
+| Na de naronde, 1440 x 900 | |
+|---|---|
+| Kaart na 600px scrollen | blijft op 122px staan |
+| Onderkant kop | 106px, dus 16px lucht |
+| Kaartrand | 1px `--ds-line` |
+
+Mobiel ongemoeid: kop 57px, balk verborgen, kaart niet plakkend, 75px speling
+boven de vouw.

@@ -81,7 +81,13 @@
         grid-template-columns: 1fr 0.85fr;
     }
     /* Uitkomst rechts en meelopend; invoer links waar de aandacht start. */
-    .reken__uitkomst { grid-column: 2; position: sticky; top: 84px; }
+    /* Twee lagen plakken. De kolom schuift mee zolang hij korter is dan het
+       raster -- op de meeste rekenpagina's is dat zo. Op de homepage is de
+       kolom even hoog als het raster (958 om 958) door het bankstrookje
+       eronder, en dan heeft de kolom nul ruimte; daar doet de kaart binnen
+       de kolom het werk, met 496px om in te schuiven. */
+    .reken__uitkomst { grid-column: 2; position: sticky; top: var(--ds-kop-offset); }
+    .reken__uitkomst > .ds-uitkomst { position: sticky; top: var(--ds-kop-offset); }
     .reken__invoer { grid-column: 1; grid-row: 1; }
 }
 

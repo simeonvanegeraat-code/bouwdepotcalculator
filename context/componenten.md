@@ -93,6 +93,7 @@ Geladen door alle 31 pagina's. Kop, voet en de bouwstenen van tekstpagina's.
 | `.toolbalk` | Tweede kopregel met de zeven rekenhulpen bij naam. Vanaf 640px; daaronder dekt het uitklapmenu ze af. Noemt de dingen zelf, geen categorielabels |
 | `.voet` | De voettekst. Sinds 22-08 het vangnet met alle elf tools |
 | `.kern` | Kerncijfers bovenaan: antwoord eerst |
+| `main::before` | Het meetraster bovenaan, dat halverwege het eerste scherm oplost in papier. Geen component om te gebruiken maar wel om te kennen: `main` is daardoor een eigen stapelcontext en `main > *` staat op `z-index: 1` |
 
 ### Tekstblokken
 
