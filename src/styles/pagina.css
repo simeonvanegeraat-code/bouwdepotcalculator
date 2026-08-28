@@ -39,7 +39,7 @@ body { margin: 0; }
     color: var(--ds-ink);
     flex: none;
     font-size: var(--ds-t-small);
-    font-weight: 660;
+    font-weight: 600;
     letter-spacing: -0.02em;
     text-decoration: none;
 }
@@ -51,7 +51,7 @@ body { margin: 0; }
 .merk:hover { color: var(--ds-ink); }
 .merk:hover span { color: var(--ds-accent-hover); }
 
-.kop nav { display: flex; }
+.kop__inner nav { display: flex; }
 
 /* De navigatie vroeg 380px terwijl er naast het woordmerk 157px overbleef: 59%
    stond buiten beeld. De schuifbalk was verborgen en er was geen rand, dus er
@@ -69,7 +69,7 @@ body { margin: 0; }
 .kop__menu { display: none; }
 
 @media (max-width: 639px) {
-    .kop nav { position: relative; }
+    .kop__inner nav { position: relative; }
     .kop__menu { display: block; }
 
     .kop__menu > summary {
@@ -78,7 +78,7 @@ body { margin: 0; }
         cursor: pointer;
         display: flex;
         font-size: var(--ds-t-small);
-        font-weight: 520;
+        font-weight: 600;
         gap: var(--ds-2);
         /* Weg met het standaard driehoekje, in beide smaken browser. */
         list-style: none;
@@ -128,18 +128,57 @@ body { margin: 0; }
 /* Navigatie hoort te wijken. Deze kleur stond er al maar kwam nooit aan, omdat
    de globale linkregel specifieker was; de balk stond daardoor voluit in
    accentkleur en concurreerde met de paginatitel. */
-.kop nav a {
+.kop__inner nav a {
     color: var(--ds-ink-muted);
     font-size: var(--ds-t-small);
-    font-weight: 520;
+    font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
 }
-.kop nav a:hover { color: var(--ds-accent); }
+.kop__inner nav a:hover { color: var(--ds-accent); }
 /* De pagina waar je bent mag zich wel melden. */
-.kop nav a[aria-current="page"] { color: var(--ds-ink); font-weight: 600; }
+.kop__inner nav a[aria-current="page"] { color: var(--ds-ink); font-weight: 600; }
 
-@media (min-width: 768px) { .kop nav { gap: var(--ds-5); } }
+@media (min-width: 768px) { .kop__inner nav { gap: var(--ds-5); } }
+
+/* --- Gereedschapsbalk ---------------------------------------------------- */
+
+/* Het eerste scherm bood vier uitgangen, waarvan er drie geen bestemming
+   waren (`/`, `#kiezen`, `#`). Independer, van vergelijkbare omvang, biedt er
+   elf en noemt zijn acht producten bij naam in de kopregio -- geen
+   categorielabels als "Uitleg" maar de dingen zelf. Rabobank staat op 38.
+   Daar komt het gevoel vandaan dat dit één rekenmachine is en geen site.
+
+   Deze balk noemt de zeven rekenhulpen bij naam. Vanaf 640px, want daaronder
+   is het eerste scherm van de bezoeker die om een bedrag kwam, en dekt het
+   uitklapmenu dezelfde bestemmingen al af. */
+.toolbalk {
+    border-bottom: 1px solid var(--ds-line);
+    display: none;
+}
+
+@media (min-width: 640px) {
+    .toolbalk { display: block; }
+}
+
+.toolbalk__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-2) var(--ds-5);
+    padding-block: var(--ds-2);
+}
+
+.toolbalk a {
+    align-items: center;
+    color: var(--ds-ink-muted);
+    display: flex;
+    font-size: var(--ds-t-caption);
+    min-height: 32px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.toolbalk a:hover { color: var(--ds-accent); }
+.toolbalk a[aria-current="page"] { color: var(--ds-ink); font-weight: 600; }
 
 /* --- Kruimelpad ---------------------------------------------------------- */
 
@@ -182,7 +221,7 @@ body { margin: 0; }
 
 .kern__cijfer {
     font-size: clamp(2.25rem, 6vw, 3rem);
-    font-weight: 690;
+    font-weight: 700;
     letter-spacing: -0.04em;
     line-height: 1.05;
     margin: 0 0 var(--ds-1);
@@ -197,7 +236,7 @@ body { margin: 0; }
 .kern__eenheid {
     color: var(--ds-accent);
     font-size: var(--ds-t-caption);
-    font-weight: 620;
+    font-weight: 600;
     letter-spacing: 0.04em;
     margin: 0 0 var(--ds-3);
     text-transform: uppercase;
@@ -215,7 +254,7 @@ body { margin: 0; }
 .uitleg { display: grid; gap: var(--ds-5); }
 .uitleg h3 {
     font-size: var(--ds-t-lead);
-    font-weight: 620;
+    font-weight: 600;
     letter-spacing: -0.018em;
     margin-bottom: var(--ds-2);
 }
@@ -327,7 +366,7 @@ body { margin: 0; }
 .proza p + p { margin-top: var(--ds-3); }
 .proza h3 {
     font-size: var(--ds-t-lead);
-    font-weight: 620;
+    font-weight: 600;
     letter-spacing: -0.018em;
     margin: var(--ds-6) 0 var(--ds-2);
 }
@@ -351,11 +390,11 @@ body { margin: 0; }
     color: var(--ds-accent);
     display: block;
     font-size: var(--ds-t-caption);
-    font-weight: 680;
+    font-weight: 700;
     letter-spacing: 0.08em;
     margin-bottom: var(--ds-1);
 }
-.vraag h3 { font-size: var(--ds-t-lead); font-weight: 620; letter-spacing: -0.018em; margin-bottom: var(--ds-2); }
+.vraag h3 { font-size: var(--ds-t-lead); font-weight: 600; letter-spacing: -0.018em; margin-bottom: var(--ds-2); }
 .vraag p { color: var(--ds-ink-muted); font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
 
 /* Scenario's naast elkaar: op mobiel kaarten, geen brede tabel. */
@@ -373,7 +412,7 @@ body { margin: 0; }
 }
 .scenario__bedrag {
     font-size: var(--ds-t-lead);
-    font-weight: 640;
+    font-weight: 600;
     letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
 }
@@ -417,7 +456,7 @@ body { margin: 0; }
 .fout__nummer {
     color: var(--ds-warn);
     font-size: var(--ds-t-caption);
-    font-weight: 640;
+    font-weight: 600;
     letter-spacing: 0.06em;
     margin-bottom: var(--ds-1);
     text-transform: uppercase;
@@ -433,7 +472,7 @@ body { margin: 0; }
 .fout__oplossing h3 {
     color: var(--ds-accent);
     font-size: var(--ds-t-caption);
-    font-weight: 640;
+    font-weight: 600;
     letter-spacing: 0.04em;
     margin-bottom: var(--ds-2);
     text-transform: uppercase;
@@ -462,7 +501,7 @@ body { margin: 0; }
 
 .fase-blok__periode {
     font-size: var(--ds-t-caption);
-    font-weight: 640;
+    font-weight: 600;
     letter-spacing: 0.05em;
     margin-bottom: var(--ds-2);
     text-transform: uppercase;
@@ -471,7 +510,7 @@ body { margin: 0; }
 .fase-blok:nth-child(2) .fase-blok__periode { color: var(--ds-data-2); }
 .fase-blok:nth-child(3) .fase-blok__periode { color: var(--ds-ink-muted); }
 
-.fase-blok h3 { font-size: var(--ds-t-lead); font-weight: 620; letter-spacing: -0.018em; margin-bottom: var(--ds-2); }
+.fase-blok h3 { font-size: var(--ds-t-lead); font-weight: 600; letter-spacing: -0.018em; margin-bottom: var(--ds-2); }
 .fase-blok p { color: var(--ds-ink-muted); font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
 
 /* Uitgewerkt rekenvoorbeeld. */
@@ -493,11 +532,11 @@ body { margin: 0; }
 .voorbeeld dt { color: var(--ds-ink-soft); font-size: var(--ds-t-small); }
 .voorbeeld dd {
     font-variant-numeric: tabular-nums;
-    font-weight: 620;
+    font-weight: 600;
     margin: 0;
     white-space: nowrap;
 }
-.voorbeeld .uitkomst dt { color: var(--ds-ink); font-weight: 620; }
+.voorbeeld .uitkomst dt { color: var(--ds-ink); font-weight: 600; }
 .voorbeeld .uitkomst dd { color: var(--ds-accent); font-size: var(--ds-t-lead); }
 
 /* Twee lijsten naast elkaar: wel en niet. */
@@ -509,7 +548,7 @@ body { margin: 0; }
     border-radius: var(--ds-r-lg);
     padding: var(--ds-5);
 }
-.wel-niet__blok h3 { font-size: var(--ds-t-body); font-weight: 620; margin-bottom: var(--ds-3); }
+.wel-niet__blok h3 { font-size: var(--ds-t-body); font-weight: 600; margin-bottom: var(--ds-3); }
 .wel-niet__blok ul { display: grid; gap: var(--ds-2); list-style: none; margin: 0; padding: 0; }
 .wel-niet__blok li {
     font-size: var(--ds-t-small);
@@ -539,7 +578,7 @@ body { margin: 0; }
 }
 .contactkaart__adres {
     font-size: clamp(1.25rem, 4vw, 1.75rem);
-    font-weight: 640;
+    font-weight: 600;
     letter-spacing: -0.02em;
     margin-bottom: var(--ds-4);
     overflow-wrap: anywhere;
@@ -577,7 +616,7 @@ body { margin: 0; }
 }
 .wijzigingen h3 {
     font-size: var(--ds-t-body);
-    font-weight: 620;
+    font-weight: 600;
     letter-spacing: -0.012em;
     margin-bottom: var(--ds-2);
 }
@@ -588,7 +627,7 @@ body { margin: 0; }
 .beleid > section { counter-increment: artikel; }
 .beleid > section > h2 {
     font-size: var(--ds-t-title);
-    font-weight: 640;
+    font-weight: 600;
     letter-spacing: -0.02em;
     margin-bottom: var(--ds-3);
 }
@@ -599,7 +638,7 @@ body { margin: 0; }
 }
 .beleid p { color: var(--ds-ink-soft); margin-bottom: var(--ds-3); }
 .beleid p:last-child { margin-bottom: 0; }
-.beleid h3 { font-size: var(--ds-t-body); font-weight: 620; margin: var(--ds-4) 0 var(--ds-2); }
+.beleid h3 { font-size: var(--ds-t-body); font-weight: 600; margin: var(--ds-4) 0 var(--ds-2); }
 
 /* Overzicht van verwerkingen of opslag, als rijen in plaats van een brede tabel. */
 .beleid-rijen { display: grid; gap: 0; margin: var(--ds-4) 0 0; }
@@ -611,7 +650,7 @@ body { margin: 0; }
 }
 @media (min-width: 760px) { .beleid-rijen > div { grid-template-columns: 10rem 1fr; } }
 .beleid-rijen > div:last-child { border-bottom: 0; }
-.beleid-rijen dt { color: var(--ds-ink); font-size: var(--ds-t-small); font-weight: 620; }
+.beleid-rijen dt { color: var(--ds-ink); font-size: var(--ds-t-small); font-weight: 600; }
 .beleid-rijen dd { color: var(--ds-ink-soft); font-size: var(--ds-t-small); line-height: 1.5; margin: 0; }
 .beleid-rijen dd + dd { color: var(--ds-ink-muted); margin-top: var(--ds-2); }
 
@@ -628,14 +667,14 @@ body { margin: 0; }
 .reden__nummer {
     color: var(--ds-accent);
     font-size: var(--ds-t-caption);
-    font-weight: 640;
+    font-weight: 600;
     letter-spacing: 0.06em;
     margin-bottom: var(--ds-1);
     text-transform: uppercase;
 }
 .reden h3 {
     font-size: var(--ds-t-lead);
-    font-weight: 620;
+    font-weight: 600;
     letter-spacing: -0.018em;
     margin-bottom: var(--ds-2);
 }
@@ -653,11 +692,11 @@ body { margin: 0; }
 .reden__per-bank dt { margin-bottom: 2px; }
 .reden__per-bank dt a {
     font-size: var(--ds-t-small);
-    font-weight: 620;
+    font-weight: 600;
     text-decoration: none;
 }
 .reden__per-bank dd { margin: 0; }
-.reden__per-bank dd strong { font-size: var(--ds-t-small); font-weight: 560; }
+.reden__per-bank dd strong { font-size: var(--ds-t-small); font-weight: 600; }
 .reden__per-bank dd small {
     color: var(--ds-ink-muted);
     display: block;
@@ -783,7 +822,7 @@ body { margin: 0; }
     color: var(--ds-accent);
     font-size: var(--ds-t-small);
     font-variant-numeric: tabular-nums;
-    font-weight: 620;
+    font-weight: 600;
     margin-top: var(--ds-2);
 }
 .cat__subtotaal:empty { display: none; }
@@ -822,8 +861,8 @@ body { margin: 0; }
 .cat__kop::after {
     color: var(--ds-ink-muted);
     content: '+';
-    font-size: 1.5rem;
-    font-weight: 300;
+    font-size: 1.4em;
+    font-weight: 400;
     line-height: 1;
     position: absolute;
     right: 0;

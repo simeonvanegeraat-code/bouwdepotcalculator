@@ -90,6 +90,7 @@ Geladen door alle 31 pagina's. Kop, voet en de bouwstenen van tekstpagina's.
 | `.kop` | De bovenbalk. Blijft plakken bij scrollen |
 | `.merk` | Het woordmerk. Mag de navigatie overstemmen |
 | `.kruimel` | Kruimelpad. Valt weg bij printen |
+| `.toolbalk` | Tweede kopregel met de zeven rekenhulpen bij naam. Vanaf 640px; daaronder dekt het uitklapmenu ze af. Noemt de dingen zelf, geen categorielabels |
 | `.voet` | De voettekst. Sinds 22-08 het vangnet met alle elf tools |
 | `.kern` | Kerncijfers bovenaan: antwoord eerst |
 
@@ -144,6 +145,7 @@ Geladen door de tien rekenpagina's plus de depotplanner en de begroting.
 |---|---|
 | `.reken` | De rekensectie |
 | `.aanhef` | De hero van een rekenpagina. De paginatitel moet hier groter zijn dan een sectietitel |
+| `.beloften` | Drie feiten onder de belofteregel: bron en controledatum, geen registratie, wij verkopen niets. Vanaf 640px, want op mobiel is er 25px speling boven de stickybalk en deze regel kost er zestig |
 | `.veldrij` | Rij invoervelden |
 | `.prefix-veld` | Veld met een voorvoegsel, bijvoorbeeld een euroteken |
 | `.input-icon-wrapper` | Veld met een icoon erin |

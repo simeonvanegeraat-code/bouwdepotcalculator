@@ -56,6 +56,19 @@
                 </div>
             </nav>
         </div>
+
+        <!-- De rekenhulpen bij naam. Zie de toelichting in pagina.css. -->
+        <nav class="toolbalk no-print" aria-label="Rekenhulpen">
+            <div class="ds-wrap toolbalk__inner">
+                <a href="verbouwbegroting.html">Verbouwbegroting</a>
+                <a href="leenruimte.html">Leenruimte</a>
+                <a href="maandlasten-bouwdepot.html">Maandlasten</a>
+                <a href="nieuwbouw.html">Nieuwbouwplanning</a>
+                <a href="depotplanner.html">Depotplanner</a>
+                <a href="belasting.html">Belastingvoordeel</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+            </div>
+        </nav>
     </header>
 
     <main>
@@ -63,7 +76,16 @@
         <section class="ds-wrap reken" aria-labelledby="reken-titel">
             <div class="aanhef">
                 <h1 id="reken-titel">Wat kost uw bouwdepot per maand?</h1>
-                <p class="ds-lead">Indicatie zonder registratie &middot; uw invoer blijft op dit apparaat</p>
+                <!-- De lead ging over de tool ("zonder registratie") terwijl dit de
+                     duurste regel van de site is. Hij zegt nu wat de site is; de
+                     privacybelofte staat hieronder, waar hij bij de andere feiten
+                     hoort. -->
+                <p class="ds-lead">De voorwaarden van acht geldverstrekkers, doorgerekend voor uw eigen situatie.</p>
+                <ul class="beloften">
+                    <li>Elk gegeven met bron en controledatum</li>
+                    <li>Geen registratie, uw invoer blijft op dit apparaat</li>
+                    <li>Wij verkopen niets en sturen u niet door</li>
+                </ul>
             </div>
 
             <div class="reken__grid">

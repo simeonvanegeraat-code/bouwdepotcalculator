@@ -62,6 +62,17 @@
     --ds-t-heading: clamp(1.875rem, 5vw, 2.5rem);     /* 30 - 40 */
     --ds-t-figure:  clamp(2.75rem, 11vw, 4.25rem);    /* het bedrag zelf */
 
+    /* --- Lettergewicht: drie waarden, ver uit elkaar ---------------------- */
+    /* Er stonden er twaalf, waarvan acht tussen 520 en 700: 520, 560, 570, 580,
+       600, 620, 640, 650, 660, 690. Losse verschillen die je niet ziet maar
+       samen als ruis lezen -- dat is wat een site "in elkaar gezet" laat
+       ogen in plaats van ontworpen.
+       Gemeten bij anderen op 22-08-2026: Rabobank gebruikt er twee (400 en
+       700, niets ertussen), Independer drie, Wise vier. Niet licht dus, maar
+       weinig en ver uit elkaar.
+       400 lopende tekst · 600 koppen, labels en nadruk · 700 alleen de grote
+       getallen. tests/typografie.test.mjs faalt bij een vierde waarde. */
+
     --ds-lh-tight: 1.1;
     --ds-lh-snug:  1.3;
     --ds-lh-body:  1.6;
@@ -170,13 +181,13 @@ html { scrollbar-gutter: stable; }
 
 .ds-heading {
     font-size: var(--ds-t-heading);
-    font-weight: 660;
+    font-weight: 600;
     letter-spacing: -0.028em;
     line-height: var(--ds-lh-tight);
 }
 .ds-title {
     font-size: var(--ds-t-title);
-    font-weight: 640;
+    font-weight: 600;
     letter-spacing: -0.02em;
     line-height: var(--ds-lh-snug);
 }
@@ -197,7 +208,7 @@ html { scrollbar-gutter: stable; }
 .ds-eyebrow {
     color: var(--ds-accent);
     font-size: var(--ds-t-caption);
-    font-weight: 620;
+    font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
 }
@@ -267,14 +278,14 @@ html { scrollbar-gutter: stable; }
 .ds-uitkomst__label {
     color: var(--ds-ink-muted);
     font-size: var(--ds-t-small);
-    font-weight: 560;
+    font-weight: 600;
     letter-spacing: 0.01em;
 }
 
 .ds-uitkomst__bedrag {
     display: block;
     font-size: var(--ds-t-figure);
-    font-weight: 690;
+    font-weight: 700;
     letter-spacing: -0.045em;
     line-height: 1.02;
     margin: var(--ds-1) 0 var(--ds-2);
@@ -301,7 +312,7 @@ html { scrollbar-gutter: stable; }
     font-size: var(--ds-t-small);
 }
 .ds-uitsplitsing dt, .ds-uitsplitsing span:first-child { color: var(--ds-ink-muted); }
-.ds-uitsplitsing strong { font-variant-numeric: tabular-nums; font-weight: 620; }
+.ds-uitsplitsing strong { font-variant-numeric: tabular-nums; font-weight: 600; }
 
 /* ==========================================================================
    Invoer — groot genoeg om met een duim te bedienen
@@ -319,13 +330,13 @@ html { scrollbar-gutter: stable; }
 
 .ds-veld__naam {
     font-size: var(--ds-t-small);
-    font-weight: 580;
+    font-weight: 600;
     color: var(--ds-ink-soft);
 }
 
 .ds-veld__waarde {
     font-size: var(--ds-t-lead);
-    font-weight: 650;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.02em;
 }
@@ -423,7 +434,7 @@ html { scrollbar-gutter: stable; }
     cursor: pointer;
     font: inherit;
     font-size: var(--ds-t-small);
-    font-weight: 560;
+    font-weight: 600;
     /* Dit component stond nog op 38px en werd nergens gebruikt. Bij de eerste
        toepassing hoort het gewoon de aanraakzone uit de kwaliteitslat te halen. */
     min-height: var(--ds-tap);
@@ -433,7 +444,7 @@ html { scrollbar-gutter: stable; }
     background: var(--ds-surface);
     box-shadow: var(--ds-shadow-1);
     color: var(--ds-ink);
-    font-weight: 620;
+    font-weight: 600;
 }
 
 /* ==========================================================================
@@ -541,7 +552,7 @@ html { scrollbar-gutter: stable; }
     justify-content: center;
     margin-bottom: var(--ds-1);
 }
-.ds-keuze__titel { font-size: var(--ds-t-lead); font-weight: 620; letter-spacing: -0.018em; }
+.ds-keuze__titel { font-size: var(--ds-t-lead); font-weight: 600; letter-spacing: -0.018em; }
 .ds-keuze__uitleg { color: var(--ds-ink-muted); font-size: var(--ds-t-small); line-height: 1.45; }
 .ds-keuze__meta {
     color: var(--ds-accent);
@@ -646,7 +657,7 @@ html { scrollbar-gutter: stable; }
 }
 .vgl-item__naam {
     font-size: var(--ds-t-lead);
-    font-weight: 640;
+    font-weight: 600;
     letter-spacing: -0.018em;
 }
 .vgl-item__naam a { color: inherit; text-decoration: none; }
@@ -689,7 +700,7 @@ html { scrollbar-gutter: stable; }
 .vgl-balk__waarde {
     font-size: var(--ds-t-small);
     font-variant-numeric: tabular-nums;
-    font-weight: 620;
+    font-weight: 600;
     white-space: nowrap;
 }
 
@@ -708,7 +719,7 @@ html { scrollbar-gutter: stable; }
 }
 .vgl-feit dd {
     font-size: var(--ds-t-small);
-    font-weight: 560;
+    font-weight: 600;
     line-height: 1.4;
     margin: 0;
     /* Termen als koop-/aannemingsovereenkomst breken anders uit hun kolom. */

@@ -56,6 +56,40 @@ is typografische discipline, geen huisstijl.
 
 **Hun navigatiediepte.** Zij hebben honderden producten, wij hebben vier taken.
 
+## Correctie, 22 augustus 2026
+
+De conclusie hierboven -- "koppen naar 400" -- was te smal getrokken uit twee
+sites. Diezelfde meetlat op drie andere, op 1440px:
+
+| Site | Gewichten | H1 |
+|---|---|---|
+| Rabobank | 2 (400, 700) | 60px / 400 |
+| Independer | 3 (400, 600, 700) | 40px / 700 |
+| Wise | 4 (400, 500, 600, 900) | 58px / **900** |
+| NerdWallet | 7, gespreid 300-900 | 52px / 700 |
+
+Wise zet zijn kop op 900 en oogt niet minder volwassen. De regel is dus niet
+*licht* maar **weinig en ver uit elkaar**. Onze twaalf gewichten hadden er
+acht tussen 520 en 700 -- verschillen die je los niet ziet en samen als ruis
+lezen. Dat is doorgevoerd naar 400 / 600 / 700 en wordt bewaakt door
+[tests/typografie.test.mjs](../tests/typografie.test.mjs).
+
+## Wat de meting daarnaast blootlegde
+
+Belangrijker dan de typografie: het aantal uitwegen in het eerste scherm.
+
+| Site | Echte bestemmingen in het eerste scherm |
+|---|---|
+| Rabobank | 38 |
+| NerdWallet | 15 |
+| Independer | 11 |
+| Wij, voor 22-08 | **4** |
+| Wij, na 22-08 | **9** |
+
+Independer noemt zijn acht producten bij naam in de kopregio -- geen
+categorielabels als "Uitleg" maar de dingen zelf -- en zet er drie redenen
+onder om ze te geloven. Dat patroon is overgenomen als `.toolbalk` en
+`.beloften`. Zie [componenten.md](componenten.md).
 ## Open punt voor de founder
 
 Koppen van gewicht 660 naar ongeveer 450 halen verandert het gezicht van de hele
