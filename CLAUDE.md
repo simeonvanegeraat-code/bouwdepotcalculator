@@ -184,6 +184,7 @@ Volledige routine: [routines/nieuwe-pagina.md](routines/nieuwe-pagina.md).
 | [roadmap.md](roadmap.md) | Wat nu, wat hierna, wat later. Eén bron voor volgorde |
 | [review.md](review.md) | Wanneer werk af is, plus het logboek van opgeleverd werk |
 | [context/](context/) | Bedrijfscontext, techniek, en waarom keuzes zijn gemaakt |
+| [context/componenten.md](context/componenten.md) | Welke 109 componenten er zijn en waar ze niet voor zijn. Kijk hier vóór je een klasse maakt |
 | [customers/](customers/) | De twee reizen en wat echte bezoekers melden |
 | [spec/](spec/) | Eén bestand per stuk werk, geschreven vóór de code |
 | [demo/](demo/) | Voor-en-na bewijs van UI-werk, met gemeten waarden |
