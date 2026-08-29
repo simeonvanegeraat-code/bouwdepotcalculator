@@ -142,7 +142,7 @@
 
                     <div class="ds-veld">
                         <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-amount">Grondslag voor de bouwrente</label></div>
-                        <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="input-amount" value="100000" min="0" step="1000" inputmode="numeric"></div>
+                        <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="text" id="input-amount" value="100000" inputmode="numeric"></div>
                         <input class="ds-schuif" type="range" id="range-amount" min="10000" max="500000" step="5000" value="100000" aria-label="Grondslag voor de bouwrente">
                         <p class="ds-caption">Meestal de grondprijs plus de bouwtermijnen die al vervallen waren bij ondertekening.</p>
                     </div>
@@ -150,7 +150,7 @@
                     <div class="veldrij veldrij--twee">
                         <div class="ds-veld">
                             <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-rate">Bouwrentepercentage</label></div>
-                            <div class="suffix-veld"><input class="ds-invoer" type="number" id="input-rate" value="4.00" min="0" max="15" step="0.01" inputmode="decimal"><span>%</span></div>
+                            <div class="suffix-veld"><input class="ds-invoer" type="text" id="input-rate" value="4,00" inputmode="decimal"><span>%</span></div>
                             <input class="ds-schuif" type="range" id="range-rate" min="0" max="15" step="0.1" value="4" aria-label="Bouwrentepercentage">
                             <p class="ds-caption">Staat in uw koop-/aannemingsovereenkomst.</p>
                         </div>
@@ -174,7 +174,7 @@
 
                     <div class="ds-veld" id="mortgage-wrapper" style="display:none;">
                         <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-mortgage-rate">Hypotheekrente</label></div>
-                        <div class="suffix-veld"><input class="ds-invoer" type="number" id="input-mortgage-rate" value="3.80" min="0" max="15" step="0.01" inputmode="decimal"><span>%</span></div>
+                        <div class="suffix-veld"><input class="ds-invoer" type="text" id="input-mortgage-rate" value="3,80" inputmode="decimal"><span>%</span></div>
                         <p class="ds-caption">Meefinancieren betekent dat u over de bouwrente zelf ook rente betaalt.</p>
                     </div>
                 </div>

@@ -40,6 +40,32 @@ export function leesGetal(invoer) {
     return Number.isFinite(getal) ? getal : null;
 }
 
+/**
+ * Leest een percentage uit vrije invoer.
+ *
+ * Bewust anders dan leesGetal. Daar is de punt duizendscheiding, want daar
+ * gaat het over bedragen van tienduizenden euro's. Een rentepercentage ligt
+ * tussen de nul en de twintig, dus daar kan een punt nooit iets anders zijn
+ * dan een decimaalteken. Wie leesGetal op een renteveld loslaat, leest "3.80"
+ * als 380 procent -- dat is bij een eerdere poging ook precies gebeurd, en de
+ * piekmaandlast schoot naar 159.533 euro.
+ *
+ * @param {string|number} invoer
+ * @returns {number|null} het percentage, of null als er geen getal in staat
+ */
+export function leesPercentage(invoer) {
+    if (typeof invoer === 'number') return Number.isFinite(invoer) ? invoer : null;
+    if (invoer === null || invoer === undefined) return null;
+
+    const opgeschoond = String(invoer)
+        .replace(/[^0-9,.-]/g, '')   // procentteken, spaties, letters weg
+        .replace(',', '.');          // komma en punt betekenen hier hetzelfde
+
+    if (!/^-?\d*\.?\d*$/.test(opgeschoond) || opgeschoond === '' || opgeschoond === '-') return null;
+
+    const getal = Number(opgeschoond);
+    return Number.isFinite(getal) ? getal : null;
+}
 /** Toont een bedrag zoals de rest van de site dat doet: "87.500". */
 export function toonGetal(waarde, decimalen = 0) {
     if (typeof waarde !== 'number' || !Number.isFinite(waarde)) return '';

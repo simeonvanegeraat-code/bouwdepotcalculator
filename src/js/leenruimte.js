@@ -18,6 +18,8 @@
  * verplichtingen, taxatie en acceptatiebeleid.
  */
 
+import { leesGetal } from './getallen.js';
+
 const wortel = document.getElementById('leenruimte');
 
 if (wortel) {
@@ -74,11 +76,11 @@ if (wortel) {
     /* ------------------------------------------------------------- berekenen */
 
     function bereken() {
-        const bedrag = Math.max(0, Number(velden.bedrag?.value) || 0);
-        const hypotheek = Math.max(0, Number(velden.hypotheek?.value) || 0);
-        const waarde = Math.max(0, Number(velden.waarde?.value) || 0);
-        const eigenGeld = Math.max(0, Number(velden.eigenGeld?.value) || 0);
-        const buitenDepot = Math.max(0, Number(velden.buitenDepot?.value) || 0);
+        const bedrag = Math.max(0, leesGetal(velden.bedrag?.value) || 0);
+        const hypotheek = Math.max(0, leesGetal(velden.hypotheek?.value) || 0);
+        const waarde = Math.max(0, leesGetal(velden.waarde?.value) || 0);
+        const eigenGeld = Math.max(0, leesGetal(velden.eigenGeld?.value) || 0);
+        const buitenDepot = Math.max(0, leesGetal(velden.buitenDepot?.value) || 0);
 
         const ruimte = Math.max(0, waarde - hypotheek);
         const gat = Math.max(0, bedrag - ruimte);

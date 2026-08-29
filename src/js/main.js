@@ -4,7 +4,7 @@
 import { initSharedFormMemory, setMemoryLockById } from './shared-form-memory';
 import { huidigeBank, opBankwissel, vergoedingsTarief } from './bankkeuze.js';
 import { tekenStaafgrafiek } from './staafgrafiek.js';
-import { leesGetal, toonGetal } from './getallen.js';
+import { leesGetal, toonGetal, leesPercentage } from './getallen.js';
 import {
     TAX_RULES_2026,
     calculateEffectiveDeductionRate,
@@ -149,14 +149,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // maandlast van "EUR -233" en een totale rente van "EUR -33.872": een
         // getal dat er precies zo uitziet als een echte uitkomst. Liever geen
         // antwoord met uitleg dan een onmogelijk antwoord zonder.
+        // Elk veld heeft zijn eigen lezer, want de punt betekent er iets anders.
+        // In een bedrag is hij duizendscheiding ("40.000" is veertigduizend); in
+        // een rentepercentage is hij een decimaalteken ("3.80" is 3,8 procent).
+        // Deze velden stonden op type="number", en daarin las de browser
+        // "40.000" als veertig euro: een compleet en geloofwaardig antwoord op
+        // een bedrag dat de bezoeker nooit heeft ingevuld, zonder melding.
         const GRENZEN = {
             'input-amount': {
+                lezer: leesGetal,
                 min: 0, max: 1000000, exclusiefNul: true,
                 leeg: 'Vul het bedrag van uw bouwdepot in.',
                 teLaag: 'Vul een bedrag boven de nul in.',
                 teHoog: 'Boven een miljoen euro is geen bouwdepot meer; controleer het bedrag.',
             },
             'input-interest': {
+                lezer: leesPercentage,
                 min: 0, max: 20, exclusiefNul: false,
                 leeg: 'Vul uw hypotheekrente in.',
                 teLaag: 'Een rente onder de nul procent bestaat niet; vul een positief percentage in.',
@@ -168,10 +176,10 @@ document.addEventListener('DOMContentLoaded', () => {
         function leesVeld(veld) {
             const regels = GRENZEN[veld.id];
             const melding = document.getElementById(`fout-${veld.id.replace('input-', '')}`);
-            const waarde = parseFloat(veld.value);
+            const waarde = regels.lezer(veld.value);
 
             let fout = '';
-            if (veld.value.trim() === '' || Number.isNaN(waarde)) fout = regels.leeg;
+            if (veld.value.trim() === '' || waarde === null) fout = regels.leeg;
             else if (waarde < regels.min || (regels.exclusiefNul && waarde === 0)) fout = regels.teLaag;
             else if (waarde > regels.max) fout = regels.teHoog;
 
@@ -239,9 +247,16 @@ document.addEventListener('DOMContentLoaded', () => {
             // Wat het bedrag zelf niet zegt: hoe de last zich over de looptijd
             // ontwikkelt. Deze zin stond alleen op het scherm, terwijl hij juist
             // hoort bij een overzicht dat mee gaat naar een adviseur.
+            // De zin moet bij het getal passen dat er staat, en dat is met de
+            // renteaftrek aan een ander getal. Bruto blijft bij annuïteiten
+            // gelijk; netto niet, want het rentedeel daalt en dus daalt de
+            // aftrek mee. Wie hier "blijft gelijk" leest terwijl zijn netto last
+            // over de looptijd stijgt, krijgt het omgekeerde van wat er gebeurt.
             const verloopZin = type === 'linear'
                 ? 'Bij lineair is dit uw hoogste maand. De aflossing blijft gelijk, het rentedeel daalt, dus uw last wordt elke maand iets lager.'
-                : 'Bij annuïteiten blijft dit bedrag de hele looptijd gelijk. Alleen de verhouding schuift: het rentedeel daalt, de aflossing stijgt.';
+                : checkAftrek?.checked
+                    ? 'Bruto blijft dit bedrag de hele looptijd gelijk, maar netto niet: het rentedeel daalt, dus uw aftrek daalt mee en uw netto last loopt langzaam op.'
+                    : 'Bij annuïteiten blijft dit bedrag de hele looptijd gelijk. Alleen de verhouding schuift: het rentedeel daalt, de aflossing stijgt.';
 
             const now = new Date();
             const reportData = buildHomepageReport({
@@ -424,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // geen crawlbeurt aan verspilt. Dit blijft staan voor de ontwikkelserver,
         // waar vercel.json niet geldt.
         if (new URLSearchParams(window.location.search).get('plan') === 'haalbaarheid') {
-            const bedrag = Math.round(parseFloat(inputAmount.value) || 0);
+            const bedrag = Math.round(leesGetal(inputAmount.value) || 0);
             window.location.replace(bedrag > 0 ? `leenruimte.html?bedrag=${bedrag}` : 'leenruimte.html');
             return;
         }
@@ -515,12 +530,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function calculate() {
-            const mortgage = parseFloat(inputMortgage.value) || 0;
-            const depot = parseFloat(inputDepot.value) || 0;
-            const mortgageRate = parseFloat(inputRate.value) || 0;
-            const depotRate = parseFloat(inputDepotRate.value) || 0;
+            const mortgage = leesGetal(inputMortgage.value) || 0;
+            const depot = leesGetal(inputDepot.value) || 0;
+            const mortgageRate = leesPercentage(inputRate.value) || 0;
+            const depotRate = leesPercentage(inputDepotRate.value) || 0;
             const months = parseInt(inputMonths.value, 10) || 1;
-            const extraHousing = parseFloat(inputHousing.value) || 0;
+            const extraHousing = leesGetal(inputHousing.value) || 0;
             const pattern = opnamePattern.value || 'even';
             const factor = patternFactors[pattern] || 0.5;
 
@@ -640,7 +655,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         opBankwissel((bank) => {
             if (bank && inputDepotRate) {
-                const tarief = vergoedingsTarief(bank, parseFloat(inputRate?.value) || 0);
+                const tarief = vergoedingsTarief(bank, leesPercentage(inputRate?.value) || 0);
                 if (tarief != null) inputDepotRate.value = tarief.toFixed(2);
 
                 // Anders staat er een percentage dat van de vorige bank kwam en dat
@@ -728,11 +743,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function calculate() {
             const type = inputType?.value || 'huur';
-            const newBruto = parseFloat(inputNewBruto?.value) || 0;
-            const newNetto = parseFloat(inputNewNetto?.value) || 0;
-            const current = parseFloat(inputCurrent?.value) || 0;
-            const extra = parseFloat(inputExtra?.value) || 0;
-            const renteverlies = parseFloat(inputRenteverlies?.value) || 0;
+            const newBruto = leesGetal(inputNewBruto?.value) || 0;
+            const newNetto = leesGetal(inputNewNetto?.value) || 0;
+            const current = leesGetal(inputCurrent?.value) || 0;
+            const extra = leesGetal(inputExtra?.value) || 0;
+            const renteverlies = leesGetal(inputRenteverlies?.value) || 0;
             const months = Math.min(36, Math.max(1, parseInt(inputMonths?.value || '1', 10)));
             if (inputMonths) inputMonths.value = months;
             if (rangeMonths) rangeMonths.value = months;
@@ -938,9 +953,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function calculate() {
-            const depot = parseFloat(inputDepot.value) || 0;
-            const mortgageRate = parseFloat(inputMortgageRate.value) || 0;
-            const depotRate = parseFloat(inputDepotRate.value) || 0;
+            const depot = leesGetal(inputDepot.value) || 0;
+            const mortgageRate = leesPercentage(inputMortgageRate.value) || 0;
+            const depotRate = leesPercentage(inputDepotRate.value) || 0;
             const months = Math.min(36, Math.max(1, parseInt(inputMonths.value || '1', 10)));
             const pattern = inputPattern.value || 'even';
 
@@ -1105,7 +1120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Publiceert de aanbieder het vergoedingsniveau, dan vullen we het in;
             // anders blijft het percentage van de bezoeker staan.
             if (inputDepotRate) {
-                const tarief = vergoedingsTarief(bank, parseFloat(inputMortgageRate?.value) || 0);
+                const tarief = vergoedingsTarief(bank, leesPercentage(inputMortgageRate?.value) || 0);
                 if (tarief != null) inputDepotRate.value = tarief.toFixed(2);
             }
             calculate();
@@ -1267,7 +1282,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function renderTerms() {
             termsContainer.innerHTML = '';
             let totalP = 0;
-            const totalConstruction = parseFloat(inputConstruction.value) || 0;
+            const totalConstruction = leesGetal(inputConstruction.value) || 0;
 
             terms.forEach((term, index) => {
                 totalP += term.percent;
@@ -1371,7 +1386,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             };
 
-            const aanneemsom = () => parseFloat(inputConstruction.value) || 1;
+            const aanneemsom = () => leesGetal(inputConstruction.value) || 1;
             koppelVeld('.term-amount-input', (bedrag) => (bedrag / aanneemsom()) * 100);
             koppelVeld('.term-percent-input', (percent) => percent);
         }
@@ -1381,7 +1396,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const rij = bron.closest('.term-row');
             if (!rij) return;
             const percent = terms[idx].percent;
-            const totaal = parseFloat(inputConstruction.value) || 0;
+            const totaal = leesGetal(inputConstruction.value) || 0;
 
             if (bron.classList.contains('term-amount-input')) {
                 const veld = rij.querySelector('.term-percent-input');
@@ -1469,12 +1484,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // leesGetal leest een punt als duizendscheiding en maakte daar 380
             // procent van. Die parser hoort alleen op de vrije tekstvelden van
             // het termijnschema, waar de bezoeker zelf de notatie kiest.
-            const landPrice = parseFloat(inputLand.value) || 0;
-            const constructPrice = parseFloat(inputConstruction.value) || 0;
-            const interest = parseFloat(inputInterest.value) || 0;
-            const discount = parseFloat(inputDiscount.value) || 0;
+            const landPrice = leesGetal(inputLand.value) || 0;
+            const constructPrice = leesGetal(inputConstruction.value) || 0;
+            const interest = leesPercentage(inputInterest.value) || 0;
+            const discount = leesPercentage(inputDiscount.value) || 0;
             const buildMonths = parseInt(inputBuildMonths?.value, 10) || 12;
-            const currentHousingCost = parseFloat(inputCurrentHousing?.value) || 0;
+            const currentHousingCost = leesGetal(inputCurrentHousing?.value) || 0;
 
             const monthlyRate = (interest / 100) / 12;
             let depotRate = (interest - discount) / 100 / 12;
@@ -1759,10 +1774,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function calculateFiscalPro() {
             const type = inputType.value; 
-            const income = parseFloat(inputIncome.value) || 0;
-            const amount = parseFloat(inputAmount.value) || 0;
-            const interestPct = parseFloat(inputInterest.value) || 0;
-            const woz = parseFloat(inputWoz.value) || 0;
+            const income = leesGetal(inputIncome.value) || 0;
+            const amount = leesGetal(inputAmount.value) || 0;
+            const interestPct = leesPercentage(inputInterest.value) || 0;
+            const woz = leesGetal(inputWoz.value) || 0;
             
             let oneTimeCosts = 0;
             if(checkAdvice.checked) oneTimeCosts += parseFloat(checkAdvice.value);

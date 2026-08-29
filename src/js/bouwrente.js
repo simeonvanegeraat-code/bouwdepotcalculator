@@ -6,6 +6,8 @@
  * scriptblok meer bevat en de code testbaar is.
  */
 
+import { leesGetal, leesPercentage } from './getallen.js';
+
 const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 
 const amountInput = document.getElementById('input-amount');
@@ -85,8 +87,8 @@ if (amountInput && rateInput && monthsInput && financedInput) {
     }
 
     function calculate() {
-        const amount = Math.max(0, Number(amountInput.value) || 0);
-        const rate = Math.max(0, Number(rateInput.value) || 0);
+        const amount = Math.max(0, leesGetal(amountInput.value) || 0);
+        const rate = Math.max(0, leesPercentage(rateInput.value) || 0);
         const months = Math.max(1, Number(monthsInput.value) || 1);
 
         const base = amount * (rate / 100) * (months / 12);
@@ -98,7 +100,7 @@ if (amountInput && rateInput && monthsInput && financedInput) {
         mortgageWrapper.style.display = isFinanced ? 'block' : 'none';
 
         if (isFinanced) {
-            const mortgageRate = Math.max(0, Number(mortgageInput.value) || 0);
+            const mortgageRate = Math.max(0, leesPercentage(mortgageInput.value) || 0);
             financingImpact = base * (mortgageRate / 100) * (months / 12);
             resultExplain.textContent = 'Basisbouwrente en financieringseffect zijn gescheiden weergegeven. Financieringseffect is indicatief berekend over dezelfde gekozen periode.';
         } else {
@@ -144,7 +146,7 @@ if (amountInput && rateInput && monthsInput && financedInput) {
             rate,
             months,
             financed: isFinanced,
-            mortgageRate: isFinanced ? (Math.max(0, Number(mortgageInput.value) || 0)) : null,
+            mortgageRate: isFinanced ? (Math.max(0, leesPercentage(mortgageInput.value) || 0)) : null,
             base,
             monthly,
             financingImpact,

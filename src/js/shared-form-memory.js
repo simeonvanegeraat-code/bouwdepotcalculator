@@ -1,10 +1,17 @@
 const STORAGE_KEY = 'bdc:shared-inputs:v1';
 const TTL_MS = 90 * 24 * 60 * 60 * 1000;
 
+import { leesGetal, leesPercentage } from './getallen.js';
+
+// Elke sleutel krijgt de lezer die bij zijn soort veld hoort. De velden zijn
+// tekstvelden geworden zodat "100.000" en "3,8" werken; met een kale Number()
+// werd daar 100 en NaN van, en juist die waarde reisde mee naar de andere
+// pagina's. Wie hier een ton invulde, kreeg elders honderd euro terug.
 const SHARED_FIELD_CONFIG = {
     mortgageRate: {
         selectors: ['#input-interest', '#range-interest', '#input-mortgage-rate', '#input-renteverlies-hypotheek', '#fiscal-interest', '#range-fiscal-interest'],
         type: 'number',
+        lezer: leesPercentage,
         minMeaningful: 0.01
     },
     mortgageType: {
@@ -14,21 +21,25 @@ const SHARED_FIELD_CONFIG = {
     depotAmount: {
         selectors: ['#input-amount', '#range-amount', '#input-depot-amount', '#input-renteverlies-depot'],
         type: 'number',
+        lezer: leesGetal,
         minMeaningful: 1
     },
     mortgageAmount: {
         selectors: ['#input-total-mortgage', '#fiscal-amount'],
         type: 'number',
+        lezer: leesGetal,
         minMeaningful: 1
     },
     depotCompensationRate: {
         selectors: ['#input-depot-rate', '#input-renteverlies-vergoeding'],
         type: 'number',
+        lezer: leesPercentage,
         minMeaningful: 0.01
     },
     currentHousingCost: {
         selectors: ['#input-current-housing', '#input-dubbel-current', '#input-extra-housing'],
         type: 'number',
+        lezer: leesGetal,
         minMeaningful: 1
     }
 };
@@ -121,8 +132,8 @@ function normalizeValueForInput(input, key, rawValue) {
 
     if (!(input instanceof HTMLInputElement)) return null;
 
-    const numericValue = Number(rawValue);
-    if (!Number.isFinite(numericValue)) return null;
+    const numericValue = config.lezer ? config.lezer(rawValue) : Number(rawValue);
+    if (numericValue === null || !Number.isFinite(numericValue)) return null;
 
     const min = readNumberAttr(input, 'min');
     const max = readNumberAttr(input, 'max');
@@ -131,6 +142,10 @@ function normalizeValueForInput(input, key, rawValue) {
     if (max !== null && numericValue > max) return null;
     if (config.minMeaningful !== undefined && numericValue < config.minMeaningful) return null;
 
+    // Een percentage schrijven we terug met een komma. Anders leert de bezoeker
+    // van de site zelf de verkeerde schrijfwijze: hij vult "4,25" in en krijgt
+    // op de volgende pagina "4.25" te zien.
+    if (config.lezer === leesPercentage) return String(numericValue).replace('.', ',');
     return String(numericValue);
 }
 

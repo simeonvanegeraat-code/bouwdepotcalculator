@@ -150,7 +150,7 @@
                     <div class="veldrij veldrij--twee veldrij--met-keuze">
                         <div class="ds-veld">
                             <div class="ds-veld__kop"><label class="ds-veld__naam" for="dp-bedrag">Depotbedrag</label></div>
-                            <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="number" id="dp-bedrag" value="50000" min="0" step="500" inputmode="numeric"></div>
+                            <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="text" id="dp-bedrag" value="50000" inputmode="numeric"></div>
                         </div>
                         <div class="ds-veld">
                             <!-- Bankapps tonen het restant, niet de som van wat u hebt
@@ -163,7 +163,7 @@
                                     <button type="button" id="dp-modus-opgenomen" data-modus="opgenomen" aria-pressed="false">Opgenomen</button>
                                 </div>
                             </div>
-                            <div class="prefix-veld"><span aria-hidden="true">&euro;</span><input class="ds-invoer" type="number" id="dp-stand" value="50000" min="0" step="500" inputmode="numeric"></div>
+                            <div class="prefix-veld"><span aria-hidden="true">&euro;</span><input class="ds-invoer" type="text" id="dp-stand" value="50000" inputmode="numeric"></div>
                             <span class="ds-veld__fout" id="dp-fout-stand" role="alert"></span>
                             <p class="ds-caption" id="dp-stand-uitleg">Het bedrag dat uw bank als resterend depotsaldo toont.</p>
                         </div>

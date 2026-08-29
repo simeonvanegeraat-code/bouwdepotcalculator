@@ -403,11 +403,11 @@ if (wortel) {
 
         const bank = huidigeBank();
         const soort = velden.soort?.value === 'nieuwbouw' ? 'nieuwbouw' : 'verbouw';
-        const bedrag = Math.max(0, Number(velden.bedrag?.value) || 0);
+        const bedrag = Math.max(0, leesGetal(velden.bedrag?.value) || 0);
         // Stil afkappen is precies waar deze site niet voor staat: de bezoeker
         // typt 80.000, ziet 50.000 terug en weet niet of de tool hem begrepen
         // heeft. We rekenen wel door met een bruikbare waarde, maar zeggen het.
-        const ingevoerd = Number(velden.stand?.value) || 0;
+        const ingevoerd = leesGetal(velden.stand?.value) || 0;
         const begrensd = Math.min(bedrag, Math.max(0, ingevoerd));
 
         // Het ene bedrag volgt uit het andere; welk van de twee is ingevuld
@@ -540,8 +540,8 @@ if (wortel) {
             // Het getal in het veld hoort mee te veranderen: wie 20.000 opgenomen
             // heeft van 50.000, ziet na het wisselen 30.000 staan. Zonder die
             // omrekening zou dezelfde invoer ineens iets anders betekenen.
-            const bedrag = Number(velden.bedrag?.value) || 0;
-            const huidig = Number(velden.stand?.value) || 0;
+            const bedrag = leesGetal(velden.bedrag?.value) || 0;
+            const huidig = leesGetal(velden.stand?.value) || 0;
             if (velden.stand && bedrag > 0) {
                 velden.stand.value = Math.max(0, bedrag - Math.min(bedrag, Math.max(0, huidig)));
             }
