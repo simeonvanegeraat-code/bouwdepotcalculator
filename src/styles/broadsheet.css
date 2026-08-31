@@ -825,3 +825,13 @@
 
 /* Een knop die als link in een alinea meeloopt. */
 .bs-knop-in-tekst { padding: 0; font: inherit; color: var(--bs-ink); background: none; border: 0; border-bottom: 1px solid var(--bs-accent); cursor: pointer; }
+
+/* Kengetal in een uitklapblok: één waarde met zijn naam ernaast. Voor een
+   afgeleide grootheid die het antwoord verklaart, niet voor het antwoord zelf. */
+.bs-kengetal { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--bs-lijn); font-size: var(--bs-t-klein); }
+.bs-kengetal span { color: var(--bs-newsprint); }
+.bs-kengetal strong { font-weight: 500; font-variant-numeric: tabular-nums; }
+
+/* Variant van de melding met een amber rand: dit is een waarschuwing die alleen
+   in bepaalde situaties speelt, geen algemene mededeling. */
+.bs-melding--let-op { border-left-color: #c9821f; background: #fdf9f3; }

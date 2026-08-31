@@ -67,7 +67,7 @@ Wat daar nu op volgt, in deze volgorde:
 | 3 | `verbouwbegroting.html` | **om**, 31-08 — via `scripts/build-begroting.mjs` |
 | 4 | `nieuwbouw.html` | **om**, 31-08 |
 | 5 | `depotplanner.html` | **om**, 01-09 |
-| 6 | `belasting.html` | open |
+| 6 | `belasting.html` | **om**, 01-09 |
 | 7 | `renteverlies-bouwdepot.html` | open |
 | 8 | `dubbele-lasten-nieuwbouw.html` | open |
 | 9 | `bouwrente-nieuwbouw.html` | open |

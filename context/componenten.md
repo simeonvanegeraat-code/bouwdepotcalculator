@@ -275,7 +275,8 @@ die zich pas maanden later meldt.
 | `.bs-verhouding` | Balk met de verdeling rente/aflossing |
 | `.bs-uitsplitsing` | Regels onder het antwoord. Regels met `hidden` worden expliciet verborgen, want `display:flex` wint anders van dat attribuut |
 | `.bs-bank` / `.bs-bank__feiten` | Bankstrook. **De `.detail`-tekst rendert altijd mee**; `tests/nuance.test.mjs` faalt als dat niet gebeurt |
-| `.bs-melding` | Let-op-blok met een accentrand links. Voor nuance, niet voor een gewone mededeling |
+| `.bs-melding` | Let-op-blok met een accentrand links. Voor nuance, niet voor een gewone mededeling. Variant `--let-op` maakt die rand amber, voor een waarschuwing die alleen in bepaalde situaties speelt |
+| `.bs-kengetal` | Eén afgeleide waarde met zijn naam ernaast, in een uitklapblok. **Voor wat het antwoord verklaart, niet voor het antwoord zelf** |
 | `.bs-voorbehoud` | Kleine tekst met het voorbehoud |
 
 ### De homepage
