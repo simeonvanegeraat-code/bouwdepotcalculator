@@ -48,11 +48,16 @@
     /* --- Maat -------------------------------------------------------------
        Body komt nooit boven 18px. Het gat tussen 18 en de display doet het
        hiërarchiewerk; daarom staan er geen tussenmaten in. */
+    --bs-t-stempel: 10px; /* stempel en blad-voetregel; kleinste maat die we zetten */
     --bs-t-micro: 11px;   /* kapitaaltjes, +.1em spatiëring */
     --bs-t-klein: 14px;
     --bs-t-body:  17px;
     --bs-t-lead:  clamp(18px, 2.2vw, 22px);
+    --bs-t-merk:  19px;                        /* het woordmerk, één maat op zichzelf */
+    --bs-t-invoer: 20px;                       /* wat de bezoeker intypt, iets groter dan body */
     --bs-t-titel: clamp(30px, 5vw, 60px);
+    --bs-t-rekentitel: clamp(30px, 4.4vw, 58px);
+    --bs-t-antwoord: clamp(42px, 6vw, 68px);
     --bs-t-muur:  clamp(38px, 5.8vw, 84px);
 
     /* --- Ruimte en vorm --------------------------------------------------- */
@@ -91,7 +96,7 @@
 .bs-kop { position: relative; z-index: 5; }
 .bs-kop__inner { display: flex; align-items: center; gap: 20px; min-height: 72px; }
 .bs-merk {
-    font-size: 19px; font-weight: 500; letter-spacing: -.03em;
+    font-size: var(--bs-t-merk); font-weight: 500; letter-spacing: -.03em;
     color: var(--bs-ink); text-decoration: none;
     border-bottom: 3px solid var(--bs-accent); padding-bottom: 2px;
 }
@@ -157,7 +162,7 @@
 .bs-omhulsel > span { color: var(--bs-newsprint); font-size: var(--bs-t-body); }
 .bs-omhulsel input {
     flex: 1; min-width: 0; padding: 13px 0;
-    font: inherit; font-size: 20px; font-weight: 500; letter-spacing: -.02em;
+    font: inherit; font-size: var(--bs-t-invoer); font-weight: 500; letter-spacing: -.02em;
     font-variant-numeric: tabular-nums; color: var(--bs-ink);
     background: none; border: 0; outline: none;
 }
@@ -201,7 +206,7 @@
 .bs-uitklap summary::-webkit-details-marker { display: none; }
 .bs-uitklap summary b { display: block; font-size: var(--bs-t-klein); font-weight: 500; }
 .bs-uitklap summary small { display: block; margin-top: 3px; font-size: var(--bs-t-micro); color: var(--bs-newsprint); }
-.bs-uitklap summary::after { content: "+"; font-size: 20px; color: var(--bs-newsprint); line-height: 1; }
+.bs-uitklap summary::after { content: "+"; font-size: var(--bs-t-invoer); color: var(--bs-newsprint); line-height: 1; }
 .bs-uitklap[open] summary::after { content: "\2212"; }
 .bs-uitklap__body { padding: 0 16px 16px; }
 
@@ -230,8 +235,8 @@
 }
 .bs-blad__kop { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--bs-ink); }
 .bs-blad__merk { font-size: var(--bs-t-klein); font-weight: 500; letter-spacing: -.02em; }
-.bs-blad__stempel { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: var(--bs-accent-ink); background: var(--bs-accent); padding: 4px 8px; border-radius: 3px; }
-.bs-blad__voet { margin: 0; padding: 14px 0 20px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--bs-newsprint); }
+.bs-blad__stempel { font-size: var(--bs-t-stempel); font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: var(--bs-accent-ink); background: var(--bs-accent); padding: 4px 8px; border-radius: 3px; }
+.bs-blad__voet { margin: 0; padding: 14px 0 20px; font-size: var(--bs-t-stempel); font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--bs-newsprint); }
 
 /* Het antwoord. Het label erboven zegt precies welk bedrag dit is: "maandlast"
    alleen is dubbelzinnig zodra er ook een nettovariant op het scherm staat. */
@@ -244,7 +249,7 @@
    hele kolombreedte pakt -- dan leest hij als een tekstselectie. */
 .bs-antwoord__bedrag {
     display: inline-block; margin-top: 6px;
-    font-size: clamp(42px, 6vw, 68px); font-weight: 500;
+    font-size: var(--bs-t-antwoord); font-weight: 500;
     line-height: 1; letter-spacing: -.04em;
     font-variant-numeric: tabular-nums;
     background-image: linear-gradient(var(--bs-accent-wash), var(--bs-accent-wash));
@@ -396,7 +401,7 @@
    invoer te komen -- dat is de bestaande afspraak op de site.
    ========================================================================== */
 .bs-reken { padding: clamp(20px, 3vw, 40px) 0 var(--bs-sectie); }
-.bs-reken__titel { max-width: 20ch; font-size: clamp(30px, 4.4vw, 58px); font-weight: 600; line-height: 1.03; margin: 0; }
+.bs-reken__titel { max-width: 20ch; font-size: var(--bs-t-rekentitel); font-weight: 600; line-height: 1.03; margin: 0; }
 .bs-reken__lead { margin: 14px 0 clamp(24px, 3vw, 40px); max-width: 46ch; font-size: var(--bs-t-lead); line-height: 1.4; color: var(--bs-newsprint); letter-spacing: -.01em; }
 
 .bs-reken__grid { display: grid; gap: clamp(24px, 3vw, 44px); align-items: start; }
@@ -430,14 +435,18 @@
    het hardst. Wie op "Start berekenen" heeft gedrukt weet al waarom hij hier
    is en leest die inleiding niet. */
 @media (max-width: 620px) {
+    /* De maat komt uit het token en niet uit een losse regel: dan blijft er
+       één plek waar de schaal staat. */
+    .bs { --bs-t-rekentitel: 28px; --bs-t-antwoord: 40px; }
+
     .bs-reken { padding: 8px 0 clamp(30px, 8vw, 44px); }
     .bs-kruimel { margin-bottom: 8px; }
-    .bs-reken__titel { font-size: 28px; line-height: 1.08; }
+    .bs-reken__titel { line-height: 1.08; }
     .bs-reken__lead { margin: 8px 0 16px; font-size: var(--bs-t-klein); line-height: 1.45; }
 
     .bs-blad { padding: 14px 16px 0; }
     .bs-antwoord { padding: 14px 0 2px; }
-    .bs-antwoord__bedrag { font-size: 40px; }
+
     .bs-antwoord__zin { margin-top: 8px; font-size: var(--bs-t-micro); line-height: 1.45; }
     .bs-verhouding, .bs-uitsplitsing { margin-top: 14px; }
     .bs-uitsplitsing > div { padding: 9px 0; }
@@ -518,8 +527,9 @@
 }
 
 @media (max-width: 620px) {
+    .bs { --bs-t-muur: 32px; }
     .bs-muur { padding: 18px 0 clamp(30px, 8vw, 44px); }
-    .bs-muur h1 { font-size: 32px; line-height: 1.06; }
+    .bs-muur h1 { line-height: 1.06; }
     .bs-muur__voet { margin-top: 20px; gap: 16px; }
     .bs-muur__lead { font-size: var(--bs-t-klein); line-height: 1.45; }
     .bs-muur__voet .bs-knop { width: 100%; }

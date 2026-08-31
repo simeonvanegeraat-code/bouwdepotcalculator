@@ -25,10 +25,29 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const STYLESHEETS = ['design-system.css', 'pagina.css', 'calculator.css', 'stappenplan.css'];
 
-/** 400 lopende tekst, 600 koppen en nadruk, 700 alleen de grote getallen. */
-const TOEGESTAAN = new Set([400, 600, 700]);
+/**
+ * Drie gewichten per richting, en twee richtingen zolang de migratie loopt.
+ *
+ * De oude richting doet 400 lopende tekst, 600 koppen en nadruk, 700 alleen de
+ * grote getallen. De broadsheet uit ONTWERPPLAN.md §3 doet 400 lopende tekst,
+ * 500 koppen en getallen, 600 de kapitaaltjes -- daar komt de hiërarchie uit
+ * grootte en niet uit vet, en dat 500-in-plaats-van-700 is precies wat die
+ * richting zijn ingehouden toon geeft.
+ *
+ * Die twee kunnen niet samengevoegd worden zonder er één te beschadigen, dus
+ * ze worden apart bewaakt. Elke stylesheet houdt zich aan drie waarden; een
+ * vierde binnen één richting is nog steeds een vergissing.
+ *
+ * Als alle pagina's over zijn: broadsheet.css verhuist naar design-system.css,
+ * de andere drie verdwijnen, en er blijft één set van {400, 500, 600} over.
+ */
+const RICHTINGEN = [
+    { toegestaan: new Set([400, 600, 700]), bestanden: ['design-system.css', 'pagina.css', 'calculator.css', 'stappenplan.css'] },
+    { toegestaan: new Set([400, 500, 600]), bestanden: ['broadsheet.css'] },
+];
+
+const STYLESHEETS = RICHTINGEN.flatMap((r) => r.bestanden);
 
 const gewichtenIn = (bestand) => {
     const css = fs.readFileSync(path.join(ROOT, 'src/styles', bestand), 'utf8');
@@ -39,16 +58,19 @@ const gewichtenIn = (bestand) => {
     return gevonden;
 };
 
-test('er zijn niet meer dan drie lettergewichten in gebruik', () => {
+test('er zijn niet meer dan drie lettergewichten per richting in gebruik', () => {
     const afwijkend = [];
-    for (const bestand of STYLESHEETS) {
-        for (const { waarde, regel } of gewichtenIn(bestand)) {
-            if (!TOEGESTAAN.has(waarde)) afwijkend.push(`${bestand}:${regel} font-weight: ${waarde}`);
+    for (const { toegestaan, bestanden } of RICHTINGEN) {
+        const namen = [...toegestaan].join(', ');
+        for (const bestand of bestanden) {
+            for (const { waarde, regel } of gewichtenIn(bestand)) {
+                if (!toegestaan.has(waarde)) afwijkend.push(`${bestand}:${regel} font-weight: ${waarde} (hier mag ${namen})`);
+            }
         }
     }
     assert.deepEqual(
         afwijkend, [],
-        'gebruik 400, 600 of 700. Meer nadruk nodig? Kies dan grootte of ruimte, niet een vierde gewicht:\n    '
+        'Meer nadruk nodig? Kies dan grootte of ruimte, niet een vierde gewicht:\n    '
         + afwijkend.join('\n    '),
     );
 });
