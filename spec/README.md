@@ -24,5 +24,8 @@ naar de code en langs [../review.md](../review.md).
 
 ## Bestaande specs
 
-Nog geen. De eerste komt uit het bovenste blok van
+- [homepage-als-introductie.md](homepage-als-introductie.md) — de homepage wordt
+  een introductie, de rekenmachine krijgt een eigen pagina. Status: in uitvoering.
+
+De volgorde volgt verder uit het bovenste blok van
 [../roadmap.md](../roadmap.md).

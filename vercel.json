@@ -3,7 +3,7 @@
   "redirects": [
     {
       "source": "/calculators.html",
-      "destination": "/#kiezen",
+      "destination": "/#gereedschap",
       "permanent": true
     },
     {

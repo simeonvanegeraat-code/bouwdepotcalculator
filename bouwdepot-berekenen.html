@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouwdepot berekenen: uw maandlast en totale rente</title>
+    <meta name="description" content="Vul depotbedrag, rente en looptijd in en zie direct uw bruto maandlast, het rentedeel, de aflossing en wat u over de hele looptijd aan rente betaalt.">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Simeon">
+    <link rel="canonical" href="https://www.bouwdepotcalculator.nl/bouwdepot-berekenen.html">
+    <!-- Titel, omschrijving en adres zijn bewust dezelfde als hierboven;
+         tests/deelkaart.test.mjs faalt zodra ze uit elkaar lopen. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="BouwdepotCalculator.nl">
+    <meta property="og:locale" content="nl_NL">
+    <meta property="og:title" content="Bouwdepot berekenen: uw maandlast en totale rente">
+    <meta property="og:description" content="Vul depotbedrag, rente en looptijd in en zie direct uw bruto maandlast, het rentedeel, de aflossing en wat u over de hele looptijd aan rente betaalt.">
+    <meta property="og:url" content="https://www.bouwdepotcalculator.nl/bouwdepot-berekenen.html">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Bouwdepot berekenen: uw maandlast en totale rente">
+    <meta name="twitter:description" content="Vul depotbedrag, rente en looptijd in en zie direct uw bruto maandlast, het rentedeel, de aflossing en wat u over de hele looptijd aan rente betaalt.">
+
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
+      crossorigin="anonymous"></script>
+
+    <!-- Vercel Web Analytics: cookieloos. Wat er wordt vastgelegd staat in privacy.html. -->
+    <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <!-- Alleen broadsheet.css: deze pagina staat op de nieuwe ontwerptaal en
+         heeft design-system.css niet nodig. Zie de kop van dat bestand voor
+         waarom de twee tijdelijk naast elkaar bestaan. -->
+    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+</head>
+<body class="bs">
+
+    <header class="bs-kop">
+        <div class="bs-wrap bs-kop__inner">
+            <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <div class="bs-kop__rechts">
+                <a href="#uitleg">Uitleg</a>
+                <a href="#vragen">Vragen</a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a class="bs-menu" href="kennisbank.html">Kennisbank</a>
+                <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Antwoord eerst: de uitkomst staat boven de invoer, ook in de DOM,
+             zodat hij op mobiel als eerste in beeld komt. -->
+        <section class="bs-reken">
+            <div class="bs-wrap">
+                <nav class="bs-kruimel" aria-label="Kruimelpad">
+                    <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Bouwdepot berekenen</span>
+                </nav>
+                <h1 class="bs-titel bs-reken__titel">Wat kost uw bouwdepot per maand?</h1>
+                <p class="bs-reken__lead">Vul uw bedrag, rente en looptijd in. De uitkomst verschijnt meteen &mdash; zonder registratie, en uw invoer blijft op dit apparaat.</p>
+
+                <div class="bs-reken__grid">
+                    <div id="print-area">
+                        <!-- ds-uitkomst is de haak waar src/js/stickybalk.js op zoekt.
+                             Die module bouwt de zwevende balk voor elke rekenpagina;
+                             hem hier opnieuw maken zou een tweede manier zijn om
+                             hetzelfde te doen. De vorm van de balk staat in
+                             broadsheet.css. -->
+                        <article class="bs-blad ds-uitkomst">
+                            <div class="bs-blad__kop">
+                                <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
+                                <span class="bs-blad__stempel">Indicatie</span>
+                            </div>
+
+                            <div class="bs-antwoord">
+                                <p class="bs-antwoord__label ds-uitkomst__label" id="uitkomst-label">Bruto maandlast, eerste maand</p>
+                                <strong class="bs-antwoord__bedrag ds-uitkomst__bedrag" id="res-netto" data-bedrag>&euro; 0</strong>
+                                <p class="bs-antwoord__zin" id="res-conclusion">Vul uw bedrag in voor een indicatie.</p>
+                            </div>
+
+                            <!-- Waar het bedrag uit bestaat: rente daalt door de jaren, aflossing stijgt. -->
+                            <div class="bs-verhouding" aria-hidden="true">
+                                <div class="bs-verhouding__balk">
+                                    <div class="bs-verhouding__rente" id="balk-rente" style="width:50%"></div>
+                                    <div class="bs-verhouding__aflossing" id="balk-aflossing" style="width:50%"></div>
+                                </div>
+                                <p class="bs-verhouding__legenda">
+                                    <span><i class="bs-verhouding__rente"></i>Rente <b class="tnum" id="res-rentedeel">&euro; 0</b></span>
+                                    <span><i class="bs-verhouding__aflossing"></i>Aflossing <b class="tnum" id="res-aflossingdeel">&euro; 0</b></span>
+                                </p>
+                            </div>
+
+                            <dl class="bs-uitsplitsing">
+                                <div id="row-bruto"><dt>Bruto maandlast</dt><dd class="tnum" id="res-bruto" data-bedrag>&euro; 0</dd></div>
+                                <div id="row-voordeel"><dt>Renteaftrekindicatie</dt><dd class="tnum" id="res-voordeel" data-bedrag>&euro; 0</dd></div>
+                                <div><dt>Rente over de hele looptijd</dt><dd class="tnum" id="res-totaalrente" data-bedrag>&euro; 0</dd></div>
+                            </dl>
+
+                            <p class="bs-blad__voet">Indicatief &middot; informatie, geen advies</p>
+                        </article>
+
+                        <details class="bs-uitklap bs-aannames">
+                            <summary>
+                                <span>
+                                    <b>Uitgangspunten en aannames</b>
+                                    <small>Waarmee deze berekening wel en niet rekent</small>
+                                </span>
+                            </summary>
+                            <div class="bs-uitklap__body">
+                                <p class="bs-voorbehoud" id="res-method">Deze optionele snelle indicatie gebruikt maximaal 37,56% en rekent nog niet met inkomen, WOZ of eigenwoningforfait.</p>
+                                <dl class="bs-uitsplitsing">
+                                    <div><dt>Bouwdepot bedrag</dt><dd class="tnum" id="sum-amount">&euro; 0</dd></div>
+                                    <div><dt>Hypotheekvorm</dt><dd id="sum-type">&mdash;</dd></div>
+                                    <div><dt>Rente</dt><dd class="tnum" id="sum-interest">&mdash;</dd></div>
+                                    <div><dt>Looptijd</dt><dd class="tnum" id="sum-duration">&mdash;</dd></div>
+                                    <div><dt>Belastingindicatie</dt><dd id="sum-tax">&mdash;</dd></div>
+                                </dl>
+                                <p class="bs-voorbehoud" id="report-generated-at">Berekening klaar voor uw ori&euml;ntatie.</p>
+                            </div>
+                        </details>
+
+                    </div>
+
+                    <div class="bs-invoer">
+                        <div>
+                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-amount">Bedrag bouwdepot</label></div>
+                            <div class="bs-omhulsel">
+                                <span>&euro;</span>
+                                <input type="text" id="input-amount" value="25000" inputmode="numeric" aria-describedby="fout-amount">
+                            </div>
+                            <span class="bs-veld__fout" id="fout-amount" role="alert"></span>
+                            <input class="bs-schuif" type="range" id="range-amount" min="5000" max="150000" step="500" value="25000" aria-label="Bedrag bouwdepot">
+                            <div class="bs-chips" role="group" aria-label="Veelgekozen bedragen">
+                                <button class="bs-chip preset-btn" type="button" aria-pressed="false" data-preset-amount="15000">15.000</button>
+                                <button class="bs-chip preset-btn" type="button" aria-pressed="false" data-preset-amount="25000">25.000</button>
+                                <button class="bs-chip preset-btn" type="button" aria-pressed="false" data-preset-amount="50000">50.000</button>
+                                <button class="bs-chip preset-btn" type="button" aria-pressed="false" data-preset-amount="100000">100.000</button>
+                            </div>
+                        </div>
+
+                        <div class="bs-veldrij">
+                            <div>
+                                <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-interest">Hypotheekrente</label></div>
+                                <div class="bs-omhulsel">
+                                    <input type="text" id="input-interest" value="3,80" inputmode="decimal" aria-describedby="fout-interest">
+                                    <span>%</span>
+                                </div>
+                                <span class="bs-veld__fout" id="fout-interest" role="alert"></span>
+                                <input class="bs-schuif" type="range" id="range-interest" min="0.1" max="10" step="0.1" value="3.8" aria-label="Hypotheekrente">
+                            </div>
+
+                            <div>
+                                <div class="bs-veld__kop">
+                                    <label class="bs-veld__naam" for="range-duration">Looptijd</label>
+                                    <span class="bs-veld__waarde tnum" id="val-duration">30 Jaar</span>
+                                </div>
+                                <input class="bs-schuif" type="range" id="range-duration" min="10" max="30" step="5" value="30">
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-type">Hypotheekvorm</label></div>
+                            <select class="bs-select" id="input-type">
+                                <option value="annuity">Annu&iuml;teiten</option>
+                                <option value="linear">Lineair</option>
+                            </select>
+                        </div>
+
+                        <label class="bs-keuzevak">
+                            <input type="checkbox" id="check-aftrek">
+                            <span>
+                                <b>Toon renteaftrekindicatie</b>
+                                <small>Maximaal 37,56%, v&oacute;&oacute;r eigenwoningforfait</small>
+                            </span>
+                        </label>
+
+                        <a class="bs-tool bs-tool--inline" href="leenruimte.html">
+                            <span class="bs-tool__naam">Kunt u dit bedrag wel lenen?</span>
+                            <span class="bs-tool__uitleg">Toets uw waarderuimte en eigen geld tegen de woningwaarde na verbouwing.</span>
+                            <span class="bs-tool__meta">Leenruimte berekenen &rarr;</span>
+                        </a>
+
+                        <!-- Het uitklapblok is hier geen <details>: main.js schakelt
+                             cost-content zelf en draait cost-arrow mee. Die code
+                             verandert niet, dus de markup volgt hem. -->
+                        <div class="bs-uitklap">
+                            <button class="bs-uitklap__knop" id="cost-toggle-btn" type="button">
+                                <span>
+                                    <b>Voorbeeldbudget samenstellen</b>
+                                    <small>Combineer veelvoorkomende woningverbeteringen</small>
+                                </span>
+                                <svg id="cost-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+                            </button>
+                            <div id="cost-content" style="display: none;">
+                                <div class="bs-uitklap__body">
+                                    <div class="bs-chips">
+                                        <button class="bs-chip cost-btn" type="button" aria-pressed="false" data-amount="15000">Badkamer &middot; 15.000</button>
+                                        <button class="bs-chip cost-btn" type="button" aria-pressed="false" data-amount="20000">Keuken &middot; 20.000</button>
+                                        <button class="bs-chip cost-btn" type="button" aria-pressed="false" data-amount="8500">Dakkapel &middot; 8.500</button>
+                                        <button class="bs-chip cost-btn" type="button" aria-pressed="false" data-amount="25000">Uitbouw &middot; 25.000</button>
+                                        <button class="bs-chip cost-btn" type="button" aria-pressed="false" data-amount="45000">Verduurzamen &middot; 45.000</button>
+                                        <button class="bs-chip cost-btn" type="button" aria-pressed="false" data-amount="7500">Toilet of hal &middot; 7.500</button>
+                                    </div>
+                                    <button id="btn-reset-costs" class="bs-knop bs-knop--licht" type="button" style="display: none; margin-top: 12px;">Selectie wissen</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- De bankkeuze is zelf een invoerveld en staat daarom bij de
+                             andere. Eenmaal gekozen loopt de keuze mee naar de andere
+                             rekenpagina's. De detailteksten renderen volledig mee;
+                             tests/nuance.test.mjs faalt als dat niet gebeurt. -->
+                        <div class="bs-bank no-print">
+                            <p class="bs-bank__kop">
+                                <span class="bs-veld__naam">Uw bouwdepot bij <span data-bank-naam>uw geldverstrekker</span></span>
+                                <a data-bank-link href="#" hidden>Alle voorwaarden &rarr;</a>
+                            </p>
+                            <div data-bankkeuze></div>
+                            <dl class="bs-bank__feiten" data-bank-toont="gekozen" hidden>
+                                <div><dt>Depot bij verbouwing</dt><dd data-bank-veld="maximaalVerbouw">&mdash;</dd></div>
+                                <div><dt>Depot bij nieuwbouw</dt><dd data-bank-veld="maximaalNieuwbouw">&mdash;</dd></div>
+                                <div><dt>Vergoeding over uw saldo</dt><dd data-bank-veld="vergoeding">&mdash;</dd></div>
+                                <div><dt>Geld opnemen</dt><dd data-bank-veld="opnamemethode">&mdash;</dd></div>
+                            </dl>
+                            <div class="bs-melding" data-bank-toont="geenVergoeding" hidden>
+                                <p><strong>Let op:</strong> <span data-bank-naam></span> vergoedt geen rente over uw depotsaldo, maar rekent er ook geen rente over. U betaalt alleen over wat u al hebt opgenomen. De maandlast hierboven gaat uit van het volledige bedrag en is bij deze aanbieder dus pas aan de orde als het depot leeg is.</p>
+                            </div>
+                            <div class="bs-melding" data-bank-toont="vergoedingStoptEerder" hidden>
+                                <p><strong>Let op:</strong> bij <span data-bank-naam></span> loopt de depotvergoeding <span data-bank-veld="vergoedingVerbouw"></span> bij verbouwing, terwijl het depot langer kan doorlopen. Over die laatste maanden betaalt u wel rente en ontvangt u niets meer. <a href="renteverlies-bouwdepot.html">Bereken wat dat kost</a>.</p>
+                            </div>
+                        </div>
+
+                    <!-- Printen doe je als je klaar bent, niet voordat je iets hebt
+                         ingevuld. Dit blok staat daarom als derde in het raster: op
+                         mobiel valt het onder de invoer, op breed scherm onder de
+                         uitkomst. -->
+                    <div class="bs-reken__na no-print">
+                        <button id="btn-download" class="bs-knop bs-knop--licht" type="button">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
+                            Overzicht printen of opslaan
+                        </button>
+                        <p class="bs-voorbehoud">Indicatief hulpmiddel. Uw werkelijke last hangt af van acceptatie, productvoorwaarden en uw fiscale situatie. Lees de <a href="methodologie.html">methodologie en beperkingen</a>.</p>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bs-sectie" id="uitleg">
+            <div class="bs-wrap">
+                <p class="bs-micro">Kort uitgelegd</p>
+                <h2 class="bs-titel">Hoe deze berekening werkt</h2>
+                <div class="bs-kolommen">
+                    <article>
+                        <h3>Bruto en netto</h3>
+                        <p>Bruto is uw maandlast zonder fiscaal voordeel. Netto is de indicatieve maandlast nadat mogelijk belastingvoordeel op de rente is verrekend. Voor een berekening met inkomen en WOZ gebruikt u de <a href="belasting.html">belastingcalculator</a>.</p>
+                    </article>
+                    <article>
+                        <h3>Annu&iuml;teiten of lineair</h3>
+                        <p>Bij annu&iuml;teiten blijft de maandlast gelijk en verschuift alleen de verhouding tussen rente en aflossing. Bij lineair lost u elke maand hetzelfde bedrag af, waardoor de eerste maand het hoogst is en de last daarna daalt.</p>
+                    </article>
+                    <article>
+                        <h3>Wat hier niet in zit</h3>
+                        <p>Deze berekening kent uw inkomen, verplichtingen en taxatie niet, en zegt dus niets over acceptatie. Gebruik de uitkomst als voorbereiding op een gesprek, niet als toezegging. Lees de <a href="methodologie.html">methodologie en beperkingen</a>.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deze drie vragen staan ook in de FAQPage-structured data onderaan.
+             Tekst en markup horen gelijk te blijven; wijzig je hier iets, wijzig
+             het dan ook daar. Markup zonder zichtbare tegenhanger merkt Google
+             als misleidend aan. -->
+        <section class="bs-sectie" id="vragen" aria-labelledby="vragen-titel">
+            <div class="bs-wrap">
+                <p class="bs-micro">Veelgesteld</p>
+                <h2 class="bs-titel" id="vragen-titel">Vragen over het bouwdepot</h2>
+                <div class="bs-kolommen">
+                    <article>
+                        <h3>Wat kunt u betalen uit een bouwdepot?</h3>
+                        <p>Doorgaans alleen kosten voor verbetering en onderhoud van de eigen woning, zoals vaste bouwkundige onderdelen. Wat precies is toegestaan verschilt per geldverstrekker. Bekijk de <a href="bouwdepot-voorwaarden-vergelijken.html">voorwaarden per bank</a>.</p>
+                    </article>
+                    <article>
+                        <h3>Hoe lang is een bouwdepot geldig?</h3>
+                        <p>Bij een verbouwing loopt dat van 24 tot 42 maanden inclusief verlenging, afhankelijk van de geldverstrekker. Bij nieuwbouw is de termijn doorgaans langer. Met de <a href="depotplanner.html">depotplanner</a> ziet u wanneer het uwe afloopt.</p>
+                    </article>
+                    <article>
+                        <h3>Wat bepaalt de netto maandlast?</h3>
+                        <p>De netto maandlast hangt af van rente, looptijd, hypotheekvorm en het fiscale voordeel in uw persoonlijke situatie.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- De gereedschapsbalk van de andere pagina's staat in de oude
+             ontwerptaal; dit rooster is de tegenhanger in de nieuwe. Het houdt de
+             interne links in stand die de rest van de site aan elkaar knopen. -->
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <div class="bs-sectiekop">
+                    <div>
+                        <p class="bs-micro">Verder rekenen</p>
+                        <h2 class="bs-titel">Voor elke vraag een eigen berekening</h2>
+                    </div>
+                    <a class="bs-knop bs-knop--licht" href="kennisbank.html">Naar de kennisbank</a>
+                </div>
+                <div class="bs-rooster">
+                    <a class="bs-tool" href="verbouwbegroting.html">
+                        <span class="bs-micro">Verbouwen</span>
+                        <span class="bs-tool__naam">Verbouwbegroting</span>
+                        <span class="bs-tool__uitleg">Post voor post wat uw verbouwing kost, en welk deel daarvan uit het depot mag.</span>
+                        <span class="bs-tool__meta">Begroting maken &rarr;</span>
+                    </a>
+                    <a class="bs-tool" href="leenruimte.html">
+                        <span class="bs-micro">Lenen</span>
+                        <span class="bs-tool__naam">Leenruimte</span>
+                        <span class="bs-tool__uitleg">Uw waarderuimte en eigen geld getoetst tegen de woningwaarde na verbouwing.</span>
+                        <span class="bs-tool__meta">Ruimte toetsen &rarr;</span>
+                    </a>
+                    <a class="bs-tool" href="maandlasten-bouwdepot.html">
+                        <span class="bs-micro">Tijdens de bouw</span>
+                        <span class="bs-tool__naam">Maandlasten in de depotfase</span>
+                        <span class="bs-tool__uitleg">Rente over de hele lening, min de vergoeding over het deel dat nog in depot staat.</span>
+                        <span class="bs-tool__meta">Last berekenen &rarr;</span>
+                    </a>
+                    <a class="bs-tool" href="nieuwbouw.html">
+                        <span class="bs-micro">Nieuwbouw</span>
+                        <span class="bs-tool__naam">Nieuwbouwplanning</span>
+                        <span class="bs-tool__uitleg">Bouwtermijnen, dubbele lasten en de maand waarin het het zwaarst drukt.</span>
+                        <span class="bs-tool__meta">Planning maken &rarr;</span>
+                    </a>
+                    <a class="bs-tool" href="depotplanner.html">
+                        <span class="bs-micro">Lopend depot</span>
+                        <span class="bs-tool__naam">Depotplanner</span>
+                        <span class="bs-tool__uitleg">Houd bij wat er nog in het depot zit en wanneer de vergoeding stopt.</span>
+                        <span class="bs-tool__meta">Depot bijhouden &rarr;</span>
+                    </a>
+                    <a class="bs-tool" href="belasting.html">
+                        <span class="bs-micro">Belasting</span>
+                        <span class="bs-tool__naam">Belastingvoordeel</span>
+                        <span class="bs-tool__uitleg">Wat de hypotheekrenteaftrek doet met uw netto last, met de regels van 2026.</span>
+                        <span class="bs-tool__meta">Voordeel berekenen &rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="bs-donker">
+            <div class="bs-wrap">
+                <p class="bs-micro">Onafhankelijk</p>
+                <h2 class="bs-titel">Wij verkopen niets en sturen u nergens heen</h2>
+                <div class="bs-kolommen">
+                    <article>
+                        <h3>Geen doorverwijzing</h3>
+                        <p>Geen leadformulier, geen samenwerking met geldverstrekkers en geen gegevens die ergens heen gaan. Wij geven informatie, geen advies.</p>
+                    </article>
+                    <article>
+                        <h3>Elk cijfer heeft een bron</h3>
+                        <p>Elke voorwaarde komt van de offici&euml;le pagina van de aanbieder, met controledatum. Zie <a href="methodologie.html">onze werkwijze</a>.</p>
+                    </article>
+                    <article>
+                        <h3>Rekenregels gecontroleerd</h3>
+                        <p>Bronnen: <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/tariefsaanpassing-eigen-woning" target="_blank" rel="noopener noreferrer nofollow">Belastingdienst</a> en <a href="https://www.rijksoverheid.nl/vraag-en-antwoord/huis-kopen/maximaal-bedrag-lenen-koopwoning" target="_blank" rel="noopener noreferrer nofollow">Rijksoverheid</a>. Rekenregels gecontroleerd op 21 juli 2026.</p>
+                    </article>
+                </div>
+                <div class="bs-donker__acties">
+                    <a class="bs-knop bs-knop--spook" href="methodologie.html">Onze werkwijze</a>
+                    <a class="bs-knop bs-knop--spook" href="bouwdepot-voorwaarden-vergelijken.html">Waar de cijfers vandaan komen</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="bs-band no-print" aria-hidden="true">
+        <div class="bs-band__spoor">
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+        </div>
+    </div>
+
+    <footer class="bs-voet no-print">
+        <div class="bs-wrap bs-voet__inner">
+            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
+        </div>
+    </footer>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Wat kunt u betalen uit een bouwdepot?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Doorgaans alleen kosten voor verbetering en onderhoud van de eigen woning, zoals vaste bouwkundige onderdelen. Wat precies is toegestaan verschilt per geldverstrekker." }
+        },
+        {
+          "@type": "Question",
+          "name": "Hoe lang is een bouwdepot geldig?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Bij een verbouwing loopt dat van 24 tot 42 maanden inclusief verlenging, afhankelijk van de geldverstrekker. Bij nieuwbouw is de termijn doorgaans langer." }
+        },
+        {
+          "@type": "Question",
+          "name": "Wat bepaalt de netto maandlast?",
+          "acceptedAnswer": { "@type": "Answer", "text": "De netto maandlast hangt af van rente, looptijd, hypotheekvorm en het fiscale voordeel in uw persoonlijke situatie." }
+        }
+      ]
+    }
+    </script>
+
+    <script type="module" src="/src/js/reporting.js"></script>
+    <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/js/stickybalk.js"></script>
+</body>
+</html>

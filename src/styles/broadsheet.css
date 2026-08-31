@@ -1,0 +1,543 @@
+/* ==========================================================================
+   BouwdepotCalculator — de broadsheet-richting
+   --------------------------------------------------------------------------
+   De ontwerptaal uit ONTWERPPLAN.md §3: een redactionele broadsheet, naar
+   New Form Capital via styles.refero.design. Warm bone white doek, perszwart,
+   ons eigen teal als enige chromatische noot, en microtypografie waar andere
+   systemen kaders gebruiken.
+
+   WAAROM DIT EEN APART BESTAND IS
+   `design-system.css` wordt door alle 31 pagina's geladen. De tokens daarin op
+   deze richting zetten zou in één klap 29 pagina's herstijlen die er niet op
+   gebouwd zijn. Dit bestand is daarom de migratiedoos: pagina's stappen er één
+   voor één op over met `<body class="bs">`, en zodra ze er allemaal op staan
+   verhuist dit naar design-system.css en verdwijnt dat bestand.
+
+   Tot die tijd bestaan er twee tokenverzamelingen naast elkaar. Dat is precies
+   het soort verdubbeling waar CLAUDE.md voor waarschuwt, en het is hier bewust
+   en tijdelijk. Wat gelijk moet blijven met design-system.css staat hieronder
+   gemarkeerd.
+
+   PREFIX
+   Alles heet `bs-`, zoals het oude systeem `ds-` heet. Niet uit netheid maar
+   uit noodzaak: `.kop` en `.voet` bestaan al in pagina.css, en twee betekenissen
+   voor dezelfde klasse is een fout die zich pas maanden later meldt.
+   ========================================================================== */
+
+.bs {
+    /* --- Kleur ------------------------------------------------------------
+       Eén chromatische noot. Al het andere is neutraal, en de neutralen hebben
+       een groene inslag zodat ze bij het accent horen in plaats van ernaast te
+       liggen. */
+    --bs-bone:      #fafffa;   /* het doek; bewust niet zuiver wit */
+    --bs-press:     #121613;   /* perszwart */
+    --bs-slate:     #232924;
+    --bs-ink:       #000000;
+    --bs-newsprint: #516254;   /* bijschriften en hulptekst; 6,4:1 op bone */
+    --bs-sage:      #c8d2c8;   /* lichte tekst op donker */
+    --bs-moss:      #7fa9a4;
+    --bs-lijn:      #d8e2d8;
+
+    /* Gelijk aan --ds-accent in design-system.css. Verandert de merkkleur, dan
+       verandert hij op beide plekken. */
+    --bs-accent:         #0E5F58;
+    --bs-accent-ink:     #ffffff;
+    --bs-accent-schaduw: rgba(14, 95, 88, .40);
+    --bs-accent-wash:    rgba(14, 95, 88, .16);   /* de markeerstift, nooit als vlak */
+
+    /* --- Maat -------------------------------------------------------------
+       Body komt nooit boven 18px. Het gat tussen 18 en de display doet het
+       hiërarchiewerk; daarom staan er geen tussenmaten in. */
+    --bs-t-micro: 11px;   /* kapitaaltjes, +.1em spatiëring */
+    --bs-t-klein: 14px;
+    --bs-t-body:  17px;
+    --bs-t-lead:  clamp(18px, 2.2vw, 22px);
+    --bs-t-titel: clamp(30px, 5vw, 60px);
+    --bs-t-muur:  clamp(38px, 5.8vw, 84px);
+
+    /* --- Ruimte en vorm --------------------------------------------------- */
+    --bs-max: 1400px;
+    --bs-sectie: clamp(44px, 7vw, 96px);
+    --bs-gap: 20px;
+    --bs-r-knop: 5px;    /* scherp, geen pil: dat hoort bij de redactionele toon */
+    --bs-r-kaart: 14px;
+    --bs-tap: 44px;      /* gelijk aan --ds-tap */
+
+    background: var(--bs-bone);
+    color: var(--bs-ink);
+    font: 400 var(--bs-t-body)/1.55 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    letter-spacing: -.005em;
+    margin: 0;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+.bs-wrap { width: 100%; max-width: var(--bs-max); margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px); }
+.bs .tnum { font-variant-numeric: tabular-nums; }
+
+/* Kapitaaltjes doen hier het werk dat elders randen en kaders doen. */
+.bs-micro {
+    font-size: var(--bs-t-micro); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .1em;
+    color: var(--bs-newsprint);
+}
+
+.bs a { color: var(--bs-ink); }
+.bs :focus-visible { outline: 2px solid var(--bs-accent); outline-offset: 3px; }
+
+/* ==========================================================================
+   Kop
+   ========================================================================== */
+.bs-kop { position: relative; z-index: 5; }
+.bs-kop__inner { display: flex; align-items: center; gap: 20px; min-height: 72px; }
+.bs-merk {
+    font-size: 19px; font-weight: 500; letter-spacing: -.03em;
+    color: var(--bs-ink); text-decoration: none;
+    border-bottom: 3px solid var(--bs-accent); padding-bottom: 2px;
+}
+.bs-merk b { font-weight: inherit; color: var(--bs-newsprint); }
+.bs-kop__rechts { margin-left: auto; display: flex; align-items: center; gap: 26px; }
+.bs-kop__rechts a { text-decoration: none; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
+.bs-kop__rechts a:hover { color: var(--bs-newsprint); }
+
+/* Het merkteken: drie staafjes in plaats van een hamburger. Het is een
+   rekensite, dus de menuknop is een staafdiagram. */
+.bs-staafjes { display: flex; align-items: flex-end; gap: 3px; height: 18px; }
+.bs-staafjes i { display: block; width: 3px; background: var(--bs-accent); }
+.bs-staafjes i:nth-child(1) { height: 60%; }
+.bs-staafjes i:nth-child(2) { height: 100%; }
+.bs-staafjes i:nth-child(3) { height: 40%; }
+@media (max-width: 760px) { .bs-kop__rechts a:not(.bs-menu) { display: none; } }
+
+.bs-kruimel { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 14px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+.bs-kruimel a { color: var(--bs-newsprint); text-decoration: none; border-bottom: 1px solid var(--bs-lijn); }
+.bs-kruimel a:hover { color: var(--bs-ink); border-bottom-color: var(--bs-accent); }
+
+/* ==========================================================================
+   Knoppen
+   De primaire actie is de enige plek in het systeem met diepte, en die diepte
+   is getint met het accent -- geen generiek grijs, want dan hoort de schaduw
+   nergens bij.
+   ========================================================================== */
+.bs-knop {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 52px; padding: 15px 26px;
+    font: inherit; font-size: var(--bs-t-klein); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .1em;
+    color: var(--bs-accent-ink); background: var(--bs-accent);
+    border: 0; border-radius: var(--bs-r-knop);
+    box-shadow: 1px 8px 20px 0 var(--bs-accent-schaduw);
+    text-decoration: none; cursor: pointer;
+}
+.bs-knop svg { flex: none; }
+.bs-knop--spook { background: none; color: var(--bs-bone); border: 1px solid rgba(250,255,250,.35); box-shadow: none; }
+.bs-knop--licht { background: none; color: var(--bs-ink); border: 1px solid var(--bs-lijn); box-shadow: none; }
+
+.bs-beloften { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: clamp(20px, 3vw, 34px) 0 0; padding: 0; list-style: none; }
+.bs-beloften li { display: flex; align-items: center; gap: 8px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+.bs-beloften li::before { content: ""; width: 7px; height: 7px; background: var(--bs-accent); flex: none; }
+
+/* ==========================================================================
+   Invoer
+   Chrome is hier microtypografie: een label in kapitaaltjes, een haarlijn, en
+   verder niets. Het accent komt alleen terug op de duim van de schuif en op een
+   ingedrukte chip -- de twee plekken waar de bezoeker iets verandert.
+   ========================================================================== */
+.bs-veld__kop { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.bs-veld__naam { font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-ink); }
+.bs-veld__waarde { font-size: var(--bs-t-klein); color: var(--bs-newsprint); font-variant-numeric: tabular-nums; }
+.bs-veld__fout { display: block; min-height: 1.2em; margin-top: 6px; font-size: var(--bs-t-micro); font-weight: 600; color: #8c2f12; }
+
+.bs-omhulsel {
+    display: flex; align-items: center; gap: 8px;
+    min-height: 52px; padding: 0 14px;
+    background: #fff; border: 1px solid var(--bs-lijn); border-radius: var(--bs-r-knop);
+}
+.bs-omhulsel:focus-within { border-color: var(--bs-accent); box-shadow: 0 0 0 3px var(--bs-accent-schaduw); }
+.bs-omhulsel > span { color: var(--bs-newsprint); font-size: var(--bs-t-body); }
+.bs-omhulsel input {
+    flex: 1; min-width: 0; padding: 13px 0;
+    font: inherit; font-size: 20px; font-weight: 500; letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums; color: var(--bs-ink);
+    background: none; border: 0; outline: none;
+}
+
+.bs-select {
+    width: 100%; min-height: 52px; padding: 14px;
+    font: inherit; font-size: var(--bs-t-body); color: var(--bs-ink);
+    background: #fff; border: 1px solid var(--bs-lijn); border-radius: var(--bs-r-knop);
+}
+.bs-select:focus-visible { border-color: var(--bs-accent); box-shadow: 0 0 0 3px var(--bs-accent-schaduw); }
+
+.bs-schuif { -webkit-appearance: none; appearance: none; width: 100%; height: 26px; margin: 12px 0 0; background: none; }
+.bs-schuif::-webkit-slider-runnable-track { height: 2px; background: var(--bs-lijn); }
+.bs-schuif::-moz-range-track { height: 2px; background: var(--bs-lijn); }
+.bs-schuif::-webkit-slider-thumb { -webkit-appearance: none; width: 24px; height: 24px; margin-top: -11px; border-radius: 50%; background: var(--bs-accent); border: 2px solid var(--bs-press); cursor: grab; }
+.bs-schuif::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: var(--bs-accent); border: 2px solid var(--bs-press); cursor: grab; }
+
+.bs-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.bs-chip {
+    min-height: var(--bs-tap); padding: 11px 15px;
+    font: inherit; font-size: var(--bs-t-micro); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    font-variant-numeric: tabular-nums;
+    color: var(--bs-ink); background: #fff;
+    border: 1px solid var(--bs-lijn); border-radius: var(--bs-r-knop);
+    cursor: pointer;
+}
+.bs-chip[aria-pressed="true"] { background: var(--bs-accent); border-color: var(--bs-accent); color: var(--bs-accent-ink); }
+
+.bs-keuzevak { display: flex; gap: 12px; align-items: flex-start; padding: 16px; border: 1px solid var(--bs-lijn); border-radius: var(--bs-r-knop); background: #fff; cursor: pointer; }
+.bs-keuzevak input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--bs-accent); flex: none; }
+.bs-keuzevak b { display: block; font-size: var(--bs-t-klein); font-weight: 500; }
+.bs-keuzevak small { display: block; margin-top: 3px; font-size: var(--bs-t-micro); color: var(--bs-newsprint); }
+
+.bs-veldrij { display: grid; gap: var(--bs-gap); }
+@media (min-width: 560px) { .bs-veldrij { grid-template-columns: 1fr 1fr; } }
+
+/* Uitklapblok voor optionele invoer. */
+.bs-uitklap { border: 1px solid var(--bs-lijn); border-radius: var(--bs-r-knop); background: #fff; }
+.bs-uitklap summary { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px; cursor: pointer; list-style: none; }
+.bs-uitklap summary::-webkit-details-marker { display: none; }
+.bs-uitklap summary b { display: block; font-size: var(--bs-t-klein); font-weight: 500; }
+.bs-uitklap summary small { display: block; margin-top: 3px; font-size: var(--bs-t-micro); color: var(--bs-newsprint); }
+.bs-uitklap summary::after { content: "+"; font-size: 20px; color: var(--bs-newsprint); line-height: 1; }
+.bs-uitklap[open] summary::after { content: "\2212"; }
+.bs-uitklap__body { padding: 0 16px 16px; }
+
+/* ==========================================================================
+   Het rekeningblad
+   De uitkomst als papier. Onze fotografie is het getal; zie ONTWERPPLAN.md §3.
+   Het draagt onze eigen naam en het woord "indicatie", zodat niemand het voor
+   een echte afrekening van een geldverstrekker aanziet.
+   ========================================================================== */
+.bs-blad {
+    position: relative;
+    padding: clamp(20px, 2.2vw, 30px) clamp(18px, 2vw, 28px) 0;
+    background: #fff;
+    border-radius: 3px 3px 0 0;
+    box-shadow: 0 1px 0 var(--bs-lijn), 4px 14px 28px -14px var(--bs-accent-schaduw);
+}
+/* De getande onderrand van een kassabon. Twee verlopen die elkaar afwisselen
+   knippen de driehoekjes uit; goedkoper dan een SVG en schaalt mee. */
+.bs-blad::after {
+    content: "";
+    position: absolute; left: 0; right: 0; top: 100%; height: 12px;
+    background:
+        linear-gradient(-45deg, transparent 0 8px, #fff 0) 0 0 / 16px 12px repeat-x,
+        linear-gradient( 45deg, transparent 0 8px, #fff 0) 0 0 / 16px 12px repeat-x;
+    filter: drop-shadow(1px 6px 8px var(--bs-accent-schaduw));
+}
+.bs-blad__kop { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--bs-ink); }
+.bs-blad__merk { font-size: var(--bs-t-klein); font-weight: 500; letter-spacing: -.02em; }
+.bs-blad__stempel { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: var(--bs-accent-ink); background: var(--bs-accent); padding: 4px 8px; border-radius: 3px; }
+.bs-blad__voet { margin: 0; padding: 14px 0 20px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--bs-newsprint); }
+
+/* Het antwoord. Het label erboven zegt precies welk bedrag dit is: "maandlast"
+   alleen is dubbelzinnig zodra er ook een nettovariant op het scherm staat. */
+.bs-antwoord { padding: 18px 0 4px; }
+.bs-antwoord__label { margin: 0; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+/* De markeerstift ligt achter het antwoord zelf en nergens anders. Als
+   achtergrondverloop en niet als pseudo-element: dat scheelt een stapelcontext
+   en het is dezelfde techniek als de streep onder een toolnaam, dus één manier
+   in plaats van twee. inline-block zodat de streep het getal volgt en niet de
+   hele kolombreedte pakt -- dan leest hij als een tekstselectie. */
+.bs-antwoord__bedrag {
+    display: inline-block; margin-top: 6px;
+    font-size: clamp(42px, 6vw, 68px); font-weight: 500;
+    line-height: 1; letter-spacing: -.04em;
+    font-variant-numeric: tabular-nums;
+    background-image: linear-gradient(var(--bs-accent-wash), var(--bs-accent-wash));
+    background-repeat: no-repeat;
+    background-position: 0 82%;
+    background-size: 100% 28%;
+}
+.bs-antwoord__zin { margin: 12px 0 0; font-size: var(--bs-t-klein); line-height: 1.5; color: var(--bs-newsprint); }
+
+/* Waaruit het bedrag bestaat: rente daalt door de jaren, aflossing stijgt. */
+.bs-verhouding { margin-top: 18px; }
+.bs-verhouding__balk { display: flex; height: 6px; overflow: hidden; background: var(--bs-lijn); }
+.bs-verhouding__rente { background: var(--bs-press); }
+.bs-verhouding__aflossing { background: var(--bs-accent); }
+.bs-verhouding__legenda { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 10px 0 0; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+.bs-verhouding__legenda span { display: flex; align-items: center; gap: 8px; }
+.bs-verhouding__legenda i { width: 9px; height: 9px; flex: none; }
+.bs-verhouding__legenda b { color: var(--bs-ink); font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+
+.bs-uitsplitsing { margin: 18px 0 0; padding: 0; border-top: 1px solid var(--bs-lijn); }
+.bs-uitsplitsing > div { display: flex; justify-content: space-between; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--bs-lijn); font-size: var(--bs-t-klein); }
+/* display:flex wint van het [hidden]-attribuut. Zonder deze regel staan
+   verborgen regels er alsnog. */
+.bs-uitsplitsing > div[hidden] { display: none; }
+.bs-uitsplitsing > div:last-child { border-bottom: 0; }
+.bs-uitsplitsing dt { color: var(--bs-newsprint); }
+.bs-uitsplitsing dd { margin: 0; font-weight: 500; font-variant-numeric: tabular-nums; }
+
+.bs-voorbehoud { margin: 26px 0 0; font-size: var(--bs-t-klein); line-height: 1.55; color: var(--bs-newsprint); }
+
+/* ==========================================================================
+   Bankstrook
+   Detailteksten renderen hier volledig mee. Dat is de harde regel uit CLAUDE.md
+   en de fout die een echte bezoeker heeft gemeld; tests/nuance.test.mjs faalt
+   als een detail wegvalt.
+   ========================================================================== */
+.bs-bank { border-top: 1px solid var(--bs-ink); padding-top: 18px; }
+.bs-bank__kop { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 14px; }
+.bs-bank__kop a { font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
+.bs-bank__feiten { margin: 0; padding: 0; }
+.bs-bank__feiten > div { padding: 11px 0; border-bottom: 1px solid var(--bs-lijn); }
+.bs-bank__feiten dt { font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+.bs-bank__feiten dd { margin: 4px 0 0; font-size: var(--bs-t-klein); font-weight: 500; }
+.bs-bank__feiten .detail { display: block; margin-top: 4px; font-size: var(--bs-t-micro); font-weight: 400; color: var(--bs-newsprint); line-height: 1.5; }
+
+.bs-melding { margin-top: 16px; padding: 16px; background: var(--bs-bone); border-left: 3px solid var(--bs-accent); font-size: var(--bs-t-klein); line-height: 1.55; }
+.bs-melding p { margin: 0; }
+.bs-melding p + p { margin-top: 10px; }
+
+/* ==========================================================================
+   Secties: uitleg, gereedschap, donker blok, accentband, voet
+   ========================================================================== */
+.bs-sectie { padding: var(--bs-sectie) 0; border-top: 1px solid var(--bs-lijn); }
+.bs-sectiekop { display: flex; flex-wrap: wrap; gap: 20px; align-items: end; justify-content: space-between; margin-bottom: clamp(28px, 4vw, 48px); }
+.bs-titel { margin: 8px 0 0; font-size: var(--bs-t-titel); font-weight: 500; line-height: 1.05; letter-spacing: -.04em; max-width: 20ch; }
+
+.bs-kolommen { display: grid; gap: clamp(20px, 3vw, 40px); margin-top: clamp(24px, 3vw, 40px); }
+@media (min-width: 860px) { .bs-kolommen { grid-template-columns: repeat(3, 1fr); } }
+.bs-kolommen article { border-top: 1px solid var(--bs-ink); padding-top: 16px; }
+.bs-kolommen h3 { margin: 0 0 8px; font-size: var(--bs-t-lead); font-weight: 500; letter-spacing: -.02em; }
+.bs-kolommen p { margin: 0; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-newsprint); }
+
+/* Het gereedschapsrooster: haarlijnen als raster, geen losse kaarten. */
+.bs-rooster { display: grid; gap: 1px; background: var(--bs-lijn); border: 1px solid var(--bs-lijn); }
+@media (min-width: 640px) { .bs-rooster { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .bs-rooster { grid-template-columns: repeat(3, 1fr); } }
+.bs-tool { display: flex; flex-direction: column; gap: 10px; padding: clamp(20px, 2.4vw, 30px); background: var(--bs-bone); color: inherit; text-decoration: none; transition: background .18s ease, transform .18s ease; }
+.bs-tool__naam {
+    font-size: clamp(20px, 2vw, 26px); font-weight: 500; letter-spacing: -.03em; line-height: 1.1;
+    /* De markeerstift loopt bij hover onder de naam door. */
+    background-image: linear-gradient(var(--bs-accent), var(--bs-accent));
+    background-repeat: no-repeat; background-position: 0 88%; background-size: 0 6px;
+    transition: background-size .2s ease;
+}
+.bs-tool__uitleg { font-size: var(--bs-t-klein); color: var(--bs-newsprint); line-height: 1.5; }
+.bs-tool__meta { margin-top: auto; padding-top: 14px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
+.bs-tool:hover, .bs-tool:focus-visible { background: #fff; transform: translateY(-3px); }
+.bs-tool:hover .bs-tool__naam, .bs-tool:focus-visible .bs-tool__naam { background-size: 100% 6px; }
+
+.bs-donker { background: var(--bs-press); color: var(--bs-bone); padding: var(--bs-sectie) 0; }
+.bs-donker .bs-micro { color: var(--bs-moss); }
+.bs-donker .bs-titel { max-width: 16ch; }
+.bs-donker a { color: var(--bs-bone); }
+.bs-donker .bs-kolommen article { border-top-color: rgba(250,255,250,.18); }
+.bs-donker .bs-kolommen p { color: var(--bs-sage); }
+.bs-donker__acties { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(28px, 4vw, 44px); }
+
+/* De accentband is de handtekening onderaan elke pagina. */
+.bs-band { background: var(--bs-accent); color: var(--bs-accent-ink); overflow: hidden; padding: 16px 0; }
+.bs-band__spoor { display: flex; width: max-content; }
+.bs-band__spoor span { display: flex; align-items: center; gap: 40px; padding-right: 40px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .16em; white-space: nowrap; }
+
+.bs-voet { background: var(--bs-press); color: var(--bs-sage); padding: clamp(28px, 4vw, 48px) 0; font-size: var(--bs-t-klein); }
+.bs-voet__inner { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; }
+.bs-voet a { color: var(--bs-sage); }
+
+/* ==========================================================================
+   De zwevende balk
+   Hetzelfde onderdeel als op de andere rekenpagina's: src/js/stickybalk.js
+   leest de uitkomstkaart uit en bouwt de balk zelf. Die module zoekt naar
+   `.ds-uitkomst`, dus die klasse staat op het blad als haak. Alleen de vorm is
+   hier anders; het gedrag is er één keer.
+   ========================================================================== */
+.bs .sticky-result-bar {
+    display: none;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    align-items: center; justify-content: space-between; gap: 16px;
+    padding: 12px clamp(16px, 4vw, 28px);
+    background: var(--bs-press); color: var(--bs-bone);
+    border-top: 2px solid var(--bs-accent);
+}
+.bs .sticky-result-bar__label { font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-moss); }
+.bs .sticky-result-bar__amount { font-size: var(--bs-t-lead); font-weight: 500; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.bs .sticky-result-bar__arrow { display: none; }
+@media (max-width: 899px) { .bs .sticky-result-bar.is-zichtbaar { display: flex; } }
+
+/* ==========================================================================
+   Beweging
+   Alles is transform of opacity: geen layout die herberekend wordt, dus geen
+   haperingen en geen kosten voor de laadtijd.
+
+   De rekening beweegt alleen waar hij een illustratie is. Op een rekenpagina
+   staat hij stil, want daar ís hij de uitkomst -- een bedrag dat wiebelt
+   terwijl je het probeert af te lezen is een grap ten koste van de bezoeker.
+   ========================================================================== */
+@keyframes bs-schuif { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.bs-band__spoor { animation: bs-schuif 26s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+    .bs *, .bs *::before, .bs *::after { animation: none !important; transition: none !important; }
+}
+
+/* ==========================================================================
+   Afdrukken
+   Papier op papier: het blad houdt zijn vorm, de rest van de pagina gaat weg.
+   ========================================================================== */
+@media print {
+    .bs { background: #fff; }
+    .bs-kop, .bs-kruimel, .bs-band, .bs-voet, .bs-donker, .sticky-result-bar,
+    .bs-invoer, .no-print { display: none !important; }
+    .bs-blad { box-shadow: none; border: 1px solid #000; }
+    .bs-blad::after { display: none; }
+}
+
+/* ==========================================================================
+   Het rekenblok
+   De opbouw die elke rekenpagina deelt: kop, dan uitkomst, dan invoer. Die
+   volgorde staat ook zo in de DOM, want op mobiel hoort het antwoord boven de
+   invoer te komen -- dat is de bestaande afspraak op de site.
+   ========================================================================== */
+.bs-reken { padding: clamp(20px, 3vw, 40px) 0 var(--bs-sectie); }
+.bs-reken__titel { max-width: 20ch; font-size: clamp(30px, 4.4vw, 58px); font-weight: 600; line-height: 1.03; margin: 0; }
+.bs-reken__lead { margin: 14px 0 clamp(24px, 3vw, 40px); max-width: 46ch; font-size: var(--bs-t-lead); line-height: 1.4; color: var(--bs-newsprint); letter-spacing: -.01em; }
+
+.bs-reken__grid { display: grid; gap: clamp(24px, 3vw, 44px); align-items: start; }
+@media (min-width: 940px) { .bs-reken__grid { grid-template-columns: 1fr 1fr; } }
+
+.bs-invoer { display: grid; gap: var(--bs-gap); }
+.bs-reken__acties { margin-top: 20px; }
+.bs-aannames { margin-top: 26px; }
+.bs-aannames .bs-uitsplitsing { margin-top: 8px; }
+.bs-aannames .bs-voorbehoud { margin-top: 0; }
+
+/* De knopvariant van het uitklapblok. main.js schakelt cost-content zelf en
+   draait de pijl mee, dus dit is een <button> en geen <details>. */
+.bs-uitklap__knop {
+    display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 12px;
+    padding: 16px; background: none; border: 0; cursor: pointer;
+    font: inherit; color: var(--bs-ink); text-align: left;
+}
+.bs-uitklap__knop b { display: block; font-size: var(--bs-t-klein); font-weight: 500; }
+.bs-uitklap__knop small { display: block; margin-top: 3px; font-size: var(--bs-t-micro); color: var(--bs-newsprint); }
+.bs-uitklap__knop svg { flex: none; transition: transform .18s ease; }
+
+/* Een tool die tussen de invoervelden staat in plaats van in het rooster. */
+.bs-tool--inline { border: 1px solid var(--bs-lijn); border-radius: var(--bs-r-knop); background: #fff; padding: 18px; gap: 6px; }
+.bs-tool--inline .bs-tool__naam { font-size: var(--bs-t-lead); }
+.bs-tool--inline:hover, .bs-tool--inline:focus-visible { transform: none; border-color: var(--bs-accent); }
+
+/* --- Mobiel: 375px is de maatstaf --------------------------------------
+   De harde eis is dat invoer en uitkomst samen in beeld staan. Alles boven het
+   antwoord is daarvoor de dure ruimte, dus kruimel, kop en inleiding krimpen
+   het hardst. Wie op "Start berekenen" heeft gedrukt weet al waarom hij hier
+   is en leest die inleiding niet. */
+@media (max-width: 620px) {
+    .bs-reken { padding: 8px 0 clamp(30px, 8vw, 44px); }
+    .bs-kruimel { margin-bottom: 8px; }
+    .bs-reken__titel { font-size: 28px; line-height: 1.08; }
+    .bs-reken__lead { margin: 8px 0 16px; font-size: var(--bs-t-klein); line-height: 1.45; }
+
+    .bs-blad { padding: 14px 16px 0; }
+    .bs-antwoord { padding: 14px 0 2px; }
+    .bs-antwoord__bedrag { font-size: 40px; }
+    .bs-antwoord__zin { margin-top: 8px; font-size: var(--bs-t-micro); line-height: 1.45; }
+    .bs-verhouding, .bs-uitsplitsing { margin-top: 14px; }
+    .bs-uitsplitsing > div { padding: 9px 0; }
+    .bs-blad__voet { padding: 12px 0 16px; }
+    .bs-voorbehoud { margin-top: 18px; font-size: var(--bs-t-micro); }
+}
+
+/* Derde blok in het rekenraster: de printactie en het voorbehoud. Op mobiel
+   valt het onder de invoer, op breed scherm plaatst het raster het vanzelf in
+   de linkerkolom onder de uitkomst. */
+.bs-reken__na { margin-top: 4px; }
+.bs-reken__na .bs-knop { width: 100%; }
+@media (min-width: 940px) { .bs-reken__na .bs-knop { width: auto; } }
+
+/* ==========================================================================
+   De typografische muur — alleen op de homepage
+   De kop is daar de pagina. Ernaast hangt de rekening, en die is er een
+   illustratie van wat je krijgt; op een rekenpagina is hetzelfde blad de
+   uitkomst zelf en staat het stil. Zie ONTWERPPLAN.md §3.
+   ========================================================================== */
+.bs-muur { padding: clamp(20px, 4vw, 56px) 0 var(--bs-sectie); }
+.bs-muur__grid { display: grid; gap: clamp(32px, 5vw, 72px); align-items: center; }
+@media (min-width: 1000px) { .bs-muur__grid { grid-template-columns: 1.12fr .88fr; } }
+
+.bs-muur h1 { margin: 0; font-size: var(--bs-t-muur); font-weight: 600; line-height: 1.02; letter-spacing: -.04em; }
+.bs-muur h1 .bs-regel { display: block; }
+.bs-muur__voet { display: flex; flex-wrap: wrap; align-items: center; gap: clamp(16px, 3vw, 40px); margin-top: clamp(24px, 4vw, 48px); }
+.bs-muur__lead { margin: 0; font-size: var(--bs-t-lead); line-height: 1.4; max-width: 30ch; letter-spacing: -.015em; }
+
+/* Drie geneste lagen, elk met één taak. Ze stapelen omdat twee transforms op
+   hetzelfde element elkaar overschrijven:
+     .bs-toneel  geeft perspectief   (staat stil)
+     .bs-kantel  volgt de muis       (homepage.js zet --bs-kx en --bs-ky)
+     .bs-blad--zwevend ademt         (keyframes) */
+.bs-toneel { perspective: 1400px; perspective-origin: 50% 40%; }
+.bs-kantel {
+    transform: rotateX(calc(var(--bs-ky, 0) * -5deg)) rotateY(calc(var(--bs-kx, 0) * 7deg));
+    transition: transform .4s cubic-bezier(.22, .61, .36, 1);
+    transform-style: preserve-3d;
+}
+.bs-blad--zwevend {
+    max-width: 470px; margin: 0 auto;
+    box-shadow:
+        0 1px 0 var(--bs-lijn),
+        6px 18px 34px -12px var(--bs-accent-schaduw),
+        24px 60px 80px -40px rgba(18, 22, 19, .34);
+    animation: bs-adem 9s ease-in-out infinite alternate;
+}
+/* Traag -- negen seconden heen en terug -- want dit moet als zwaartekracht
+   aanvoelen en niet als een carrousel. De hoek blijft klein: een rekening die
+   rondtolt leest niemand meer. */
+@keyframes bs-adem {
+    from { transform: rotateY(-9deg) rotateX(4.5deg) translateY(6px); }
+    to   { transform: rotateY(-4deg) rotateX(1deg)   translateY(-10px); }
+}
+
+/* Het blad print zichzelf uit: de regels rollen van boven naar beneden binnen.
+   Eenmalig, bij het laden. */
+@keyframes bs-rol { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+.bs-blad--zwevend > * { animation: bs-rol .5s ease both; }
+.bs-blad--zwevend > *:nth-child(1) { animation-delay: .10s; }
+.bs-blad--zwevend > *:nth-child(2) { animation-delay: .22s; }
+.bs-blad--zwevend > *:nth-child(3) { animation-delay: .34s; }
+.bs-blad--zwevend > *:nth-child(4) { animation-delay: .46s; }
+.bs-blad--zwevend > *:nth-child(5) { animation-delay: .58s; }
+
+/* De regelaar onder het blad: het enige moment waarop de bezoeker merkt dat de
+   site iets doet in plaats van iets vertelt. */
+.bs-regelaar { max-width: 470px; margin: 26px auto 0; }
+.bs-regelaar__kop { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 4px; }
+.bs-regelaar__waarde { font-size: var(--bs-t-lead); font-weight: 500; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.bs-regelaar__hint { margin: 8px 0 0; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+
+@media (prefers-reduced-motion: reduce) {
+    /* Alleen de animatie uitzetten laat het blad scheef hangen op zijn
+       beginhoek. Wie minder beweging vraagt krijgt een rechte rekening. */
+    .bs-blad--zwevend, .bs-kantel { transform: none; }
+}
+
+@media (max-width: 620px) {
+    .bs-muur { padding: 18px 0 clamp(30px, 8vw, 44px); }
+    .bs-muur h1 { font-size: 32px; line-height: 1.06; }
+    .bs-muur__voet { margin-top: 20px; gap: 16px; }
+    .bs-muur__lead { font-size: var(--bs-t-klein); line-height: 1.45; }
+    .bs-muur__voet .bs-knop { width: 100%; }
+    .bs-beloften { margin-top: 18px; gap: 4px 16px; }
+}
+
+/* ==========================================================================
+   Kerncijfers
+   Antwoord eerst, ook in een tekstsectie: drie getallen uit de dataset, met
+   onder elk getal wat het betekent. Nooit een schatting -- ontbreekt een
+   waarde in de data, dan zegt de tekst dat.
+   ========================================================================== */
+.bs-kern { display: grid; gap: clamp(24px, 3vw, 44px); margin-top: clamp(28px, 4vw, 48px); }
+@media (min-width: 720px) { .bs-kern { grid-template-columns: repeat(3, 1fr); } }
+.bs-kern__item { border-top: 1px solid var(--bs-accent); padding-top: 18px; }
+.bs-kern__cijfer { margin: 0; font-size: clamp(38px, 5vw, 62px); font-weight: 500; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.bs-kern__cijfer .kern__van { font-size: .45em; color: var(--bs-moss); letter-spacing: -.02em; }
+.bs-kern__eenheid { margin: 10px 0 0; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-moss); }
+.bs-kern__tekst { margin: 10px 0 0; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-sage); }
+
+.bs-donker__lead { margin: 16px 0 0; max-width: 44ch; font-size: var(--bs-t-lead); line-height: 1.4; color: var(--bs-sage); letter-spacing: -.015em; }

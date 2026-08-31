@@ -5,6 +5,7 @@ import { initSharedFormMemory, setMemoryLockById } from './shared-form-memory';
 import { huidigeBank, opBankwissel, vergoedingsTarief } from './bankkeuze.js';
 import { tekenStaafgrafiek } from './staafgrafiek.js';
 import { leesGetal, toonGetal, leesPercentage } from './getallen.js';
+import { annuiteitTermijn } from './annuiteit.js';
 import {
     TAX_RULES_2026,
     calculateEffectiveDeductionRate,
@@ -226,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     grossMonthly = redemption + interestPart;
                 } else {
                     // Annuïteit: Standaard formule
-                    grossMonthly = amount * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -totalMonths)));
+                    grossMonthly = annuiteitTermijn(amount, monthlyRate, totalMonths);
                 }
             }
 
@@ -1499,7 +1500,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const n = 30 * 12;
             
             let fullAnnuity = 0;
-            if(interest !== 0) fullAnnuity = totalLoan * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -n)));
+            if(interest !== 0) fullAnnuity = annuiteitTermijn(totalLoan, monthlyRate, n);
 
             const maxMonth = Math.max(
                 buildMonths,
@@ -1792,7 +1793,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalMonths = 30 * 12;
             let currentDebt = amount;
             const linearRedemption = amount / totalMonths;
-            const annuityPayment = (interestPct === 0) ? (amount/totalMonths) : (amount * (monthlyRate / (1 - Math.pow(1 + monthlyRate, -totalMonths))));
+            const annuityPayment = annuiteitTermijn(amount, monthlyRate, totalMonths);
 
             // Dezelfde regels als in de tabel op het scherm, als ruwe getallen,
             // zodat de grafiek en het overzicht uit dezelfde bron putten.

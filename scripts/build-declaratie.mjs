@@ -70,7 +70,7 @@ function perSoort(soort) {
 }
 
 const NAV = [
-  ['/', 'Bereken'],
+  ['bouwdepot-berekenen.html', 'Bereken'],
   [HUB, 'Voorwaarden per bank'],
   ['kennisbank.html', 'Uitleg'],
   ['over-ons.html', 'Over ons'],
@@ -171,6 +171,7 @@ ${NAV.map(([h, t]) => `                        <a href="${h}">${t}</a>`).join('\
         <!-- De rekenhulpen bij naam. Zie de toelichting in pagina.css. -->
         <nav class="toolbalk no-print" aria-label="Rekenhulpen">
             <div class="ds-wrap toolbalk__inner">
+                <a href="bouwdepot-berekenen.html">Bouwdepot berekenen</a>
                 <a href="verbouwbegroting.html">Verbouwbegroting</a>
                 <a href="leenruimte.html">Leenruimte</a>
                 <a href="maandlasten-bouwdepot.html">Maandlasten</a>

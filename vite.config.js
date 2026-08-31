@@ -15,6 +15,7 @@ export default defineConfig({
         adviesgesprekChecklist: resolve(__dirname, 'adviesgesprek-checklist.html'),
         belasting: resolve(__dirname, 'belasting.html'),
         bouwdepotDeclaratieAfgewezen: resolve(__dirname, 'bouwdepot-declaratie-afgewezen.html'),
+        bouwdepotBerekenen: resolve(__dirname, 'bouwdepot-berekenen.html'),
         bouwdepotAbnAmro: resolve(__dirname, 'bouwdepot-abn-amro.html'),
         bouwdepotFlorius: resolve(__dirname, 'bouwdepot-florius.html'),
         bouwdepotFouten: resolve(__dirname, 'bouwdepot-fouten.html'),

@@ -1,6 +1,11 @@
 # Herontwerp BouwdepotCalculator.nl
 
 **Datum:** 14 augustus 2026
+**Bijgewerkt:** 31 augustus 2026 — §3 en de fasen 2 en 3 herschreven. De richting
+is niet langer "Apple design" maar een redactionele broadsheet, en de homepage
+wordt juist géén calculator meer. Wat er stond en waarom het is veranderd staat
+in die paragrafen zelf; het is niet stilletjes overschreven.
+
 **Aanleiding:** de site voelt als lange stukken tekst in plaats van een bruikbaar hulpmiddel.
 Dat gevoel klopt, en het is meetbaar.
 
@@ -80,39 +85,69 @@ en is opgedeeld in herkenbaar verschillende blokken in plaats van eindeloos deze
 
 ---
 
-## 3. Wat "Apple design" concreet betekent
+## 3. De ontwerptaal: een redactionele broadsheet
 
-Het is geen stijl die je erover heen legt. Het zijn drie principes uit Apples eigen
-richtlijnen, en ze zijn allemaal direct van toepassing:
+*Herschreven 31-08-2026. Hier stond "Wat Apple design concreet betekent" met de
+drie principes clarity, deference en depth. Die principes waren niet fout — ze
+staan nog steeds boven `design-system.css` — maar ze zijn te algemeen om een
+scherm mee te ontwerpen. Elk rustig, terughoudend systeem voldoet eraan, en dat
+is precies waarom de site er als "in elkaar gezet" uitzag in plaats van
+ontworpen: er viel niets uit af te leiden.*
 
-**Clarity — helderheid.** Eén ding per scherm. De belangrijkste informatie is het grootst.
-Ruime witruimte doet het hiërarchiewerk, niet lijnen en kaders.
+De richting is nu concreet en heeft een naam. Hij komt van
+[New Form Capital](https://www.newformcap.com) via styles.refero.design, en luidt
+daar: *editorial broadsheet in a green room.*
 
-**Deference — de interface wijkt.** De UI dient de inhoud en concurreert er nooit mee. Op
-deze site is de inhoud *het getal*. Alles wat daar aandacht van afleidt, moet weg of terug.
+Waarom deze: het is een fintech die er als een gedrukte financiële krant uitziet
+en niet als een dashboard. Dat is precies onze positie — wij zijn geen bank en
+we willen er ook niet naar lijken, maar we moeten wel serieus genoeg ogen dat
+iemand er zijn hypotheeklasten op durft te baseren. Een broadsheet doet dat met
+typografie in plaats van met chroom.
 
-**Depth — diepte.** Lagen en beweging tonen hiërarchie. Wat nu ontbreekt: alles ligt plat op
-één niveau, 29 kaarten naast elkaar in belang.
-
-Concrete regels die daaruit volgen:
+### De regels
 
 | | |
 |---|---|
-| Raster | 8pt met 4pt onderverdeling |
-| Minimale aanraakzone | 44 × 44px |
-| Typografie | grote sprongen in de schaal, niet 16/18/20 maar 15/17/22/34/56 |
-| Kleur | semantische tokens, terughoudend palet, één accent |
-| Beweging | doelgericht: iets verplaatst of onthult zich, geen versiering |
+| Doek | warm bone white `#fafffa`, nooit zuiver wit |
+| Inkt | perszwart `#121613` met een groene inslag |
+| Accent | **ons teal `#0E5F58`** — één chromatische noot, verder niets |
+| Typografie | Inter, gewichten 400 / 500 / 600. Hiërarchie komt uit maat, niet uit vet |
+| Kopmaat | tot 84px op de homepage, met `letter-spacing: -.04em` |
+| Bodymaat | nooit boven 18px; het gat tussen 18 en de display doet het werk |
+| Microtypografie | kapitaaltjes op 11px met `+.1em` spatiëring doen het werk van kaders |
+| Diepte | haarlijnen en oppervlakcontrast. Schaduw alleen op de primaire actie, en getint met het accent |
+| Raster | 8pt met 4pt onderverdeling, ongewijzigd |
+| Aanraakzone | 44 × 44px, ongewijzigd |
+| Beweging | doelgericht en traag; alles is `transform` of `opacity` |
 
-### Het kleurprobleem
+### Waar wij van de bron afwijken, en waarom
 
-De huidige hoofdkleur staat in de CSS met de opmerking `/* Donkerblauw (Rabo-achtig) */`.
-Dat is precies verkeerd voor een site die zijn waarde ontleent aan **onafhankelijk** zijn van
-banken. Je leent visueel vertrouwen van een partij die je vergelijkt, en het oogt bovendien
-gedateerd.
+**Kleur.** New Form gebruikt een fel groen `#2bee4b`. Wij houden ons eigen teal.
+De structuur is overtuigend, die kleur is dat voor een hypotheekpagina niet.
 
-De site heeft een eigen identiteit nodig: rustig, precies, financieel-serieus zonder
-bank-imitatie.
+**Beeld.** New Form zet grijswaardenfotografie tussen de regels van de kop. Wij
+hebben geen fotobibliotheek en het kwaliteitsplan zegt: beeld maken we als eigen
+SVG. Onze fotografie is het getal. De uitkomst verschijnt daarom als een
+**rekening op papier** — wit blad, haarlijnen, gescheurde onderrand, een
+markeerstreep over het totaal.
+
+Dat blad gedraagt zich per pagina anders, en dat verschil is opzettelijk:
+
+- **Op de homepage** zweeft het, kantelt het naar de muis en print het zichzelf
+  uit. Daar is het een plaatje van wat je krijgt.
+- **Op een rekenpagina** staat het stil. Daar *ís* het de uitkomst, en een bedrag
+  dat wiebelt terwijl je het probeert af te lezen is een grap ten koste van de
+  bezoeker.
+
+### Het kleurprobleem — opgelost, en het blijft opgelost
+
+De oude hoofdkleur stond in de CSS omschreven als `/* Donkerblauw (Rabo-achtig) */`.
+Dat is precies verkeerd voor een site die zijn waarde ontleent aan **onafhankelijk**
+zijn van banken: je leent visueel vertrouwen van een partij die je vergelijkt.
+
+Teal `#0E5F58` is sindsdien de accentkleur en blijft dat. Onder de Nederlandse
+geldverstrekkers is oranje, blauw en groen-geel allemaal bezet; teal is
+onderscheidend en rustig genoeg voor cijfers.
 
 ---
 
@@ -129,30 +164,43 @@ Zonder tokens wordt elk scherm weer maatwerk. Eerst dus de basis:
 - **Componenten**: invoerveld, resultaatkaart, keuzekaart, tabel, notitie, verdiepingsblok
 - Alles in `src/styles/` als tokens, zodat pagina's ze consumeren in plaats van herdefiniëren
 
-### Fase 2 — De homepage wordt de calculator
+### Fase 2 — De calculator krijgt een eigen pagina
 
-Het belangrijkste scherm van de site.
+*Herschreven 31-08-2026. Hier stond "de homepage wordt de calculator". Dat is
+gebeurd en het werkte: de uitkomst staat op 375px na 0,42 scherm in beeld, waar
+het 3,1 scherm was. De harde eis is dus gehaald en blijft staan — hij verhuist
+alleen mee naar de nieuwe pagina.*
 
-- **Invoer en resultaat samen in beeld** op mobiel, zonder scrollen. Dat is de harde eis.
-- Het resultaat is groot, rustig, en verandert live tijdens het typen
-- Geen hero-tekst boven de calculator; de titel mag klein zijn want de bezoeker weet al
-  waarom hij hier is
-- Daaronder pas: keuze om te verdiepen
-- Doel: **van 3,1 schermen naar 0 schermen** tot het antwoord
+De reden om het om te draaien staat in
+[spec/homepage-als-introductie.md](spec/homepage-als-introductie.md): de site
+heeft zeven rekenhulpen en 31 pagina's, en wie binnenkomt met een andere vraag
+dan "wat kost dit per maand" landt op een invoerformulier dat hij niet zocht.
 
-### Fase 3 — Een echt dashboard om tools te kiezen
+- De rekenmachine verhuist naar `bouwdepot-berekenen.html`, ongewijzigd in gedrag
+- **Invoer en resultaat samen in beeld** op mobiel blijft de harde eis, en de
+  0,42 scherm mag niet slechter worden
+- Het resultaat is de rekening op papier uit §3, stilstaand
+- Elke pagina die nu voor de berekening naar `/` linkt, gaat hierheen
 
-Wat je vroeg en wat ontbreekt. Nu is `calculators.html` een lijst met links; het is de
-minst bekeken pagina van de site en werd nooit geïndexeerd.
+### Fase 3 — De homepage wordt de introductie
 
-Een keuzescherm dat werkt zoals mensen denken: **niet "welke tool wil je" maar "waar sta je"**.
+Wat fase 3 eerst "een dashboard om tools te kiezen" noemde, is nu de homepage
+zelf. Dat is beter dan een aparte keuzepagina: `calculators.html` was de minst
+bekeken pagina van de site en werd nooit geïndexeerd, precies omdat niemand een
+tussenscherm opzoekt.
 
-- Ik oriënteer me nog
-- Ik ga verbouwen
-- Ik koop nieuwbouw
-- Ik heb al een bouwdepot en loop ergens tegenaan
+De opbouw:
 
-Per situatie de bijbehorende tools en antwoorden, visueel onderscheiden.
+1. Typografische kop met de vraag waar de site over gaat
+2. Ernaast de rekening, die meerekent met een schuifregelaar — één beweging en de
+   bezoeker weet dat hier iets te doen valt
+3. Eén primaire actie: **Start berekenen**
+4. Het volledige gereedschap in een rooster
+5. De onderbouwing van onze onafhankelijkheid, met de kerncijfers uit de dataset
+
+De vier situaties uit het oude fase 3 blijven bestaan als ingangen in dat
+rooster: ik oriënteer me nog, ik ga verbouwen, ik koop nieuwbouw, mijn depot
+loopt al.
 
 ### Fase 4 — Tekst opruimen en herverdelen
 
@@ -200,17 +248,26 @@ Twee dingen blijven wel gelden en houd ik vast:
 
 ## 6. Volgorde en verwachting
 
-| Fase | Wat | Beslismoment |
+| Fase | Wat | Stand op 31-08-2026 |
 |---|---|---|
-| 1 | Ontwerpsysteem en tokens | Je ziet het palet en de typografie voordat er iets omgaat |
-| 2 | Homepage als calculator | Grootste winst, meest zichtbaar |
-| 3 | Dashboard voor toolkeuze | |
-| 4 | Tekst herverdelen | |
-| 5 | Beeld, grafieken, ritme | |
-| 6 | Vergelijkingspagina's visueel | |
+| 1 | Ontwerpsysteem en tokens | **Klaar**, en herzien naar de broadsheet uit §3 |
+| 2 | Calculator op een eigen pagina | In uitvoering — `bouwdepot-berekenen.html` |
+| 3 | Homepage als introductie | Volgt direct op fase 2 |
+| 4 | Tekst herverdelen | Grotendeels meegenomen in 2 en 3 |
+| 5 | Beeld, grafieken, ritme | Open. De rekening uit §3 is de eerste stap |
+| 6 | Vergelijkingspagina's visueel | Open |
 
-Ik stel voor om te beginnen met een **visueel voorstel van fase 1 en 2** dat je kunt bekijken
-voordat er iets aan de echte site verandert. Dan zie je de richting en kun je bijsturen
-zonder risico.
+De volgorde binnen fase 2 en 3 luistert nauw, en niet om ontwerpredenen: de
+AdSense-aanvraag staat eind deze week. Een halve migratie is slechter dan geen —
+dan bestaat de rekenpagina wel, maar linkt de rest van de site er niet naartoe.
+Dus **eerst de rekenpagina compleet en overal gelinkt, daarna pas de homepage.**
+
+Beide zijn eerst als preview gebouwd en bekeken voordat er iets aan de echte
+site veranderde. Die previews zijn bij oplevering verwijderd: ze droegen een
+tweede kopie van de tokens, en dat is precies hoe twee versies stil uit elkaar
+gaan lopen. Wat blijft staan is
+[demo/2026-08-31-stijlrichtingen.html](demo/2026-08-31-stijlrichtingen.html) —
+de drie kandidaat-richtingen naast elkaar, en daarmee de enige vastlegging van
+waaróm het deze richting is geworden.
 
 En dit keer kijk ik eerst hoe het eruitziet voordat ik zeg dat het goed is.

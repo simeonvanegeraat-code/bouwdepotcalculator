@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Stijlpreview — drie richtingen voor de homepage</title>
+<!--
+    Werkbestand, geen pagina van de site.
+
+    Bewust GEEN ingang in vite.config.js: zonder ingang komt dit bestand niet in
+    de build en dus niet op de site terecht. Het laadt ook design-system.css
+    niet, want het doel is juist om drie ALTERNATIEVE ontwerptalen naast elkaar
+    te zetten. Zodra er een richting gekozen is, verhuizen de tokens naar
+    src/styles/design-system.css en gaat dit bestand weg.
+
+    De drie richtingen komen van styles.refero.design, uitgezocht op 31-08-2026:
+      1. Ambrook  — "harvest ledger on butcher paper"
+      2. Ramp     — "editorial finance desk, one neon highlighter"
+      3. Equals   — "broadsheet meets spreadsheet"
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   1. Bedieningsbalk van de preview zelf
+   Staat bewust buiten de drie ontwerptalen: dit is gereedschap, geen ontwerp.
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; font-family: 'Inter', system-ui, sans-serif; }
+
+.bedien {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    padding: 9px 16px;
+    background: #14181a; color: #fff;
+    font-size: 13px; line-height: 1.3;
+}
+.bedien__titel { font-weight: 600; margin-right: auto; }
+.bedien__titel small { display: block; font-weight: 400; opacity: .55; font-size: 11px; }
+.bedien__groep { display: flex; gap: 4px; padding: 3px; background: rgba(255,255,255,.09); border-radius: 8px; }
+.bedien button {
+    font: inherit; font-size: 12px; color: #fff;
+    background: none; border: 0; border-radius: 6px;
+    padding: 6px 11px; min-height: 32px; cursor: pointer;
+}
+.bedien button[aria-pressed="true"] { background: #fff; color: #14181a; font-weight: 600; }
+/* Op 375 breed vrat deze balk 145px van het scherm en dat is precies de ruimte
+   die we hieronder aan het meten zijn. Dus: geen titel, kortere labels. */
+@media (max-width: 620px) {
+    .bedien { padding: 6px 10px; gap: 6px; }
+    .bedien__titel { display: none; }
+    .bedien button { padding: 5px 8px; min-height: 30px; font-size: 11px; }
+}
+
+/* ==========================================================================
+   2. Gedeelde structuur
+   Eén markup voor alle drie. Wat verschilt zijn de tokens en een handvol
+   structurele accenten per richting — precies zoals de bronsystemen het doen.
+   ========================================================================== */
+.doek {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-ui);
+    font-size: var(--t-body);
+    line-height: var(--lh-body);
+    letter-spacing: var(--ls-ui, 0);
+}
+.wrap { width: 100%; max-width: var(--max, 1200px); margin: 0 auto; padding: 0 20px; }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* --- Kop --- */
+.kop { border-bottom: 1px solid var(--line); background: var(--paper); }
+.kop__inner { display: flex; align-items: center; gap: 20px; min-height: 58px; }
+.merk { font-family: var(--font-merk, var(--font-ui)); font-size: 17px; font-weight: var(--w-merk, 600); letter-spacing: -.01em; color: var(--ink); text-decoration: none; }
+.merk b { font-weight: inherit; color: var(--ink-muted); }
+.kop nav { margin-left: auto; display: flex; gap: 22px; }
+.kop nav a { color: var(--ink-soft); text-decoration: none; font-size: 14px; }
+.kop nav a:hover { color: var(--ink); }
+@media (max-width: 720px) { .kop nav { display: none; } }
+
+/* --- Aanhef --- */
+.hero { padding: var(--sectie-pad) 0; }
+.aanhef { max-width: 46rem; margin-bottom: var(--gap-groot); }
+.eyebrow {
+    margin: 0 0 var(--gap-klein);
+    font-size: var(--t-eyebrow); font-weight: var(--w-nadruk);
+    text-transform: uppercase; letter-spacing: var(--ls-eyebrow);
+    color: var(--eyebrow-kleur);
+}
+h1 {
+    margin: 0 0 var(--gap-klein);
+    font-family: var(--font-display);
+    font-size: var(--t-display); font-weight: var(--w-display);
+    line-height: var(--lh-display); letter-spacing: var(--ls-display);
+    color: var(--ink);
+}
+.lead { margin: 0 0 var(--gap-mid); font-size: var(--t-lead); color: var(--ink-soft); max-width: 34rem; }
+.beloften { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; font-size: var(--t-caption); color: var(--ink-muted); }
+.beloften li { display: flex; align-items: center; gap: 7px; }
+.beloften li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--merkteken); flex: none; }
+
+/* --- Rekenblok --- */
+.reken { display: grid; grid-template-columns: 1fr; gap: var(--gap-mid); }
+@media (min-width: 900px) { .reken { grid-template-columns: 1.05fr 1fr; align-items: start; } }
+
+.kaart {
+    background: var(--surface);
+    border: var(--kaart-rand);
+    border-radius: var(--r-kaart);
+    box-shadow: var(--kaart-schaduw, none);
+    padding: var(--kaart-pad);
+}
+.uitkomst__label { margin: 0 0 4px; font-size: var(--t-eyebrow); text-transform: uppercase; letter-spacing: var(--ls-eyebrow); color: var(--ink-muted); font-weight: var(--w-nadruk); }
+.uitkomst__bedrag {
+    display: block;
+    font-family: var(--font-cijfer, var(--font-display));
+    font-size: var(--t-figuur); font-weight: var(--w-figuur);
+    line-height: 1; letter-spacing: var(--ls-display);
+    font-variant-numeric: tabular-nums; color: var(--ink);
+}
+.uitkomst__toelichting { margin: var(--gap-klein) 0 0; font-size: var(--t-small); color: var(--ink-soft); }
+
+.verhouding { margin: var(--gap-mid) 0 0; }
+.balk { display: flex; height: var(--balk-hoogte); border-radius: var(--r-balk); overflow: hidden; background: var(--sunk); border: var(--balk-rand, 0); }
+.balk__rente { background: var(--data-1); }
+.balk__aflossing { background: var(--data-2); }
+.legenda { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: var(--t-caption); color: var(--ink-soft); }
+.legenda span { display: flex; align-items: center; gap: 7px; }
+.stip { width: 9px; height: 9px; border-radius: var(--r-stip); flex: none; }
+.stip--rente { background: var(--data-1); }
+.stip--aflossing { background: var(--data-2); }
+.legenda strong { font-weight: var(--w-nadruk); color: var(--ink); font-variant-numeric: tabular-nums; }
+
+.uitsplitsing { margin: var(--gap-mid) 0 0; padding: 0; border-top: 1px solid var(--line); }
+.uitsplitsing div { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--line); font-size: var(--t-small); }
+.uitsplitsing dt { color: var(--ink-soft); }
+.uitsplitsing dd { margin: 0; font-weight: var(--w-nadruk); font-variant-numeric: tabular-nums; }
+.voetnoot { margin: var(--gap-klein) 0 0; font-size: var(--t-caption); color: var(--ink-muted); }
+
+/* --- Invoer --- */
+.invoer { display: grid; gap: var(--gap-mid); }
+.veld__kop { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 7px; }
+.veld__naam { font-size: var(--t-small); font-weight: var(--w-nadruk); color: var(--ink); }
+.veld__waarde { font-size: var(--t-small); color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+.omhulsel { display: flex; align-items: center; gap: 8px; padding: 0 14px; background: var(--surface); border: 1px solid var(--line-sterk); border-radius: var(--r-invoer); min-height: 48px; }
+.omhulsel:focus-within { border-color: var(--focus); box-shadow: var(--focus-ring); }
+.omhulsel > span { color: var(--ink-muted); font-size: var(--t-body); }
+.omhulsel input { flex: 1; min-width: 0; font: inherit; font-size: var(--t-invoer); font-weight: var(--w-nadruk); font-variant-numeric: tabular-nums; color: var(--ink); background: none; border: 0; padding: 11px 0; outline: none; }
+
+select {
+    width: 100%; min-height: 48px; padding: 12px 14px;
+    font: inherit; font-size: var(--t-body); color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line-sterk); border-radius: var(--r-invoer);
+}
+
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; margin: 12px 0 0; background: none; height: 24px; }
+input[type="range"]::-webkit-slider-runnable-track { height: 3px; background: var(--line-sterk); border-radius: 99px; }
+input[type="range"]::-moz-range-track { height: 3px; background: var(--line-sterk); border-radius: 99px; }
+input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; margin-top: -10px; border-radius: 50%; background: var(--accent); border: var(--duim-rand); cursor: pointer; }
+input[type="range"]::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); border: var(--duim-rand); cursor: pointer; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+.chip {
+    font: inherit; font-size: var(--t-caption); font-weight: var(--w-nadruk);
+    color: var(--ink-soft); background: var(--surface);
+    border: 1px solid var(--line-sterk); border-radius: var(--r-chip);
+    padding: 9px 13px; min-height: 38px; cursor: pointer;
+    font-variant-numeric: tabular-nums;
+}
+.chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent-rand, var(--accent)); }
+.rij-twee { display: grid; gap: var(--gap-mid); }
+@media (min-width: 520px) { .rij-twee { grid-template-columns: 1fr 1fr; } }
+
+/* --- Vervolgsectie --- */
+.kiezen { padding: var(--sectie-pad) 0; background: var(--sunk); border-top: 1px solid var(--line); }
+.sectiekop { max-width: 40rem; margin-bottom: var(--gap-groot); }
+.sectiekop h2 { margin: 0 0 var(--gap-klein); font-family: var(--font-display); font-size: var(--t-titel); font-weight: var(--w-display); line-height: 1.15; letter-spacing: var(--ls-display); }
+.sectiekop p { margin: 0; color: var(--ink-soft); font-size: var(--t-lead); }
+.keuzes { display: grid; gap: var(--gap-mid); grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.keuze { display: block; padding: var(--kaart-pad); background: var(--surface); border: var(--kaart-rand); border-radius: var(--r-kaart); text-decoration: none; color: inherit; }
+.keuze b { display: block; font-size: var(--t-lead); font-weight: var(--w-nadruk); margin-bottom: 6px; font-family: var(--font-display); letter-spacing: var(--ls-display); }
+.keuze span { display: block; font-size: var(--t-small); color: var(--ink-soft); }
+.keuze em { display: block; margin-top: 12px; font-style: normal; font-size: var(--t-caption); font-weight: var(--w-nadruk); color: var(--merkteken); }
+
+/* ==========================================================================
+   3. Richting A — Ambrook: "harvest ledger on butcher paper"
+   Warm perkament, geen enkele schaduw, hairlines als enige diepte, kop op
+   gewicht 500-600 in plaats van 700. Vertrouwen door warmte, niet door chroom.
+   ========================================================================== */
+[data-stijl="ledger"] {
+    --paper: #fcfaf1; --surface: #ffffff; --sunk: #efe9e0;
+    --line: #e2d9cc; --line-sterk: #c7bcaf;
+    --ink: #211b15; --ink-soft: #50463c; --ink-muted: #857868;
+    --accent: #e8b672; --accent-ink: #211b15; --accent-rand: #d9a55c;
+    --merkteken: #434f40;
+    --data-1: #434f40; --data-2: #e8b672;
+    --focus: #434f40; --focus-ring: 0 0 0 3px rgba(67,79,64,.14);
+    --duim-rand: 2px solid #211b15;
+
+    --font-ui: 'Inter', system-ui, sans-serif;
+    --font-display: 'Source Serif 4', Georgia, serif;
+    --font-merk: 'Source Serif 4', Georgia, serif; --w-merk: 600;
+    --t-caption: 13px; --t-eyebrow: 12px; --t-small: 15px; --t-body: 16px;
+    --t-lead: 18px; --t-invoer: 19px;
+    --t-titel: clamp(28px, 4vw, 38px);
+    --t-display: clamp(33px, 6.2vw, 58px);
+    --t-figuur: clamp(44px, 9.5vw, 66px);
+    --w-display: 600; --w-figuur: 600; --w-nadruk: 500;
+    --lh-body: 1.62; --lh-display: 1.08;
+    --ls-display: -.011em; --ls-eyebrow: .058em;
+    --eyebrow-kleur: #857868;
+
+    --r-kaart: 8px; --r-invoer: 4px; --r-knop: 4px; --r-chip: 999px; --r-balk: 2px; --r-stip: 2px;
+    --kaart-rand: 1px solid #c7bcaf;
+    --kaart-schaduw: none;
+    --balk-hoogte: 8px;
+    --kaart-pad: clamp(18px, 3.2vw, 32px);
+    --sectie-pad: clamp(28px, 5.5vw, 72px);
+    --gap-klein: 10px; --gap-mid: 18px; --gap-groot: 30px;
+    --max: 1160px;
+}
+[data-stijl="ledger"] .kop { border-bottom-color: #c7bcaf; }
+
+/* ==========================================================================
+   4. Richting B — Ramp: "editorial finance desk, one neon highlighter"
+   Bijna monochroom, één signaalkleur, en de hardste regel van de drie: alles
+   op gewicht 400. Hiërarchie komt uitsluitend uit maat en spatiëring.
+   Geen schaduwen, alles links uitgelijnd.
+   ========================================================================== */
+[data-stijl="redactie"] {
+    --paper: #f4f2f0; --surface: #ffffff; --sunk: #eceae8;
+    --line: #e5e7eb; --line-sterk: #d3d3d3;
+    --ink: #0c0a08; --ink-soft: #4a4948; --ink-muted: #6d6c6b;
+    --accent: #e4f222; --accent-ink: #0c0a08; --accent-rand: #cddb1a;
+    --merkteken: #0c0a08;
+    --data-1: #0c0a08; --data-2: #e4f222;
+    --focus: #0c0a08; --focus-ring: 0 0 0 3px rgba(12,10,8,.10);
+    --duim-rand: 1px solid #0c0a08;
+
+    --font-ui: 'Inter', system-ui, sans-serif;
+    --font-display: 'Inter', system-ui, sans-serif;
+    --t-caption: 12px; --t-eyebrow: 10px; --t-small: 15px; --t-body: 16px;
+    --t-lead: 19px; --t-invoer: 20px;
+    --t-titel: clamp(26px, 3.6vw, 40px);
+    --t-display: clamp(35px, 6.6vw, 62px);
+    --t-figuur: clamp(46px, 10.5vw, 74px);
+    /* Nooit vet: 400 overal. Dat is de kern van dit systeem. */
+    --w-display: 400; --w-figuur: 400; --w-nadruk: 400;
+    --lh-body: 1.5; --lh-display: 1.03;
+    --ls-display: -.022em; --ls-eyebrow: .018em; --ls-ui: -.006em;
+    --eyebrow-kleur: #6d6c6b;
+
+    --r-kaart: 16px; --r-invoer: 10px; --r-knop: 6px; --r-chip: 6px; --r-balk: 0; --r-stip: 2px;
+    --kaart-rand: 1px solid #e5e7eb;
+    --kaart-schaduw: none;
+    --balk-hoogte: 4px;
+    --kaart-pad: clamp(18px, 2.8vw, 26px);
+    --sectie-pad: clamp(30px, 6vw, 92px);
+    --gap-klein: 10px; --gap-mid: 18px; --gap-groot: 32px;
+    --max: 1200px;
+}
+/* Het signaalgeel mag alleen daar staan waar geld beweegt: één markeerstreep
+   langs de regel die het antwoord draagt, verder nergens. */
+[data-stijl="redactie"] .uitsplitsing div:first-child { box-shadow: inset 3px 0 0 var(--accent); padding-left: 12px; }
+[data-stijl="redactie"] .uitkomst__label { color: #0c0a08; }
+[data-stijl="redactie"] .chip[aria-pressed="true"] { border-color: #0c0a08; }
+
+/* ==========================================================================
+   5. Richting C — Equals: "broadsheet meets spreadsheet"
+   Redactionele serif op gewicht 400, maar groot. Zwart op crème, secties
+   gescheiden door haarlijnen in plaats van witruimte, knoppen als pil en
+   invoervelden juist haaks. Zwevende pasteltegels als spreadsheetcellen.
+   ========================================================================== */
+[data-stijl="broadsheet"] {
+    --paper: #faf9f5; --surface: #ffffff; --sunk: #f2f1ec;
+    --line: #cdccc9; --line-sterk: #000000;
+    --ink: #000000; --ink-soft: #646462; --ink-muted: #83837f;
+    --accent: #b074ce; --accent-ink: #ffffff; --accent-rand: #b074ce;
+    --merkteken: #1a8a66;
+    --data-1: #000000; --data-2: #2dcbdc;
+    --focus: #b074ce; --focus-ring: 0 0 0 3px rgba(176,116,206,.20);
+    --duim-rand: 1px solid #000;
+
+    --font-ui: 'Inter', system-ui, sans-serif;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-merk: 'Playfair Display', Georgia, serif; --w-merk: 500;
+    --t-caption: 13px; --t-eyebrow: 12px; --t-small: 15px; --t-body: 16px;
+    --t-lead: 18px; --t-invoer: 20px;
+    --t-titel: clamp(30px, 4.6vw, 48px);
+    --t-display: clamp(38px, 8vw, 82px);
+    --t-figuur: clamp(48px, 11vw, 80px);
+    --w-display: 400; --w-figuur: 400; --w-nadruk: 500;
+    --lh-body: 1.5; --lh-display: 1.02;
+    --ls-display: -.02em; --ls-eyebrow: .06em; --ls-ui: -.01em;
+    --eyebrow-kleur: #000000;
+
+    --r-kaart: 0; --r-invoer: 0; --r-knop: 60px; --r-chip: 50px; --r-balk: 0; --r-stip: 0;
+    --kaart-rand: 1px solid #000000;
+    --kaart-schaduw: none;
+    --balk-hoogte: 10px;
+    --balk-rand: 1px solid #000;
+    --kaart-pad: clamp(18px, 3vw, 28px);
+    --sectie-pad: clamp(28px, 5vw, 64px);
+    --gap-klein: 10px; --gap-mid: 18px; --gap-groot: 28px;
+    --max: 1180px;
+}
+/* Secties raken elkaar en worden gescheiden door één zwarte lijn — de
+   spreadsheetregel als bouwsteen van de pagina. */
+[data-stijl="broadsheet"] .kop { border-bottom: 1px solid #000; }
+[data-stijl="broadsheet"] .kiezen { border-top: 1px solid #000; background: var(--paper); }
+[data-stijl="broadsheet"] .uitsplitsing { border-top-color: #000; }
+[data-stijl="broadsheet"] .uitsplitsing div { border-bottom-color: #dedcd6; }
+[data-stijl="broadsheet"] .hero { position: relative; overflow: hidden; }
+[data-stijl="broadsheet"] .hero > .wrap { position: relative; z-index: 1; }
+[data-stijl="broadsheet"] .keuze em { color: #8a4fae; }
+
+/* De zwevende datacellen. Puur decoratief, dus aria-hidden in de markup, en
+   alleen zichtbaar in deze richting.
+
+   Bij Equals zweven ze langs de rand van het scherm, naast de tekstkolom. Ze
+   stonden hier eerst op procentposities en dan schoof er bij 1440 een mintvlak
+   onder "30 jaar" -- decoratie die het antwoord in de weg zit. Nu staan ze in
+   de marge naast de kolom, en verschijnen ze pas als die marge breed genoeg is
+   om ze te dragen. Onder die breedte is er geen marge en dus geen cel. */
+.cellen { display: none; }
+[data-stijl="broadsheet"] .cellen i { position: absolute; display: block; }
+[data-stijl="broadsheet"] .cellen i:nth-child(1) { left: 8px;  top: 16%; width: 74px; height: 52px; background: #d9f2ec; }
+[data-stijl="broadsheet"] .cellen i:nth-child(2) { left: 26px; top: 58%; width: 48px; height: 48px; background: #fdf0c8; }
+[data-stijl="broadsheet"] .cellen i:nth-child(3) { right: 10px; top: 10%; width: 86px; height: 56px; background: #e7dcf3; }
+[data-stijl="broadsheet"] .cellen i:nth-child(4) { right: 30px; top: 66%; width: 56px; height: 44px; background: #d6f1f5; }
+[data-stijl="broadsheet"] .cellen i:nth-child(5) { right: 4px;  top: 40%; width: 38px; height: 38px; background: #fbe0d8; }
+@media (min-width: 1420px) {
+    [data-stijl="broadsheet"] .cellen { display: block; position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+}
+
+/* ==========================================================================
+   Mobiel: 375px is de maatstaf
+   De harde eis op de homepage is invoer en uitkomst samen in beeld. De aanhef
+   is daar de duurste ruimte, dus die krimpt hier het hardst: kleinere kop,
+   minder marge, beloften op één compacte regelstroom. De drie richtingen delen
+   deze compactie zodat ze op gelijke voet vergeleken worden.
+   ========================================================================== */
+@media (max-width: 620px) {
+    .hero { padding-top: 18px; padding-bottom: 26px; }
+    .aanhef { margin-bottom: 16px; }
+    .eyebrow { margin-bottom: 6px; }
+    h1 { font-size: var(--t-display-mob, 28px); line-height: 1.1; margin-bottom: 8px; }
+    .lead { font-size: 15px; margin-bottom: 12px; line-height: 1.45; }
+    .beloften { gap: 3px 14px; font-size: 12px; line-height: 1.35; }
+    .reken { gap: 14px; }
+    .kaart { padding: 16px; }
+    .uitkomst__toelichting { font-size: 13px; line-height: 1.4; }
+    .verhouding { margin-top: 14px; }
+    .uitsplitsing { margin-top: 14px; }
+    .uitsplitsing div { padding: 9px 0; }
+    .voetnoot { font-size: 12px; }
+    .invoer { gap: 14px; }
+}
+/* De broadsheet-kop is een serif op 400 en heeft daardoor iets meer maat nodig
+   om als kop te lezen; de andere twee blijven op 28px. */
+[data-stijl="broadsheet"] { --t-display-mob: 32px; }
+
+/* ==========================================================================
+   6. Ons eigen accent
+   Elke richting brengt zijn eigen signaalkleur mee. Deze schakelaar vervangt
+   die door het teal uit ons huidige ontwerpsysteem, zodat de vraag "past deze
+   opbouw bij ons" los te beoordelen is van "past die kleur bij ons".
+   ========================================================================== */
+.doek.ons-accent {
+    --accent: #0E5F58; --accent-ink: #ffffff; --accent-rand: #0E5F58;
+    --merkteken: #0E5F58;
+    --data-2: #0E5F58;
+    --focus: #0E5F58; --focus-ring: 0 0 0 3px rgba(14,95,88,.18);
+}
+.doek.ons-accent[data-stijl="ledger"] { --data-1: #211b15; }
+.doek.ons-accent[data-stijl="redactie"] .uitsplitsing div:first-child { box-shadow: inset 3px 0 0 #0E5F58; }
+</style>
+</head>
+<body>
+
+<div class="bedien">
+    <span class="bedien__titel">Stijlpreview homepage<small>Zelfde inhoud, drie ontwerptalen. Werkbestand — niet in de build.</small></span>
+    <div class="bedien__groep" role="group" aria-label="Richting">
+        <button type="button" data-kies="ledger" aria-pressed="true">A · Ledger</button>
+        <button type="button" data-kies="redactie" aria-pressed="false">B · Redactie</button>
+        <button type="button" data-kies="broadsheet" aria-pressed="false">C · Broadsheet</button>
+    </div>
+    <div class="bedien__groep" role="group" aria-label="Accentkleur">
+        <button type="button" data-accent="eigen" aria-pressed="true">Accent van de bron</button>
+        <button type="button" data-accent="ons" aria-pressed="false">Ons teal</button>
+    </div>
+</div>
+
+<div class="doek" id="doek" data-stijl="ledger">
+
+    <header class="kop">
+        <div class="wrap kop__inner">
+            <a class="merk" href="#">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <nav>
+                <a href="#">Wat past bij mij</a>
+                <a href="#">Voorwaarden per bank</a>
+                <a href="#">Uitleg</a>
+                <a href="#">Over ons</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <!-- Alleen zichtbaar in richting C. Decoratief, dus buiten de
+                 toegankelijkheidsboom. -->
+            <div class="cellen" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i>
+            </div>
+
+            <div class="wrap">
+                <div class="aanhef">
+                    <p class="eyebrow">Bouwdepot berekenen</p>
+                    <h1>Wat kost uw bouwdepot per maand?</h1>
+                    <p class="lead">De voorwaarden van acht geldverstrekkers, doorgerekend voor uw eigen situatie.</p>
+                    <ul class="beloften">
+                        <li>Elk gegeven met bron en controledatum</li>
+                        <li>Geen registratie, uw invoer blijft op dit apparaat</li>
+                        <li>Wij verkopen niets en sturen u niet door</li>
+                    </ul>
+                </div>
+
+                <div class="reken">
+                    <div class="kaart">
+                        <p class="uitkomst__label">Bruto maandlast, eerste maand</p>
+                        <strong class="uitkomst__bedrag" id="res-bedrag">&euro; 116</strong>
+                        <p class="uitkomst__toelichting" id="res-toelichting">Bij annu&iuml;teiten blijft dit bedrag de hele looptijd gelijk. Alleen de verhouding schuift: het rentedeel daalt, de aflossing stijgt.</p>
+
+                        <div class="verhouding">
+                            <div class="balk" aria-hidden="true">
+                                <div class="balk__rente" id="balk-rente" style="width:68%"></div>
+                                <div class="balk__aflossing" id="balk-aflossing" style="width:32%"></div>
+                            </div>
+                            <p class="legenda">
+                                <span><i class="stip stip--rente"></i>Rente <strong id="res-rente">&euro; 79</strong></span>
+                                <span><i class="stip stip--aflossing"></i>Aflossing <strong id="res-aflossing">&euro; 37</strong></span>
+                            </p>
+                        </div>
+
+                        <dl class="uitsplitsing">
+                            <div><dt>Bruto maandlast</dt><dd id="res-bruto">&euro; 116</dd></div>
+                            <div><dt>Rente eerste maand</dt><dd id="res-rente2">&euro; 79</dd></div>
+                            <div><dt>Rente over de hele looptijd</dt><dd id="res-totaal">&euro; 16.960</dd></div>
+                        </dl>
+
+                        <p class="voetnoot">Indicatief hulpmiddel. Uw werkelijke last hangt af van acceptatie, productvoorwaarden en uw fiscale situatie.</p>
+                    </div>
+
+                    <div class="invoer">
+                        <div>
+                            <div class="veld__kop"><label class="veld__naam" for="in-bedrag">Bedrag bouwdepot</label></div>
+                            <div class="omhulsel">
+                                <span>&euro;</span>
+                                <input type="text" id="in-bedrag" value="25.000" inputmode="numeric">
+                            </div>
+                            <input type="range" id="rng-bedrag" min="5000" max="150000" step="500" value="25000" aria-label="Bedrag bouwdepot">
+                            <div class="chips">
+                                <button class="chip" type="button" data-bedrag="15000" aria-pressed="false">15.000</button>
+                                <button class="chip" type="button" data-bedrag="25000" aria-pressed="true">25.000</button>
+                                <button class="chip" type="button" data-bedrag="50000" aria-pressed="false">50.000</button>
+                                <button class="chip" type="button" data-bedrag="100000" aria-pressed="false">100.000</button>
+                            </div>
+                        </div>
+
+                        <div class="rij-twee">
+                            <div>
+                                <div class="veld__kop"><label class="veld__naam" for="in-rente">Hypotheekrente</label></div>
+                                <div class="omhulsel">
+                                    <input type="text" id="in-rente" value="3,80" inputmode="decimal">
+                                    <span>%</span>
+                                </div>
+                                <input type="range" id="rng-rente" min="0.1" max="10" step="0.1" value="3.8" aria-label="Hypotheekrente">
+                            </div>
+                            <div>
+                                <div class="veld__kop">
+                                    <label class="veld__naam" for="rng-jaren">Looptijd</label>
+                                    <span class="veld__waarde" id="val-jaren">30 jaar</span>
+                                </div>
+                                <input type="range" id="rng-jaren" min="10" max="30" step="5" value="30">
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="veld__kop"><label class="veld__naam" for="in-vorm">Hypotheekvorm</label></div>
+                            <select id="in-vorm">
+                                <option value="annuity">Annu&iuml;teiten</option>
+                                <option value="linear">Lineair</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="kiezen">
+            <div class="wrap">
+                <div class="sectiekop">
+                    <p class="eyebrow">Verder komen</p>
+                    <h2>Waar staat u nu?</h2>
+                    <p>Vier situaties, elk met de berekening en de uitleg die erbij hoort.</p>
+                </div>
+                <div class="keuzes">
+                    <a class="keuze" href="#"><b>Ik ori&euml;nteer me nog</b><span>Wat een bouwdepot is, wat u eruit mag betalen en waar u op moet letten.</span><em>Naar de kennisbank &rarr;</em></a>
+                    <a class="keuze" href="#"><b>Ik ga verbouwen</b><span>Wat uw verbouwing gaat kosten, post voor post, en wat daarvan uit het depot mag.</span><em>Begroting maken &rarr;</em></a>
+                    <a class="keuze" href="#"><b>Ik koop nieuwbouw</b><span>Bouwtermijnen, dubbele lasten en de maand waarin het het zwaarst drukt.</span><em>Nieuwbouwplanning &rarr;</em></a>
+                    <a class="keuze" href="#"><b>Mijn depot loopt al</b><span>Houd bij wat er nog in zit en wanneer de vergoeding stopt.</span><em>Depotplanner &rarr;</em></a>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script type="module">
+/* De preview rekent echt, want een stijl beoordelen met een stilstaand getal
+   zegt niets over hoe hij aanvoelt tijdens het typen. Formule en Nederlandse
+   notatie zijn overgenomen uit src/js/main.js en src/js/getallen.js, zodat de
+   uitkomsten hier gelijk zijn aan die op de site. */
+
+const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+
+function leesBedrag(tekst) {
+    const schoon = String(tekst).replace(/[^0-9,.-]/g, '').replace(/\./g, '').replace(',', '.');
+    const n = Number(schoon);
+    return schoon === '' || !Number.isFinite(n) ? null : n;
+}
+
+function leesPercentage(tekst) {
+    const schoon = String(tekst).replace(/[^0-9,.-]/g, '').replace(',', '.');
+    const n = Number(schoon);
+    return schoon === '' || !Number.isFinite(n) ? null : n;
+}
+
+const el = (id) => document.getElementById(id);
+const inBedrag = el('in-bedrag'), rngBedrag = el('rng-bedrag');
+const inRente = el('in-rente'), rngRente = el('rng-rente');
+const rngJaren = el('rng-jaren'), inVorm = el('in-vorm');
+
+function reken() {
+    const bedrag = leesBedrag(inBedrag.value);
+    const rente = leesPercentage(inRente.value);
+    const jaren = Number(rngJaren.value);
+    el('val-jaren').textContent = jaren + ' jaar';
+
+    if (bedrag === null || rente === null) return;
+
+    const maandrente = (rente / 100) / 12;
+    const maanden = jaren * 12;
+    const vorm = inVorm.value;
+
+    let bruto;
+    if (rente === 0) {
+        bruto = bedrag / maanden;
+    } else if (vorm === 'linear') {
+        bruto = (bedrag / maanden) + (bedrag * maandrente);
+    } else {
+        bruto = bedrag * (maandrente / (1 - Math.pow(1 + maandrente, -maanden)));
+    }
+
+    const renteDeel = bedrag * maandrente;
+    const aflossing = Math.max(0, bruto - renteDeel);
+    const totaleRente = vorm === 'linear'
+        ? maandrente * bedrag * (maanden + 1) / 2
+        : bruto * maanden - bedrag;
+
+    el('res-bedrag').textContent = euro.format(bruto);
+    el('res-bruto').textContent = euro.format(bruto);
+    el('res-rente').textContent = euro.format(renteDeel);
+    el('res-rente2').textContent = euro.format(renteDeel);
+    el('res-aflossing').textContent = euro.format(aflossing);
+    el('res-totaal').textContent = euro.format(totaleRente);
+    el('res-toelichting').textContent = vorm === 'linear'
+        ? 'Bij lineair is dit uw hoogste maand. De aflossing blijft gelijk, het rentedeel daalt, dus uw last wordt elke maand iets lager.'
+        : 'Bij annuïteiten blijft dit bedrag de hele looptijd gelijk. Alleen de verhouding schuift: het rentedeel daalt, de aflossing stijgt.';
+
+    const aandeelRente = bruto > 0 ? Math.min(100, (renteDeel / bruto) * 100) : 0;
+    el('balk-rente').style.width = aandeelRente.toFixed(1) + '%';
+    el('balk-aflossing').style.width = (100 - aandeelRente).toFixed(1) + '%';
+
+    document.querySelectorAll('[data-bedrag]').forEach((knop) => {
+        knop.setAttribute('aria-pressed', String(Number(knop.dataset.bedrag) === bedrag));
+    });
+}
+
+inBedrag.addEventListener('input', () => {
+    const n = leesBedrag(inBedrag.value);
+    if (n !== null) rngBedrag.value = Math.min(150000, Math.max(5000, n));
+    reken();
+});
+rngBedrag.addEventListener('input', () => {
+    inBedrag.value = Number(rngBedrag.value).toLocaleString('nl-NL');
+    reken();
+});
+inRente.addEventListener('input', () => {
+    const n = leesPercentage(inRente.value);
+    if (n !== null) rngRente.value = Math.min(10, Math.max(0.1, n));
+    reken();
+});
+rngRente.addEventListener('input', () => {
+    inRente.value = Number(rngRente.value).toFixed(2).replace('.', ',');
+    reken();
+});
+rngJaren.addEventListener('input', reken);
+inVorm.addEventListener('change', reken);
+document.querySelectorAll('[data-bedrag]').forEach((knop) => {
+    knop.addEventListener('click', () => {
+        inBedrag.value = Number(knop.dataset.bedrag).toLocaleString('nl-NL');
+        rngBedrag.value = knop.dataset.bedrag;
+        reken();
+    });
+});
+
+/* Schakelaars van de preview. */
+const doek = el('doek');
+document.querySelectorAll('[data-kies]').forEach((knop) => {
+    knop.addEventListener('click', () => {
+        doek.dataset.stijl = knop.dataset.kies;
+        document.querySelectorAll('[data-kies]').forEach((k) => k.setAttribute('aria-pressed', String(k === knop)));
+    });
+});
+document.querySelectorAll('[data-accent]').forEach((knop) => {
+    knop.addEventListener('click', () => {
+        doek.classList.toggle('ons-accent', knop.dataset.accent === 'ons');
+        document.querySelectorAll('[data-accent]').forEach((k) => k.setAttribute('aria-pressed', String(k === knop)));
+    });
+});
+
+reken();
+</script>
+</body>
+</html>

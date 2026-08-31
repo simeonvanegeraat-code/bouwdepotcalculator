@@ -8,8 +8,8 @@ vertelt je hoe `.bankmelding` eruitziet, maar niet dat de amberkleur "let op"
 betekent en dat je hem dus niet moet pakken voor een gewone mededeling. Dat gat
 vult dit bestand.
 
-**Kijk hier eerst voordat je een nieuwe klasse maakt.** Er zijn er 109, verspreid
-over vier stylesheets en ruim 1.800 regels. De kans dat wat je nodig hebt er al
+**Kijk hier eerst voordat je een nieuwe klasse maakt.** Er zijn er ruim 150, verspreid
+over vijf stylesheets en ruim 2.200 regels. De kans dat wat je nodig hebt er al
 staat is groot: `.alleen-print` is een keer opnieuw uitgevonden terwijl hij er
 al was.
 
@@ -20,7 +20,7 @@ hier ontbreekt.
 
 ## 1. Basis — `design-system.css`
 
-Geladen door alle 31 pagina's. Dit is de woordenschat; de rest bouwt erop voort.
+Geladen door 31 pagina's. Dit is de woordenschat van de oude richting; zie ook §5.
 
 ### Structuur en tekst
 
@@ -90,7 +90,7 @@ Geladen door alle 31 pagina's. Kop, voet en de bouwstenen van tekstpagina's.
 | `.kop` | De bovenbalk. Blijft plakken bij scrollen |
 | `.merk` | Het woordmerk. Mag de navigatie overstemmen |
 | `.kruimel` | Kruimelpad. Valt weg bij printen |
-| `.toolbalk` | Tweede kopregel met de zeven rekenhulpen bij naam. Vanaf 640px; daaronder dekt het uitklapmenu ze af. Noemt de dingen zelf, geen categorielabels |
+| `.toolbalk` | Tweede kopregel met de acht rekenhulpen bij naam. Vanaf 640px; daaronder dekt het uitklapmenu ze af. Noemt de dingen zelf, geen categorielabels |
 | `.voet` | De voettekst. Sinds 22-08 het vangnet met alle elf tools |
 | `.kern` | Kerncijfers bovenaan: antwoord eerst |
 | `main::before` | Het meetraster bovenaan, dat halverwege het eerste scherm oplost in papier. Geen component om te gebruiken maar wel om te kennen: `main` is daardoor een eigen stapelcontext en `main > *` staat op `z-index: 1` |
@@ -111,9 +111,9 @@ Geladen door alle 31 pagina's. Kop, voet en de bouwstenen van tekstpagina's.
 | `.scenarios` / `.scenario` | Scenario's naast elkaar. Op mobiel kaarten, geen brede tabel |
 | `.checklijst` | Afvinkbare voorbereidingslijst |
 | `.fouten` / `.fout` | Genummerde problemen, elk met een eigen oplossingsblok |
-| `.tijdlijn` | Fasen die elkaar opvolgen. **Let op de naambotsing, zie §5** |
+| `.tijdlijn` | Fasen die elkaar opvolgen. **Let op de naambotsing, zie §6** |
 | `.fase-blok` | Blok binnen die tijdlijn |
-| `.cat` | Uitklapbare categorie. **Let op de naambotsing, zie §5** |
+| `.cat` | Uitklapbare categorie. **Let op de naambotsing, zie §6** |
 
 ### Bankkeuze
 
@@ -192,7 +192,7 @@ Geladen door de tien rekenpagina's plus de depotplanner en de begroting.
 | Component | Waarvoor |
 |---|---|
 | `.budget` | Het budgetblok |
-| `.cat` | Uitklapbare categorie. De samenvattingsregel is de knop: naam, aantal posten en subtotaal. **Naambotsing, zie §5** |
+| `.cat` | Uitklapbare categorie. De samenvattingsregel is de knop: naam, aantal posten en subtotaal. **Naambotsing, zie §6** |
 | `.post` | Eén kostenpost |
 | `.merkje` | Label bij een post, bijvoorbeeld of hij uit het depot mag |
 | `.alleen-print` | **Verschijnt alleen op papier.** Bestaat al; niet opnieuw maken. De begroting gebruikt hem voor de specificatie, `afdrukdocument.js` voor het overzicht |
@@ -207,13 +207,95 @@ Geladen door `stappenplan.html` en `adviesgesprek-checklist.html`.
 |---|---|
 | `.voortgang` / `.plan-progress-track` | Voortgangsbalk |
 | `.fasen` / `.fase` | De fasen van het plan |
-| `.stap` | Aanvinkbaar controlepunt met een ruim raakvlak. **Naambotsing, zie §5** |
+| `.stap` | Aanvinkbaar controlepunt met een ruim raakvlak. **Naambotsing, zie §6** |
 | `.dossier` | Dossiermatrix |
 | `.scenariovel` | Invulbaar scenariovel op de advieschecklist |
 
 ---
 
-## 5. Naambotsingen
+## 5. De broadsheet-richting — `broadsheet.css`
+
+Geladen door `bouwdepot-berekenen.html`, en straks door de homepage. Dit is de
+nieuwe ontwerptaal uit [ONTWERPPLAN.md](../ONTWERPPLAN.md) §3.
+
+**Waarom dit náást `design-system.css` staat en niet erin.** Dat bestand wordt
+door alle 31 pagina's geladen; de tokens erin omzetten zou 29 pagina's in één
+klap herstijlen die er niet op gebouwd zijn. Dit is de migratiedoos: pagina's
+stappen er één voor één op over met `<body class="bs">`, en zodra ze er allemaal
+op staan verhuist dit naar `design-system.css`.
+
+Zolang die migratie loopt bestaan er twee tokenverzamelingen naast elkaar. Dat
+is bewust en tijdelijk. Wat gelijk moet blijven is de accentkleur: `--bs-accent`
+en `--ds-accent` zijn allebei `#0E5F58`.
+
+**De prefix is `bs-` en dat is geen netheid maar noodzaak:** `.kop` en `.voet`
+bestaan al in `pagina.css`. Twee betekenissen voor dezelfde klasse is een fout
+die zich pas maanden later meldt.
+
+### Raamwerk
+
+| Component | Waarvoor |
+|---|---|
+| `.bs` | Zet de tokens op `<body>`. Zonder deze klasse doet niets het |
+| `.bs-wrap` | Breedtebegrenzing, 1400px. Ruimer dan `.ds-wrap`: de broadsheet leeft van marge |
+| `.bs-micro` | Kapitaaltjes op 11px. Doet hier het werk dat elders een kader doet. **Niet voor lopende tekst** |
+| `.bs-kop` / `.bs-merk` / `.bs-staafjes` | Paginakop. De staafjes zijn de menuknop: een staafdiagram, want het is een rekensite |
+| `.bs-kruimel` | Kruimelpad |
+| `.bs-sectie` / `.bs-sectiekop` / `.bs-titel` | Sectieraamwerk |
+| `.bs-kolommen` | Drie kolommen tekst onder een streep. Voor uitleg, niet voor tools |
+| `.bs-donker` | Omgekeerde sectie op perszwart. Eén per pagina, anders verliest hij zijn functie |
+| `.bs-band` | De accentband onderaan. De handtekening van de pagina |
+| `.bs-voet` | Paginavoet |
+
+### Actie en invoer
+
+| Component | Waarvoor |
+|---|---|
+| `.bs-knop` | Primaire actie. Enige plek met diepte, en die schaduw is getint met het accent. Varianten: `--spook` op donkere grond (**niet op licht: de rand verdwijnt**), `--licht` secundair op licht |
+| `.bs-beloften` | Rij korte beloften met een accentblokje ervoor |
+| `.bs-veld__kop` / `.bs-veld__naam` / `.bs-veld__waarde` / `.bs-veld__fout` | Label, huidige waarde en foutmelding bij een invoerveld |
+| `.bs-omhulsel` | Invoerveld met een voor- of achtervoegsel (`€`, `%`) |
+| `.bs-select` / `.bs-schuif` | Keuzelijst en schuifregelaar |
+| `.bs-chips` / `.bs-chip` | Voorkeuzeknoppen. Stand staat in `aria-pressed`, **niet in een eigen klasse** |
+| `.bs-keuzevak` | Aanvinkoptie met toelichting |
+| `.bs-veldrij` | Twee velden naast elkaar vanaf 560px |
+| `.bs-uitklap` / `.bs-uitklap__knop` | Uitklapblok. De knopvariant bestaat omdat `main.js` dat blok zelf schakelt en geen `<details>` aanstuurt |
+
+### De uitkomst
+
+| Component | Waarvoor |
+|---|---|
+| `.bs-blad` | De uitkomst als rekening op papier, met gescheurde onderrand. Variant `--zwevend` ademt, kantelt en print zichzelf uit; **alleen op de homepage**, want daar is het blad een illustratie en niet het antwoord. **Geen nabootsing van een bankafschrift:** het draagt onze naam en het woord "indicatie" |
+| `.bs-blad__stempel` | Het label rechtsboven op het blad |
+| `.bs-antwoord` / `.bs-antwoord__bedrag` | Het antwoord, met de markeerstift eronder. Die streep is een achtergrondverloop en geen pseudo-element, zodat er één techniek is voor markeren |
+| `.bs-verhouding` | Balk met de verdeling rente/aflossing |
+| `.bs-uitsplitsing` | Regels onder het antwoord. Regels met `hidden` worden expliciet verborgen, want `display:flex` wint anders van dat attribuut |
+| `.bs-bank` / `.bs-bank__feiten` | Bankstrook. **De `.detail`-tekst rendert altijd mee**; `tests/nuance.test.mjs` faalt als dat niet gebeurt |
+| `.bs-melding` | Let-op-blok met een accentrand links. Voor nuance, niet voor een gewone mededeling |
+| `.bs-voorbehoud` | Kleine tekst met het voorbehoud |
+
+### De homepage
+
+| Component | Waarvoor |
+|---|---|
+| `.bs-muur` | De typografische muur: op de homepage ís de kop de pagina. **Alleen daar** — een rekenpagina heeft een korte kop nodig, geen wand |
+| `.bs-toneel` / `.bs-kantel` | Perspectief en muiskanteling om het zwevende blad. Drie geneste lagen omdat twee transforms op één element elkaar overschrijven |
+| `.bs-regelaar` | De schuif onder het blad. Rekent één voorbeeld door, bewust niet de hele calculator |
+| `.bs-kern` | Drie kerncijfers uit de dataset op de donkere sectie. **De getallen staan met de hand in de HTML** en `tests/kerncijfers.test.mjs` bewaakt dat ze bij `data/bouwdepot-voorwaarden.json` blijven kloppen |
+
+### Rekenpagina en gereedschap
+
+| Component | Waarvoor |
+|---|---|
+| `.bs-reken` / `.bs-reken__grid` | Kop, uitkomst, invoer. Uitkomst staat ook in de DOM boven de invoer |
+| `.bs-invoer` | De invoerkolom |
+| `.bs-reken__na` | Derde blok in het raster: printactie en voorbehoud, ná de invoer |
+| `.bs-aannames` | Uitklapblok met de uitgangspunten van de berekening |
+| `.bs-rooster` / `.bs-tool` | Gereedschapsrooster met haarlijnen als raster, geen losse kaarten. Variant `--inline` voor één tool tussen de invoervelden |
+
+---
+
+## 6. Naambotsingen
 
 Vijf klassen zijn in twee stylesheets gedefinieerd. Dat werkt nu, maar alleen
 omdat de volgorde van de `<link>`-regels toevallig goed staat: `calculator.css`

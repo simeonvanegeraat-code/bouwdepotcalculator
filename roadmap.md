@@ -1,6 +1,6 @@
 # Roadmap
 
-**Bijgewerkt:** 19 augustus 2026
+**Bijgewerkt:** 31 augustus 2026
 
 **Huidig doel:** de bestaande codebase van bouwdepotcalculator.nl herzien en
 verbeteren, zodat hij professioneler en beter geordend is en klaar voor groei via
@@ -41,6 +41,22 @@ dat attribuut zet niemand. Must fix, en het eerste dat we bij de homepage
 oppakken.
 
 ### 2. UI/UX van de calculator — het moet te vertrouwen zijn
+
+**Stand 31-08-2026.** De homepage is een introductie geworden en de rekenmachine
+heeft een eigen pagina: `bouwdepot-berekenen.html`. Beide staan in de nieuwe
+ontwerptaal uit [ONTWERPPLAN.md](ONTWERPPLAN.md) §3, met de tokens in
+`src/styles/broadsheet.css`. Zie [spec/homepage-als-introductie.md](spec/homepage-als-introductie.md).
+
+Wat daar nu op volgt, in deze volgorde:
+
+1. De andere 29 pagina's naar `broadsheet.css`. Tot dat af is staan er twee
+   ontwerptalen naast elkaar op de site.
+2. Bij de eerste van die pagina's moet er een lettergewicht weg: de oude
+   richting gebruikt 400/600/700, de nieuwe 400/500/600, en
+   `tests/typografie.test.mjs` staat er drie toe.
+3. Zodra alles over is verhuist `broadsheet.css` naar `design-system.css` en
+   verdwijnen `design-system.css`, `pagina.css` en `calculator.css` in hun
+   huidige vorm.
 
 **Let op: de plandocumenten lopen achter op de code.** De hiërarchiefout uit
 [ONTWERPPLAN-HIERARCHIE.md](ONTWERPPLAN-HIERARCHIE.md) is al gerepareerd, en de

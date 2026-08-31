@@ -19,7 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const STYLESHEETS = ['design-system.css', 'pagina.css', 'calculator.css', 'stappenplan.css'];
+const STYLESHEETS = ['design-system.css', 'pagina.css', 'calculator.css', 'stappenplan.css', 'broadsheet.css'];
 
 const lijst = fs.readFileSync(path.join(ROOT, 'context/componenten.md'), 'utf8');
 
@@ -77,7 +77,7 @@ test('de lijst noemt geen componenten die niet meer bestaan', () => {
 });
 
 /**
- * De vijf bekende naambotsingen staan in §5 beschreven. Komt er een zesde bij,
+ * De vijf bekende naambotsingen staan in §6 beschreven. Komt er een zesde bij,
  * dan hoort die er ook in: twee stylesheets die dezelfde klasse definiëren
  * werken alleen zolang de volgorde van de link-regels toevallig goed staat.
  */
@@ -87,12 +87,12 @@ test('nieuwe naambotsingen zijn beschreven', () => {
         .map(([klasse]) => klasse);
 
     const onbeschreven = botsingen.filter((k) => {
-        const na = lijst.slice(lijst.indexOf('## 5. Naambotsingen'));
+        const na = lijst.slice(lijst.indexOf('## 6. Naambotsingen'));
         return !na.includes(`\`.${k}\``);
     });
 
     assert.deepEqual(
         onbeschreven, [],
-        `deze klassen staan in twee stylesheets en horen in §5 van de lijst:\n    ${onbeschreven.join('\n    ')}`,
+        `deze klassen staan in twee stylesheets en horen in §6 van de lijst:\n    ${onbeschreven.join('\n    ')}`,
     );
 });
