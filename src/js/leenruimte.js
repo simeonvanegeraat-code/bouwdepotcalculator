@@ -119,7 +119,7 @@ if (wortel) {
         const naarMaandlast = el('lr-naar-maandlast');
         if (naarMaandlast) {
             const financierbaar = Math.min(bedrag, ruimte);
-            naarMaandlast.href = financierbaar > 0 ? `/?bedrag=${Math.round(financierbaar)}` : '/';
+            naarMaandlast.href = financierbaar > 0 ? `bouwdepot-berekenen.html?bedrag=${Math.round(financierbaar)}` : 'bouwdepot-berekenen.html';
         }
 
         bewaar();

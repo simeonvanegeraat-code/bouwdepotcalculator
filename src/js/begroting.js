@@ -140,9 +140,9 @@ if (wortel) {
                 ? `Van dit bedrag komt ${euro.format(eigen)} naar verwachting niet uit het bouwdepot, omdat het niet vast aan de woning zit. Reken daar eigen geld voor.`
                 : `Alle ingevulde posten zitten vast aan de woning en komen doorgaans in aanmerking voor het bouwdepot.`;
 
-        // Doorgeven aan de maandlastberekening op de homepage.
+        // Doorgeven aan de rekenpagina, zodat de reeks begroting -> maandlast doorloopt.
         const doorreken = el('naar-maandlast');
-        if (doorreken) doorreken.href = totaal > 0 ? `/?bedrag=${Math.round(depot + margeBedrag)}` : '/';
+        if (doorreken) doorreken.href = totaal > 0 ? `bouwdepot-berekenen.html?bedrag=${Math.round(depot + margeBedrag)}` : 'bouwdepot-berekenen.html';
 
         bouwSpecificatie({ depot, eigen, noodzakelijk, gewenst, margeBedrag, margePct, totaal });
 
