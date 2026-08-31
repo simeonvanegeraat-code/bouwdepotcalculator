@@ -50,13 +50,41 @@ ontwerptaal uit [ONTWERPPLAN.md](ONTWERPPLAN.md) §3, met de tokens in
 Wat daar nu op volgt, in deze volgorde:
 
 1. De andere 29 pagina's naar `broadsheet.css`. Tot dat af is staan er twee
-   ontwerptalen naast elkaar op de site.
-2. Bij de eerste van die pagina's moet er een lettergewicht weg: de oude
-   richting gebruikt 400/600/700, de nieuwe 400/500/600, en
-   `tests/typografie.test.mjs` staat er drie toe.
-3. Zodra alles over is verhuist `broadsheet.css` naar `design-system.css` en
+   ontwerptalen naast elkaar op de site. Volgorde: eerst het gereedschap, want
+   dat is het product; daarna de vergelijking, dan de uitleg, dan het beleid.
+2. Zodra alles over is verhuist `broadsheet.css` naar `design-system.css` en
    verdwijnen `design-system.css`, `pagina.css` en `calculator.css` in hun
-   huidige vorm.
+   huidige vorm. Dan houden we ook één set lettergewichten over: nu bewaakt
+   `tests/typografie.test.mjs` er twee, 400/600/700 voor de oude richting en
+   400/500/600 voor de broadsheet.
+
+| # | Pagina | Stand |
+|---|---|---|
+| — | `index.html` | **om**, 31-08 |
+| — | `bouwdepot-berekenen.html` | **nieuw**, 31-08 |
+| 1 | `maandlasten-bouwdepot.html` | **om**, 31-08 |
+| 2 | `leenruimte.html` | **om**, 31-08 |
+| 3 | `verbouwbegroting.html` | open — gegenereerd, gaat via `scripts/build-begroting.mjs` |
+| 4 | `nieuwbouw.html` | open |
+| 5 | `depotplanner.html` | open |
+| 6 | `belasting.html` | open |
+| 7 | `renteverlies-bouwdepot.html` | open |
+| 8 | `dubbele-lasten-nieuwbouw.html` | open |
+| 9 | `bouwrente-nieuwbouw.html` | open |
+| 10 | `stappenplan.html` + `adviesgesprek-checklist.html` | open — hebben een eigen stylesheet |
+| 11 | `bouwdepot-voorwaarden-vergelijken.html` + acht bankpagina's | open — gegenereerd |
+| 12 | `kennisbank`, `bouwdepot-fouten`, `hypotheekrenteaftrek-gids`, `bouwdepot-declaratie-afgewezen`, `methodologie` | open |
+| 13 | `over-ons`, `contact`, `privacy`, `cookies`, `voorwaarden` | open |
+
+Het patroon per pagina, en dat is niet vrijblijvend:
+
+- Markup naar `bs-`-klassen met **exact dezelfde element-ids**, zodat de
+  rekenmodule niet meegaat en de logica onaangeroerd blijft.
+- De oude versie uit git halen (`git show HEAD:<pagina> > _oud.html`) en naast
+  de nieuwe meten op 375 en 1440. Daarna dat bestand weggooien.
+- Uitkomsten bij gelijke invoer vergelijken, niet alleen de opmaak bekijken.
+- Nieuwe componenten in [context/componenten.md](context/componenten.md), met
+  erbij waar ze **niet** voor zijn.
 
 **Let op: de plandocumenten lopen achter op de code.** De hiërarchiefout uit
 [ONTWERPPLAN-HIERARCHIE.md](ONTWERPPLAN-HIERARCHIE.md) is al gerepareerd, en de
