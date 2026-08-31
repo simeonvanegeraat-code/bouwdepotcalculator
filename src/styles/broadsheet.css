@@ -551,3 +551,33 @@
 .bs-kern__tekst { margin: 10px 0 0; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-sage); }
 
 .bs-donker__lead { margin: 16px 0 0; max-width: 44ch; font-size: var(--bs-t-lead); line-height: 1.4; color: var(--bs-sage); letter-spacing: -.015em; }
+
+/* ==========================================================================
+   Kleine tekst bij invoer en uitkomst
+   Drie dingen die op elke rekenpagina terugkomen en die het verschil moeten
+   dragen tussen "dit legt een veld uit", "dit is een kanttekening bij het
+   antwoord" en "dit is de volgende vraag".
+   ========================================================================== */
+
+/* Hulptekst onder een invoerveld. Voor uitleg over dít veld, niet voor
+   waarschuwingen -- die horen in .bs-melding met de accentrand. */
+.bs-hulp { margin: 8px 0 0; font-size: var(--bs-t-micro); line-height: 1.5; color: var(--bs-newsprint); }
+.bs-hulp a { color: var(--bs-ink); }
+
+/* Kanttekening bij de uitkomst: wat het getal niet zegt. */
+.bs-notitie { margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--bs-lijn); font-size: var(--bs-t-klein); line-height: 1.55; color: var(--bs-newsprint); }
+
+/* De volgende vraag, onder de uitkomstkolom. Bewust een kale tekstregel en
+   geen knop: een tweede knop maakt van de uitkomst een keuzemenu. */
+.bs-vervolgstap { margin: 18px 0 0; font-size: var(--bs-t-klein); line-height: 1.5; color: var(--bs-newsprint); }
+.bs-vervolgstap a { color: var(--bs-ink); font-weight: 500; }
+
+/* Een kort getalveld in de kop van een veld, naast het label. Voor een maat die
+   je zowel wilt kunnen typen als slepen. */
+.bs-kort {
+    width: 4.5ch; padding: 4px 0;
+    font: inherit; font-size: var(--bs-t-klein); font-weight: 500;
+    font-variant-numeric: tabular-nums; text-align: right; color: var(--bs-ink);
+    background: none; border: 0; border-bottom: 1px solid var(--bs-lijn);
+}
+.bs-kort:focus-visible { outline: none; border-bottom-color: var(--bs-accent); }

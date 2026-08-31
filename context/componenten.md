@@ -259,6 +259,10 @@ die zich pas maanden later meldt.
 | `.bs-chips` / `.bs-chip` | Voorkeuzeknoppen. Stand staat in `aria-pressed`, **niet in een eigen klasse** |
 | `.bs-keuzevak` | Aanvinkoptie met toelichting |
 | `.bs-veldrij` | Twee velden naast elkaar vanaf 560px |
+| `.bs-kort` | Kort getalveld in de veldkop, naast het label. Voor een maat die je zowel wilt typen als slepen |
+| `.bs-hulp` | Hulptekst onder een invoerveld. Legt dít veld uit. **Niet voor waarschuwingen** — die horen in `.bs-melding` met de accentrand |
+| `.bs-notitie` | Kanttekening bij de uitkomst: wat het getal niet zegt |
+| `.bs-vervolgstap` | De volgende vraag, onder de uitkomstkolom. **Bewust een kale tekstregel en geen knop:** een tweede knop maakt van de uitkomst een keuzemenu |
 | `.bs-uitklap` / `.bs-uitklap__knop` | Uitklapblok. De knopvariant bestaat omdat `main.js` dat blok zelf schakelt en geen `<details>` aanstuurt |
 
 ### De uitkomst
