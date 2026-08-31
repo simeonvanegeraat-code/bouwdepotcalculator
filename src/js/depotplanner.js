@@ -124,7 +124,7 @@ if (wortel) {
         const t = TEKSTEN[modus];
         if (uit.standLabel) uit.standLabel.textContent = t.label;
         if (uit.standUitleg) uit.standUitleg.textContent = t.uitleg;
-        document.querySelectorAll('.ds-segment [data-modus]').forEach((knop) => {
+        document.querySelectorAll('.bs-segment [data-modus]').forEach((knop) => {
             knop.setAttribute('aria-pressed', knop.dataset.modus === modus ? 'true' : 'false');
         });
         if (herberekenen) bereken();
@@ -165,10 +165,10 @@ if (wortel) {
         if (!uit.postenLijst) return;
         uit.postenLijst.innerHTML = posten.map((post, i) => {
             const nr = i + 1;
-            return `<div class="post-rij">
-                <div><input class="ds-invoer" type="text" value="${post.omschrijving ?? ''}" data-idx="${i}" data-veld="omschrijving" aria-label="Post ${nr}: omschrijving" placeholder="Bijvoorbeeld keuken"></div>
-                <div class="prefix-veld"><span aria-hidden="true">&euro;</span><input class="ds-invoer" type="text" inputmode="decimal" value="${post.bedrag ? toonGetal(post.bedrag) : ''}" data-idx="${i}" data-veld="bedrag" aria-label="Post ${nr}: bedrag in euro"></div>
-                <div><input class="ds-invoer" type="month" value="${post.maand ?? ''}" data-idx="${i}" data-veld="maand" aria-label="Post ${nr}: in welke maand verwacht"></div>
+            return `<div class="bs-postrij">
+                <div><input type="text" value="${post.omschrijving ?? ''}" data-idx="${i}" data-veld="omschrijving" aria-label="Post ${nr}: omschrijving" placeholder="Bijvoorbeeld keuken"></div>
+                <div class="bs-omhulsel"><span aria-hidden="true">&euro;</span><input type="text" inputmode="decimal" value="${post.bedrag ? toonGetal(post.bedrag) : ''}" data-idx="${i}" data-veld="bedrag" aria-label="Post ${nr}: bedrag in euro"></div>
+                <div><input type="month" value="${post.maand ?? ''}" data-idx="${i}" data-veld="maand" aria-label="Post ${nr}: in welke maand verwacht"></div>
                 <button type="button" class="btn-remove" data-idx="${i}" aria-label="Post ${nr} verwijderen" title="Post ${nr} verwijderen">&times;</button>
             </div>`;
         }).join('');
@@ -229,7 +229,7 @@ if (wortel) {
         }
 
         if (uit.planTabel) {
-            uit.planTabel.innerHTML = plan.regels.map((r) => `<tr${r.teLaat ? ' class="rij--letop"' : ''}>
+            uit.planTabel.innerHTML = plan.regels.map((r) => `<tr${r.teLaat ? ' class="bs-rij--letop"' : ''}>
                 <td>${r.omschrijving}</td>
                 <td class="col-amount">${euro.format(r.bedrag)}</td>
                 <td>${r.verwacht ? new Intl.DateTimeFormat('nl-NL', { month: 'long', year: 'numeric' }).format(r.verwacht) : '—'}</td>
@@ -259,7 +259,7 @@ if (wortel) {
             // plant, niet drie pagina's verderop.
             const eisen = (bank.eisen || []).filter((e) => e.waarde);
             uit.planBewijs.innerHTML = eisen.length
-                ? `<strong>Wat ${bank.naam} bij een declaratie wil zien</strong><ul class="plan-eisen">`
+                ? `<strong>Wat ${bank.naam} bij een declaratie wil zien</strong><ul class="bs-plan-eisen">`
                     + eisen.map((e) => `<li><strong>${e.waarde}</strong>${e.detail ? ` &mdash; ${e.detail}` : ''}</li>`).join('')
                     + '</ul>'
                 : `<strong>${bank.naam}</strong> publiceert niet welk bewijsstuk bij een declaratie hoort. Vraag dat na voordat u indient.`;
@@ -376,15 +376,15 @@ if (wortel) {
     function toonTijdlijn(rij, nu) {
         uit.tijdlijn.innerHTML = rij.map((g) => {
             const geweest = g.datum && g.datum <= nu;
-            const klassen = ['stap'];
-            if (geweest) klassen.push('stap--geweest');
-            if (g.let_op && !geweest) klassen.push('stap--letop');
-            if (!g.datum) klassen.push('stap--zonder-datum');
+            const klassen = ['bs-stap'];
+            if (geweest) klassen.push('bs-stap--geweest');
+            if (g.let_op && !geweest) klassen.push('bs-stap--letop');
+            if (!g.datum) klassen.push('bs-stap--zonder-datum');
             return `<li class="${klassen.join(' ')}">
-                <div class="stap__datum">${g.datum ? datum.format(g.datum) : 'geen datum'}</div>
-                <div class="stap__inhoud">
+                <div class="bs-stap__datum">${g.datum ? datum.format(g.datum) : 'geen datum'}</div>
+                <div class="bs-stap__inhoud">
                     <strong>${g.naam}</strong>
-                    <span class="ds-caption">${g.uitleg}</span>
+                    <span class="bs-hulp">${g.uitleg}</span>
                 </div>
             </li>`;
         }).join('');
@@ -534,7 +534,7 @@ if (wortel) {
         if (v?.tagName === 'SELECT') v.addEventListener('change', bereken);
     });
 
-    document.querySelectorAll('.ds-segment [data-modus]').forEach((knop) => {
+    document.querySelectorAll('.bs-segment [data-modus]').forEach((knop) => {
         knop.addEventListener('click', () => {
             if (knop.dataset.modus === modus) return;
             // Het getal in het veld hoort mee te veranderen: wie 20.000 opgenomen
@@ -554,7 +554,7 @@ if (wortel) {
         tekenPosten();
         bereken();
         // De cursor hoort in het veld te staan dat er net bij kwam.
-        uit.postenLijst?.querySelector('.post-rij:last-child input')?.focus();
+        uit.postenLijst?.querySelector('.bs-postrij:last-child input')?.focus();
     });
 
     el('dp-printen')?.addEventListener('click', () => window.print());

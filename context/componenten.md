@@ -297,6 +297,19 @@ die zich pas maanden later meldt.
 | `.bs-alleen-print` / `.bs-spec__…` | De specificatie die alleen op papier verschijnt. Op het scherm is het formulier het gereedschap; op papier is een ingevuld formulier geen document |
 | `.bs-proza` | Leestekst met een prettige regellengte, voor uitleg zonder kolommen |
 
+### De depotplanner
+
+Geen rekenmachine maar een agenda. `depotplanner.js` schrijft deze onderdelen en
+bedient alleen deze pagina, dus de klassen konden meteen mee naar `bs-`.
+
+| Component | Waarvoor |
+|---|---|
+| `.bs-segment` | Keuze tussen twee opties, in plaats van een keuzelijst. **Ook een haak:** de module leest `.bs-segment [data-modus]` |
+| `.bs-posten` / `.bs-postrij` / `.bs-postkop` | De posten die nog uit het depot betaald moeten worden. Zonder die lijst rekent de pagina alleen passeerdatum plus looptijd uit, en dat weet de bezoeker al uit zijn akte |
+| `.bs-tijdlijn` / `.bs-stap` | Fasen die elkaar opvolgen, met de datum als anker. `--geweest` dempt wat achter je ligt, `--letop` markeert het moment waarop je iets moet regelen, `--zonder-datum` wanneer een aanbieder niets publiceert |
+| `.bs-plan-eisen` | Wat de gekozen bank bij een declaratie wil zien. In dezelfde tabel markeert `bs-rij--letop` een regel die na de uiterste indiendatum valt; **amber betekent waarschuwing**, niet "opvallend" |
+| `.bs-knop-in-tekst` | Een knop die als link in een alinea meeloopt |
+
 ### Onderdelen die JavaScript zelf schrijft
 
 Deze klassen staan zowel in `calculator.css` als in `broadsheet.css`, en dat is

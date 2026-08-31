@@ -759,3 +759,69 @@
     .bs .term-veldnaam { display: block; margin-bottom: 4px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
     .bs .btn-remove { justify-self: end; grid-column: 2; }
 }
+
+/* ==========================================================================
+   De depotplanner
+   Geen rekenmachine maar een agenda. De onderdelen hieronder worden door
+   src/js/depotplanner.js geschreven; die module bedient alleen deze pagina,
+   dus de klassen konden meteen mee naar de bs-prefix.
+   ========================================================================== */
+
+/* Segmentkeuze bij twee opties, in plaats van een keuzelijst. */
+.bs-segment { display: inline-flex; gap: 2px; padding: 2px; background: var(--bs-bone); border: 1px solid var(--bs-lijn); border-radius: var(--bs-r-knop); }
+.bs-segment button {
+    min-height: 36px; padding: 6px 12px;
+    font: inherit; font-size: var(--bs-t-micro); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .08em;
+    color: var(--bs-newsprint); background: none;
+    border: 0; border-radius: 3px; cursor: pointer;
+}
+.bs-segment button[aria-pressed="true"] { background: var(--bs-accent); color: var(--bs-accent-ink); }
+
+/* De posten die nog uit het depot betaald moeten worden. Zonder deze lijst
+   rekent de pagina alleen passeerdatum plus looptijd uit, en dat weet de
+   bezoeker al uit zijn hypotheekakte. */
+.bs-posten { border-top: 1px solid var(--bs-ink); padding-top: 16px; }
+.bs-posten__totaal { font-size: var(--bs-t-klein); font-weight: 500; font-variant-numeric: tabular-nums; }
+.bs-postkop,
+.bs-postrij { display: grid; align-items: center; gap: 8px; grid-template-columns: 1fr 130px 130px 44px; }
+.bs-postkop { margin: 12px 0 8px; padding: 0 8px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+.bs-postrij { margin-bottom: 8px; }
+.bs-postrij input {
+    width: 100%; min-height: var(--bs-tap); padding: 0 10px;
+    font: inherit; font-size: var(--bs-t-klein); font-variant-numeric: tabular-nums;
+    color: var(--bs-ink); background: #fff;
+    border: 1px solid var(--bs-lijn); border-radius: var(--bs-r-knop);
+}
+.bs-postrij input:focus-visible { border-color: var(--bs-accent); box-shadow: 0 0 0 3px var(--bs-accent-schaduw); outline: none; }
+.bs-postrij .bs-omhulsel { min-height: var(--bs-tap); padding: 0 10px; }
+.bs-postrij .bs-omhulsel input { border: 0; padding: 0; min-height: auto; }
+@media (max-width: 640px) {
+    .bs-postkop { display: none; }
+    .bs-postrij { grid-template-columns: 1fr 44px; padding: 12px 0; border-bottom: 1px solid var(--bs-lijn); }
+    .bs-postrij > div:first-child { grid-column: 1 / -1; }
+}
+
+/* De tijdlijn: fasen die elkaar opvolgen, met de datum als anker. */
+.bs-tijdlijn { margin: 20px 0 0; padding: 0; list-style: none; }
+.bs-stap { display: grid; gap: 2px 16px; grid-template-columns: 8.5rem 1fr; padding: 14px 0; border-top: 1px solid var(--bs-lijn); }
+.bs-stap:first-child { border-top: 1px solid var(--bs-ink); }
+.bs-stap__datum { font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); font-variant-numeric: tabular-nums; }
+.bs-stap__inhoud strong { display: block; font-size: var(--bs-t-klein); font-weight: 500; }
+.bs-stap__inhoud .bs-hulp { margin-top: 4px; }
+/* Geweest: gedempt, maar niet weg. Wat achter je ligt hoort nog wel te kloppen. */
+.bs-stap--geweest .bs-stap__inhoud strong { color: var(--bs-newsprint); }
+/* Let op: dit is het moment waarop de bezoeker iets moet regelen. */
+.bs-stap--letop { border-left: 3px solid var(--bs-accent); padding-left: 14px; }
+.bs-stap--zonder-datum .bs-stap__datum { color: var(--bs-moss); }
+@media (max-width: 560px) { .bs-stap { grid-template-columns: 1fr; } }
+
+/* Wat de gekozen bank bij een declaratie wil zien. */
+.bs-plan-eisen { margin: 8px 0 0; padding-left: 1.1em; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-newsprint); }
+
+/* Een regel die na de uiterste indiendatum valt. Amber, want dit is een
+   waarschuwing en geen gewone waarde. */
+.bs-rij--letop td { background: #fdf1e6; color: #8c5410; }
+
+/* Een knop die als link in een alinea meeloopt. */
+.bs-knop-in-tekst { padding: 0; font: inherit; color: var(--bs-ink); background: none; border: 0; border-bottom: 1px solid var(--bs-accent); cursor: pointer; }
