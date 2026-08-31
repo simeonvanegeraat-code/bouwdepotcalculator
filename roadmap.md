@@ -25,8 +25,8 @@ overzien. Wat de meting laat zien (19-08-2026):
 |---|---|---|
 | `src/styles/main.css` werd door geen enkele pagina geladen | 3.658 regels, 60% van alle CSS | **verwijderd 19-08** |
 | Vier stylesheets met elk een beschreven taak | design-system, pagina, calculator, stappenplan | **in orde** |
-| `reporting.js` trekt jsPDF en html2canvas mee op de homepage | ±590 kB JS voor één downloadknop | open |
-| `src/js/main.js` bedient zes pagina's uit één bestand | 1.794 regels | open |
+| `reporting.js` trok jsPDF en html2canvas mee | ±590 kB JS voor één downloadknop | **opgelost 22-08:** eigen afdrukdocument via het printvenster, `jspdf` uit package.json. Nagemeten 01-09: de keten is 11 kB en geen van beide pakketten zit er nog in |
+| `src/js/main.js` bedient zes pagina's uit één bestand | 1.794 regels | open — de annuïteitenformule is er op 31-08 uitgelicht naar `src/js/annuiteit.js`; de rest volgt bij de herstijling |
 | Grafiekcode die nooit draaide (`Chart` werd nergens geladen) | twee functies, achter een stille guard | **opgelost 19-08:** eigen SVG, `chart.js` verwijderd |
 | Zeven planningsdocumenten los in de repo-root | naast 31 HTML-pagina's | open |
 
