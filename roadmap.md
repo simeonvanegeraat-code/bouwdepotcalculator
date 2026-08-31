@@ -64,7 +64,7 @@ Wat daar nu op volgt, in deze volgorde:
 | — | `bouwdepot-berekenen.html` | **nieuw**, 31-08 |
 | 1 | `maandlasten-bouwdepot.html` | **om**, 31-08 |
 | 2 | `leenruimte.html` | **om**, 31-08 |
-| 3 | `verbouwbegroting.html` | open — gegenereerd, gaat via `scripts/build-begroting.mjs` |
+| 3 | `verbouwbegroting.html` | **om**, 31-08 — via `scripts/build-begroting.mjs` |
 | 4 | `nieuwbouw.html` | open |
 | 5 | `depotplanner.html` | open |
 | 6 | `belasting.html` | open |
@@ -81,7 +81,13 @@ Het patroon per pagina, en dat is niet vrijblijvend:
 - Markup naar `bs-`-klassen met **exact dezelfde element-ids**, zodat de
   rekenmodule niet meegaat en de logica onaangeroerd blijft.
 - De oude versie uit git halen (`git show HEAD:<pagina> > _oud.html`) en naast
-  de nieuwe meten op 375 en 1440. Daarna dat bestand weggooien.
+  de nieuwe meten op 375 en 1440. **Gooi dat bestand weg vóór je `npm test`
+  draait**: `tests/deelkaart.test.mjs` scant alle HTML in de root en ziet een
+  kopie als een tweede pagina met dezelfde titel.
+- **Wis localStorage vóór het meten.** Pagina's die invoer onthouden — de
+  begroting klapt ingevulde categorieën vanzelf open — geven anders een
+  paginahoogte die over jouw eigen testinvoer gaat en niet over het ontwerp.
+  Dat scheelde bij de begroting 1200px en leek een verslechtering.
 - Uitkomsten bij gelijke invoer vergelijken, niet alleen de opmaak bekijken.
 - Nieuwe componenten in [context/componenten.md](context/componenten.md), met
   erbij waar ze **niet** voor zijn.

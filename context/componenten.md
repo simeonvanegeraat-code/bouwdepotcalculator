@@ -287,6 +287,16 @@ die zich pas maanden later meldt.
 | `.bs-regelaar` | De schuif onder het blad. Rekent één voorbeeld door, bewust niet de hele calculator |
 | `.bs-kern` | Drie kerncijfers uit de dataset op de donkere sectie. **De getallen staan met de hand in de HTML** en `tests/kerncijfers.test.mjs` bewaakt dat ze bij `data/bouwdepot-voorwaarden.json` blijven kloppen |
 
+### De begroting
+
+| Component | Waarvoor |
+|---|---|
+| `.bs-cat` | Uitklapbare categorie met posten. Dichtgeklapt is de begroting een keuzelijst van zes regels in plaats van vierendertig velden. **Ook een haak:** `begroting.js` zoekt hierop |
+| `.bs-post` | Eén begrotingspost: naam, merkje, bedrag en prioriteit. Variant `--eigen-geld` markeert wat doorgaans niet uit het depot mag |
+| `.bs-merkje` | Klein label bij een post. `--depot` en `--eigen` komen uit de data; `--eigenbank` zet `begroting.js` erbij als de gekozen bank die post expliciet noemt. **Alleen die laatste krijgt de volle accentkleur** |
+| `.bs-alleen-print` / `.bs-spec__…` | De specificatie die alleen op papier verschijnt. Op het scherm is het formulier het gereedschap; op papier is een ingevuld formulier geen document |
+| `.bs-proza` | Leestekst met een prettige regellengte, voor uitleg zonder kolommen |
+
 ### Rekenpagina en gereedschap
 
 | Component | Waarvoor |

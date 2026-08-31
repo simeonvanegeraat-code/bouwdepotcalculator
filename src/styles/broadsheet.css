@@ -43,7 +43,8 @@
     --bs-accent:         #0E5F58;
     --bs-accent-ink:     #ffffff;
     --bs-accent-schaduw: rgba(14, 95, 88, .40);
-    --bs-accent-wash:    rgba(14, 95, 88, .16);   /* de markeerstift, nooit als vlak */
+    --bs-accent-wash:    rgba(14, 95, 88, .16);   /* alleen de markeerstift achter tekst */
+    --bs-accent-licht:   #e2eeec;                /* zacht vlak, voor een merkje of label */
 
     /* --- Maat -------------------------------------------------------------
        Body komt nooit boven 18px. Het gat tussen 18 en de display doet het
@@ -581,3 +582,72 @@
     background: none; border: 0; border-bottom: 1px solid var(--bs-lijn);
 }
 .bs-kort:focus-visible { outline: none; border-bottom-color: var(--bs-accent); }
+
+/* ==========================================================================
+   Begroting: categorieën en posten
+   Vierendertig invoervelden achter zes uitklapbare categorieën. Dichtgeklapt is
+   de pagina een keuzelijst van zes regels; je opent wat op jou van toepassing
+   is. Bewust <details> en geen eigen JavaScript: de inhoud blijft in de HTML
+   staan en dus vindbaar, en het werkt met het toetsenbord.
+
+   Deze klassen heetten `.cat` en `.post` en stonden in twee stylesheets
+   tegelijk -- de naambotsing die componenten.md al noemde. Met de bs-prefix is
+   die weg. `src/js/begroting.js` zoekt op deze namen, dus ze zijn ook een haak
+   en geen pure vorm.
+   ========================================================================== */
+.bs-cat { border-bottom: 1px solid var(--bs-lijn); }
+.bs-cat:first-of-type { border-top: 1px solid var(--bs-ink); }
+.bs-cat__kop { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 18px 0; cursor: pointer; list-style: none; }
+.bs-cat__kop::-webkit-details-marker { display: none; }
+.bs-cat__kop h2 { grid-column: 1; margin: 0; font-size: var(--bs-t-lead); font-weight: 500; letter-spacing: -.02em; }
+.bs-cat__kop p { grid-column: 1; margin: 0; font-size: var(--bs-t-micro); color: var(--bs-newsprint); line-height: 1.5; }
+/* Subtotaal per categorie: met vierendertig velden over zes blokken weet je
+   zonder dit niet waar je staat. Leeg zolang er niets is ingevuld. */
+.bs-cat__subtotaal { grid-column: 2; grid-row: 1; align-self: center; text-align: right; font-size: var(--bs-t-klein); font-weight: 500; font-variant-numeric: tabular-nums; }
+.bs-cat__aantal { grid-column: 2; grid-row: 2; align-self: center; text-align: right; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+.bs-cat[open] .bs-cat__kop { border-bottom: 1px solid var(--bs-lijn); }
+.bs-cat__posten { padding: 4px 0 18px; }
+
+.bs-post { display: grid; gap: 8px; padding: 14px 0; border-bottom: 1px solid var(--bs-lijn); }
+@media (min-width: 520px) { .bs-post { grid-template-columns: 1fr auto; align-items: center; gap: 12px 20px; } }
+.bs-post:last-child { border-bottom: 0; }
+.bs-post__naam label { display: block; font-size: var(--bs-t-klein); font-weight: 500; }
+.bs-post__merk { display: inline-flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
+.bs-post__letop { display: block; margin-top: 5px; font-size: var(--bs-t-micro); color: var(--bs-newsprint); line-height: 1.5; }
+.bs-post__invoer { display: flex; gap: 8px; }
+.bs-post__invoer .bs-omhulsel { flex: 1 1 9rem; min-height: 46px; }
+.bs-post__invoer .bs-omhulsel input { font-size: var(--bs-t-body); padding: 10px 0; }
+.bs-post__prioriteit { flex: 0 1 9rem; min-height: 46px; padding: 10px; font-size: var(--bs-t-klein); }
+.bs-post__fout { display: block; grid-column: 1 / -1; font-size: var(--bs-t-micro); font-weight: 600; color: #8c2f12; }
+.bs-post__fout:empty { display: none; }
+
+/* Merkjes bij een post: waar komt het geld vandaan. */
+.bs-merkje { display: inline-block; padding: 3px 7px; border-radius: 3px; font-size: var(--bs-t-stempel); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+.bs-merkje--depot { background: var(--bs-accent-licht); color: var(--bs-accent); }
+.bs-merkje--eigen { background: #fdf1e6; color: #8c5410; }
+/* Wordt door begroting.js toegevoegd als de gekozen bank deze post expliciet
+   noemt. Volle accentkleur, want dit is het enige merkje dat over úw bank gaat. */
+.bs-merkje--eigenbank { background: var(--bs-accent); color: var(--bs-accent-ink); }
+
+/* ==========================================================================
+   De printspecificatie
+   Op het scherm is het formulier het gereedschap; op papier is een ingevuld
+   formulier geen document. begroting.js bouwt hier een tabel op.
+   ========================================================================== */
+.bs-alleen-print { display: none; }
+.bs-spec__kop { margin-bottom: 16px; }
+.bs-spec__tabel { width: 100%; border-collapse: collapse; font-size: var(--bs-t-klein); }
+.bs-spec__tabel th, .bs-spec__tabel td { padding: 7px 8px; border-bottom: 1px solid var(--bs-lijn); text-align: left; vertical-align: top; }
+.bs-spec__bedrag { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bs-spec__kopregel th { border-top: 1px solid var(--bs-ink); border-bottom: 1px solid var(--bs-ink); font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .08em; }
+.bs-spec__totaal td { border-top: 2px solid var(--bs-ink); font-weight: 500; }
+.bs-spec__voet { margin-top: 16px; font-size: var(--bs-t-micro); color: var(--bs-newsprint); line-height: 1.5; }
+
+@media print {
+    .bs-alleen-print { display: block; }
+}
+
+/* Leestekst met een prettige regellengte, voor een uitleg zonder kolommen. */
+.bs-proza { max-width: 62ch; }
+.bs-proza p { margin: 0 0 14px; }
+.bs-proza p:last-child { margin-bottom: 0; }

@@ -50,41 +50,41 @@ const nietVast = posten.categorieen.flatMap((c) => c.posten).filter((p) => !p.va
 //
 // Bewust <details> en geen eigen JavaScript: de inhoud blijft in de HTML staan
 // en dus vindbaar, het werkt met het toetsenbord, en het werkt zonder script.
-const categorieen = posten.categorieen.map((c) => `                <details class="cat">
-                    <summary class="cat__kop">
+const categorieen = posten.categorieen.map((c) => `                <details class="bs-cat">
+                    <summary class="bs-cat__kop">
                         <h2>${esc(c.naam)}</h2>
-                        <p class="ds-caption">${esc(c.toelichting)}</p>
+                        <p>${esc(c.toelichting)}</p>
                         <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
                              zes blokken weet je zonder dit niet waar je staat, en of een
                              categorie waar je niets aan doet al afgehandeld is. -->
-                        <p class="cat__subtotaal" data-subtotaal="${c.id ?? esc(c.naam)}"></p>
-                        <span class="cat__aantal">${c.posten.length} ${c.posten.length === 1 ? 'post' : 'posten'}</span>
+                        <p class="bs-cat__subtotaal" data-subtotaal="${c.id ?? esc(c.naam)}"></p>
+                        <span class="bs-cat__aantal">${c.posten.length} ${c.posten.length === 1 ? 'post' : 'posten'}</span>
                     </summary>
-                    <div class="cat__posten">
-${c.posten.map((p) => `                        <div class="post${p.vastAanWoning ? '' : ' post--eigen-geld'}"${p.genoemdDoor?.length ? ` data-genoemd-door="${esc(p.genoemdDoor.join(' '))}"` : ''}>
-                            <div class="post__naam">
+                    <div class="bs-cat__posten">
+${c.posten.map((p) => `                        <div class="bs-post${p.vastAanWoning ? '' : ' bs-post--eigen-geld'}"${p.genoemdDoor?.length ? ` data-genoemd-door="${esc(p.genoemdDoor.join(' '))}"` : ''}>
+                            <div class="bs-post__naam">
                                 <label for="post-${p.id}">${esc(p.naam)}</label>
-                                <span class="post__merk">${p.vastAanWoning
-                                  ? '<span class="merkje merkje--depot">uit depot</span>'
-                                  : '<span class="merkje merkje--eigen">eigen geld</span>'}</span>
-                                ${p.let_op ? `<small class="post__letop">${esc(p.let_op)}</small>` : ''}
+                                <span class="bs-post__merk">${p.vastAanWoning
+                                  ? '<span class="bs-merkje bs-merkje--depot">uit depot</span>'
+                                  : '<span class="bs-merkje bs-merkje--eigen">eigen geld</span>'}</span>
+                                ${p.let_op ? `<small class="bs-post__letop">${esc(p.let_op)}</small>` : ''}
                             </div>
-                            <div class="post__invoer">
-                                <div class="prefix-veld">
+                            <div class="bs-post__invoer">
+                                <div class="bs-omhulsel">
                                     <span>&euro;</span>
                                     <!-- Tekstinvoer en niet type="number": daarin las de browser
                                          "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
                                          Wie zijn offerte overtypte zag zijn totaal kelderen zonder
                                          dat er iets misging op het scherm. inputmode houdt het
                                          numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input class="ds-invoer" type="text" id="post-${p.id}" data-post="${p.id}" data-vast="${p.vastAanWoning}" inputmode="decimal" placeholder="0">
+                                    <input type="text" id="post-${p.id}" data-post="${p.id}" data-vast="${p.vastAanWoning}" inputmode="decimal" placeholder="0">
                                 </div>
-                                <select class="ds-invoer post__prioriteit" data-prioriteit="${p.id}" aria-label="Prioriteit ${esc(p.naam)}">
+                                <select class="bs-select bs-post__prioriteit" data-prioriteit="${p.id}" aria-label="Prioriteit ${esc(p.naam)}">
                                     <option value="noodzakelijk">Noodzakelijk</option>
                                     <option value="gewenst">Gewenst</option>
                                 </select>
                             </div>
-                            <span class="ds-veld__fout post__fout" role="alert"></span>
+                            <span class="bs-post__fout" role="alert"></span>
                         </div>`).join('\n')}
                     </div>
                 </details>`).join('\n');
@@ -117,7 +117,7 @@ const html = `<!DOCTYPE html>
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -128,115 +128,101 @@ const html = `<!DOCTYPE html>
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/design-system.css">
-    <link rel="stylesheet" href="/src/styles/pagina.css">
-    <link rel="stylesheet" href="/src/styles/calculator.css">
+    <link rel="stylesheet" href="/src/styles/broadsheet.css">
 </head>
-<body class="ds">
-    <header class="kop no-print">
-        <div class="ds-wrap kop__inner">
-            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
-            <nav aria-label="Hoofdnavigatie">
-                <details class="kop__menu">
-                    <summary><span class="kop__streepjes" aria-hidden="true"></span>Menu</summary>
-                </details>
-                <div class="kop__paneel">
-${NAV.map(([h, t]) => `                        <a href="${h}">${t}</a>`).join('\n')}
-                </div>
-            </nav>
-        </div>
-
-        <!-- De rekenhulpen bij naam. Zie de toelichting in pagina.css. -->
-        <nav class="toolbalk no-print" aria-label="Rekenhulpen">
-            <div class="ds-wrap toolbalk__inner">
-                <a href="bouwdepot-berekenen.html">Bouwdepot berekenen</a>
-                <a href="verbouwbegroting.html">Verbouwbegroting</a>
-                <a href="leenruimte.html">Leenruimte</a>
-                <a href="maandlasten-bouwdepot.html">Maandlasten</a>
-                <a href="nieuwbouw.html">Nieuwbouwplanning</a>
-                <a href="depotplanner.html">Depotplanner</a>
-                <a href="belasting.html">Belastingvoordeel</a>
-                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+<body class="bs">
+    <header class="bs-kop no-print">
+        <div class="bs-wrap bs-kop__inner">
+            <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <div class="bs-kop__rechts">
+${NAV.map(([h, t]) => `                <a href="${h}">${t}</a>`).join('\n')}
+                <a class="bs-menu" href="kennisbank.html">Kennisbank</a>
+                <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
-        </nav>
+        </div>
     </header>
 
-    <nav class="kruimel no-print" aria-label="Kruimelpad">
-      <div class="ds-wrap">
-        <ol>
-          <li><a href="/">Home</a></li>
-          <li aria-current="page">Verbouwbegroting</li>
-        </ol>
-      </div>
+    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
+        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Verbouwbegroting</span>
     </nav>
 
     <main id="begroting">
-        <section class="ds-wrap reken">
-            <div class="aanhef">
-                <p class="ds-eyebrow">Stap 1 van uw verbouwing</p>
-                <h1 id="reken-titel">Wat gaat uw verbouwing kosten?</h1>
-                <p class="ds-lead">En vooral: welk deel mag uit het bouwdepot en welk deel betaalt u zelf?</p>
-            </div>
+        <section class="bs-reken">
+            <div class="bs-wrap">
+                <h1 class="bs-reken__titel" id="reken-titel">Wat gaat uw verbouwing kosten?</h1>
+                <p class="bs-reken__lead">En vooral: welk deel mag uit het bouwdepot en welk deel betaalt u zelf?</p>
 
-            <div class="reken__grid">
-                <div class="reken__uitkomst">
-                    <div class="ds-uitkomst">
-                        <p class="ds-uitkomst__label">Totale verbouwkosten</p>
-                        <strong class="ds-uitkomst__bedrag" id="res-totaal" data-bedrag>&euro; 0</strong>
-                        <p class="ds-uitkomst__toelichting" id="res-zin">Vul hieronder in wat u verwacht uit te geven.</p>
+                <div class="bs-reken__grid">
+                    <div>
+                        <article class="bs-blad ds-uitkomst">
+                            <div class="bs-blad__kop">
+                                <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
+                                <span class="bs-blad__stempel">Begroting</span>
+                            </div>
 
-                        <dl class="ds-uitsplitsing">
-                            <div><span>Naar verwachting uit het depot</span><strong id="res-depot" data-bedrag>&euro; 0</strong></div>
-                            <div><span>Uit eigen geld</span><strong id="res-eigen" data-bedrag>&euro; 0</strong></div>
-                            <div><span>Waarvan onvoorzien</span><strong id="res-marge" data-bedrag>&euro; 0</strong></div>
+                            <div class="bs-antwoord">
+                                <p class="bs-antwoord__label ds-uitkomst__label">Totale verbouwkosten</p>
+                                <strong class="bs-antwoord__bedrag ds-uitkomst__bedrag" id="res-totaal" data-bedrag>&euro; 0</strong>
+                                <p class="bs-antwoord__zin" id="res-zin">Vul hieronder in wat u verwacht uit te geven.</p>
+                            </div>
+
+                        <dl class="bs-uitsplitsing">
+                            <div><dt>Naar verwachting uit het depot</dt><dd class="tnum" id="res-depot" data-bedrag>&euro; 0</dd></div>
+                            <div><dt>Uit eigen geld</dt><dd class="tnum" id="res-eigen" data-bedrag>&euro; 0</dd></div>
+                            <div><dt>Waarvan onvoorzien</dt><dd class="tnum" id="res-marge" data-bedrag>&euro; 0</dd></div>
                         </dl>
 
-                        <div class="ds-veld" style="margin-top: var(--ds-5)">
-                            <div class="ds-veld__kop">
-                                <label class="ds-veld__naam" for="in-onvoorzien">Reserve voor onvoorzien</label>
-                                <span class="ds-veld__waarde tnum" id="toon-onvoorzien">10%</span>
+                        <div class="bs-notitie">
+                            <div class="bs-veld__kop">
+                                <label class="bs-veld__naam" for="in-onvoorzien">Reserve voor onvoorzien</label>
+                                <span class="bs-veld__waarde tnum" id="toon-onvoorzien">10%</span>
                             </div>
-                            <input class="ds-schuif" type="range" id="in-onvoorzien" min="0" max="30" step="1" value="10">
-                            <p class="ds-caption">Sloopwerk legt vaak verborgen gebreken bloot. Een begroting zonder marge loopt bijna altijd vast. Tien procent is in de bouw de gangbare vuistregel; bij oudere woningen wordt vijftien tot twintig procent aangehouden.</p>
+                            <input class="bs-schuif" type="range" id="in-onvoorzien" min="0" max="30" step="1" value="10">
+                            <p class="bs-hulp">Sloopwerk legt vaak verborgen gebreken bloot. Een begroting zonder marge loopt bijna altijd vast. Tien procent is in de bouw de gangbare vuistregel; bij oudere woningen wordt vijftien tot twintig procent aangehouden.</p>
                         </div>
 
-                        <details class="uitleg-details">
-                            <summary>Verdeling noodzakelijk en gewenst</summary>
-                            <div class="uitleg-details__body">
-                                <ul class="ds-uitsplitsing ds-uitsplitsing--vlak">
-                                    <li><span>Noodzakelijk</span><strong id="res-noodzakelijk">&euro; 0</strong></li>
-                                    <li><span>Gewenst</span><strong id="res-gewenst">&euro; 0</strong></li>
-                                    <li><span>Reserve voor onvoorzien</span><strong id="res-marge-split">&euro; 0</strong></li>
-                                </ul>
-                                <p class="ds-caption">De reserve staat apart: die hoort bij geen van beide, want u weet nog niet waaraan u hem kwijtraakt. Samen met de twee bedragen erboven vormt hij het totaal.</p>
-                                <p class="ds-caption">Leg vóór de start vast welke wens als eerste vervalt als het budget onder druk komt. Dan hoeft u die keuze niet te maken terwijl de aannemer staat te wachten.</p>
-                                <p class="ds-caption" id="res-aantal">0 posten ingevuld</p>
+                            <p class="bs-blad__voet">Indicatief &middot; informatie, geen advies</p>
+                        </article>
+
+                        <details class="bs-uitklap bs-aannames">
+                            <summary><span><b>Verdeling noodzakelijk en gewenst</b><small>Waar uw budget aan vastzit</small></span></summary>
+                            <div class="bs-uitklap__body">
+                                <dl class="bs-uitsplitsing">
+                                    <div><dt>Noodzakelijk</dt><dd class="tnum" id="res-noodzakelijk">&euro; 0</dd></div>
+                                    <div><dt>Gewenst</dt><dd class="tnum" id="res-gewenst">&euro; 0</dd></div>
+                                    <div><dt>Reserve voor onvoorzien</dt><dd class="tnum" id="res-marge-split">&euro; 0</dd></div>
+                                </dl>
+                                <p class="bs-hulp">De reserve staat apart: die hoort bij geen van beide, want u weet nog niet waaraan u hem kwijtraakt. Samen met de twee bedragen erboven vormt hij het totaal.</p>
+                                <p class="bs-hulp">Leg vóór de start vast welke wens als eerste vervalt als het budget onder druk komt. Dan hoeft u die keuze niet te maken terwijl de aannemer staat te wachten.</p>
+                                <p class="bs-hulp" id="res-aantal">0 posten ingevuld</p>
                             </div>
                         </details>
 
-                        <div class="uitkomst-acties no-print">
-                            <a class="ds-knop ds-knop--primair" id="naar-maandlast" href="bouwdepot-berekenen.html">Wat kost dit per maand?</a>
-                            <button id="begroting-printen" class="ds-knop ds-knop--rustig" type="button">Specificatie printen</button>
-                            <button id="begroting-wissen" class="ds-knop ds-knop--rustig" type="button">Wissen</button>
-                        </div>
                     </div>
 
-                    <p class="ds-caption no-print" style="margin-top: var(--ds-3)">Uw begroting blijft op dit apparaat en wordt nergens verstuurd.</p>
-                </div>
-
-                <div class="reken__invoer">
-                    <div class="melding no-print" style="margin-bottom: var(--ds-5)">
+                    <div class="bs-invoer">
+                        <div class="bs-melding no-print">
                         <p><strong>Wij vullen bewust geen prijzen voor u in.</strong> Verbouwkosten verschillen te sterk per woning, regio en uitvoering om een bedrag te noemen dat wij kunnen onderbouwen. Gebruik uw eigen offertes; dat is bovendien wat uw geldverstrekker wil zien.</p>
                         <p>Wat wij wél toevoegen: per post of die doorgaans uit het bouwdepot mag. Dat is afgeleid uit wat de ${banken.aanbieders.length} vergeleken geldverstrekkers zelf publiceren.</p>
                     </div>
 
-                    <div data-bankkeuze class="no-print" style="margin-bottom: var(--ds-5)"></div>
+                        <div data-bankkeuze class="no-print"></div>
 
-                    <div class="bankmelding no-print" id="begroting-bankmelding" hidden style="margin-bottom: var(--ds-5)">
-                        <p id="begroting-bankmelding-tekst"></p>
-                    </div>
+                        <div class="bs-melding no-print" id="begroting-bankmelding" hidden>
+                            <p id="begroting-bankmelding-tekst"></p>
+                        </div>
 
 ${categorieen}
+                    </div>
+
+                    <!-- Printen en doorrekenen doe je als de begroting staat, dus
+                         ná de invoer. Derde blok in het raster. -->
+                    <div class="bs-reken__na no-print">
+                        <a class="bs-knop" id="naar-maandlast" href="bouwdepot-berekenen.html">Wat kost dit per maand?</a>
+                        <button id="begroting-printen" class="bs-knop bs-knop--licht" type="button">Specificatie printen</button>
+                        <button id="begroting-wissen" class="bs-knop bs-knop--licht" type="button">Wissen</button>
+                        <p class="bs-voorbehoud">Uw begroting blijft op dit apparaat en wordt nergens verstuurd.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -244,15 +230,13 @@ ${categorieen}
         <!-- De specificatie die de bezoeker meeneemt. Alleen bij printen zichtbaar:
              op het scherm is het formulier het gereedschap, op papier is een
              ingevuld formulier geen document. Wordt gevuld door begroting.js. -->
-        <section id="specificatie" class="alleen-print" aria-hidden="true"></section>
+        <section id="specificatie" class="bs-alleen-print" aria-hidden="true"></section>
 
-        <section class="ds-sectie ds-sectie--gevuld no-print">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">De vuistregel</p>
-                    <h2 class="ds-title">Zit het vast, dan mag het meestal</h2>
-                </div>
-                <div class="proza">
+        <section class="bs-sectie no-print">
+            <div class="bs-wrap">
+                <p class="bs-micro">De vuistregel</p>
+                <h2 class="bs-titel">Zit het vast, dan mag het meestal</h2>
+                <div class="bs-proza">
                     <p>Een bouwdepot is bedoeld voor kwaliteitsverbetering van de woning. De praktische toets die vrijwel elke geldverstrekker hanteert: <strong>kunt u het meenemen bij een verhuizing, dan hoort het er niet in</strong>. Een ingebouwde oven wel, een vrijstaande koelkast niet. Gelijmd parket wel, een losliggende vloer niet.</p>
                     <p>Van de ${totaalPosten} posten hierboven vallen er ${nietVast} doorgaans buiten het depot. Die staan gemarkeerd, zodat u er eigen geld voor kunt reserveren in plaats van er tijdens de verbouwing achter te komen.</p>
                     <p>Twijfelt u over een post, vraag het dan schriftelijk na bij uw geldverstrekker en bewaar het antwoord. Zie ook <a href="bouwdepot-declaratie-afgewezen.html">waarom declaraties worden afgewezen</a>.</p>
@@ -260,40 +244,38 @@ ${categorieen}
             </div>
         </section>
 
-        <section class="ds-sectie no-print">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Volgende stap</p>
-                    <h2 class="ds-title">Van begroting naar financiering</h2>
-                </div>
-                <div class="ds-keuzes">
-                    <a class="ds-keuze" href="leenruimte.html">
-                        <span class="ds-keuze__titel">Kunt u dit bedrag lenen?</span>
-                        <span class="ds-keuze__uitleg">De vraag die vóór de maandlast komt: past dit bedrag binnen de waarde van uw woning na verbouwing, en hoeveel eigen geld heeft u nodig?</span>
-                        <span class="ds-keuze__meta">Leenruimte berekenen &rarr;</span>
+        <section class="bs-sectie no-print">
+            <div class="bs-wrap">
+                <p class="bs-micro">Volgende stap</p>
+                <h2 class="bs-titel">Van begroting naar financiering</h2>
+                <div class="bs-rooster">
+                    <a class="bs-tool" href="leenruimte.html">
+                        <span class="bs-tool__naam">Kunt u dit bedrag lenen?</span>
+                        <span class="bs-tool__uitleg">De vraag die vóór de maandlast komt: past dit bedrag binnen de waarde van uw woning na verbouwing, en hoeveel eigen geld heeft u nodig?</span>
+                        <span class="bs-tool__meta">Leenruimte berekenen &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="bouwdepot-berekenen.html">
-                        <span class="ds-keuze__titel">Wat kost dit per maand?</span>
-                        <span class="ds-keuze__uitleg">Het depotbedrag omgerekend naar een maandlast, met uw eigen rente en looptijd.</span>
-                        <span class="ds-keuze__meta">Maandlast berekenen &rarr;</span>
+                    <a class="bs-tool" href="bouwdepot-berekenen.html">
+                        <span class="bs-tool__naam">Wat kost dit per maand?</span>
+                        <span class="bs-tool__uitleg">Het depotbedrag omgerekend naar een maandlast, met uw eigen rente en looptijd.</span>
+                        <span class="bs-tool__meta">Maandlast berekenen &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="${HUB}">
-                        <span class="ds-keuze__titel">Wat accepteert mijn bank?</span>
-                        <span class="ds-keuze__uitleg">Looptijd, vergoeding en bewijsstukken van ${banken.aanbieders.length} geldverstrekkers naast elkaar.</span>
-                        <span class="ds-keuze__meta">Voorwaarden bekijken &rarr;</span>
+                    <a class="bs-tool" href="${HUB}">
+                        <span class="bs-tool__naam">Wat accepteert mijn bank?</span>
+                        <span class="bs-tool__uitleg">Looptijd, vergoeding en bewijsstukken van ${banken.aanbieders.length} geldverstrekkers naast elkaar.</span>
+                        <span class="bs-tool__meta">Voorwaarden bekijken &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="adviesgesprek-checklist.html">
-                        <span class="ds-keuze__titel">Naar het adviesgesprek</span>
-                        <span class="ds-keuze__uitleg">Wat u meeneemt en welke vragen u stelt, in een printbare checklist.</span>
-                        <span class="ds-keuze__meta">Checklist bekijken &rarr;</span>
+                    <a class="bs-tool" href="adviesgesprek-checklist.html">
+                        <span class="bs-tool__naam">Naar het adviesgesprek</span>
+                        <span class="bs-tool__uitleg">Wat u meeneemt en welke vragen u stelt, in een printbare checklist.</span>
+                        <span class="bs-tool__meta">Checklist bekijken &rarr;</span>
                     </a>
                 </div>
             </div>
         </section>
 
-        <section class="ds-sectie no-print">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="melding">
+        <section class="bs-sectie no-print">
+            <div class="bs-wrap">
+                <div class="bs-melding">
                     <p><strong>Indicatief hulpmiddel.</strong> Of een post daadwerkelijk uit uw depot betaald mag worden, bepaalt uw eigen geldverstrekker op basis van uw verbouwingsplan en voorwaarden. De markeringen hier zijn afgeleid uit publieke productinformatie en zijn geen toezegging.</p>
                     <p>Lees de <a href="methodologie.html">rekenregels en beperkingen</a>. Ziet u een post die bij uw bank anders wordt beoordeeld? <a href="contact.html">Laat het weten</a>.</p>
                 </div>
@@ -301,52 +283,17 @@ ${categorieen}
         </section>
     </main>
 
-    <footer class="voet no-print">
-        <div class="ds-wrap">
-            <nav class="voet__kolommen" aria-label="Voettekst">
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-verbouwen">Verbouwen</p>
-                    <ul aria-labelledby="voet-verbouwen">
-                        <li><a href="verbouwbegroting.html">Verbouwbegroting</a></li>
-                        <li><a href="leenruimte.html">Leenruimte</a></li>
-                        <li><a href="maandlasten-bouwdepot.html">Maandlasten bouwdepot</a></li>
-                        <li><a href="renteverlies-bouwdepot.html">Renteverlies</a></li>
-                        <li><a href="belasting.html">Belastingvoordeel</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-nieuwbouw">Nieuwbouw</p>
-                    <ul aria-labelledby="voet-nieuwbouw">
-                        <li><a href="nieuwbouw.html">Nieuwbouwplanning</a></li>
-                        <li><a href="bouwrente-nieuwbouw.html">Bouwrente</a></li>
-                        <li><a href="dubbele-lasten-nieuwbouw.html">Dubbele lasten</a></li>
-                        <li><a href="depotplanner.html">Depotplanner</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-uitleg">Uitleg en hulpmiddelen</p>
-                    <ul aria-labelledby="voet-uitleg">
-                        <li><a href="kennisbank.html">Kennisbank</a></li>
-                        <li><a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a></li>
-                        <li><a href="stappenplan.html">Stappenplan</a></li>
-                        <li><a href="adviesgesprek-checklist.html">Adviesgesprek-checklist</a></li>
-                        <li><a href="bouwdepot-declaratie-afgewezen.html">Declaratie afgewezen</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-site">Over deze site</p>
-                    <ul aria-labelledby="voet-site">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="over-ons.html">Over ons</a></li>
-                        <li><a href="methodologie.html">Methodologie</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="privacy.html">Privacy</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="voorwaarden.html">Voorwaarden</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <p class="ds-caption">&copy; 2026 BouwdepotCalculator.nl &middot; Onafhankelijk informatieplatform, geen aanbieder van hypotheken.</p>
+    <div class="bs-band no-print" aria-hidden="true">
+        <div class="bs-band__spoor">
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+        </div>
+    </div>
+
+    <footer class="bs-voet no-print">
+        <div class="bs-wrap bs-voet__inner">
+            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+            <span>${VOET.map(([h, t]) => `<a href="${h}">${t}</a>`).join(' &middot; ')}</span>
         </div>
     </footer>
 

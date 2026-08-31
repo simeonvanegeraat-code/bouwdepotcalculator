@@ -84,14 +84,14 @@ if (wortel) {
             // weggegooid. Wie zijn offerte overtypte zag zijn totaal kelderen
             // zonder dat er iets misging op het scherm.
             const gelezen = leesGetal(veld.value);
-            const rij = veld.closest('.post');
+            const rij = veld.closest('.bs-post');
 
             let melding = '';
             if (veld.value.trim() !== '' && gelezen === null) melding = 'Dit lezen wij niet als bedrag.';
             else if (gelezen !== null && gelezen < 0) melding = 'Een bedrag onder nul bestaat niet.';
             else if (gelezen !== null && gelezen > MAX_PER_POST) melding = `Boven ${euro.format(MAX_PER_POST)} rekenen wij niet mee; controleer het bedrag.`;
 
-            const foutregel = rij?.querySelector('.post__fout');
+            const foutregel = rij?.querySelector('.bs-post__fout');
             if (foutregel) foutregel.textContent = melding;
             veld.setAttribute('aria-invalid', melding ? 'true' : 'false');
             if (melding) fouten++;
@@ -109,7 +109,7 @@ if (wortel) {
         }
 
         // Subtotaal per categorie, uit dezelfde lus zodat ze niet uit elkaar lopen.
-        for (const sectie of wortel.querySelectorAll('.cat')) {
+        for (const sectie of wortel.querySelectorAll('.bs-cat')) {
             const doel = sectie.querySelector('[data-subtotaal]');
             if (!doel) continue;
             let som = 0, gevuld = 0;
@@ -168,8 +168,8 @@ if (wortel) {
         const nu = new Intl.DateTimeFormat('nl-NL', { dateStyle: 'long' }).format(new Date());
 
         // Per categorie alleen de ingevulde posten, in de volgorde van de pagina.
-        const blokken = Array.from(wortel.querySelectorAll('.cat')).map((cat) => {
-            const regels = Array.from(cat.querySelectorAll('.post')).map((post) => {
+        const blokken = Array.from(wortel.querySelectorAll('.bs-cat')).map((cat) => {
+            const regels = Array.from(cat.querySelectorAll('.bs-post')).map((post) => {
                 const veld = post.querySelector('[data-post]');
                 // Ook hier leesGetal: de specificatie las de velden zelf uit en
                 // maakte van "45.000" een bedrag van 45 euro, terwijl de totalen
@@ -182,13 +182,13 @@ if (wortel) {
                     <td>${post.querySelector('label').textContent}</td>
                     <td>${prio?.value === 'gewenst' ? 'Gewenst' : 'Noodzakelijk'}</td>
                     <td>${veld.dataset.vast === 'true' ? 'Bouwdepot' : 'Eigen geld'}</td>
-                    <td class="spec__bedrag">${euro.format(bedrag)}</td>
+                    <td class="bs-spec__bedrag">${euro.format(bedrag)}</td>
                 </tr>`;
             }).filter(Boolean).join('');
 
             if (!regels) return '';
-            return `<tbody class="spec__groep">
-                <tr class="spec__kopregel"><th colspan="4">${cat.querySelector('.cat__kop :is(h2, h3)').textContent}</th></tr>
+            return `<tbody class="bs-spec__groep">
+                <tr class="bs-spec__kopregel"><th colspan="4">${cat.querySelector('.bs-cat__kop :is(h2, h3)').textContent}</th></tr>
                 ${regels}
             </tbody>`;
         }).filter(Boolean).join('');
@@ -203,24 +203,24 @@ if (wortel) {
             : '';
 
         spec.innerHTML = `
-            <header class="spec__kop">
+            <header class="bs-spec__kop">
                 <h2>Verbouwingsspecificatie</h2>
                 <p>Opgesteld op ${nu}${bank ? ` &middot; bouwdepot bij ${bank.naam}` : ''}</p>
             </header>
 
-            <table class="spec__tabel">
-                <thead><tr><th>Post</th><th>Prioriteit</th><th>Betaald uit</th><th class="spec__bedrag">Bedrag</th></tr></thead>
+            <table class="bs-spec__tabel">
+                <thead><tr><th>Post</th><th>Prioriteit</th><th>Betaald uit</th><th class="bs-spec__bedrag">Bedrag</th></tr></thead>
                 ${blokken}
                 <tfoot>
-                    ${cijfers.margeBedrag > 0 ? `<tr><td colspan="3">Reserve voor onvoorzien (${cijfers.margePct}% van het depotdeel)</td><td class="spec__bedrag">${euro.format(cijfers.margeBedrag)}</td></tr>` : ''}
-                    <tr class="spec__totaal"><td colspan="3">Totale verbouwkosten</td><td class="spec__bedrag">${euro.format(cijfers.totaal)}</td></tr>
-                    <tr><td colspan="3">Waarvan naar verwachting uit het bouwdepot</td><td class="spec__bedrag">${euro.format(cijfers.depot + cijfers.margeBedrag)}</td></tr>
-                    <tr><td colspan="3">Waarvan uit eigen geld</td><td class="spec__bedrag">${euro.format(cijfers.eigen)}</td></tr>
-                    <tr><td colspan="3">Noodzakelijk / gewenst</td><td class="spec__bedrag">${euro.format(cijfers.noodzakelijk)} / ${euro.format(cijfers.gewenst)}</td></tr>
+                    ${cijfers.margeBedrag > 0 ? `<tr><td colspan="3">Reserve voor onvoorzien (${cijfers.margePct}% van het depotdeel)</td><td class="bs-spec__bedrag">${euro.format(cijfers.margeBedrag)}</td></tr>` : ''}
+                    <tr class="bs-spec__totaal"><td colspan="3">Totale verbouwkosten</td><td class="bs-spec__bedrag">${euro.format(cijfers.totaal)}</td></tr>
+                    <tr><td colspan="3">Waarvan naar verwachting uit het bouwdepot</td><td class="bs-spec__bedrag">${euro.format(cijfers.depot + cijfers.margeBedrag)}</td></tr>
+                    <tr><td colspan="3">Waarvan uit eigen geld</td><td class="bs-spec__bedrag">${euro.format(cijfers.eigen)}</td></tr>
+                    <tr><td colspan="3">Noodzakelijk / gewenst</td><td class="bs-spec__bedrag">${euro.format(cijfers.noodzakelijk)} / ${euro.format(cijfers.gewenst)}</td></tr>
                 </tfoot>
             </table>
 
-            <div class="spec__voet">
+            <div class="bs-spec__voet">
                 <h3>Bij declareren aanleveren</h3>
                 ${bank
                     ? `${eisen}<p>Opnemen bij ${bank.naam}: ${bank.opnamemethode === 'zelf-betalen'
@@ -283,12 +283,12 @@ if (wortel) {
             const genoemd = !!bank && post.dataset.genoemdDoor.split(' ').includes(bank.id);
             if (genoemd) aantal += 1;
             post.classList.toggle('post--eigen-bank', genoemd);
-            let merk = post.querySelector('.merkje--eigenbank');
+            let merk = post.querySelector('.bs-merkje--eigenbank');
             if (genoemd && !merk) {
                 merk = document.createElement('span');
-                merk.className = 'merkje merkje--eigenbank';
+                merk.className = 'bs-merkje bs-merkje--eigenbank';
                 merk.textContent = 'uw bank';
-                post.querySelector('.post__merk')?.append(merk);
+                post.querySelector('.bs-post__merk')?.append(merk);
             } else if (!genoemd && merk) {
                 merk.remove();
             }
@@ -320,7 +320,7 @@ if (wortel) {
 
     // Wat is ingevuld, staat open. Anders zou iemand terugkomen op een pagina
     // die leeg lijkt, terwijl zijn bedragen achter een dichtgeklapt blok zitten.
-    for (const categorie of wortel.querySelectorAll('.cat')) {
+    for (const categorie of wortel.querySelectorAll('.bs-cat')) {
         const gevuld = [...categorie.querySelectorAll('[data-post]')].some((v) => v.value.trim() !== '');
         if (gevuld) categorie.open = true;
     }
