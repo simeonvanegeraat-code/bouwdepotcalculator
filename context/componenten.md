@@ -297,6 +297,29 @@ die zich pas maanden later meldt.
 | `.bs-alleen-print` / `.bs-spec__…` | De specificatie die alleen op papier verschijnt. Op het scherm is het formulier het gereedschap; op papier is een ingevuld formulier geen document |
 | `.bs-proza` | Leestekst met een prettige regellengte, voor uitleg zonder kolommen |
 
+### Onderdelen die JavaScript zelf schrijft
+
+Deze klassen staan zowel in `calculator.css` als in `broadsheet.css`, en dat is
+bewust. `staafgrafiek.js` en `main.js` schrijven deze namen in de HTML, en die
+modules bedienen zowel omgezette als nog niet omgezette pagina's. Hernoemen we
+ze nu, dan staat de grafiek op `belasting.html` of de tabel op de depotplanner
+zonder opmaak — en dat merkt geen enkele test.
+
+In `broadsheet.css` staan ze genest onder `.bs`, waardoor
+`tests/componenten.test.mjs` ze niet uitleest. **Deze tabel is dus de enige
+bewaking die ze hebben; houd hem bij.** Bij de laatste gebruiker gaan ze in één
+keer om en verdwijnt de dubbeling.
+
+| Component | Geschreven door | Waarvoor |
+|---|---|---|
+| `.verloop` / `.verloop__*` | `staafgrafiek.js` | Maandverloop als eigen SVG. De kleuren staan in de CSS en niet in het JavaScript, zodat ze de tokens volgen |
+| `.details-table` / `.details-table-wrapper` | `main.js` | Maand-tot-maandtabel, met de kolomrollen `col-amount`, `col-gedempt`, `col-vergoeding` en `netto-column` erin. De wrapper laat hem binnen zijn eigen kader scrollen; een brede tabel mag de pagina niet horizontaal laten schuiven |
+| `.term-row` / `.term-kop` / `.term-*-input` | `main.js` | Het termijnschema. Kopregel en rijen delen één raster, anders lopen ze niet gelijk |
+| `.term-veldnaam` | `main.js` | Veldnaam per invoerveld. **Alleen zichtbaar onder 640px**, waar de kolomkoppen wegvallen |
+| `.terms-totaal` | `main.js` | Teller van de toegewezen percentages. `data-status="afwijkend"` maakt hem amber |
+| `.input-icon-wrapper` / `.icon` | `main.js` | Veld met een euro- of procentteken erin |
+| `.btn-remove` | `main.js` | Termijn verwijderen. 44px, want dat is de minimale aanraakzone |
+
 ### Rekenpagina en gereedschap
 
 | Component | Waarvoor |

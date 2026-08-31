@@ -8,8 +8,7 @@
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="author" content="Simeon">
     <link rel="canonical" href="https://www.bouwdepotcalculator.nl/nieuwbouw.html">
-    <!-- Wat een gedeelde link laat zien in WhatsApp, LinkedIn en Slack. Titel,
-         omschrijving en adres zijn bewust dezelfde als hierboven;
+    <!-- Titel, omschrijving en adres zijn bewust dezelfde als hierboven;
          tests/deelkaart.test.mjs faalt zodra ze uit elkaar lopen. -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="BouwdepotCalculator.nl">
@@ -24,217 +23,209 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
 
-    <!-- Vercel Web Analytics: cookieloos. Geen cookie en geen localStorage; de
-         bezoeker wordt herkend aan een hash van het verzoek die na 24 uur
-         vervalt. Wat er wel wordt vastgelegd staat in privacy.html. -->
+    <!-- Vercel Web Analytics: cookieloos. Wat er wordt vastgelegd staat in privacy.html. -->
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/design-system.css">
-    <link rel="stylesheet" href="/src/styles/pagina.css">
-    <link rel="stylesheet" href="/src/styles/calculator.css">
+    <link rel="stylesheet" href="/src/styles/broadsheet.css">
 </head>
-<body class="ds">
+<body class="bs">
 
-    <header class="kop">
-        <div class="ds-wrap kop__inner">
-            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
-            <nav aria-label="Hoofdnavigatie">
-                <details class="kop__menu">
-                    <summary><span class="kop__streepjes" aria-hidden="true"></span>Menu</summary>
-                </details>
-                <div class="kop__paneel">
-                    <a href="bouwdepot-berekenen.html">Bereken</a>
-                    <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
-                    <a href="kennisbank.html">Uitleg</a>
-                    <a href="over-ons.html">Over ons</a>
-                </div>
-            </nav>
-        </div>
-
-        <!-- De rekenhulpen bij naam. Zie de toelichting in pagina.css. -->
-        <nav class="toolbalk no-print" aria-label="Rekenhulpen">
-            <div class="ds-wrap toolbalk__inner">
-                <a href="bouwdepot-berekenen.html">Bouwdepot berekenen</a>
-                <a href="verbouwbegroting.html">Verbouwbegroting</a>
-                <a href="leenruimte.html">Leenruimte</a>
-                <a href="maandlasten-bouwdepot.html">Maandlasten</a>
-                <a href="nieuwbouw.html">Nieuwbouwplanning</a>
-                <a href="depotplanner.html">Depotplanner</a>
-                <a href="belasting.html">Belastingvoordeel</a>
+    <header class="bs-kop">
+        <div class="bs-wrap bs-kop__inner">
+            <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <div class="bs-kop__rechts">
+                <a href="bouwdepot-berekenen.html">Bereken</a>
                 <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="#uitleg">Uitleg</a>
+                <a class="bs-menu" href="kennisbank.html">Kennisbank</a>
+                <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
-        </nav>
+        </div>
     </header>
 
-    <nav class="kruimel" aria-label="Kruimelpad">
-      <div class="ds-wrap">
-        <ol>
-          <li><a href="/">Home</a></li>
-          <li aria-current="page">Nieuwbouw</li>
-        </ol>
-      </div>
-    </nav>
-
     <main>
-        <section class="ds-wrap reken" aria-labelledby="reken-titel" id="nieuwbouw-calc">
-            <div class="aanhef">
-                <p class="ds-eyebrow">Nieuwbouwplanning</p>
-                <h1 id="reken-titel">Wat wordt uw zwaarste maand?</h1>
-                <p class="ds-lead">Bij nieuwbouw loopt de last op naarmate er meer bouwtermijnen zijn betaald. Deze berekening zoekt het piekmoment.</p>
-            </div>
+        <section class="bs-reken" aria-labelledby="reken-titel" id="nieuwbouw-calc">
+            <div class="bs-wrap">
+                <nav class="bs-kruimel" aria-label="Kruimelpad">
+                    <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Nieuwbouwplanning</span>
+                </nav>
+                <h1 class="bs-reken__titel" id="reken-titel">Wat wordt uw zwaarste maand?</h1>
+                <p class="bs-reken__lead">Bij nieuwbouw loopt de last op naarmate er meer bouwtermijnen zijn betaald. Deze berekening zoekt het piekmoment.</p>
 
-            <div class="reken__grid">
-                <div class="reken__uitkomst">
-                    <div class="ds-uitkomst">
-                        <p class="ds-uitkomst__label">Zwaarste maandlast tijdens de bouw</p>
-                        <strong class="ds-uitkomst__bedrag" id="res-peak-total" data-bedrag>&euro; 0</strong>
-                        <p class="ds-uitkomst__toelichting" id="res-peak-month">Zwaarste maand: maand 0 van de bouw</p>
+                <div class="bs-reken__grid">
+                    <div>
+                        <!-- ds-uitkomst is de haak waar src/js/stickybalk.js op zoekt. -->
+                        <article class="bs-blad ds-uitkomst">
+                            <div class="bs-blad__kop">
+                                <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
+                                <span class="bs-blad__stempel">Planning</span>
+                            </div>
 
-                        <dl class="ds-uitsplitsing">
-                            <div><span>Gemiddelde maanddruk</span><strong id="res-average-monthly" data-bedrag>&euro; 0</strong></div>
-                            <div><span>Totale overlapkosten</span><strong id="res-overlap-total" data-bedrag>&euro; 0</strong></div>
-                            <div><span>Extra maandlast nu</span><strong id="res-extra-now" data-bedrag>&euro; 0</strong></div>
-                            <div><span>Rente minus depotvergoeding</span><strong id="res-loss" data-bedrag>&euro; 0</strong></div>
-                        </dl>
+                            <div class="bs-antwoord">
+                                <p class="bs-antwoord__label ds-uitkomst__label">Zwaarste maandlast tijdens de bouw</p>
+                                <strong class="bs-antwoord__bedrag ds-uitkomst__bedrag" id="res-peak-total" data-bedrag>&euro; 0</strong>
+                                <p class="bs-antwoord__zin" id="res-peak-month">Zwaarste maand: maand 0 van de bouw</p>
+                            </div>
 
-                        <p class="notitie" id="res-nieuwbouw-conclusion" style="margin-top: var(--ds-4)">Vul uw gegevens in voor een indicatie van het verloop.</p>
+                            <dl class="bs-uitsplitsing">
+                                <div><dt>Gemiddelde maanddruk</dt><dd class="tnum" id="res-average-monthly" data-bedrag>&euro; 0</dd></div>
+                                <div><dt>Totale overlapkosten</dt><dd class="tnum" id="res-overlap-total" data-bedrag>&euro; 0</dd></div>
+                                <div><dt>Extra maandlast nu</dt><dd class="tnum" id="res-extra-now" data-bedrag>&euro; 0</dd></div>
+                                <div><dt>Rente minus depotvergoeding</dt><dd class="tnum" id="res-loss" data-bedrag>&euro; 0</dd></div>
+                            </dl>
 
-                        <details class="uitleg-details">
-                            <summary>Uitgangspunten en aannames</summary>
-                            <div class="uitleg-details__body">
-                                <p class="ds-caption" id="res-nieuwbouw-method">Indicatieve planning op basis van uw rente, bouwduur en termijnschema; werkelijke planning en bankvoorwaarden kunnen afwijken.</p>
-                                <p class="ds-caption" id="res-nieuwbouw-interpretation">De overlap met uw huidige woonlast en het tempo van depotopnames bepalen vooral hoe zwaar de bouwfase aanvoelt.</p>
-                                <p class="ds-caption" id="res-nieuwbouw-timeline">Controleer vooral de maanden met grotere termijnen: daar neemt de druk vaak het snelst toe.</p>
-                                <ul class="ds-uitsplitsing ds-uitsplitsing--vlak">
-                                    <li><span>Totale hypotheek</span><strong id="res-total-loan">&euro; 0</strong></li>
-                                    <li><span>Start na depotvergoeding</span><strong id="res-start-monthly">&euro; 0</strong></li>
-                                    <li><span>Volledige annuïteit</span><strong id="res-max-monthly">&euro; 0</strong></li>
-                                    <li><span>Grondkosten</span><strong id="sum-nieuwbouw-land">-</strong></li>
-                                    <li><span>Aanneemsom</span><strong id="sum-nieuwbouw-construction">-</strong></li>
-                                    <li><span>Hypotheekrente</span><strong id="sum-nieuwbouw-interest">-</strong></li>
-                                    <li><span>Depotrente-afslag</span><strong id="sum-nieuwbouw-discount">-</strong></li>
-                                    <li><span>Bouwduur</span><strong id="sum-nieuwbouw-duration">-</strong></li>
-                                    <li><span>Huidige woonlast</span><strong id="sum-nieuwbouw-housing">-</strong></li>
-                                    <li><span>Aantal termijnen</span><strong id="sum-nieuwbouw-terms">-</strong></li>
-                                </ul>
-                                <p class="ds-caption" id="report-nieuwbouw-generated-at">Berekening klaar.</p>
+                            <p class="bs-notitie bs-antwoord__zin" id="res-nieuwbouw-conclusion">Vul uw gegevens in voor een indicatie van het verloop.</p>
+
+                            <p class="bs-blad__voet">Indicatief &middot; informatie, geen advies</p>
+                        </article>
+
+                        <details class="bs-uitklap bs-aannames">
+                            <summary>
+                                <span>
+                                    <b>Uitgangspunten en aannames</b>
+                                    <small>Waarmee deze planning wel en niet rekent</small>
+                                </span>
+                            </summary>
+                            <div class="bs-uitklap__body">
+                                <p class="bs-voorbehoud" id="res-nieuwbouw-method">Indicatieve planning op basis van uw rente, bouwduur en termijnschema; werkelijke planning en bankvoorwaarden kunnen afwijken.</p>
+                                <p class="bs-voorbehoud" id="res-nieuwbouw-interpretation">De overlap met uw huidige woonlast en het tempo van depotopnames bepalen vooral hoe zwaar de bouwfase aanvoelt.</p>
+                                <p class="bs-voorbehoud" id="res-nieuwbouw-timeline">Controleer vooral de maanden met grotere termijnen: daar neemt de druk vaak het snelst toe.</p>
+                                <dl class="bs-uitsplitsing">
+                                    <div><dt>Totale hypotheek</dt><dd class="tnum" id="res-total-loan">&euro; 0</dd></div>
+                                    <div><dt>Start na depotvergoeding</dt><dd class="tnum" id="res-start-monthly">&euro; 0</dd></div>
+                                    <div><dt>Volledige annu&iuml;teit</dt><dd class="tnum" id="res-max-monthly">&euro; 0</dd></div>
+                                    <div><dt>Grondkosten</dt><dd class="tnum" id="sum-nieuwbouw-land">&mdash;</dd></div>
+                                    <div><dt>Aanneemsom</dt><dd class="tnum" id="sum-nieuwbouw-construction">&mdash;</dd></div>
+                                    <div><dt>Hypotheekrente</dt><dd class="tnum" id="sum-nieuwbouw-interest">&mdash;</dd></div>
+                                    <div><dt>Depotrente-afslag</dt><dd class="tnum" id="sum-nieuwbouw-discount">&mdash;</dd></div>
+                                    <div><dt>Bouwduur</dt><dd class="tnum" id="sum-nieuwbouw-duration">&mdash;</dd></div>
+                                    <div><dt>Huidige woonlast</dt><dd class="tnum" id="sum-nieuwbouw-housing">&mdash;</dd></div>
+                                    <div><dt>Aantal termijnen</dt><dd class="tnum" id="sum-nieuwbouw-terms">&mdash;</dd></div>
+                                </dl>
+                                <p class="bs-voorbehoud" id="report-nieuwbouw-generated-at">Berekening klaar.</p>
                             </div>
                         </details>
 
-                        <div class="uitkomst-acties no-print">
-                            <button id="btn-download" class="ds-knop ds-knop--rustig" type="button">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
-                                Overzicht printen of opslaan
-                            </button>
+                        <p class="bs-vervolgstap">Loopt uw bouwdepot al? <a href="depotplanner.html">Plan uw declaraties en termijnen &rarr;</a></p>
+                    </div>
+
+                    <div class="bs-invoer">
+                        <div class="bs-chips" role="group" aria-label="Voorbeeldscenario's">
+                            <button type="button" class="bs-chip nieuwbouw-scenario-chip" data-land="150000" data-construction="350000" data-interest="3.8" data-months="12" data-housing="1200" data-discount="0.0">Gemiddelde nieuwbouw</button>
+                            <button type="button" class="bs-chip nieuwbouw-scenario-chip" data-land="200000" data-construction="500000" data-interest="4.1" data-months="16" data-housing="1500" data-discount="0.5">Hoge bouwsom</button>
+                            <button type="button" class="bs-chip nieuwbouw-scenario-chip" data-land="150000" data-construction="350000" data-interest="3.9" data-months="24" data-housing="1200" data-discount="0.5">Lange bouwduur</button>
+                            <button type="button" class="bs-chip nieuwbouw-scenario-chip" data-land="130000" data-construction="320000" data-interest="3.7" data-months="12" data-housing="1350" data-discount="0.0">Huur + nieuwbouw</button>
                         </div>
-                    </div>
 
-                    <p class="vervolgstap no-print">Loopt uw bouwdepot al? <a href="depotplanner.html">Plan uw declaraties en termijnen &rarr;</a></p>
-                </div>
-
-                <div class="reken__invoer">
-                    <div class="ds-chips" role="group" aria-label="Voorbeeldscenario's" style="margin-bottom: var(--ds-5)">
-                        <button type="button" class="ds-chip nieuwbouw-scenario-chip" data-land="150000" data-construction="350000" data-interest="3.8" data-months="12" data-housing="1200" data-discount="0.0">Gemiddelde nieuwbouw</button>
-                        <button type="button" class="ds-chip nieuwbouw-scenario-chip" data-land="200000" data-construction="500000" data-interest="4.1" data-months="16" data-housing="1500" data-discount="0.5">Hoge bouwsom</button>
-                        <button type="button" class="ds-chip nieuwbouw-scenario-chip" data-land="150000" data-construction="350000" data-interest="3.9" data-months="24" data-housing="1200" data-discount="0.5">Lange bouwduur</button>
-                        <button type="button" class="ds-chip nieuwbouw-scenario-chip" data-land="130000" data-construction="320000" data-interest="3.7" data-months="12" data-housing="1350" data-discount="0.0">Huur + nieuwbouw</button>
-                    </div>
-
-                    <div class="ds-veld">
-                        <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-land">Grondkosten</label></div>
-                        <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="text" id="input-land" value="150000" inputmode="numeric"></div>
-                        <input class="ds-schuif" type="range" id="range-land" min="0" max="500000" step="5000" value="150000" aria-label="Grondkosten">
-                    </div>
-
-                    <div class="ds-veld">
-                        <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-construction">Aanneemsom</label></div>
-                        <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="text" id="input-construction" value="350000" inputmode="numeric"></div>
-                        <input class="ds-schuif" type="range" id="range-construction" min="50000" max="900000" step="5000" value="350000" aria-label="Aanneemsom">
-                    </div>
-
-                    <div class="veldrij veldrij--twee">
-                        <div class="ds-veld">
-                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-interest">Hypotheekrente</label></div>
-                            <div class="suffix-veld"><input class="ds-invoer" type="text" id="input-interest" value="3,80" inputmode="decimal"><span>%</span></div>
-                            <input class="ds-schuif" type="range" id="range-interest" min="0.5" max="10" step="0.1" value="3.8" aria-label="Hypotheekrente">
+                        <div>
+                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-land">Grondkosten</label></div>
+                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-land" value="150000" inputmode="numeric"></div>
+                            <input class="bs-schuif" type="range" id="range-land" min="0" max="500000" step="5000" value="150000" aria-label="Grondkosten">
                         </div>
-                        <div class="ds-veld">
-                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-depot-discount">Afslag depotrente</label></div>
-                            <div class="suffix-veld"><input class="ds-invoer" type="text" id="input-depot-discount" value="0,0" inputmode="decimal"><span>%</span></div>
-                            <p class="ds-caption">Hoeveel lager de depotvergoeding is dan uw hypotheekrente. <a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet uw bank?</a></p>
+
+                        <div>
+                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-construction">Aanneemsom</label></div>
+                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-construction" value="350000" inputmode="numeric"></div>
+                            <input class="bs-schuif" type="range" id="range-construction" min="50000" max="900000" step="5000" value="350000" aria-label="Aanneemsom">
                         </div>
-                    </div>
 
-                    <div class="ds-veld">
-                        <div class="ds-veld__kop">
-                            <label class="ds-veld__naam" for="input-build-months">Bouwduur</label>
-                            <span class="ds-veld__waarde tnum"><input class="ds-invoer ds-invoer--kort" type="number" id="input-build-months" value="12" min="1" max="36" step="1" inputmode="numeric"> mnd</span>
+                        <div class="bs-veldrij">
+                            <div>
+                                <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-interest">Hypotheekrente</label></div>
+                                <div class="bs-omhulsel"><input type="text" id="input-interest" value="3,80" inputmode="decimal"><span>%</span></div>
+                                <input class="bs-schuif" type="range" id="range-interest" min="0.5" max="10" step="0.1" value="3.8" aria-label="Hypotheekrente">
+                            </div>
+                            <div>
+                                <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-depot-discount">Afslag depotrente</label></div>
+                                <div class="bs-omhulsel"><input type="text" id="input-depot-discount" value="0,0" inputmode="decimal"><span>%</span></div>
+                                <p class="bs-hulp">Hoeveel lager de depotvergoeding is dan uw hypotheekrente. <a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet uw bank?</a></p>
+                            </div>
                         </div>
-                        <input class="ds-schuif" type="range" id="range-build-months" min="1" max="36" step="1" value="12" aria-label="Bouwduur in maanden">
-                    </div>
 
-                    <div class="ds-veld">
-                        <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-current-housing">Huidige woonlast</label></div>
-                        <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="text" id="input-current-housing" value="1200" inputmode="numeric"></div>
-                        <p class="ds-caption">Huur of hypotheek die u tijdens de bouw blijft betalen.</p>
-                    </div>
+                        <div>
+                            <div class="bs-veld__kop">
+                                <label class="bs-veld__naam" for="input-build-months">Bouwduur</label>
+                                <span class="bs-veld__waarde tnum"><input class="bs-kort" type="number" id="input-build-months" value="12" min="1" max="36" step="1" inputmode="numeric"> mnd</span>
+                            </div>
+                            <input class="bs-schuif" type="range" id="range-build-months" min="1" max="36" step="1" value="12" aria-label="Bouwduur in maanden">
+                        </div>
 
-                    <details class="uitleg-details">
-                        <summary>Ik heb een termijnschema en wil nauwkeuriger rekenen</summary>
-                        <div class="uitleg-details__body">
-                            <p class="ds-caption">Gebruik dit alleen als u al weet wanneer de bouwtermijnen worden betaald. Zonder schema geeft de schatting hierboven al een bruikbare indicatie.</p>
+                        <div>
+                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-current-housing">Huidige woonlast</label></div>
+                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-current-housing" value="1200" inputmode="numeric"></div>
+                            <p class="bs-hulp">Huur of hypotheek die u tijdens de bouw blijft betalen.</p>
+                        </div>
 
-                            <div class="terms-kop">
+                        <details class="bs-uitklap">
+                            <summary>
                                 <span>
-                                    <button class="ds-knop ds-knop--rustig" id="add-term-btn" type="button">+ Termijn</button>
-                                    <button class="ds-knop ds-knop--rustig" id="auto-spread-btn" type="button">Automatisch spreiden</button>
+                                    <b>Ik heb een termijnschema en wil nauwkeuriger rekenen</b>
+                                    <small>Alleen nodig als u al weet wanneer de termijnen vallen</small>
                                 </span>
-                                <span class="terms-totaal" id="total-percent">100% toegewezen</span>
-                            </div>
+                            </summary>
+                            <div class="bs-uitklap__body">
+                                <p class="bs-hulp">Gebruik dit alleen als u al weet wanneer de bouwtermijnen worden betaald. Zonder schema geeft de schatting hierboven al een bruikbare indicatie.</p>
 
-                            <!-- Kolomkoppen: de eerste kolom was een kaal getal in een
-                                 vakje, waar nergens uit bleek dat het om een bouwmaand ging. -->
-                            <div class="term-kop" aria-hidden="true">
-                                <span>Maand</span>
-                                <span>Onderdeel</span>
-                                <span>Bedrag</span>
-                                <span>Deel</span>
-                                <span></span>
+                                <div class="terms-kop">
+                                    <span>
+                                        <button class="bs-knop bs-knop--licht" id="add-term-btn" type="button">+ Termijn</button>
+                                        <button class="bs-knop bs-knop--licht" id="auto-spread-btn" type="button">Automatisch spreiden</button>
+                                    </span>
+                                    <span class="terms-totaal" id="total-percent">100% toegewezen</span>
+                                </div>
+
+                                <!-- Kolomkoppen: de eerste kolom was een kaal getal in een
+                                     vakje, waar nergens uit bleek dat het om een bouwmaand ging. -->
+                                <div class="term-kop" aria-hidden="true">
+                                    <span>Maand</span>
+                                    <span>Onderdeel</span>
+                                    <span>Bedrag</span>
+                                    <span>Deel</span>
+                                    <span></span>
+                                </div>
+                                <div id="terms-container"></div>
                             </div>
-                            <div id="terms-container"></div>
-                        </div>
-                    </details>
+                        </details>
+                    </div>
+
+                    <!-- Printen doe je als de planning staat. Derde blok in het raster:
+                         op mobiel onder de invoer, op breed scherm onder de uitkomst. -->
+                    <div class="bs-reken__na no-print">
+                        <button id="btn-download" class="bs-knop bs-knop--licht" type="button">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
+                            Overzicht printen of opslaan
+                        </button>
+                        <p class="bs-voorbehoud">Uw invoer blijft op dit apparaat en wordt nergens verstuurd.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--gevuld">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Het verloop</p>
-                    <h2 class="ds-title">Hoe de maandlast oploopt tijdens de bouw</h2>
-                    <p class="ds-lead">Elke betaalde bouwtermijn verlaagt het depot, waardoor de vergoeding daalt en uw eigen last stijgt.</p>
-                </div>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <p class="bs-micro">Het verloop</p>
+                <h2 class="bs-titel">Hoe de maandlast oploopt tijdens de bouw</h2>
+                <p class="bs-reken__lead">Elke betaalde bouwtermijn verlaagt het depot, waardoor de vergoeding daalt en uw eigen last stijgt.</p>
 
                 <div class="verloop">
                     <!-- Eigen SVG in plaats van een grafiekbibliotheek: de vorm komt uit
-                         de tokens, volgt de donkere modus, en kost geen kilobyte extra.
-                         De legenda staat in de HTML en niet in het beeld, zodat hij ook
-                         zonder JavaScript leesbaar is. -->
+                         de tokens en kost geen kilobyte extra. De legenda staat in de
+                         HTML en niet in het beeld, zodat hij ook zonder JavaScript
+                         leesbaar is. -->
                     <div class="verloop__grafiek" id="verloop-grafiek"></div>
                     <p class="verloop__legenda">
                         <span class="verloop__sleutel verloop__sleutel--eigen">Uw eigen last</span>
                         <span class="verloop__sleutel verloop__sleutel--vergoeding">Depotvergoeding</span>
                     </p>
-                    <p class="ds-caption">Samen vormen de twee delen de volledige maandtermijn. Naarmate het depot leegloopt verdwijnt de vergoeding en betaalt u het hele bedrag zelf.</p>
+                    <p class="bs-hulp">Samen vormen de twee delen de volledige maandtermijn. Naarmate het depot leegloopt verdwijnt de vergoeding en betaalt u het hele bedrag zelf.</p>
 
-                    <button id="toggle-table-btn" class="ds-knop ds-knop--rustig" type="button" style="margin-top: var(--ds-4); width: 100%;">Toon maand-tot-maand overzicht</button>
+                    <button id="toggle-table-btn" class="bs-knop bs-knop--licht" type="button" style="margin-top: 18px; width: 100%;">Toon maand-tot-maand overzicht</button>
 
                     <div id="table-wrapper" class="details-table-wrapper" style="display: none;">
                         <table class="details-table">
@@ -254,13 +245,11 @@
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Kort uitgelegd</p>
-                    <h2 class="ds-title">Waarom nieuwbouw anders rekent dan verbouwen</h2>
-                </div>
-                <div class="uitleg">
+        <section class="bs-sectie" id="uitleg">
+            <div class="bs-wrap">
+                <p class="bs-micro">Kort uitgelegd</p>
+                <h2 class="bs-titel">Waarom nieuwbouw anders rekent dan verbouwen</h2>
+                <div class="bs-kolommen">
                     <article>
                         <h3>De last loopt op in plaats van vast te staan</h3>
                         <p>Bij nieuwbouw staat aanvankelijk vrijwel de hele hypotheek in het depot. U betaalt rente over het geheel, maar ontvangt daar vergoeding over. Naarmate de aannemer termijnen factureert, daalt het depot en dus de vergoeding. Uw eigen last stijgt daardoor iedere maand.</p>
@@ -275,76 +264,87 @@
                     </article>
                     <article>
                         <h3>Dit is geen netto bedrag</h3>
-                        <p>De uitkomst is uw last ná depotvergoeding, maar vóór belasting. Hypotheekrenteaftrek is niet verwerkt, omdat die van uw inkomen afhangt. Gebruik daarvoor de <a href="belasting.html">belastingcalculator</a>, en let bij nieuwbouw op de zesmaandenregeling.</p>
+                        <p>De uitkomst is uw last n&aacute; depotvergoeding, maar v&oacute;&oacute;r belasting. Hypotheekrenteaftrek is niet verwerkt, omdat die van uw inkomen afhangt. Gebruik daarvoor de <a href="belasting.html">belastingcalculator</a>, en let bij nieuwbouw op de zesmaandenregeling.</p>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--diep">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Eigen onderzoek</p>
-                    <h2 class="ds-title">Bij nieuwbouw krijgt u langer de tijd</h2>
-                    <p class="ds-lead">De depottermijn voor nieuwbouw is bij vrijwel elke aanbieder ruimer dan voor een verbouwing. Maar de vergoeding loopt niet altijd even lang mee.</p>
-                </div>
-                <div class="kern">
-                    <div class="kern__item">
-                        <p class="kern__cijfer tnum">24&ndash;42</p>
-                        <p class="kern__eenheid">maanden depot</p>
-                        <p class="kern__tekst">Inclusief verlenging. Loopt de bouw uit voorbij die termijn, dan wordt het restant meestal afgelost op uw hypotheek.</p>
-                    </div>
-                    <div class="kern__item">
-                        <p class="kern__cijfer tnum">30</p>
-                        <p class="kern__eenheid">maanden vergoeding</p>
-                        <p class="kern__tekst">Bij vijf van de acht aanbieders stopt de depotvergoeding eerder dan het depot zelf. Daarna betaalt u rente zonder er iets voor terug te krijgen.</p>
-                    </div>
-                    <div class="kern__item">
-                        <p class="kern__cijfer tnum">1</p>
-                        <p class="kern__eenheid">verlenging, meestal</p>
-                        <p class="kern__tekst">De meeste aanbieders staan één verlenging toe, aan te vragen vóór de einddatum. Wie dat moment mist, krijgt geen tweede kans.</p>
-                    </div>
-                </div>
-                <p style="margin-top: var(--ds-6)">
-                    <a class="ds-knop ds-knop--rustig" href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de vergelijking</a>
-                </p>
-            </div>
-        </section>
+        <!-- De kerncijfers komen uit data/bouwdepot-voorwaarden.json.
+             tests/kerncijfers.test.mjs bewaakt dat 24-42 hier bij de dataset blijft
+             kloppen; verandert de data, dan faalt de test op dit bereik. -->
+        <section class="bs-donker">
+            <div class="bs-wrap">
+                <p class="bs-micro">Eigen onderzoek</p>
+                <h2 class="bs-titel">Bij nieuwbouw krijgt u langer de tijd</h2>
+                <p class="bs-donker__lead">De depottermijn voor nieuwbouw is bij vrijwel elke aanbieder ruimer dan voor een verbouwing. Maar de vergoeding loopt niet altijd even lang mee.</p>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Verder rekenen</p>
-                    <h2 class="ds-title">Andere vragen bij nieuwbouw</h2>
+                <div class="bs-kern">
+                    <div class="bs-kern__item">
+                        <p class="bs-kern__cijfer tnum">24&ndash;42</p>
+                        <p class="bs-kern__eenheid">maanden depot</p>
+                        <p class="bs-kern__tekst">Inclusief verlenging. Loopt de bouw uit voorbij die termijn, dan wordt het restant meestal afgelost op uw hypotheek.</p>
+                    </div>
+                    <div class="bs-kern__item">
+                        <p class="bs-kern__cijfer tnum">30</p>
+                        <p class="bs-kern__eenheid">maanden vergoeding</p>
+                        <p class="bs-kern__tekst">Bij vijf van de acht aanbieders stopt de depotvergoeding eerder dan het depot zelf. Daarna betaalt u rente zonder er iets voor terug te krijgen.</p>
+                    </div>
+                    <div class="bs-kern__item">
+                        <p class="bs-kern__cijfer tnum">1</p>
+                        <p class="bs-kern__eenheid">verlenging, meestal</p>
+                        <p class="bs-kern__tekst">De meeste aanbieders staan &eacute;&eacute;n verlenging toe, aan te vragen v&oacute;&oacute;r de einddatum. Wie dat moment mist, krijgt geen tweede kans.</p>
+                    </div>
                 </div>
-                <div class="ds-keuzes">
-                    <a class="ds-keuze" href="depotplanner.html">
-                        <span class="ds-keuze__titel">Uw bouwtermijnen op een rij</span>
-                        <span class="ds-keuze__uitleg">Een nieuwbouwdepot loopt bij vier van de acht aanbieders langer dan een verbouwdepot. Bereken uw einddatum en het moment waarop de vergoeding stopt.</span>
-                        <span class="ds-keuze__meta">Naar de depotplanner &rarr;</span>
-                    </a>
-                    <a class="ds-keuze" href="dubbele-lasten-nieuwbouw.html">
-                        <span class="ds-keuze__titel">Dubbele lasten uitgesplitst</span>
-                        <span class="ds-keuze__uitleg">De periode waarin u zowel huur of oude hypotheek als de nieuwe last betaalt.</span>
-                        <span class="ds-keuze__meta">Overlap berekenen &rarr;</span>
-                    </a>
-                    <a class="ds-keuze" href="bouwrente-nieuwbouw.html">
-                        <span class="ds-keuze__titel">Bouwrente apart bekijken</span>
-                        <span class="ds-keuze__uitleg">Wat bouwrente is, wanneer die speelt en hoe die zich verhoudt tot uw depot.</span>
-                        <span class="ds-keuze__meta">Bouwrente berekenen &rarr;</span>
-                    </a>
-                    <a class="ds-keuze" href="stappenplan.html">
-                        <span class="ds-keuze__titel">Van plan naar declaratie</span>
-                        <span class="ds-keuze__uitleg">Welke stukken u nodig heeft en in welke volgorde het traject verloopt.</span>
-                        <span class="ds-keuze__meta">Naar het stappenplan &rarr;</span>
-                    </a>
+
+                <div class="bs-donker__acties">
+                    <a class="bs-knop bs-knop--spook" href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de vergelijking</a>
+                    <a class="bs-knop bs-knop--spook" href="methodologie.html">Onze werkwijze</a>
                 </div>
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap">
-                <div class="melding">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <div class="bs-sectiekop">
+                    <div>
+                        <p class="bs-micro">Verder rekenen</p>
+                        <h2 class="bs-titel">Andere vragen bij nieuwbouw</h2>
+                    </div>
+                    <a class="bs-knop bs-knop--licht" href="kennisbank.html">Naar de kennisbank</a>
+                </div>
+                <div class="bs-rooster">
+                    <a class="bs-tool" href="depotplanner.html">
+                        <span class="bs-micro">Lopend depot</span>
+                        <span class="bs-tool__naam">Uw bouwtermijnen op een rij</span>
+                        <span class="bs-tool__uitleg">Een nieuwbouwdepot loopt bij vier van de acht aanbieders langer dan een verbouwdepot. Bereken uw einddatum en het moment waarop de vergoeding stopt.</span>
+                        <span class="bs-tool__meta">Naar de depotplanner &rarr;</span>
+                    </a>
+                    <a class="bs-tool" href="dubbele-lasten-nieuwbouw.html">
+                        <span class="bs-micro">Overlap</span>
+                        <span class="bs-tool__naam">Dubbele lasten uitgesplitst</span>
+                        <span class="bs-tool__uitleg">De periode waarin u zowel huur of oude hypotheek als de nieuwe last betaalt.</span>
+                        <span class="bs-tool__meta">Overlap berekenen &rarr;</span>
+                    </a>
+                    <a class="bs-tool" href="bouwrente-nieuwbouw.html">
+                        <span class="bs-micro">Bouwrente</span>
+                        <span class="bs-tool__naam">Bouwrente apart bekijken</span>
+                        <span class="bs-tool__uitleg">Wat bouwrente is, wanneer die speelt en hoe die zich verhoudt tot uw depot.</span>
+                        <span class="bs-tool__meta">Bouwrente berekenen &rarr;</span>
+                    </a>
+                    <a class="bs-tool" href="stappenplan.html">
+                        <span class="bs-micro">Traject</span>
+                        <span class="bs-tool__naam">Van plan naar declaratie</span>
+                        <span class="bs-tool__uitleg">Welke stukken u nodig heeft en in welke volgorde het traject verloopt.</span>
+                        <span class="bs-tool__meta">Naar het stappenplan &rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <div class="bs-melding">
                     <p><strong>Indicatief hulpmiddel.</strong> Deze planning gebruikt een vaste rente en het door u ingevoerde termijnschema. Werkelijke timing, declaraties en bankvoorwaarden kunnen afwijken, en over acceptatie zegt deze berekening niets.</p>
                     <p>Lees de <a href="methodologie.html">rekenregels en bekende beperkingen</a>. Uw invoer blijft op dit apparaat.</p>
                 </div>
@@ -352,53 +352,17 @@
         </section>
     </main>
 
-    <footer class="voet">
-        <div class="ds-wrap">
-            <nav class="voet__kolommen" aria-label="Voettekst">
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-verbouwen">Verbouwen</p>
-                    <ul aria-labelledby="voet-verbouwen">
-                        <li><a href="bouwdepot-berekenen.html">Bouwdepot berekenen</a>
-                <a href="verbouwbegroting.html">Verbouwbegroting</a></li>
-                        <li><a href="leenruimte.html">Leenruimte</a></li>
-                        <li><a href="maandlasten-bouwdepot.html">Maandlasten bouwdepot</a></li>
-                        <li><a href="renteverlies-bouwdepot.html">Renteverlies</a></li>
-                        <li><a href="belasting.html">Belastingvoordeel</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-nieuwbouw">Nieuwbouw</p>
-                    <ul aria-labelledby="voet-nieuwbouw">
-                        <li><a href="nieuwbouw.html">Nieuwbouwplanning</a></li>
-                        <li><a href="bouwrente-nieuwbouw.html">Bouwrente</a></li>
-                        <li><a href="dubbele-lasten-nieuwbouw.html">Dubbele lasten</a></li>
-                        <li><a href="depotplanner.html">Depotplanner</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-uitleg">Uitleg en hulpmiddelen</p>
-                    <ul aria-labelledby="voet-uitleg">
-                        <li><a href="kennisbank.html">Kennisbank</a></li>
-                        <li><a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a></li>
-                        <li><a href="stappenplan.html">Stappenplan</a></li>
-                        <li><a href="adviesgesprek-checklist.html">Adviesgesprek-checklist</a></li>
-                        <li><a href="bouwdepot-declaratie-afgewezen.html">Declaratie afgewezen</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-site">Over deze site</p>
-                    <ul aria-labelledby="voet-site">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="over-ons.html">Over ons</a></li>
-                        <li><a href="methodologie.html">Methodologie</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="privacy.html">Privacy</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="voorwaarden.html">Voorwaarden</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <p class="ds-caption">&copy; 2026 BouwdepotCalculator.nl &middot; Onafhankelijk informatieplatform, geen aanbieder van hypotheken.</p>
+    <div class="bs-band no-print" aria-hidden="true">
+        <div class="bs-band__spoor">
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+        </div>
+    </div>
+
+    <footer class="bs-voet no-print">
+        <div class="bs-wrap bs-voet__inner">
+            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
         </div>
     </footer>
 
@@ -414,7 +378,7 @@
       "description": "Bereken het maandlastverloop van een nieuwbouwwoning: bouwtermijnen, depotvergoeding en tijdelijke dubbele lasten.",
       "author": { "@type": "Person", "name": "Simeon", "url": "https://www.bouwdepotcalculator.nl/over-ons.html" },
       "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl/" },
-      "dateModified": "2026-08-14",
+      "dateModified": "2026-08-31",
       "isAccessibleForFree": true,
       "mainEntityOfPage": "https://www.bouwdepotcalculator.nl/nieuwbouw.html"
     }

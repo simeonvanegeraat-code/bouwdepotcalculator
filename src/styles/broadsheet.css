@@ -63,7 +63,7 @@
 
     /* --- Ruimte en vorm --------------------------------------------------- */
     --bs-max: 1400px;
-    --bs-sectie: clamp(44px, 7vw, 96px);
+    --bs-sectie: clamp(44px, 6vw, 80px);   /* 80px is de sectiemaat van de bron */
     --bs-gap: 20px;
     --bs-r-knop: 5px;    /* scherp, geen pil: dat hoort bij de redactionele toon */
     --bs-r-kaart: 14px;
@@ -255,8 +255,10 @@
     font-variant-numeric: tabular-nums;
     background-image: linear-gradient(var(--bs-accent-wash), var(--bs-accent-wash));
     background-repeat: no-repeat;
-    background-position: 0 82%;
-    background-size: 100% 28%;
+    /* Onderaan en laag: op 82%/28% liep de markering dwars door de cijfers en
+       las hij als een doorhaling in plaats van als een accent. */
+    background-position: 0 100%;
+    background-size: 100% 20%;
 }
 .bs-antwoord__zin { margin: 12px 0 0; font-size: var(--bs-t-klein); line-height: 1.5; color: var(--bs-newsprint); }
 
@@ -319,16 +321,21 @@
 @media (min-width: 1000px) { .bs-rooster { grid-template-columns: repeat(3, 1fr); } }
 .bs-tool { display: flex; flex-direction: column; gap: 10px; padding: clamp(20px, 2.4vw, 30px); background: var(--bs-bone); color: inherit; text-decoration: none; transition: background .18s ease, transform .18s ease; }
 .bs-tool__naam {
-    font-size: clamp(20px, 2vw, 26px); font-weight: 500; letter-spacing: -.03em; line-height: 1.1;
-    /* De markeerstift loopt bij hover onder de naam door. */
+    /* Ruimte onder de tekst waar de streep in past, zodat hij niet door de
+       staarten van een p of g hoeft te lopen. */
+    padding-bottom: 6px;
+    font-size: clamp(20px, 2vw, 26px); font-weight: 500; letter-spacing: -.03em; line-height: 1.15;
+    /* De markeerstift schuift bij hover onder de naam. Dun en onder de regel:
+       hij stond op zes pixels dwars door de onderkant van de letters heen, en
+       dan is het geen accent meer maar een doorhaling. */
     background-image: linear-gradient(var(--bs-accent), var(--bs-accent));
-    background-repeat: no-repeat; background-position: 0 88%; background-size: 0 6px;
+    background-repeat: no-repeat; background-position: 0 100%; background-size: 0 2px;
     transition: background-size .2s ease;
 }
 .bs-tool__uitleg { font-size: var(--bs-t-klein); color: var(--bs-newsprint); line-height: 1.5; }
 .bs-tool__meta { margin-top: auto; padding-top: 14px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
 .bs-tool:hover, .bs-tool:focus-visible { background: #fff; transform: translateY(-3px); }
-.bs-tool:hover .bs-tool__naam, .bs-tool:focus-visible .bs-tool__naam { background-size: 100% 6px; }
+.bs-tool:hover .bs-tool__naam, .bs-tool:focus-visible .bs-tool__naam { background-size: 100% 2px; }
 
 .bs-donker { background: var(--bs-press); color: var(--bs-bone); padding: var(--bs-sectie) 0; }
 .bs-donker .bs-micro { color: var(--bs-moss); }
@@ -515,8 +522,13 @@
 .bs-blad--zwevend > *:nth-child(5) { animation-delay: .58s; }
 
 /* De regelaar onder het blad: het enige moment waarop de bezoeker merkt dat de
-   site iets doet in plaats van iets vertelt. */
-.bs-regelaar { max-width: 470px; margin: 26px auto 0; }
+   site iets doet in plaats van iets vertelt.
+
+   De marge is 44px en niet 26. De getande onderrand van het blad hangt met
+   position:absolute twaalf pixels buiten zijn eigen doos, dus die eet van de
+   ruimte eronder: op 26px bleef er visueel veertien over en plakte het label
+   tegen de bon aan. */
+.bs-regelaar { max-width: 470px; margin: 44px auto 0; }
 .bs-regelaar__kop { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 4px; }
 .bs-regelaar__waarde { font-size: var(--bs-t-lead); font-weight: 500; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
 .bs-regelaar__hint { margin: 8px 0 0; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
@@ -651,3 +663,99 @@
 .bs-proza { max-width: 62ch; }
 .bs-proza p { margin: 0 0 14px; }
 .bs-proza p:last-child { margin-bottom: 0; }
+
+/* ==========================================================================
+   Onderdelen die JavaScript zelf schrijft
+   --------------------------------------------------------------------------
+   Deze klassen staan ook nog in calculator.css. Dat is een bewuste botsing en
+   geen slordigheid: `staafgrafiek.js` en `main.js` schrijven deze namen, en
+   die modules bedienen zowel omgezette als nog niet omgezette pagina's.
+   Hernoemen we ze nu, dan staat de grafiek op belasting.html of de tabel op
+   de depotplanner zonder opmaak, en dat merkt geen enkele test.
+
+   Veilig zolang geen pagina beide stylesheets laadt. Bij de laatste gebruiker
+   gaan ze in één keer om. Zie §6 van context/componenten.md.
+   ========================================================================== */
+
+/* --- Het maandverloop als eigen SVG ------------------------------------
+   Kleuren staan hier en niet in het JavaScript, zodat ze de tokens volgen. */
+.bs .verloop { background: #fff; border: 1px solid var(--bs-lijn); padding: clamp(18px, 2.4vw, 30px); }
+.bs .verloop__grafiek { position: relative; }
+/* Vaste hoogte in plaats van meeschalen met de breedte: op een telefoon werd de
+   grafiek anders een strook van 90px waarin geen verloop te zien is. */
+.bs .verloop__grafiek svg { display: block; width: 100%; height: clamp(150px, 26vw, 220px); }
+.bs .verloop__staaf--eigen { fill: var(--bs-press); }
+.bs .verloop__staaf--vergoeding { fill: var(--bs-accent); }
+.bs .verloop__as { stroke: var(--bs-lijn); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.bs .verloop__piek { stroke: var(--bs-newsprint); stroke-dasharray: 3 3; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.bs .verloop__pieklabel { display: inline-block; position: relative; margin-bottom: 4px; transform: translateX(-50%); white-space: nowrap; font-size: var(--bs-t-micro); color: var(--bs-newsprint); }
+.bs .verloop__pieklabel--rechts { transform: translateX(-100%); }
+.bs .verloop__aslabels { position: relative; height: 1.2em; margin-top: 8px; }
+.bs .verloop__aslabel { position: absolute; transform: translateX(-50%); font-size: var(--bs-t-micro); font-variant-numeric: tabular-nums; color: var(--bs-newsprint); }
+.bs .verloop__legenda { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 14px 0 0; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+.bs .verloop__sleutel { display: flex; align-items: center; gap: 8px; }
+.bs .verloop__sleutel::before { content: ""; width: 9px; height: 9px; flex: none; }
+.bs .verloop__sleutel--eigen::before { background: var(--bs-press); }
+.bs .verloop__sleutel--vergoeding::before { background: var(--bs-accent); }
+
+/* --- De maand-tot-maandtabel -------------------------------------------
+   Scrollt binnen zijn eigen kader; een brede tabel mag de pagina niet
+   horizontaal laten schuiven. */
+.bs .details-table-wrapper { overflow-x: auto; margin-top: 16px; border-top: 1px solid var(--bs-ink); }
+.bs .details-table { width: 100%; border-collapse: collapse; font-size: var(--bs-t-klein); }
+.bs .details-table th, .bs .details-table td { padding: 9px 10px; border-bottom: 1px solid var(--bs-lijn); text-align: left; white-space: nowrap; }
+.bs .details-table th { font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+.bs .details-table .col-amount { text-align: right; font-variant-numeric: tabular-nums; }
+.bs .details-table .col-gedempt { color: var(--bs-newsprint); }
+.bs .details-table .col-vergoeding { color: var(--bs-accent); }
+.bs .details-table .netto-column { font-weight: 500; }
+
+/* --- Het termijnschema --------------------------------------------------
+   Kopregel en rijen delen hetzelfde raster, anders lopen de koppen niet gelijk
+   met de velden eronder. De verwijderkolom is 44px: de minimale aanraakzone. */
+.bs .terms-kop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-bottom: 14px; }
+.bs .terms-totaal { padding: 4px 10px; border-radius: 3px; font-size: var(--bs-t-micro); font-weight: 600; font-variant-numeric: tabular-nums; background: var(--bs-accent-licht); color: var(--bs-accent); }
+.bs .terms-totaal[data-status="afwijkend"] { background: #fdf1e6; color: #8c5410; }
+/* Zegt waarom er geen uitkomst staat. Zelfde signaalkleur als de teller
+   hierboven, zodat de bezoeker de twee aan elkaar knoopt. */
+.bs .bs-antwoord__zin[data-status="afwijkend"] { color: #8c5410; font-weight: 500; }
+
+.bs .term-kop,
+.bs .term-row { display: grid; align-items: center; gap: 8px; grid-template-columns: 56px 1fr 120px 92px 44px; }
+.bs .term-kop { margin-bottom: 8px; padding: 0 8px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+.bs .term-row { margin-bottom: 8px; }
+.bs .term-row input {
+    width: 100%; min-height: var(--bs-tap); padding: 0 10px;
+    font: inherit; font-size: var(--bs-t-klein); font-variant-numeric: tabular-nums;
+    color: var(--bs-ink); background: #fff;
+    border: 1px solid var(--bs-lijn); border-radius: var(--bs-r-knop);
+}
+.bs .term-row input:focus-visible { border-color: var(--bs-accent); box-shadow: 0 0 0 3px var(--bs-accent-schaduw); outline: none; }
+.bs .term-month-input { font-weight: 500; text-align: center; }
+/* Alleen zichtbaar zodra de kolomkoppen wegvallen; zie de mobiele regels. */
+.bs .term-veldnaam { display: none; }
+
+.bs .input-icon-wrapper { position: relative; width: 100%; }
+.bs .input-icon-wrapper .icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: var(--bs-t-klein); color: var(--bs-newsprint); }
+.bs .input-icon-wrapper input { padding-left: 26px; }
+.bs .input-icon-wrapper.pct input { padding-left: 10px; padding-right: 26px; text-align: center; }
+.bs .input-icon-wrapper.pct .icon { left: auto; right: 10px; }
+
+.bs .btn-remove {
+    min-width: var(--bs-tap); min-height: var(--bs-tap);
+    font: inherit; font-size: 1.4em; line-height: 1;
+    color: var(--bs-newsprint); background: none;
+    border: 0; border-radius: var(--bs-r-knop); cursor: pointer;
+}
+.bs .btn-remove:hover { color: var(--bs-ink); background: var(--bs-bone); }
+
+/* Onder de 640px past het raster van vijf kolommen niet meer. De rij wordt dan
+   een blokje met veldnamen ervoor, want zonder kolomkoppen weet niemand meer
+   welk vakje de maand is en welk het bedrag. */
+@media (max-width: 640px) {
+    .bs .term-kop { display: none; }
+    .bs .term-row { grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--bs-lijn); }
+    .bs .term-row > div:nth-child(2) { grid-column: 1 / -1; }
+    .bs .term-veldnaam { display: block; margin-bottom: 4px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+    .bs .btn-remove { justify-self: end; grid-column: 2; }
+}
