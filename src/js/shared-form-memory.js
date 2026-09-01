@@ -218,45 +218,9 @@ function bindPersistence() {
     });
 }
 
-function clearSharedMemory() {
-    if (!isStorageAvailable()) return;
-
-    try {
-        window.localStorage.removeItem(STORAGE_KEY);
-    } catch (error) {
-        // doelbewust stil falen
-    }
-}
-
-function injectResetActions() {
-    const calculatorCards = document.querySelectorAll('.calculator-card');
-    if (!calculatorCards.length) return;
-
-    calculatorCards.forEach((card) => {
-        if (card.dataset.showMemoryNote === 'false') return;
-        if (card.querySelector('.shared-memory-controls')) return;
-
-        const wrapper = document.createElement('div');
-        wrapper.className = 'shared-memory-controls';
-        wrapper.innerHTML = `
-            <p class="shared-memory-note">Bedrag en rentepercentages worden lokaal op dit apparaat onthouden. <button type="button" class="shared-memory-reset">Wissen</button></p>
-        `;
-
-        const resetButton = wrapper.querySelector('.shared-memory-reset');
-        resetButton?.addEventListener('click', () => {
-            clearSharedMemory();
-            wrapper.classList.add('shared-memory-cleared');
-            window.setTimeout(() => wrapper.classList.remove('shared-memory-cleared'), 1800);
-        });
-
-        card.appendChild(wrapper);
-    });
-}
-
 export function initSharedFormMemory() {
     applyRememberedValues();
     bindPersistence();
-    injectResetActions();
 }
 
 export function setMemoryLockById(id, isLocked = true) {
