@@ -37,7 +37,7 @@ herleidbaar naar een bron, en waar we iets niet weten staat dat er.
 ## Wat we bewust niet zijn
 
 - **Geen adviseur.** Geen persoonlijke aanbevelingen. Dat zou de site
-  AFM-vergunningplichtig maken; zie JURIDISCHE-CHECK.md.
+  AFM-vergunningplichtig maken; zie [plannen/JURIDISCHE-CHECK.md](../plannen/JURIDISCHE-CHECK.md).
 - **Geen bank.** De site ontleent zijn waarde aan onafhankelijkheid, ook
   visueel.
 - **Geen brede rekensite.** BerekenHet heeft zestig calculators over het hele
@@ -53,7 +53,7 @@ registratie; invoer blijft in de browser.
 Google AdSense. De aanvraag staat gepland voor het eind van de week van 19
 augustus 2026, na de kwaliteitsronde: eerst het product op orde, dan pas
 monetiseren. De diagnose van de eerdere afwijzing en de volledige checklist staan
-in ADSENSE-PLAN.md.
+in [plannen/ADSENSE-PLAN.md](../plannen/ADSENSE-PLAN.md).
 
 Belangrijk gevolg: SEO-werk gebeurt omdat het bezoekers helpt hun antwoord te
 vinden, niet om een beoordelaar te plezieren. Dat onderscheid is eerder

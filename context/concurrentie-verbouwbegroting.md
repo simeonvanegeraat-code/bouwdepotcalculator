@@ -44,7 +44,7 @@ Zie [../CLAUDE.md](../CLAUDE.md).
 
 **Het tweede model kunnen we sowieso niet volgen.** Bezoekersgegevens doorsturen
 naar bedrijven is precies wat
-[../JURIDISCHE-CHECK.md](../JURIDISCHE-CHECK.md) als grens aanwijst, en het is
+[../plannen/JURIDISCHE-CHECK.md](../plannen/JURIDISCHE-CHECK.md) als grens aanwijst, en het is
 buiten scope: geen accounts, geen persoonsgegevens naar derden.
 
 **Onze lege velden zijn dus geen achterstand maar een positie.** Het voelt als een

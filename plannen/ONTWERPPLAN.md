@@ -172,7 +172,7 @@ het 3,1 scherm was. De harde eis is dus gehaald en blijft staan — hij verhuist
 alleen mee naar de nieuwe pagina.*
 
 De reden om het om te draaien staat in
-[spec/homepage-als-introductie.md](spec/homepage-als-introductie.md): de site
+[spec/homepage-als-introductie.md](../spec/homepage-als-introductie.md): de site
 heeft zeven rekenhulpen en 31 pagina's, en wie binnenkomt met een andere vraag
 dan "wat kost dit per maand" landt op een invoerformulier dat hij niet zocht.
 
@@ -266,7 +266,7 @@ Beide zijn eerst als preview gebouwd en bekeken voordat er iets aan de echte
 site veranderde. Die previews zijn bij oplevering verwijderd: ze droegen een
 tweede kopie van de tokens, en dat is precies hoe twee versies stil uit elkaar
 gaan lopen. Wat blijft staan is
-[demo/2026-08-31-stijlrichtingen.html](demo/2026-08-31-stijlrichtingen.html) —
+[demo/2026-08-31-stijlrichtingen.html](../demo/2026-08-31-stijlrichtingen.html) —
 de drie kandidaat-richtingen naast elkaar, en daarmee de enige vastlegging van
 waaróm het deze richting is geworden.
 

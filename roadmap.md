@@ -28,7 +28,7 @@ overzien. Wat de meting laat zien (19-08-2026):
 | `reporting.js` trok jsPDF en html2canvas mee | ±590 kB JS voor één downloadknop | **opgelost 22-08:** eigen afdrukdocument via het printvenster, `jspdf` uit package.json. Nagemeten 01-09: de keten is 11 kB en geen van beide pakketten zit er nog in |
 | `src/js/main.js` bediende zes pagina's uit één bestand | 1.794 regels | **opgelost**, 01-09 — opgesplitst in een module per pagina; `main.js` bestaat niet meer. Rekencode per pagina van 53,3 kB naar 5,7 tot 13,2 kB |
 | Grafiekcode die nooit draaide (`Chart` werd nergens geladen) | twee functies, achter een stille guard | **opgelost 19-08:** eigen SVG, `chart.js` verwijderd |
-| Zeven planningsdocumenten los in de repo-root | naast 31 HTML-pagina's | open |
+| Zeven planningsdocumenten los in de repo-root | naast 32 HTML-pagina's | **opgelost**, 01-09 — verhuisd naar `plannen/` met een index die per document noemt wat achterloopt op de code. Root van elf naar vier markdownbestanden |
 
 Klaar wanneer: dode CSS en dode code weg of aantoonbaar in gebruik, elke
 stylesheet heeft één beschreven taak, en per bestand is duidelijk welke pagina's
@@ -51,7 +51,7 @@ legt vóór je een bestand weghaalt, niet erna.
 
 **Stand 31-08-2026.** De homepage is een introductie geworden en de rekenmachine
 heeft een eigen pagina: `bouwdepot-berekenen.html`. Beide staan in de nieuwe
-ontwerptaal uit [ONTWERPPLAN.md](ONTWERPPLAN.md) §3, met de tokens in
+ontwerptaal uit [ONTWERPPLAN.md](plannen/ONTWERPPLAN.md) §3, met de tokens in
 `src/styles/broadsheet.css`. Zie [spec/homepage-als-introductie.md](spec/homepage-als-introductie.md).
 
 Wat daar nu op volgt, in deze volgorde:
@@ -126,8 +126,8 @@ de HTML én uit de JavaScript-bestanden vergelijkt met wat de stylesheet
 definieert. Draai zoiets vóór je een stylesheet weghaalt, niet erna.
 
 **Let op: de plandocumenten lopen achter op de code.** De hiërarchiefout uit
-[ONTWERPPLAN-HIERARCHIE.md](ONTWERPPLAN-HIERARCHIE.md) is al gerepareerd, en de
-homepage-cijfers uit [ONTWERPPLAN.md](ONTWERPPLAN.md) kloppen niet meer. De
+[ONTWERPPLAN-HIERARCHIE.md](plannen/ONTWERPPLAN-HIERARCHIE.md) is al gerepareerd, en de
+homepage-cijfers uit [ONTWERPPLAN.md](plannen/ONTWERPPLAN.md) kloppen niet meer. De
 actuele meting staat in
 [demo/2026-08-19-nulmeting-homepage.md](demo/2026-08-19-nulmeting-homepage.md):
 5 secties in plaats van 29, en 0,3 scherm tot de uitkomst in plaats van 3,1.
@@ -171,13 +171,13 @@ hoeveel onzekerheid ze bij de bezoeker wegnemen.
 **Deze week zonder verse zoekdata.** De sitemap is op 19-08 ingediend en main is
 net live; bruikbare Search Console-cijfers komen pas een week later. De analyse
 leunt daarom op de tool zelf, op de twee reizen in [customers/](customers/) en op
-[CONCURRENTIE-EN-OORDEEL.md](CONCURRENTIE-EN-OORDEEL.md). Zoekdata toetst het
+[CONCURRENTIE-EN-OORDEEL.md](plannen/CONCURRENTIE-EN-OORDEEL.md). Zoekdata toetst het
 achteraf; zie [routines/search-console.md](routines/search-console.md).
 
 ### 5. AdSense aanvragen — eind van de week
 
 Na blok 1 t/m 4. De diagnose van de eerdere afwijzing en de checklist staan in
-[ADSENSE-PLAN.md](ADSENSE-PLAN.md); loop die af vóór de aanvraag.
+[ADSENSE-PLAN.md](plannen/ADSENSE-PLAN.md); loop die af vóór de aanvraag.
 
 ---
 
@@ -186,10 +186,10 @@ Na blok 1 t/m 4. De diagnose van de eerdere afwijzing en de checklist staan in
 - **Beeld en ritme.** Nul afbeeldingen is de reden dat alle secties op elkaar
   lijken. Eigen SVG-diagrammen van het depotproces.
 - **Aanbiederpagina's onderscheidend maken.** Acht pagina's die volgens
-  [PRODUCTPLAN.md](PRODUCTPLAN.md) 3 tot 5 procent unieke woordenschat hebben —
+  [PRODUCTPLAN.md](plannen/PRODUCTPLAN.md) 3 tot 5 procent unieke woordenschat hebben —
   die meting is gedaan toen het er zes waren, dus doe hem opnieuw.
 - **Een ingang op moment in plaats van op tool.** "Waar sta je" — oriënteren,
-  verbouwen, nieuwbouw, lopend depot. Uit [KWALITEITSPLAN.md](KWALITEITSPLAN.md).
+  verbouwen, nieuwbouw, lopend depot. Uit [KWALITEITSPLAN.md](plannen/KWALITEITSPLAN.md).
 - **De vergelijkingspagina visueel maken.** Verschillen zie je in plaats van dat
   je ze leest.
 - **Begrippenlijst.** Ontbreekt nog, en is een natuurlijke ingang voor zoekverkeer
@@ -216,7 +216,7 @@ Om te voorkomen dat dit telkens opnieuw ter tafel komt:
 | Inlog of gebruikersauthenticatie | Buiten scope; alles werkt zonder registratie |
 | Berekeningen opslaan in een database | Buiten scope; invoer blijft in de browser |
 | Betaalintegraties | Buiten scope; het verdienmodel is AdSense |
-| Concurreren op aantal calculators | BerekenHet heeft er zestig. Wij zijn het diepst op één onderwerp, zie [CONCURRENTIE-EN-OORDEEL.md](CONCURRENTIE-EN-OORDEEL.md) |
+| Concurreren op aantal calculators | BerekenHet heeft er zestig. Wij zijn het diepst op één onderwerp, zie [CONCURRENTIE-EN-OORDEEL.md](plannen/CONCURRENTIE-EN-OORDEEL.md) |
 | Data automatisch bijwerken vanaf bronpagina's | Een verkeerde cel is erger dan een verouderde cel. De wekelijkse controle meldt alleen |
 | Tekst toevoegen om het woordaantal | Google gebruikt woordaantal niet direct, en het schaadt de bezoeker |
 | Persoonlijke aanbevelingen doen | Maakt de site AFM-vergunningplichtig |

@@ -19,7 +19,7 @@ hier ontbreekt.
 
 ## 1. De broadsheet-richting — `broadsheet.css`
 
-De ontwerptaal uit [ONTWERPPLAN.md](../ONTWERPPLAN.md) §3, en sinds 1 september
+De ontwerptaal uit [ONTWERPPLAN.md](../plannen/ONTWERPPLAN.md) §3, en sinds 1 september
 2026 de enige. Alle 32 pagina's laden dit bestand en dragen `<body class="bs">`.
 
 `design-system.css`, `pagina.css` en `calculator.css` bestaan niet meer. Ze

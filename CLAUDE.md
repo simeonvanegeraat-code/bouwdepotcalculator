@@ -72,7 +72,7 @@ gebeurt. Dit is de fout die een echte gebruiker meldde; zie
 **Geen advies, alleen informatie.** Geen persoonlijke aanbeveling, geen "beste
 bank voor jou", geen bezoekersgegevens naar een geldverstrekker. Zodra we dat wel
 doen is het AFM-vergunningplichtig. Zie
-[JURIDISCHE-CHECK.md](JURIDISCHE-CHECK.md).
+[JURIDISCHE-CHECK.md](plannen/JURIDISCHE-CHECK.md).
 
 **Antwoord eerst, diepte op verzoek.** Elke pagina begint met de uitkomst, niet
 met een inleiding. Tekstvolume is geen kwaliteitsmaat en is dat nooit geweest.
@@ -189,11 +189,12 @@ Volledige routine: [routines/nieuwe-pagina.md](routines/nieuwe-pagina.md).
 | [spec/](spec/) | Eén bestand per stuk werk, geschreven vóór de code |
 | [demo/](demo/) | Voor-en-na bewijs van UI-werk, met gemeten waarden |
 | [routines/](routines/) | Terugkerende taken met een vast stappenplan |
+| [plannen/](plannen/) | De inhoudelijke analyses: product, ontwerp, kwaliteit, verdienmodel, juridisch, concurrentie |
 
-De inhoudelijke plannen staan in de bestaande documenten en blijven daar:
-`PRODUCTPLAN.md`, `ONTWERPPLAN.md`, `ONTWERPPLAN-HIERARCHIE.md`,
-`KWALITEITSPLAN.md`, `ADSENSE-PLAN.md`, `JURIDISCHE-CHECK.md`,
-`CONCURRENTIE-EN-OORDEEL.md`. De werkmap verwijst ernaar en herhaalt ze niet.
+De werkmap verwijst naar de plannen en herhaalt ze niet. Andersom geldt: die
+plannen zijn analyses van een moment en lopen op onderdelen achter op de code —
+[plannen/README.md](plannen/README.md) noemt per document wat verouderd is.
+**Meet zelf voordat je een getal uit een plandocument overneemt.**
 
 ---
 

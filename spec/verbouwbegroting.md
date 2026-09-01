@@ -3,7 +3,7 @@
 **Datum:** 19-08-2026
 **Status:** alle zes stappen uitgevoerd 19-08-2026
 **Roadmap:** blok 2 en 4 van de weekfocus, en punt 1 uit de bouwvolgorde van
-[PRODUCTPLAN.md](../PRODUCTPLAN.md)
+[PRODUCTPLAN.md](../plannen/PRODUCTPLAN.md)
 
 Zes stappen. Stap 1 tot en met 5 zijn uitgevoerd en staan hieronder met wat er
 gemeten is; stap 6 is de uitvoering.

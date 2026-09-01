@@ -66,4 +66,4 @@ Een feitelijke, gedateerde vergelijkingstabel met bronvermelding is informeren
 en niet vergunningplichtig. Geen persoonlijke aanbeveling en geen
 bezoekersgegevens naar een geldverstrekker: bij een van beide verandert de
 juridische kwalificatie en is een AFM-vergunning nodig. Volledige onderbouwing
-in JURIDISCHE-CHECK.md.
+in [plannen/JURIDISCHE-CHECK.md](../plannen/JURIDISCHE-CHECK.md).
