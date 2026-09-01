@@ -1121,3 +1121,38 @@
 .bs-perbank dd { margin: 0; font-size: var(--bs-t-klein); line-height: 1.5; }
 .bs-perbank dd strong { font-weight: 500; }
 .bs-perbank dd small { display: block; margin-top: 3px; font-size: var(--bs-t-micro); line-height: 1.5; color: var(--bs-newsprint); }
+
+/* ==========================================================================
+   Beleidspagina's en contact
+   --------------------------------------------------------------------------
+   De laatste vijf: over ons, contact, privacy, cookies en voorwaarden. Lange
+   lopende tekst met genummerde artikelen, dus hier telt vooral de regellengte.
+   ========================================================================== */
+
+/* Genummerde artikelen. Het nummer komt uit een CSS-teller: bij een artikel dat
+   ertussenuit gaat klopt de nummering vanzelf weer. */
+.bs-beleid { counter-reset: bs-artikel; display: grid; gap: clamp(32px, 4vw, 52px); max-width: 72ch; }
+.bs-beleid > section { counter-increment: bs-artikel; padding-top: 16px; border-top: 1px solid var(--bs-lijn); }
+.bs-beleid > section > h2 { margin: 0 0 12px; font-size: clamp(22px, 2.4vw, 30px); font-weight: 500; letter-spacing: -.03em; line-height: 1.15; }
+.bs-beleid > section > h2::before { content: counter(bs-artikel) "."; margin-right: 10px; color: var(--bs-accent); font-variant-numeric: tabular-nums; }
+.bs-beleid h3 { margin: 20px 0 8px; font-size: var(--bs-t-body); font-weight: 500; }
+.bs-beleid p { margin: 0 0 12px; line-height: 1.6; }
+.bs-beleid p:last-child { margin-bottom: 0; }
+.bs-beleid ul { margin: 0 0 12px; padding-left: 1.2em; line-height: 1.6; }
+
+/* Wat er wordt opgeslagen, als rijen in plaats van een brede tabel: zes
+   kolommen dwingen op een telefoon tot horizontaal scrollen. Een tweede dd is
+   de toelichting bij de eerste. */
+.bs-beleidrijen { display: grid; gap: 0; margin: clamp(16px, 2vw, 24px) 0 0; }
+.bs-beleidrijen > div { display: grid; gap: 4px 32px; padding: 16px 0; border-bottom: 1px solid var(--bs-lijn); }
+@media (min-width: 760px) { .bs-beleidrijen > div { grid-template-columns: 10rem 1fr; } }
+.bs-beleidrijen > div:last-child { border-bottom: 0; }
+.bs-beleidrijen dt { font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+.bs-beleidrijen dd { margin: 0; font-size: var(--bs-t-klein); line-height: 1.55; }
+.bs-beleidrijen dd + dd { margin-top: 6px; color: var(--bs-newsprint); }
+
+/* Eén adres, groot genoeg om over te typen vanaf een telefoon. */
+.bs-contactkaart { margin-top: clamp(24px, 3vw, 40px); padding-top: 18px; border-top: 1px solid var(--bs-ink); max-width: 60ch; }
+.bs-contactkaart__label { margin: 0 0 8px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+.bs-contactkaart__adres { margin: 0 0 14px; font-size: clamp(24px, 3.4vw, 38px); font-weight: 500; letter-spacing: -.03em; line-height: 1.1; overflow-wrap: anywhere; }
+.bs-contactkaart__adres a { text-decoration: none; border-bottom: 2px solid var(--bs-accent); }

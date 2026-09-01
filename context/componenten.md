@@ -369,6 +369,14 @@ aftrekgids, de methodologie en de gegenereerde declaratiepagina.
 | `.bs-wijzigingen` | Wijzigingenoverzicht, nieuwste bovenaan |
 | `.bs-perbank` | Eén gegeven per aanbieder: naam, waarde, nuance eronder. Bewust geen tabel; het zijn losse antwoorden, geen matrix |
 
+### Beleidspagina's en contact
+
+| Component | Waarvoor |
+|---|---|
+| `.bs-beleid` | Genummerde artikelen op privacy, cookies en voorwaarden. Het nummer komt uit een CSS-teller, dus bij een artikel dat ertussenuit gaat klopt de nummering vanzelf weer |
+| `.bs-beleidrijen` | Wat er wordt opgeslagen, als rijen. **Geen tabel** — zes kolommen dwingen op een telefoon tot horizontaal scrollen. Een tweede `dd` is de toelichting bij de eerste |
+| `.bs-contactkaart` | Het e-mailadres, groot genoeg om vanaf een telefoon over te typen. Eén per site |
+
 ---
 
 ## 5. Naambotsingen

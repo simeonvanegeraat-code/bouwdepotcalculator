@@ -74,7 +74,7 @@ Wat daar nu op volgt, in deze volgorde:
 | 10 | `stappenplan.html` + `adviesgesprek-checklist.html` | **om**, 01-09 — `stappenplan.css` verwijderd |
 | 11 | `bouwdepot-voorwaarden-vergelijken.html` + acht bankpagina's | **om**, 01-09 — via `scripts/build-voorwaarden.mjs` |
 | 12 | `kennisbank`, `bouwdepot-fouten`, `hypotheekrenteaftrek-gids`, `bouwdepot-declaratie-afgewezen`, `methodologie` | **om**, 01-09 — vgl-blok uit design-system.css verwijderd |
-| 13 | `over-ons`, `contact`, `privacy`, `cookies`, `voorwaarden` | open |
+| 13 | `over-ons`, `contact`, `privacy`, `cookies`, `voorwaarden` | **om**, 01-09 — hiermee staan alle 32 paginas op `body class=bs` |
 
 Het patroon per pagina, en dat is niet vrijblijvend:
 
