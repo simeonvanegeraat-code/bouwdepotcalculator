@@ -22,7 +22,17 @@ import { bouwAfdrukdocument } from '../src/js/afdrukdocument.js';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const rapport = fs.readFileSync(path.join(ROOT, 'src/js/reporting.js'), 'utf8');
 
-const BRONNEN = ['src/js/main.js', 'src/js/bouwrente.js'];
+/**
+ * Alle rekenmodules, en niet een handmatige lijst.
+ *
+ * Hier stond `src/js/main.js`, het bestand dat zes rekenpagina's bediende. Dat
+ * is op 01-09-2026 opgesplitst in een module per pagina, en met een vaste lijst
+ * zou een nieuwe pagina buiten deze bewaking vallen zonder dat iemand het
+ * merkt. Modules zonder rapportobject leveren gewoon niets op.
+ */
+const BRONNEN = fs.readdirSync(path.join(ROOT, 'src/js'))
+    .filter((naam) => naam.endsWith('.js'))
+    .map((naam) => `src/js/${naam}`);
 
 /** De sleutels die in de labelkaart van reporting.js staan. */
 const bekend = new Set(
