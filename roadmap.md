@@ -69,7 +69,7 @@ Wat daar nu op volgt, in deze volgorde:
 | 5 | `depotplanner.html` | **om**, 01-09 |
 | 6 | `belasting.html` | **om**, 01-09 |
 | 7 | `renteverlies-bouwdepot.html` | **om**, 01-09 |
-| 8 | `dubbele-lasten-nieuwbouw.html` | open |
+| 8 | `dubbele-lasten-nieuwbouw.html` | **om**, 01-09 |
 | 9 | `bouwrente-nieuwbouw.html` | open |
 | 10 | `stappenplan.html` + `adviesgesprek-checklist.html` | open — hebben een eigen stylesheet |
 | 11 | `bouwdepot-voorwaarden-vergelijken.html` + acht bankpagina's | open — gegenereerd |
@@ -89,6 +89,11 @@ Het patroon per pagina, en dat is niet vrijblijvend:
   paginahoogte die over jouw eigen testinvoer gaat en niet over het ontwerp.
   Dat scheelde bij de begroting 1200px en leek een verslechtering.
 - Uitkomsten bij gelijke invoer vergelijken, niet alleen de opmaak bekijken.
+- **Tel `<div>` tegen `</div>` in het hele bestand.** Een omzetting die een
+  wikkel opent zonder afsluiter, of een losse afsluiter laat staan, levert geldige
+  HTML op die de browser stilzwijgend repareert — en dan valt een sectie buiten
+  zijn breedtebegrenzing zonder dat iets faalt. Dit gebeurde op drie pagina's
+  tegelijk voordat ik erop ging tellen.
 - **Tel de kinderen van `.bs-reken__grid`: dat moeten er drie zijn** (uitkomst,
   invoer, acties). Raakt de invoerkolom bij het omzetten ín de uitkomstkolom
   genest, dan valt het raster terug op één kolom. Op mobiel ziet dat er precies
