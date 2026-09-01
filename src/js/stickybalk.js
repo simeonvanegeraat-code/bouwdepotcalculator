@@ -8,7 +8,7 @@
  *
  * Hij stond alleen op de homepage, met eigen HTML en eigen bijwerkcode in
  * main.js. Deze module leest in plaats daarvan de uitkomstkaart zelf uit, zodat
- * elke pagina met een `.ds-uitkomst` hem krijgt zonder eigen markup of eigen
+ * elke pagina met een `.bs-blad` hem krijgt zonder eigen markup of eigen
  * regel code. Wat er in de kaart verandert, verandert mee.
  *
  * Nieuw ten opzichte van de homepageversie: hij verschijnt pas als de kaart uit
@@ -33,32 +33,32 @@ export function heeftUitkomst(tekst) {
 
 function bouwBalk() {
     const balk = document.createElement('div');
-    balk.className = 'sticky-result-bar';
-    balk.id = 'sticky-result-bar';
+    balk.className = 'bs-stickybalk';
+    balk.id = 'bs-stickybalk';
     balk.setAttribute('role', 'status');
     balk.setAttribute('aria-live', 'polite');
-    balk.innerHTML = '<span class="sticky-result-bar__label"></span>'
-        + '<span class="sticky-result-bar__amount tnum"></span>'
-        + '<span class="sticky-result-bar__arrow" aria-hidden="true">&uarr;</span>';
+    balk.innerHTML = '<span class="bs-stickybalk__label"></span>'
+        + '<span class="bs-stickybalk__bedrag tnum"></span>'
+        + '<span class="bs-stickybalk__pijl" aria-hidden="true">&uarr;</span>';
     return balk;
 }
 
 function start() {
-    const kaart = document.querySelector('.ds-uitkomst');
+    const kaart = document.querySelector('.bs-blad');
     if (!kaart) return;
 
-    const label = kaart.querySelector('.ds-uitkomst__label');
-    const bedrag = kaart.querySelector('.ds-uitkomst__bedrag');
+    const label = kaart.querySelector('.bs-antwoord__label');
+    const bedrag = kaart.querySelector('.bs-antwoord__bedrag');
     if (!label || !bedrag) return;
 
     // Een pagina die de balk al in de HTML had, krijgt er geen tweede bij.
-    if (document.getElementById('sticky-result-bar')) return;
+    if (document.getElementById('bs-stickybalk')) return;
 
     const balk = bouwBalk();
     document.body.append(balk);
 
-    const balkLabel = balk.querySelector('.sticky-result-bar__label');
-    const balkBedrag = balk.querySelector('.sticky-result-bar__amount');
+    const balkLabel = balk.querySelector('.bs-stickybalk__label');
+    const balkBedrag = balk.querySelector('.bs-stickybalk__bedrag');
 
     let uitBeeld = kaart.getBoundingClientRect().bottom <= 0;
 

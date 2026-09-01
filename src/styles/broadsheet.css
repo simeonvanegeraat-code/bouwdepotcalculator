@@ -6,22 +6,25 @@
    ons eigen teal als enige chromatische noot, en microtypografie waar andere
    systemen kaders gebruiken.
 
-   WAAROM DIT EEN APART BESTAND IS
-   `design-system.css` wordt door alle 31 pagina's geladen. De tokens daarin op
-   deze richting zetten zou in één klap 29 pagina's herstijlen die er niet op
-   gebouwd zijn. Dit bestand is daarom de migratiedoos: pagina's stappen er één
-   voor één op over met `<body class="bs">`, en zodra ze er allemaal op staan
-   verhuist dit naar design-system.css en verdwijnt dat bestand.
-
-   Tot die tijd bestaan er twee tokenverzamelingen naast elkaar. Dat is precies
-   het soort verdubbeling waar CLAUDE.md voor waarschuwt, en het is hier bewust
-   en tijdelijk. Wat gelijk moet blijven met design-system.css staat hieronder
-   gemarkeerd.
+   DE ENIGE STYLESHEET
+   Alle 32 pagina's laden dit bestand en dragen `<body class="bs">`. Het begon
+   als migratiedoos naast design-system.css, pagina.css en calculator.css; die
+   drie zijn op 1 september 2026 verwijderd toen de laatste pagina overstapte.
+   Wie de oude richting wil nakijken: `git show 0bfe773:src/styles/pagina.css`.
 
    PREFIX
-   Alles heet `bs-`, zoals het oude systeem `ds-` heet. Niet uit netheid maar
-   uit noodzaak: `.kop` en `.voet` bestaan al in pagina.css, en twee betekenissen
-   voor dezelfde klasse is een fout die zich pas maanden later meldt.
+   Alles heet `bs-`. Dat ontstond uit noodzaak — `.kop` en `.voet` bestonden in
+   twee betekenissen naast elkaar — en dat gevaar is weg. De prefix blijft
+   staan omdat hem weghalen 32 pagina's aanraakt zonder dat er iets verandert,
+   en dat is precies het soort wijziging waarbij fouten insluipen die geen test
+   ziet.
+
+   WAT BUITEN DIT BESTAND STAAT
+   Niets. Kleur, maat en ruimte komen hier vandaan; een losse hexwaarde of
+   pixelmaat in een paginabestand of in JavaScript is een fout. Welke
+   componenten er zijn en waar ze níét voor zijn staat in
+   context/componenten.md, en tests/componenten.test.mjs faalt zodra die twee
+   uit elkaar lopen.
    ========================================================================== */
 
 .bs {
@@ -38,8 +41,7 @@
     --bs-moss:      #7fa9a4;
     --bs-lijn:      #d8e2d8;
 
-    /* Gelijk aan --ds-accent in design-system.css. Verandert de merkkleur, dan
-       verandert hij op beide plekken. */
+    /* De enige chromatische noot op de hele site. */
     --bs-accent:         #0E5F58;
     --bs-accent-ink:     #ffffff;
     --bs-accent-schaduw: rgba(14, 95, 88, .40);
@@ -362,7 +364,7 @@
    `.ds-uitkomst`, dus die klasse staat op het blad als haak. Alleen de vorm is
    hier anders; het gedrag is er één keer.
    ========================================================================== */
-.bs .sticky-result-bar {
+.bs-stickybalk {
     display: none;
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
     align-items: center; justify-content: space-between; gap: 16px;
@@ -370,10 +372,10 @@
     background: var(--bs-press); color: var(--bs-bone);
     border-top: 2px solid var(--bs-accent);
 }
-.bs .sticky-result-bar__label { font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-moss); }
-.bs .sticky-result-bar__amount { font-size: var(--bs-t-lead); font-weight: 500; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
-.bs .sticky-result-bar__arrow { display: none; }
-@media (max-width: 899px) { .bs .sticky-result-bar.is-zichtbaar { display: flex; } }
+.bs-stickybalk__label { font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-moss); }
+.bs-stickybalk__bedrag { font-size: var(--bs-t-lead); font-weight: 500; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.bs-stickybalk__pijl { display: none; }
+@media (max-width: 899px) { .bs .bs-stickybalk.is-zichtbaar { display: flex; } }
 
 /* ==========================================================================
    Beweging
@@ -397,7 +399,7 @@
    ========================================================================== */
 @media print {
     .bs { background: #fff; }
-    .bs-kop, .bs-kruimel, .bs-band, .bs-voet, .bs-donker, .sticky-result-bar,
+    .bs-kop, .bs-kruimel, .bs-band, .bs-voet, .bs-donker, .bs-stickybalk,
     .bs-invoer, .no-print { display: none !important; }
     .bs-blad { box-shadow: none; border: 1px solid #000; }
     .bs-blad::after { display: none; }
@@ -674,97 +676,98 @@
 /* ==========================================================================
    Onderdelen die JavaScript zelf schrijft
    --------------------------------------------------------------------------
-   Deze klassen staan ook nog in calculator.css. Dat is een bewuste botsing en
-   geen slordigheid: `staafgrafiek.js` en `main.js` schrijven deze namen, en
-   die modules bedienen zowel omgezette als nog niet omgezette pagina's.
-   Hernoemen we ze nu, dan staat de grafiek op belasting.html of de tabel op
-   de depotplanner zonder opmaak, en dat merkt geen enkele test.
+   `staafgrafiek.js`, `main.js` en `stickybalk.js` zetten deze markup zelf in de
+   pagina. Ze heetten lang zonder prefix en stonden genest onder `.bs`, omdat
+   calculator.css dezelfde namen kende en beide bestanden tegelijk in gebruik
+   waren.
 
-   Veilig zolang geen pagina beide stylesheets laadt. Bij de laatste gebruiker
-   gaan ze in één keer om. Zie §5 van context/componenten.md.
+   Sinds dat bestand weg is heten ze `bs-` zoals al het andere, en dat is meer
+   dan netheid: door die nesting las tests/componenten.test.mjs ze niet uit.
+   Juist de onderdelen die je in geen enkel HTML-bestand tegenkomt waren dus
+   onbewaakt.
    ========================================================================== */
 
 /* --- Het maandverloop als eigen SVG ------------------------------------
    Kleuren staan hier en niet in het JavaScript, zodat ze de tokens volgen. */
-.bs .verloop { background: #fff; border: 1px solid var(--bs-lijn); padding: clamp(18px, 2.4vw, 30px); }
-.bs .verloop__grafiek { position: relative; }
+.bs-verloop { background: #fff; border: 1px solid var(--bs-lijn); padding: clamp(18px, 2.4vw, 30px); }
+.bs-verloop__grafiek { position: relative; }
 /* Vaste hoogte in plaats van meeschalen met de breedte: op een telefoon werd de
-   grafiek anders een strook van 90px waarin geen verloop te zien is. */
-.bs .verloop__grafiek svg { display: block; width: 100%; height: clamp(150px, 26vw, 220px); }
-.bs .verloop__staaf--eigen { fill: var(--bs-press); }
-.bs .verloop__staaf--vergoeding { fill: var(--bs-accent); }
-.bs .verloop__as { stroke: var(--bs-lijn); stroke-width: 1; vector-effect: non-scaling-stroke; }
-.bs .verloop__piek { stroke: var(--bs-newsprint); stroke-dasharray: 3 3; stroke-width: 1; vector-effect: non-scaling-stroke; }
-.bs .verloop__pieklabel { display: inline-block; position: relative; margin-bottom: 4px; transform: translateX(-50%); white-space: nowrap; font-size: var(--bs-t-micro); color: var(--bs-newsprint); }
-.bs .verloop__pieklabel--rechts { transform: translateX(-100%); }
-.bs .verloop__aslabels { position: relative; height: 1.2em; margin-top: 8px; }
-.bs .verloop__aslabel { position: absolute; transform: translateX(-50%); font-size: var(--bs-t-micro); font-variant-numeric: tabular-nums; color: var(--bs-newsprint); }
-.bs .verloop__legenda { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 14px 0 0; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
-.bs .verloop__sleutel { display: flex; align-items: center; gap: 8px; }
-.bs .verloop__sleutel::before { content: ""; width: 9px; height: 9px; flex: none; }
-.bs .verloop__sleutel--eigen::before { background: var(--bs-press); }
-.bs .verloop__sleutel--vergoeding::before { background: var(--bs-accent); }
+   grafiek anders een strook van 90px waarin geen bs-verloop te zien is. */
+.bs-verloop__grafiek svg { display: block; width: 100%; height: clamp(150px, 26vw, 220px); }
+.bs-verloop__staaf--eigen { fill: var(--bs-press); }
+.bs-verloop__staaf--vergoeding { fill: var(--bs-accent); }
+.bs-verloop__as { stroke: var(--bs-lijn); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.bs-verloop__piek { stroke: var(--bs-newsprint); stroke-dasharray: 3 3; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.bs-verloop__pieklabel { display: inline-block; position: relative; margin-bottom: 4px; transform: translateX(-50%); white-space: nowrap; font-size: var(--bs-t-micro); color: var(--bs-newsprint); }
+.bs-verloop__pieklabel--rechts { transform: translateX(-100%); }
+.bs-verloop__aslabels { position: relative; height: 1.2em; margin-top: 8px; }
+.bs-verloop__aslabel { position: absolute; transform: translateX(-50%); font-size: var(--bs-t-micro); font-variant-numeric: tabular-nums; color: var(--bs-newsprint); }
+.bs-verloop__legenda { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 14px 0 0; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+.bs-verloop__sleutel { display: flex; align-items: center; gap: 8px; }
+.bs-verloop__sleutel::before { content: ""; width: 9px; height: 9px; flex: none; }
+.bs-verloop__sleutel--eigen::before { background: var(--bs-press); }
+.bs-verloop__sleutel--vergoeding::before { background: var(--bs-accent); }
 
 /* --- De maand-tot-maandtabel -------------------------------------------
    Scrollt binnen zijn eigen kader; een brede tabel mag de pagina niet
    horizontaal laten schuiven. */
-.bs .details-table-wrapper { overflow-x: auto; margin-top: 16px; border-top: 1px solid var(--bs-ink); }
-.bs .details-table { width: 100%; border-collapse: collapse; font-size: var(--bs-t-klein); }
-.bs .details-table th, .bs .details-table td { padding: 9px 10px; border-bottom: 1px solid var(--bs-lijn); text-align: left; white-space: nowrap; }
-.bs .details-table th { font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
-.bs .details-table .col-amount { text-align: right; font-variant-numeric: tabular-nums; }
-.bs .details-table .col-gedempt { color: var(--bs-newsprint); }
-.bs .details-table .col-vergoeding { color: var(--bs-accent); }
-.bs .details-table .netto-column { font-weight: 500; }
+.bs-tabelwikkel { overflow-x: auto; margin-top: 16px; border-top: 1px solid var(--bs-ink); }
+.bs-tabel { width: 100%; border-collapse: collapse; font-size: var(--bs-t-klein); }
+.bs-tabel th, .bs-tabel td { padding: 9px 10px; border-bottom: 1px solid var(--bs-lijn); text-align: left; white-space: nowrap; }
+.bs-tabel th { font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+.bs-tabel .bs-kolom-bedrag { text-align: right; font-variant-numeric: tabular-nums; }
+.bs-tabel .bs-kolom-gedempt { color: var(--bs-newsprint); }
+.bs-tabel .bs-kolom-vergoeding { color: var(--bs-accent); }
+.bs-tabel .bs-kolom-netto { font-weight: 500; }
 
 /* --- Het termijnschema --------------------------------------------------
    Kopregel en rijen delen hetzelfde raster, anders lopen de koppen niet gelijk
    met de velden eronder. De verwijderkolom is 44px: de minimale aanraakzone. */
-.bs .terms-kop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-bottom: 14px; }
-.bs .terms-totaal { padding: 4px 10px; border-radius: 3px; font-size: var(--bs-t-micro); font-weight: 600; font-variant-numeric: tabular-nums; background: var(--bs-accent-licht); color: var(--bs-accent); }
-.bs .terms-totaal[data-status="afwijkend"] { background: #fdf1e6; color: #8c5410; }
+.bs-terms-kop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; margin-bottom: 14px; }
+.bs-terms-totaal { padding: 4px 10px; border-radius: 3px; font-size: var(--bs-t-micro); font-weight: 600; font-variant-numeric: tabular-nums; background: var(--bs-accent-licht); color: var(--bs-accent); }
+.bs-terms-totaal[data-status="afwijkend"] { background: #fdf1e6; color: #8c5410; }
 /* Zegt waarom er geen uitkomst staat. Zelfde signaalkleur als de teller
    hierboven, zodat de bezoeker de twee aan elkaar knoopt. */
-.bs .bs-antwoord__zin[data-status="afwijkend"] { color: #8c5410; font-weight: 500; }
+.bs-antwoord__zin[data-status="afwijkend"] { color: #8c5410; font-weight: 500; }
 
-.bs .term-kop,
-.bs .term-row { display: grid; align-items: center; gap: 8px; grid-template-columns: 56px 1fr 120px 92px 44px; }
-.bs .term-kop { margin-bottom: 8px; padding: 0 8px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
-.bs .term-row { margin-bottom: 8px; }
-.bs .term-row input {
+.bs-term-kop,
+.bs-term-rij { display: grid; align-items: center; gap: 8px; grid-template-columns: 56px 1fr 120px 92px 44px; }
+.bs-term-kop { margin-bottom: 8px; padding: 0 8px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+.bs-term-rij { margin-bottom: 8px; }
+.bs-term-rij input {
     width: 100%; min-height: var(--bs-tap); padding: 0 10px;
     font: inherit; font-size: var(--bs-t-klein); font-variant-numeric: tabular-nums;
     color: var(--bs-ink); background: #fff;
     border: 1px solid var(--bs-lijn); border-radius: var(--bs-r-knop);
 }
-.bs .term-row input:focus-visible { border-color: var(--bs-accent); box-shadow: 0 0 0 3px var(--bs-accent-schaduw); outline: none; }
-.bs .term-month-input { font-weight: 500; text-align: center; }
+.bs-term-rij input:focus-visible { border-color: var(--bs-accent); box-shadow: 0 0 0 3px var(--bs-accent-schaduw); outline: none; }
+.bs-term-maand { font-weight: 500; text-align: center; }
 /* Alleen zichtbaar zodra de kolomkoppen wegvallen; zie de mobiele regels. */
-.bs .term-veldnaam { display: none; }
+.bs-term-veldnaam { display: none; }
 
-.bs .input-icon-wrapper { position: relative; width: 100%; }
-.bs .input-icon-wrapper .icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: var(--bs-t-klein); color: var(--bs-newsprint); }
-.bs .input-icon-wrapper input { padding-left: 26px; }
-.bs .input-icon-wrapper.pct input { padding-left: 10px; padding-right: 26px; text-align: center; }
-.bs .input-icon-wrapper.pct .icon { left: auto; right: 10px; }
+.bs-icoonveld { position: relative; width: 100%; }
+.bs-icoonveld .icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: var(--bs-t-klein); color: var(--bs-newsprint); }
+.bs-icoonveld input { padding-left: 26px; }
+.bs-icoonveld.pct input { padding-left: 10px; padding-right: 26px; text-align: center; }
+.bs-icoonveld.pct .icon { left: auto; right: 10px; }
 
-.bs .btn-remove {
+.bs-verwijder {
     min-width: var(--bs-tap); min-height: var(--bs-tap);
     font: inherit; font-size: 1.4em; line-height: 1;
     color: var(--bs-newsprint); background: none;
     border: 0; border-radius: var(--bs-r-knop); cursor: pointer;
 }
-.bs .btn-remove:hover { color: var(--bs-ink); background: var(--bs-bone); }
+.bs-verwijder:hover { color: var(--bs-ink); background: var(--bs-bone); }
 
 /* Onder de 640px past het raster van vijf kolommen niet meer. De rij wordt dan
    een blokje met veldnamen ervoor, want zonder kolomkoppen weet niemand meer
    welk vakje de maand is en welk het bedrag. */
 @media (max-width: 640px) {
-    .bs .term-kop { display: none; }
-    .bs .term-row { grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--bs-lijn); }
-    .bs .term-row > div:nth-child(2) { grid-column: 1 / -1; }
-    .bs .term-veldnaam { display: block; margin-bottom: 4px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
-    .bs .btn-remove { justify-self: end; grid-column: 2; }
+    .bs .bs-term-kop { display: none; }
+    .bs .bs-term-rij { grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--bs-lijn); }
+    .bs .bs-term-rij > div:nth-child(2) { grid-column: 1 / -1; }
+    .bs .bs-term-veldnaam { display: block; margin-bottom: 4px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--bs-newsprint); }
+    .bs .bs-verwijder { justify-self: end; grid-column: 2; }
 }
 
 /* ==========================================================================
@@ -1156,3 +1159,71 @@
 .bs-contactkaart__label { margin: 0 0 8px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
 .bs-contactkaart__adres { margin: 0 0 14px; font-size: clamp(24px, 3.4vw, 38px); font-weight: 500; letter-spacing: -.03em; line-height: 1.1; overflow-wrap: anywhere; }
 .bs-contactkaart__adres a { text-decoration: none; border-bottom: 2px solid var(--bs-accent); }
+
+/* ==========================================================================
+   Toestanden en losse onderdelen die het JavaScript zet
+   --------------------------------------------------------------------------
+   Deze stonden in `calculator.css` en `pagina.css`. Toen de laatste pagina
+   overstapte verdween hun opmaak zonder dat een test dat merkte: het zijn
+   toestanden die je pas ziet als je klikt, iets leegmaakt of afdrukt.
+   ========================================================================== */
+
+/* De keuzebalk voor de eigen geldverstrekker. `bankkeuze.js` schrijft deze
+   markup op elke pagina met een [data-bankkeuze]-houder. */
+.bs-bankkeuze { padding-top: 16px; border-top: 1px solid var(--bs-lijn); }
+.bs-bankkeuze__label { display: block; margin-bottom: 8px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+.bs-bankkeuze__kiezer { max-width: 26rem; }
+.bs-bankkeuze__uitleg { margin-top: 8px; }
+.bs-bankkeuze__meer { display: inline-block; margin-top: 4px; }
+/* Een veld dat zijn waarde uit de bankkeuze haalt terwijl er nog geen bank
+   gekozen is. Gedempt en niet leeg: de bezoeker moet zien dat er iets komt. */
+.bs-bank-veld--leeg { color: var(--bs-moss); }
+
+/* Een ingevulde post op de begroting, en een post die de gekozen bank zelf
+   noemt. Allebei een teken links, want de tekst zelf verandert niet. */
+.bs-post--gevuld .bs-post__naam label { color: var(--bs-ink); }
+.bs-post--gevuld { box-shadow: inset 2px 0 0 var(--bs-lijn); }
+.bs-post--eigen-bank { box-shadow: inset 2px 0 0 var(--bs-accent); }
+/* Een post die uit eigen geld betaald wordt: amber, want dat geld komt niet
+   uit het depot en telt dus niet mee voor wat de bank uitkeert. */
+.bs-post--eigen-geld.bs-post--gevuld { box-shadow: inset 2px 0 0 #c9821f; }
+
+/* Een negatieve buffer is een signaal en geen getal. */
+.bs-tekort { color: #8c2f12; }
+
+/* Rij in een uitsplitsing die doorlinkt naar de verdieping. */
+.bs-uitsplitsing .bs-klikbaar { cursor: pointer; }
+.bs-uitsplitsing .bs-klikbaar:hover dt { color: var(--bs-ink); }
+.bs-uitsplitsing .bs-klikbaar dt { text-decoration: underline; text-decoration-color: var(--bs-lijn); text-underline-offset: 3px; }
+
+/* Formuleblok in een uitleg: de rekenregel achter de uitkomst. */
+.bs-formule { margin-top: 16px; padding-left: 16px; border-left: 2px solid var(--bs-lijn); }
+.bs-formule p { margin: 0 0 8px; font-size: var(--bs-t-klein); line-height: 1.55; }
+.bs-formule p:last-child { margin-bottom: 0; }
+
+/* Een veld dat in het gekozen rekenmodel geen betekenis heeft: zichtbaar maar
+   inactief, zodat duidelijk is dat het bestaat en waarom het nu niet meedoet. */
+.bs-uit { border-style: dashed; color: var(--bs-moss); cursor: not-allowed; }
+.bs-uit input { color: var(--bs-moss); cursor: not-allowed; }
+.bs-uit span { color: var(--bs-moss); }
+
+/* Het termijnschema zet een euro- en een procentveld op één regel. */
+.bs-term-rij .bs-term-euro { grid-column: 1 / 3; }
+.bs-term-rij .bs-term-pct { grid-column: 3 / 4; min-width: 76px; }
+
+@media print {
+    /* Het meeneemdocument dat afdrukdocument.js klaarzet. De pagina zelf gaat
+       alleen weg zolang die klasse staat: wie later Ctrl+P drukt zonder op de
+       knop te klikken hoort het scherm te krijgen, niet een document van een
+       berekening van een kwartier geleden. */
+    body.bs-afdrukken main { display: none; }
+    body:not(.bs-afdrukken) #afdrukdocument { display: none; }
+
+    /* Een categorie hoort op één blad bij elkaar te blijven. */
+    .bs-spec__groep, .bs-spec__voet { break-inside: avoid; }
+    .bs-spec__voet h3 { margin: 14px 0 4px; font-size: var(--bs-t-klein); font-weight: 500; color: var(--bs-ink); }
+    .bs-spec__voet p { margin: 4px 0; }
+    /* De slotalinea is de voorwaardentekst en geen inhoud. Een dunne lijn houdt
+       hem los van de aannames erboven, die de bezoeker wél moet lezen. */
+    .bs-spec__voet > p:last-child { margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--bs-lijn); }
+}

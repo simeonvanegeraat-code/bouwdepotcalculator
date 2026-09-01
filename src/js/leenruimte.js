@@ -91,7 +91,7 @@ if (wortel) {
         uit.gat.textContent = euro.format(gat);
         uit.nodig.textContent = euro.format(nodig);
         uit.buffer.textContent = euro.format(buffer);
-        uit.buffer.classList.toggle('is-tekort', buffer < 0);
+        uit.buffer.classList.toggle('bs-tekort', buffer < 0);
 
         // Hoe verhoudt de totale lening zich tot de waarde na verbouwing?
         const totaleLening = hypotheek + Math.min(bedrag, ruimte);

@@ -65,15 +65,15 @@
 
             <div class="bs-reken__grid">
                 <div>
-                    <article class="bs-blad ds-uitkomst">
+                    <article class="bs-blad">
                         <div class="bs-blad__kop">
                             <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
                             <span class="bs-blad__stempel">Fiscaal 2026</span>
                         </div>
 
                         <div class="bs-antwoord">
-                            <p class="bs-antwoord__label ds-uitkomst__label">Netto maandlast, jaar 1</p>
-                            <strong class="bs-antwoord__bedrag ds-uitkomst__bedrag" id="res-netto-month" data-bedrag>&euro; 0</strong>
+                            <p class="bs-antwoord__label">Netto maandlast, jaar 1</p>
+                            <strong class="bs-antwoord__bedrag" id="res-netto-month" data-bedrag>&euro; 0</strong>
                             <p class="bs-antwoord__zin" id="res-fiscal-conclusion">Vul uw gegevens in voor een fiscale indicatie.</p>
                         </div>
 
@@ -178,27 +178,27 @@
                     <h2 class="bs-titel">Waarom uw voordeel elk jaar kleiner wordt</h2>
                     <p class="bs-reken__lead">U lost af, dus u betaalt minder rente. Daardoor daalt de aftrek, terwijl het eigenwoningforfait gelijk blijft.</p>
 
-                <div class="verloop">
+                <div class="bs-verloop">
                     <!-- Eigen SVG in plaats van een grafiekbibliotheek; zie
                          src/js/staafgrafiek.js. De legenda staat in de HTML zodat hij
                          ook zonder JavaScript leesbaar is. -->
-                    <div class="verloop__grafiek" id="verloop-grafiek"></div>
-                    <p class="verloop__legenda">
-                        <span class="verloop__sleutel verloop__sleutel--eigen">Netto maandlast</span>
-                        <span class="verloop__sleutel verloop__sleutel--vergoeding">Belastingvoordeel</span>
+                    <div class="bs-verloop__grafiek" id="verloop-grafiek"></div>
+                    <p class="bs-verloop__legenda">
+                        <span class="bs-verloop__sleutel bs-verloop__sleutel--eigen">Netto maandlast</span>
+                        <span class="bs-verloop__sleutel bs-verloop__sleutel--vergoeding">Belastingvoordeel</span>
                     </p>
                     <p class="bs-hulp">Samen vormen de twee delen uw bruto maandlast. U lost af, dus u betaalt minder rente; daardoor slinkt het voordeel en betaalt u een groter deel zelf.</p>
 
                     <button id="toggle-table-btn" class="bs-knop bs-knop--licht" type="button" style="margin-top: 18px; width: 100%;">Toon jaar-tot-jaar overzicht</button>
 
-                    <div id="table-wrapper" class="details-table-wrapper" style="display: none;">
-                        <table class="details-table">
+                    <div id="table-wrapper" class="bs-tabelwikkel" style="display: none;">
+                        <table class="bs-tabel">
                             <thead>
                                 <tr>
                                     <th scope="col">Jaar</th>
-                                    <th scope="col" class="col-amount">Bruto /mnd</th>
-                                    <th scope="col" class="col-amount">Fiscaal effect /mnd</th>
-                                    <th scope="col" class="col-amount">Netto /mnd</th>
+                                    <th scope="col" class="bs-kolom-bedrag">Bruto /mnd</th>
+                                    <th scope="col" class="bs-kolom-bedrag">Fiscaal effect /mnd</th>
+                                    <th scope="col" class="bs-kolom-bedrag">Netto /mnd</th>
                                 </tr>
                             </thead>
                             <tbody id="details-table-body"></tbody>

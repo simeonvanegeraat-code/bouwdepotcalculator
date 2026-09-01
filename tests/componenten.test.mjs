@@ -19,7 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const STYLESHEETS = ['design-system.css', 'pagina.css', 'calculator.css', 'broadsheet.css'];
+const STYLESHEETS = ['broadsheet.css'];
 
 const lijst = fs.readFileSync(path.join(ROOT, 'context/componenten.md'), 'utf8');
 

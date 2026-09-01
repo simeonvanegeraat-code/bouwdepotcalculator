@@ -169,7 +169,7 @@ if (wortel) {
                 <div><input type="text" value="${post.omschrijving ?? ''}" data-idx="${i}" data-veld="omschrijving" aria-label="Post ${nr}: omschrijving" placeholder="Bijvoorbeeld keuken"></div>
                 <div class="bs-omhulsel"><span aria-hidden="true">&euro;</span><input type="text" inputmode="decimal" value="${post.bedrag ? toonGetal(post.bedrag) : ''}" data-idx="${i}" data-veld="bedrag" aria-label="Post ${nr}: bedrag in euro"></div>
                 <div><input type="month" value="${post.maand ?? ''}" data-idx="${i}" data-veld="maand" aria-label="Post ${nr}: in welke maand verwacht"></div>
-                <button type="button" class="btn-remove" data-idx="${i}" aria-label="Post ${nr} verwijderen" title="Post ${nr} verwijderen">&times;</button>
+                <button type="button" class="bs-verwijder" data-idx="${i}" aria-label="Post ${nr} verwijderen" title="Post ${nr} verwijderen">&times;</button>
             </div>`;
         }).join('');
 
@@ -184,7 +184,7 @@ if (wortel) {
                 veld.addEventListener('change', () => tekenPosten());
             }
         });
-        uit.postenLijst.querySelectorAll('.btn-remove').forEach((knop) => {
+        uit.postenLijst.querySelectorAll('.bs-verwijder').forEach((knop) => {
             knop.addEventListener('click', (e) => {
                 posten.splice(Number(e.currentTarget.dataset.idx), 1);
                 tekenPosten();
@@ -231,7 +231,7 @@ if (wortel) {
         if (uit.planTabel) {
             uit.planTabel.innerHTML = plan.regels.map((r) => `<tr${r.teLaat ? ' class="bs-rij--letop"' : ''}>
                 <td>${r.omschrijving}</td>
-                <td class="col-amount">${euro.format(r.bedrag)}</td>
+                <td class="bs-kolom-bedrag">${euro.format(r.bedrag)}</td>
                 <td>${r.verwacht ? new Intl.DateTimeFormat('nl-NL', { month: 'long', year: 'numeric' }).format(r.verwacht) : '—'}</td>
                 <td>${r.teLaat ? `<strong>na ${uiterlijk}</strong>` : uiterlijk}</td>
             </tr>`).join('');

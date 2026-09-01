@@ -60,16 +60,15 @@
 
                 <div class="bs-reken__grid">
                     <div>
-                        <!-- ds-uitkomst is de haak waar src/js/stickybalk.js op zoekt. -->
-                        <article class="bs-blad ds-uitkomst">
+                        <article class="bs-blad">
                             <div class="bs-blad__kop">
                                 <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
                                 <span class="bs-blad__stempel">Planning</span>
                             </div>
 
                             <div class="bs-antwoord">
-                                <p class="bs-antwoord__label ds-uitkomst__label" id="dp-koptekst">Kies uw geldverstrekker</p>
-                                <strong class="bs-antwoord__bedrag ds-uitkomst__bedrag" id="dp-resterend">&mdash;</strong>
+                                <p class="bs-antwoord__label" id="dp-koptekst">Kies uw geldverstrekker</p>
+                                <strong class="bs-antwoord__bedrag" id="dp-resterend">&mdash;</strong>
                                 <p class="bs-antwoord__zin" id="dp-resterend-zin">De termijnen verschillen per aanbieder. Zonder die keuze kunnen wij geen datums berekenen.</p>
                             </div>
 
@@ -190,12 +189,12 @@
                 <h2 class="bs-titel">Wat moet er wanneer ingediend zijn?</h2>
                 <p class="bs-reken__lead" id="dp-plan-lead"></p>
 
-                <div class="details-table-wrapper">
-                    <table class="details-table">
+                <div class="bs-tabelwikkel">
+                    <table class="bs-tabel">
                         <thead>
                             <tr>
                                 <th scope="col">Post</th>
-                                <th scope="col" class="col-amount">Bedrag</th>
+                                <th scope="col" class="bs-kolom-bedrag">Bedrag</th>
                                 <th scope="col">Verwacht</th>
                                 <th scope="col">Uiterlijk indienen</th>
                             </tr>

@@ -60,16 +60,15 @@
 
                 <div class="bs-reken__grid">
                     <div>
-                        <!-- ds-uitkomst is de haak waar src/js/stickybalk.js op zoekt. -->
-                        <article class="bs-blad ds-uitkomst">
+                        <article class="bs-blad">
                             <div class="bs-blad__kop">
                                 <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
                                 <span class="bs-blad__stempel">Planning</span>
                             </div>
 
                             <div class="bs-antwoord">
-                                <p class="bs-antwoord__label ds-uitkomst__label">Zwaarste maandlast tijdens de bouw</p>
-                                <strong class="bs-antwoord__bedrag ds-uitkomst__bedrag" id="res-peak-total" data-bedrag>&euro; 0</strong>
+                                <p class="bs-antwoord__label">Zwaarste maandlast tijdens de bouw</p>
+                                <strong class="bs-antwoord__bedrag" id="res-peak-total" data-bedrag>&euro; 0</strong>
                                 <p class="bs-antwoord__zin" id="res-peak-month">Zwaarste maand: maand 0 van de bouw</p>
                             </div>
 
@@ -80,7 +79,7 @@
                                 <div><dt>Rente minus depotvergoeding</dt><dd class="tnum" id="res-loss" data-bedrag>&euro; 0</dd></div>
                             </dl>
 
-                            <p class="bs-notitie bs-antwoord__zin" id="res-nieuwbouw-conclusion">Vul uw gegevens in voor een indicatie van het verloop.</p>
+                            <p class="bs-notitie bs-antwoord__zin" id="res-nieuwbouw-conclusion">Vul uw gegevens in voor een indicatie van het bs-verloop.</p>
 
                             <p class="bs-blad__voet">Indicatief &middot; informatie, geen advies</p>
                         </article>
@@ -172,17 +171,17 @@
                             <div class="bs-uitklap__body">
                                 <p class="bs-hulp">Gebruik dit alleen als u al weet wanneer de bouwtermijnen worden betaald. Zonder schema geeft de schatting hierboven al een bruikbare indicatie.</p>
 
-                                <div class="terms-kop">
+                                <div class="bs-terms-kop">
                                     <span>
                                         <button class="bs-knop bs-knop--licht" id="add-term-btn" type="button">+ Termijn</button>
                                         <button class="bs-knop bs-knop--licht" id="auto-spread-btn" type="button">Automatisch spreiden</button>
                                     </span>
-                                    <span class="terms-totaal" id="total-percent">100% toegewezen</span>
+                                    <span class="bs-terms-totaal" id="total-percent">100% toegewezen</span>
                                 </div>
 
                                 <!-- Kolomkoppen: de eerste kolom was een kaal getal in een
                                      vakje, waar nergens uit bleek dat het om een bouwmaand ging. -->
-                                <div class="term-kop" aria-hidden="true">
+                                <div class="bs-term-kop" aria-hidden="true">
                                     <span>Maand</span>
                                     <span>Onderdeel</span>
                                     <span>Bedrag</span>
@@ -213,29 +212,29 @@
                 <h2 class="bs-titel">Hoe de maandlast oploopt tijdens de bouw</h2>
                 <p class="bs-reken__lead">Elke betaalde bouwtermijn verlaagt het depot, waardoor de vergoeding daalt en uw eigen last stijgt.</p>
 
-                <div class="verloop">
+                <div class="bs-verloop">
                     <!-- Eigen SVG in plaats van een grafiekbibliotheek: de vorm komt uit
                          de tokens en kost geen kilobyte extra. De legenda staat in de
                          HTML en niet in het beeld, zodat hij ook zonder JavaScript
                          leesbaar is. -->
-                    <div class="verloop__grafiek" id="verloop-grafiek"></div>
-                    <p class="verloop__legenda">
-                        <span class="verloop__sleutel verloop__sleutel--eigen">Uw eigen last</span>
-                        <span class="verloop__sleutel verloop__sleutel--vergoeding">Depotvergoeding</span>
+                    <div class="bs-verloop__grafiek" id="verloop-grafiek"></div>
+                    <p class="bs-verloop__legenda">
+                        <span class="bs-verloop__sleutel bs-verloop__sleutel--eigen">Uw eigen last</span>
+                        <span class="bs-verloop__sleutel bs-verloop__sleutel--vergoeding">Depotvergoeding</span>
                     </p>
                     <p class="bs-hulp">Samen vormen de twee delen de volledige maandtermijn. Naarmate het depot leegloopt verdwijnt de vergoeding en betaalt u het hele bedrag zelf.</p>
 
                     <button id="toggle-table-btn" class="bs-knop bs-knop--licht" type="button" style="margin-top: 18px; width: 100%;">Toon maand-tot-maand overzicht</button>
 
-                    <div id="table-wrapper" class="details-table-wrapper" style="display: none;">
-                        <table class="details-table">
+                    <div id="table-wrapper" class="bs-tabelwikkel" style="display: none;">
+                        <table class="bs-tabel">
                             <thead>
                                 <tr>
                                     <th scope="col">Mnd</th>
-                                    <th scope="col" class="col-amount">Restant depot</th>
-                                    <th scope="col" class="col-amount">Bruto last</th>
-                                    <th scope="col" class="col-amount">Depotrente</th>
-                                    <th scope="col" class="col-amount">Na depotvergoeding</th>
+                                    <th scope="col" class="bs-kolom-bedrag">Restant depot</th>
+                                    <th scope="col" class="bs-kolom-bedrag">Bruto last</th>
+                                    <th scope="col" class="bs-kolom-bedrag">Depotrente</th>
+                                    <th scope="col" class="bs-kolom-bedrag">Na depotvergoeding</th>
                                 </tr>
                             </thead>
                             <tbody id="details-table-body"></tbody>

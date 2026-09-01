@@ -154,15 +154,15 @@ ${NAV.map(([h, t]) => `                <a href="${h}">${t}</a>`).join('\n')}
 
                 <div class="bs-reken__grid">
                     <div>
-                        <article class="bs-blad ds-uitkomst">
+                        <article class="bs-blad">
                             <div class="bs-blad__kop">
                                 <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
                                 <span class="bs-blad__stempel">Begroting</span>
                             </div>
 
                             <div class="bs-antwoord">
-                                <p class="bs-antwoord__label ds-uitkomst__label">Totale verbouwkosten</p>
-                                <strong class="bs-antwoord__bedrag ds-uitkomst__bedrag" id="res-totaal" data-bedrag>&euro; 0</strong>
+                                <p class="bs-antwoord__label">Totale verbouwkosten</p>
+                                <strong class="bs-antwoord__bedrag" id="res-totaal" data-bedrag>&euro; 0</strong>
                                 <p class="bs-antwoord__zin" id="res-zin">Vul hieronder in wat u verwacht uit te geven.</p>
                             </div>
 

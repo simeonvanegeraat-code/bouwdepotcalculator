@@ -66,15 +66,15 @@
 
             <div class="bs-reken__grid">
                 <div>
-                    <article class="bs-blad ds-uitkomst">
+                    <article class="bs-blad">
                         <div class="bs-blad__kop">
                             <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
                             <span class="bs-blad__stempel">Renteverschil</span>
                         </div>
 
                         <div class="bs-antwoord">
-                            <p class="bs-antwoord__label ds-uitkomst__label">Geschat renteverschil</p>
-                            <strong class="bs-antwoord__bedrag ds-uitkomst__bedrag" id="res-renteverlies-netto" data-bedrag>&euro; 0</strong>
+                            <p class="bs-antwoord__label">Geschat renteverschil</p>
+                            <strong class="bs-antwoord__bedrag" id="res-renteverlies-netto" data-bedrag>&euro; 0</strong>
                             <p class="bs-antwoord__zin" id="res-renteverlies-period-pattern">Over 0 maanden, bij gelijkmatig opgenomen.</p>
                         </div>
 
@@ -213,14 +213,14 @@
                     <h2 class="bs-titel">Formule en aannames</h2>
 
                 <p><strong>Model 1: rente over het hele depot, met vergoeding.</strong></p>
-                <div class="formule">
+                <div class="bs-formule">
                     <p><strong>Betaalde rente</strong> = bouwdepot &times; hypotheekrente &divide; 12 &times; aantal maanden</p>
                     <p><strong>Depotvergoeding per maand</strong> = gemiddeld resterend depotsaldo &times; depotrente &divide; 12</p>
                     <p><strong>Renteverschil</strong> = betaalde hypotheekrente &minus; totale depotvergoeding</p>
                 </div>
 
                 <p style="margin-top: var(--ds-5)"><strong>Model 2: alleen rente over het opgenomen deel.</strong></p>
-                <div class="formule">
+                <div class="bs-formule">
                     <p><strong>Betaalde rente per maand</strong> = gemiddeld reeds opgenomen bedrag &times; hypotheekrente &divide; 12</p>
                     <p><strong>Depotvergoeding</strong> = &euro; 0</p>
                     <p><strong>Renteverschil</strong> = &euro; 0, omdat er geen rente drukt op niet-opgenomen geld</p>

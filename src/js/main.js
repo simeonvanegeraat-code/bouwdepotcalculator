@@ -334,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = `belasting.html?amount=${amt}&interest=${int}`;
             });
             // Hover staat in de stylesheet: een inline kleur volgt de donkere modus niet.
-            rowVoordeel.classList.add('is-klikbaar');
+            rowVoordeel.classList.add('bs-klikbaar');
         }
 
         // --- NIEUW: Logic voor Accordion Toggle ---
@@ -1029,9 +1029,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (inputDepotRate) {
                 inputDepotRate.disabled = model === 'opname';
-                // .ds-veld is de wikkel in het nieuwe ontwerp; .input-group nog in de oude.
-                const wrapper = inputDepotRate.closest('.ds-veld, .input-group');
-                if (wrapper) wrapper.classList.toggle('input-group--uitgeschakeld', model === 'opname');
+                // Het veld zelf en niet zijn wikkel: die wikkel had een klasse
+                // in het oude ontwerp en heeft er in dit ontwerp geen meer.
+                inputDepotRate.classList.toggle('bs-uit', model === 'opname');
+                const omhulsel = inputDepotRate.closest('.bs-omhulsel');
+                if (omhulsel) omhulsel.classList.toggle('bs-uit', model === 'opname');
             }
 
             if (modelNote) {
@@ -1289,18 +1291,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalP += term.percent;
                 const euroAmount = Math.round((term.percent / 100) * totalConstruction);
                 const row = document.createElement('div');
-                row.className = 'term-row';
+                row.className = 'bs-term-rij';
                 // Elk veld krijgt een eigen naam met het rijnummer erin. De
                 // kolomkoppen erboven vertellen het oog wat een kolom betekent,
                 // maar een schermlezer springt van veld naar veld en hoorde
                 // eerder alleen "invoerveld, 1".
                 const nr = index + 1;
                 row.innerHTML = `
-                    <div><span class="term-veldnaam" aria-hidden="true">Maand</span><input type="number" min="1" max="36" value="${term.month}" data-idx="${index}" class="term-month-input term-trigger-sort" aria-label="Termijn ${nr}: in welke bouwmaand"></div>
-                    <div><input type="text" value="${term.desc}" data-idx="${index}" class="term-desc-input term-trigger-desc" aria-label="Termijn ${nr}: omschrijving"></div>
-                    <div class="input-icon-wrapper input-wrapper-euro"><span class="icon" aria-hidden="true">€</span><input type="text" inputmode="decimal" value="${toonGetal(euroAmount)}" data-idx="${index}" class="term-amount-input" aria-label="Termijn ${nr}: bedrag in euro"></div>
-                    <div class="input-icon-wrapper input-wrapper-pct pct"><input type="text" inputmode="decimal" value="${toonGetal(parseFloat(term.percent.toFixed(2)), term.percent % 1 === 0 ? 0 : 1)}" data-idx="${index}" class="term-percent-input" aria-label="Termijn ${nr}: deel van de aanneemsom in procent"><span class="icon" aria-hidden="true">%</span></div>
-                    <button type="button" class="btn-remove" data-idx="${index}" aria-label="Termijn ${nr} verwijderen" title="Termijn ${nr} verwijderen">×</button>
+                    <div><span class="bs-term-veldnaam" aria-hidden="true">Maand</span><input type="number" min="1" max="36" value="${term.month}" data-idx="${index}" class="bs-term-maand bs-term-sortering" aria-label="Termijn ${nr}: in welke bouwmaand"></div>
+                    <div><input type="text" value="${term.desc}" data-idx="${index}" class="bs-term-omschrijving bs-term-trigger" aria-label="Termijn ${nr}: omschrijving"></div>
+                    <div class="bs-icoonveld bs-term-euro"><span class="icon" aria-hidden="true">€</span><input type="text" inputmode="decimal" value="${toonGetal(euroAmount)}" data-idx="${index}" class="bs-term-bedrag" aria-label="Termijn ${nr}: bedrag in euro"></div>
+                    <div class="bs-icoonveld bs-term-pct pct"><input type="text" inputmode="decimal" value="${toonGetal(parseFloat(term.percent.toFixed(2)), term.percent % 1 === 0 ? 0 : 1)}" data-idx="${index}" class="bs-term-percentage" aria-label="Termijn ${nr}: deel van de aanneemsom in procent"><span class="icon" aria-hidden="true">%</span></div>
+                    <button type="button" class="bs-verwijder" data-idx="${index}" aria-label="Termijn ${nr} verwijderen" title="Termijn ${nr} verwijderen">×</button>
                 `;
                 termsContainer.appendChild(row);
             });
@@ -1351,7 +1353,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function bindRowEvents() {
-            document.querySelectorAll('.term-trigger-sort').forEach(el => {
+            document.querySelectorAll('.bs-term-sortering').forEach(el => {
                 el.addEventListener('change', (e) => {
                     const idx = e.target.dataset.idx;
                     termijnenZelfIngesteld = true;
@@ -1360,9 +1362,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     renderTerms(); calculate();
                 });
             });
-            document.querySelectorAll('.term-trigger-desc').forEach(el => el.addEventListener('input', (e) => terms[e.target.dataset.idx].desc = e.target.value));
-            document.querySelectorAll('.btn-remove').forEach(el => el.addEventListener('click', (e) => {
-                const btn = e.target.closest('.btn-remove');
+            document.querySelectorAll('.bs-term-trigger').forEach(el => el.addEventListener('input', (e) => terms[e.target.dataset.idx].desc = e.target.value));
+            document.querySelectorAll('.bs-verwijder').forEach(el => el.addEventListener('click', (e) => {
+                const btn = e.target.closest('.bs-verwijder');
                 if(btn) { termijnenZelfIngesteld = true; terms.splice(btn.dataset.idx, 1); renderTerms(); calculate(); }
             }));
             // Bedrag en percentage zijn twee vensters op dezelfde waarde. Tijdens
@@ -1388,22 +1390,22 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const aanneemsom = () => leesGetal(inputConstruction.value) || 1;
-            koppelVeld('.term-amount-input', (bedrag) => (bedrag / aanneemsom()) * 100);
-            koppelVeld('.term-percent-input', (percent) => percent);
+            koppelVeld('.bs-term-bedrag', (bedrag) => (bedrag / aanneemsom()) * 100);
+            koppelVeld('.bs-term-percentage', (percent) => percent);
         }
 
         /** Werkt het veld bij dat dezelfde waarde anders uitdrukt. */
         function werkTegenhangerBij(bron, idx) {
-            const rij = bron.closest('.term-row');
+            const rij = bron.closest('.bs-term-rij');
             if (!rij) return;
             const percent = terms[idx].percent;
             const totaal = leesGetal(inputConstruction.value) || 0;
 
-            if (bron.classList.contains('term-amount-input')) {
-                const veld = rij.querySelector('.term-percent-input');
+            if (bron.classList.contains('bs-term-bedrag')) {
+                const veld = rij.querySelector('.bs-term-percentage');
                 if (veld) veld.value = toonGetal(Math.round(percent * 10) / 10, percent % 1 === 0 ? 0 : 1);
             } else {
-                const veld = rij.querySelector('.term-amount-input');
+                const veld = rij.querySelector('.bs-term-bedrag');
                 if (veld) veld.value = toonGetal(Math.round((percent / 100) * totaal));
             }
         }
@@ -1542,7 +1544,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalNetPayments += netPayment;
 
                 // Kleuren via klassen, niet inline: anders volgen ze de donkere modus niet.
-                tableHTML += `<tr><td>${m}</td><td class="col-amount">${formatEuro(currentDepot)}</td><td class="col-amount col-gedempt">${formatEuro(fullAnnuity)}</td><td class="col-amount col-vergoeding">-${formatEuro(interestReceivable)}</td><td class="col-amount netto-column">${formatEuro(netPayment)}</td></tr>`;
+                tableHTML += `<tr><td>${m}</td><td class="bs-kolom-bedrag">${formatEuro(currentDepot)}</td><td class="bs-kolom-bedrag bs-kolom-gedempt">${formatEuro(fullAnnuity)}</td><td class="bs-kolom-bedrag bs-kolom-vergoeding">-${formatEuro(interestReceivable)}</td><td class="bs-kolom-bedrag bs-kolom-netto">${formatEuro(netPayment)}</td></tr>`;
                 maandregels.push({
                     maand: m,
                     restantDepot: currentDepot,
@@ -1840,9 +1842,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 tableHTML += `
                     <tr>
                         <td>${year}</td>
-                        <td class="col-amount">${formatEuro(yearGrossPayment / 12)}</td>
-                        <td class="col-amount col-vergoeding">${formatEuro(taxBenefit / 12)}</td>
-                        <td class="col-amount netto-column">${formatEuro(yearNetto / 12)}</td>
+                        <td class="bs-kolom-bedrag">${formatEuro(yearGrossPayment / 12)}</td>
+                        <td class="bs-kolom-bedrag bs-kolom-vergoeding">${formatEuro(taxBenefit / 12)}</td>
+                        <td class="bs-kolom-bedrag bs-kolom-netto">${formatEuro(yearNetto / 12)}</td>
                     </tr>
                 `;
 

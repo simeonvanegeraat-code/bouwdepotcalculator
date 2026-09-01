@@ -1,9 +1,9 @@
 /**
  * Gestapelde staafgrafiek in eigen SVG.
  *
- * Twee rekenpagina's toonden hun verloop met Chart.js, maar die bibliotheek
+ * Twee rekenpagina's toonden hun bs-verloop met Chart.js, maar die bibliotheek
  * werd nergens geladen: de code viel stil terug op een guard en de bezoeker
- * keek naar een leeg wit vlak, midden in een sectie die "Het verloop" heet.
+ * keek naar een leeg wit vlak, midden in een sectie die "Het bs-verloop" heet.
  *
  * Eigen SVG kost geen kilobyte extra, haalt zijn kleuren uit de tokens en
  * volgt daardoor de donkere modus. Voor twee gestapelde reeksen is dat twintig
@@ -50,8 +50,8 @@ export function tekenStaafgrafiek(doel, { regels, eersteLabel, laatsteLabel, pie
 
         // Een deel van minder dan een halve eenheid tekent als een streepje dat
         // er als afrondingsruis uitziet; die laten we weg.
-        return rect('verloop__staaf--eigen', grond - hOnder, hOnder)
-            + (hBoven > 0.5 ? rect('verloop__staaf--vergoeding', grond - hOnder - hBoven, hBoven) : '');
+        return rect('bs-verloop__staaf--eigen', grond - hOnder, hOnder)
+            + (hBoven > 0.5 ? rect('bs-verloop__staaf--vergoeding', grond - hOnder - hBoven, hBoven) : '');
     }).join('');
 
     const deelVan = (index) => (((index + 0.5) / regels.length) * 100).toFixed(1);
@@ -60,19 +60,19 @@ export function tekenStaafgrafiek(doel, { regels, eersteLabel, laatsteLabel, pie
     let piekLabel = '';
     if (piek && piek.index >= 0 && piek.index < regels.length) {
         const x = (MARGE.links + ((piek.index + 0.5) * sleuf)).toFixed(1);
-        piekLijn = `<line class="verloop__piek" x1="${x}" y1="${MARGE.boven}" x2="${x}" y2="${grond}"/>`;
+        piekLijn = `<line class="bs-verloop__piek" x1="${x}" y1="${MARGE.boven}" x2="${x}" y2="${grond}"/>`;
         // Rechts uitlijnen zodra de piek tegen de rand ligt, anders steekt het
         // label buiten de grafiek uit.
         const deel = Number(deelVan(piek.index));
-        piekLabel = `<span class="verloop__pieklabel${deel > 80 ? ' verloop__pieklabel--rechts' : ''}" style="left:${deel}%">${piek.tekst}</span>`;
+        piekLabel = `<span class="bs-verloop__pieklabel${deel > 80 ? ' bs-verloop__pieklabel--rechts' : ''}" style="left:${deel}%">${piek.tekst}</span>`;
     }
 
     // De aslabels staan bewust in HTML en niet in de SVG. In de SVG schalen ze
     // mee met het tekengebied: op 375px breed kwam een letter van 12 eenheden
     // neer op nog geen 5 echte pixels.
-    const labels = `<span class="verloop__aslabel" style="left:${deelVan(0)}%">${eersteLabel}</span>`
+    const labels = `<span class="bs-verloop__aslabel" style="left:${deelVan(0)}%">${eersteLabel}</span>`
         + (regels.length > 1
-            ? `<span class="verloop__aslabel" style="left:${deelVan(regels.length - 1)}%">${laatsteLabel}</span>`
+            ? `<span class="bs-verloop__aslabel" style="left:${deelVan(regels.length - 1)}%">${laatsteLabel}</span>`
             : '');
 
     // preserveAspectRatio="none" laat de staven de beschikbare hoogte vullen.
@@ -82,7 +82,7 @@ export function tekenStaafgrafiek(doel, { regels, eersteLabel, laatsteLabel, pie
         + `<svg viewBox="0 0 ${BREEDTE} ${HOOGTE}" preserveAspectRatio="none" role="img" aria-label="${omschrijving}" focusable="false">`
         + piekLijn
         + staven
-        + `<line class="verloop__as" x1="${MARGE.links}" y1="${grond}" x2="${BREEDTE - MARGE.rechts}" y2="${grond}"/>`
+        + `<line class="bs-verloop__as" x1="${MARGE.links}" y1="${grond}" x2="${BREEDTE - MARGE.rechts}" y2="${grond}"/>`
         + `</svg>`
-        + `<div class="verloop__aslabels">${labels}</div>`;
+        + `<div class="bs-verloop__aslabels">${labels}</div>`;
 }

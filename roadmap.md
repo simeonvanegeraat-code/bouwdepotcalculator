@@ -102,24 +102,21 @@ Het patroon per pagina, en dat is niet vrijblijvend:
 - Nieuwe componenten in [context/componenten.md](context/componenten.md), met
   erbij waar ze **niet** voor zijn.
 
-**Klassen die JavaScript zelf schrijft: niet hernoemen tot de laatste gebruiker
-over is.** Bij de begroting kon `.cat` en `.post` wél omgezet worden, omdat
-alleen die ene pagina ze gebruikt. Vanaf de nieuwbouwpagina ligt dat anders:
+**Afgerond op 1 september 2026.** Alle 32 pagina's dragen `<body class="bs">` en
+laden alleen `broadsheet.css`. `design-system.css`, `pagina.css` en
+`calculator.css` zijn verwijderd; de klassen die JavaScript schrijft
+(`.bs-verloop__*`, `.bs-tabel`, `.bs-term-*`, `.bs-stickybalk`) heten in
+dezelfde beweging `bs-` en staan daarmee eindelijk onder de bewaking van
+`tests/componenten.test.mjs`.
 
-| Klassen | Geschreven door | Gebruikt door |
-|---|---|---|
-| `.verloop__*` | `staafgrafiek.js` | nieuwbouw, belasting |
-| `.details-table`, `.col-amount`, `.col-vergoeding`, `.netto-column`, `.col-gedempt` | `main.js` | nieuwbouw, belasting, depotplanner |
-| `.term-*`, `.btn-remove`, `.input-icon-wrapper` | `main.js` | nieuwbouw |
-
-Hernoem je die bij de eerste pagina, dan schrijft de module de nieuwe naam
-terwijl de nog niet omgezette pagina's de oude in hun CSS hebben staan — en dan
-staat een tabel of grafiek daar zonder opmaak, zonder dat een test dat merkt.
-
-Dus: neem de bestaande namen over in `broadsheet.css` en zet ze in §6 van
-[context/componenten.md](context/componenten.md) bij de naambotsingen. Dat is
-veilig zolang geen pagina beide stylesheets laadt, en het is expliciet in plaats
-van stilzwijgend. Bij de laatste gebruiker gaan ze in één keer om.
+**Eén les om te onthouden voor een volgende migratie van deze omvang.** Een
+klasse die alleen in JavaScript of in een toestand voorkomt, verliest zijn
+opmaak zonder dat iets faalt. De bankkeuze, het printdocument, het
+uitgeschakelde veld op renteverlies, het tekort op leenruimte en het
+formuleblok stonden alle vijf een tijd lang zonder stijl live, omdat je ze pas
+ziet als je klikt of afdrukt. Ze kwamen boven met een script dat élke klasse uit
+de HTML én uit de JavaScript-bestanden vergelijkt met wat de stylesheet
+definieert. Draai zoiets vóór je een stylesheet weghaalt, niet erna.
 
 **Let op: de plandocumenten lopen achter op de code.** De hiërarchiefout uit
 [ONTWERPPLAN-HIERARCHIE.md](ONTWERPPLAN-HIERARCHIE.md) is al gerepareerd, en de

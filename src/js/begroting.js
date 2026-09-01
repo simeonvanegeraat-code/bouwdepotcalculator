@@ -97,7 +97,7 @@ if (wortel) {
             if (melding) fouten++;
 
             const bedrag = melding ? 0 : Math.max(0, gelezen ?? 0);
-            rij?.classList.toggle('post--gevuld', bedrag > 0);
+            rij?.classList.toggle('bs-post--gevuld', bedrag > 0);
             if (!bedrag) continue;
 
             const prio = wortel.querySelector(`[data-prioriteit="${veld.dataset.post}"]`);
@@ -282,7 +282,7 @@ if (wortel) {
         for (const post of bronnen) {
             const genoemd = !!bank && post.dataset.genoemdDoor.split(' ').includes(bank.id);
             if (genoemd) aantal += 1;
-            post.classList.toggle('post--eigen-bank', genoemd);
+            post.classList.toggle('bs-post--eigen-bank', genoemd);
             let merk = post.querySelector('.bs-merkje--eigenbank');
             if (genoemd && !merk) {
                 merk = document.createElement('span');

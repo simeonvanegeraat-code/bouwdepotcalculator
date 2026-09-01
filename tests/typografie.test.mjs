@@ -27,23 +27,17 @@ import path from 'node:path';
 const ROOT = path.resolve(import.meta.dirname, '..');
 
 /**
- * Drie gewichten per richting, en twee richtingen zolang de migratie loopt.
+ * Drie gewichten, en niet meer dan drie.
  *
- * De oude richting doet 400 lopende tekst, 600 koppen en nadruk, 700 alleen de
- * grote getallen. De broadsheet uit ONTWERPPLAN.md §3 doet 400 lopende tekst,
- * 500 koppen en getallen, 600 de kapitaaltjes -- daar komt de hiërarchie uit
- * grootte en niet uit vet, en dat 500-in-plaats-van-700 is precies wat die
- * richting zijn ingehouden toon geeft.
+ * De broadsheet uit ONTWERPPLAN.md §3 doet 400 lopende tekst, 500 koppen en
+ * getallen, 600 de kapitaaltjes. De hiërarchie komt daar uit grootte en niet
+ * uit vet, en dat 500-in-plaats-van-700 is precies wat die richting zijn
+ * ingehouden toon geeft. Een vierde waarde is een vergissing.
  *
- * Die twee kunnen niet samengevoegd worden zonder er één te beschadigen, dus
- * ze worden apart bewaakt. Elke stylesheet houdt zich aan drie waarden; een
- * vierde binnen één richting is nog steeds een vergissing.
- *
- * Als alle pagina's over zijn: broadsheet.css verhuist naar design-system.css,
- * de andere drie verdwijnen, en er blijft één set van {400, 500, 600} over.
+ * Er stond hier een tweede richting voor design-system.css, pagina.css en
+ * calculator.css. Die drie bestanden zijn weg sinds alle pagina's over zijn.
  */
 const RICHTINGEN = [
-    { toegestaan: new Set([400, 600, 700]), bestanden: ['design-system.css', 'pagina.css', 'calculator.css'] },
     { toegestaan: new Set([400, 500, 600]), bestanden: ['broadsheet.css'] },
 ];
 
