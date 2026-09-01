@@ -70,7 +70,7 @@ Wat daar nu op volgt, in deze volgorde:
 | 6 | `belasting.html` | **om**, 01-09 |
 | 7 | `renteverlies-bouwdepot.html` | **om**, 01-09 |
 | 8 | `dubbele-lasten-nieuwbouw.html` | **om**, 01-09 |
-| 9 | `bouwrente-nieuwbouw.html` | open |
+| 9 | `bouwrente-nieuwbouw.html` | **om**, 01-09 |
 | 10 | `stappenplan.html` + `adviesgesprek-checklist.html` | open — hebben een eigen stylesheet |
 | 11 | `bouwdepot-voorwaarden-vergelijken.html` + acht bankpagina's | open — gegenereerd |
 | 12 | `kennisbank`, `bouwdepot-fouten`, `hypotheekrenteaftrek-gids`, `bouwdepot-declaratie-afgewezen`, `methodologie` | open |
