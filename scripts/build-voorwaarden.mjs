@@ -32,8 +32,8 @@ const esc = (s) =>
 const NL_DATUM = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 const datum = (iso) => NL_DATUM.format(new Date(iso + 'T00:00:00Z'));
 
-const LEEG = '<span class="vgl-leeg">niet gepubliceerd</span>';
-const NVT = '<span class="vgl-leeg">niet van toepassing</span>';
+const LEEG = '<span class="bs-leeg">niet gepubliceerd</span>';
+const NVT = '<span class="bs-leeg">niet van toepassing</span>';
 
 /**
  * Een cel waarvan de waarde niet publiek is blijft expliciet leeg. Nooit schatten.
@@ -80,7 +80,7 @@ function isVerlopen(a) {
 
 function controle(a) {
   const v = isVerlopen(a);
-  return `<span class="vgl-controle${v ? ' vgl-controle--verlopen' : ''}">${
+  return `<span class="bs-controle${v ? ' bs-controle--verlopen' : ''}">${
     v ? 'controle openstaand &middot; ' : ''}gecontroleerd ${datum(a.gecontroleerd)}</span>`;
 }
 
@@ -211,8 +211,8 @@ function feit(label, veld, opties = {}) {
   const heeftWaarde = veld && (veld.waarde != null || veld.bedrag != null || veld.status);
   const inhoud = heeftWaarde ? waarde(veld) : LEEG;
   const detail = veld?.detail ? `<small>${esc(veld.detail)}</small>` : '';
-  return `                        <div class="vgl-feit${opties.proza ? ' vgl-feit--proza' : ''}"><dt>${esc(label)}</dt><dd${
-    opties.gedempt ? ' class="vgl-leeg"' : ''
+  return `                        <div class="bs-feit${opties.proza ? ' bs-feit--proza' : ''}"><dt>${esc(label)}</dt><dd${
+    opties.gedempt ? ' class="bs-leeg"' : ''
   }>${inhoud}${detail}</dd></div>`;
 }
 
@@ -236,7 +236,7 @@ const SCHAAL = Math.max(
  */
 function balk(label, basis, extra, duurOnbekend = false) {
   if (typeof basis !== 'number') {
-    return `<div class="vgl-balk__rij"><span class="vgl-balk__label">${label}</span><span class="vgl-balk__spoor"></span><span class="vgl-balk__waarde">${LEEG}</span></div>`;
+    return `<div class="bs-balk"><span class="bs-balk__label">${label}</span><span class="bs-balk__spoor"></span><span class="bs-balk__waarde">${LEEG}</span></div>`;
   }
 
   const heeftVerlenging = typeof extra === 'number' && extra > 0;
@@ -244,22 +244,22 @@ function balk(label, basis, extra, duurOnbekend = false) {
   const pctBasis = (basis / SCHAAL) * 100;
   const pctExtra = heeftVerlenging ? (extra / SCHAAL) * 100 : 0;
 
-  let segmenten = `<span class="vgl-balk__vul" style="width:${pctBasis.toFixed(1)}%"></span>`;
+  let segmenten = `<span class="bs-balk__vul" style="width:${pctBasis.toFixed(1)}%"></span>`;
   if (heeftVerlenging) {
-    segmenten += `<span class="vgl-balk__vul vgl-balk__vul--verlenging" style="width:${pctExtra.toFixed(1)}%"></span>`;
+    segmenten += `<span class="bs-balk__vul bs-balk__vul--verlenging" style="width:${pctExtra.toFixed(1)}%"></span>`;
   } else if (duurOnbekend) {
     // Vaste, korte breedte: de duur is onbekend, dus de balk mag geen lengte suggereren.
-    segmenten += `<span class="vgl-balk__vul vgl-balk__vul--open" aria-hidden="true"></span>`;
+    segmenten += `<span class="bs-balk__vul bs-balk__vul--open" aria-hidden="true"></span>`;
   }
 
   const waarde = heeftVerlenging || !duurOnbekend
     ? `${som} mnd`
-    : `${basis} mnd <span class="vgl-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span>`;
+    : `${basis} mnd <span class="bs-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span>`;
 
-  return `<div class="vgl-balk__rij">
-                            <span class="vgl-balk__label">${label}</span>
-                            <span class="vgl-balk__spoor"><span class="vgl-balk__stapel">${segmenten}</span></span>
-                            <span class="vgl-balk__waarde">${waarde}</span>
+  return `<div class="bs-balk">
+                            <span class="bs-balk__label">${label}</span>
+                            <span class="bs-balk__spoor"><span class="bs-balk__stapel">${segmenten}</span></span>
+                            <span class="bs-balk__waarde">${waarde}</span>
                         </div>`;
 }
 
@@ -270,21 +270,6 @@ const NAV = [
   [HUB, 'Voorwaarden per bank'],
   ['kennisbank.html', 'Uitleg'],
   ['over-ons.html', 'Over ons'],
-];
-
-const VOET = [
-  ['/', 'Home'],
-  ['verbouwbegroting.html', 'Verbouwbegroting'],
-  ['leenruimte.html', 'Leenruimte'],
-  ['depotplanner.html', 'Depotplanner'],
-  [HUB, 'Voorwaarden per bank'],
-  ['kennisbank.html', 'Kennisbank'],
-  ['over-ons.html', 'Over ons'],
-  ['methodologie.html', 'Methodologie'],
-  ['contact.html', 'Contact'],
-  ['privacy.html', 'Privacy'],
-  ['cookies.html', 'Cookies'],
-  ['voorwaarden.html', 'Voorwaarden'],
 ];
 
 function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
@@ -314,7 +299,7 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -325,95 +310,40 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/design-system.css">
-    <link rel="stylesheet" href="/src/styles/pagina.css">
+    <link rel="stylesheet" href="/src/styles/broadsheet.css">
 </head>
-<body class="ds">
-    <header class="kop">
-        <div class="ds-wrap kop__inner">
-            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
-            <nav aria-label="Hoofdnavigatie">
-                <details class="kop__menu">
-                    <summary><span class="kop__streepjes" aria-hidden="true"></span>Menu</summary>
-                </details>
-                <div class="kop__paneel">
-${NAV.map(([h, t]) => `                        <a href="${h}">${t}</a>`).join('\n')}
-                </div>
-            </nav>
-        </div>
+<body class="bs">
 
-        <!-- De rekenhulpen bij naam. Zie de toelichting in pagina.css. -->
-        <nav class="toolbalk no-print" aria-label="Rekenhulpen">
-            <div class="ds-wrap toolbalk__inner">
-                <a href="bouwdepot-berekenen.html">Bouwdepot berekenen</a>
-                <a href="verbouwbegroting.html">Verbouwbegroting</a>
-                <a href="leenruimte.html">Leenruimte</a>
-                <a href="maandlasten-bouwdepot.html">Maandlasten</a>
-                <a href="nieuwbouw.html">Nieuwbouwplanning</a>
-                <a href="depotplanner.html">Depotplanner</a>
-                <a href="belasting.html">Belastingvoordeel</a>
-                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+    <header class="bs-kop no-print">
+        <div class="bs-wrap bs-kop__inner">
+            <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <div class="bs-kop__rechts">
+${NAV.map(([h, t], i) => `                <a${i === NAV.length - 1 ? ' class="bs-menu"' : ''} href="${h}">${t}</a>`).join('\n')}
+                <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
-        </nav>
+        </div>
     </header>
 
-    <nav class="kruimel" aria-label="Kruimelpad">
-      <div class="ds-wrap">
-        <ol>
-          <li><a href="/">Home</a></li>
-${kruimel.map((k) => (k.href ? `          <li><a href="${k.href}">${esc(k.naam)}</a></li>` : `          <li aria-current="page">${esc(k.naam)}</li>`)).join('\n')}
-        </ol>
-      </div>
+    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
+        <a href="/">Home</a>
+${kruimel.map((k) => (k.href
+    ? `        <span aria-hidden="true">&middot;</span> <a href="${k.href}">${esc(k.naam)}</a>`
+    : `        <span aria-hidden="true">&middot;</span> <span>${esc(k.naam)}</span>`)).join('\n')}
     </nav>
 
 ${inhoud}
 
-    <footer class="voet">
-        <div class="ds-wrap">
-            <nav class="voet__kolommen" aria-label="Voettekst">
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-verbouwen">Verbouwen</p>
-                    <ul aria-labelledby="voet-verbouwen">
-                        <li><a href="verbouwbegroting.html">Verbouwbegroting</a></li>
-                        <li><a href="leenruimte.html">Leenruimte</a></li>
-                        <li><a href="maandlasten-bouwdepot.html">Maandlasten bouwdepot</a></li>
-                        <li><a href="renteverlies-bouwdepot.html">Renteverlies</a></li>
-                        <li><a href="belasting.html">Belastingvoordeel</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-nieuwbouw">Nieuwbouw</p>
-                    <ul aria-labelledby="voet-nieuwbouw">
-                        <li><a href="nieuwbouw.html">Nieuwbouwplanning</a></li>
-                        <li><a href="bouwrente-nieuwbouw.html">Bouwrente</a></li>
-                        <li><a href="dubbele-lasten-nieuwbouw.html">Dubbele lasten</a></li>
-                        <li><a href="depotplanner.html">Depotplanner</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-uitleg">Uitleg en hulpmiddelen</p>
-                    <ul aria-labelledby="voet-uitleg">
-                        <li><a href="kennisbank.html">Kennisbank</a></li>
-                        <li><a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a></li>
-                        <li><a href="stappenplan.html">Stappenplan</a></li>
-                        <li><a href="adviesgesprek-checklist.html">Adviesgesprek-checklist</a></li>
-                        <li><a href="bouwdepot-declaratie-afgewezen.html">Declaratie afgewezen</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-site">Over deze site</p>
-                    <ul aria-labelledby="voet-site">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="over-ons.html">Over ons</a></li>
-                        <li><a href="methodologie.html">Methodologie</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="privacy.html">Privacy</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="voorwaarden.html">Voorwaarden</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <p class="ds-caption">&copy; 2026 BouwdepotCalculator.nl &middot; Onafhankelijk informatieplatform, geen aanbieder van hypotheken.</p>
+    <div class="bs-band no-print" aria-hidden="true">
+        <div class="bs-band__spoor">
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+        </div>
+    </div>
+
+    <footer class="bs-voet no-print">
+        <div class="bs-wrap bs-voet__inner">
+            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
         </div>
     </footer>
 ${schema}
@@ -423,7 +353,7 @@ ${schema}
 }
 
 /** Verplichte onafhankelijkheidsverklaring. Staat op elke gegenereerde pagina. */
-const DISCLAIMER = `                <aside class="melding">
+const DISCLAIMER = `                <aside class="bs-melding">
                     <p><strong>Onafhankelijk en zonder samenwerking.</strong> Wij zijn niet verbonden aan, en werken niet samen met, de genoemde geldverstrekkers. Deze pagina vergelijkt gepubliceerde voorwaarden en bevat geen aanbeveling, rangorde of persoonlijk advies.</p>
                     <p>Voorwaarden verschillen per hypotheekvorm en kunnen in uw offerte afwijken. Elke aanbieder vermeldt de bron en de controledatum.</p>
                 </aside>`;
@@ -438,18 +368,18 @@ function bouwHub() {
   const items = data.aanbieders.map((a) => {
     const v = a.verlengingMaanden || {};
     const geenRente = /^geen/i.test(a.rentevergoeding?.waarde || '');
-    return `                <article class="vgl-item">
-                    <div class="vgl-item__kop">
-                        <h3 class="vgl-item__naam"><a href="${bestandsnaam(a)}">${esc(a.naam)}</a></h3>
+    return `                <article class="bs-vgl__item">
+                    <div class="bs-vgl__kop">
+                        <h3 class="bs-vgl__naam"><a href="${bestandsnaam(a)}">${esc(a.naam)}</a></h3>
                         ${controle(a)}
                     </div>
 
-                    <div class="vgl-balken">
+                    <div class="bs-balken">
 ${balk('Verbouwing', a.looptijdVerbouwMaanden, v.verbouw, v.mogelijkMaarDuurOnbekend)}
 ${balk('Nieuwbouw', a.looptijdNieuwbouwMaanden, v.nieuwbouw, v.mogelijkMaarDuurOnbekend)}
                     </div>
 
-                    <dl class="vgl-feiten">
+                    <dl class="bs-feiten">
 ${feit('Vergoeding over depot', a.rentevergoeding, { gedempt: geenRente })}
 ${feit('Hoogte van die vergoeding', tariefVeld(a))}
 ${feit('Vergoeding loopt', vergoedingsduurVeld(a))}
@@ -468,56 +398,52 @@ ${feit('Restant bij beëindiging', a.restant)}
   }).join('\n');
 
   const inhoud = `    <main>
-        <section class="ds-wrap ds-sectie">
-            <div class="ds-sectiekop">
-                <p class="ds-eyebrow">Eigen onderzoek &middot; ${data.aanbieders.length} geldverstrekkers</p>
-                <h1 class="ds-heading">Bouwdepot voorwaarden vergelijken</h1>
-                <p class="ds-lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Hoe lang u de tijd krijgt, of u rente ontvangt en wat als bewijsstuk telt, verschilt per bank.</p>
-            </div>
+        <section class="bs-reken">
+            <div class="bs-wrap">
+                <p class="bs-micro">Eigen onderzoek &middot; ${data.aanbieders.length} geldverstrekkers</p>
+                <h1 class="bs-reken__titel">Bouwdepot voorwaarden vergelijken</h1>
+                <p class="bs-reken__lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Hoe lang u de tijd krijgt, of u rente ontvangt en wat als bewijsstuk telt, verschilt per bank.</p>
 
 ${bouwKerncijfers()}
+            </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--gevuld">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <h2 class="ds-title">Alle aanbieders naast elkaar</h2>
-                    <p class="ds-lead">De balken tonen de maximale looptijd inclusief verlenging, op dezelfde schaal. Het gearceerde deel is de verlenging.</p>
-                </div>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <h2 class="bs-titel">Alle aanbieders naast elkaar</h2>
+                    <p class="bs-reken__lead">De balken tonen de maximale looptijd inclusief verlenging, op dezelfde schaal. Het gearceerde deel is de verlenging.</p>
 
-                <div class="vgl-schaal" aria-hidden="true">
+                <div class="bs-schaal" aria-hidden="true">
                     <span></span>
-                    <span class="vgl-schaal__as"><span>0</span><span>${Math.round(SCHAAL / 2)} mnd</span><span>${SCHAAL} mnd</span></span>
+                    <span class="bs-schaal__as"><span>0</span><span>${Math.round(SCHAAL / 2)} mnd</span><span>${SCHAAL} mnd</span></span>
                 </div>
 
-                <div class="vgl-legenda">
-                    <span class="vgl-legenda__item"><span class="vgl-legenda__staal vgl-legenda__staal--basis"></span>Standaardlooptijd</span>
-                    <span class="vgl-legenda__item"><span class="vgl-legenda__staal vgl-legenda__staal--verlenging"></span>Verlenging</span>
-                    <span class="vgl-legenda__item"><span class="vgl-legenda__staal vgl-legenda__staal--open"></span>Verlenging mogelijk, duur niet gepubliceerd</span>
+                <div class="bs-legenda">
+                    <span class="bs-legenda__item"><span class="bs-legenda__staal bs-legenda__staal--basis"></span>Standaardlooptijd</span>
+                    <span class="bs-legenda__item"><span class="bs-legenda__staal bs-legenda__staal--verlenging"></span>Verlenging</span>
+                    <span class="bs-legenda__item"><span class="bs-legenda__staal bs-legenda__staal--open"></span>Verlenging mogelijk, duur niet gepubliceerd</span>
                 </div>
 
-                <div class="vgl-lijst">
+                <div class="bs-vgl">
 ${items}
                 </div>
 
-                <p class="ds-caption" style="margin-top: var(--ds-5)">Klopt een gegeven niet meer? <a href="contact.html">Laat het weten</a> met een link naar de actuele voorwaarden.</p>
+                <p class="bs-hulp">Klopt een gegeven niet meer? <a href="contact.html">Laat het weten</a> met een link naar de actuele voorwaarden.</p>
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
 ${DISCLAIMER}
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Waarom dit ertoe doet</p>
-                    <h2 class="ds-title">Drie voorwaarden die uw verbouwing kunnen bepalen</h2>
-                </div>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Waarom dit ertoe doet</p>
+                    <h2 class="bs-titel">Drie voorwaarden die uw verbouwing kunnen bepalen</h2>
 
-                <div class="uitleg">
+                <div class="bs-kolommen">
                     <article>
                         <h3>De looptijd is een harde grens</h3>
                         <p>Loopt uw verbouwing uit voorbij de depottermijn, dan wordt het restant meestal afgelost op uw hypotheek. Het geld is niet weg, maar u kunt het niet meer voor de verbouwing gebruiken zonder nieuwe financiering. Verlenging is bij de meeste aanbieders eenmalig en moet vóór de einddatum worden aangevraagd. De <a href="depotplanner.html">depotplanner</a> rekent die datums voor u uit vanaf uw passeerdatum.</p>
@@ -534,14 +460,12 @@ ${DISCLAIMER}
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--gevuld">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Twee bewuste keuzes</p>
-                    <h2 class="ds-title">Wat u hier niet vindt, en waarom</h2>
-                </div>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Twee bewuste keuzes</p>
+                    <h2 class="bs-titel">Wat u hier niet vindt, en waarom</h2>
 
-                <div class="uitleg">
+                <div class="bs-kolommen">
                     <article>
                         <h3>Geen rentepercentages, wel de rekenregel</h3>
                         <p>Wij publiceren geen hypotheekrentes. Een rente hangt af van de rentevastperiode, van de verhouding tussen uw lening en de woningwaarde en soms van het energielabel. Dat zijn tientallen waarden per aanbieder die wekelijks wijzigen, en een rente van twee dagen oud is simpelweg onjuist.</p>
@@ -556,13 +480,15 @@ ${DISCLAIMER}
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--diep">
-            <div class="ds-wrap ds-wrap--smal">
-                <p class="ds-eyebrow">Verantwoording</p>
-                <h2 class="ds-title">Hoe deze pagina tot stand komt</h2>
-                <p style="margin-top: var(--ds-4)">Elk gegeven komt uit de officiële, publiek toegankelijke voorwaarden van de betreffende aanbieder. De bron staat bij iedere aanbieder vermeld met de datum waarop die is geraadpleegd.</p>
+        <section class="bs-donker">
+            <div class="bs-wrap">
+                <p class="bs-micro">Verantwoording</p>
+                <h2 class="bs-titel">Hoe deze pagina tot stand komt</h2>
+                <div class="bs-proza">
+                <p>Elk gegeven komt uit de officiële, publiek toegankelijke voorwaarden van de betreffende aanbieder. De bron staat bij iedere aanbieder vermeld met de datum waarop die is geraadpleegd.</p>
                 <p>Waar een aanbieder iets niet publiceert, staat <em>niet gepubliceerd</em>. Er wordt niets geschat of afgeleid. Dat een aanbieder geen minimum declaratiebedrag noemt, is zelf bruikbare informatie.</p>
                 <p>Voorwaarden wijzigen. Deze pagina claimt daarom geen permanente actualiteit, maar vermeldt per aanbieder wanneer de gegevens voor het laatst zijn gecontroleerd. Lees ook de <a href="methodologie.html">volledige methodologie</a>.</p>
+                </div>
             </div>
         </section>
     </main>`;
@@ -637,11 +563,11 @@ function bouwKerncijfers() {
     });
   }
 
-  return `            <div class="kern">
-${kaarten.map((k) => `                <div class="kern__item">
-                    <p class="kern__cijfer tnum">${k.cijfer}</p>
-                    <p class="kern__eenheid">${k.eenheid}</p>
-                    <p class="kern__tekst">${k.tekst}</p>
+  return `            <div class="bs-kern">
+${kaarten.map((k) => `                <div class="bs-kern__item">
+                    <p class="bs-kern__cijfer tnum">${k.cijfer}</p>
+                    <p class="bs-kern__eenheid">${k.eenheid}</p>
+                    <p class="bs-kern__tekst">${k.tekst}</p>
                 </div>`).join('\n')}
             </div>`;
 }
@@ -711,64 +637,61 @@ function bouwAanbieder(a) {
   ].filter(Boolean).join('\n');
 
   const inhoud = `    <main>
-        <section class="ds-wrap ds-sectie">
-            <div class="ds-sectiekop">
-                <p class="ds-eyebrow">Gepubliceerde voorwaarden</p>
-                <h1 class="ds-heading">Bouwdepot bij ${esc(a.naam)}</h1>
-                <p class="ds-lead">Looptijd, verlenging, depotvergoeding, bewijsstukken en uitbetaling zoals ${esc(a.naam)} die zelf publiceert.</p>
-                <p style="margin-top: var(--ds-3)">${controle(a)}</p>
-            </div>
+        <section class="bs-reken">
+            <div class="bs-wrap">
+                <p class="bs-micro">Gepubliceerde voorwaarden &middot; ${controle(a)}</p>
+                <h1 class="bs-reken__titel">Bouwdepot bij ${esc(a.naam)}</h1>
+                <p class="bs-reken__lead">Looptijd, verlenging, depotvergoeding, bewijsstukken en uitbetaling zoals ${esc(a.naam)} die zelf publiceert.</p>
 
-            <div class="kern kern--twee">
-                <div class="kern__item">
-                    <p class="kern__cijfer tnum">${tv ? tv.totaal : '&mdash;'}</p>
-                    <p class="kern__eenheid">maanden voor een verbouwing</p>
-                    <p class="kern__tekst">${tv && tv.zeker ? `${a.looptijdVerbouwMaanden} maanden standaard, plus ${v.verbouw} maanden verlenging.` : 'Verlenging niet gepubliceerd.'}</p>
+            <div class="bs-kern bs-kern--twee">
+                <div class="bs-kern__item">
+                    <p class="bs-kern__cijfer tnum">${tv ? tv.totaal : '&mdash;'}</p>
+                    <p class="bs-kern__eenheid">maanden voor een verbouwing</p>
+                    <p class="bs-kern__tekst">${tv && tv.zeker ? `${a.looptijdVerbouwMaanden} maanden standaard, plus ${v.verbouw} maanden verlenging.` : 'Verlenging niet gepubliceerd.'}</p>
                 </div>
-                <div class="kern__item">
-                    <p class="kern__cijfer tnum">${tn ? tn.totaal : '&mdash;'}</p>
-                    <p class="kern__eenheid">maanden voor nieuwbouw</p>
-                    <p class="kern__tekst">${tn && tn.zeker ? `${a.looptijdNieuwbouwMaanden} maanden standaard, plus ${v.nieuwbouw} maanden verlenging.` : 'Verlenging niet gepubliceerd.'}</p>
+                <div class="bs-kern__item">
+                    <p class="bs-kern__cijfer tnum">${tn ? tn.totaal : '&mdash;'}</p>
+                    <p class="bs-kern__eenheid">maanden voor nieuwbouw</p>
+                    <p class="bs-kern__tekst">${tn && tn.zeker ? `${a.looptijdNieuwbouwMaanden} maanden standaard, plus ${v.nieuwbouw} maanden verlenging.` : 'Verlenging niet gepubliceerd.'}</p>
                 </div>
+            </div>
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--gevuld">
-            <div class="ds-wrap">
-                <h2 class="ds-title" style="margin-bottom: var(--ds-4)">Alle gepubliceerde voorwaarden</h2>
-                <div class="ds-card">
-                    <dl class="vgl-detail">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <h2 class="bs-titel">Alle gepubliceerde voorwaarden</h2>
+                <dl class="bs-detail">
 ${rijen}
-                    </dl>
-                </div>
+                </dl>
             </div>
         </section>
 ${vergelijkendeContext(a)}${
   a.bijzonderheden?.length
     ? `
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
-                <h2 class="ds-title" style="margin-bottom: var(--ds-4)">Bijzonderheden</h2>
-                <ul class="punten">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <h2 class="bs-titel">Bijzonderheden</h2>
+                <ul class="bs-punten">
 ${a.bijzonderheden.map((b) => `                    <li>${esc(b)}</li>`).join('\n')}
                 </ul>
             </div>
         </section>`
     : ''
 }
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
 ${DISCLAIMER}
 
-                <h2 class="ds-title" style="margin: var(--ds-6) 0 var(--ds-3)">Bron en controle</h2>
+                <h2 class="bs-titel">Bron en controle</h2>
                 <p>De gegevens op deze pagina komen uit de publieke informatie van ${esc(a.naam)}, geraadpleegd op ${datum(a.gecontroleerd)}:</p>
-                <ul class="bronnen">
+                <ul class="bs-bronnen">
 ${bronnen.map((b) => `                    <li><a href="${esc(b)}" target="_blank" rel="noopener noreferrer nofollow">${esc(b)}</a></li>`).join('\n')}
                 </ul>
-                <p class="ds-caption">Voorwaarden wijzigen en kunnen per hypotheekvorm verschillen. Ziet u een afwijking? <a href="contact.html">Laat het weten</a>.</p>
+                <p class="bs-hulp">Voorwaarden wijzigen en kunnen per hypotheekvorm verschillen. Ziet u een afwijking? <a href="contact.html">Laat het weten</a>.</p>
 
-                <p style="margin-top: var(--ds-6)">
-                    <a class="ds-knop ds-knop--primair" href="${HUB}">Alle aanbieders vergelijken</a>
+                <p class="bs-acties">
+                    <a class="bs-knop" href="${HUB}">Alle aanbieders vergelijken</a>
                 </p>
             </div>
         </section>
@@ -862,14 +785,14 @@ function vergelijkendeContext(a) {
   if (!punten.length) return '';
 
   return `
-        <section class="ds-sectie ds-sectie--diep">
-            <div class="ds-wrap ds-wrap--smal">
-                <p class="ds-eyebrow">In verhouding</p>
-                <h2 class="ds-title">Hoe dit zich verhoudt tot de andere aanbieders</h2>
-                <ul class="punten" style="margin-top: var(--ds-4)">
+        <section class="bs-donker">
+            <div class="bs-wrap">
+                <p class="bs-micro">In verhouding</p>
+                <h2 class="bs-titel">Hoe dit zich verhoudt tot de andere aanbieders</h2>
+                <ul class="bs-punten">
 ${punten.map((p) => `                    <li>${p}</li>`).join('\n')}
                 </ul>
-                <p class="ds-caption" style="margin-top: var(--ds-4)">Beschrijft uitsluitend gepubliceerde voorwaarden; geen oordeel over welke aanbieder beter past. Zie <a href="${HUB}">de volledige vergelijking</a>.</p>
+                <p class="bs-hulp">Beschrijft uitsluitend gepubliceerde voorwaarden; geen oordeel over welke aanbieder beter past. Zie <a href="${HUB}">de volledige vergelijking</a>.</p>
             </div>
         </section>
 `;

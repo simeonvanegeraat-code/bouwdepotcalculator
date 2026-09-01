@@ -72,7 +72,7 @@ Wat daar nu op volgt, in deze volgorde:
 | 8 | `dubbele-lasten-nieuwbouw.html` | **om**, 01-09 |
 | 9 | `bouwrente-nieuwbouw.html` | **om**, 01-09 |
 | 10 | `stappenplan.html` + `adviesgesprek-checklist.html` | **om**, 01-09 — `stappenplan.css` verwijderd |
-| 11 | `bouwdepot-voorwaarden-vergelijken.html` + acht bankpagina's | open — gegenereerd |
+| 11 | `bouwdepot-voorwaarden-vergelijken.html` + acht bankpagina's | **om**, 01-09 — via `scripts/build-voorwaarden.mjs` |
 | 12 | `kennisbank`, `bouwdepot-fouten`, `hypotheekrenteaftrek-gids`, `bouwdepot-declaratie-afgewezen`, `methodologie` | open |
 | 13 | `over-ons`, `contact`, `privacy`, `cookies`, `voorwaarden` | open |
 

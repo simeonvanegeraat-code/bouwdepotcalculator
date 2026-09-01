@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,79 +35,55 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/design-system.css">
-    <link rel="stylesheet" href="/src/styles/pagina.css">
+    <link rel="stylesheet" href="/src/styles/broadsheet.css">
 </head>
-<body class="ds">
-    <header class="kop">
-        <div class="ds-wrap kop__inner">
-            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
-            <nav aria-label="Hoofdnavigatie">
-                <details class="kop__menu">
-                    <summary><span class="kop__streepjes" aria-hidden="true"></span>Menu</summary>
-                </details>
-                <div class="kop__paneel">
-                        <a href="bouwdepot-berekenen.html">Bereken</a>
-                        <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
-                        <a href="kennisbank.html">Uitleg</a>
-                        <a href="over-ons.html">Over ons</a>
-                </div>
-            </nav>
-        </div>
+<body class="bs">
 
-        <!-- De rekenhulpen bij naam. Zie de toelichting in pagina.css. -->
-        <nav class="toolbalk no-print" aria-label="Rekenhulpen">
-            <div class="ds-wrap toolbalk__inner">
-                <a href="bouwdepot-berekenen.html">Bouwdepot berekenen</a>
-                <a href="verbouwbegroting.html">Verbouwbegroting</a>
-                <a href="leenruimte.html">Leenruimte</a>
-                <a href="maandlasten-bouwdepot.html">Maandlasten</a>
-                <a href="nieuwbouw.html">Nieuwbouwplanning</a>
-                <a href="depotplanner.html">Depotplanner</a>
-                <a href="belasting.html">Belastingvoordeel</a>
+    <header class="bs-kop no-print">
+        <div class="bs-wrap bs-kop__inner">
+            <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <div class="bs-kop__rechts">
+                <a href="bouwdepot-berekenen.html">Bereken</a>
                 <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="kennisbank.html">Uitleg</a>
+                <a class="bs-menu" href="over-ons.html">Over ons</a>
+                <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
-        </nav>
+        </div>
     </header>
 
-    <nav class="kruimel" aria-label="Kruimelpad">
-      <div class="ds-wrap">
-        <ol>
-          <li><a href="/">Home</a></li>
-          <li><a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden vergelijken</a></li>
-          <li aria-current="page">Nationale-Nederlanden</li>
-        </ol>
-      </div>
+    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
+        <a href="/">Home</a>
+        <span aria-hidden="true">&middot;</span> <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden vergelijken</a>
+        <span aria-hidden="true">&middot;</span> <span>Nationale-Nederlanden</span>
     </nav>
 
     <main>
-        <section class="ds-wrap ds-sectie">
-            <div class="ds-sectiekop">
-                <p class="ds-eyebrow">Gepubliceerde voorwaarden</p>
-                <h1 class="ds-heading">Bouwdepot bij Nationale-Nederlanden</h1>
-                <p class="ds-lead">Looptijd, verlenging, depotvergoeding, bewijsstukken en uitbetaling zoals Nationale-Nederlanden die zelf publiceert.</p>
-                <p style="margin-top: var(--ds-3)"><span class="vgl-controle">gecontroleerd 18 augustus 2026</span></p>
-            </div>
+        <section class="bs-reken">
+            <div class="bs-wrap">
+                <p class="bs-micro">Gepubliceerde voorwaarden &middot; <span class="bs-controle">gecontroleerd 18 augustus 2026</span></p>
+                <h1 class="bs-reken__titel">Bouwdepot bij Nationale-Nederlanden</h1>
+                <p class="bs-reken__lead">Looptijd, verlenging, depotvergoeding, bewijsstukken en uitbetaling zoals Nationale-Nederlanden die zelf publiceert.</p>
 
-            <div class="kern kern--twee">
-                <div class="kern__item">
-                    <p class="kern__cijfer tnum">24</p>
-                    <p class="kern__eenheid">maanden voor een verbouwing</p>
-                    <p class="kern__tekst">12 maanden standaard, plus 12 maanden verlenging.</p>
+            <div class="bs-kern bs-kern--twee">
+                <div class="bs-kern__item">
+                    <p class="bs-kern__cijfer tnum">24</p>
+                    <p class="bs-kern__eenheid">maanden voor een verbouwing</p>
+                    <p class="bs-kern__tekst">12 maanden standaard, plus 12 maanden verlenging.</p>
                 </div>
-                <div class="kern__item">
-                    <p class="kern__cijfer tnum">36</p>
-                    <p class="kern__eenheid">maanden voor nieuwbouw</p>
-                    <p class="kern__tekst">24 maanden standaard, plus 12 maanden verlenging.</p>
+                <div class="bs-kern__item">
+                    <p class="bs-kern__cijfer tnum">36</p>
+                    <p class="bs-kern__eenheid">maanden voor nieuwbouw</p>
+                    <p class="bs-kern__tekst">24 maanden standaard, plus 12 maanden verlenging.</p>
                 </div>
+            </div>
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--gevuld">
-            <div class="ds-wrap">
-                <h2 class="ds-title" style="margin-bottom: var(--ds-4)">Alle gepubliceerde voorwaarden</h2>
-                <div class="ds-card">
-                    <dl class="vgl-detail">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <h2 class="bs-titel">Alle gepubliceerde voorwaarden</h2>
+                <dl class="bs-detail">
                     <div>
                         <dt>Looptijd verbouwing</dt>
                         <dd>12 maanden</dd>
@@ -130,7 +106,7 @@
                     </div>
                     <div>
                         <dt>Verlenging regelen</dt>
-                        <dd><span class="vgl-leeg">niet gepubliceerd</span></dd>
+                        <dd><span class="bs-leeg">niet gepubliceerd</span></dd>
                     </div>
                     <div>
                         <dt>Manier van opnemen</dt>
@@ -138,11 +114,11 @@
                     </div>
                     <div>
                         <dt>Maximum per declaratie</dt>
-                        <dd><span class="vgl-leeg">niet gepubliceerd</span></dd>
+                        <dd><span class="bs-leeg">niet gepubliceerd</span></dd>
                     </div>
                     <div>
                         <dt>Minimum per declaratie</dt>
-                        <dd><span class="vgl-leeg">niet gepubliceerd</span></dd>
+                        <dd><span class="bs-leeg">niet gepubliceerd</span></dd>
                     </div>
                     <div>
                         <dt>Doorlooptijd uitbetaling</dt>
@@ -158,7 +134,7 @@
                     </div>
                     <div>
                         <dt>Ouderdom van de factuur</dt>
-                        <dd><span class="vgl-leeg">niet gepubliceerd</span></dd>
+                        <dd><span class="bs-leeg">niet gepubliceerd</span></dd>
                     </div>
                     <div>
                         <dt>Wat u mag declareren</dt>
@@ -170,31 +146,30 @@
                     </div>
                     <div>
                         <dt>Eigen arbeid</dt>
-                        <dd><span class="vgl-leeg">niet gepubliceerd</span></dd>
+                        <dd><span class="bs-leeg">niet gepubliceerd</span></dd>
                     </div>
-                    </dl>
-                </div>
+                </dl>
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--diep">
-            <div class="ds-wrap ds-wrap--smal">
-                <p class="ds-eyebrow">In verhouding</p>
-                <h2 class="ds-title">Hoe dit zich verhoudt tot de andere aanbieders</h2>
-                <ul class="punten" style="margin-top: var(--ds-4)">
+        <section class="bs-donker">
+            <div class="bs-wrap">
+                <p class="bs-micro">In verhouding</p>
+                <h2 class="bs-titel">Hoe dit zich verhoudt tot de andere aanbieders</h2>
+                <ul class="bs-punten">
                     <li>Voor een verbouwing van een bestaande woning is dit met 24 maanden inclusief verlenging de <strong>kortste</strong> termijn van de 8 vergeleken aanbieders. De langste is 42 maanden.</li>
                     <li>Voor nieuwbouw is dit met 36 maanden inclusief verlenging de <strong>kortste</strong> termijn van de 8 vergeleken aanbieders. De langste is 42 maanden.</li>
                     <li>Er wordt hier wel een vergoeding over het depotsaldo betaald. Dat is niet vanzelfsprekend: niet elke aanbieder in deze vergelijking doet dat.</li>
                     <li>Van deze aanbieder zijn 3 gegevens niet publiek terug te vinden. Vraag die punten expliciet na bij uw adviseur voordat u tekent.</li>
                 </ul>
-                <p class="ds-caption" style="margin-top: var(--ds-4)">Beschrijft uitsluitend gepubliceerde voorwaarden; geen oordeel over welke aanbieder beter past. Zie <a href="bouwdepot-voorwaarden-vergelijken.html">de volledige vergelijking</a>.</p>
+                <p class="bs-hulp">Beschrijft uitsluitend gepubliceerde voorwaarden; geen oordeel over welke aanbieder beter past. Zie <a href="bouwdepot-voorwaarden-vergelijken.html">de volledige vergelijking</a>.</p>
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
-                <h2 class="ds-title" style="margin-bottom: var(--ds-4)">Bijzonderheden</h2>
-                <ul class="punten">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <h2 class="bs-titel">Bijzonderheden</h2>
+                <ul class="bs-punten">
                     <li>Met 12 maanden heeft het verbouwdepot de kortste standaardlooptijd van de vergeleken aanbieders.</li>
                     <li>Als enige aanbieder in deze vergelijking hanteert NN bij het verbouwdepot een vergoeding die lager ligt dan de hypotheekrente: 1% eronder. Daardoor ontstaat hier een werkelijk renteverschil, terwijl dat bij een gelijke vergoeding wegvalt.</li>
                     <li>De eis dat een factuur of kassabon niet ouder dan zes maanden mag zijn, komt bij de andere vergeleken aanbieders niet voor.</li>
@@ -203,75 +178,40 @@
                 </ul>
             </div>
         </section>
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
-                <aside class="melding">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <aside class="bs-melding">
                     <p><strong>Onafhankelijk en zonder samenwerking.</strong> Wij zijn niet verbonden aan, en werken niet samen met, de genoemde geldverstrekkers. Deze pagina vergelijkt gepubliceerde voorwaarden en bevat geen aanbeveling, rangorde of persoonlijk advies.</p>
                     <p>Voorwaarden verschillen per hypotheekvorm en kunnen in uw offerte afwijken. Elke aanbieder vermeldt de bron en de controledatum.</p>
                 </aside>
 
-                <h2 class="ds-title" style="margin: var(--ds-6) 0 var(--ds-3)">Bron en controle</h2>
+                <h2 class="bs-titel">Bron en controle</h2>
                 <p>De gegevens op deze pagina komen uit de publieke informatie van Nationale-Nederlanden, geraadpleegd op 18 augustus 2026:</p>
-                <ul class="bronnen">
+                <ul class="bs-bronnen">
                     <li><a href="https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Bouwdepot/Nieuwbouwdepot-en-verbouwdepot.htm" target="_blank" rel="noopener noreferrer nofollow">https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Bouwdepot/Nieuwbouwdepot-en-verbouwdepot.htm</a></li>
                     <li><a href="https://www.nn.nl/Particulier/Hypotheken/Mijn-Nationale-Nederlanden-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-declareren.htm" target="_blank" rel="noopener noreferrer nofollow">https://www.nn.nl/Particulier/Hypotheken/Mijn-Nationale-Nederlanden-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-declareren.htm</a></li>
                     <li><a href="https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-beeindigen.htm" target="_blank" rel="noopener noreferrer nofollow">https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-beeindigen.htm</a></li>
                 </ul>
-                <p class="ds-caption">Voorwaarden wijzigen en kunnen per hypotheekvorm verschillen. Ziet u een afwijking? <a href="contact.html">Laat het weten</a>.</p>
+                <p class="bs-hulp">Voorwaarden wijzigen en kunnen per hypotheekvorm verschillen. Ziet u een afwijking? <a href="contact.html">Laat het weten</a>.</p>
 
-                <p style="margin-top: var(--ds-6)">
-                    <a class="ds-knop ds-knop--primair" href="bouwdepot-voorwaarden-vergelijken.html">Alle aanbieders vergelijken</a>
+                <p class="bs-acties">
+                    <a class="bs-knop" href="bouwdepot-voorwaarden-vergelijken.html">Alle aanbieders vergelijken</a>
                 </p>
             </div>
         </section>
     </main>
 
-    <footer class="voet">
-        <div class="ds-wrap">
-            <nav class="voet__kolommen" aria-label="Voettekst">
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-verbouwen">Verbouwen</p>
-                    <ul aria-labelledby="voet-verbouwen">
-                        <li><a href="verbouwbegroting.html">Verbouwbegroting</a></li>
-                        <li><a href="leenruimte.html">Leenruimte</a></li>
-                        <li><a href="maandlasten-bouwdepot.html">Maandlasten bouwdepot</a></li>
-                        <li><a href="renteverlies-bouwdepot.html">Renteverlies</a></li>
-                        <li><a href="belasting.html">Belastingvoordeel</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-nieuwbouw">Nieuwbouw</p>
-                    <ul aria-labelledby="voet-nieuwbouw">
-                        <li><a href="nieuwbouw.html">Nieuwbouwplanning</a></li>
-                        <li><a href="bouwrente-nieuwbouw.html">Bouwrente</a></li>
-                        <li><a href="dubbele-lasten-nieuwbouw.html">Dubbele lasten</a></li>
-                        <li><a href="depotplanner.html">Depotplanner</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-uitleg">Uitleg en hulpmiddelen</p>
-                    <ul aria-labelledby="voet-uitleg">
-                        <li><a href="kennisbank.html">Kennisbank</a></li>
-                        <li><a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a></li>
-                        <li><a href="stappenplan.html">Stappenplan</a></li>
-                        <li><a href="adviesgesprek-checklist.html">Adviesgesprek-checklist</a></li>
-                        <li><a href="bouwdepot-declaratie-afgewezen.html">Declaratie afgewezen</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-site">Over deze site</p>
-                    <ul aria-labelledby="voet-site">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="over-ons.html">Over ons</a></li>
-                        <li><a href="methodologie.html">Methodologie</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="privacy.html">Privacy</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="voorwaarden.html">Voorwaarden</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <p class="ds-caption">&copy; 2026 BouwdepotCalculator.nl &middot; Onafhankelijk informatieplatform, geen aanbieder van hypotheken.</p>
+    <div class="bs-band no-print" aria-hidden="true">
+        <div class="bs-band__spoor">
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+        </div>
+    </div>
+
+    <footer class="bs-voet no-print">
+        <div class="bs-wrap bs-voet__inner">
+            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
         </div>
     </footer>
     <script type="application/ld+json">

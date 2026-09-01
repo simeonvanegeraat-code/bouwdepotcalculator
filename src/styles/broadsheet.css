@@ -341,9 +341,10 @@
 .bs-donker .bs-micro { color: var(--bs-moss); }
 .bs-donker .bs-titel { max-width: 16ch; }
 .bs-donker a { color: var(--bs-bone); }
+.bs-donker .bs-hulp { color: var(--bs-sage); }
 .bs-donker .bs-kolommen article { border-top-color: rgba(250,255,250,.18); }
 .bs-donker .bs-kolommen p { color: var(--bs-sage); }
-.bs-donker__acties { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(28px, 4vw, 44px); }
+.bs-acties { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(28px, 4vw, 44px); }
 
 /* De accentband is de handtekening onderaan elke pagina. */
 .bs-band { background: var(--bs-accent); color: var(--bs-accent-ink); overflow: hidden; padding: 16px 0; }
@@ -559,9 +560,15 @@
 @media (min-width: 720px) { .bs-kern { grid-template-columns: repeat(3, 1fr); } }
 .bs-kern__item { border-top: 1px solid var(--bs-accent); padding-top: 18px; }
 .bs-kern__cijfer { margin: 0; font-size: clamp(38px, 5vw, 62px); font-weight: 500; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-.bs-kern__cijfer .kern__van { font-size: .45em; color: var(--bs-moss); letter-spacing: -.02em; }
-.bs-kern__eenheid { margin: 10px 0 0; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-moss); }
-.bs-kern__tekst { margin: 10px 0 0; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-sage); }
+.bs-kern__cijfer .kern__van { font-size: .45em; color: var(--bs-newsprint); letter-spacing: -.02em; }
+.bs-kern__eenheid { margin: 10px 0 0; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-accent); }
+.bs-kern__tekst { margin: 10px 0 0; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-newsprint); }
+/* Twee cijfers in plaats van drie, voor een pagina over één aanbieder. */
+@media (min-width: 720px) { .bs-kern--twee { grid-template-columns: repeat(2, 1fr); } }
+/* Op de zwarte band draaien de neutralen om. De basis hierboven staat op
+   bone, want een component die alleen op zwart klopt is geen component. */
+.bs-donker .bs-kern__cijfer .kern__van, .bs-donker .bs-kern__eenheid { color: var(--bs-moss); }
+.bs-donker .bs-kern__tekst { color: var(--bs-sage); }
 
 .bs-donker__lead { margin: 16px 0 0; max-width: 44ch; font-size: var(--bs-t-lead); line-height: 1.4; color: var(--bs-sage); letter-spacing: -.015em; }
 
@@ -574,7 +581,7 @@
 
 /* Hulptekst onder een invoerveld. Voor uitleg over dít veld, niet voor
    waarschuwingen -- die horen in .bs-melding met de accentrand. */
-.bs-hulp { margin: 8px 0 0; font-size: var(--bs-t-micro); line-height: 1.5; color: var(--bs-newsprint); }
+.bs-hulp { margin: 8px 0 0; max-width: 80ch; font-size: var(--bs-t-micro); line-height: 1.5; color: var(--bs-newsprint); }
 .bs-hulp a { color: var(--bs-ink); }
 
 /* Kanttekening bij de uitkomst: wat het getal niet zegt. */
@@ -859,9 +866,9 @@
 .bs-spoor__vulling { height: 100%; width: 0; background: var(--bs-accent); transition: width .35s cubic-bezier(.2, .7, .3, 1); }
 
 .bs-voortgang__acties { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-/* Een voorbehoud direct onder de knoppen plakte er met de acht pixels van
+/* Een voorbehoud direct onder een blok plakte er met de acht pixels van
    .bs-hulp tegenaan. Het is een andere gedachte en hoort op afstand te staan. */
-.bs-voortgang + .bs-hulp { margin-top: 22px; }
+.bs-voortgang + .bs-hulp, .bs-vgl + .bs-hulp, .bs-punten + .bs-hulp { margin-top: 22px; }
 
 /* --- De fasen ------------------------------------------------------------ */
 .bs-fasen { display: grid; gap: clamp(28px, 4vw, 48px); }
@@ -916,3 +923,87 @@
     .bs-vel__rij--kop { display: grid; }
     .bs-vel__rij { grid-template-columns: 6rem repeat(5, 1fr); }
 }
+
+/* ==========================================================================
+   De vergelijking van bouwdepotvoorwaarden
+   --------------------------------------------------------------------------
+   Kwamen als `vgl-*` uit design-system.css. Waar dat de aanbieders in kaarten
+   met een schaduw zette, staan ze hier als artikelen onder elkaar: één zwarte
+   haarlijn per aanbieder, en verder niets dat aandacht vraagt.
+
+   De balken houden hun gedeelde schaal. Dat is het hele punt van deze pagina:
+   zonder gelijke schaal zegt de lengte van een balk niets.
+   ========================================================================== */
+
+.bs-vgl { display: grid; gap: clamp(32px, 4vw, 52px); }
+
+.bs-vgl__item { padding-top: 18px; border-top: 1px solid var(--bs-ink); }
+.bs-vgl__kop { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 20px; }
+.bs-vgl__naam { margin: 0; font-size: clamp(22px, 2.2vw, 28px); font-weight: 500; letter-spacing: -.03em; line-height: 1.1; }
+.bs-vgl__naam a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; }
+.bs-vgl__naam a:hover, .bs-vgl__naam a:focus-visible { border-bottom-color: var(--bs-accent); }
+
+/* Wanneer wij de voorwaarden voor het laatst bij de bron hebben nagekeken.
+   Hoort bij de naam en niet bij de feiten: het zegt iets over de hele kaart. */
+.bs-controle { font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); white-space: nowrap; }
+.bs-controle--verlopen { color: #8c5410; font-weight: 600; }
+
+/* --- Looptijd als balk ---------------------------------------------------- */
+.bs-balken { display: grid; gap: 10px; }
+.bs-balk { display: grid; grid-template-columns: 6rem minmax(0, 1fr) 6rem; align-items: center; gap: 14px; max-width: 760px; }
+.bs-balk__label { font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+/* Rechte hoeken en een dunne baan: dit is een liniaal, geen voortgangspil. */
+.bs-balk__spoor { position: relative; height: 6px; background: var(--bs-lijn); overflow: hidden; }
+.bs-balk__stapel { display: flex; height: 100%; }
+.bs-balk__vul { height: 100%; background: var(--bs-press); }
+/* Gearceerd in het accent: de verlenging is voorwaardelijk en moet zich
+   onderscheiden van de looptijd waar u sowieso recht op heeft. */
+.bs-balk__vul--verlenging {
+    background: repeating-linear-gradient(135deg, var(--bs-accent) 0 4px, rgba(14, 95, 88, .35) 4px 8px);
+}
+/* Verlenging mogelijk maar duur niet gepubliceerd: een uiteinde dat wegvaagt.
+   Vier procent en niet een vast aantal pixels, want op een smal spoor zou een
+   vaste breedte een onbekende verlenging langer laten ogen dan een bekende. */
+.bs-balk__vul--open { flex: none; width: 4%; opacity: .55; background: linear-gradient(90deg, var(--bs-accent), transparent); }
+.bs-balk__waarde { font-size: var(--bs-t-klein); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bs-balk__open-teken { color: var(--bs-newsprint); font-weight: 600; margin-left: 2px; }
+
+.bs-schaal { display: grid; grid-template-columns: 6rem minmax(0, 1fr) 6rem; gap: 14px; max-width: 760px; margin-bottom: 14px; font-size: var(--bs-t-micro); font-variant-numeric: tabular-nums; color: var(--bs-newsprint); }
+.bs-schaal__as { display: flex; justify-content: space-between; border-top: 1px solid var(--bs-lijn); padding-top: 4px; }
+
+.bs-legenda { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-bottom: clamp(24px, 3vw, 36px); }
+.bs-legenda__item { display: flex; align-items: center; gap: 8px; font-size: var(--bs-t-micro); color: var(--bs-newsprint); }
+.bs-legenda__staal { flex: none; width: 22px; height: 6px; }
+.bs-legenda__staal--basis { background: var(--bs-press); }
+.bs-legenda__staal--verlenging { background: repeating-linear-gradient(135deg, var(--bs-accent) 0 4px, rgba(14, 95, 88, .35) 4px 8px); }
+.bs-legenda__staal--open { background: linear-gradient(90deg, var(--bs-accent), transparent); opacity: .55; }
+
+/* --- De feiten per aanbieder ---------------------------------------------- */
+.bs-feiten { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 18px 24px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--bs-lijn); }
+.bs-feit dt { margin-bottom: 4px; font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+/* Termen als koop-/aannemingsovereenkomst breken anders uit hun kolom. */
+.bs-feit dd { margin: 0; font-size: var(--bs-t-klein); font-weight: 500; line-height: 1.4; overflow-wrap: anywhere; }
+.bs-feit dd small { display: block; margin-top: 4px; font-size: var(--bs-t-micro); font-weight: 400; line-height: 1.45; color: var(--bs-newsprint); }
+/* Een veld dat uit lopende tekst bestaat in plaats van uit een korte waarde.
+   De halfvette waardestijl maakt daar een muur van; dit leest als tekst. */
+.bs-feit--proza dd { font-weight: 400; font-size: var(--bs-t-micro); line-height: 1.5; color: var(--bs-newsprint); }
+
+/* Ontbrekende gegevens blijven zichtbaar leeg. Nooit invullen met een
+   schatting: dat een aanbieder iets niet publiceert is zelf het antwoord. */
+.bs-leeg { font-weight: 400; font-style: italic; color: var(--bs-newsprint); }
+
+/* --- Alle voorwaarden van één aanbieder ----------------------------------- */
+.bs-detail { display: grid; margin: clamp(20px, 2.5vw, 32px) 0 0; border-top: 1px solid var(--bs-ink); }
+.bs-detail > div { display: grid; gap: 4px 32px; padding: 16px 0; border-bottom: 1px solid var(--bs-lijn); }
+@media (min-width: 680px) { .bs-detail > div { grid-template-columns: 16rem 1fr; align-items: baseline; } }
+.bs-detail dt { font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+.bs-detail dd { margin: 0; font-size: var(--bs-t-klein); line-height: 1.5; }
+.bs-detail dd small { display: block; margin-top: 5px; font-size: var(--bs-t-micro); line-height: 1.5; color: var(--bs-newsprint); }
+
+/* --- Twee lijstvormen ----------------------------------------------------- */
+.bs-punten { display: grid; gap: 14px; margin: clamp(20px, 2.5vw, 32px) 0 0; padding: 0; list-style: none; }
+.bs-punten li { position: relative; padding-left: 26px; font-size: var(--bs-t-klein); line-height: 1.6; }
+.bs-punten li::before { content: ""; position: absolute; left: 4px; top: .6em; width: 6px; height: 6px; background: var(--bs-accent); }
+
+.bs-bronnen { display: grid; gap: 8px; margin: 16px 0 20px; padding: 0; list-style: none; }
+.bs-bronnen a { font-size: var(--bs-t-klein); overflow-wrap: anywhere; }

@@ -344,6 +344,25 @@ die twee pagina's verwijderd.
 | `.bs-dossier` / `.bs-dossier__moment` | Wat u op welk moment bewaart. Vier kolommen vanaf 1000px |
 | `.bs-vel` / `.bs-vel__rij` / `.bs-invul` | Invulvel om af te drukken en met een pen in te vullen. Alleen voor wat de bezoeker zélf noteert, niet voor uitkomsten die wij berekenen |
 
+### De vergelijking van bouwdepotvoorwaarden
+
+Kwamen als `vgl-*` uit `design-system.css` en worden geschreven door
+`scripts/build-voorwaarden.mjs`. Die negen pagina's zijn gegenereerd: pas het
+script aan, nooit de HTML.
+
+| Component | Waarvoor |
+|---|---|
+| `.bs-vgl` / `.bs-vgl__item` | Alle aanbieders onder elkaar, één zwarte haarlijn per aanbieder. Geen kaarten en geen schaduw: de pagina moet vergelijkbaar ogen, niet gerangschikt |
+| `.bs-controle` | Wanneer wij de voorwaarden bij de bron hebben nagekeken. Variant `--verlopen` als die controle over tijd is. **Hoort altijd zichtbaar te blijven**; een gegeven zonder datum is niet controleerbaar |
+| `.bs-balken` / `.bs-balk` | Looptijd als balk. **Alle balken delen één schaal** — zonder dat zegt de lengte niets. Massief zwart is de looptijd waar u recht op heeft, gearceerd accent de verlenging, en het wegvagende uiteinde `--open` betekent: verlenging mogelijk, duur niet gepubliceerd |
+| `.bs-schaal` / `.bs-legenda` | De as onder de balken en de uitleg van de drie soorten vulling |
+| `.bs-feiten` / `.bs-feit` | De feiten per aanbieder. Een `detail` in de data rendert hier als `<small>` mee; `tests/nuance.test.mjs` faalt als dat wegvalt. Variant `--proza` voor een veld dat uit lopende tekst bestaat |
+| `.bs-leeg` | **Ontbrekende gegevens blijven zichtbaar leeg.** Nooit invullen met een schatting: dat een aanbieder iets niet publiceert is zelf het antwoord |
+| `.bs-detail` | Alle voorwaarden van één aanbieder als definitielijst. Geen tabel: het zijn label-waardeparen, geen matrix |
+| `.bs-punten` | Opsomming met een vierkant accentblokje. Voor losse constateringen, niet voor stappen die op volgorde staan |
+| `.bs-bronnen` | De bronlinks onderaan een aanbiederpagina. Volledige URL's, zodat te zien is waar een gegeven vandaan komt |
+| `.bs-acties` | Rij knoppen die een sectie afsluit. Werkt op bone en op de zwarte band; heette eerder `.bs-donker__acties` |
+
 ---
 
 ## 5. Naambotsingen
