@@ -68,7 +68,7 @@ Wat daar nu op volgt, in deze volgorde:
 | 4 | `nieuwbouw.html` | **om**, 31-08 |
 | 5 | `depotplanner.html` | **om**, 01-09 |
 | 6 | `belasting.html` | **om**, 01-09 |
-| 7 | `renteverlies-bouwdepot.html` | open |
+| 7 | `renteverlies-bouwdepot.html` | **om**, 01-09 |
 | 8 | `dubbele-lasten-nieuwbouw.html` | open |
 | 9 | `bouwrente-nieuwbouw.html` | open |
 | 10 | `stappenplan.html` + `adviesgesprek-checklist.html` | open — hebben een eigen stylesheet |
@@ -89,6 +89,11 @@ Het patroon per pagina, en dat is niet vrijblijvend:
   paginahoogte die over jouw eigen testinvoer gaat en niet over het ontwerp.
   Dat scheelde bij de begroting 1200px en leek een verslechtering.
 - Uitkomsten bij gelijke invoer vergelijken, niet alleen de opmaak bekijken.
+- **Tel de kinderen van `.bs-reken__grid`: dat moeten er drie zijn** (uitkomst,
+  invoer, acties). Raakt de invoerkolom bij het omzetten ín de uitkomstkolom
+  genest, dan valt het raster terug op één kolom. Op mobiel ziet dat er precies
+  hetzelfde uit en geen enkele test merkt het; op breed scherm staat de invoer
+  dan opeens onder de uitkomst in plaats van ernaast.
 - Nieuwe componenten in [context/componenten.md](context/componenten.md), met
   erbij waar ze **niet** voor zijn.
 

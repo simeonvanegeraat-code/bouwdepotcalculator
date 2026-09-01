@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,175 +35,158 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/design-system.css">
-    <link rel="stylesheet" href="/src/styles/pagina.css">
-    <link rel="stylesheet" href="/src/styles/calculator.css">
+    <link rel="stylesheet" href="/src/styles/broadsheet.css">
 </head>
-<body class="ds">
+<body class="bs">
 
-    <header class="kop">
-        <div class="ds-wrap kop__inner">
-            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
-            <nav aria-label="Hoofdnavigatie">
-                <details class="kop__menu">
-                    <summary><span class="kop__streepjes" aria-hidden="true"></span>Menu</summary>
-                </details>
-                <div class="kop__paneel">
-                    <a href="bouwdepot-berekenen.html">Bereken</a>
-                    <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
-                    <a href="kennisbank.html">Uitleg</a>
-                    <a href="over-ons.html">Over ons</a>
-                </div>
-            </nav>
-        </div>
-
-        <!-- De rekenhulpen bij naam. Zie de toelichting in pagina.css. -->
-        <nav class="toolbalk no-print" aria-label="Rekenhulpen">
-            <div class="ds-wrap toolbalk__inner">
-                <a href="bouwdepot-berekenen.html">Bouwdepot berekenen</a>
-                <a href="verbouwbegroting.html">Verbouwbegroting</a>
-                <a href="leenruimte.html">Leenruimte</a>
-                <a href="maandlasten-bouwdepot.html">Maandlasten</a>
-                <a href="nieuwbouw.html">Nieuwbouwplanning</a>
-                <a href="depotplanner.html">Depotplanner</a>
-                <a href="belasting.html">Belastingvoordeel</a>
+    <header class="bs-kop no-print">
+        <div class="bs-wrap bs-kop__inner">
+            <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <div class="bs-kop__rechts">
+                <a href="bouwdepot-berekenen.html">Bereken</a>
                 <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="kennisbank.html">Uitleg</a>
+                <a class="bs-menu" href="over-ons.html">Over ons</a>
+                <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
-        </nav>
+        </div>
     </header>
 
-    <nav class="kruimel" aria-label="Kruimelpad">
-      <div class="ds-wrap">
-        <ol>
-          <li><a href="/">Home</a></li>
-          <li aria-current="page">Renteverlies</li>
-        </ol>
-      </div>
+    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
+        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Renteverlies</span>
     </nav>
 
+
     <main>
-        <section class="ds-wrap reken" aria-labelledby="reken-titel" id="renteverlies-calc">
-            <div class="aanhef">
-                <p class="ds-eyebrow">Rente versus vergoeding</p>
-                <h1 id="reken-titel">Wat kost het geld dat nog stilstaat in uw depot?</h1>
-                <p class="ds-lead">U betaalt rente over het hele depot, maar ontvangt meestal een vergoeding over wat u nog niet hebt opgenomen. Het verschil is uw renteverlies.</p>
-            </div>
+        <section class="bs-reken" aria-labelledby="reken-titel" id="renteverlies-calc">
+            <div class="bs-wrap">
+                <h1 class="bs-reken__titel" id="reken-titel">Wat kost het geld dat nog stilstaat in uw depot?</h1>
+                <p class="bs-reken__lead">U betaalt rente over het hele depot, maar ontvangt meestal een vergoeding over wat u nog niet hebt opgenomen. Het verschil is uw renteverlies.</p>
 
-            <div class="reken__grid">
-                <div class="reken__uitkomst">
-                    <div class="ds-uitkomst">
-                        <p class="ds-uitkomst__label">Geschat renteverschil</p>
-                        <strong class="ds-uitkomst__bedrag" id="res-renteverlies-netto" data-bedrag>&euro; 0</strong>
-                        <p class="ds-uitkomst__toelichting" id="res-renteverlies-period-pattern">Over 0 maanden, bij gelijkmatig opgenomen.</p>
 
-                        <dl class="ds-uitsplitsing">
-                            <div><span>Gemiddeld per maand</span><strong id="res-renteverlies-maand" data-bedrag>&euro; 0</strong></div>
-                            <div><span>Betaalde hypotheekrente</span><strong id="res-renteverlies-hypotheek" data-bedrag>&euro; 0</strong></div>
-                            <div><span>Ontvangen depotvergoeding</span><strong id="res-renteverlies-vergoeding" data-bedrag>&euro; 0</strong></div>
+            <div class="bs-reken__grid">
+                <div>
+                    <article class="bs-blad ds-uitkomst">
+                        <div class="bs-blad__kop">
+                            <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
+                            <span class="bs-blad__stempel">Renteverschil</span>
+                        </div>
+
+                        <div class="bs-antwoord">
+                            <p class="bs-antwoord__label ds-uitkomst__label">Geschat renteverschil</p>
+                            <strong class="bs-antwoord__bedrag ds-uitkomst__bedrag" id="res-renteverlies-netto" data-bedrag>&euro; 0</strong>
+                            <p class="bs-antwoord__zin" id="res-renteverlies-period-pattern">Over 0 maanden, bij gelijkmatig opgenomen.</p>
+                        </div>
+
+                        <dl class="bs-uitsplitsing">
+                            <div><dt>Gemiddeld per maand</dt><dd class="tnum" id="res-renteverlies-maand" data-bedrag>&euro; 0</dd></div>
+                            <div><dt>Betaalde hypotheekrente</dt><dd class="tnum" id="res-renteverlies-hypotheek" data-bedrag>&euro; 0</dd></div>
+                            <div><dt>Ontvangen depotvergoeding</dt><dd class="tnum" id="res-renteverlies-vergoeding" data-bedrag>&euro; 0</dd></div>
                         </dl>
 
-                        <p class="notitie" id="res-renteverlies-conclusie" style="margin-top: var(--ds-4)">Vul uw gegevens in voor een indicatie.</p>
+                        <p class="bs-notitie" id="res-renteverlies-conclusie">Vul uw gegevens in voor een indicatie.</p>
 
-                        <details class="uitleg-details">
-                            <summary>Uitgangspunten en aannames</summary>
-                            <div class="uitleg-details__body">
-                                <p class="ds-caption" id="res-renteverlies-method">Indicatieve maandbenadering op basis van gekozen opnamepatroon; werkelijke bankboekingen en opnamedata kunnen afwijken.</p>
-                                <ul class="ds-uitsplitsing ds-uitsplitsing--vlak">
-                                    <li><span>Bouwdepotbedrag</span><strong id="sum-renteverlies-depot">&euro; 0</strong></li>
-                                    <li><span>Hypotheekrente</span><strong id="sum-renteverlies-mortgage-rate">-</strong></li>
-                                    <li><span>Depotvergoeding</span><strong id="sum-renteverlies-depot-rate">-</strong></li>
-                                    <li><span>Bouwperiode</span><strong id="sum-renteverlies-months">-</strong></li>
-                                    <li><span>Vergoeding loopt</span><strong id="sum-renteverlies-payout">-</strong></li>
-                                    <li><span>Opnamepatroon</span><strong id="sum-renteverlies-pattern">-</strong></li>
-                                </ul>
-                                <p class="ds-caption" id="report-renteverlies-generated-at">Berekening klaar voor vergelijking.</p>
+                        <p class="bs-blad__voet">Indicatief &middot; informatie, geen advies</p>
+                    </article>
+
+                        <details class="bs-uitklap bs-aannames">
+                            <summary><span><b>Uitgangspunten en aannames</b><small>Waarmee deze berekening wel en niet rekent</small></span></summary>
+                            <div class="bs-uitklap__body">
+                                <p class="bs-hulp" id="res-renteverlies-method">Indicatieve maandbenadering op basis van gekozen opnamepatroon; werkelijke bankboekingen en opnamedata kunnen afwijken.</p>
+                                <dl class="bs-uitsplitsing">
+                                    <div><dt>Bouwdepotbedrag</dt><dd class="tnum" id="sum-renteverlies-depot">&euro; 0</dd></div>
+                                    <div><dt>Hypotheekrente</dt><dd class="tnum" id="sum-renteverlies-mortgage-rate">&mdash;</dd></div>
+                                    <div><dt>Depotvergoeding</dt><dd class="tnum" id="sum-renteverlies-depot-rate">&mdash;</dd></div>
+                                    <div><dt>Bouwperiode</dt><dd class="tnum" id="sum-renteverlies-months">&mdash;</dd></div>
+                                    <div><dt>Vergoeding loopt</dt><dd class="tnum" id="sum-renteverlies-payout">&mdash;</dd></div>
+                                    <div><dt>Opnamepatroon</dt><dd class="tnum" id="sum-renteverlies-pattern">&mdash;</dd></div>
+                                </dl>
+                                <p class="bs-hulp" id="report-renteverlies-generated-at">Berekening klaar voor vergelijking.</p>
                             </div>
                         </details>
 
-                        <div class="uitkomst-acties no-print">
-                            <button id="btn-download-renteverlies" class="ds-knop ds-knop--rustig" type="button">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
-                                Overzicht printen of opslaan
-                            </button>
-                        </div>
-                    </div>
-
-                    <p class="ds-caption no-print" style="margin-top: var(--ds-3)">Dit is een verschil vóór belasting. Renteaftrek is niet verwerkt; gebruik daarvoor de <a href="belasting.html">belastingcalculator</a>.</p>
                 </div>
 
-                <div class="reken__invoer">
-                    <div data-bankkeuze style="margin-bottom: var(--ds-5)"></div>
+                <div class="bs-invoer">
+                    <div data-bankkeuze></div>
 
-                    <div class="ds-veld">
-                        <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-renteverlies-model">Hoe rekent uw geldverstrekker?</label></div>
-                        <select class="ds-invoer" id="input-renteverlies-model">
+                    <div>
+                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-renteverlies-model">Hoe rekent uw geldverstrekker?</label></div>
+                        <select class="bs-select" id="input-renteverlies-model">
                             <option value="vergoeding">Rente over het hele depot, mét vergoeding</option>
                             <option value="opname">Alleen rente over het opgenomen deel</option>
                         </select>
-                        <p class="ds-caption">Dit bepaalt of er überhaupt renteverlies kan ontstaan. Kiest u hierboven uw bank, dan vullen wij het in. <a href="bouwdepot-voorwaarden-vergelijken.html">Alle aanbieders vergelijken</a>.</p>
-                        <p class="notitie" id="renteverlies-model-note" aria-live="polite" style="margin-top: var(--ds-3)"></p>
+                        <p class="bs-hulp">Dit bepaalt of er überhaupt renteverlies kan ontstaan. Kiest u hierboven uw bank, dan vullen wij het in. <a href="bouwdepot-voorwaarden-vergelijken.html">Alle aanbieders vergelijken</a>.</p>
+                        <p class="bs-notitie" id="renteverlies-model-note" aria-live="polite"></p>
                     </div>
 
-                    <div class="ds-chips" role="group" aria-label="Voorbeeldscenario's" style="margin-bottom: var(--ds-5)">
-                        <button type="button" class="ds-chip renteverlies-scenario" data-depot="25000" data-mortgage-rate="3.9" data-depot-rate="3.1" data-months="12" data-pattern="even">&euro; 25.000</button>
-                        <button type="button" class="ds-chip renteverlies-scenario" data-depot="50000" data-mortgage-rate="4.0" data-depot-rate="3.0" data-months="12" data-pattern="even">&euro; 50.000</button>
-                        <button type="button" class="ds-chip renteverlies-scenario" data-depot="100000" data-mortgage-rate="4.2" data-depot-rate="3.1" data-months="16" data-pattern="slow">&euro; 100.000</button>
-                        <button type="button" class="ds-chip renteverlies-scenario" data-depot="50000" data-mortgage-rate="4.0" data-depot-rate="3.0" data-months="12" data-pattern="fast">Snelle opname</button>
-                        <button type="button" class="ds-chip renteverlies-scenario" data-depot="50000" data-mortgage-rate="4.0" data-depot-rate="3.0" data-months="12" data-pattern="slow">Latere opname</button>
+                    <div class="bs-chips" role="group" aria-label="Voorbeeldscenario's">
+                        <button type="button" class="bs-chip renteverlies-scenario" data-depot="25000" data-mortgage-rate="3.9" data-depot-rate="3.1" data-months="12" data-pattern="even">&euro; 25.000</button>
+                        <button type="button" class="bs-chip renteverlies-scenario" data-depot="50000" data-mortgage-rate="4.0" data-depot-rate="3.0" data-months="12" data-pattern="even">&euro; 50.000</button>
+                        <button type="button" class="bs-chip renteverlies-scenario" data-depot="100000" data-mortgage-rate="4.2" data-depot-rate="3.1" data-months="16" data-pattern="slow">&euro; 100.000</button>
+                        <button type="button" class="bs-chip renteverlies-scenario" data-depot="50000" data-mortgage-rate="4.0" data-depot-rate="3.0" data-months="12" data-pattern="fast">Snelle opname</button>
+                        <button type="button" class="bs-chip renteverlies-scenario" data-depot="50000" data-mortgage-rate="4.0" data-depot-rate="3.0" data-months="12" data-pattern="slow">Latere opname</button>
                     </div>
 
-                    <div class="ds-veld">
-                        <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-renteverlies-depot">Bouwdepotbedrag</label></div>
-                        <div class="prefix-veld"><span>&euro;</span><input class="ds-invoer" type="text" id="input-renteverlies-depot" value="50000" inputmode="numeric"></div>
+                    <div>
+                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-renteverlies-depot">Bouwdepotbedrag</label></div>
+                        <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-renteverlies-depot" value="50000" inputmode="numeric"></div>
                     </div>
 
-                    <div class="veldrij veldrij--twee">
-                        <div class="ds-veld">
-                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-renteverlies-hypotheek">Hypotheekrente</label></div>
-                            <div class="suffix-veld"><input class="ds-invoer" type="text" id="input-renteverlies-hypotheek" value="4,0" inputmode="decimal"><span>%</span></div>
+                    <div class="bs-veldrij">
+                        <div>
+                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-renteverlies-hypotheek">Hypotheekrente</label></div>
+                            <div class="bs-omhulsel"><input type="text" id="input-renteverlies-hypotheek" value="4,0" inputmode="decimal"><span>%</span></div>
                         </div>
-                        <div class="ds-veld">
-                            <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-renteverlies-vergoeding">Depotvergoeding</label></div>
-                            <div class="suffix-veld"><input class="ds-invoer" type="text" id="input-renteverlies-vergoeding" value="3,0" inputmode="decimal"><span>%</span></div>
+                        <div>
+                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-renteverlies-vergoeding">Depotvergoeding</label></div>
+                            <div class="bs-omhulsel"><input type="text" id="input-renteverlies-vergoeding" value="3,0" inputmode="decimal"><span>%</span></div>
                         </div>
                     </div>
 
-                    <div class="ds-veld">
-                        <div class="ds-veld__kop">
-                            <label class="ds-veld__naam" for="input-renteverlies-maanden">Bouwperiode</label>
-                            <span class="ds-veld__waarde tnum"><input class="ds-invoer ds-invoer--kort" type="number" id="input-renteverlies-maanden" value="12" min="1" max="36" step="1" inputmode="numeric"> mnd</span>
+                    <div>
+                        <div class="bs-veld__kop">
+                            <label class="bs-veld__naam" for="input-renteverlies-maanden">Bouwperiode</label>
+                            <span class="bs-veld__waarde tnum"><input class="bs-kort" type="number" id="input-renteverlies-maanden" value="12" min="1" max="36" step="1" inputmode="numeric"> mnd</span>
                         </div>
-                        <input class="ds-schuif" type="range" id="range-renteverlies-maanden" min="1" max="36" step="1" value="12" aria-label="Bouwperiode in maanden">
+                        <input class="bs-schuif" type="range" id="range-renteverlies-maanden" min="1" max="36" step="1" value="12" aria-label="Bouwperiode in maanden">
                     </div>
 
-                    <div class="ds-veld" id="veld-vergoedingsduur">
-                        <div class="ds-veld__kop">
-                            <label class="ds-veld__naam" for="input-renteverlies-vergoedingsduur">Vergoeding loopt</label>
-                            <span class="ds-veld__waarde tnum"><input class="ds-invoer ds-invoer--kort" type="number" id="input-renteverlies-vergoedingsduur" value="12" min="0" max="36" step="1" inputmode="numeric"> mnd</span>
+                    <div id="veld-vergoedingsduur">
+                        <div class="bs-veld__kop">
+                            <label class="bs-veld__naam" for="input-renteverlies-vergoedingsduur">Vergoeding loopt</label>
+                            <span class="bs-veld__waarde tnum"><input class="bs-kort" type="number" id="input-renteverlies-vergoedingsduur" value="12" min="0" max="36" step="1" inputmode="numeric"> mnd</span>
                         </div>
-                        <p class="ds-caption" id="renteverlies-duur-note">Vrijwel geen enkele aanbieder vergoedt de hele looptijd. Staat dit getal lager dan uw bouwperiode, dan telt de vergoeding alleen over de eerste maanden mee.</p>
+                        <p class="bs-hulp" id="renteverlies-duur-note">Vrijwel geen enkele aanbieder vergoedt de hele looptijd. Staat dit getal lager dan uw bouwperiode, dan telt de vergoeding alleen over de eerste maanden mee.</p>
                     </div>
 
-                    <div class="ds-veld">
-                        <div class="ds-veld__kop"><label class="ds-veld__naam" for="input-renteverlies-pattern">Wanneer gebruikt u het depot?</label></div>
-                        <select class="ds-invoer" id="input-renteverlies-pattern">
+                    <div>
+                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-renteverlies-pattern">Wanneer gebruikt u het depot?</label></div>
+                        <select class="bs-select" id="input-renteverlies-pattern">
                             <option value="even">Gelijkmatig opgenomen</option>
                             <option value="fast">Snelle opname in het begin</option>
                             <option value="slow">Vooral later opgenomen</option>
                         </select>
-                        <p class="ds-caption" id="renteverlies-pattern-note">Bij gelijkmatig opnemen daalt het resterende depot in gelijke stappen.</p>
+                        <p class="bs-hulp" id="renteverlies-pattern-note">Bij gelijkmatig opnemen daalt het resterende depot in gelijke stappen.</p>
                     </div>
+                </div>
+
+                <div class="bs-reken__na no-print">
+                    <button id="btn-download-renteverlies" class="bs-knop bs-knop--licht" type="button">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
+                        Overzicht printen of opslaan
+                    </button>
+                    <p class="bs-voorbehoud">Dit is een verschil vóór belasting. Renteaftrek is niet verwerkt; gebruik daarvoor de <a href="belasting.html">belastingcalculator</a>.</p>
                 </div>
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--gevuld">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Twee rekenmodellen</p>
-                    <h2 class="ds-title">Bij de ene bank bestaat renteverlies, bij de andere niet</h2>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Twee rekenmodellen</p>
+                    <h2 class="bs-titel">Bij de ene bank bestaat renteverlies, bij de andere niet</h2>
                 </div>
-                <div class="uitleg">
+                <div class="bs-kolommen">
                     <article>
                         <h3>Model 1: rente over het hele depot, met vergoeding</h3>
                         <p>Dit hanteren de meeste aanbieders. U betaalt vanaf het passeren hypotheekrente over het volledige depot, en ontvangt daarover een vergoeding zolang het geld er nog staat. Ligt die vergoeding lager dan uw hypotheekrente, dan is het verschil uw renteverlies. Eén van de acht vergeleken aanbieders vergoedt bewust 1% minder dan u betaalt.</p>
@@ -224,11 +207,10 @@
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Zo rekent de tool</p>
-                    <h2 class="ds-title">Formule en aannames</h2>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Zo rekent de tool</p>
+                    <h2 class="bs-titel">Formule en aannames</h2>
                 </div>
 
                 <p><strong>Model 1: rente over het hele depot, met vergoeding.</strong></p>
@@ -253,74 +235,72 @@
                     <li>Is de depotvergoeding hoger dan de hypotheekrente, dan kan het model een negatief verschil tonen. Controleer of uw voorwaarden dat toestaan.</li>
                 </ul>
 
-                <p class="ds-caption" style="margin-top: var(--ds-4)">Banken kunnen rente per dag berekenen, de vergoeding anders boeken of een maximale depotduur hanteren. Vergelijk de uitkomst met uw offerte en afschriften. De volledige werkwijze staat op de pagina <a href="methodologie.html">methodologie</a>.</p>
+                <p class="bs-hulp" style="margin-top: var(--ds-4)">Banken kunnen rente per dag berekenen, de vergoeding anders boeken of een maximale depotduur hanteren. Vergelijk de uitkomst met uw offerte en afschriften. De volledige werkwijze staat op de pagina <a href="methodologie.html">methodologie</a>.</p>
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--diep">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Eigen onderzoek</p>
-                    <h2 class="ds-title">Wat uw bank vergoedt, bepaalt of dit bedrag bestaat</h2>
-                    <p class="ds-lead">Wij zochten de depotvoorwaarden van acht geldverstrekkers op bij de bron. De verschillen zijn groter dan verwacht.</p>
+        <section class="bs-donker">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Eigen onderzoek</p>
+                    <h2 class="bs-titel">Wat uw bank vergoedt, bepaalt of dit bedrag bestaat</h2>
+                    <p class="bs-reken__lead">Wij zochten de depotvoorwaarden van acht geldverstrekkers op bij de bron. De verschillen zijn groter dan verwacht.</p>
                 </div>
-                <div class="kern">
-                    <div class="kern__item">
-                        <p class="kern__cijfer tnum">1<span class="kern__van">/8</span></p>
-                        <p class="kern__eenheid">kent geen renteverlies</p>
-                        <p class="kern__tekst">Eén aanbieder rekent alleen rente over het opgenomen deel. Daar levert deze berekening per definitie nul op.</p>
+                <div class="bs-kern">
+                    <div class="bs-kern__item">
+                        <p class="bs-kern__cijfer tnum">1<span class="kern__van">/8</span></p>
+                        <p class="bs-kern__eenheid">kent geen renteverlies</p>
+                        <p class="bs-kern__tekst">Eén aanbieder rekent alleen rente over het opgenomen deel. Daar levert deze berekening per definitie nul op.</p>
                     </div>
-                    <div class="kern__item">
-                        <p class="kern__cijfer tnum">1%</p>
-                        <p class="kern__eenheid">onder de hypotheekrente</p>
-                        <p class="kern__tekst">Eén aanbieder vergoedt bij een verbouwdepot bewust minder dan u betaalt. Daar ontstaat een werkelijk verschil.</p>
+                    <div class="bs-kern__item">
+                        <p class="bs-kern__cijfer tnum">1%</p>
+                        <p class="bs-kern__eenheid">onder de hypotheekrente</p>
+                        <p class="bs-kern__tekst">Eén aanbieder vergoedt bij een verbouwdepot bewust minder dan u betaalt. Daar ontstaat een werkelijk verschil.</p>
                     </div>
-                    <div class="kern__item">
-                        <p class="kern__cijfer tnum">5<span class="kern__van">/8</span></p>
-                        <p class="kern__eenheid">stopt de vergoeding eerder</p>
-                        <p class="kern__tekst">De vergoeding loopt bij vier aanbieders korter dan het depot. Daarna betaalt u rente zonder tegenprestatie.</p>
+                    <div class="bs-kern__item">
+                        <p class="bs-kern__cijfer tnum">5<span class="kern__van">/8</span></p>
+                        <p class="bs-kern__eenheid">stopt de vergoeding eerder</p>
+                        <p class="bs-kern__tekst">De vergoeding loopt bij vier aanbieders korter dan het depot. Daarna betaalt u rente zonder tegenprestatie.</p>
                     </div>
                 </div>
-                <p style="margin-top: var(--ds-6)">
-                    <a class="ds-knop ds-knop--rustig" href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de vergelijking</a>
-                </p>
-            </div>
-        </section>
-
-        <section class="ds-sectie">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Verder rekenen</p>
-                    <h2 class="ds-title">Andere vragen over uw bouwdepot</h2>
-                </div>
-                <div class="ds-keuzes">
-                    <a class="ds-keuze" href="depotplanner.html">
-                        <span class="ds-keuze__titel">Wanneer stopt uw vergoeding?</span>
-                        <span class="ds-keuze__uitleg">Het renteverlies loopt op vanaf de maand waarin de vergoeding afloopt. De planner zet die datum en uw einddatum op een rij.</span>
-                        <span class="ds-keuze__meta">Naar de depotplanner &rarr;</span>
-                    </a>
-                    <a class="ds-keuze" href="maandlasten-bouwdepot.html">
-                        <span class="ds-keuze__titel">Maandlast tijdens de bouw</span>
-                        <span class="ds-keuze__uitleg">Wat u per maand kwijt bent zolang het depot nog niet leeg is.</span>
-                        <span class="ds-keuze__meta">Maandlasten berekenen &rarr;</span>
-                    </a>
-                    <a class="ds-keuze" href="belasting.html">
-                        <span class="ds-keuze__titel">Fiscaal effect</span>
-                        <span class="ds-keuze__uitleg">Wat renteaftrek met uw netto plaatje doet, op basis van inkomen en WOZ.</span>
-                        <span class="ds-keuze__meta">Belastingeffect berekenen &rarr;</span>
-                    </a>
-                    <a class="ds-keuze" href="bouwrente-nieuwbouw.html">
-                        <span class="ds-keuze__titel">Bouwrente bij nieuwbouw</span>
-                        <span class="ds-keuze__uitleg">Een ander soort rente, die vóór het passeren van de akte speelt.</span>
-                        <span class="ds-keuze__meta">Bouwrente bekijken &rarr;</span>
-                    </a>
+                <div class="bs-donker__acties">
+                    <a class="bs-knop bs-knop--spook" href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de vergelijking</a>
                 </div>
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap">
-                <div class="melding">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Verder rekenen</p>
+                    <h2 class="bs-titel">Andere vragen over uw bouwdepot</h2>
+                </div>
+                <div class="bs-rooster">
+                    <a class="bs-tool" href="depotplanner.html">
+                        <span class="bs-tool__naam">Wanneer stopt uw vergoeding?</span>
+                        <span class="bs-tool__uitleg">Het renteverlies loopt op vanaf de maand waarin de vergoeding afloopt. De planner zet die datum en uw einddatum op een rij.</span>
+                        <span class="bs-tool__meta">Naar de depotplanner &rarr;</span>
+                    </a>
+                    <a class="bs-tool" href="maandlasten-bouwdepot.html">
+                        <span class="bs-tool__naam">Maandlast tijdens de bouw</span>
+                        <span class="bs-tool__uitleg">Wat u per maand kwijt bent zolang het depot nog niet leeg is.</span>
+                        <span class="bs-tool__meta">Maandlasten berekenen &rarr;</span>
+                    </a>
+                    <a class="bs-tool" href="belasting.html">
+                        <span class="bs-tool__naam">Fiscaal effect</span>
+                        <span class="bs-tool__uitleg">Wat renteaftrek met uw netto plaatje doet, op basis van inkomen en WOZ.</span>
+                        <span class="bs-tool__meta">Belastingeffect berekenen &rarr;</span>
+                    </a>
+                    <a class="bs-tool" href="bouwrente-nieuwbouw.html">
+                        <span class="bs-tool__naam">Bouwrente bij nieuwbouw</span>
+                        <span class="bs-tool__uitleg">Een ander soort rente, die vóór het passeren van de akte speelt.</span>
+                        <span class="bs-tool__meta">Bouwrente bekijken &rarr;</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <div class="bs-melding">
                     <p><strong>Indicatief hulpmiddel.</strong> Deze berekening gebruikt vaste rentepercentages en een geschat opnamepatroon. Werkelijke bankboekingen, opnamedata en voorwaarden kunnen afwijken.</p>
                     <p>Lees de <a href="methodologie.html">rekenregels en bekende beperkingen</a>. Uw invoer blijft op dit apparaat.</p>
                 </div>
@@ -328,53 +308,17 @@
         </section>
     </main>
 
-    <footer class="voet">
-        <div class="ds-wrap">
-            <nav class="voet__kolommen" aria-label="Voettekst">
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-verbouwen">Verbouwen</p>
-                    <ul aria-labelledby="voet-verbouwen">
-                        <li><a href="bouwdepot-berekenen.html">Bouwdepot berekenen</a></li>
-                        <li><a href="verbouwbegroting.html">Verbouwbegroting</a></li>
-                        <li><a href="leenruimte.html">Leenruimte</a></li>
-                        <li><a href="maandlasten-bouwdepot.html">Maandlasten bouwdepot</a></li>
-                        <li><a href="renteverlies-bouwdepot.html">Renteverlies</a></li>
-                        <li><a href="belasting.html">Belastingvoordeel</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-nieuwbouw">Nieuwbouw</p>
-                    <ul aria-labelledby="voet-nieuwbouw">
-                        <li><a href="nieuwbouw.html">Nieuwbouwplanning</a></li>
-                        <li><a href="bouwrente-nieuwbouw.html">Bouwrente</a></li>
-                        <li><a href="dubbele-lasten-nieuwbouw.html">Dubbele lasten</a></li>
-                        <li><a href="depotplanner.html">Depotplanner</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-uitleg">Uitleg en hulpmiddelen</p>
-                    <ul aria-labelledby="voet-uitleg">
-                        <li><a href="kennisbank.html">Kennisbank</a></li>
-                        <li><a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a></li>
-                        <li><a href="stappenplan.html">Stappenplan</a></li>
-                        <li><a href="adviesgesprek-checklist.html">Adviesgesprek-checklist</a></li>
-                        <li><a href="bouwdepot-declaratie-afgewezen.html">Declaratie afgewezen</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-site">Over deze site</p>
-                    <ul aria-labelledby="voet-site">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="over-ons.html">Over ons</a></li>
-                        <li><a href="methodologie.html">Methodologie</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="privacy.html">Privacy</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="voorwaarden.html">Voorwaarden</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <p class="ds-caption">&copy; 2026 BouwdepotCalculator.nl &middot; Onafhankelijk informatieplatform, geen aanbieder van hypotheken.</p>
+    <div class="bs-band no-print" aria-hidden="true">
+        <div class="bs-band__spoor">
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+        </div>
+    </div>
+
+    <footer class="bs-voet no-print">
+        <div class="bs-wrap bs-voet__inner">
+            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
         </div>
     </footer>
 
