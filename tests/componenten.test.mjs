@@ -19,7 +19,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const STYLESHEETS = ['design-system.css', 'pagina.css', 'calculator.css', 'stappenplan.css', 'broadsheet.css'];
+const STYLESHEETS = ['design-system.css', 'pagina.css', 'calculator.css', 'broadsheet.css'];
 
 const lijst = fs.readFileSync(path.join(ROOT, 'context/componenten.md'), 'utf8');
 
@@ -77,22 +77,29 @@ test('de lijst noemt geen componenten die niet meer bestaan', () => {
 });
 
 /**
- * De vijf bekende naambotsingen staan in §6 beschreven. Komt er een zesde bij,
- * dan hoort die er ook in: twee stylesheets die dezelfde klasse definiëren
- * werken alleen zolang de volgorde van de link-regels toevallig goed staat.
+ * De bekende naambotsingen staan in de sectie Naambotsingen beschreven. Komt
+ * er een bij, dan hoort die er ook in: twee stylesheets die dezelfde klasse
+ * definiëren werken alleen zolang de volgorde van de link-regels toevallig
+ * goed staat.
+ *
+ * Zoekt op de kop en niet op het sectienummer: bij een hernummering wees dat
+ * nummer nergens meer naar en slaagde deze toets zonder nog iets te toetsen.
  */
 test('nieuwe naambotsingen zijn beschreven', () => {
     const botsingen = [...alleComponenten()]
         .filter(([, bestanden]) => bestanden.length > 1)
         .map(([klasse]) => klasse);
 
+    const kop = lijst.search(/^## [0-9]+[.] Naambotsingen$/m);
+    assert.notEqual(kop, -1, 'de sectie Naambotsingen ontbreekt in componenten.md');
+
     const onbeschreven = botsingen.filter((k) => {
-        const na = lijst.slice(lijst.indexOf('## 6. Naambotsingen'));
+        const na = lijst.slice(kop);
         return !na.includes(`\`.${k}\``);
     });
 
     assert.deepEqual(
         onbeschreven, [],
-        `deze klassen staan in twee stylesheets en horen in §6 van de lijst:\n    ${onbeschreven.join('\n    ')}`,
+        `deze klassen staan in twee stylesheets en horen in de sectie Naambotsingen:\n    ${onbeschreven.join('\n    ')}`,
     );
 });

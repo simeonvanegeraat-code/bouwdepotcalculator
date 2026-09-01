@@ -43,7 +43,7 @@ const ROOT = path.resolve(import.meta.dirname, '..');
  * de andere drie verdwijnen, en er blijft één set van {400, 500, 600} over.
  */
 const RICHTINGEN = [
-    { toegestaan: new Set([400, 600, 700]), bestanden: ['design-system.css', 'pagina.css', 'calculator.css', 'stappenplan.css'] },
+    { toegestaan: new Set([400, 600, 700]), bestanden: ['design-system.css', 'pagina.css', 'calculator.css'] },
     { toegestaan: new Set([400, 500, 600]), bestanden: ['broadsheet.css'] },
 ];
 

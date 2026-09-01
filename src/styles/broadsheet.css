@@ -674,7 +674,7 @@
    de depotplanner zonder opmaak, en dat merkt geen enkele test.
 
    Veilig zolang geen pagina beide stylesheets laadt. Bij de laatste gebruiker
-   gaan ze in één keer om. Zie §6 van context/componenten.md.
+   gaan ze in één keer om. Zie §5 van context/componenten.md.
    ========================================================================== */
 
 /* --- Het maandverloop als eigen SVG ------------------------------------
@@ -835,3 +835,84 @@
 /* Variant van de melding met een amber rand: dit is een waarschuwing die alleen
    in bepaalde situaties speelt, geen algemene mededeling. */
 .bs-melding--let-op { border-left-color: #c9821f; background: #fdf9f3; }
+
+/* ==========================================================================
+   Afvinklijsten: stappenplan en advieschecklist
+   --------------------------------------------------------------------------
+   Kwamen uit `stappenplan.css`, dat alleen deze twee pagina's bediende en met
+   de omzetting vervalt. De oude versie zette elke fase in een omkaderde kaart;
+   hier doen haarlijnen dat werk, zoals overal in deze richting.
+   ========================================================================== */
+
+/* De voortgangsbalk. Het percentage is hier het antwoord op de pagina, dus het
+   krijgt de antwoordmaat -- niet omdat het groot moet, maar omdat een bezoeker
+   die terugkomt in één oogopslag wil zien hoe ver hij was. */
+.bs-voortgang { margin-top: clamp(28px, 4vw, 44px); padding-top: 18px; border-top: 1px solid var(--bs-ink); }
+.bs-voortgang__kop { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 12px; }
+.bs-voortgang__kop span { font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+.bs-voortgang__kop strong { font-size: clamp(30px, 4vw, 46px); font-weight: 500; letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* Vier pixels en rechte hoeken: een pil zou het enige ronde element op de
+   pagina zijn. De vulling krijgt het accent, want dit is voortgang en dus de
+   enige plek op deze pagina waar kleur iets betekent. */
+.bs-spoor { height: 4px; background: var(--bs-lijn); }
+.bs-spoor__vulling { height: 100%; width: 0; background: var(--bs-accent); transition: width .35s cubic-bezier(.2, .7, .3, 1); }
+
+.bs-voortgang__acties { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+/* Een voorbehoud direct onder de knoppen plakte er met de acht pixels van
+   .bs-hulp tegenaan. Het is een andere gedachte en hoort op afstand te staan. */
+.bs-voortgang + .bs-hulp { margin-top: 22px; }
+
+/* --- De fasen ------------------------------------------------------------ */
+.bs-fasen { display: grid; gap: clamp(28px, 4vw, 48px); }
+@media (min-width: 900px) { .bs-fasen { grid-template-columns: 1fr 1fr; } }
+
+.bs-fase { padding-top: 16px; border-top: 1px solid var(--bs-ink); }
+.bs-fase__nr { margin: 0 0 6px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-accent); }
+.bs-fase h2 { margin: 0; font-size: clamp(22px, 2.4vw, 30px); font-weight: 500; line-height: 1.1; letter-spacing: -.03em; }
+.bs-fase__intro { margin: 10px 0 18px; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-newsprint); }
+.bs-fase__intro a { color: var(--bs-ink); }
+
+/* Een controlepunt om af te vinken. Heet bewust niet `bs-stap`: die naam is al
+   van de tijdlijn op de depotplanner, en dat is iets heel anders. */
+.bs-punt { display: flex; align-items: flex-start; gap: 14px; padding: 13px 0; min-height: var(--bs-tap); border-top: 1px solid var(--bs-lijn); cursor: pointer; }
+.bs-punt input { flex: none; width: 20px; height: 20px; margin-top: 2px; accent-color: var(--bs-accent); }
+.bs-punt span { font-size: var(--bs-t-klein); line-height: 1.5; color: var(--bs-newsprint); }
+.bs-punt strong { display: block; margin-bottom: 3px; font-weight: 500; color: var(--bs-ink); }
+/* Afgevinkt zakt terug maar blijft leesbaar: de bezoeker moet kunnen nalezen
+   wat hij heeft afgevinkt. */
+.bs-punt:has(input:checked) strong { color: var(--bs-newsprint); text-decoration: line-through; }
+
+/* --- Wat u wanneer bewaart ----------------------------------------------- */
+.bs-dossier { display: grid; gap: clamp(24px, 3vw, 36px); }
+@media (min-width: 700px) { .bs-dossier { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .bs-dossier { grid-template-columns: repeat(4, 1fr); } }
+
+.bs-dossier__moment { padding-top: 16px; border-top: 1px solid var(--bs-ink); }
+.bs-dossier__moment h3 { margin: 0 0 14px; font-size: var(--bs-t-lead); font-weight: 500; letter-spacing: -.02em; }
+.bs-dossier__moment dl { display: grid; gap: 14px; margin: 0; }
+.bs-dossier__moment dt { margin-bottom: 3px; font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+.bs-dossier__moment dd { margin: 0; font-size: var(--bs-t-klein); line-height: 1.5; }
+
+/* --- Het invulvel op de advieschecklist ----------------------------------
+   Bedoeld om af te drukken en met een pen in te vullen; op het scherm laat het
+   zien welke kolommen u straks nodig heeft. */
+.bs-vel { border-top: 1px solid var(--bs-ink); }
+.bs-vel__rij { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 14px 0; border-bottom: 1px solid var(--bs-lijn); }
+.bs-vel__rij strong { font-size: var(--bs-t-klein); font-weight: 500; }
+.bs-vel__rij--kop { display: none; }
+.bs-invul { display: block; min-height: 30px; border-bottom: 1px dashed var(--bs-lijn); }
+
+@media (min-width: 720px) {
+    .bs-vel__rij { grid-template-columns: 6rem repeat(5, 1fr); gap: 16px; align-items: center; }
+    .bs-vel__rij--kop { display: grid; padding-bottom: 8px; }
+    .bs-vel__rij--kop span { font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+}
+
+@media print {
+    /* Op papier past de tweekolomsopzet wel, ook als het scherm smal was. */
+    .bs-fasen { grid-template-columns: 1fr 1fr; }
+    .bs-fase, .bs-voortgang, .bs-dossier__moment, .bs-vel__rij { break-inside: avoid; }
+    .bs-vel__rij--kop { display: grid; }
+    .bs-vel__rij { grid-template-columns: 6rem repeat(5, 1fr); }
+}

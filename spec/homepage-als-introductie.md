@@ -117,7 +117,7 @@ gebouwd zijn. `broadsheet.css` is de migratiedoos en verhuist naar
 
 **Gewijzigd**
 `index.html` (volledig herschreven), `vite.config.js` (ingang),
-`public/sitemap.xml` (url + lastmod), `context/componenten.md` (§5),
+`public/sitemap.xml` (url + lastmod), `context/componenten.md` (§4),
 `tests/componenten.test.mjs` (bewaakt nu ook broadsheet.css),
 `ONTWERPPLAN.md` (§3 en de fasen 2 en 3), `review.md`, `roadmap.md`, en de
 interne links in alle 31 pagina's.

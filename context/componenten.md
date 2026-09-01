@@ -199,21 +199,7 @@ Geladen door de tien rekenpagina's plus de depotplanner en de begroting.
 
 ---
 
-## 4. Stappenplan — `stappenplan.css`
-
-Geladen door `stappenplan.html` en `adviesgesprek-checklist.html`.
-
-| Component | Waarvoor |
-|---|---|
-| `.voortgang` / `.plan-progress-track` | Voortgangsbalk |
-| `.fasen` / `.fase` | De fasen van het plan |
-| `.stap` | Aanvinkbaar controlepunt met een ruim raakvlak. **Naambotsing, zie §6** |
-| `.dossier` | Dossiermatrix |
-| `.scenariovel` | Invulbaar scenariovel op de advieschecklist |
-
----
-
-## 5. De broadsheet-richting — `broadsheet.css`
+## 4. De broadsheet-richting — `broadsheet.css`
 
 Geladen door `bouwdepot-berekenen.html`, en straks door de homepage. Dit is de
 nieuwe ontwerptaal uit [ONTWERPPLAN.md](../ONTWERPPLAN.md) §3.
@@ -344,11 +330,25 @@ keer om en verdwijnt de dubbeling.
 | `.bs-aannames` | Uitklapblok met de uitgangspunten van de berekening |
 | `.bs-rooster` / `.bs-tool` | Gereedschapsrooster met haarlijnen als raster, geen losse kaarten. Variant `--inline` voor één tool tussen de invoervelden |
 
+### Afvinklijsten
+
+Kwamen uit `stappenplan.css`, dat alleen `stappenplan.html` en
+`adviesgesprek-checklist.html` bediende. Dat bestand is met de omzetting van
+die twee pagina's verwijderd.
+
+| Component | Waarvoor |
+|---|---|
+| `.bs-voortgang` / `.bs-spoor` | Hoeveel punten er af zijn. `checklist.js` zoekt het spoor op klasse en de vulling op id `plan-progress-bar`; hernoemen betekent het JavaScript meenemen |
+| `.bs-fasen` / `.bs-fase` | De fasen van een plan. De titel erin is een kale `h2`, kleiner dan `.bs-titel`; **zet er geen `.bs-titel` op**, dan wordt een fase net zo zwaar als een sectiekop |
+| `.bs-punt` | Aanvinkbaar controlepunt, minimaal 44px hoog. **Heet niet `.bs-stap`** — die naam is van de tijdlijn op de depotplanner en betekent iets anders |
+| `.bs-dossier` / `.bs-dossier__moment` | Wat u op welk moment bewaart. Vier kolommen vanaf 1000px |
+| `.bs-vel` / `.bs-vel__rij` / `.bs-invul` | Invulvel om af te drukken en met een pen in te vullen. Alleen voor wat de bezoeker zélf noteert, niet voor uitkomsten die wij berekenen |
+
 ---
 
-## 6. Naambotsingen
+## 5. Naambotsingen
 
-Vijf klassen zijn in twee stylesheets gedefinieerd. Dat werkt nu, maar alleen
+Een paar klassen zijn in twee stylesheets gedefinieerd. Dat werkt nu, maar alleen
 omdat de volgorde van de `<link>`-regels toevallig goed staat: `calculator.css`
 komt na `pagina.css` en wint. Wie die volgorde omdraait, breekt twee pagina's.
 
@@ -356,7 +356,6 @@ komt na `pagina.css` en wint. Wie die volgorde omdraait, breekt twee pagina's.
 |---|---|---|
 | `.tijdlijn` | `pagina.css` + `calculator.css` | `depotplanner.html` laadt beide |
 | `.cat`, `.cat__kop`, `.cat__posten` | `pagina.css` + `calculator.css` | `verbouwbegroting.html` laadt beide |
-| `.stap` | `calculator.css` + `stappenplan.css` | geen: geen pagina laadt beide |
 
 De eerste twee zijn echte overlappingen en verdienen een eigen naam. Nog niet
 opgelost — gevonden bij het opstellen van deze lijst op 22 augustus 2026, buiten

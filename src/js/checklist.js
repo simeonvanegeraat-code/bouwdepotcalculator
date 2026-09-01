@@ -20,7 +20,7 @@ if (checks.length) {
     const text = document.getElementById('plan-progress-text');
     const percent = document.getElementById('plan-progress-percent');
     const bar = document.getElementById('plan-progress-bar');
-    const track = document.querySelector('.plan-progress-track');
+    const track = document.querySelector('.bs-spoor');
 
     const save = () => {
         try {
