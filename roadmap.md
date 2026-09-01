@@ -26,7 +26,7 @@ overzien. Wat de meting laat zien (19-08-2026):
 | `src/styles/main.css` werd door geen enkele pagina geladen | 3.658 regels, 60% van alle CSS | **verwijderd 19-08** |
 | Vier stylesheets met elk een beschreven taak | design-system, pagina, calculator, stappenplan | **in orde** |
 | `reporting.js` trok jsPDF en html2canvas mee | ±590 kB JS voor één downloadknop | **opgelost 22-08:** eigen afdrukdocument via het printvenster, `jspdf` uit package.json. Nagemeten 01-09: de keten is 11 kB en geen van beide pakketten zit er nog in |
-| `src/js/main.js` bedient zes pagina's uit één bestand | 1.794 regels | open — de annuïteitenformule is er op 31-08 uitgelicht naar `src/js/annuiteit.js`; de rest volgt bij de herstijling |
+| `src/js/main.js` bediende zes pagina's uit één bestand | 1.794 regels | **opgelost**, 01-09 — opgesplitst in een module per pagina; `main.js` bestaat niet meer. Rekencode per pagina van 53,3 kB naar 5,7 tot 13,2 kB |
 | Grafiekcode die nooit draaide (`Chart` werd nergens geladen) | twee functies, achter een stille guard | **opgelost 19-08:** eigen SVG, `chart.js` verwijderd |
 | Zeven planningsdocumenten los in de repo-root | naast 31 HTML-pagina's | open |
 
@@ -34,11 +34,18 @@ Klaar wanneer: dode CSS en dode code weg of aantoonbaar in gebruik, elke
 stylesheet heeft één beschreven taak, en per bestand is duidelijk welke pagina's
 het gebruiken.
 
-**Wat het opruimen blootlegde:** de knoppen op de homepage geven geen zichtbare
-selectie meer. `main.js` zet de klasse `.selected`, maar die werd alleen in
-main.css gestyled; het ontwerpsysteem gebruikt `.ds-chip[aria-pressed="true"]` en
-dat attribuut zet niemand. Must fix, en het eerste dat we bij de homepage
-oppakken.
+**Stand 01-09-2026.** Vier stylesheets zijn er nog één: `broadsheet.css`.
+`main.css` (3.658 dode regels), `design-system.css`, `pagina.css` en
+`calculator.css` zijn verwijderd. `main.js` is opgesplitst in een module per
+rekenpagina en bestaat niet meer.
+
+Wat het opruimen elke keer blootlegde, en wat de les is: **een klasse die alleen
+in JavaScript of in een toestand voorkomt, verliest zijn opmaak zonder dat iets
+faalt.** Eerst was dat de selectie op de homepageknoppen (`.selected` stond
+alleen in main.css), later de bankkeuze, het printdocument, het uitgeschakelde
+veld op renteverlies, het tekort op leenruimte en het formuleblok. Draai het
+script dat élke klasse uit de HTML én de JavaScript-modules naast de stylesheet
+legt vóór je een bestand weghaalt, niet erna.
 
 ### 2. UI/UX van de calculator — het moet te vertrouwen zijn
 
