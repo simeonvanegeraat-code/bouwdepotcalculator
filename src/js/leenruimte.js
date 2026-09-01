@@ -18,13 +18,12 @@
  * verplichtingen, taxatie en acceptatiebeleid.
  */
 
-import { leesGetal } from './getallen.js';
+import { leesGetal, euro } from './getallen.js';
 
 const wortel = document.getElementById('leenruimte');
 
 if (wortel) {
     const SLEUTEL = 'bouwdepot-leenruimte-v1';
-    const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
     const el = (id) => document.getElementById(id);
 
     const velden = {

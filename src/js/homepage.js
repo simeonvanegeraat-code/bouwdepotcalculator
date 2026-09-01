@@ -15,13 +15,13 @@
  */
 
 import { annuiteitTermijn } from './annuiteit.js';
+import { euro } from './getallen.js';
 
 /** Vaste uitgangspunten van het voorbeeld. Staan ook zichtbaar op de rekening,
  *  zodat het getal nooit zonder zijn aannames op het scherm staat. */
 const RENTE_PROCENT = 3.8;
 const JAREN = 30;
 
-const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 
 export function initHomepageVoorbeeld() {
     const schuif = document.getElementById('voorbeeld-bedrag');

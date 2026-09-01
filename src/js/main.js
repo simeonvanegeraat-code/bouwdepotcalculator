@@ -4,7 +4,7 @@
 import { initSharedFormMemory, setMemoryLockById } from './shared-form-memory';
 import { huidigeBank, opBankwissel, vergoedingsTarief } from './bankkeuze.js';
 import { tekenStaafgrafiek } from './staafgrafiek.js';
-import { leesGetal, toonGetal, leesPercentage } from './getallen.js';
+import { leesGetal, toonGetal, leesPercentage, euro } from './getallen.js';
 import { annuiteitTermijn } from './annuiteit.js';
 import {
     TAX_RULES_2026,
@@ -17,9 +17,6 @@ import {
 
 document.addEventListener('DOMContentLoaded', () => {
     initSharedFormMemory();
-
-    // --- HELPER: FORMAT EURO ---
-    const formatEuro = (val) => new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(val);
 
     // --- GLOBAL REPORT PIPELINE & ROUTING ---
     const btnDownload = document.getElementById('btn-download');
@@ -138,8 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Zonder renteaftrek is er niets afgetrokken; "netto" zou dan hetzelfde
                 // bedrag een onterecht gunstige naam geven.
                 conclusion: data.taxIndicationEnabled
-                    ? `Bij deze invoer geeft het bouwdepot een indicatieve netto maandlast van ${formatEuro(data.netMonthly)} per maand, na renteaftrek.`
-                    : `Bij deze invoer geeft het bouwdepot een indicatieve bruto maandlast van ${formatEuro(data.netMonthly)} per maand.`,
+                    ? `Bij deze invoer geeft het bouwdepot een indicatieve netto maandlast van ${euro.format(data.netMonthly)} per maand, na renteaftrek.`
+                    : `Bij deze invoer geeft het bouwdepot een indicatieve bruto maandlast van ${euro.format(data.netMonthly)} per maand.`,
                 interpretation: data.verloopZin,
                 assumptions: 'Maandlast op basis van bedrag, rente, hypotheekvorm en looptijd. De renteaftrekindicatie gebruikt maximaal 37,56%, vóór eigenwoningforfait en zonder persoonlijke aangiftegegevens. Voor waarderuimte en eigen geld staat een aparte berekening op leenruimte.html.'
             };
@@ -191,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         /** Zet de uitkomst terug op nul zolang de invoer niet klopt. */
         function toonGeenUitkomst() {
-            const nul = formatEuro(0);
+            const nul = euro.format(0);
             [resNetto, resBruto, resRentedeel, resAflossingdeel, resTotaalrente].forEach((el) => {
                 if (el) el.textContent = nul;
             });
@@ -274,15 +271,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 generatedAt: now.toISOString()
             });
 
-            resBruto.textContent = formatEuro(grossMonthly);
+            resBruto.textContent = euro.format(grossMonthly);
             
             if (checkAftrek.checked) {
                 if(rowVoordeel) rowVoordeel.style.display = 'flex';
-                resVoordeel.textContent = '-' + formatEuro(taxBenefit);
+                resVoordeel.textContent = '-' + euro.format(taxBenefit);
             } else {
                 if(rowVoordeel) rowVoordeel.style.display = 'none';
             }
-            resNetto.textContent = formatEuro(netMonthly);
+            resNetto.textContent = euro.format(netMonthly);
 
             // --- Result highlight pulse ---
             resNetto.classList.remove('updating');
@@ -290,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
             resNetto.classList.add('updating');
             setTimeout(() => resNetto.classList.remove('updating'), 500);
 
-            if (summaryAmount) summaryAmount.textContent = formatEuro(reportData.inputs.amount);
+            if (summaryAmount) summaryAmount.textContent = euro.format(reportData.inputs.amount);
             if (summaryType) summaryType.textContent = reportData.inputs.mortgageType;
             if (summaryInterest) summaryInterest.textContent = formatPercentage(reportData.inputs.interestRate);
             if (summaryDuration) summaryDuration.textContent = `${reportData.inputs.durationYears} jaar`;
@@ -306,9 +303,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Zonder aftrek is de brutoregel gelijk aan het bedrag erboven.
             if (rowBruto) rowBruto.style.display = checkAftrek.checked ? '' : 'none';
 
-            if (resRentedeel) resRentedeel.textContent = formatEuro(firstMonthInterest);
-            if (resAflossingdeel) resAflossingdeel.textContent = formatEuro(aflossingsdeel);
-            if (resTotaalrente) resTotaalrente.textContent = formatEuro(totaleRente);
+            if (resRentedeel) resRentedeel.textContent = euro.format(firstMonthInterest);
+            if (resAflossingdeel) resAflossingdeel.textContent = euro.format(aflossingsdeel);
+            if (resTotaalrente) resTotaalrente.textContent = euro.format(totaleRente);
             if (balkRente && balkAflossing && grossMonthly > 0) {
                 const deel = (firstMonthInterest / grossMonthly) * 100;
                 balkRente.style.width = deel.toFixed(1) + '%';
@@ -524,7 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     periodTotal: data.periodTotal,
                     doubleBurdenMonthly: data.doubleBurdenMonthly
                 },
-                conclusion: `Bij deze invoer komt uw bouwdepotfase indicatief uit op ${formatEuro(data.netMonthly)} netto per maand over ${data.durationMonths} maanden.`,
+                conclusion: `Bij deze invoer komt uw bouwdepotfase indicatief uit op ${euro.format(data.netMonthly)} netto per maand over ${data.durationMonths} maanden.`,
                 interpretation: data.interpretation,
                 assumptions: 'Indicatieve berekening met aannames over opnamepatroon en gemiddelde niet-opgenomen depotstand; persoonlijke bankvoorwaarden en werkelijke opnames bepalen de exacte uitkomst.'
             };
@@ -580,27 +577,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 generatedAt: now.toISOString()
             });
 
-            resGross.textContent = formatEuro(grossMonthly);
-            resComp.textContent = '-' + formatEuro(monthlyCompensation);
-            resNet.textContent = formatEuro(netMonthly);
-            resPeriod.textContent = formatEuro(periodTotal);
+            resGross.textContent = euro.format(grossMonthly);
+            resComp.textContent = '-' + euro.format(monthlyCompensation);
+            resNet.textContent = euro.format(netMonthly);
+            resPeriod.textContent = euro.format(periodTotal);
             assumptionText.textContent = patternLabels[pattern];
             if (resConclusion) resConclusion.textContent = report.conclusion;
             if (resInterpretation) resInterpretation.textContent = report.interpretation;
             if (resMethod) resMethod.textContent = report.assumptions;
             if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
 
-            if (summaryMortgage) summaryMortgage.textContent = formatEuro(report.inputs.totalMortgage);
-            if (summaryDepot) summaryDepot.textContent = formatEuro(report.inputs.depotAmount);
+            if (summaryMortgage) summaryMortgage.textContent = euro.format(report.inputs.totalMortgage);
+            if (summaryDepot) summaryDepot.textContent = euro.format(report.inputs.depotAmount);
             if (summaryRate) summaryRate.textContent = formatPercentage(report.inputs.mortgageRate);
             if (summaryDepotRate) summaryDepotRate.textContent = formatPercentage(report.inputs.depotCompensationRate);
             if (summaryDuration) summaryDuration.textContent = `${report.inputs.durationMonths} maanden`;
             if (summaryPattern) summaryPattern.textContent = report.inputs.opnamePattern;
-            if (summaryExtra) summaryExtra.textContent = report.inputs.extraHousingCost > 0 ? formatEuro(report.inputs.extraHousingCost) : 'Niet ingevuld';
+            if (summaryExtra) summaryExtra.textContent = report.inputs.extraHousingCost > 0 ? euro.format(report.inputs.extraHousingCost) : 'Niet ingevuld';
 
             if (extraHousing > 0) {
                 if (resDoubleRow) resDoubleRow.style.display = 'flex';
-                resDouble.textContent = formatEuro(doubleBurden);
+                resDouble.textContent = euro.format(doubleBurden);
             } else if (resDoubleRow) {
                 resDoubleRow.style.display = 'none';
             }
@@ -775,14 +772,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const budgetMeaning = months >= 10
                 ? 'De overlapperiode is relatief lang: het totaalbedrag loopt hierdoor snel op, ook als de maanddruk nog beheersbaar lijkt.'
                 : 'De overlapperiode is relatief kort: de maanddruk is vooral tijdelijk, maar vraagt wel directe buffer in de zwaarste maanden.';
-            const conclusion = `Bij deze invoer komt uw tijdelijke dubbele maandlast indicatief uit op ${formatEuro(totalMonthly)} per maand gedurende ${months} maanden.`;
+            const conclusion = `Bij deze invoer komt uw tijdelijke dubbele maandlast indicatief uit op ${euro.format(totalMonthly)} per maand gedurende ${months} maanden.`;
 
-            resNewBruto.textContent = formatEuro(newBruto);
-            resCurrent.textContent = formatEuro(current);
-            resExtra.textContent = formatEuro(extra);
-            resMonthly.textContent = formatEuro(totalMonthly);
-            resTotal.textContent = formatEuro(totalPeriod);
-            resPeak.textContent = formatEuro(peakMonthly);
+            resNewBruto.textContent = euro.format(newBruto);
+            resCurrent.textContent = euro.format(current);
+            resExtra.textContent = euro.format(extra);
+            resMonthly.textContent = euro.format(totalMonthly);
+            resTotal.textContent = euro.format(totalPeriod);
+            resPeak.textContent = euro.format(peakMonthly);
             if (resConclusion) resConclusion.textContent = conclusion;
             if (resInterpretation) resInterpretation.textContent = interpretation;
             if (resBudgetMeaning) resBudgetMeaning.textContent = budgetMeaning;
@@ -791,14 +788,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (newNetto > 0) {
                 if (rowNewNetto) rowNewNetto.style.display = 'flex';
-                resNewNetto.textContent = formatEuro(newNetto);
+                resNewNetto.textContent = euro.format(newNetto);
             } else if (rowNewNetto) {
                 rowNewNetto.style.display = 'none';
             }
 
             if (renteverlies > 0) {
                 if (rowRenteverlies) rowRenteverlies.style.display = 'flex';
-                resRenteverlies.textContent = formatEuro(renteverlies);
+                resRenteverlies.textContent = euro.format(renteverlies);
             } else if (rowRenteverlies) {
                 rowRenteverlies.style.display = 'none';
             }
@@ -810,10 +807,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (sumType) sumType.textContent = typeLabels[type] || type;
-            if (sumNewUsed) sumNewUsed.textContent = formatEuro(usedNewMonthly);
-            if (sumCurrent) sumCurrent.textContent = formatEuro(current);
-            if (sumExtra) sumExtra.textContent = formatEuro(extra);
-            if (sumRenteverlies) sumRenteverlies.textContent = renteverlies > 0 ? formatEuro(renteverlies) : 'Niet ingevuld';
+            if (sumNewUsed) sumNewUsed.textContent = euro.format(usedNewMonthly);
+            if (sumCurrent) sumCurrent.textContent = euro.format(current);
+            if (sumExtra) sumExtra.textContent = euro.format(extra);
+            if (sumRenteverlies) sumRenteverlies.textContent = renteverlies > 0 ? euro.format(renteverlies) : 'Niet ingevuld';
             if (sumMonths) sumMonths.textContent = `${months} maanden`;
 
             const report = buildDubbeleLastenReport({
@@ -1012,11 +1009,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let conclusion;
             if (model === 'opname') {
-                conclusion = `Bij dit rekenmodel betaalt u geen hypotheekrente over het deel dat nog in het depot staat. Daardoor ontstaat er geen renteverlies door stilstaand depotgeld: het verschil is € 0. De getoonde hypotheekrente van ${formatEuro(totalMortgageInterest)} is de rente over het bedrag dat u volgens dit opnamepatroon al had opgenomen, en die betaalt u hoe dan ook.`;
+                conclusion = `Bij dit rekenmodel betaalt u geen hypotheekrente over het deel dat nog in het depot staat. Daardoor ontstaat er geen renteverlies door stilstaand depotgeld: het verschil is € 0. De getoonde hypotheekrente van ${euro.format(totalMortgageInterest)} is de rente over het bedrag dat u volgens dit opnamepatroon al had opgenomen, en die betaalt u hoe dan ook.`;
             } else if (netDifference < 0) {
-                conclusion = `Bij dit scenario is de depotvergoeding hoger dan de hypotheekrente. Het verschil komt indicatief uit op ${formatEuro(netDifference)} over ${months} maanden.`;
+                conclusion = `Bij dit scenario is de depotvergoeding hoger dan de hypotheekrente. Het verschil komt indicatief uit op ${euro.format(netDifference)} over ${months} maanden.`;
             } else {
-                conclusion = `Bij dit scenario is de depotvergoeding lager dan de hypotheekrente. Daardoor ontstaat een renteverschil van ongeveer ${formatEuro(netDifference)} over ${months} maanden.`;
+                conclusion = `Bij dit scenario is de depotvergoeding lager dan de hypotheekrente. Daardoor ontstaat een renteverschil van ongeveer ${euro.format(netDifference)} over ${months} maanden.`;
             }
 
             // De maanden zonder vergoeding zijn het duurst: volle rente, niets terug.
@@ -1058,16 +1055,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (patternNote) patternNote.textContent = patternDescriptions[pattern] || patternDescriptions.even;
-            if (resMortgage) resMortgage.textContent = formatEuro(totalMortgageInterest);
-            if (resCompensation) resCompensation.textContent = formatEuro(totalCompensation);
-            if (resNet) resNet.textContent = formatEuro(netDifference);
-            if (resMonth) resMonth.textContent = formatEuro(perMonth);
+            if (resMortgage) resMortgage.textContent = euro.format(totalMortgageInterest);
+            if (resCompensation) resCompensation.textContent = euro.format(totalCompensation);
+            if (resNet) resNet.textContent = euro.format(netDifference);
+            if (resMonth) resMonth.textContent = euro.format(perMonth);
             if (resPeriodPattern) resPeriodPattern.textContent = `Over ${months} maanden, bij ${String(patternLabels[pattern] || pattern).toLowerCase()}.`;
             if (resConclusion) resConclusion.textContent = conclusion;
             if (resMethod) resMethod.textContent = assumptions;
             if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
 
-            if (sumDepot) sumDepot.textContent = formatEuro(depot);
+            if (sumDepot) sumDepot.textContent = euro.format(depot);
             if (sumMortgageRate) sumMortgageRate.textContent = formatPercentage(mortgageRate);
             if (sumDepotRate) sumDepotRate.textContent = model === 'opname' ? 'Niet van toepassing' : formatPercentage(depotRate);
             if (sumMonths) sumMonths.textContent = `${months} maanden`;
@@ -1455,7 +1452,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         /** Zet de uitkomst op nul en zegt wat er aan het schema mankeert. */
         function toonGeenUitkomst(klachten) {
-            const nul = formatEuro(0);
+            const nul = euro.format(0);
             [resPeakTotal, resAverageMonthly, resOverlapTotal, resExtraNow, resLoss].forEach((el) => {
                 if (el) el.textContent = nul;
             });
@@ -1544,7 +1541,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalNetPayments += netPayment;
 
                 // Kleuren via klassen, niet inline: anders volgen ze de donkere modus niet.
-                tableHTML += `<tr><td>${m}</td><td class="bs-kolom-bedrag">${formatEuro(currentDepot)}</td><td class="bs-kolom-bedrag bs-kolom-gedempt">${formatEuro(fullAnnuity)}</td><td class="bs-kolom-bedrag bs-kolom-vergoeding">-${formatEuro(interestReceivable)}</td><td class="bs-kolom-bedrag bs-kolom-netto">${formatEuro(netPayment)}</td></tr>`;
+                tableHTML += `<tr><td>${m}</td><td class="bs-kolom-bedrag">${euro.format(currentDepot)}</td><td class="bs-kolom-bedrag bs-kolom-gedempt">${euro.format(fullAnnuity)}</td><td class="bs-kolom-bedrag bs-kolom-vergoeding">-${euro.format(interestReceivable)}</td><td class="bs-kolom-bedrag bs-kolom-netto">${euro.format(netPayment)}</td></tr>`;
                 maandregels.push({
                     maand: m,
                     restantDepot: currentDepot,
@@ -1555,20 +1552,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            resTotalLoan.textContent = formatEuro(totalLoan);
+            resTotalLoan.textContent = euro.format(totalLoan);
             const startDepotInterest = constructPrice * depotRate;
             let startMonthly = fullAnnuity - startDepotInterest;
             if(startMonthly < 0) startMonthly = 0;
-            resStartMonthly.textContent = formatEuro(startMonthly);
-            resMaxMonthly.textContent = formatEuro(fullAnnuity);
-            resLoss.textContent = formatEuro(totalLoss);
-            if (resExtraNow) resExtraNow.textContent = formatEuro(Math.max(0, startMonthly));
+            resStartMonthly.textContent = euro.format(startMonthly);
+            resMaxMonthly.textContent = euro.format(fullAnnuity);
+            resLoss.textContent = euro.format(totalLoss);
+            if (resExtraNow) resExtraNow.textContent = euro.format(Math.max(0, startMonthly));
             if (resPeakMonth) resPeakMonth.textContent = `Zwaarste maand: maand ${peakMonth} van de bouw`;
-            if (resPeakTotal) resPeakTotal.textContent = formatEuro(peakTotalMonthly);
+            if (resPeakTotal) resPeakTotal.textContent = euro.format(peakTotalMonthly);
             const averageNetMonthly = maxMonth > 0 ? totalNetPayments / maxMonth : 0;
             const overlapTotal = currentHousingCost * buildMonths;
-            if (resAverageMonthly) resAverageMonthly.textContent = formatEuro(averageNetMonthly);
-            if (resOverlapTotal) resOverlapTotal.textContent = formatEuro(overlapTotal);
+            if (resAverageMonthly) resAverageMonthly.textContent = euro.format(averageNetMonthly);
+            if (resOverlapTotal) resOverlapTotal.textContent = euro.format(overlapTotal);
 
             const pressureRatio = currentHousingCost > 0 ? peakTotalMonthly / currentHousingCost : 1;
             let pressureLabel = 'beheersbaar';
@@ -1581,7 +1578,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? `De druk bouwt vooral richting oplevering op: circa ${Math.round(latePhasePercent)}% van de aanneemsom valt in de laatste bouwmaanden.`
                 : 'De termijnverdeling is redelijk gespreid; de maanddruk loopt daardoor gelijkmatiger op.';
 
-            const conclusion = `Bij deze invoer ligt de hoogste maanddruk indicatief in maand ${peakMonth} op ${formatEuro(peakTotalMonthly)} totaal per maand.`;
+            const conclusion = `Bij deze invoer ligt de hoogste maanddruk indicatief in maand ${peakMonth} op ${euro.format(peakTotalMonthly)} totaal per maand.`;
             // Stond eerder als "Uw nieuwbouwscenario voelt zwaar". Hoe een
             // scenario voelt is aan de bezoeker; deze site beschrijft wat er
             // rekenkundig gebeurt en velt geen oordeel over iemands situatie.
@@ -1591,12 +1588,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (resTimeline) resTimeline.textContent = timelineLine;
             if (resMethod) resMethod.textContent = 'Indicatieve planning op basis van uw rente, bouwduur en termijnschema; werkelijke planning en bankvoorwaarden kunnen afwijken.';
 
-            if (sumLand) sumLand.textContent = formatEuro(landPrice);
-            if (sumConstruction) sumConstruction.textContent = formatEuro(constructPrice);
+            if (sumLand) sumLand.textContent = euro.format(landPrice);
+            if (sumConstruction) sumConstruction.textContent = euro.format(constructPrice);
             if (sumInterest) sumInterest.textContent = formatPercentage(interest);
             if (sumDiscount) sumDiscount.textContent = formatPercentage(discount);
             if (sumDuration) sumDuration.textContent = `${buildMonths} maanden`;
-            if (sumHousing) sumHousing.textContent = currentHousingCost > 0 ? formatEuro(currentHousingCost) : 'Niet ingevuld';
+            if (sumHousing) sumHousing.textContent = currentHousingCost > 0 ? euro.format(currentHousingCost) : 'Niet ingevuld';
             if (sumTerms) sumTerms.textContent = `${terms.length} termijnen`;
 
             const report = buildNieuwbouwReport({
@@ -1635,9 +1632,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 laatsteLabel: `Mnd ${maandregels.length}`,
                 piek: { index: peakMonth - 1, tekst: 'Zwaarste maand' },
                 omschrijving: `Maandverloop over ${maandregels.length} maanden. Uw eigen last gaat van `
-                    + `${formatEuro(eersteMaand.naVergoeding)} in maand 1 naar ${formatEuro(laatsteMaand.naVergoeding)} `
+                    + `${euro.format(eersteMaand.naVergoeding)} in maand 1 naar ${euro.format(laatsteMaand.naVergoeding)} `
                     + `in maand ${maandregels.length}; de depotvergoeding daalt in dezelfde periode van `
-                    + `${formatEuro(eersteMaand.depotvergoeding)} naar ${formatEuro(laatsteMaand.depotvergoeding)}.`,
+                    + `${euro.format(eersteMaand.depotvergoeding)} naar ${euro.format(laatsteMaand.depotvergoeding)}.`,
             });
             if(tableBody) tableBody.innerHTML = tableHTML;
         }
@@ -1842,9 +1839,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 tableHTML += `
                     <tr>
                         <td>${year}</td>
-                        <td class="bs-kolom-bedrag">${formatEuro(yearGrossPayment / 12)}</td>
-                        <td class="bs-kolom-bedrag bs-kolom-vergoeding">${formatEuro(taxBenefit / 12)}</td>
-                        <td class="bs-kolom-bedrag bs-kolom-netto">${formatEuro(yearNetto / 12)}</td>
+                        <td class="bs-kolom-bedrag">${euro.format(yearGrossPayment / 12)}</td>
+                        <td class="bs-kolom-bedrag bs-kolom-vergoeding">${euro.format(taxBenefit / 12)}</td>
+                        <td class="bs-kolom-bedrag bs-kolom-netto">${euro.format(yearNetto / 12)}</td>
                     </tr>
                 `;
 
@@ -1865,12 +1862,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 : 'n.v.t.';
             if(outHillenPct) outHillenPct.textContent = (TAX_RULES_2026.hillenDeductionRate * 100).toFixed(3).replace('.', ',') + '%';
 
-            outBrutoMonth.textContent = formatEuro(firstYearBruto);
-            outBenefitMonth.textContent = formatEuro(-firstYearBenefit);
+            outBrutoMonth.textContent = euro.format(firstYearBruto);
+            outBenefitMonth.textContent = euro.format(-firstYearBenefit);
             
-            outNettoMonth.textContent = formatEuro(firstYearNetto);
-            if (outNettoYear) outNettoYear.textContent = formatEuro(firstYearNetto * 12);
-            if (txtTrend) txtTrend.textContent = `Stijgt naar ${formatEuro(lastYearNetto)} in jaar 30`;
+            outNettoMonth.textContent = euro.format(firstYearNetto);
+            if (outNettoYear) outNettoYear.textContent = euro.format(firstYearNetto * 12);
+            if (txtTrend) txtTrend.textContent = `Stijgt naar ${euro.format(lastYearNetto)} in jaar 30`;
 
             const benefitShare = firstYearBruto > 0 ? firstYearBenefit / firstYearBruto : 0;
             let interpretationLabel = 'beperkt';
@@ -1881,7 +1878,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? 'het eigenwoningforfait en de afbouw van de Hillen-aftrek'
                 : (interestPct >= 4 ? 'de hypotheekrente' : 'de combinatie van inkomen, rente en WOZ');
             const taxDirection = firstYearBenefit >= 0 ? 'verlaging' : 'verhoging';
-            const conclusion = `Bij deze invoer komt uw indicatieve netto maandlast in jaar 1 uit op ${formatEuro(firstYearNetto)} per maand, inclusief een geschatte fiscale ${taxDirection} van ${formatEuro(Math.abs(firstYearBenefit))}.`;
+            const conclusion = `Bij deze invoer komt uw indicatieve netto maandlast in jaar 1 uit op ${euro.format(firstYearNetto)} per maand, inclusief een geschatte fiscale ${taxDirection} van ${euro.format(Math.abs(firstYearBenefit))}.`;
             const interpretation = `Het fiscale effect is ${interpretationLabel}; in dit scenario is ${driver} de belangrijkste aanjager van het bruto-netto verschil.`;
             const meaning = 'Gebruik dit als fiscale oriëntatie: heffingskortingen, fiscaal partnerschap, AOW-leeftijd, depotregels en uw volledige aangifte worden niet berekend.';
             const assumptions = 'De grafiek houdt de 2026-regels, het inkomen en de WOZ-waarde alle 30 jaren constant. Dit is een vergelijkingsscenario, geen voorspelling van toekomstige wetgeving of een persoonlijke aangifte-uitkomst.';
@@ -1892,11 +1889,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (outMethod) outMethod.textContent = assumptions;
 
             if (sumType) sumType.textContent = typeLabels[type] || type;
-            if (sumIncome) sumIncome.textContent = formatEuro(income);
-            if (sumAmount) sumAmount.textContent = formatEuro(amount);
+            if (sumIncome) sumIncome.textContent = euro.format(income);
+            if (sumAmount) sumAmount.textContent = euro.format(amount);
             if (sumInterest) sumInterest.textContent = formatPercentage(interestPct);
-            if (sumWoz) sumWoz.textContent = formatEuro(woz);
-            if (sumCosts) sumCosts.textContent = oneTimeCosts > 0 ? formatEuro(oneTimeCosts) : 'Geen';
+            if (sumWoz) sumWoz.textContent = euro.format(woz);
+            if (sumCosts) sumCosts.textContent = oneTimeCosts > 0 ? euro.format(oneTimeCosts) : 'Geen';
 
             const now = new Date();
             if (reportGeneratedAt) reportGeneratedAt.textContent = `Laatst berekend op ${formatDateTime(now)}.`;
@@ -1920,7 +1917,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if(oneTimeCosts > 0) {
                 rowCostsMonth.style.display = 'flex';
-                outCostsBenefit.textContent = formatEuro(oneTimeBenefit);
+                outCostsBenefit.textContent = euro.format(oneTimeBenefit);
             } else {
                 rowCostsMonth.style.display = 'none';
             }
@@ -1937,8 +1934,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 eersteLabel: 'Jaar 1',
                 laatsteLabel: `Jaar ${jaarregels.length}`,
                 omschrijving: `Verloop over ${jaarregels.length} jaar. Uw netto maandlast gaat van `
-                    + `${formatEuro(eersteJaar.netto)} in jaar 1 naar ${formatEuro(laatsteJaar.netto)} in jaar ${jaarregels.length}; `
-                    + `het belastingvoordeel gaat van ${formatEuro(eersteJaar.voordeel)} naar ${formatEuro(laatsteJaar.voordeel)} per maand.`,
+                    + `${euro.format(eersteJaar.netto)} in jaar 1 naar ${euro.format(laatsteJaar.netto)} in jaar ${jaarregels.length}; `
+                    + `het belastingvoordeel gaat van ${euro.format(eersteJaar.voordeel)} naar ${euro.format(laatsteJaar.voordeel)} per maand.`,
             });
             if(tableBody) tableBody.innerHTML = tableHTML;
         }

@@ -74,3 +74,16 @@ export function toonGetal(waarde, decimalen = 0) {
         maximumFractionDigits: decimalen,
     });
 }
+
+/**
+ * Bedragen opmaken zoals de site ze toont: "€ 87.500", zonder centen.
+ *
+ * Deze opmaker stond in zes modules apart, en in main.js onder de naam
+ * `formatEuro`. Eén exemplaar hier betekent dat een besluit over afronding of
+ * over het euroteken op één plek valt.
+ */
+export const euro = new Intl.NumberFormat('nl-NL', {
+    style: 'currency',
+    currency: 'EUR',
+    maximumFractionDigits: 0,
+});

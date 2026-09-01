@@ -6,9 +6,8 @@
  * scriptblok meer bevat en de code testbaar is.
  */
 
-import { leesGetal, leesPercentage } from './getallen.js';
+import { leesGetal, leesPercentage, euro } from './getallen.js';
 
-const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 
 const amountInput = document.getElementById('input-amount');
 const amountRange = document.getElementById('range-amount');

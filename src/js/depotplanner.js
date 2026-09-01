@@ -20,13 +20,12 @@
 import { huidigeBank, opBankwissel } from './bankkeuze.js';
 import { maakAgenda, downloadAgenda } from './agenda.js';
 import { maakPlan } from './declaratieplan.js';
-import { leesGetal, toonGetal } from './getallen.js';
+import { leesGetal, toonGetal, euro } from './getallen.js';
 
 const wortel = document.getElementById('depotplanner');
 
 if (wortel) {
     const SLEUTEL = 'bouwdepot-planner-v3';
-    const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
     const datum = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
     const el = (id) => document.getElementById(id);
 

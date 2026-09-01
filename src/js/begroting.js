@@ -13,7 +13,7 @@
  */
 
 import { huidigeBank, opBankwissel } from './bankkeuze.js';
-import { leesGetal, toonGetal } from './getallen.js';
+import { leesGetal, toonGetal, euro } from './getallen.js';
 import { berekenBegroting } from './begrotingrekenen.js';
 
 const wortel = document.getElementById('begroting');
@@ -21,7 +21,6 @@ const wortel = document.getElementById('begroting');
 if (wortel) {
     const SLEUTEL = 'bouwdepot-begroting-v1';
 
-    const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
     const el = (id) => document.getElementById(id);
 
     const bedragVelden = Array.from(wortel.querySelectorAll('[data-post]'));
