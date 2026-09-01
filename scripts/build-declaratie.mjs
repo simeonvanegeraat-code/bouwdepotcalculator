@@ -88,17 +88,17 @@ const VOET = [
 const redenen = VOLGORDE
   .map((soort) => ({ soort, treffers: perSoort(soort) }))
   .filter((x) => x.treffers.length)
-  .map(({ soort, treffers }, i) => `                    <article class="reden">
-                        <p class="reden__nummer">Reden ${i + 1}</p>
+  .map(({ soort, treffers }, i) => `                    <article class="bs-fout">
+                        <p class="bs-fout__nummer">Reden ${i + 1}</p>
                         <h3>${esc(SOORTEN[soort].kop)}</h3>
-                        <p class="reden__uitleg">${esc(SOORTEN[soort].uitleg)}</p>
-                        <dl class="reden__per-bank">
+                        <p>${esc(SOORTEN[soort].uitleg)}</p>
+                        <dl class="bs-perbank">
 ${treffers.map(({ aanbieder, eis }) => `                            <div>
                                 <dt><a href="bouwdepot-${aanbieder.id}.html">${esc(aanbieder.naam)}</a></dt>
                                 <dd><strong>${esc(eis.waarde)}</strong><small>${esc(eis.detail)}</small></dd>
                             </div>`).join('\n')}
                         </dl>
-                        <p class="ds-caption">${treffers.length === data.aanbieders.length
+                        <p class="bs-hulp">${treffers.length === data.aanbieders.length
                           ? 'Alle vergeleken aanbieders stellen hier een eis.'
                           : `Gepubliceerd door ${treffers.length} van de ${data.aanbieders.length} vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.`}</p>
                     </article>`).join('\n');
@@ -110,7 +110,7 @@ const uitbetaaltijden = data.aanbieders
 
 const voorschot = data.aanbieders
   .map((a) => `                        <div><dt>${esc(a.naam)}</dt><dd>${
-    a.voorschieten?.waarde ? `<strong>${esc(a.voorschieten.waarde)}</strong>` : '<span class="vgl-leeg">niet gepubliceerd</span>'
+    a.voorschieten?.waarde ? `<strong>${esc(a.voorschieten.waarde)}</strong>` : '<span class="bs-leeg">niet gepubliceerd</span>'
   }${a.voorschieten?.detail ? `<small>${esc(a.voorschieten.detail)}</small>` : ''}</dd></div>`)
   .join('\n');
 
@@ -140,7 +140,7 @@ const html = `<!DOCTYPE html>
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -151,108 +151,80 @@ const html = `<!DOCTYPE html>
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/design-system.css">
-    <link rel="stylesheet" href="/src/styles/pagina.css">
+    <link rel="stylesheet" href="/src/styles/broadsheet.css">
 </head>
-<body class="ds">
-    <header class="kop">
-        <div class="ds-wrap kop__inner">
-            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
-            <nav aria-label="Hoofdnavigatie">
-                <details class="kop__menu">
-                    <summary><span class="kop__streepjes" aria-hidden="true"></span>Menu</summary>
-                </details>
-                <div class="kop__paneel">
-${NAV.map(([h, t]) => `                        <a href="${h}">${t}</a>`).join('\n')}
-                </div>
-            </nav>
-        </div>
+<body class="bs">
 
-        <!-- De rekenhulpen bij naam. Zie de toelichting in pagina.css. -->
-        <nav class="toolbalk no-print" aria-label="Rekenhulpen">
-            <div class="ds-wrap toolbalk__inner">
-                <a href="bouwdepot-berekenen.html">Bouwdepot berekenen</a>
-                <a href="verbouwbegroting.html">Verbouwbegroting</a>
-                <a href="leenruimte.html">Leenruimte</a>
-                <a href="maandlasten-bouwdepot.html">Maandlasten</a>
-                <a href="nieuwbouw.html">Nieuwbouwplanning</a>
-                <a href="depotplanner.html">Depotplanner</a>
-                <a href="belasting.html">Belastingvoordeel</a>
+    <header class="bs-kop no-print">
+        <div class="bs-wrap bs-kop__inner">
+            <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <div class="bs-kop__rechts">
+                <a href="bouwdepot-berekenen.html">Bereken</a>
                 <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="kennisbank.html">Uitleg</a>
+                <a class="bs-menu" href="over-ons.html">Over ons</a>
+                <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
-        </nav>
+        </div>
     </header>
 
-    <nav class="kruimel" aria-label="Kruimelpad">
-      <div class="ds-wrap">
-        <ol>
-          <li><a href="/">Home</a></li>
-          <li><a href="kennisbank.html">Uitleg</a></li>
-          <li aria-current="page">Declaratie afgewezen</li>
-        </ol>
-      </div>
+    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
+        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="kennisbank.html">Uitleg</a> <span aria-hidden="true">&middot;</span> <span>Declaratie afgewezen</span>
     </nav>
 
+
     <main>
-        <section class="ds-wrap ds-sectie">
-            <div class="ds-sectiekop">
-                <p class="ds-eyebrow">Uw depot gebruiken</p>
-                <h1 class="ds-heading">Declaratie afgewezen: waarom, en wat nu?</h1>
-            </div>
+        <section class="bs-reken">
+            <div class="bs-wrap">
+                <p class="bs-micro">Uw depot gebruiken</p>
+                <h1 class="bs-reken__titel">Declaratie afgewezen: waarom, en wat nu?</h1>
 
-            <p class="kernzin">Een afwijzing kost meestal geen geld maar wel weken. De redenen zijn opvallend voorspelbaar: bijna altijd gaat het om het soort bewijsstuk, om iets dat niet vast aan de woning zit, of om ontbrekende gegevens op de factuur.</p>
+            <p class="bs-kernzin">Een afwijzing kost meestal geen geld maar wel weken. De redenen zijn opvallend voorspelbaar: bijna altijd gaat het om het soort bewijsstuk, om iets dat niet vast aan de woning zit, of om ontbrekende gegevens op de factuur.</p>
 
-            <div class="proza" style="margin-top: var(--ds-5)">
+            <div class="bs-proza">
                 <p>Hieronder staan de eisen die de ${data.aanbieders.length} vergeleken geldverstrekkers zelf publiceren, gegroepeerd per soort. Zo ziet u niet alleen wát er misgaat, maar ook of uw bank daar streng in is. Waar een aanbieder niets publiceert, staat dat er expliciet bij.</p>
+            </div>
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--gevuld">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">De redenen op een rij</p>
-                    <h2 class="ds-title">Waar het meestal op stukloopt</h2>
-                </div>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">De redenen op een rij</p>
+                    <h2 class="bs-titel">Waar het meestal op stukloopt</h2>
 
-                <div class="redenen">
+                <div class="bs-fouten bs-fouten--een">
 ${redenen}
                 </div>
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Mag dat eigenlijk</p>
-                    <h2 class="ds-title">Zelf betalen en later terugvragen</h2>
-                    <p class="ds-lead">Veel mensen schieten een rekening voor omdat de leverancier snel betaald wil worden. Of dat mag, en wat u dan moet aanleveren, verschilt.</p>
-                </div>
-                <dl class="per-bank">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Mag dat eigenlijk</p>
+                    <h2 class="bs-titel">Zelf betalen en later terugvragen</h2>
+                    <p class="bs-reken__lead">Veel mensen schieten een rekening voor omdat de leverancier snel betaald wil worden. Of dat mag, en wat u dan moet aanleveren, verschilt.</p>
+                <dl class="bs-perbank">
 ${voorschot}
                 </dl>
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--gevuld">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Hoe lang duurt het</p>
-                    <h2 class="ds-title">Verwerkingstijd per geldverstrekker</h2>
-                    <p class="ds-lead">Plan hiermee uw eigen betaalafspraken. Een aannemer die binnen zeven dagen betaald wil worden, past niet altijd bij de doorlooptijd van uw bank.</p>
-                </div>
-                <dl class="per-bank">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Hoe lang duurt het</p>
+                    <h2 class="bs-titel">Verwerkingstijd per geldverstrekker</h2>
+                    <p class="bs-reken__lead">Plan hiermee uw eigen betaalafspraken. Een aannemer die binnen zeven dagen betaald wil worden, past niet altijd bij de doorlooptijd van uw bank.</p>
+                <dl class="bs-perbank">
 ${uitbetaaltijden}
                 </dl>
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Na een afwijzing</p>
-                    <h2 class="ds-title">Wat u dan doet</h2>
-                </div>
-                <ul class="checklijst">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Na een afwijzing</p>
+                    <h2 class="bs-titel">Wat u dan doet</h2>
+                <ul class="bs-checklijst">
                     <li>Zoek de reden op in uw online omgeving. Banken zetten die in het berichtenoverzicht van het portaal, niet altijd in een e-mail.</li>
                     <li>Herstel wat er mis is en dien een <strong>nieuwe</strong> declaratie in. Een afgewezen aanvraag aanpassen kan meestal niet.</li>
                     <li>Staat er op één factuur zowel toegestaan als niet-toegestaan spul, splits dat dan: streep de niet-toegestane regels door en declareer alleen het resterende bedrag.</li>
@@ -262,35 +234,33 @@ ${uitbetaaltijden}
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Verder</p>
-                    <h2 class="ds-title">Wat u hierna kunt bekijken</h2>
-                </div>
-                <div class="ds-keuzes">
-                    <a class="ds-keuze" href="${HUB}">
-                        <span class="ds-keuze__titel">Voorwaarden per bank</span>
-                        <span class="ds-keuze__uitleg">Looptijd, vergoeding en bewijsstukken van ${data.aanbieders.length} geldverstrekkers naast elkaar.</span>
-                        <span class="ds-keuze__meta">Vergelijking bekijken &rarr;</span>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Verder</p>
+                    <h2 class="bs-titel">Wat u hierna kunt bekijken</h2>
+                <div class="bs-rooster">
+                    <a class="bs-tool" href="${HUB}">
+                        <span class="bs-tool__naam">Voorwaarden per bank</span>
+                        <span class="bs-tool__uitleg">Looptijd, vergoeding en bewijsstukken van ${data.aanbieders.length} geldverstrekkers naast elkaar.</span>
+                        <span class="bs-tool__meta">Vergelijking bekijken &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="bouwdepot-fouten.html">
-                        <span class="ds-keuze__titel">Zeven fouten voorkomen</span>
-                        <span class="ds-keuze__uitleg">Begroting, declaraties, kasstroom en depottermijn: waar het vaker misgaat.</span>
-                        <span class="ds-keuze__meta">Fouten bekijken &rarr;</span>
+                    <a class="bs-tool" href="bouwdepot-fouten.html">
+                        <span class="bs-tool__naam">Zeven fouten voorkomen</span>
+                        <span class="bs-tool__uitleg">Begroting, declaraties, kasstroom en depottermijn: waar het vaker misgaat.</span>
+                        <span class="bs-tool__meta">Fouten bekijken &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="stappenplan.html">
-                        <span class="ds-keuze__titel">Stappenplan</span>
-                        <span class="ds-keuze__uitleg">Van begroting en taxatie tot de laatste declaratie, in volgorde.</span>
-                        <span class="ds-keuze__meta">Naar het stappenplan &rarr;</span>
+                    <a class="bs-tool" href="stappenplan.html">
+                        <span class="bs-tool__naam">Stappenplan</span>
+                        <span class="bs-tool__uitleg">Van begroting en taxatie tot de laatste declaratie, in volgorde.</span>
+                        <span class="bs-tool__meta">Naar het stappenplan &rarr;</span>
                     </a>
                 </div>
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="melding">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <div class="bs-melding">
                     <p><strong>Wat hier staat komt van de aanbieders zelf.</strong> Elke eis is overgenomen uit de publieke informatie van de betreffende geldverstrekker, met een controledatum per aanbieder in de <a href="${HUB}">vergelijking</a>. Waar een aanbieder iets niet publiceert, staat dat er expliciet bij in plaats van een aanname.</p>
                     <p>Uw eigen voorwaarden kunnen afwijken van de algemene productinformatie. Bij twijfel geldt wat in uw offerte en voorwaarden staat. Ziet u een afwijking? <a href="contact.html">Laat het weten</a>.</p>
                 </div>
@@ -298,52 +268,17 @@ ${uitbetaaltijden}
         </section>
     </main>
 
-    <footer class="voet">
-        <div class="ds-wrap">
-            <nav class="voet__kolommen" aria-label="Voettekst">
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-verbouwen">Verbouwen</p>
-                    <ul aria-labelledby="voet-verbouwen">
-                        <li><a href="verbouwbegroting.html">Verbouwbegroting</a></li>
-                        <li><a href="leenruimte.html">Leenruimte</a></li>
-                        <li><a href="maandlasten-bouwdepot.html">Maandlasten bouwdepot</a></li>
-                        <li><a href="renteverlies-bouwdepot.html">Renteverlies</a></li>
-                        <li><a href="belasting.html">Belastingvoordeel</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-nieuwbouw">Nieuwbouw</p>
-                    <ul aria-labelledby="voet-nieuwbouw">
-                        <li><a href="nieuwbouw.html">Nieuwbouwplanning</a></li>
-                        <li><a href="bouwrente-nieuwbouw.html">Bouwrente</a></li>
-                        <li><a href="dubbele-lasten-nieuwbouw.html">Dubbele lasten</a></li>
-                        <li><a href="depotplanner.html">Depotplanner</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-uitleg">Uitleg en hulpmiddelen</p>
-                    <ul aria-labelledby="voet-uitleg">
-                        <li><a href="kennisbank.html">Kennisbank</a></li>
-                        <li><a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a></li>
-                        <li><a href="stappenplan.html">Stappenplan</a></li>
-                        <li><a href="adviesgesprek-checklist.html">Adviesgesprek-checklist</a></li>
-                        <li><a href="bouwdepot-declaratie-afgewezen.html">Declaratie afgewezen</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-site">Over deze site</p>
-                    <ul aria-labelledby="voet-site">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="over-ons.html">Over ons</a></li>
-                        <li><a href="methodologie.html">Methodologie</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="privacy.html">Privacy</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="voorwaarden.html">Voorwaarden</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <p class="ds-caption">&copy; 2026 BouwdepotCalculator.nl &middot; Onafhankelijk informatieplatform, geen aanbieder van hypotheken.</p>
+    <div class="bs-band no-print" aria-hidden="true">
+        <div class="bs-band__spoor">
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+        </div>
+    </div>
+
+    <footer class="bs-voet no-print">
+        <div class="bs-wrap bs-voet__inner">
+            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
         </div>
     </footer>
 

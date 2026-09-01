@@ -65,18 +65,6 @@ Geladen door 31 pagina's. Dit is de woordenschat van de oude richting; zie ook �
 |---|---|
 | `.ds-keuzes` / `.ds-keuze` | Het keuzeblok op de homepage: waar sta je nu, en waar ga je heen |
 
-### Vergelijking van geldverstrekkers
-
-| Component | Waarvoor |
-|---|---|
-| `.vgl-lijst` / `.vgl-item` | De vergelijking, als lijst en niet als brede tabel |
-| `.vgl-balken` / `.vgl-schaal` / `.vgl-legenda` | Looptijd als balk op een gedeelde schaal, met schaalaanduiding en legenda |
-| `.vgl-feiten` | Feiten per aanbieder |
-| `.vgl-leeg` | **Ontbrekende gegevens blijven zichtbaar leeg.** Nooit invullen met een schatting |
-| `.vgl-merk` | Merkaanduiding van een aanbieder |
-| `.vgl-controle` | Bron en controledatum |
-| `.vgl-detail` | Detailpagina: definitielijst in plaats van tabel |
-
 ---
 
 ## 2. Paginameubilair — `pagina.css`
@@ -362,6 +350,24 @@ script aan, nooit de HTML.
 | `.bs-punten` | Opsomming met een vierkant accentblokje. Voor losse constateringen, niet voor stappen die op volgorde staan |
 | `.bs-bronnen` | De bronlinks onderaan een aanbiederpagina. Volledige URL's, zodat te zien is waar een gegeven vandaan komt |
 | `.bs-acties` | Rij knoppen die een sectie afsluit. Werkt op bone en op de zwarte band; heette eerder `.bs-donker__acties` |
+
+### Redactionele pagina's
+
+Kwamen uit `pagina.css`. Voor leespagina's: kennisbank, de foutenpagina, de
+aftrekgids, de methodologie en de gegenereerde declaratiepagina.
+
+| Component | Waarvoor |
+|---|---|
+| `.bs-kernzin` | Eén zin die het onderwerp samenvat, direct onder de titel. **Het antwoord van de pagina**; alles eronder is toelichting. Eén per pagina |
+| `.bs-vragen` / `.bs-vraag` | Genummerde vragen. Het nummer komt uit een CSS-teller, dus hernummeren gebeurt vanzelf als er een vraag tussenuit gaat |
+| `.bs-scenarios` / `.bs-scenario` | Drie situaties naast elkaar. Op mobiel onder elkaar en nooit als brede tabel |
+| `.bs-checklijst` | Voorbereidingslijst met een leeg vakje. **Niet aanklikbaar** — is er wél iets te onthouden, gebruik dan `.bs-punt` met een voortgangsbalk |
+| `.bs-fouten` / `.bs-fout` | Genummerd probleem met zijn oplossing. Het nummer is amber, want het accent is op deze site de kleur van de uitkomst. Variant `--een` als het blok te hoog is om naast een ander te staan |
+| `.bs-fasenrij` / `.bs-faseblok` | Drie periodes van een regeling naast elkaar. **Heet niet `.bs-tijdlijn`** — die naam is van de gedateerde stappenlijst op de depotplanner |
+| `.bs-voorbeeld` / `.bs-uitkomstrij` | Uitgewerkte som. De uitkomstrij krijgt een zwarte lijn en het bedrag in het accent, zodat te zien is waar de rij op uitkomt |
+| `.bs-welniet` | Twee lijsten naast elkaar: wat wel en wat niet |
+| `.bs-wijzigingen` | Wijzigingenoverzicht, nieuwste bovenaan |
+| `.bs-perbank` | Eén gegeven per aanbieder: naam, waarde, nuance eronder. Bewust geen tabel; het zijn losse antwoorden, geen matrix |
 
 ---
 

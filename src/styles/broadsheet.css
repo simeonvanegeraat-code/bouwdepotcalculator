@@ -1007,3 +1007,117 @@
 
 .bs-bronnen { display: grid; gap: 8px; margin: 16px 0 20px; padding: 0; list-style: none; }
 .bs-bronnen a { font-size: var(--bs-t-klein); overflow-wrap: anywhere; }
+
+/* ==========================================================================
+   Redactionele pagina's
+   --------------------------------------------------------------------------
+   Kwamen uit `pagina.css`. Waar dat elk blok een kader en een schaduw gaf,
+   doet ook hier een haarlijn boven het blok het werk. Wat overblijft is de
+   typografie, en dat is de bedoeling: dit zijn leespagina's.
+   ========================================================================== */
+
+/* Eén zin die het onderwerp samenvat, direct onder de titel. Het antwoord van
+   de pagina; alles eronder is toelichting. */
+.bs-kernzin { margin: clamp(20px, 3vw, 32px) 0; padding-left: 20px; border-left: 3px solid var(--bs-accent); font-size: var(--bs-t-lead); line-height: 1.45; letter-spacing: -.012em; max-width: 58ch; }
+
+/* --- Genummerde vragen ---------------------------------------------------- */
+.bs-vragen { counter-reset: bs-vraag; display: grid; gap: clamp(24px, 3vw, 40px); margin-top: clamp(24px, 3vw, 40px); }
+@media (min-width: 720px) { .bs-vragen { grid-template-columns: 1fr 1fr; column-gap: clamp(32px, 4vw, 64px); } }
+
+.bs-vraag { counter-increment: bs-vraag; padding-top: 14px; border-top: 1px solid var(--bs-lijn); }
+.bs-vraag::before { content: counter(bs-vraag, decimal-leading-zero); display: block; margin-bottom: 6px; font-size: var(--bs-t-micro); font-weight: 600; letter-spacing: .1em; color: var(--bs-accent); font-variant-numeric: tabular-nums; }
+.bs-vraag h3 { margin: 0 0 8px; font-size: var(--bs-t-lead); font-weight: 500; letter-spacing: -.02em; line-height: 1.2; }
+.bs-vraag p { margin: 0; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-newsprint); }
+.bs-vraag p + p { margin-top: 10px; }
+
+/* --- Scenario's naast elkaar ----------------------------------------------
+   Op mobiel onder elkaar en niet als brede tabel: drie kolommen cijfers op
+   375px leest niemand. */
+.bs-scenarios { display: grid; gap: clamp(24px, 3vw, 36px); margin-top: clamp(24px, 3vw, 40px); }
+@media (min-width: 860px) { .bs-scenarios { grid-template-columns: repeat(3, 1fr); } }
+
+.bs-scenario { padding-top: 16px; border-top: 1px solid var(--bs-ink); }
+.bs-scenario__bedrag { margin: 0; font-size: clamp(26px, 3vw, 34px); font-weight: 500; letter-spacing: -.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+.bs-scenario dl { display: grid; gap: 12px; margin: 16px 0 0; }
+.bs-scenario dt { margin-bottom: 3px; font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
+.bs-scenario dd { margin: 0; font-size: var(--bs-t-klein); line-height: 1.5; }
+
+/* --- Voorbereidingslijst -------------------------------------------------
+   Een leeg vakje dat u op papier afvinkt. Niet aanklikbaar: er is hier niets
+   om te onthouden, anders dan bij de afvinklijsten met een voortgangsbalk. */
+.bs-checklijst { display: grid; gap: 12px; margin: clamp(20px, 2.5vw, 32px) 0 0; padding: 0; list-style: none; }
+.bs-checklijst li { display: grid; grid-template-columns: 18px 1fr; gap: 14px; font-size: var(--bs-t-klein); line-height: 1.55; }
+.bs-checklijst li::before { content: ""; width: 16px; height: 16px; margin-top: 4px; border: 1px solid var(--bs-accent); }
+
+/* --- Genummerde fouten ---------------------------------------------------- */
+.bs-fouten { display: grid; gap: clamp(28px, 3.5vw, 44px); margin-top: clamp(24px, 3vw, 40px); }
+@media (min-width: 900px) { .bs-fouten { grid-template-columns: 1fr 1fr; column-gap: clamp(32px, 4vw, 64px); } }
+
+.bs-fout { display: flex; flex-direction: column; padding-top: 16px; border-top: 1px solid var(--bs-ink); }
+/* Amber en niet het accent: dit nummert een probleem, en het accent is op deze
+   site de kleur van de uitkomst. */
+.bs-fout__nummer { margin: 0 0 6px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: #8c5410; }
+.bs-fout h3 { margin: 0; font-size: var(--bs-t-lead); font-weight: 500; letter-spacing: -.02em; line-height: 1.2; }
+.bs-fout > p { margin: 10px 0 0; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-newsprint); }
+/* Onderaan het blok, zodat de oplossingen van twee naast elkaar staande fouten
+   op één lijn eindigen. */
+.bs-fout__oplossing { margin-top: auto; }
+.bs-fout__oplossing h4 { margin: 16px 0 6px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-accent); }
+.bs-fout__oplossing p { margin: 0; padding-left: 16px; border-left: 2px solid var(--bs-accent); font-size: var(--bs-t-klein); line-height: 1.55; }
+
+/* --- Drie fasen naast elkaar ---------------------------------------------
+   Heet niet `bs-tijdlijn`: die naam is van de gedateerde stappenlijst op de
+   depotplanner. Dit zijn periodes van een regeling, zonder datums. */
+.bs-fasenrij { display: grid; gap: clamp(24px, 3vw, 36px); margin-top: clamp(24px, 3vw, 40px); }
+@media (min-width: 820px) { .bs-fasenrij { grid-template-columns: repeat(3, 1fr); } }
+
+.bs-faseblok { padding-top: 16px; border-top: 1px solid var(--bs-ink); }
+.bs-faseblok__periode { margin: 0 0 6px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-accent); font-variant-numeric: tabular-nums; }
+.bs-faseblok h3 { margin: 0 0 8px; font-size: var(--bs-t-lead); font-weight: 500; letter-spacing: -.02em; line-height: 1.2; }
+.bs-faseblok p { margin: 0; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-newsprint); }
+
+/* --- Uitgewerkt rekenvoorbeeld -------------------------------------------- */
+.bs-voorbeeld { margin-top: clamp(20px, 2.5vw, 32px); padding-top: 16px; border-top: 1px solid var(--bs-ink); }
+.bs-voorbeeld > p { margin: 0; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-newsprint); }
+.bs-voorbeeld dl { display: grid; gap: 0; margin: 16px 0 0; }
+.bs-voorbeeld dl > div { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding: 12px 0; border-bottom: 1px solid var(--bs-lijn); }
+.bs-voorbeeld dt { font-size: var(--bs-t-klein); color: var(--bs-newsprint); }
+.bs-voorbeeld dd { margin: 0; font-size: var(--bs-t-klein); font-weight: 500; white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* De slotregel van de som: zwarte lijn eronder en het bedrag in het accent,
+   zodat bij het scannen meteen te zien is waar de rij op uitkomt. */
+.bs-voorbeeld dl > div.bs-uitkomstrij { border-bottom-color: var(--bs-ink); }
+.bs-uitkomstrij dt { color: var(--bs-ink); font-weight: 500; }
+.bs-uitkomstrij dd { font-size: var(--bs-t-lead); color: var(--bs-accent); }
+
+/* --- Wel en niet ---------------------------------------------------------- */
+.bs-welniet { display: grid; gap: clamp(24px, 3vw, 40px); margin-top: clamp(24px, 3vw, 40px); }
+@media (min-width: 760px) { .bs-welniet { grid-template-columns: 1fr 1fr; } }
+.bs-welniet__blok { padding-top: 16px; border-top: 1px solid var(--bs-ink); }
+.bs-welniet__blok h3 { margin: 0 0 14px; font-size: var(--bs-t-lead); font-weight: 500; letter-spacing: -.02em; }
+.bs-welniet__blok ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.bs-welniet__blok li { position: relative; padding-left: 22px; font-size: var(--bs-t-klein); line-height: 1.55; }
+.bs-welniet__blok li::before { position: absolute; left: 0; font-weight: 600; }
+.bs-welniet__blok--wel li::before { content: "+"; color: var(--bs-accent); }
+.bs-welniet__blok--niet li::before { content: "\2212"; color: #8c5410; }
+
+/* --- Wijzigingenoverzicht, nieuwste bovenaan ------------------------------ */
+.bs-wijzigingen { display: grid; gap: clamp(20px, 2.5vw, 32px); margin: clamp(20px, 2.5vw, 32px) 0 0; padding: 0; list-style: none; }
+.bs-wijzigingen li { position: relative; padding-left: 22px; border-left: 1px solid var(--bs-lijn); }
+.bs-wijzigingen li::before { content: ""; position: absolute; left: -3px; top: 7px; width: 5px; height: 5px; background: var(--bs-accent); }
+.bs-wijzigingen time { display: block; margin-bottom: 4px; font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); font-variant-numeric: tabular-nums; }
+.bs-wijzigingen p { margin: 0; font-size: var(--bs-t-klein); line-height: 1.6; }
+
+/* Eén kolom in plaats van twee: een blok met een lijst per aanbieder erin is te
+   hoog om naast een ander blok te staan. */
+.bs-fouten--een { grid-template-columns: 1fr; }
+
+/* Wat één gegeven per aanbieder is: naam, waarde, en de nuance eronder.
+   Bewust geen tabel -- het zijn acht losse antwoorden, geen matrix. */
+.bs-perbank { display: grid; gap: 16px; margin: 16px 0 0; padding-top: 16px; border-top: 1px solid var(--bs-lijn); }
+@media (min-width: 760px) { .bs-perbank { grid-template-columns: 1fr 1fr; column-gap: clamp(24px, 3vw, 44px); } }
+.bs-perbank dt { margin-bottom: 3px; font-size: var(--bs-t-micro); text-transform: uppercase; letter-spacing: .1em; }
+.bs-perbank dt a { color: var(--bs-newsprint); text-decoration: none; border-bottom: 1px solid var(--bs-lijn); }
+.bs-perbank dt a:hover { color: var(--bs-ink); border-bottom-color: var(--bs-accent); }
+.bs-perbank dd { margin: 0; font-size: var(--bs-t-klein); line-height: 1.5; }
+.bs-perbank dd strong { font-weight: 500; }
+.bs-perbank dd small { display: block; margin-top: 3px; font-size: var(--bs-t-micro); line-height: 1.5; color: var(--bs-newsprint); }

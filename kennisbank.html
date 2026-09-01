@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,87 +35,62 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/design-system.css">
-    <link rel="stylesheet" href="/src/styles/pagina.css">
+    <link rel="stylesheet" href="/src/styles/broadsheet.css">
 </head>
-<body class="ds">
+<body class="bs">
 
-    <header class="kop">
-        <div class="ds-wrap kop__inner">
-            <a class="merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
-            <nav aria-label="Hoofdnavigatie">
-                <details class="kop__menu">
-                    <summary><span class="kop__streepjes" aria-hidden="true"></span>Menu</summary>
-                </details>
-                <div class="kop__paneel">
-                    <a href="bouwdepot-berekenen.html">Bereken</a>
-                    <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
-                    <a href="kennisbank.html">Uitleg</a>
-                    <a href="over-ons.html">Over ons</a>
-                </div>
-            </nav>
-        </div>
-
-        <!-- De rekenhulpen bij naam. Zie de toelichting in pagina.css. -->
-        <nav class="toolbalk no-print" aria-label="Rekenhulpen">
-            <div class="ds-wrap toolbalk__inner">
-                <a href="bouwdepot-berekenen.html">Bouwdepot berekenen</a>
-                <a href="verbouwbegroting.html">Verbouwbegroting</a>
-                <a href="leenruimte.html">Leenruimte</a>
-                <a href="maandlasten-bouwdepot.html">Maandlasten</a>
-                <a href="nieuwbouw.html">Nieuwbouwplanning</a>
-                <a href="depotplanner.html">Depotplanner</a>
-                <a href="belasting.html">Belastingvoordeel</a>
+    <header class="bs-kop no-print">
+        <div class="bs-wrap bs-kop__inner">
+            <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
+            <div class="bs-kop__rechts">
+                <a href="bouwdepot-berekenen.html">Bereken</a>
                 <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+                <a href="kennisbank.html">Uitleg</a>
+                <a class="bs-menu" href="over-ons.html">Over ons</a>
+                <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
-        </nav>
+        </div>
     </header>
 
-    <nav class="kruimel" aria-label="Kruimelpad">
-      <div class="ds-wrap">
-        <ol>
-          <li><a href="/">Home</a></li>
-          <li aria-current="page">Uitleg</li>
-        </ol>
-      </div>
+    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
+        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Kennisbank</span>
     </nav>
 
+
     <main>
-        <section class="ds-wrap ds-sectie">
-            <div class="ds-sectiekop">
-                <p class="ds-eyebrow">Bouwdepot uitgelegd</p>
-                <h1 class="ds-heading">Wat een bouwdepot is, en waar u op moet letten</h1>
-            </div>
+        <section class="bs-reken">
+            <div class="bs-wrap">
+                <p class="bs-micro">Bouwdepot uitgelegd</p>
+                <h1 class="bs-reken__titel">Wat een bouwdepot is, en waar u op moet letten</h1>
 
-            <p class="kernzin">Een bouwdepot is een gereserveerd deel van uw hypotheek dat de bank pas uitbetaalt als u facturen indient voor afgesproken werkzaamheden. Geen spaarpot, maar een budget met regels, termijnen en bewijsplicht.</p>
+            <p class="bs-kernzin">Een bouwdepot is een gereserveerd deel van uw hypotheek dat de bank pas uitbetaalt als u facturen indient voor afgesproken werkzaamheden. Geen spaarpot, maar een budget met regels, termijnen en bewijsplicht.</p>
 
-            <div class="proza" style="margin-top: var(--ds-5)">
+            <div class="bs-proza">
                 <p>De bank controleert of uw kosten binnen de voorwaarden vallen voordat er geld overgaat. Wat aan het einde van de looptijd overblijft, wordt bij de meeste aanbieders gebruikt om uw lening te verlagen — het geld is dan niet weg, maar u kunt het niet meer voor de verbouwing gebruiken.</p>
                 <p>Die voorwaarden verschillen sterk per geldverstrekker. Hoe lang u de tijd krijgt loopt uiteen van 24 tot 42 maanden, en of u rente ontvangt over het niet-opgenomen deel is evenmin vanzelfsprekend. Wij hebben ze <a href="bouwdepot-voorwaarden-vergelijken.html">van acht aanbieders naast elkaar gezet</a>.</p>
             </div>
+            </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--gevuld">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Eerst dit</p>
-                    <h2 class="ds-title">Vier vragen om te beantwoorden voordat u begint</h2>
-                </div>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Eerst dit</p>
+                    <h2 class="bs-titel">Vier vragen om te beantwoorden voordat u begint</h2>
 
-                <div class="vragen">
-                    <article class="vraag">
+                <div class="bs-vragen">
+                    <article class="bs-vraag">
                         <h3>Wat wilt u precies verbeteren?</h3>
                         <p>Maak onderscheid tussen noodzakelijke werkzaamheden en wensen. Dat helpt bij prioriteren zodra budget of planning onder druk komt, en dat gebeurt vaker wel dan niet.</p>
                     </article>
-                    <article class="vraag">
+                    <article class="bs-vraag">
                         <h3>Wat accepteert uw bank als declarabele kosten?</h3>
                         <p>Controleer vooraf welke uitgaven wel en niet uit het depot betaald mogen worden, en of een kassabon volstaat of alleen een factuur op naam. Zo voorkomt u afwijzingen en vertraging.</p>
                     </article>
-                    <article class="vraag">
+                    <article class="bs-vraag">
                         <h3>Hoe ziet uw tijdlijn eruit?</h3>
                         <p>Vertraging in levering of uitvoering komt veel voor. Zet een planning op met ruimte voor uitloop, en weet hoe lang uw depot geldig blijft. Verlenging is meestal eenmalig en moet vóór de einddatum worden aangevraagd.</p>
                     </article>
-                    <article class="vraag">
+                    <article class="bs-vraag">
                         <h3>Past dit bij uw comfortabele maandlast?</h3>
                         <p>Kijk niet alleen naar de startsituatie. Vergelijk ook de last later in het traject, bijvoorbeeld wanneer de depotvergoeding stopt of het depot leeg is. <a href="maandlasten-bouwdepot.html">Bereken uw maandlast</a>.</p>
                     </article>
@@ -123,33 +98,31 @@
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Naar omvang</p>
-                    <h2 class="ds-title">Wat past bij welk depotbedrag</h2>
-                    <p class="ds-lead">De omvang bepaalt niet alleen het bedrag, maar ook hoeveel administratie en planning erbij komt kijken.</p>
-                </div>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Naar omvang</p>
+                    <h2 class="bs-titel">Wat past bij welk depotbedrag</h2>
+                    <p class="bs-reken__lead">De omvang bepaalt niet alleen het bedrag, maar ook hoeveel administratie en planning erbij komt kijken.</p>
 
-                <div class="scenarios">
-                    <article class="scenario">
-                        <p class="scenario__bedrag">&euro; 10.000 &ndash; 25.000</p>
+                <div class="bs-scenarios">
+                    <article class="bs-scenario">
+                        <p class="bs-scenario__bedrag">&euro; 10.000 &ndash; 25.000</p>
                         <dl>
                             <div><dt>Past vaak bij</dt><dd>Gerichte verbeteringen zoals isolatie, onderhoud of één grote post.</dd></div>
                             <div><dt>Sterk punt</dt><dd>Beperkte extra maandlast en een overzichtelijk traject.</dd></div>
                             <div><dt>Let hierop</dt><dd>Minder ruimte voor tegenvallers, dus een buffer is cruciaal.</dd></div>
                         </dl>
                     </article>
-                    <article class="scenario">
-                        <p class="scenario__bedrag">&euro; 25.000 &ndash; 60.000</p>
+                    <article class="bs-scenario">
+                        <p class="bs-scenario__bedrag">&euro; 25.000 &ndash; 60.000</p>
                         <dl>
                             <div><dt>Past vaak bij</dt><dd>Combinatie van keuken, badkamer en verduurzaming.</dd></div>
                             <div><dt>Sterk punt</dt><dd>Goede balans tussen woonkwaliteit en kosten.</dd></div>
                             <div><dt>Let hierop</dt><dd>Planning en offertes moeten goed op elkaar aansluiten.</dd></div>
                         </dl>
                     </article>
-                    <article class="scenario">
-                        <p class="scenario__bedrag">&euro; 60.000 en meer</p>
+                    <article class="bs-scenario">
+                        <p class="bs-scenario__bedrag">&euro; 60.000 en meer</p>
                         <dl>
                             <div><dt>Past vaak bij</dt><dd>Uitbouw, constructieve aanpassing of totaalrenovatie.</dd></div>
                             <div><dt>Sterk punt</dt><dd>Grote kwaliteits- en waardesprong op lange termijn.</dd></div>
@@ -160,47 +133,43 @@
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--diep">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Vier veelgemaakte fouten</p>
-                    <h2 class="ds-title">Waar het meestal misgaat</h2>
-                </div>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Vier veelgemaakte fouten</p>
+                    <h2 class="bs-titel">Waar het meestal misgaat</h2>
 
-                <div class="vragen">
-                    <article class="vraag">
+                <div class="bs-vragen">
+                    <article class="bs-vraag">
                         <h3>Te optimistische begroting</h3>
                         <p>Zonder buffer loopt u vast bij meerwerk of prijsstijgingen. Reken met een veiligheidsmarge, want een depot verhogen kan meestal niet zomaar.</p>
                     </article>
-                    <article class="vraag">
+                    <article class="bs-vraag">
                         <h3>Facturen niet strak organiseren</h3>
                         <p>Verspreide of onvolledige documenten vertragen declaraties. Eén aanbieder accepteert bovendien geen bewijsstuk ouder dan zes maanden.</p>
                     </article>
-                    <article class="vraag">
+                    <article class="bs-vraag">
                         <h3>Alleen op de startlast sturen</h3>
                         <p>Een lage eerste maand zegt weinig over de komende jaren. Vergelijk meerdere meetmomenten, zeker rond het moment dat de depotvergoeding stopt.</p>
                     </article>
-                    <article class="vraag">
+                    <article class="bs-vraag">
                         <h3>Fiscaliteit pas achteraf bekijken</h3>
                         <p>De renteaftrek over een bouwdepot kent termijnen. Loopt uw verbouwing uit, dan kan een deel van de aftrek vervallen zonder dat u het merkt.</p>
                     </article>
                 </div>
 
-                <p style="margin-top: var(--ds-6)">
-                    <a class="ds-knop ds-knop--rustig" href="bouwdepot-fouten.html">Alle zeven fouten met signalen en acties</a>
+                <p>
+                    <a class="bs-knop bs-knop--licht" href="bouwdepot-fouten.html">Alle zeven fouten met signalen en acties</a>
                 </p>
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Voorbereiding</p>
-                    <h2 class="ds-title">Wat u meeneemt naar het gesprek</h2>
-                    <p class="ds-lead">Met deze set komt u concreet over, wat het gesprek versnelt en keuzes scherper maakt.</p>
-                </div>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Voorbereiding</p>
+                    <h2 class="bs-titel">Wat u meeneemt naar het gesprek</h2>
+                    <p class="bs-reken__lead">Met deze set komt u concreet over, wat het gesprek versnelt en keuzes scherper maakt.</p>
 
-                <ul class="checklijst">
+                <ul class="bs-checklijst">
                     <li>Huidige hypotheekgegevens, rentecondities en resterende looptijd.</li>
                     <li>Heldere verbouwspecificatie met prioriteit: noodzakelijk tegenover wenselijk.</li>
                     <li>Offertes van aannemers en leveranciers voor de grote posten.</li>
@@ -209,70 +178,68 @@
                     <li>De depotvoorwaarden van uw beoogde geldverstrekker, zodat u gericht kunt doorvragen.</li>
                 </ul>
 
-                <p style="margin-top: var(--ds-5)">Vink documenten, scenario's en risico's af met de <a href="adviesgesprek-checklist.html">printbare checklist voor het adviesgesprek</a>.</p>
+                <p>Vink documenten, scenario's en risico's af met de <a href="adviesgesprek-checklist.html">printbare checklist voor het adviesgesprek</a>.</p>
             </div>
         </section>
 
-        <section class="ds-sectie ds-sectie--gevuld">
-            <div class="ds-wrap">
-                <div class="ds-sectiekop">
-                    <p class="ds-eyebrow">Verder lezen en rekenen</p>
-                    <h2 class="ds-title">Waar wilt u heen?</h2>
-                </div>
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                    <p class="bs-micro">Verder lezen en rekenen</p>
+                    <h2 class="bs-titel">Waar wilt u heen?</h2>
 
-                <div class="ds-keuzes">
-                    <a class="ds-keuze" href="verbouwbegroting.html">
-                        <span class="ds-keuze__titel">Verbouwbegroting maken</span>
-                        <span class="ds-keuze__uitleg">Stel uw kosten samen en zie per post of die uit het depot mag. Levert een specificatie op die u meeneemt naar uw adviseur.</span>
-                        <span class="ds-keuze__meta">Begroting samenstellen &rarr;</span>
+                <div class="bs-rooster">
+                    <a class="bs-tool" href="verbouwbegroting.html">
+                        <span class="bs-tool__naam">Verbouwbegroting maken</span>
+                        <span class="bs-tool__uitleg">Stel uw kosten samen en zie per post of die uit het depot mag. Levert een specificatie op die u meeneemt naar uw adviseur.</span>
+                        <span class="bs-tool__meta">Begroting samenstellen &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="leenruimte.html">
-                        <span class="ds-keuze__titel">Kunt u dit bedrag lenen?</span>
-                        <span class="ds-keuze__uitleg">Toets uw verbouwing tegen de waarde van de woning: waarderuimte, financieringsgat en benodigd eigen geld.</span>
-                        <span class="ds-keuze__meta">Leenruimte berekenen &rarr;</span>
+                    <a class="bs-tool" href="leenruimte.html">
+                        <span class="bs-tool__naam">Kunt u dit bedrag lenen?</span>
+                        <span class="bs-tool__uitleg">Toets uw verbouwing tegen de waarde van de woning: waarderuimte, financieringsgat en benodigd eigen geld.</span>
+                        <span class="bs-tool__meta">Leenruimte berekenen &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="depotplanner.html">
-                        <span class="ds-keuze__titel">Wanneer loopt mijn depot af?</span>
-                        <span class="ds-keuze__uitleg">Einddatum, het moment waarop de rentevergoeding stopt en wanneer u moet verlengen, per geldverstrekker.</span>
-                        <span class="ds-keuze__meta">Naar de depotplanner &rarr;</span>
+                    <a class="bs-tool" href="depotplanner.html">
+                        <span class="bs-tool__naam">Wanneer loopt mijn depot af?</span>
+                        <span class="bs-tool__uitleg">Einddatum, het moment waarop de rentevergoeding stopt en wanneer u moet verlengen, per geldverstrekker.</span>
+                        <span class="bs-tool__meta">Naar de depotplanner &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="bouwdepot-voorwaarden-vergelijken.html">
-                        <span class="ds-keuze__titel">Voorwaarden per bank</span>
-                        <span class="ds-keuze__uitleg">Looptijd, vergoeding en bewijsstukken van acht geldverstrekkers naast elkaar.</span>
-                        <span class="ds-keuze__meta">Vergelijking bekijken &rarr;</span>
+                    <a class="bs-tool" href="bouwdepot-voorwaarden-vergelijken.html">
+                        <span class="bs-tool__naam">Voorwaarden per bank</span>
+                        <span class="bs-tool__uitleg">Looptijd, vergoeding en bewijsstukken van acht geldverstrekkers naast elkaar.</span>
+                        <span class="bs-tool__meta">Vergelijking bekijken &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="stappenplan.html">
-                        <span class="ds-keuze__titel">Stappenplan</span>
-                        <span class="ds-keuze__uitleg">Van begroting en taxatie tot de laatste declaratie, in volgorde.</span>
-                        <span class="ds-keuze__meta">Naar het stappenplan &rarr;</span>
+                    <a class="bs-tool" href="stappenplan.html">
+                        <span class="bs-tool__naam">Stappenplan</span>
+                        <span class="bs-tool__uitleg">Van begroting en taxatie tot de laatste declaratie, in volgorde.</span>
+                        <span class="bs-tool__meta">Naar het stappenplan &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="hypotheekrenteaftrek-gids.html">
-                        <span class="ds-keuze__titel">Renteaftrek bij een depot</span>
-                        <span class="ds-keuze__uitleg">De termijnen waarbinnen rente over een bouwdepot aftrekbaar blijft.</span>
-                        <span class="ds-keuze__meta">Naar de gids &rarr;</span>
+                    <a class="bs-tool" href="hypotheekrenteaftrek-gids.html">
+                        <span class="bs-tool__naam">Renteaftrek bij een depot</span>
+                        <span class="bs-tool__uitleg">De termijnen waarbinnen rente over een bouwdepot aftrekbaar blijft.</span>
+                        <span class="bs-tool__meta">Naar de gids &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="bouwdepot-fouten.html">
-                        <span class="ds-keuze__titel">Zeven fouten voorkomen</span>
-                        <span class="ds-keuze__uitleg">Signalen en acties voor begroting, declaraties, kasstroom en depottermijn.</span>
-                        <span class="ds-keuze__meta">Fouten bekijken &rarr;</span>
+                    <a class="bs-tool" href="bouwdepot-fouten.html">
+                        <span class="bs-tool__naam">Zeven fouten voorkomen</span>
+                        <span class="bs-tool__uitleg">Signalen en acties voor begroting, declaraties, kasstroom en depottermijn.</span>
+                        <span class="bs-tool__meta">Fouten bekijken &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="dubbele-lasten-nieuwbouw.html">
-                        <span class="ds-keuze__titel">Dubbele lasten bij nieuwbouw</span>
-                        <span class="ds-keuze__uitleg">Wat de overlap kost tussen uw huidige woonlast en de nieuwe hypotheek.</span>
-                        <span class="ds-keuze__meta">Overlap berekenen &rarr;</span>
+                    <a class="bs-tool" href="dubbele-lasten-nieuwbouw.html">
+                        <span class="bs-tool__naam">Dubbele lasten bij nieuwbouw</span>
+                        <span class="bs-tool__uitleg">Wat de overlap kost tussen uw huidige woonlast en de nieuwe hypotheek.</span>
+                        <span class="bs-tool__meta">Overlap berekenen &rarr;</span>
                     </a>
-                    <a class="ds-keuze" href="bouwrente-nieuwbouw.html">
-                        <span class="ds-keuze__titel">Bouwrente bij nieuwbouw</span>
-                        <span class="ds-keuze__uitleg">Wat bouwrente is, wanneer die speelt en hoe u ermee rekent.</span>
-                        <span class="ds-keuze__meta">Bouwrente berekenen &rarr;</span>
+                    <a class="bs-tool" href="bouwrente-nieuwbouw.html">
+                        <span class="bs-tool__naam">Bouwrente bij nieuwbouw</span>
+                        <span class="bs-tool__uitleg">Wat bouwrente is, wanneer die speelt en hoe u ermee rekent.</span>
+                        <span class="bs-tool__meta">Bouwrente berekenen &rarr;</span>
                     </a>
                 </div>
             </div>
         </section>
 
-        <section class="ds-sectie">
-            <div class="ds-wrap ds-wrap--smal">
-                <div class="melding">
+        <section class="bs-sectie">
+            <div class="bs-wrap">
+                <div class="bs-melding">
                     <p><strong>Algemene informatie, geen persoonlijk advies.</strong> Deze uitleg is bedoeld voor oriëntatie. Toets uw keuzes altijd bij een erkend adviseur op basis van uw eigen situatie.</p>
                     <p>Bronnen: <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/koopwoning" target="_blank" rel="noopener noreferrer nofollow">Belastingdienst over de eigen woning</a>, <a href="https://www.afm.nl/nl-nl/consumenten/themas/producten/hypotheek" target="_blank" rel="noopener noreferrer nofollow">AFM over hypotheken</a> en <a href="https://www.rijksoverheid.nl/onderwerpen/huis-kopen" target="_blank" rel="noopener noreferrer nofollow">Rijksoverheid over een huis kopen</a>. Zie ook onze <a href="methodologie.html">methodologie</a>.</p>
                 </div>
@@ -280,53 +247,17 @@
         </section>
     </main>
 
-    <footer class="voet">
-        <div class="ds-wrap">
-            <nav class="voet__kolommen" aria-label="Voettekst">
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-verbouwen">Verbouwen</p>
-                    <ul aria-labelledby="voet-verbouwen">
-                        <li><a href="bouwdepot-berekenen.html">Bouwdepot berekenen</a></li>
-                        <li><a href="verbouwbegroting.html">Verbouwbegroting</a></li>
-                        <li><a href="leenruimte.html">Leenruimte</a></li>
-                        <li><a href="maandlasten-bouwdepot.html">Maandlasten bouwdepot</a></li>
-                        <li><a href="renteverlies-bouwdepot.html">Renteverlies</a></li>
-                        <li><a href="belasting.html">Belastingvoordeel</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-nieuwbouw">Nieuwbouw</p>
-                    <ul aria-labelledby="voet-nieuwbouw">
-                        <li><a href="nieuwbouw.html">Nieuwbouwplanning</a></li>
-                        <li><a href="bouwrente-nieuwbouw.html">Bouwrente</a></li>
-                        <li><a href="dubbele-lasten-nieuwbouw.html">Dubbele lasten</a></li>
-                        <li><a href="depotplanner.html">Depotplanner</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-uitleg">Uitleg en hulpmiddelen</p>
-                    <ul aria-labelledby="voet-uitleg">
-                        <li><a href="kennisbank.html">Kennisbank</a></li>
-                        <li><a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a></li>
-                        <li><a href="stappenplan.html">Stappenplan</a></li>
-                        <li><a href="adviesgesprek-checklist.html">Adviesgesprek-checklist</a></li>
-                        <li><a href="bouwdepot-declaratie-afgewezen.html">Declaratie afgewezen</a></li>
-                    </ul>
-                </div>
-                <div class="voet__groep">
-                    <p class="voet__kop" id="voet-site">Over deze site</p>
-                    <ul aria-labelledby="voet-site">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="over-ons.html">Over ons</a></li>
-                        <li><a href="methodologie.html">Methodologie</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li><a href="privacy.html">Privacy</a></li>
-                        <li><a href="cookies.html">Cookies</a></li>
-                        <li><a href="voorwaarden.html">Voorwaarden</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <p class="ds-caption">&copy; 2026 BouwdepotCalculator.nl &middot; Onafhankelijk informatieplatform, geen aanbieder van hypotheken.</p>
+    <div class="bs-band no-print" aria-hidden="true">
+        <div class="bs-band__spoor">
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
+        </div>
+    </div>
+
+    <footer class="bs-voet no-print">
+        <div class="bs-wrap bs-voet__inner">
+            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
         </div>
     </footer>
 
