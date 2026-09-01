@@ -168,11 +168,12 @@ groen blijven zonder hem aan te passen.
 ## Open vragen
 
 1. **Slug.** `bouwdepot-berekenen.html` of iets korters? Beslissing: founder.
-2. **Herstijling van de rest.** Deze twee pagina's nu, de andere 29 later — of
-   wachten tot alles kan? Beslissing: founder, en het hangt aan de
-   aanvraagdatum.
+2. ~~**Herstijling van de rest.**~~ **Beantwoord 01-09.** Alle 32 pagina's zijn
+   om; de drie oude stylesheets zijn verwijderd.
 3. **De claim "echt".** De kop is nu "Wat kost uw bouwdepot echt, per maand?".
    Dat "echt" suggereert dat anderen het onjuist voorstellen. Houden of weg?
-4. **FAQ-markup.** De rekenpagina krijgt de vragensectie. `index.html` heeft nu
-   geen JSON-LD terwijl elf andere pagina's dat wel hebben. `FAQPage` toevoegen
-   is een losse winst — binnen deze spec of erbuiten?
+4. ~~**FAQ-markup.**~~ **Beantwoord 01-09.** `index.html` was de enige van de
+   32 pagina's zonder JSON-LD en heeft nu `WebSite` en `Organization`. Geen
+   `FAQPage`: de drie koppen op de homepage zijn geen vragen maar uitspraken
+   over onafhankelijkheid, en een markering die niet met de zichtbare tekst
+   overeenkomt is een handmatige maatregel waard.
