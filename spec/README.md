@@ -24,8 +24,19 @@ naar de code en langs [../review.md](../review.md).
 
 ## Bestaande specs
 
+- [meeneemdocument.md](meeneemdocument.md) — het document dat de bezoeker
+  afdrukt of opslaat, als product in plaats van als bijproduct. Status:
+  **voorstel**, wacht op akkoord.
+- [deelafbeelding.md](deelafbeelding.md) — de afbeelding die verschijnt als
+  iemand een link deelt. Status: **voorstel**, wacht op akkoord.
 - [homepage-als-introductie.md](homepage-als-introductie.md) — de homepage wordt
-  een introductie, de rekenmachine krijgt een eigen pagina. Status: in uitvoering.
+  een introductie, de rekenmachine krijgt een eigen pagina. Status: opgeleverd
+  31-08, alle vier de open vragen beslist.
+- [afdrukdocument.md](afdrukdocument.md) — één afdrukdocument voor alle tools in
+  plaats van jsPDF. Status: opgeleverd 22-08. Wordt opgevolgd door
+  [meeneemdocument.md](meeneemdocument.md).
+- [verbouwbegroting.md](verbouwbegroting.md) en [homepage.md](homepage.md) —
+  ouder werk, opgeleverd.
 
 De volgorde volgt verder uit het bovenste blok van
 [../roadmap.md](../roadmap.md).
