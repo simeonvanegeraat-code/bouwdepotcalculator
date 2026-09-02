@@ -119,6 +119,20 @@
 .bs-staafjes i:nth-child(2) { height: 100%; }
 .bs-staafjes i:nth-child(3) { height: 40%; }
 @media (max-width: 760px) { .bs-kop__rechts a:not(.bs-menu) { display: none; } }
+/* Op een telefoon van 360 tot 375 breed pasten het woordmerk, de overgebleven
+   menulink en het staafdiagram net niet naast elkaar: de kop stak vijf pixels
+   buiten beeld en de hele pagina kon horizontaal schuiven. Het woordmerk een
+   maat kleiner lost dat op zonder iets weg te halen; op 400 en breder blijft
+   hij op 19px. */
+@media (max-width: 400px) {
+    .bs { --bs-t-merk: 17px; }
+    .bs-kop__rechts { gap: 16px; }
+    /* En op een toestel van 320 past ook dat niet meer naast elkaar. Dan zakt de
+       menulink naar een tweede regel in plaats van buiten beeld te vallen: de kop
+       wordt daar een fractie hoger, en dat is beter dan een pagina die zijwaarts
+       schuift. */
+    .bs-kop__inner { flex-wrap: wrap; row-gap: 6px; padding-block: 10px; min-height: 0; }
+}
 
 .bs-kruimel { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 14px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }
 .bs-kruimel a { color: var(--bs-newsprint); text-decoration: none; border-bottom: 1px solid var(--bs-lijn); }
@@ -239,7 +253,11 @@
         linear-gradient( 45deg, transparent 0 8px, #fff 0) 0 0 / 16px 12px repeat-x;
     filter: drop-shadow(1px 6px 8px var(--bs-accent-schaduw));
 }
-.bs-blad__kop { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--bs-ink); }
+/* Mag afbreken: het woordmerk en het stempel samen zijn 243px breed en dat is
+   op een toestel van 320 meer dan er past. Zonder afbreken kan het hele
+   rekenraster niet smaller worden dan de kop, want een rasterkind krimpt niet
+   onder zijn eigen minimuminhoud -- en dan schuift de pagina zijwaarts. */
+.bs-blad__kop { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 12px; padding-bottom: 12px; border-bottom: 1px solid var(--bs-ink); }
 .bs-blad__merk { font-size: var(--bs-t-klein); font-weight: 500; letter-spacing: -.02em; }
 .bs-blad__stempel { font-size: var(--bs-t-stempel); font-weight: 600; text-transform: uppercase; letter-spacing: .14em; color: var(--bs-accent-ink); background: var(--bs-accent); padding: 4px 8px; border-radius: 3px; }
 .bs-blad__voet { margin: 0; padding: 14px 0 20px; font-size: var(--bs-t-stempel); font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--bs-newsprint); }
@@ -312,7 +330,7 @@
    ========================================================================== */
 .bs-sectie { padding: var(--bs-sectie) 0; border-top: 1px solid var(--bs-lijn); }
 .bs-sectiekop { display: flex; flex-wrap: wrap; gap: 20px; align-items: end; justify-content: space-between; margin-bottom: clamp(28px, 4vw, 48px); }
-.bs-titel { margin: 8px 0 0; font-size: var(--bs-t-titel); font-weight: 500; line-height: 1.05; letter-spacing: -.04em; max-width: 20ch; }
+.bs-titel { margin: 8px 0 0; overflow-wrap: break-word; font-size: var(--bs-t-titel); font-weight: 500; line-height: 1.05; letter-spacing: -.04em; max-width: 20ch; }
 
 .bs-kolommen { display: grid; gap: clamp(20px, 3vw, 40px); margin-top: clamp(24px, 3vw, 40px); }
 @media (min-width: 860px) { .bs-kolommen { grid-template-columns: repeat(3, 1fr); } }
@@ -415,11 +433,21 @@
    invoer te komen -- dat is de bestaande afspraak op de site.
    ========================================================================== */
 .bs-reken { padding: clamp(20px, 3vw, 40px) 0 var(--bs-sectie); }
-.bs-reken__titel { max-width: 20ch; font-size: var(--bs-t-rekentitel); font-weight: 600; line-height: 1.03; margin: 0; }
+/* Breekt een woord af als het echt niet past. "hypotheekrenteaftrek" is op een
+   toestel van 320 breder dan de kolom, en stak dan buiten beeld. Alleen als het
+   moet: kortere koppen breken nergens af. */
+.bs-reken__titel { max-width: 20ch; font-size: var(--bs-t-rekentitel); font-weight: 600; line-height: 1.03; margin: 0; overflow-wrap: break-word; }
 .bs-reken__lead { margin: 14px 0 clamp(24px, 3vw, 40px); max-width: 46ch; font-size: var(--bs-t-lead); line-height: 1.4; color: var(--bs-newsprint); letter-spacing: -.01em; }
 
 .bs-reken__grid { display: grid; gap: clamp(24px, 3vw, 44px); align-items: start; }
 @media (min-width: 940px) { .bs-reken__grid { grid-template-columns: 1fr 1fr; } }
+/* Een raster- of flexkind krimpt standaard niet onder zijn eigen
+   minimuminhoud, en een invoerveld brengt daar zo'n twintig tekens aan mee. Op
+   een toestel van 320 werd het rekenblok daardoor breder dan de pagina en schoof
+   alles zijwaarts. Dit laat ze wel krimpen; de breedte komt toch uit de
+   kolom en niet uit de inhoud. */
+.bs-reken__grid > *, .bs-invoer > *, .bs-veldrij > * { min-width: 0; }
+.bs input, .bs select, .bs .bs-omhulsel { min-width: 0; }
 
 .bs-invoer { display: grid; gap: var(--bs-gap); }
 .bs-reken__acties { margin-top: 20px; }
