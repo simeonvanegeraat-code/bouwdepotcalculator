@@ -1230,3 +1230,12 @@
        hem los van de aannames erboven, die de bezoeker wél moet lezen. */
     .bs-spec__voet > p:last-child { margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--bs-lijn); }
 }
+
+/* De wisknop op privacy.html: de bezoeker haalt zelf weg wat deze site op zijn
+   apparaat bewaart. Staat los van de tekst met een haarlijn erboven, want het
+   is een handeling en geen alinea. */
+.bs-wissen { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--bs-lijn); }
+.bs-wissen .bs-hulp { margin-top: 12px; max-width: 62ch; }
+/* De bevestigingsstand. Amber en niet rood: er gaat niets van waarde verloren,
+   alleen het gemak van onthouden invoer. */
+.bs-knop--waarschuwing { color: #8c5410; border-color: #c9821f; }

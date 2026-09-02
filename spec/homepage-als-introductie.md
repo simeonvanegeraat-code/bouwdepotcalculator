@@ -167,11 +167,16 @@ groen blijven zonder hem aan te passen.
 
 ## Open vragen
 
-1. **Slug.** `bouwdepot-berekenen.html` of iets korters? Beslissing: founder.
+1. ~~**Slug.**~~ **Beslist 02-09: blijft `bouwdepot-berekenen.html`.** Bevat het
+   zoekwoord en dekt de zoekintentie; korter maken zou dat opgeven voor een
+   nettere link.
 2. ~~**Herstijling van de rest.**~~ **Beantwoord 01-09.** Alle 32 pagina's zijn
    om; de drie oude stylesheets zijn verwijderd.
-3. **De claim "echt".** De kop is nu "Wat kost uw bouwdepot echt, per maand?".
-   Dat "echt" suggereert dat anderen het onjuist voorstellen. Houden of weg?
+3. ~~**De claim "echt".**~~ **Beslist 02-09: blijft staan.** De kop is "Wat kost
+   uw bouwdepot echt, per maand?". Onderbouwing: de site rekent posten mee die
+   elders wegvallen -- de depotvergoeding en de dubbele lasten. Wie de kop later
+   wil verdedigen heeft daar dus iets voor; hij staat alleen nog niet op de
+   homepage zelf uitgelegd.
 4. ~~**FAQ-markup.**~~ **Beantwoord 01-09.** `index.html` was de enige van de
    32 pagina's zonder JSON-LD en heeft nu `WebSite` en `Organization`. Geen
    `FAQPage`: de drie koppen op de homepage zijn geen vragen maar uitspraken

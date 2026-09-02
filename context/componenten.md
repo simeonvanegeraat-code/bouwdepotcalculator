@@ -197,6 +197,7 @@ aftrekgids, de methodologie en de gegenereerde declaratiepagina.
 | `.bs-beleid` | Genummerde artikelen op privacy, cookies en voorwaarden. Het nummer komt uit een CSS-teller, dus bij een artikel dat ertussenuit gaat klopt de nummering vanzelf weer |
 | `.bs-beleidrijen` | Wat er wordt opgeslagen, als rijen. **Geen tabel** — zes kolommen dwingen op een telefoon tot horizontaal scrollen. Een tweede `dd` is de toelichting bij de eerste |
 | `.bs-contactkaart` | Het e-mailadres, groot genoeg om vanaf een telefoon over te typen. Eén per site |
+| `.bs-wissen` | De knop op privacy.html waarmee de bezoeker weghaalt wat de site op zijn apparaat bewaart. **Twee klikken**, want wie dertig posten op de begroting heeft ingevuld is die anders met één misklik kwijt. De bevestigingsstand gebruikt `.bs-knop--waarschuwing` |
 
 ### Toestanden die JavaScript zet
 
