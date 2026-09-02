@@ -182,8 +182,11 @@
 /* Geen doos maar een liniaal. Het papier is de doos al; een kader eromheen is
    een tweede kader. De lijn is perszwart en niet grijs, want een veld waar je
    iets in typt hoort even stellig te zijn als de rest van de pagina. */
+/* Drie vaste kolommen: teken vooraf, de waarde, teken achteraf. Vast en niet
+   meeschalend, want alleen dan staat het getal van élk veld op dezelfde plek --
+   ook bij een veld zonder euroteken ervoor. */
 .bs-omhulsel {
-    display: flex; align-items: baseline; gap: 8px;
+    display: grid; grid-template-columns: 1.8ch auto 1fr; align-items: baseline; gap: 8px;
     min-height: var(--bs-tap); padding: 0 0 8px;
     background: none; border: 0; border-bottom: 1px solid var(--bs-ink); border-radius: 0;
 }
@@ -195,17 +198,16 @@
     font-variant-numeric: tabular-nums; color: var(--bs-ink);
     background: none; border: 0; outline: none;
 }
-/* Het teken hoort bij het getal en niet bij de rand van het veld.
-
-   Waar de browser het kan, krimpt het veld mee met wat erin staat en komt het
-   teken er direct achter -- "3,80 %" leest als één ding. Kan hij dat niet, dan
-   vult het veld de regel en schuift het getal naar rechts tegen het teken aan.
-   Allebei goed; alleen het gat van driehonderd pixels dat er eerst tussen zat
-   is weg. */
-.bs-omhulsel input:has(+ span) { text-align: right; }
-@supports (field-sizing: content) {
-    .bs-omhulsel input { flex: 0 1 auto; field-sizing: content; min-width: 4ch; text-align: left; }
-}
+/* Eén vaste waardekolom, rechts uitgelijnd. Zo eindigt elk getal op dezelfde
+   plek en begint elk teken op dezelfde plek -- ook als het ene veld "3,80" en
+   het andere "1.250.000" bevat. Een veld dat meekrimpt met zijn inhoud las
+   prettiger per veld, maar liet het procentteken zeventien pixels verspringen
+   zodra je een cijfer wegliet, en tussen de velden onderling lijnde er niets
+   uit. Negen tekens, want "1.250.000" is de langste waarde die deze velden
+   aannemen. */
+.bs-omhulsel input { grid-column: 2; width: 9ch; text-align: right; }
+.bs-omhulsel > span:first-child { grid-column: 1; }
+.bs-omhulsel > input + span { grid-column: 3; }
 
 /* Nog steeds een systeemlijst -- de eigen lijst uit de preview komt als aparte
    stap, want die vraagt JavaScript en toetsenbordwerk. Wel alvast op dezelfde

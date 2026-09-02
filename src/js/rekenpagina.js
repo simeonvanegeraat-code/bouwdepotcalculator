@@ -11,7 +11,7 @@
  * werkelijk delen staat hier, en niet meer dan dat.
  */
 import { initSharedFormMemory } from './shared-form-memory';
-import { koppelBedragvelden } from './getallen.js';
+import { koppelBedragvelden, koppelPercentagevelden } from './getallen.js';
 
 /**
  * Koppelt een printknop aan het rapport.
@@ -45,5 +45,6 @@ export function startRekenpagina(init) {
         // Ná init: die vult velden met onthouden of berekende waarden, en pas
         // daarna is er iets om op te maken.
         koppelBedragvelden();
+        koppelPercentagevelden();
     });
 }

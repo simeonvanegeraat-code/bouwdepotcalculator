@@ -137,3 +137,43 @@ export function koppelBedragvelden(wortel = document) {
         koppelBedragveld(omhulsel.querySelector('input'));
     });
 }
+
+/**
+ * Koppelt een percentageveld aan de Nederlandse schrijfwijze.
+ *
+ * Wie "2.3" typt ziet nu "2,30", net als de waarde die er bij het laden al
+ * stond. Zonder dit stond er "2.3" naast een bedragveld dat wél "25.000"
+ * toonde: twee schrijfwijzen in één kolom.
+ *
+ * Twee decimalen, want dat is wat de rentevelden op deze site tonen (3,80 en
+ * 3,00). Zolang je typt blijft staan wat je intikt.
+ *
+ * @param {HTMLInputElement} veld
+ */
+export function koppelPercentageveld(veld) {
+    if (!veld || veld.dataset.pctGekoppeld) return;
+    veld.dataset.pctGekoppeld = 'ja';
+
+    veld.addEventListener('blur', () => {
+        const n = leesPercentage(veld.value);
+        if (n === null) return;
+        veld.value = n.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    });
+}
+
+/**
+ * Zoekt de percentagevelden op de pagina en koppelt ze.
+ *
+ * Een percentageveld herken je aan het procentteken dat erachter staat. Let op
+ * het verschil met een bedragveld: daar staat het teken vóór het getal, en de
+ * regels voor het lezen ervan zijn anders -- zie leesGetal en leesPercentage.
+ */
+export function koppelPercentagevelden(wortel = document) {
+    wortel.querySelectorAll('.bs-omhulsel').forEach((omhulsel) => {
+        const veld = omhulsel.querySelector('input');
+        const achter = veld && veld.nextElementSibling;
+        if (!achter || achter.tagName !== 'SPAN') return;
+        if (achter.textContent.trim() !== '%') return;
+        koppelPercentageveld(veld);
+    });
+}

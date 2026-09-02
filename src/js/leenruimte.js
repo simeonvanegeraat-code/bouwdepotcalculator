@@ -18,7 +18,7 @@
  * verplichtingen, taxatie en acceptatiebeleid.
  */
 
-import { leesGetal, euro, koppelBedragvelden } from './getallen.js';
+import { leesGetal, euro, koppelBedragvelden, koppelPercentagevelden } from './getallen.js';
 
 const wortel = document.getElementById('leenruimte');
 
@@ -143,3 +143,4 @@ if (wortel) {
 // hierboven zijn velden vult met onthouden waarden; pas daarna is er iets op te
 // maken.
 koppelBedragvelden();
+koppelPercentagevelden();

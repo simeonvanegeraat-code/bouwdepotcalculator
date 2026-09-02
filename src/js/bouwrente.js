@@ -6,7 +6,7 @@
  * scriptblok meer bevat en de code testbaar is.
  */
 
-import { leesGetal, leesPercentage, euro, koppelBedragvelden } from './getallen.js';
+import { leesGetal, leesPercentage, euro, koppelBedragvelden, koppelPercentagevelden } from './getallen.js';
 
 
 const amountInput = document.getElementById('input-amount');
@@ -189,3 +189,4 @@ if (amountInput && rateInput && monthsInput && financedInput) {
 // hierboven zijn velden vult met onthouden waarden; pas daarna is er iets op te
 // maken.
 koppelBedragvelden();
+koppelPercentagevelden();

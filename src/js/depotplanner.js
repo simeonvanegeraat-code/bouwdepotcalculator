@@ -20,7 +20,7 @@
 import { huidigeBank, opBankwissel } from './bankkeuze.js';
 import { maakAgenda, downloadAgenda } from './agenda.js';
 import { maakPlan } from './declaratieplan.js';
-import { leesGetal, toonGetal, euro, koppelBedragvelden } from './getallen.js';
+import { leesGetal, toonGetal, euro, koppelBedragvelden, koppelPercentagevelden } from './getallen.js';
 
 const wortel = document.getElementById('depotplanner');
 
@@ -617,3 +617,4 @@ if (wortel) {
 // hierboven zijn velden vult met onthouden waarden; pas daarna is er iets op te
 // maken.
 koppelBedragvelden();
+koppelPercentagevelden();
