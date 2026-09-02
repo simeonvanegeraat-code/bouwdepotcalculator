@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Invoerpreview — drie richtingen voor de rekenkolom</title>
+<!--
+    Werkbestand, geen pagina van de site.
+
+    Bewust GEEN ingang in vite.config.js: zonder ingang komt dit bestand niet in
+    de build en dus niet op de site terecht.
+
+    Het laadt wél src/styles/broadsheet.css, want anders vergelijk je drie
+    ontwerpen in een vacuüm. De drie richtingen staan hieronder als aanvulling
+    daarop, met een eigen prefix per richting.
+
+    Alle drie doen de dingen die uit spec/invoervelden.md sowieso volgen:
+    bedragen in Nederlandse notatie, geen systeemlijst, labels op leesmaat, en
+    het euro- en procentteken bij het getal. Waar ze in verschillen is de vorm.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/styles/broadsheet.css">
+<style>
+/* ==========================================================================
+   Bediening van de preview zelf. Gereedschap, geen ontwerp.
+   ========================================================================== */
+.pv-balk {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px;
+    padding: 12px 20px; background: #121613; color: #fafffa;
+    font: 500 12px/1.4 'Inter', sans-serif; letter-spacing: .06em; text-transform: uppercase;
+}
+.pv-balk strong { font-weight: 600; letter-spacing: .1em; }
+.pv-balk button {
+    font: inherit; padding: 7px 12px; cursor: pointer;
+    color: #fafffa; background: none; border: 1px solid rgba(250,255,250,.3); border-radius: 4px;
+}
+.pv-balk button[aria-pressed="true"] { background: #0E5F58; border-color: #0E5F58; }
+.pv-balk span { opacity: .6; text-transform: none; letter-spacing: 0; font-weight: 400; }
+
+.pv-rooster { display: grid; gap: 1px; background: #d8e2d8; }
+@media (min-width: 1100px) { .pv-rooster[data-naast="ja"] { grid-template-columns: repeat(3, 1fr); } }
+
+.pv-kolom { background: #fafffa; padding: 0 0 60px; }
+.pv-kop { padding: 26px clamp(16px, 3vw, 32px) 0; }
+.pv-kop h2 { margin: 0; font: 500 26px/1.15 'Inter', sans-serif; letter-spacing: -.03em; }
+.pv-kop p { margin: 8px 0 0; font: 400 14px/1.6 'Inter', sans-serif; color: #516254; max-width: 46ch; }
+.pv-kop dl { margin: 14px 0 0; font: 400 12px/1.6 'Inter', sans-serif; color: #516254; }
+.pv-kop dt { font-weight: 600; color: #121613; margin-top: 8px; }
+.pv-veldwerk { padding: 26px clamp(16px, 3vw, 32px) 0; }
+.pv-breed { max-width: 420px; margin: 0 auto; }
+
+/* ==========================================================================
+   RICHTING A — Lijnen
+   Geen kaders. Elk veld is een label met daaronder een waarde op een liniaal.
+   Het papier is de doos; het veld hoeft er zelf geen te zijn. Snelkeuzes zijn
+   tekst en geen knoppen, en er is geen schuifregelaar.
+   ========================================================================== */
+.a-veld { padding: 18px 0 0; }
+.a-veld + .a-veld { border-top: 1px solid #d8e2d8; margin-top: 4px; }
+.a-label { display: block; margin-bottom: 4px; font: 500 15px/1.3 'Inter', sans-serif; color: #121613; }
+.a-hulp { display: block; margin-bottom: 10px; font: 400 13px/1.5 'Inter', sans-serif; color: #516254; }
+.a-regel {
+    display: flex; align-items: baseline; gap: 8px;
+    padding-bottom: 8px; border-bottom: 1px solid #121613;
+    transition: border-color .15s ease, border-width .15s ease;
+}
+.a-regel:focus-within { border-bottom-color: #0E5F58; box-shadow: 0 1px 0 0 #0E5F58; }
+.a-teken { font: 400 20px/1 'Inter', sans-serif; color: #516254; }
+.a-regel input { flex: 0 0 auto; width: var(--breed, 7ch); }
+.a-regel button { flex: 1; }
+.a-regel input, .a-regel button {
+    min-width: 0; padding: 0; text-align: left;
+    font: 500 28px/1.25 'Inter', sans-serif; letter-spacing: -.03em;
+    font-variant-numeric: tabular-nums; color: #121613;
+    background: none; border: 0; outline: none; cursor: text;
+}
+.a-regel button { cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+.a-regel button svg { flex: none; color: #516254; }
+.a-snel { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 12px; }
+.a-snel button {
+    padding: 4px 0; font: 400 14px/1.4 'Inter', sans-serif; font-variant-numeric: tabular-nums;
+    color: #516254; background: none; border: 0; border-bottom: 1px solid #d8e2d8; cursor: pointer;
+}
+.a-snel button:hover { color: #121613; border-bottom-color: #0E5F58; }
+.a-snel button[aria-pressed="true"] { color: #0E5F58; border-bottom-color: #0E5F58; font-weight: 500; }
+.a-vink { display: flex; gap: 12px; align-items: flex-start; padding: 18px 0 0; border-top: 1px solid #d8e2d8; margin-top: 4px; cursor: pointer; }
+
+/* ==========================================================================
+   RICHTING B — Kaders
+   Wat Wise, NerdWallet en ABN AMRO doen: een omkaderd veld van ruim 60px, het
+   label eronder leesbaar, en de schuif als liniaal met begin en eind erbij.
+   Het minst verrassend en daardoor het snelst te begrijpen.
+   ========================================================================== */
+.b-veld + .b-veld { margin-top: 22px; }
+.b-kop { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.b-label { font: 500 15px/1.3 'Inter', sans-serif; color: #121613; }
+.b-waarde { font: 400 14px/1.3 'Inter', sans-serif; color: #516254; font-variant-numeric: tabular-nums; }
+.b-doos {
+    display: flex; align-items: center; gap: 6px;
+    min-height: 62px; padding: 0 16px;
+    background: #fff; border: 1px solid #c6d3c6; border-radius: 6px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+}
+.b-doos:focus-within { border-color: #0E5F58; box-shadow: 0 0 0 3px rgba(14,95,88,.16); }
+.b-doos > .b-teken { font: 500 22px/1 'Inter', sans-serif; color: #516254; }
+.b-doos input { flex: 0 0 auto; width: var(--breed, 7ch); }
+.b-doos button { flex: 1; }
+.b-doos input, .b-doos button {
+    min-width: 0; padding: 0; text-align: left;
+    font: 500 22px/1.2 'Inter', sans-serif; letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums; color: #121613;
+    background: none; border: 0; outline: none;
+}
+.b-doos button { cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.b-doos button svg { flex: none; color: #516254; }
+.b-hulptekst { margin: 7px 0 0; font: 400 13px/1.5 'Inter', sans-serif; color: #516254; }
+.b-schuif { margin-top: 14px; }
+.b-schuif input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 20px; background: none; }
+.b-schuif input[type=range]::-webkit-slider-runnable-track { height: 3px; background: #d8e2d8; border-radius: 2px; }
+.b-schuif input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; margin-top: -8px; border-radius: 50%; background: #0E5F58; box-shadow: 0 1px 3px rgba(14,95,88,.5); cursor: grab; }
+.b-bereik { display: flex; justify-content: space-between; margin-top: 2px; font: 400 11px/1.4 'Inter', sans-serif; color: #7fa9a4; font-variant-numeric: tabular-nums; }
+.b-snel { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.b-snel button {
+    min-height: 40px; padding: 0 14px; cursor: pointer;
+    font: 500 14px/1 'Inter', sans-serif; font-variant-numeric: tabular-nums;
+    color: #121613; background: #fff; border: 1px solid #d8e2d8; border-radius: 6px;
+}
+.b-snel button[aria-pressed="true"] { border-color: #0E5F58; color: #0E5F58; background: #e2eeec; }
+.b-vink { display: flex; gap: 12px; align-items: flex-start; margin-top: 22px; padding: 16px; border: 1px solid #d8e2d8; border-radius: 6px; cursor: pointer; background: #fff; }
+
+/* ==========================================================================
+   RICHTING C — Blad
+   De invoer krijgt hetzelfde papier als de uitkomst: één vel met een kop en een
+   getande onderrand, en daarin regels label-links waarde-rechts, precies zoals
+   de uitsplitsing in het antwoord. Invoer en uitkomst worden één document.
+   ========================================================================== */
+.c-blad { position: relative; padding: 22px 22px 0; background: #fff; border-radius: 3px 3px 0 0; box-shadow: 0 1px 0 #d8e2d8, 4px 14px 28px -14px rgba(14,95,88,.4); }
+.c-blad::after {
+    content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 12px;
+    background: linear-gradient(-45deg, transparent 0 8px, #fff 0) 0 0 / 16px 12px repeat-x,
+                linear-gradient( 45deg, transparent 0 8px, #fff 0) 0 0 / 16px 12px repeat-x;
+    filter: drop-shadow(1px 6px 8px rgba(14,95,88,.4));
+}
+.c-bladkop { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 12px; padding-bottom: 12px; border-bottom: 1px solid #121613; }
+.c-merk { font: 500 14px/1.3 'Inter', sans-serif; letter-spacing: -.02em; }
+.c-stempel { font: 600 10px/1 'Inter', sans-serif; text-transform: uppercase; letter-spacing: .14em; color: #fff; background: #0E5F58; padding: 4px 8px; border-radius: 3px; }
+.c-rij { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid #edf3ed; }
+.c-rij:last-of-type { border-bottom: 0; }
+.c-rij:focus-within { background: #f6fbf7; box-shadow: -10px 0 0 #f6fbf7, 10px 0 0 #f6fbf7; }
+.c-naam { font: 400 15px/1.35 'Inter', sans-serif; color: #516254; }
+.c-naam small { display: block; margin-top: 2px; font: 400 12px/1.4 'Inter', sans-serif; color: #7fa9a4; }
+.c-cel { display: flex; align-items: baseline; justify-content: flex-end; gap: 5px; }
+.c-cel .c-teken { font: 400 15px/1 'Inter', sans-serif; color: #7fa9a4; }
+.c-cel input, .c-cel button {
+    width: 6.5ch; padding: 2px 0; text-align: right;
+    font: 500 20px/1.3 'Inter', sans-serif; letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums; color: #121613;
+    background: none; border: 0; border-bottom: 1px dashed #c6d3c6; outline: none;
+}
+.c-cel input:focus, .c-cel button:focus-visible { border-bottom-color: #0E5F58; border-bottom-style: solid; }
+.c-cel button { width: auto; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.c-cel button svg { flex: none; color: #7fa9a4; }
+.c-voet { margin: 0; padding: 14px 0 20px; font: 600 10px/1 'Inter', sans-serif; text-transform: uppercase; letter-spacing: .12em; color: #516254; }
+.c-snel { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; margin-top: 10px; }
+.c-snel button { padding: 5px 10px; cursor: pointer; font: 500 12px/1 'Inter', sans-serif; font-variant-numeric: tabular-nums; color: #516254; background: none; border: 1px solid #edf3ed; border-radius: 3px; }
+.c-snel button[aria-pressed="true"] { color: #0E5F58; border-color: #0E5F58; }
+
+/* --- de eigen keuzelijst, gedeeld door alle drie ------------------------- */
+.pv-lijst { position: relative; }
+.pv-opties {
+    position: absolute; z-index: 10; left: 0; right: 0; top: calc(100% + 6px);
+    margin: 0; padding: 6px; list-style: none;
+    background: #fff; border: 1px solid #c6d3c6; border-radius: 6px;
+    box-shadow: 0 12px 28px -12px rgba(18,22,19,.4);
+}
+.pv-opties[hidden] { display: none; }
+.pv-opties li { padding: 11px 12px; font: 400 15px/1.3 'Inter', sans-serif; border-radius: 4px; cursor: pointer; }
+.pv-opties li[aria-selected="true"] { background: #e2eeec; color: #0E5F58; font-weight: 500; }
+.pv-opties li:hover, .pv-opties li.pv-actief { background: #f0f6f1; }
+
+/* Vinkjes: overal hetzelfde, want een systeemvinkje is in alle drie de
+   richtingen de zwakste schakel. */
+.pv-vinkje { flex: none; width: 22px; height: 22px; margin-top: 1px; border: 1px solid #7fa9a4; border-radius: 4px; background: #fff; display: grid; place-items: center; }
+.pv-vinkje svg { opacity: 0; color: #fff; }
+input[type=checkbox]:checked + .pv-vinkje { background: #0E5F58; border-color: #0E5F58; }
+input[type=checkbox]:checked + .pv-vinkje svg { opacity: 1; }
+input[type=checkbox]:focus-visible + .pv-vinkje { box-shadow: 0 0 0 3px rgba(14,95,88,.3); }
+.pv-verstopt { position: absolute; opacity: 0; width: 0; height: 0; }
+.pv-vinktekst { font: 500 15px/1.35 'Inter', sans-serif; color: #121613; }
+.pv-vinktekst small { display: block; margin-top: 3px; font: 400 13px/1.45 'Inter', sans-serif; color: #516254; }
+
+/* De uitkomst, identiek in alle drie: zo zie je of de invoer erbij past. */
+.pv-uitkomst { margin-top: 30px; padding-top: 16px; border-top: 1px solid #121613; }
+.pv-uitkomst p { margin: 0; font: 600 11px/1 'Inter', sans-serif; text-transform: uppercase; letter-spacing: .1em; color: #516254; }
+.pv-uitkomst strong { display: block; margin-top: 8px; font: 500 46px/1 'Inter', sans-serif; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body style="margin:0; background:#fafffa;">
+
+<div class="pv-balk">
+    <strong>Invoerkolom — drie richtingen</strong>
+    <button type="button" data-breedte="375" aria-pressed="false">375 px</button>
+    <button type="button" data-breedte="0" aria-pressed="true">Volle breedte</button>
+    <button type="button" data-naast aria-pressed="true">Naast elkaar</button>
+    <span>2 september 2026 · werkbestand, staat niet op de site</span>
+</div>
+
+<div class="pv-rooster" data-naast="ja" id="rooster">
+
+    <!-- ================================================= A — Lijnen -->
+    <section class="pv-kolom">
+        <div class="pv-kop">
+            <h2>A · Lijnen</h2>
+            <p>Geen kaders. Elk veld is een label met daaronder een waarde op een liniaal. Het papier is de doos, dus het veld hoeft er zelf geen te zijn. Snelkeuzes zijn tekst, geen knoppen. Geen schuifregelaar.</p>
+            <dl>
+                <dt>Sterk</dt><dd>Het rustigst, en het dichtst bij de broadsheet-richting. De waarde is het grootste op het scherm, zoals het hoort.</dd>
+                <dt>Zwak</dt><dd>Een lijn nodigt minder uit tot klikken dan een kader. Wie snel scant kan het aanzien voor tekst.</dd>
+            </dl>
+        </div>
+        <div class="pv-veldwerk pv-breed" data-richting="a">
+
+            <div class="a-veld">
+                <label class="a-label" for="a-bedrag">Bedrag bouwdepot</label>
+                <span class="a-hulp">Wat er voor de verbouwing gereserveerd wordt.</span>
+                <div class="a-regel">
+                    <span class="a-teken">&euro;</span>
+                    <input id="a-bedrag" type="text" inputmode="numeric" data-bedrag value="25000">
+                </div>
+                <div class="a-snel" data-snel="a-bedrag">
+                    <button type="button" data-waarde="15000">15.000</button>
+                    <button type="button" data-waarde="25000">25.000</button>
+                    <button type="button" data-waarde="50000">50.000</button>
+                    <button type="button" data-waarde="100000">100.000</button>
+                </div>
+            </div>
+
+            <div class="a-veld">
+                <label class="a-label" for="a-rente">Hypotheekrente</label>
+                <div class="a-regel">
+                    <input id="a-rente" type="text" inputmode="decimal" value="3,80" style="--breed:4.5ch">
+                    <span class="a-teken">%</span>
+                </div>
+            </div>
+
+            <div class="a-veld">
+                <label class="a-label" for="a-looptijd">Looptijd</label>
+                <div class="a-regel">
+                    <input id="a-looptijd" type="text" inputmode="numeric" value="30" style="--breed:2.5ch">
+                    <span class="a-teken">jaar</span>
+                </div>
+                <div class="a-snel" data-snel="a-looptijd">
+                    <button type="button" data-waarde="10">10</button>
+                    <button type="button" data-waarde="20">20</button>
+                    <button type="button" data-waarde="30">30</button>
+                </div>
+            </div>
+
+            <div class="a-veld">
+                <span class="a-label">Hypotheekvorm</span>
+                <div class="a-regel pv-lijst">
+                    <button type="button" data-lijst aria-haspopup="listbox" aria-expanded="false">
+                        <span data-gekozen>Annuïteiten</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <ul class="pv-opties" role="listbox" hidden>
+                        <li role="option" aria-selected="true">Annuïteiten</li>
+                        <li role="option" aria-selected="false">Lineair</li>
+                        <li role="option" aria-selected="false">Aflossingsvrij</li>
+                    </ul>
+                </div>
+            </div>
+
+            <label class="a-vink">
+                <input class="pv-verstopt" type="checkbox">
+                <span class="pv-vinkje"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="m5 13 4 4 10-10"/></svg></span>
+                <span class="pv-vinktekst">Toon renteaftrekindicatie<small>Maximaal 37,56%, vóór eigenwoningforfait</small></span>
+            </label>
+
+            <div class="pv-uitkomst"><p>Bruto maandlast</p><strong>&euro; 116</strong></div>
+        </div>
+    </section>
+
+    <!-- ================================================= B — Kaders -->
+    <section class="pv-kolom">
+        <div class="pv-kop">
+            <h2>B · Kaders</h2>
+            <p>Wat Wise, NerdWallet en ABN AMRO doen: een omkaderd veld van 62px, het label erboven op leesmaat, en de schuif als liniaal met begin en eind erbij. Het minst verrassend, en daardoor het snelst te begrijpen.</p>
+            <dl>
+                <dt>Sterk</dt><dd>Niemand hoeft na te denken over waar hij moet typen. De schuif blijft bruikbaar en krijgt eindelijk een bereik.</dd>
+                <dt>Zwak</dt><dd>Het lijkt op alle andere financiële sites. Onze eigen richting is er niet aan af te lezen.</dd>
+            </dl>
+        </div>
+        <div class="pv-veldwerk pv-breed" data-richting="b">
+
+            <div class="b-veld">
+                <div class="b-kop"><label class="b-label" for="b-bedrag">Bedrag bouwdepot</label></div>
+                <div class="b-doos">
+                    <span class="b-teken">&euro;</span>
+                    <input id="b-bedrag" type="text" inputmode="numeric" data-bedrag value="25000">
+                </div>
+                <div class="b-schuif">
+                    <input type="range" min="5000" max="150000" step="1000" value="25000" data-schuif="b-bedrag" aria-label="Bedrag bouwdepot">
+                    <div class="b-bereik"><span>&euro; 5.000</span><span>&euro; 150.000</span></div>
+                </div>
+                <div class="b-snel" data-snel="b-bedrag">
+                    <button type="button" data-waarde="15000">15.000</button>
+                    <button type="button" data-waarde="25000">25.000</button>
+                    <button type="button" data-waarde="50000">50.000</button>
+                    <button type="button" data-waarde="100000">100.000</button>
+                </div>
+            </div>
+
+            <div class="b-veld">
+                <div class="b-kop"><label class="b-label" for="b-rente">Hypotheekrente</label></div>
+                <div class="b-doos">
+                    <input id="b-rente" type="text" inputmode="decimal" value="3,80" style="--breed:4.5ch">
+                    <span class="b-teken">%</span>
+                </div>
+                <div class="b-schuif">
+                    <input type="range" min="1" max="8" step="0.1" value="3.8" aria-label="Hypotheekrente">
+                    <div class="b-bereik"><span>1,0%</span><span>8,0%</span></div>
+                </div>
+            </div>
+
+            <div class="b-veld">
+                <div class="b-kop"><label class="b-label" for="b-looptijd">Looptijd</label><span class="b-waarde">30 jaar</span></div>
+                <div class="b-doos">
+                    <input id="b-looptijd" type="text" inputmode="numeric" value="30" style="--breed:2.5ch">
+                    <span class="b-teken">jaar</span>
+                </div>
+            </div>
+
+            <div class="b-veld">
+                <div class="b-kop"><span class="b-label">Hypotheekvorm</span></div>
+                <div class="b-doos pv-lijst">
+                    <button type="button" data-lijst aria-haspopup="listbox" aria-expanded="false">
+                        <span data-gekozen>Annuïteiten</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                    </button>
+                    <ul class="pv-opties" role="listbox" hidden>
+                        <li role="option" aria-selected="true">Annuïteiten</li>
+                        <li role="option" aria-selected="false">Lineair</li>
+                        <li role="option" aria-selected="false">Aflossingsvrij</li>
+                    </ul>
+                </div>
+                <p class="b-hulptekst">Bij annuïteiten blijft het maandbedrag gelijk.</p>
+            </div>
+
+            <label class="b-vink">
+                <input class="pv-verstopt" type="checkbox">
+                <span class="pv-vinkje"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="m5 13 4 4 10-10"/></svg></span>
+                <span class="pv-vinktekst">Toon renteaftrekindicatie<small>Maximaal 37,56%, vóór eigenwoningforfait</small></span>
+            </label>
+
+            <div class="pv-uitkomst"><p>Bruto maandlast</p><strong>&euro; 116</strong></div>
+        </div>
+    </section>
+
+    <!-- ================================================= C — Blad -->
+    <section class="pv-kolom">
+        <div class="pv-kop">
+            <h2>C · Blad</h2>
+            <p>De invoer krijgt hetzelfde papier als de uitkomst: één vel met een kop, een stempel en een getande onderrand, en daarin regels met de naam links en de waarde rechts — precies de vorm van de uitsplitsing in het antwoord.</p>
+            <dl>
+                <dt>Sterk</dt><dd>De sterkste eigen identiteit. Invoer en uitkomst worden één document in plaats van een formulier plus een kaart.</dd>
+                <dt>Zwak</dt><dd>Rechts uitgelijnd typen is ongebruikelijk. Lange namen en korte waarden zetten de regel uit balans, en de cel moet raden hoe breed hij moet zijn.</dd>
+            </dl>
+        </div>
+        <div class="pv-veldwerk pv-breed" data-richting="c">
+            <div class="c-blad">
+                <div class="c-bladkop">
+                    <span class="c-merk">BouwdepotCalculator.nl</span>
+                    <span class="c-stempel">Uw invoer</span>
+                </div>
+
+                <div class="c-rij">
+                    <label class="c-naam" for="c-bedrag">Bedrag bouwdepot<small>Wat er voor de verbouwing gereserveerd wordt</small></label>
+                    <span class="c-cel"><span class="c-teken">&euro;</span><input id="c-bedrag" type="text" inputmode="numeric" data-bedrag value="25000"></span>
+                </div>
+                <div class="c-snel" data-snel="c-bedrag">
+                    <button type="button" data-waarde="15000">15.000</button>
+                    <button type="button" data-waarde="25000">25.000</button>
+                    <button type="button" data-waarde="50000">50.000</button>
+                    <button type="button" data-waarde="100000">100.000</button>
+                </div>
+
+                <div class="c-rij">
+                    <label class="c-naam" for="c-rente">Hypotheekrente</label>
+                    <span class="c-cel"><input id="c-rente" type="text" inputmode="decimal" value="3,80"><span class="c-teken">%</span></span>
+                </div>
+
+                <div class="c-rij">
+                    <label class="c-naam" for="c-looptijd">Looptijd</label>
+                    <span class="c-cel"><input id="c-looptijd" type="text" inputmode="numeric" value="30"><span class="c-teken">jaar</span></span>
+                </div>
+
+                <div class="c-rij">
+                    <span class="c-naam">Hypotheekvorm</span>
+                    <span class="c-cel pv-lijst">
+                        <button type="button" data-lijst aria-haspopup="listbox" aria-expanded="false">
+                            <span data-gekozen>Annuïteiten</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                        </button>
+                        <ul class="pv-opties" role="listbox" hidden style="left:auto; right:0; min-width:200px;">
+                            <li role="option" aria-selected="true">Annuïteiten</li>
+                            <li role="option" aria-selected="false">Lineair</li>
+                            <li role="option" aria-selected="false">Aflossingsvrij</li>
+                        </ul>
+                    </span>
+                </div>
+
+                <div class="c-rij">
+                    <label class="c-naam" for="c-aftrek">Renteaftrekindicatie<small>Maximaal 37,56%, vóór eigenwoningforfait</small></label>
+                    <span class="c-cel">
+                        <label style="display:flex; gap:10px; align-items:center; cursor:pointer;">
+                            <input id="c-aftrek" class="pv-verstopt" type="checkbox">
+                            <span class="pv-vinkje"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="m5 13 4 4 10-10"/></svg></span>
+                        </label>
+                    </span>
+                </div>
+
+                <p class="c-voet">Invoer &middot; wijzig wat u wilt</p>
+            </div>
+
+            <div class="pv-uitkomst"><p>Bruto maandlast</p><strong>&euro; 116</strong></div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+/* ==========================================================================
+   Gedeeld gedrag. Alle drie de richtingen doen hetzelfde; alleen de vorm
+   verschilt. Zo vergelijk je ontwerp en niet functionaliteit.
+   ========================================================================== */
+
+/** Leest een bedrag zoals Nederlanders het schrijven. Zelfde regel als src/js/getallen.js. */
+const leesGetal = (t) => {
+    const s = String(t).replace(/[^0-9,.-]/g, '').replace(/\./g, '').replace(',', '.');
+    const n = Number(s);
+    return Number.isFinite(n) && s !== '' ? n : null;
+};
+const toonGetal = (n) => n.toLocaleString('nl-NL', { maximumFractionDigits: 0 });
+
+/* --- bedragen: opgemaakt als je weg bent, kaal terwijl je typt ------------
+   Dit is punt A uit spec/invoervelden.md en zit hier in alle drie, omdat het
+   sowieso gaat gebeuren. Wat je hier vergelijkt is de vorm eromheen. */
+document.querySelectorAll('input[data-bedrag]').forEach((veld) => {
+    const opmaken = () => { const n = leesGetal(veld.value); if (n !== null) veld.value = toonGetal(n); };
+    const kaal = () => { const n = leesGetal(veld.value); if (n !== null) veld.value = String(n); };
+    veld.addEventListener('focus', kaal);
+    veld.addEventListener('blur', opmaken);
+    opmaken();
+});
+
+/* --- één plek die een waarde zet -----------------------------------------
+   Veld, schuif en snelkeuzes moeten altijd hetzelfde zeggen. Toen dit op drie
+   plekken los stond liep de schuif achter zodra je een snelkeuze aanklikte. */
+const zetWaarde = (doel, n) => {
+    doel.value = doel.hasAttribute('data-bedrag') ? toonGetal(n) : String(n);
+    document.querySelectorAll(`[data-schuif="${doel.id}"]`).forEach((s) => { s.value = n; });
+    document.querySelectorAll(`[data-snel="${doel.id}"] button`).forEach((k) => {
+        k.setAttribute('aria-pressed', String(Number(k.dataset.waarde) === n));
+    });
+    doel.dispatchEvent(new Event('input', { bubbles: true }));
+};
+
+document.querySelectorAll('[data-snel]').forEach((groep) => {
+    const doel = document.getElementById(groep.dataset.snel);
+    groep.querySelectorAll('button').forEach((k) => {
+        k.addEventListener('click', () => zetWaarde(doel, Number(k.dataset.waarde)));
+    });
+    doel.addEventListener('blur', () => { const n = leesGetal(doel.value); if (n !== null) zetWaarde(doel, n); });
+    const start = leesGetal(doel.value);
+    if (start !== null) zetWaarde(doel, start);
+});
+
+document.querySelectorAll('[data-schuif]').forEach((schuif) => {
+    const doel = document.getElementById(schuif.dataset.schuif);
+    schuif.addEventListener('input', () => zetWaarde(doel, Number(schuif.value)));
+});
+
+/* --- de eigen keuzelijst -------------------------------------------------
+   Zeventig regels, geen pakket. Doet wat een systeemlijst ook doet: openen met
+   muis of toetsenbord, pijltjes, Enter, Escape, en de stand doorgeven aan een
+   schermlezer via aria-selected en aria-expanded. */
+document.querySelectorAll('.pv-lijst').forEach((lijst) => {
+    const knop = lijst.querySelector('[data-lijst]');
+    const paneel = lijst.querySelector('.pv-opties');
+    const opties = [...paneel.querySelectorAll('li')];
+    const etiket = knop.querySelector('[data-gekozen]');
+    let actief = opties.findIndex((o) => o.getAttribute('aria-selected') === 'true');
+
+    const wijs = (i) => {
+        actief = Math.max(0, Math.min(opties.length - 1, i));
+        opties.forEach((o, n) => o.classList.toggle('pv-actief', n === actief));
+    };
+    const open = () => { paneel.hidden = false; knop.setAttribute('aria-expanded', 'true'); wijs(actief); };
+    const dicht = () => { paneel.hidden = true; knop.setAttribute('aria-expanded', 'false'); };
+    const kies = (i) => {
+        opties.forEach((o, n) => o.setAttribute('aria-selected', String(n === i)));
+        etiket.textContent = opties[i].textContent;
+        dicht(); knop.focus();
+    };
+
+    knop.addEventListener('click', () => (paneel.hidden ? open() : dicht()));
+    opties.forEach((o, i) => o.addEventListener('click', () => kies(i)));
+
+    knop.addEventListener('keydown', (e) => {
+        if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(e.key)) {
+            e.preventDefault();
+            if (paneel.hidden) { open(); return; }
+            if (e.key === 'ArrowDown') wijs(actief + 1);
+            else if (e.key === 'ArrowUp') wijs(actief - 1);
+            else kies(actief);
+        } else if (e.key === 'Escape') dicht();
+    });
+    document.addEventListener('click', (e) => { if (!lijst.contains(e.target)) dicht(); });
+});
+
+/* --- bediening van de preview -------------------------------------------- */
+const rooster = document.getElementById('rooster');
+document.querySelectorAll('[data-breedte]').forEach((knop) => {
+    knop.addEventListener('click', () => {
+        const b = Number(knop.dataset.breedte);
+        document.querySelectorAll('.pv-breed').forEach((k) => { k.style.maxWidth = b ? b + 'px' : '420px'; });
+        document.querySelectorAll('[data-breedte]').forEach((k) => k.setAttribute('aria-pressed', String(k === knop)));
+    });
+});
+document.querySelector('[data-naast]').addEventListener('click', (e) => {
+    const aan = rooster.dataset.naast !== 'ja';
+    rooster.dataset.naast = aan ? 'ja' : 'nee';
+    e.currentTarget.setAttribute('aria-pressed', String(aan));
+});
+</script>
+</body>
+</html>

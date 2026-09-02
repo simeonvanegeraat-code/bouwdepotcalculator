@@ -39,6 +39,18 @@ Meet in de browser, schat niet. Waarden zonder breedte erbij zijn onbruikbaar.
 
     Screenshots: voor-mobiel.png, na-mobiel.png
 
+## Previews
+
+Twee bestanden hier zijn geen meting maar een keuzehulp: ontwerpen naast elkaar
+in de browser, om een richting te kiezen voordat er code is. Ze staan **niet**
+in `vite.config.js` en komen dus niet in de build.
+
+- [2026-08-31-stijlrichtingen.html](2026-08-31-stijlrichtingen.html) — drie
+  ontwerptalen voor de homepage. Keuze gemaakt: de broadsheet-richting.
+- [2026-09-02-invoervelden.html](2026-09-02-invoervelden.html) — drie richtingen
+  voor de invoerkolom van de rekenpagina's, met dezelfde velden in alle drie.
+  Hoort bij [../spec/invoervelden.md](../spec/invoervelden.md). Nog te kiezen.
+
 ## Nulmeting
 
 De cijfers uit ONTWERPPLAN.md van 14 augustus 2026 gelden als nulmeting voor de
