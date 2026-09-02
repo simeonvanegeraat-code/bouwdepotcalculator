@@ -233,7 +233,13 @@ function initVerbouwCalculator() {
             interestRate: interest,
             durationYears: years,
             taxIndicationEnabled: checkAftrek.checked,
-            geldverstrekker: huidigeBank()?.naam || 'Niet opgegeven',
+            // Null en niet "Niet opgegeven": reporting.js laat een lege waarde
+            // weg uit het overzicht, en dat is hier de bedoeling. Wie geen bank
+            // koos, heeft geen ontbrekend gegeven maar een vraag die niet
+            // speelde -- er is dan ook geen bankvoorwaarde in de berekening
+            // meegenomen. Een regel die "Niet opgegeven" zegt vult het document
+            // met een antwoord op een vraag die niemand stelde.
+            geldverstrekker: huidigeBank()?.naam || null,
             netMonthly,
             grossMonthly,
             taxBenefit,

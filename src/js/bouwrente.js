@@ -148,8 +148,12 @@ if (amountInput && rateInput && monthsInput && financedInput) {
             mortgageRate: isFinanced ? (Math.max(0, leesPercentage(mortgageInput.value) || 0)) : null,
             base,
             monthly,
-            financingImpact,
-            total,
+            // Wie niet meefinanciert heeft geen financieringseffect, en dan is
+            // "Effect van meefinancieren € 0" geen ontbrekend gegeven maar een
+            // antwoord op een vraag die niet speelde. Het totaal is dan gelijk
+            // aan de basis, dus die regel zegt hetzelfde nog een keer.
+            financingImpact: isFinanced ? financingImpact : null,
+            total: isFinanced ? total : null,
             interpretationLabel,
             interpretation,
             conclusion,
