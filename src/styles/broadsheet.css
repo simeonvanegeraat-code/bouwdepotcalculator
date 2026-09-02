@@ -90,7 +90,10 @@
     color: var(--bs-newsprint);
 }
 
-.bs a { color: var(--bs-ink); }
+/* Een knop is geen link: hij draagt zijn eigen kleur en mag niet meegenomen
+   worden door de linkregel. Zonder de uitzondering wint ".bs a" -- klasse plus
+   element -- van ".bs-knop", en staat de hoofdknop met zwarte letters op teal. */
+.bs a:not(.bs-knop) { color: var(--bs-ink); }
 .bs :focus-visible { outline: 2px solid var(--bs-accent); outline-offset: 3px; }
 
 /* ==========================================================================
@@ -342,7 +345,7 @@
 .bs-donker { background: var(--bs-press); color: var(--bs-bone); padding: var(--bs-sectie) 0; }
 .bs-donker .bs-micro { color: var(--bs-moss); }
 .bs-donker .bs-titel { max-width: 16ch; }
-.bs-donker a { color: var(--bs-bone); }
+.bs-donker a:not(.bs-knop) { color: var(--bs-bone); }
 .bs-donker .bs-hulp { color: var(--bs-sage); }
 .bs-donker .bs-kolommen article { border-top-color: rgba(250,255,250,.18); }
 .bs-donker .bs-kolommen p { color: var(--bs-sage); }
