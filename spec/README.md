@@ -24,6 +24,9 @@ naar de code en langs [../review.md](../review.md).
 
 ## Bestaande specs
 
+- [invoervelden.md](invoervelden.md) — de invoerkolom van de rekenpagina's,
+  gemeten en vergeleken met drie andere sites. Status: **voorstel**, wacht op
+  akkoord.
 - [meeneemdocument.md](meeneemdocument.md) — het document dat de bezoeker
   afdrukt of opslaat, als product in plaats van als bijproduct. Status:
   **voorstel**, wacht op akkoord.
