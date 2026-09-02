@@ -6,7 +6,7 @@
  * scriptblok meer bevat en de code testbaar is.
  */
 
-import { leesGetal, leesPercentage, euro } from './getallen.js';
+import { leesGetal, leesPercentage, euro, koppelBedragvelden } from './getallen.js';
 
 
 const amountInput = document.getElementById('input-amount');
@@ -184,3 +184,8 @@ if (amountInput && rateInput && monthsInput && financedInput) {
 
     calculate();
 }
+
+// Bedragvelden in Nederlandse notatie. Staat helemaal onderaan omdat de module
+// hierboven zijn velden vult met onthouden waarden; pas daarna is er iets op te
+// maken.
+koppelBedragvelden();

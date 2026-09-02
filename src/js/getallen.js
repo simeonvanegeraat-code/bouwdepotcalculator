@@ -87,3 +87,53 @@ export const euro = new Intl.NumberFormat('nl-NL', {
     currency: 'EUR',
     maximumFractionDigits: 0,
 });
+
+/**
+ * Koppelt een bedragveld aan de Nederlandse schrijfwijze.
+ *
+ * Zolang je typt staat er wat je intypt: "87500". Zodra je het veld verlaat
+ * staat er "87.500". Dat is dezelfde afspraak als in het termijnschema van de
+ * nieuwbouwpagina, en de reden om niet tijdens het typen op te maken is daar
+ * ook al opgeschreven: een cursor die verspringt terwijl je een bedrag intikt
+ * is erger dan een bedrag dat een seconde onopgemaakt blijft.
+ *
+ * Waarom dit nodig was: de velden toonden "400000" terwijl de uitkomst ernaast
+ * "€ 1.204" zei en de snelkeuzeknop eronder "25.000". Zeventien bedragvelden
+ * over zeven rekenpagina's, geen enkele opgemaakt.
+ *
+ * @param {HTMLInputElement} veld
+ */
+export function koppelBedragveld(veld) {
+    if (!veld || veld.dataset.bedragGekoppeld) return;
+    veld.dataset.bedragGekoppeld = 'ja';
+
+    const opmaken = () => {
+        const n = leesGetal(veld.value);
+        if (n !== null) veld.value = toonGetal(n);
+    };
+    const kaal = () => {
+        const n = leesGetal(veld.value);
+        if (n !== null) veld.value = String(n);
+    };
+
+    veld.addEventListener('focus', kaal);
+    veld.addEventListener('blur', opmaken);
+    opmaken();
+}
+
+/**
+ * Zoekt de bedragvelden op de pagina en koppelt ze.
+ *
+ * Een bedragveld herken je aan het euroteken dat ervoor staat: de opmaak van
+ * het rekenblok zet dat als eerste kind in de omhulsel. Zo hoeft er in geen
+ * enkele van de elf rekenpagina's een markering bij, en werkt het ook op velden
+ * die er later bij komen.
+ */
+export function koppelBedragvelden(wortel = document) {
+    wortel.querySelectorAll('.bs-omhulsel').forEach((omhulsel) => {
+        const eerste = omhulsel.firstElementChild;
+        if (!eerste || eerste.tagName !== 'SPAN') return;
+        if (!/€|euro/i.test(eerste.textContent)) return;
+        koppelBedragveld(omhulsel.querySelector('input'));
+    });
+}

@@ -20,7 +20,7 @@
 import { huidigeBank, opBankwissel } from './bankkeuze.js';
 import { maakAgenda, downloadAgenda } from './agenda.js';
 import { maakPlan } from './declaratieplan.js';
-import { leesGetal, toonGetal, euro } from './getallen.js';
+import { leesGetal, toonGetal, euro, koppelBedragvelden } from './getallen.js';
 
 const wortel = document.getElementById('depotplanner');
 
@@ -612,3 +612,8 @@ if (wortel) {
     tekenPosten();
     opBankwissel(bereken);
 }
+
+// Bedragvelden in Nederlandse notatie. Staat helemaal onderaan omdat de module
+// hierboven zijn velden vult met onthouden waarden; pas daarna is er iets op te
+// maken.
+koppelBedragvelden();

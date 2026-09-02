@@ -1,7 +1,7 @@
 # Spec: de invoerkolom
 
 **Datum:** 02-09-2026
-**Status:** voorstel
+**Status:** in uitvoering — richting A gekozen op 02-09-2026
 **Roadmap:** blok 2, UI/UX van de calculator
 
 ## Het probleem
@@ -183,12 +183,24 @@ beter dan een mooie lijst die niemand met een toetsenbord kan bedienen.
 schuif kosten hoogte, en op 375px is de eis dat invoer en uitkomst in beeld
 blijven. Meten, niet aannemen.
 
+## Wat er al staat, 02-09-2026
+
+Richting **A · Lijnen** uit [../demo/2026-09-02-invoervelden.html](../demo/2026-09-02-invoervelden.html)
+is gekozen, en de invoer staat sindsdien links met de rekening rechts.
+
+Gedaan: punt A (bedragen opgemaakt), C (labels op leesmaat), E (het teken bij
+het getal), F (de schuif als liniaal), plus de velden van doos naar liniaal en
+de snelkeuzes van knop naar tekst.
+
+Nog te doen: punt B (de eigen keuzelijst en het eigen vinkje, want die vragen
+JavaScript en toetsenbordwerk) en punt D (één bediening per soort vraag — de
+looptijd heeft nog steeds alleen een schuif en geen veld om in te typen).
+
 ## Open vragen
 
-1. **Volgorde.** Punt A (bedragen opmaken) is klein, raakt geen enkele vorm en
-   lost het opvallendste gebrek op. B tot en met F zijn samen een dag of meer.
-   Eerst A los uitbrengen, of alles in één keer? Mijn voorstel: A nu, de rest
-   als één ontwerpronde.
+1. ~~**Volgorde.**~~ **Beslist 02-09: A eerst, de rest als ontwerpronde.**
+   Punt A bleek het opvallendste: zeventien velden toonden "400000" naast een
+   uitkomst van "€ 1.204".
 2. **De schuifregelaars.** Van de drie vergeleken sites gebruikt er geen enkele
    een schuif bij een geldbedrag. Wij hebben er dertien. Houden als hulpmiddel,
    of alleen bij looptijd en periodes waar een bereik echt betekenis heeft?

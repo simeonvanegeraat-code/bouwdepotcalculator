@@ -18,7 +18,7 @@
  * verplichtingen, taxatie en acceptatiebeleid.
  */
 
-import { leesGetal, euro } from './getallen.js';
+import { leesGetal, euro, koppelBedragvelden } from './getallen.js';
 
 const wortel = document.getElementById('leenruimte');
 
@@ -138,3 +138,8 @@ if (wortel) {
     herstel();
     bereken();
 }
+
+// Bedragvelden in Nederlandse notatie. Staat helemaal onderaan omdat de module
+// hierboven zijn velden vult met onthouden waarden; pas daarna is er iets op te
+// maken.
+koppelBedragvelden();
