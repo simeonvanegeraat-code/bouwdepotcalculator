@@ -1,6 +1,6 @@
 # Spec: één nieuwbouwrekentool
 
-**Datum:** 23-09-2026
+**Datum:** 23-09-2026 · bijgewerkt na de samenvoeging van maandlasten-bouwdepot
 **Status:** voorstel
 **Roadmap:** volgt op blok B uit [ADSENSE-AANVRAAG-PLAN.md](../plannen/ADSENSE-AANVRAAG-PLAN.md); onderbouwing in [MARKT-EN-ADSENSE-ONDERZOEK.md](../plannen/MARKT-EN-ADSENSE-ONDERZOEK.md)
 
