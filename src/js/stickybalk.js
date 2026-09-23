@@ -3,7 +3,7 @@
  *
  * De harde mobiele eis is dat invoer en uitkomst samen in beeld staan. Op 375px
  * lukt dat op geen enkele rekenpagina letterlijk: het uitkomstblok van
- * maandlasten-bouwdepot eindigt op 978px, ruim voorbij de vouw. De balk lost dat
+ * bouwdepot-berekenen eindigt op 978px, ruim voorbij de vouw. De balk lost dat
  * op door het bedrag mee te nemen naar beneden.
  *
  * Hij stond alleen op de homepage, met eigen HTML en eigen bijwerkcode in

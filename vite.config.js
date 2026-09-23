@@ -28,7 +28,6 @@ export default defineConfig({
         dubbeleLastenNieuwbouw: resolve(__dirname, 'dubbele-lasten-nieuwbouw.html'),
         hypotheekrenteaftrekGids: resolve(__dirname, 'hypotheekrenteaftrek-gids.html'),
         main: resolve(__dirname, 'index.html'),
-        maandlastenBouwdepot: resolve(__dirname, 'maandlasten-bouwdepot.html'),
         methodologie: resolve(__dirname, 'methodologie.html'),
         nieuwbouw: resolve(__dirname, 'nieuwbouw.html'),
         overOns: resolve(__dirname, 'over-ons.html'),

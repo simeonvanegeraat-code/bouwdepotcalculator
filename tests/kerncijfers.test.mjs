@@ -68,8 +68,8 @@ test('de kern-cijfers op index.html komen overeen met de data', () => {
         `er zijn ${nietGepubliceerd} niet-gepubliceerde gegevens, niet het getal dat op de pagina staat`);
 });
 
-test('de kern-cijfers op maandlasten-bouwdepot.html komen overeen met de data', () => {
-    const html = lees('maandlasten-bouwdepot.html');
+test('de kern-cijfers op bouwdepot-berekenen.html komen overeen met de data', () => {
+    const html = lees('bouwdepot-berekenen.html');
     const metVergoeding = data.aanbieders.length - zonderVergoeding.length;
     assert.match(html, new RegExp(`>${metVergoeding}<span class="kern__van">/${data.aanbieders.length}<`),
         `${metVergoeding} van ${data.aanbieders.length} aanbieders betaalt depotrente`);

@@ -52,6 +52,11 @@
       "source": "/leenruimte.html",
       "destination": "/verbouwbegroting.html#leenruimte",
       "permanent": true
+    },
+    {
+      "source": "/maandlasten-bouwdepot.html",
+      "destination": "/bouwdepot-berekenen.html#tijdens-de-bouw",
+      "permanent": true
     }
   ]
 }
