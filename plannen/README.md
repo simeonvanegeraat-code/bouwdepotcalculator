@@ -14,7 +14,9 @@ HTML-pagina's. De inhoud is niet veranderd, alleen de plek.
 | [ONTWERPPLAN.md](ONTWERPPLAN.md) | Hoe het eruitziet. §3 beschrijft de broadsheet-richting die sinds 1 september op alle pagina's staat |
 | [ONTWERPPLAN-HIERARCHIE.md](ONTWERPPLAN-HIERARCHIE.md) | De koprangorde en waarom die eerder niet klopte |
 | [KWALITEITSPLAN.md](KWALITEITSPLAN.md) | Wanneer een tool goed genoeg is om op te leveren |
-| [ADSENSE-PLAN.md](ADSENSE-PLAN.md) | Het verdienmodel: wat AdSense eist en wat dat betekent voor laadtijd en inhoud |
+| [MARKT-EN-ADSENSE-ONDERZOEK.md](MARKT-EN-ADSENSE-ONDERZOEK.md) | **Begin hier voor alles rond markt, groei en verdienmodel.** Het volledige onderzoek van 22 september 2026: marktomvang, concurrentie, AdSense-beleid en de gemeten staat van de site |
+| [ADSENSE-AANVRAAG-PLAN.md](ADSENSE-AANVRAAG-PLAN.md) | Het uitvoeringsplan dat daaruit volgt: elf werkdagen in vijf blokken, met een acceptatiecriterium per blok en een afvinklijst vóór indienen |
+| [ADSENSE-PLAN.md](ADSENSE-PLAN.md) | ~~Het verdienmodel~~ — **achterhaald**, zie hieronder |
 | [JURIDISCHE-CHECK.md](JURIDISCHE-CHECK.md) | De AFM-grens. **Lees dit vóór je iets bouwt dat op een aanbeveling lijkt** |
 | [CONCURRENTIE-EN-OORDEEL.md](CONCURRENTIE-EN-OORDEEL.md) | Wat anderen doen, en waar wij bewust van afwijken |
 
@@ -35,6 +37,16 @@ een plandocument overneemt.** Wat er nu bekend is:
   erachter geldt nog wel.
 - **`ONTWERPPLAN.md` §3** is op 31 augustus herschreven voor de
   broadsheet-richting en is daarmee het enige deel dat wél actueel is.
+- **`ADSENSE-PLAN.md` is achterhaald op zijn hoofdpunt.** Dat plan stelde dat
+  indexering het knelpunt was en dat AdSense "een formaliteit" zou worden bij 20+
+  geïndexeerde pagina's. Op 22 september 2026 stonden er 31 geïndexeerd en werd
+  de site opnieuw afgewezen op dezelfde grond. De indexeringsdiagnose erin klopte
+  en is opgelost; de conclusie die eruit getrokken werd niet.
+  [MARKT-EN-ADSENSE-ONDERZOEK.md](MARKT-EN-ADSENSE-ONDERZOEK.md) vervangt het.
+- **`CONCURRENTIE-EN-OORDEEL.md`** is van 16 augustus. De ontbrekende tools die
+  het noemt (begroting, leenruimte, depotplanner) zijn inmiddels gebouwd. De
+  uniciteitspercentages erin zijn verouderd: de aanbiederpagina's stonden er op
+  3–5% en zitten nu op 25–39%. De verse meting staat in het nieuwe onderzoek.
 
 Wat wel blijft gelden zonder houdbaarheidsdatum: de AFM-grens in
 `JURIDISCHE-CHECK.md` en de scope in `PRODUCTPLAN.md`. Die gaan over wat we
