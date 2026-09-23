@@ -29,12 +29,12 @@ const NAV = [
   ['bouwdepot-berekenen.html', 'Bereken'],
   [BESTAND, 'Begroting'],
   [HUB, 'Voorwaarden per bank'],
-  ['kennisbank.html', 'Uitleg'],
+  ['stappenplan.html', 'Uitleg'],
 ];
 
 const VOET = [
   ['/', 'Home'], [BESTAND, 'Verbouwbegroting'], ['leenruimte.html', 'Leenruimte'], ['depotplanner.html', 'Depotplanner'], [HUB, 'Voorwaarden per bank'],
-  ['kennisbank.html', 'Kennisbank'], ['over-ons.html', 'Over ons'], ['methodologie.html', 'Methodologie'],
+  ['stappenplan.html', 'Uitleg'], ['over-ons.html', 'Over ons'], ['methodologie.html', 'Methodologie'],
   ['contact.html', 'Contact'], ['privacy.html', 'Privacy'], ['cookies.html', 'Cookies'], ['voorwaarden.html', 'Voorwaarden'],
 ];
 
@@ -99,7 +99,7 @@ const html = `<!DOCTYPE html>
     <title>Verbouwbegroting maken | Wat mag uit het bouwdepot?</title>
     <meta name="description" content="Stel uw verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel u zelf betaalt. Met een specificatie voor uw adviseur.">
     <meta name="robots" content="index,follow,max-image-preview:large">
-    <meta name="author" content="Simeon">
+    <meta name="author" content="Simeon van Egeraat">
     <link rel="canonical" href="${SITE}/${BESTAND}">
     <!-- Wat een gedeelde link laat zien in WhatsApp, LinkedIn en Slack. Titel,
          omschrijving en adres zijn bewust dezelfde als hierboven;
@@ -136,7 +136,7 @@ const html = `<!DOCTYPE html>
             <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
             <div class="bs-kop__rechts">
 ${NAV.map(([h, t]) => `                <a href="${h}">${t}</a>`).join('\n')}
-                <a class="bs-menu" href="kennisbank.html">Kennisbank</a>
+                <a class="bs-menu" href="stappenplan.html">Uitleg</a>
                 <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
         </div>

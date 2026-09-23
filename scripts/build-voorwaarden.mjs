@@ -268,7 +268,7 @@ function balk(label, basis, extra, duurOnbekend = false) {
 const NAV = [
   ['bouwdepot-berekenen.html', 'Bereken'],
   [HUB, 'Voorwaarden per bank'],
-  ['kennisbank.html', 'Uitleg'],
+  ['stappenplan.html', 'Uitleg'],
   ['over-ons.html', 'Over ons'],
 ];
 
@@ -281,7 +281,7 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
     <title>${esc(titel)}</title>
     <meta name="description" content="${esc(omschrijving)}">
     <meta name="robots" content="index,follow,max-image-preview:large">
-    <meta name="author" content="Simeon">
+    <meta name="author" content="Simeon van Egeraat">
     <link rel="canonical" href="${SITE}/${bestand}">
     <!-- Wat een gedeelde link laat zien in WhatsApp, LinkedIn en Slack. Titel,
          omschrijving en adres zijn bewust dezelfde als hierboven;
@@ -454,7 +454,7 @@ ${DISCLAIMER}
                     </article>
                     <article>
                         <h3>Een bon is niet overal een factuur</h3>
-                        <p>Sommige aanbieders accepteren een kassabon, andere uitsluitend een factuur op naam met KvK- en btw-nummer. Offertes en pro-formafacturen worden vrijwel nergens geaccepteerd. Dat verschil bepaalt hoe u uw inkopen organiseert. Bekijk ook de <a href="bouwdepot-fouten.html">veelgemaakte fouten bij declaraties</a>.</p>
+                        <p>Sommige aanbieders accepteren een kassabon, andere uitsluitend een factuur op naam met KvK- en btw-nummer. Offertes en pro-formafacturen worden vrijwel nergens geaccepteerd. Dat verschil bepaalt hoe u uw inkopen organiseert. Bekijk ook de <a href="stappenplan.html#fouten">veelgemaakte fouten bij declaraties</a>.</p>
                     </article>
                 </div>
             </div>
@@ -501,7 +501,7 @@ ${DISCLAIMER}
       description: `Feitelijke vergelijking van de gepubliceerde bouwdepotvoorwaarden van ${data.aanbieders.length} Nederlandse geldverstrekkers.`,
       url: `${SITE}/${HUB}`,
       dateModified: data._laatstBijgewerkt,
-      author: { '@type': 'Person', name: 'Simeon' },
+      author: { '@type': 'Person', name: 'Simeon van Egeraat' },
       publisher: { '@type': 'Organization', name: 'BouwdepotCalculator.nl', url: SITE },
       isAccessibleForFree: true,
     }),
@@ -704,7 +704,7 @@ ${bronnen.map((b) => `                    <li><a href="${esc(b)}" target="_blank
       headline: `Bouwdepot bij ${a.naam}: de voorwaarden`,
       url: `${SITE}/${bestandsnaam(a)}`,
       dateModified: a.gecontroleerd,
-      author: { '@type': 'Person', name: 'Simeon' },
+      author: { '@type': 'Person', name: 'Simeon van Egeraat' },
       publisher: { '@type': 'Organization', name: 'BouwdepotCalculator.nl', url: SITE },
       isAccessibleForFree: true,
     }),

@@ -90,7 +90,7 @@ test('de verbouwtermijn wordt overal gelijk genoemd', () => {
     const max = Math.max(...verbouwtermijnen);
     const bereik = new RegExp(`${min}\\s*(?:&ndash;|tot|-)\\s*${max}`);
 
-    for (const bestand of ['index.html', 'nieuwbouw.html', 'kennisbank.html', 'bouwdepot-fouten.html', 'hypotheekrenteaftrek-gids.html']) {
+    for (const bestand of ['index.html', 'nieuwbouw.html', 'stappenplan.html', 'hypotheekrenteaftrek-gids.html']) {
         const html = lees(bestand);
         if (!/24|42/.test(html)) continue;
         assert.match(html, bereik, `${bestand} noemt een ander bereik dan ${min}-${max} maanden`);

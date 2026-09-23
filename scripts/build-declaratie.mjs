@@ -72,13 +72,13 @@ function perSoort(soort) {
 const NAV = [
   ['bouwdepot-berekenen.html', 'Bereken'],
   [HUB, 'Voorwaarden per bank'],
-  ['kennisbank.html', 'Uitleg'],
+  ['stappenplan.html', 'Uitleg'],
   ['over-ons.html', 'Over ons'],
 ];
 
 const VOET = [
   ['/', 'Home'], ['verbouwbegroting.html', 'Verbouwbegroting'], ['leenruimte.html', 'Leenruimte'],
-  ['depotplanner.html', 'Depotplanner'], [HUB, 'Voorwaarden per bank'], ['kennisbank.html', 'Kennisbank'],
+  ['depotplanner.html', 'Depotplanner'], [HUB, 'Voorwaarden per bank'], ['stappenplan.html', 'Uitleg'],
   ['over-ons.html', 'Over ons'], ['methodologie.html', 'Methodologie'], ['contact.html', 'Contact'],
   ['privacy.html', 'Privacy'], ['cookies.html', 'Cookies'], ['voorwaarden.html', 'Voorwaarden'],
 ];
@@ -122,7 +122,7 @@ const html = `<!DOCTYPE html>
     <title>Declaratie bouwdepot afgewezen | Redenen en oplossingen</title>
     <meta name="description" content="Waarom banken een bouwdepot-declaratie afwijzen: een offerte in plaats van een factuur, losse spullen of een te oud bewijsstuk. Met de eisen per bank.">
     <meta name="robots" content="index,follow,max-image-preview:large">
-    <meta name="author" content="Simeon">
+    <meta name="author" content="Simeon van Egeraat">
     <link rel="canonical" href="${SITE}/${BESTAND}">
     <!-- Wat een gedeelde link laat zien in WhatsApp, LinkedIn en Slack. Titel,
          omschrijving en adres zijn bewust dezelfde als hierboven;
@@ -161,7 +161,7 @@ const html = `<!DOCTYPE html>
             <div class="bs-kop__rechts">
                 <a href="bouwdepot-berekenen.html">Bereken</a>
                 <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
-                <a href="kennisbank.html">Uitleg</a>
+                <a href="stappenplan.html">Uitleg</a>
                 <a class="bs-menu" href="over-ons.html">Over ons</a>
                 <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
@@ -169,7 +169,7 @@ const html = `<!DOCTYPE html>
     </header>
 
     <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="kennisbank.html">Uitleg</a> <span aria-hidden="true">&middot;</span> <span>Declaratie afgewezen</span>
+        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="stappenplan.html">Uitleg</a> <span aria-hidden="true">&middot;</span> <span>Declaratie afgewezen</span>
     </nav>
 
 
@@ -244,7 +244,7 @@ ${uitbetaaltijden}
                         <span class="bs-tool__uitleg">Looptijd, vergoeding en bewijsstukken van ${data.aanbieders.length} geldverstrekkers naast elkaar.</span>
                         <span class="bs-tool__meta">Vergelijking bekijken &rarr;</span>
                     </a>
-                    <a class="bs-tool" href="bouwdepot-fouten.html">
+                    <a class="bs-tool" href="stappenplan.html#fouten">
                         <span class="bs-tool__naam">Zeven fouten voorkomen</span>
                         <span class="bs-tool__uitleg">Begroting, declaraties, kasstroom en depottermijn: waar het vaker misgaat.</span>
                         <span class="bs-tool__meta">Fouten bekijken &rarr;</span>
@@ -290,7 +290,7 @@ ${uitbetaaltijden}
       description: `De eisen die ${data.aanbieders.length} Nederlandse geldverstrekkers stellen aan een bouwdepot-declaratie, gegroepeerd per afwijzingsreden.`,
       url: `${SITE}/${BESTAND}`,
       dateModified: data._laatstBijgewerkt,
-      author: { '@type': 'Person', name: 'Simeon' },
+      author: { '@type': 'Person', name: 'Simeon van Egeraat' },
       publisher: { '@type': 'Organization', name: 'BouwdepotCalculator.nl', url: SITE },
       isAccessibleForFree: true,
     }, null, 2).replace(/\n/g, '\n    ')}
@@ -301,7 +301,7 @@ ${uitbetaaltijden}
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'Uitleg', item: `${SITE}/kennisbank.html` },
+        { '@type': 'ListItem', position: 2, name: 'Uitleg', item: `${SITE}/stappenplan.html` },
         { '@type': 'ListItem', position: 3, name: 'Declaratie afgewezen' },
       ],
     }, null, 2).replace(/\n/g, '\n    ')}

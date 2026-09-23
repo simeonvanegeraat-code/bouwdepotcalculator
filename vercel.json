@@ -18,8 +18,24 @@
     },
     {
       "source": "/",
-      "has": [{ "type": "query", "key": "plan", "value": "haalbaarheid" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "plan",
+          "value": "haalbaarheid"
+        }
+      ],
       "destination": "/leenruimte.html",
+      "permanent": true
+    },
+    {
+      "source": "/bouwdepot-fouten.html",
+      "destination": "/stappenplan.html#fouten",
+      "permanent": true
+    },
+    {
+      "source": "/kennisbank.html",
+      "destination": "/stappenplan.html",
       "permanent": true
     }
   ]
