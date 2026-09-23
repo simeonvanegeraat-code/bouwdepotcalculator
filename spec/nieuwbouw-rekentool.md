@@ -141,8 +141,8 @@ bouwkosten, meerwerk met soort, en de periode vóór bouwstart.
 | `tests/` | `kerncijfers.test.mjs` noemt `nieuwbouw.html`; controleren of de termijnclaim blijft kloppen |
 | `scripts/build-*.mjs` | navigatie- en vervolgkaarten die naar de drie pagina's wijzen |
 
-**27 → 24 pagina's.** Daarmee is het doel van 23 op één na gehaald; de laatste is
-`maandlasten-bouwdepot` → `bouwdepot-berekenen`.
+**26 → 23 pagina's.** Dit is de laatste samenvoeging uit blok B; daarmee is het
+doel van 23 gehaald.
 
 ## Risico
 
