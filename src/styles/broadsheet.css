@@ -754,6 +754,13 @@
     .bs-alleen-print { display: block; }
 }
 
+/* Twee afvinklijsten op een pagina: "Afdrukken" bij een lijst neemt alleen
+   die lijst mee. checklist.js zet het merk kort op body en op het eigen blok,
+   en haalt het na afloop weer weg. Met een lijst verandert er niets. */
+@media print {
+    .bs-print-selectie [data-checklist-blok]:not([data-print-mee]) { display: none !important; }
+}
+
 /* Leestekst met een prettige regellengte, voor een uitleg zonder kolommen. */
 .bs-proza { max-width: 62ch; }
 .bs-proza p { margin: 0 0 14px; }

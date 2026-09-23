@@ -64,17 +64,17 @@
                 <h1 class="bs-reken__titel">Bouwdepot stappenplan</h1>
                 <p class="bs-reken__lead">Van begroting tot laatste declaratie. Vink af wat u geregeld heeft; uw voortgang blijft op dit apparaat bewaard.</p>
 
-            <div class="bs-voortgang" role="progressbar" aria-labelledby="plan-progress-text">
+            <div class="bs-voortgang" role="progressbar" aria-labelledby="voortgang-stappenplan" data-checklist-voortgang="bouwdepot-stappenplan-v1" data-checklist-blok="bouwdepot-stappenplan-v1">
                 <div class="bs-voortgang__kop">
-                    <span id="plan-progress-text">0 van 18 punten afgerond</span>
-                    <strong class="tnum" id="plan-progress-percent">0%</strong>
+                    <span id="voortgang-stappenplan" data-checklist-tekst>0 van 18 punten afgerond</span>
+                    <strong class="tnum" data-checklist-percent>0%</strong>
                 </div>
                 <div class="bs-spoor" aria-valuemin="0" aria-valuenow="0" aria-valuemax="18">
-                    <div class="bs-spoor__vulling" id="plan-progress-bar"></div>
+                    <div class="bs-spoor__vulling" data-checklist-balk></div>
                 </div>
                 <div class="bs-voortgang__acties no-print">
-                    <button class="bs-knop bs-knop--licht" type="button" id="plan-print">Afdrukken</button>
-                    <button class="bs-knop bs-knop--licht" type="button" id="plan-reset">Opnieuw beginnen</button>
+                    <button class="bs-knop bs-knop--licht" type="button" data-checklist-print>Afdrukken</button>
+                    <button class="bs-knop bs-knop--licht" type="button" data-checklist-reset>Opnieuw beginnen</button>
                 </div>
             </div>
             </div>
@@ -82,7 +82,7 @@
 
         <section class="bs-sectie">
             <div class="bs-wrap">
-                <div class="bs-fasen" data-checklist="bouwdepot-stappenplan-v1">
+                <div class="bs-fasen" data-checklist="bouwdepot-stappenplan-v1" data-checklist-blok="bouwdepot-stappenplan-v1">
 
                     <article class="bs-fase">
                         <p class="bs-fase__nr">Fase 1</p>
