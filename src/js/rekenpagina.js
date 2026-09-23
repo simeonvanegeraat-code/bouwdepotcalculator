@@ -10,6 +10,9 @@
  * De pagina's verhuizen daarom één voor één naar een eigen module. Wat ze
  * werkelijk delen staat hier, en niet meer dan dat.
  */
+
+// Telt vier mijlpalen, zonder ingevulde waarden. Zie meting.js.
+import './meting.js';
 import { initSharedFormMemory } from './shared-form-memory';
 import { koppelBedragvelden, koppelPercentagevelden } from './getallen.js';
 

@@ -17,6 +17,9 @@
  *   verlengen regelen  alleen waar de aanbieder een termijn noemt
  */
 
+// Telt vier mijlpalen, zonder ingevulde waarden. Zie meting.js.
+import './meting.js';
+
 import { huidigeBank, opBankwissel } from './bankkeuze.js';
 import { maakAgenda, downloadAgenda } from './agenda.js';
 import { maakPlan } from './declaratieplan.js';

@@ -14,6 +14,9 @@
  * een tweede keer, en dan is de knop "Start berekenen" een leugen.
  */
 
+// Telt vier mijlpalen, zonder ingevulde waarden. Zie meting.js.
+import './meting.js';
+
 import { annuiteitTermijn } from './annuiteit.js';
 import { euro } from './getallen.js';
 

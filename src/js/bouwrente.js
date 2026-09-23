@@ -6,6 +6,9 @@
  * scriptblok meer bevat en de code testbaar is.
  */
 
+// Telt vier mijlpalen, zonder ingevulde waarden. Zie meting.js.
+import './meting.js';
+
 import { leesGetal, leesPercentage, euro, koppelBedragvelden, koppelPercentagevelden } from './getallen.js';
 
 

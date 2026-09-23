@@ -18,6 +18,9 @@
  * verplichtingen, taxatie en acceptatiebeleid.
  */
 
+// Telt vier mijlpalen, zonder ingevulde waarden. Zie meting.js.
+import './meting.js';
+
 import { leesGetal, euro, koppelBedragvelden, koppelPercentagevelden } from './getallen.js';
 
 const wortel = document.getElementById('leenruimte');
