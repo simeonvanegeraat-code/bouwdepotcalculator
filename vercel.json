@@ -8,12 +8,12 @@
     },
     {
       "source": "/maximale-bouwdepot.html",
-      "destination": "/leenruimte.html",
+      "destination": "/verbouwbegroting.html#leenruimte",
       "permanent": true
     },
     {
       "source": "/eigen-geld-bouwdepot.html",
-      "destination": "/leenruimte.html",
+      "destination": "/verbouwbegroting.html#leenruimte",
       "permanent": true
     },
     {
@@ -25,7 +25,7 @@
           "value": "haalbaarheid"
         }
       ],
-      "destination": "/leenruimte.html",
+      "destination": "/verbouwbegroting.html#leenruimte",
       "permanent": true
     },
     {
@@ -46,6 +46,11 @@
     {
       "source": "/adviesgesprek-checklist.html",
       "destination": "/stappenplan.html#adviesgesprek",
+      "permanent": true
+    },
+    {
+      "source": "/leenruimte.html",
+      "destination": "/verbouwbegroting.html#leenruimte",
       "permanent": true
     }
   ]

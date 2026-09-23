@@ -413,7 +413,7 @@ function initVerbouwCalculator() {
     // waar vercel.json niet geldt.
     if (new URLSearchParams(window.location.search).get('plan') === 'haalbaarheid') {
         const bedrag = Math.round(leesGetal(inputAmount.value) || 0);
-        window.location.replace(bedrag > 0 ? `leenruimte.html?bedrag=${bedrag}` : 'leenruimte.html');
+        window.location.replace(bedrag > 0 ? `leenruimte.html?bedrag=${bedrag}` : 'verbouwbegroting.html#leenruimte');
         return;
     }
 

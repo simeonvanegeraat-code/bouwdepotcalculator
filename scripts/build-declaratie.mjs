@@ -77,7 +77,7 @@ const NAV = [
 ];
 
 const VOET = [
-  ['/', 'Home'], ['verbouwbegroting.html', 'Verbouwbegroting'], ['leenruimte.html', 'Leenruimte'],
+  ['/', 'Home'], ['verbouwbegroting.html', 'Verbouwbegroting'], ['verbouwbegroting.html#leenruimte', 'Leenruimte'],
   ['depotplanner.html', 'Depotplanner'], [HUB, 'Voorwaarden per bank'], ['stappenplan.html', 'Uitleg'],
   ['over-ons.html', 'Over ons'], ['methodologie.html', 'Methodologie'], ['contact.html', 'Contact'],
   ['privacy.html', 'Privacy'], ['cookies.html', 'Cookies'], ['voorwaarden.html', 'Voorwaarden'],

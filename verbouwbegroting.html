@@ -1013,16 +1013,127 @@
             </div>
         </section>
 
+
+        <section class="bs-reken" id="leenruimte">
+            <div class="bs-wrap">
+                <nav class="bs-kruimel" aria-label="Kruimelpad">
+                    <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Leenruimte</span>
+                </nav>
+                <p class="bs-micro">Kunt u dit lenen?</p>
+                <h2 class="bs-reken__titel">Past uw verbouwing binnen de waarde van uw woning?</h2>
+                <p class="bs-reken__lead">Een waardetoets, geen inkomenstoets. Wat u werkelijk kunt lenen hangt daarnaast af van uw inkomen en de beoordeling van de geldverstrekker.</p>
+
+                <div class="bs-reken__grid">
+                    <div>
+                        <article class="bs-blad">
+                            <div class="bs-blad__kop">
+                                <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
+                                <span class="bs-blad__stempel">Waardetoets</span>
+                            </div>
+
+                            <div class="bs-antwoord">
+                                <p class="bs-antwoord__label">Ruimte op basis van woningwaarde</p>
+                                <strong class="bs-antwoord__bedrag" id="lr-res-ruimte" data-bedrag>&euro; 0</strong>
+                                <p class="bs-antwoord__zin" id="lr-res-zin">Vul uw gegevens in om de waarderuimte te beoordelen.</p>
+                            </div>
+
+                            <div class="bs-verhouding" aria-hidden="true">
+                                <div class="bs-verhouding__balk">
+                                    <div class="bs-verhouding__rente" id="lr-balk-lening" style="width:0%"></div>
+                                    <div class="bs-verhouding__aflossing" id="lr-balk-ruimte" style="width:0%"></div>
+                                </div>
+                                <p class="bs-verhouding__legenda">
+                                    <span><i class="bs-verhouding__rente"></i>Huidige hypotheek</span>
+                                    <span><i class="bs-verhouding__aflossing"></i>Extra lening</span>
+                                </p>
+                                <p class="bs-hulp" id="lr-res-verhouding">Vul de waarde na verbouwing in</p>
+                            </div>
+
+                            <dl class="bs-uitsplitsing">
+                                <div><dt>Niet gedekt door waarderuimte</dt><dd class="tnum" id="lr-res-gat" data-bedrag>&euro; 0</dd></div>
+                                <div><dt>Eigen geld nodig in dit model</dt><dd class="tnum" id="lr-res-nodig" data-bedrag>&euro; 0</dd></div>
+                                <div><dt>Eigen buffer daarna</dt><dd class="tnum" id="lr-res-buffer" data-bedrag>&euro; 0</dd></div>
+                            </dl>
+
+                            <p class="bs-notitie">De hoofdregel is dat de totale hypotheek niet boven 100% van de woningwaarde uitkomt. Bij energiebesparende maatregelen geldt soms meer ruimte.</p>
+
+                            <p class="bs-blad__voet">Indicatief &middot; informatie, geen advies</p>
+                        </article>
+
+                        <p class="bs-vervolgstap">Past uw plan binnen de waarderuimte? <a href="maandlasten-bouwdepot.html">Bereken wat het per maand kost &rarr;</a></p>
+                    </div>
+
+                    <div class="bs-invoer">
+                        <div>
+                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-bedrag">Gewenst bedrag voor de verbouwing</label></div>
+                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-bedrag" value="75000" inputmode="numeric"></div>
+                            <p class="bs-hulp">Komt uit uw <a href="verbouwbegroting.html">verbouwbegroting</a>, of vul uw eigen schatting in.</p>
+                        </div>
+
+                        <div class="bs-veldrij">
+                            <div>
+                                <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-hypotheek">Huidige hypotheek</label></div>
+                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-hypotheek" value="300000" inputmode="numeric"></div>
+                                <p class="bs-hulp">Openstaand saldo v&oacute;&oacute;r de extra lening.</p>
+                            </div>
+                            <div>
+                                <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-waarde">Waarde na verbouwing</label></div>
+                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-waarde" value="360000" inputmode="numeric"></div>
+                                <p class="bs-hulp">Gebruik bij voorkeur een taxatie, niet uw eigen inschatting.</p>
+                            </div>
+                            <div>
+                                <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-eigen-geld">Beschikbaar eigen geld</label></div>
+                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-eigen-geld" value="25000" inputmode="numeric"></div>
+                                <p class="bs-hulp">Alleen wat u echt voor dit plan reserveert.</p>
+                            </div>
+                            <div>
+                                <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-buiten-depot">Kosten buiten het depot</label></div>
+                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-buiten-depot" value="10000" inputmode="numeric"></div>
+                                <p class="bs-hulp">Losse spullen, inrichting en posten die uw bank niet accepteert. Staat in uw <a href="verbouwbegroting.html">begroting</a> onder eigen geld.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Doorrekenen en de praktijkcase horen ná de invoer: het zijn
+                         acties die je neemt als je klaar bent met invullen. -->
+                    <div class="bs-reken__na no-print">
+                        <a class="bs-knop" id="lr-naar-maandlast" href="bouwdepot-berekenen.html">Wat kost dit per maand?</a>
+                        <button class="bs-knop bs-knop--licht" id="lr-praktijkcase" type="button">Laad praktijkcase van &euro; 75.000</button>
+                        <p class="bs-voorbehoud">Uw invoer blijft op dit apparaat en wordt nergens verstuurd.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="bs-sectie" id="uitleg">
+            <div class="bs-wrap">
+                <p class="bs-micro">Belangrijk onderscheid</p>
+                <h2 class="bs-titel">Drie grenzen, en deze pagina toetst er &eacute;&eacute;n</h2>
+                <div class="bs-kolommen">
+                    <article>
+                        <h3>De waardegrens &mdash; wat hier wordt berekend</h3>
+                        <p>De totale hypotheek mag als hoofdregel niet boven 100% van de woningwaarde na verbouwing uitkomen. Die grens toetst deze pagina. Voor energiebesparende maatregelen geldt bij sommige aanbieders extra ruimte.</p>
+                    </article>
+                    <article>
+                        <h3>De inkomensgrens &mdash; hier niet berekend</h3>
+                        <p>Een positieve waardetoets zegt niets over wat u op basis van inkomen, rente en verplichtingen kunt dragen. Die beoordeling zit bewust niet in deze tool; daarvoor heeft u een adviseur nodig.</p>
+                    </article>
+                    <article>
+                        <h3>Uw eigen kasstroom</h3>
+                        <p>Een financieringsgat en kosten die niet uit het depot mogen, vragen eigen geld. Wat daarna overblijft is uw zichtbare buffer voor tegenvallers, en niet automatisch uw volledige noodbuffer.</p>
+                    </article>
+                    <article>
+                        <h3>Sluitend is niet hetzelfde als goedgekeurd</h3>
+                        <p>De taxatie kan lager uitvallen dan verwacht, en een geldverstrekker kan posten weigeren. Gebruik de uitkomst als vragenlijst voor uw dossier, niet als toezegging.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
         <section class="bs-sectie no-print">
             <div class="bs-wrap">
                 <p class="bs-micro">Volgende stap</p>
                 <h2 class="bs-titel">Van begroting naar financiering</h2>
                 <div class="bs-rooster">
-                    <a class="bs-tool" href="leenruimte.html">
-                        <span class="bs-tool__naam">Kunt u dit bedrag lenen?</span>
-                        <span class="bs-tool__uitleg">De vraag die vóór de maandlast komt: past dit bedrag binnen de waarde van uw woning na verbouwing, en hoeveel eigen geld heeft u nodig?</span>
-                        <span class="bs-tool__meta">Leenruimte berekenen &rarr;</span>
-                    </a>
                     <a class="bs-tool" href="bouwdepot-berekenen.html">
                         <span class="bs-tool__naam">Wat kost dit per maand?</span>
                         <span class="bs-tool__uitleg">Het depotbedrag omgerekend naar een maandlast, met uw eigen rente en looptijd.</span>
@@ -1062,11 +1173,12 @@
     <footer class="bs-voet no-print">
         <div class="bs-wrap bs-voet__inner">
             <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="/">Home</a> &middot; <a href="verbouwbegroting.html">Verbouwbegroting</a> &middot; <a href="leenruimte.html">Leenruimte</a> &middot; <a href="depotplanner.html">Depotplanner</a> &middot; <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a> &middot; <a href="stappenplan.html">Uitleg</a> &middot; <a href="over-ons.html">Over ons</a> &middot; <a href="methodologie.html">Methodologie</a> &middot; <a href="contact.html">Contact</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="cookies.html">Cookies</a> &middot; <a href="voorwaarden.html">Voorwaarden</a></span>
+            <span><a href="/">Home</a> &middot; <a href="verbouwbegroting.html">Verbouwbegroting</a> &middot; <a href="verbouwbegroting.html#leenruimte">Leenruimte</a> &middot; <a href="depotplanner.html">Depotplanner</a> &middot; <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a> &middot; <a href="stappenplan.html">Uitleg</a> &middot; <a href="over-ons.html">Over ons</a> &middot; <a href="methodologie.html">Methodologie</a> &middot; <a href="contact.html">Contact</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="cookies.html">Cookies</a> &middot; <a href="voorwaarden.html">Voorwaarden</a></span>
         </div>
     </footer>
 
     <script type="module" src="/src/js/begroting.js"></script>
+    <script type="module" src="/src/js/leenruimte.js"></script>
     <script type="module" src="/src/js/stickybalk.js"></script>
 
     <script type="application/ld+json">
