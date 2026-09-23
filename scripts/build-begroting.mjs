@@ -264,7 +264,7 @@ ${categorieen}
                         <span class="bs-tool__uitleg">Looptijd, vergoeding en bewijsstukken van ${banken.aanbieders.length} geldverstrekkers naast elkaar.</span>
                         <span class="bs-tool__meta">Voorwaarden bekijken &rarr;</span>
                     </a>
-                    <a class="bs-tool" href="adviesgesprek-checklist.html">
+                    <a class="bs-tool" href="stappenplan.html#adviesgesprek">
                         <span class="bs-tool__naam">Naar het adviesgesprek</span>
                         <span class="bs-tool__uitleg">Wat u meeneemt en welke vragen u stelt, in een printbare checklist.</span>
                         <span class="bs-tool__meta">Checklist bekijken &rarr;</span>

@@ -474,7 +474,7 @@ ${DISCLAIMER}
                     <article>
                         <h3>Wat geen enkele aanbieder publiceert</h3>
                         <p>Drie gegevens ontbreken bij alle ${data.aanbieders.length}: het <strong>minimumbedrag per opname</strong>, de <strong>grens per opname</strong> bij aanbieders zonder declaratieproces, en of <strong>eigen arbeid</strong> declarabel is. Dat laatste is de meest gestelde vraag van wie zelf klust, en niemand geeft er publiek antwoord op.</p>
-                        <p>Wij vullen die gaten niet met een aanname. Ze staan hierboven als &quot;niet gepubliceerd&quot;, en dat is zelf het antwoord: <strong>u moet dit schriftelijk navragen en het antwoord bewaren</strong>. Een mondelinge toezegging helpt u niet als een declaratie later wordt afgewezen. De <a href="adviesgesprek-checklist.html">advieschecklist</a> heeft hier vragen voor staan.</p>
+                        <p>Wij vullen die gaten niet met een aanname. Ze staan hierboven als &quot;niet gepubliceerd&quot;, en dat is zelf het antwoord: <strong>u moet dit schriftelijk navragen en het antwoord bewaren</strong>. Een mondelinge toezegging helpt u niet als een declaratie later wordt afgewezen. De <a href="stappenplan.html#adviesgesprek">advieschecklist</a> heeft hier vragen voor staan.</p>
                     </article>
                 </div>
             </div>

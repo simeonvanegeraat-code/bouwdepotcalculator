@@ -972,7 +972,7 @@
 
 .bs-fase { padding-top: 16px; border-top: 1px solid var(--bs-ink); }
 .bs-fase__nr { margin: 0 0 6px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-accent); }
-.bs-fase h2 { margin: 0; font-size: clamp(22px, 2.4vw, 30px); font-weight: 500; line-height: 1.1; letter-spacing: -.03em; }
+.bs-fase h2, .bs-fase h3 { margin: 0; font-size: clamp(22px, 2.4vw, 30px); font-weight: 500; line-height: 1.1; letter-spacing: -.03em; }
 .bs-fase__intro { margin: 10px 0 18px; font-size: var(--bs-t-klein); line-height: 1.6; color: var(--bs-newsprint); }
 .bs-fase__intro a { color: var(--bs-ink); }
 

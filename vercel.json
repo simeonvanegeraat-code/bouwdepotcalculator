@@ -42,6 +42,11 @@
       "source": "/belasting.html",
       "destination": "/hypotheekrenteaftrek-gids.html",
       "permanent": true
+    },
+    {
+      "source": "/adviesgesprek-checklist.html",
+      "destination": "/stappenplan.html#adviesgesprek",
+      "permanent": true
     }
   ]
 }
