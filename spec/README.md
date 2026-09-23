@@ -24,6 +24,9 @@ naar de code en langs [../review.md](../review.md).
 
 ## Bestaande specs
 
+- [nieuwbouw-rekentool.md](nieuwbouw-rekentool.md) — de vier nieuwbouwtools
+  worden er één, zodat de bezoeker geen getallen meer tussen schermen
+  overtypt. Status: **voorstel**, vier open vragen.
 - [invoervelden.md](invoervelden.md) — de invoerkolom van de rekenpagina's,
   gemeten en vergeleken met drie andere sites. Status: **voorstel**, wacht op
   akkoord.
