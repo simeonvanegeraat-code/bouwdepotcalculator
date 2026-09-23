@@ -303,7 +303,7 @@ function initVerbouwCalculator() {
         rowVoordeel.addEventListener('click', () => {
             const amt = inputAmount.value;
             const int = inputInterest.value;
-            window.location.href = `belasting.html?amount=${amt}&interest=${int}`;
+            window.location.href = `hypotheekrenteaftrek-gids.html?amount=${amt}&interest=${int}`;
         });
         // Hover staat in de stylesheet: een inline kleur volgt de donkere modus niet.
         rowVoordeel.classList.add('bs-klikbaar');

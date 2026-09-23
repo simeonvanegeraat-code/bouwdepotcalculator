@@ -37,6 +37,11 @@
       "source": "/kennisbank.html",
       "destination": "/stappenplan.html",
       "permanent": true
+    },
+    {
+      "source": "/belasting.html",
+      "destination": "/hypotheekrenteaftrek-gids.html",
+      "permanent": true
     }
   ]
 }
