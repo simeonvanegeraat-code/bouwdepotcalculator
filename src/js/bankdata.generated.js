@@ -79,16 +79,16 @@ export const BANKEN = [
       "verbouw": null,
       "nieuwbouw": null,
       "eenmalig": null,
-      "duurOnbekend": false,
-      "geen": true
+      "duurOnbekend": true,
+      "geen": false
     },
     "maximaal": {
-      "verbouw": 24,
-      "nieuwbouw": 24
+      "verbouw": null,
+      "nieuwbouw": null
     },
     "vergoeding": {
       "samenvatting": "Ja, gelijk aan je hypotheekrente bij aanvang",
-      "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. De vergoeding loopt daarmee over de hele looptijd van 2 jaar.",
+      "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. De vergoeding loopt over de hele looptijd van 2 jaar, maar stopt zodra het depot daarna wordt verlengd.",
       "model": "beperkt-in-duur",
       "maanden": {
         "verbouw": 24,
@@ -413,7 +413,7 @@ export const BANKEN = [
     },
     "vergoeding": {
       "samenvatting": "Ja, maar hoogte en duur verschillen per hypotheekvorm",
-      "detail": "Bij de Woon Hypotheek is de vergoeding gelijk aan uw hypotheekrente en loopt die 12 maanden bij bestaande bouw en 24 maanden bij nieuwbouw. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.",
+      "detail": "Bij de Woon Hypotheek is de vergoeding gelijk aan uw hypotheekrente en loopt die 12 maanden bij bestaande bouw. Bij nieuwbouw is dat 24 maanden voor hypotheekaanvragen vanaf 16 september 2024; voor aanvragen van daarvóór blijft het 12 maanden. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.",
       "model": "beperkt-in-duur",
       "maanden": {
         "verbouw": 12,

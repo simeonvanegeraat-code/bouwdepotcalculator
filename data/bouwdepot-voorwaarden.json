@@ -104,7 +104,7 @@
       "id": "rabobank",
       "naam": "Rabobank",
       "bron": "https://www.rabobank.nl/particulieren/hypotheek/hypotheekvormen-en-voorwaarden/hypotheekproducten/bouwdepot",
-      "gecontroleerd": "2026-08-17",
+      "gecontroleerd": "2026-09-30",
       "geverifieerdDoor": null,
       "automatischTeControleren": false,
       "handcontroleReden": "De productpagina is JS-gerenderd en levert bij geautomatiseerd ophalen geen tekst. Alleen met de hand te controleren.",
@@ -113,12 +113,12 @@
       "verlengingMaanden": {
         "verbouw": null,
         "nieuwbouw": null,
-        "geenVerlengingGepubliceerd": true,
-        "detail": "Rabobank publiceert geen verlenging. De bron stelt dat het depot na 2 jaar automatisch stopt, dus geldt die 2 jaar als maximum. Vraag bij uw adviseur na of er in uw situatie iets mogelijk is."
+        "detail": "Rabobank publiceert geen verlengingsduur, maar noemt verlenging na 2 jaar wel: over die verlenging krijgt u geen depotvergoeding meer. Vraag bij uw adviseur na wat in uw situatie mogelijk is.",
+        "mogelijkMaarDuurOnbekend": true
       },
       "rentevergoeding": {
         "waarde": "Ja, gelijk aan je hypotheekrente bij aanvang",
-        "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. De vergoeding loopt daarmee over de hele looptijd van 2 jaar.",
+        "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. De vergoeding loopt over de hele looptijd van 2 jaar, maar stopt zodra het depot daarna wordt verlengd.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": {
           "verbouw": 24,
@@ -186,7 +186,7 @@
       "id": "ing",
       "naam": "ING",
       "bron": "https://www.ing.nl/particulier/hypotheek/jouw-hypotheek/bouwdepot",
-      "gecontroleerd": "2026-08-18",
+      "gecontroleerd": "2026-09-30",
       "automatischTeControleren": false,
       "handcontroleReden": "De productpagina blokkeert geautomatiseerd ophalen; de verbinding wordt verbroken. Alleen met de hand te controleren.",
       "geverifieerdDoor": null,
@@ -546,7 +546,7 @@
       "id": "obvion",
       "naam": "Obvion",
       "bron": "https://obvion.nl/hypotheek/afsluiten/bouwdepot/",
-      "gecontroleerd": "2026-08-18",
+      "gecontroleerd": "2026-09-30",
       "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 24,
       "looptijdNieuwbouwMaanden": 36,
@@ -558,7 +558,7 @@
       },
       "rentevergoeding": {
         "waarde": "Ja, maar hoogte en duur verschillen per hypotheekvorm",
-        "detail": "Bij de Woon Hypotheek is de vergoeding gelijk aan uw hypotheekrente en loopt die 12 maanden bij bestaande bouw en 24 maanden bij nieuwbouw. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.",
+        "detail": "Bij de Woon Hypotheek is de vergoeding gelijk aan uw hypotheekrente en loopt die 12 maanden bij bestaande bouw. Bij nieuwbouw is dat 24 maanden voor hypotheekaanvragen vanaf 16 september 2024; voor aanvragen van daarvóór blijft het 12 maanden. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": {
           "verbouw": 12,
