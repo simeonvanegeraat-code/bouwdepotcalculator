@@ -24,7 +24,6 @@
       "naam": "ABN AMRO",
       "bron": "https://www.abnamro.nl/nl/prive/hypotheken/hypotheek-afsluiten/bouwdepot/voorwaarden-bouwdepot.html",
       "gecontroleerd": "2026-08-18",
-      "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 18,
       "looptijdNieuwbouwMaanden": 24,
       "verlengingMaanden": {
@@ -105,7 +104,6 @@
       "naam": "Rabobank",
       "bron": "https://www.rabobank.nl/particulieren/hypotheek/hypotheekvormen-en-voorwaarden/hypotheekproducten/bouwdepot",
       "gecontroleerd": "2026-09-30",
-      "geverifieerdDoor": null,
       "automatischTeControleren": false,
       "handcontroleReden": "De productpagina is JS-gerenderd en levert bij geautomatiseerd ophalen geen tekst. Alleen met de hand te controleren.",
       "looptijdVerbouwMaanden": 24,
@@ -189,7 +187,6 @@
       "gecontroleerd": "2026-09-30",
       "automatischTeControleren": false,
       "handcontroleReden": "De productpagina blokkeert geautomatiseerd ophalen; de verbinding wordt verbroken. Alleen met de hand te controleren.",
-      "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 24,
       "looptijdNieuwbouwMaanden": 24,
       "verlengingMaanden": {
@@ -291,7 +288,6 @@
         "https://www.munthypotheken.nl/veelgestelde-vragen/bouwdepot/wanneer-wordt-mijn-declaratie-betaald/"
       ],
       "gecontroleerd": "2026-08-18",
-      "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 24,
       "looptijdNieuwbouwMaanden": 24,
       "verlengingMaanden": {
@@ -364,7 +360,6 @@
       "naam": "Florius",
       "bron": "https://www.florius.nl/hypotheek/bouwdepot-beheren",
       "gecontroleerd": "2026-08-18",
-      "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 18,
       "looptijdNieuwbouwMaanden": 24,
       "verlengingMaanden": {
@@ -452,7 +447,6 @@
         "https://www.nn.nl/Particulier/Hypotheken/Je-hypotheek/Je-bouwdepot-bij-Nationale-Nederlanden/Bouwdepot-beeindigen.htm"
       ],
       "gecontroleerd": "2026-08-18",
-      "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 12,
       "looptijdNieuwbouwMaanden": 24,
       "verlengingMaanden": {
@@ -547,7 +541,6 @@
       "naam": "Obvion",
       "bron": "https://obvion.nl/hypotheek/afsluiten/bouwdepot/",
       "gecontroleerd": "2026-09-30",
-      "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 24,
       "looptijdNieuwbouwMaanden": 36,
       "verlengingMaanden": {
@@ -627,7 +620,6 @@
         "https://www.snsbank.nl/particulier/hypotheken/bouwdepotdeclaratie-spelregels.html"
       ],
       "gecontroleerd": "2026-08-18",
-      "geverifieerdDoor": null,
       "looptijdVerbouwMaanden": 24,
       "looptijdNieuwbouwMaanden": 24,
       "verlengingMaanden": {

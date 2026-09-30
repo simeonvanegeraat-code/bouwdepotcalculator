@@ -376,8 +376,6 @@ ${feit('Uitbetaling', { waarde: a.doorlooptijdUitbetaling?.digitaal, detail: a.d
 ${feit('Zelf voorschieten', a.voorschieten)}
 ${feit('Verlengen regelen', verlengVeld(a))}
 ${feit('Grens per opname', a.maxPerOpname)}
-${feit('Minimum per opname', a.minPerOpname)}
-${feit('Eigen arbeid declarabel', a.eigenArbeid)}
 ${feit('Restant bij beëindiging', a.restant)}
                     </dl>
                 </article>`;
@@ -606,7 +604,6 @@ function bouwAanbieder(a) {
       a.opnamemethode === 'declaratie' ? 'Declareren: bewijsstuk indienen, daarna uitbetaling' : esc(a.opnamemethode),
       a.opnamemethodeDetail),
     rij('Maximum per declaratie', waarde(a.maxPerOpname), a.maxPerOpname?.detail),
-    rij('Minimum per declaratie', waarde(a.minPerOpname), a.minPerOpname?.detail),
     a.minimumDepot ? rij('Minimum depotbedrag', waarde(a.minimumDepot), a.minimumDepot?.detail) : '',
     rij('Doorlooptijd uitbetaling',
       a.doorlooptijdUitbetaling?.digitaal ? esc(a.doorlooptijdUitbetaling.digitaal) : LEEG,
@@ -619,7 +616,6 @@ function bouwAanbieder(a) {
     rij('Ouderdom van de factuur', waarde(eisVeld(a, 'factuurouderdom')), eisVeld(a, 'factuurouderdom').detail),
     rij('Wat u mag declareren', a.declarabel ? esc(a.declarabel) : LEEG),
     rij('Restant bij beëindiging', waarde(a.restant), a.restant?.detail),
-    rij('Eigen arbeid', waarde(a.eigenArbeid), a.eigenArbeid?.detail),
   ].filter(Boolean).join('\n');
 
   const inhoud = `    <main>
@@ -763,7 +759,8 @@ function vergelijkendeContext(a) {
     punten.push(`Let op het verschil tussen de looptijd van het depot en de duur van de vergoeding: die lopen hier niet gelijk op. Het depot kan dus nog open staan terwijl er geen vergoeding meer tegenover staat.`);
   }
 
-  const onbekend = ['maxPerOpname', 'minPerOpname', 'restant', 'eigenArbeid'].filter((k) => a[k]?.status === 'niet-gepubliceerd');
+  const onbekend = ['maxPerOpname', 'verlengingAanvragen', 'doorlooptijdUitbetaling', 'voorschieten']
+    .filter((k) => a[k] == null || a[k].status === 'niet-gepubliceerd');
   if (onbekend.length >= 2) {
     punten.push(`Van deze aanbieder zijn ${onbekend.length} gegevens niet publiek terug te vinden. Vraag die punten expliciet na bij uw adviseur voordat u tekent.`);
   }

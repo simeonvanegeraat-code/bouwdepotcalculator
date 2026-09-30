@@ -2,7 +2,7 @@
  * Bewaakt dat de vergelijkingspagina toont wat er in de data zit.
  *
  * Aanleiding: de hub liet vier feiten per aanbieder zien terwijl de dataset er
- * dertien bevatte. Zes velden waren opgezocht, geverifieerd en getest, maar
+ * dertien bevatte (inmiddels elf: twee velden die geen enkele aanbieder publiceert staan alleen nog als bevinding). Zes velden waren opgezocht, geverifieerd en getest, maar
  * stonden alleen op de losse aanbiederpagina's. Dat is precies het verkeerde
  * gat: de pagina die "vergelijken" heet toonde het minst.
  *
@@ -30,8 +30,6 @@ const VERWACHTE_LABELS = [
     'Zelf voorschieten',
     'Verlengen regelen',
     'Grens per opname',
-    'Minimum per opname',
-    'Eigen arbeid declarabel',
     'Restant bij beëindiging',
 ];
 
