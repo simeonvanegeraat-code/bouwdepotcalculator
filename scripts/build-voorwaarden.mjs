@@ -17,6 +17,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { headerHtml } from './build-header.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/bouwdepot-voorwaarden.json'), 'utf8'));
@@ -265,13 +266,6 @@ function balk(label, basis, extra, duurOnbekend = false) {
 
 // ---------------------------------------------------------------- shell
 
-const NAV = [
-  ['bouwdepot-berekenen.html', 'Bereken'],
-  [HUB, 'Voorwaarden per bank'],
-  ['stappenplan.html', 'Uitleg'],
-  ['over-ons.html', 'Over ons'],
-];
-
 function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
   return `<!DOCTYPE html>
 <html lang="nl">
@@ -314,15 +308,7 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
 </head>
 <body class="bs">
 
-    <header class="bs-kop no-print">
-        <div class="bs-wrap bs-kop__inner">
-            <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
-            <div class="bs-kop__rechts">
-${NAV.map(([h, t], i) => `                <a${i === NAV.length - 1 ? ' class="bs-menu"' : ''} href="${h}">${t}</a>`).join('\n')}
-                <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
-            </div>
-        </div>
-    </header>
+${headerHtml()}
 
     <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
         <a href="/">Home</a>

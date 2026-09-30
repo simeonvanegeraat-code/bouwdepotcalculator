@@ -109,31 +109,89 @@
     border-bottom: 3px solid var(--bs-accent); padding-bottom: 2px;
 }
 .bs-merk b { font-weight: inherit; color: var(--bs-newsprint); }
-.bs-kop__rechts { margin-left: auto; display: flex; align-items: center; gap: 26px; }
-.bs-kop__rechts a { text-decoration: none; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
-.bs-kop__rechts a:hover { color: var(--bs-newsprint); }
+
+.bs-kop__nav { margin-left: auto; display: flex; align-items: center; gap: 26px; }
+.bs-kop__nav a, .bs-kop__knop {
+    text-decoration: none; font-size: var(--bs-t-micro); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .1em; color: var(--bs-ink);
+}
+.bs-kop__nav a:hover, .bs-kop__knop:hover { color: var(--bs-newsprint); }
+
+/* De knop die de rekenhulpen opent. 44px hoog, want dit is op een telefoon het
+   enige wat er nog staat -- en daarmee de weg naar alle elf de tools. */
+.bs-kop__knop {
+    display: none; align-items: center; gap: 9px; min-height: 44px;
+    padding: 0; border: 0; background: none; cursor: pointer; font-family: inherit;
+}
+
+/* De terugval staat standaard aan en de knop uit. Pas als de browser popover
+   aantoonbaar ondersteunt wisselen ze om. Andersom zou een browser zonder
+   ondersteuning zijn navigatie kwijt zijn -- precies de fout die hier zat. */
+.bs-kop__terugval { display: inline-flex; align-items: center; min-height: 44px; }
+@supports selector(:popover-open) {
+    .bs-kop__knop { display: inline-flex; }
+    .bs-kop__terugval { display: none; }
+}
 
 /* Het merkteken: drie staafjes in plaats van een hamburger. Het is een
    rekensite, dus de menuknop is een staafdiagram. */
 .bs-staafjes { display: flex; align-items: flex-end; gap: 3px; height: 18px; }
-.bs-staafjes i { display: block; width: 3px; background: var(--bs-accent); }
+.bs-staafjes i { display: block; width: 3px; background: var(--bs-accent); transition: height .18s ease; }
 .bs-staafjes i:nth-child(1) { height: 60%; }
 .bs-staafjes i:nth-child(2) { height: 100%; }
 .bs-staafjes i:nth-child(3) { height: 40%; }
-@media (max-width: 760px) { .bs-kop__rechts a:not(.bs-menu) { display: none; } }
-/* Op een telefoon van 360 tot 375 breed pasten het woordmerk, de overgebleven
-   menulink en het staafdiagram net niet naast elkaar: de kop stak vijf pixels
-   buiten beeld en de hele pagina kon horizontaal schuiven. Het woordmerk een
-   maat kleiner lost dat op zonder iets weg te halen; op 400 en breder blijft
-   hij op 19px. */
+/* Open: de staafjes vlakken af tot één streep, zodat de knop zijn toestand
+   toont zonder een tweede icoon. */
+.bs-kop__knop[aria-expanded="true"] .bs-staafjes i,
+.bs-paneel:popover-open ~ * .bs-staafjes i { height: 30%; }
+
+/* Het paneel. display:none is de veilige uitgangspositie: een browser die
+   :popover-open niet kent laat hem dan dicht in plaats van elf links
+   permanent open te zetten. */
+.bs-paneel {
+    display: none;
+    position: fixed; inset: 72px 0 auto 0;
+    width: 100%; max-width: none; max-height: calc(100dvh - 72px);
+    margin: 0; padding: 0; border: 0;
+    border-top: 1px solid var(--bs-lijn); border-bottom: 1px solid var(--bs-lijn);
+    background: var(--bs-bone); color: var(--bs-ink); overflow-y: auto;
+    box-shadow: 0 18px 40px -24px rgba(18, 22, 19, .35);
+}
+.bs-paneel:popover-open { display: block; }
+.bs-paneel::backdrop { background: rgba(18, 22, 19, .22); }
+.bs-paneel__inner { display: grid; gap: clamp(18px, 3vw, 30px); padding-block: clamp(18px, 3vw, 30px); }
+@media (min-width: 760px) { .bs-paneel__inner { grid-template-columns: repeat(3, 1fr); } }
+
+.bs-paneel__vraag {
+    margin: 0 0 8px; font-size: var(--bs-t-micro); font-weight: 600;
+    text-transform: uppercase; letter-spacing: .1em; color: var(--bs-accent);
+}
+.bs-paneel__lijst { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.bs-paneel__lijst a {
+    display: flex; flex-direction: column; justify-content: center;
+    min-height: 44px; padding: 8px 12px; margin-inline: -12px;
+    border-radius: 3px; text-decoration: none;
+}
+.bs-paneel__lijst a:hover, .bs-paneel__lijst a:focus-visible { background: var(--bs-accent-licht); }
+.bs-paneel__lijst strong { font-size: var(--bs-t-klein); font-weight: 600; }
+.bs-paneel__lijst span {
+    margin-top: 2px; font-size: var(--bs-t-micro); font-weight: 400;
+    line-height: 1.45; color: var(--bs-newsprint);
+    text-transform: none; letter-spacing: 0;
+}
+
+/* Boven 760px staan de hoofditems in de kop, dus niet ook in het paneel.
+   Eronder is het precies andersom: dan past naast het woordmerk alleen de knop. */
+@media (min-width: 760px) { .bs-paneel__groep--ook { display: none; } }
+@media (max-width: 759.98px) { .bs-kop__nav > a:not(.bs-kop__terugval) { display: none; } }
+
+/* Op een telefoon van 360 tot 375 breed pasten het woordmerk en de knop net
+   niet naast elkaar: de kop stak vijf pixels buiten beeld en de hele pagina kon
+   horizontaal schuiven. Het woordmerk een maat kleiner lost dat op zonder iets
+   weg te halen. */
 @media (max-width: 400px) {
     .bs { --bs-t-merk: 17px; }
-    .bs-kop__rechts { gap: 16px; }
-    /* En op een toestel van 320 past ook dat niet meer naast elkaar. Dan zakt de
-       menulink naar een tweede regel in plaats van buiten beeld te vallen: de kop
-       wordt daar een fractie hoger, en dat is beter dan een pagina die zijwaarts
-       schuift. */
-    .bs-kop__inner { flex-wrap: wrap; row-gap: 6px; padding-block: 10px; min-height: 0; }
+    .bs-kop__nav { gap: 16px; }
 }
 
 .bs-kruimel { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 14px; font-size: var(--bs-t-micro); font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--bs-newsprint); }

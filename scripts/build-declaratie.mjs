@@ -14,6 +14,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { headerHtml } from './build-header.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/bouwdepot-voorwaarden.json'), 'utf8'));
@@ -68,13 +69,6 @@ function perSoort(soort) {
     .map((a) => ({ aanbieder: a, eis: (a.declaratieEisen || []).find((e) => e.eis === soort) }))
     .filter((x) => x.eis);
 }
-
-const NAV = [
-  ['bouwdepot-berekenen.html', 'Bereken'],
-  [HUB, 'Voorwaarden per bank'],
-  ['stappenplan.html', 'Uitleg'],
-  ['over-ons.html', 'Over ons'],
-];
 
 const VOET = [
   ['/', 'Home'], ['verbouwbegroting.html', 'Verbouwbegroting'], ['verbouwbegroting.html#leenruimte', 'Leenruimte'],
@@ -155,18 +149,7 @@ const html = `<!DOCTYPE html>
 </head>
 <body class="bs">
 
-    <header class="bs-kop no-print">
-        <div class="bs-wrap bs-kop__inner">
-            <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
-            <div class="bs-kop__rechts">
-                <a href="bouwdepot-berekenen.html">Bereken</a>
-                <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
-                <a href="stappenplan.html">Uitleg</a>
-                <a class="bs-menu" href="over-ons.html">Over ons</a>
-                <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
-            </div>
-        </div>
-    </header>
+${headerHtml()}
 
     <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
         <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="stappenplan.html">Uitleg</a> <span aria-hidden="true">&middot;</span> <span>Declaratie afgewezen</span>

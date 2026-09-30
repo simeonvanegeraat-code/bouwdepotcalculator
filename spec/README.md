@@ -24,6 +24,8 @@ naar de code en langs [../review.md](../review.md).
 
 ## Bestaande specs
 
+- [header.md](header.md) — één header uit één bron, met de rekenhulpen achter een
+  popover-paneel. Status: **opgeleverd 30-09**.
 - [nieuwbouw-rekentool.md](nieuwbouw-rekentool.md) — de vier nieuwbouwtools
   worden er één, zodat de bezoeker geen getallen meer tussen schermen
   overtypt. Status: **voorstel**, vier open vragen.

@@ -1,0 +1,95 @@
+{
+  "_toelichting": "De bron van de header. scripts/build-header.mjs schrijft hem in alle HTML-pagina's; de drie datageneratoren lezen dezelfde lijst. Een navigatiewijziging hoort hier te gebeuren en nergens anders. De groepen dragen de vraag van de bezoeker, niet onze bestandsnamen.",
+
+  "hoofd": [
+    { "label": "Voorwaarden per bank", "href": "bouwdepot-voorwaarden-vergelijken.html" },
+    { "label": "Uitleg", "href": "stappenplan.html" }
+  ],
+
+  "rekenhulpen": {
+    "label": "Rekenhulpen",
+    "terugval": "/#gereedschap",
+    "groepen": [
+      {
+        "vraag": "Wat kost het per maand?",
+        "items": [
+          {
+            "label": "Bouwdepot berekenen",
+            "href": "bouwdepot-berekenen.html",
+            "uitleg": "Uw depotbedrag omgerekend naar een bruto maandlast."
+          },
+          {
+            "label": "Maandlast tijdens de bouw",
+            "href": "bouwdepot-berekenen.html#tijdens-de-bouw",
+            "uitleg": "Rente over de hele lening, min de vergoeding over wat nog in depot staat."
+          }
+        ]
+      },
+      {
+        "vraag": "Wat kost de verbouwing, en kan ik dat lenen?",
+        "items": [
+          {
+            "label": "Verbouwbegroting",
+            "href": "verbouwbegroting.html",
+            "uitleg": "Post voor post, met per post of het uit het depot mag."
+          },
+          {
+            "label": "Leenruimte",
+            "href": "verbouwbegroting.html#leenruimte",
+            "uitleg": "Past het bedrag binnen de waarde van uw woning na verbouwing?"
+          }
+        ]
+      },
+      {
+        "vraag": "Nieuwbouw",
+        "items": [
+          {
+            "label": "Uw zwaarste maand",
+            "href": "nieuwbouw.html",
+            "uitleg": "Bouwtermijnen en depotvergoeding over de hele bouwperiode."
+          },
+          {
+            "label": "Bouwrente",
+            "href": "bouwrente-nieuwbouw.html",
+            "uitleg": "Wat u betaalt over de grond en de termijnen vóór de hypotheek loopt."
+          },
+          {
+            "label": "Dubbele lasten",
+            "href": "dubbele-lasten-nieuwbouw.html",
+            "uitleg": "De periode waarin u oude en nieuwe woonlasten tegelijk draagt."
+          },
+          {
+            "label": "Renteverlies",
+            "href": "renteverlies-bouwdepot.html",
+            "uitleg": "Betaalde hypotheekrente min ontvangen depotvergoeding."
+          }
+        ]
+      },
+      {
+        "vraag": "Ik heb al een bouwdepot",
+        "items": [
+          {
+            "label": "Depotplanner",
+            "href": "depotplanner.html",
+            "uitleg": "Einddatum, resterend saldo en wanneer de vergoeding stopt."
+          },
+          {
+            "label": "Declaratie afgewezen",
+            "href": "bouwdepot-declaratie-afgewezen.html",
+            "uitleg": "De acht redenen waarop het stukloopt, en wat u dan doet."
+          }
+        ]
+      },
+      {
+        "vraag": "Belasting",
+        "items": [
+          {
+            "label": "Hypotheekrenteaftrek",
+            "href": "hypotheekrenteaftrek-gids.html",
+            "uitleg": "Uw netto maandlast, plus de termijnen die bij een depot gelden."
+          }
+        ]
+      }
+    ]
+  }
+}

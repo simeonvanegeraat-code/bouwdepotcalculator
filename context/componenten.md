@@ -38,7 +38,8 @@ precies het soort wijziging waarbij fouten insluipen die geen test ziet.
 | `.bs` | Zet de tokens op `<body>`. Zonder deze klasse doet niets het |
 | `.bs-wrap` | Breedtebegrenzing, 1400px. Ruimer dan `.ds-wrap`: de broadsheet leeft van marge |
 | `.bs-micro` | Kapitaaltjes op 11px. Doet hier het werk dat elders een kader doet. **Niet voor lopende tekst** |
-| `.bs-kop` / `.bs-merk` / `.bs-staafjes` | Paginakop. De staafjes zijn de menuknop: een staafdiagram, want het is een rekensite |
+| `.bs-kop` / `.bs-merk` / `.bs-staafjes` | Paginakop. De staafjes zitten nu ín de knop: een staafdiagram in plaats van een hamburger, want het is een rekensite |
+| `.bs-paneel` | Het uitklappaneel met de rekenhulpen, op Popover. Komt uit `data/navigatie.json` via `scripts/build-header.mjs` — **nooit met de hand in een pagina aanpassen**. Standaard `display: none`, zodat een browser zonder popover hem dicht laat in plaats van elf links open te zetten |
 | `.bs-kruimel` | Kruimelpad |
 | `.bs-sectie` / `.bs-sectiekop` / `.bs-titel` | Sectieraamwerk |
 | `.bs-kolommen` | Drie kolommen tekst onder een streep. Voor uitleg, niet voor tools |

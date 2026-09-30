@@ -11,6 +11,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { headerHtml } from './build-header.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const posten = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/verbouwposten.json'), 'utf8'));
@@ -24,13 +25,6 @@ const esc = (s) =>
   String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 const naamVan = (id) => banken.aanbieders.find((a) => a.id === id)?.naam || id;
-
-const NAV = [
-  ['bouwdepot-berekenen.html', 'Bereken'],
-  [BESTAND, 'Begroting'],
-  [HUB, 'Voorwaarden per bank'],
-  ['stappenplan.html', 'Uitleg'],
-];
 
 const VOET = [
   ['/', 'Home'], [BESTAND, 'Verbouwbegroting'], ['verbouwbegroting.html#leenruimte', 'Leenruimte'], ['depotplanner.html', 'Depotplanner'], [HUB, 'Voorwaarden per bank'],
@@ -131,16 +125,7 @@ const html = `<!DOCTYPE html>
     <link rel="stylesheet" href="/src/styles/broadsheet.css">
 </head>
 <body class="bs">
-    <header class="bs-kop no-print">
-        <div class="bs-wrap bs-kop__inner">
-            <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
-            <div class="bs-kop__rechts">
-${NAV.map(([h, t]) => `                <a href="${h}">${t}</a>`).join('\n')}
-                <a class="bs-menu" href="stappenplan.html">Uitleg</a>
-                <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
-            </div>
-        </div>
-    </header>
+${headerHtml()}
 
     <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
         <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Verbouwbegroting</span>

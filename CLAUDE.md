@@ -166,6 +166,12 @@ dist/                  build-uitvoer, niet in git
 `src/js/bankdata.generated.js` is **gegenereerd**. Nooit met de hand aanpassen —
 wijzig `data/bouwdepot-voorwaarden.json` en draai `npm run build:voorwaarden`.
 
+Hetzelfde geldt voor **de header van elke pagina**. Die komt uit
+`data/navigatie.json` via `npm run build:header`. Pas je hem met de hand aan in
+een HTML-bestand, dan is hij bij de volgende build weg en faalt
+`tests/header.test.mjs`. Dat is met opzet: hij stond eerder in 26 bestanden en
+liep uit elkaar tot er zes verschillende navigaties waren.
+
 ### Een pagina toevoegen
 
 1. Het HTML-bestand in de repo-root.
