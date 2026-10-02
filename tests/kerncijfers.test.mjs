@@ -47,7 +47,7 @@ const vergoedingStoptEerder = data.aanbieders.filter((a) => {
 });
 
 const nietGepubliceerd = data.aanbieders.reduce(
-    (n, a) => n + ['maxPerOpname', 'minPerOpname', 'restant', 'eigenArbeid']
+    (n, a) => n + ['maxPerOpname', 'verlengingAanvragen', 'doorlooptijdUitbetaling', 'voorschieten', 'restant']
         .filter((k) => a[k]?.status === 'niet-gepubliceerd').length,
     0
 );

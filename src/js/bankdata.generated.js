@@ -516,6 +516,236 @@ export const BANKEN = [
       }
     ],
     "declarabel": "Arbeidsuren en materialen die zijn besteed aan de bouw, verbouwing of verbetering van de woning. De materialen moeten aan de woning vastzitten en mogen niet roerend zijn."
+  },
+  {
+    "id": "asr",
+    "naam": "a.s.r.",
+    "pagina": "bouwdepot-asr.html",
+    "looptijd": {
+      "verbouw": 12,
+      "nieuwbouw": 24
+    },
+    "verlenging": {
+      "verbouw": 12,
+      "nieuwbouw": 6,
+      "eenmalig": true,
+      "duurOnbekend": false,
+      "geen": false
+    },
+    "maximaal": {
+      "verbouw": 24,
+      "nieuwbouw": 30
+    },
+    "vergoeding": {
+      "samenvatting": "Ja, gelijk aan de gemiddelde rente over uw lening",
+      "detail": "De vergoeding is even hoog als de rente die u gemiddeld over uw lening betaalt. Zij loopt over de standaardlooptijd; verlengt u het depot, dan vervalt de vergoeding over die verlenging.",
+      "model": "beperkt-in-duur",
+      "maanden": {
+        "verbouw": 12,
+        "nieuwbouw": 24
+      },
+      "tarief": {
+        "verbouw": "gelijk-aan-hypotheekrente",
+        "nieuwbouw": "gelijk-aan-hypotheekrente"
+      }
+    },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": 2,
+      "soort": "bericht-van-bank",
+      "detail": "Ongeveer twee maanden voor de einddatum krijgt u bericht van a.s.r.; u vraagt de verlenging daarna zelf aan."
+    },
+    "opnamemethode": "declaratie",
+    "uitbetaling": "Binnen maximaal 5 werkdagen aan u of de aannemer",
+    "uitbetalingWerkdagen": 5,
+    "voorschieten": null,
+    "restant": {
+      "waarde": "Wordt afgelost op de lening, zonder kosten",
+      "detail": "Het overgebleven bedrag gaat als terugbetaling op de lening. Daarvoor betaalt u geen kosten, en het telt niet mee voor het percentage dat u elk jaar boetevrij mag aflossen."
+    },
+    "eigenArbeid": null,
+    "eisen": [
+      {
+        "eis": "soort-bewijs",
+        "waarde": "Rekening of kassabon",
+        "detail": "Een offerte, orderbevestiging of koopovereenkomst wordt niet geaccepteerd. De rekening moet goed leesbaar zijn."
+      },
+      {
+        "eis": "factuurouderdom",
+        "waarde": "Maximaal 6 maanden voor de aanvraagdatum",
+        "detail": "De factuurdatum mag niet meer dan zes maanden liggen voor de aanvraagdatum op het renteaanbod van uw lening."
+      }
+    ],
+    "declarabel": "Rekeningen van aannemers of leveranciers voor de nieuwbouw, verbouwing of verduurzaming waarvoor het depot bestemd is. a.s.r. controleert of de rekening leesbaar is, bij het depot hoort, binnen het saldo past en of er geen betalingsachterstand op de lening staat."
+  },
+  {
+    "id": "asn",
+    "naam": "ASN Bank",
+    "pagina": "bouwdepot-asn.html",
+    "looptijd": {
+      "verbouw": 24,
+      "nieuwbouw": 24
+    },
+    "verlenging": {
+      "verbouw": 12,
+      "nieuwbouw": 12,
+      "eenmalig": true,
+      "duurOnbekend": false,
+      "geen": false
+    },
+    "maximaal": {
+      "verbouw": 36,
+      "nieuwbouw": 36
+    },
+    "vergoeding": {
+      "samenvatting": "Ja, gelijk aan uw hypotheekrente",
+      "detail": "De vergoeding is gelijk aan uw hypotheekrente en wordt verrekend met de rente die u betaalt; u betaalt dus alleen rente over wat al is opgenomen. Het percentage wordt vastgezet als de akte passeert en tijdens de looptijd niet aangepast. ASN noemt geen moment waarop de vergoeding binnen de standaardlooptijd van 24 maanden stopt, en publiceert ook niet wat er met de vergoeding gebeurt als u verlengt. Uitzondering: bij de Bespaarhypotheek wordt het percentage elke maand opnieuw vastgesteld op het gewogen gemiddelde van uw hypotheek.",
+      "model": "beperkt-in-duur",
+      "maanden": {
+        "verbouw": 24,
+        "nieuwbouw": 24
+      },
+      "tarief": {
+        "verbouw": "gelijk-aan-hypotheekrente",
+        "nieuwbouw": "gelijk-aan-hypotheekrente"
+      }
+    },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": null,
+      "soort": null,
+      "detail": null
+    },
+    "opnamemethode": "declaratie",
+    "uitbetaling": null,
+    "uitbetalingWerkdagen": null,
+    "voorschieten": "Ja, aan uzelf uitbetaald",
+    "restant": {
+      "waarde": "Wordt kosteloos afgelost op de hypotheek",
+      "detail": "Eerst op het leningdeel dat voor verduurzaming bestemd is, daarna op de rest van de hypotheek. U betaalt geen vergoeding voor die extra aflossing."
+    },
+    "eigenArbeid": null,
+    "eisen": [
+      {
+        "eis": "soort-bewijs",
+        "waarde": "Factuur, ingediend via de app of online bankieren",
+        "detail": "Betaalt u er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van, dan moet dat duidelijk op de rekening staan. ASN belt als iets onduidelijk is of als u iets declareert wat niet mag."
+      }
+    ],
+    "declarabel": "Alleen arbeidsuren en materialen die aan de woning vastzitten en niet verhuisbaar zijn: tegels, kranen, bad, inbouwapparatuur, vaste keukenkasten, bestrating, beplanting, schutting, riolering, leidingwerk, uitbouw, dakkapel, cv-installatie en een vaste vloer zoals parket of een gietvloer. Ook installatiekosten, afvoer van puin, huur van gereedschap, containers en steigers, en het inhuren van vakmensen. Zwevend laminaat, gordijnen, decoratie en tuinverlichting mogen niet."
+  },
+  {
+    "id": "argenta",
+    "naam": "Argenta",
+    "pagina": "bouwdepot-argenta.html",
+    "looptijd": {
+      "verbouw": 24,
+      "nieuwbouw": 24
+    },
+    "verlenging": {
+      "verbouw": 12,
+      "nieuwbouw": 12,
+      "eenmalig": false,
+      "duurOnbekend": false,
+      "geen": false
+    },
+    "maximaal": {
+      "verbouw": 36,
+      "nieuwbouw": 36
+    },
+    "vergoeding": {
+      "samenvatting": "Ja, gelijk aan uw hypotheekrente",
+      "detail": "Het rentetarief van het bouwdepot is gelijk aan het tarief dat u voor de hypotheek betaalt. Argenta vermeldt uitdrukkelijk dat de vergoeding na verlenging vervalt.",
+      "model": "beperkt-in-duur",
+      "maanden": {
+        "verbouw": 24,
+        "nieuwbouw": 24
+      },
+      "tarief": {
+        "verbouw": "gelijk-aan-hypotheekrente",
+        "nieuwbouw": "gelijk-aan-hypotheekrente"
+      }
+    },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": null,
+      "soort": null,
+      "detail": null
+    },
+    "opnamemethode": "declaratie",
+    "uitbetaling": null,
+    "uitbetalingWerkdagen": null,
+    "voorschieten": "Ja, u kiest de bestemming per declaratie",
+    "restant": {
+      "waarde": "Geldt als extra aflossing",
+      "detail": "Blijft er na de verbouwing saldo in het depot staan, dan wordt dat als extra aflossing op de lening verwerkt."
+    },
+    "eigenArbeid": null,
+    "eisen": [
+      {
+        "eis": "soort-bewijs",
+        "waarde": "Factuur of kassabon",
+        "detail": "U uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan u of aan uw leverancier."
+      }
+    ],
+    "declarabel": "Nog niet vervallen bedragen uit de verbouwingsspecificatie, de koop- of aannemingsovereenkomst, meerwerk en verschuldigde bijkomende kosten. U kunt alleen rekeningen declareren die qua bedrag of werkzaamheden binnen uw verbouwplan passen."
+  },
+  {
+    "id": "centraal-beheer",
+    "naam": "Centraal Beheer",
+    "pagina": "bouwdepot-centraal-beheer.html",
+    "looptijd": {
+      "verbouw": 24,
+      "nieuwbouw": 24
+    },
+    "verlenging": {
+      "verbouw": null,
+      "nieuwbouw": null,
+      "eenmalig": null,
+      "duurOnbekend": false,
+      "geen": true
+    },
+    "maximaal": {
+      "verbouw": 24,
+      "nieuwbouw": 24
+    },
+    "vergoeding": {
+      "samenvatting": "Ja, gelijk aan uw hypotheekrente",
+      "detail": "U betaalt hypotheekrente over het hele depot en ontvangt vergoeding over wat er nog in staat, tegen hetzelfde percentage. Neemt u geld op, dan daalt de vergoeding en stijgt uw maandlast.",
+      "model": "beperkt-in-duur",
+      "maanden": {
+        "verbouw": 24,
+        "nieuwbouw": 24
+      },
+      "tarief": {
+        "verbouw": "gelijk-aan-hypotheekrente",
+        "nieuwbouw": "gelijk-aan-hypotheekrente"
+      }
+    },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": null,
+      "soort": null,
+      "detail": null
+    },
+    "opnamemethode": "declaratie",
+    "uitbetaling": "Binnen 6 werkdagen als de declaratie aan de spelregels voldoet",
+    "uitbetalingWerkdagen": 6,
+    "voorschieten": null,
+    "restant": {
+      "waarde": "Wordt afgelost op de lening",
+      "detail": "Na de standaardlooptijd van twee jaar beeindigt Centraal Beheer het depot en lost het resterende bedrag af op de lening. Eerder beeindigen kan per e-mail."
+    },
+    "eigenArbeid": null,
+    "eisen": [
+      {
+        "eis": "soort-bewijs",
+        "waarde": "Factuur of kassabon",
+        "detail": "Een offerte wordt niet geaccepteerd: uit het stuk moet blijken dat er een aankoop is geweest of werkzaamheden zijn gedaan."
+      },
+      {
+        "eis": "factuurouderdom",
+        "waarde": "Maximaal 6 maanden voor de startdatum van de hypotheek",
+        "detail": "De factuur of kassabon mag niet ouder zijn dan zes maanden voor de startdatum van de hypotheek."
+      }
+    ],
+    "declarabel": "Alles wat aan de woning vastzit, en alleen wat is afgesproken in uw verbouwplan of koop-aanneemovereenkomst. Een meeneembaar vloerkleed valt er niet onder, een nieuw kozijn wel."
   }
 ];
 

@@ -174,9 +174,11 @@ function vergoedingsduurVeld(a) {
     ? a.looptijdVerbouwMaanden + a.verlengingMaanden.verbouw
     : a.looptijdVerbouwMaanden;
   const gat = max - duur.verbouw;
-  const detail = gat > 0
-    ? `Het depot kan bij verbouwing tot ${max} maanden lopen. Over de laatste ${gat} maanden betaalt u wel rente maar ontvangt u geen vergoeding meer.`
-    : 'De vergoeding loopt door tot het einde van de looptijd.';
+  const detail = gat <= 0
+    ? 'De vergoeding loopt door tot het einde van de looptijd.'
+    : v.vergoedingNaVerlengingOnbekend
+      ? `Het depot kan bij verbouwing tot ${max} maanden lopen. Over de laatste ${gat} maanden publiceert deze aanbieder niet of de vergoeding doorloopt; vraag dat na voordat u verlengt.`
+      : `Het depot kan bij verbouwing tot ${max} maanden lopen. Over de laatste ${gat} maanden betaalt u wel rente maar ontvangt u geen vergoeding meer.`;
   return { waarde, detail };
 }
 
