@@ -575,7 +575,7 @@ export const BANKEN = [
         "detail": "De factuurdatum mag niet meer dan zes maanden liggen voor de aanvraagdatum op het renteaanbod van uw lening."
       }
     ],
-    "declarabel": "Rekeningen van aannemers of leveranciers voor de nieuwbouw, verbouwing of verduurzaming waarvoor het depot bestemd is. a.s.r. controleert of de rekening leesbaar is, bij het depot hoort, binnen het saldo past en of er geen betalingsachterstand op de lening staat."
+    "declarabel": "Rekeningen van aannemers en leveranciers, voor zover zij horen bij het project waarvoor het depot is geopend. a.s.r. kijkt bij elke rekening of die leesbaar is, binnen het doel van het depot valt, uit het resterende saldo betaald kan worden en of uw maandbedrag niet achterloopt."
   },
   {
     "id": "asn",
@@ -630,7 +630,7 @@ export const BANKEN = [
         "detail": "Betaalt u er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van, dan moet dat duidelijk op de rekening staan. ASN belt als iets onduidelijk is of als u iets declareert wat niet mag."
       }
     ],
-    "declarabel": "Alleen arbeidsuren en materialen die aan de woning vastzitten en niet verhuisbaar zijn: tegels, kranen, bad, inbouwapparatuur, vaste keukenkasten, bestrating, beplanting, schutting, riolering, leidingwerk, uitbouw, dakkapel, cv-installatie en een vaste vloer zoals parket of een gietvloer. Ook installatiekosten, afvoer van puin, huur van gereedschap, containers en steigers, en het inhuren van vakmensen. Zwevend laminaat, gordijnen, decoratie en tuinverlichting mogen niet."
+    "declarabel": "Werk en materiaal dat na afloop vast aan de woning zit. Daaronder vallen onder meer sanitair en tegelwerk, inbouwapparatuur en vaste keukenkasten, bestrating en beplanting, riolering en leidingwerk, een uitbouw of dakkapel, de cv-installatie en een vloer die vastligt zoals parket of gietvloer. Ook het plaatsen zelf telt mee: installatie, puinafvoer, de huur van gereedschap, containers en steigers, en het inschakelen van vakmensen. Losse of meeneembare zaken vallen erbuiten; ASN noemt zwevend laminaat, gordijnen, decoratie en tuinverlichting als voorbeelden die niet mogen."
   },
   {
     "id": "argenta",
@@ -685,7 +685,7 @@ export const BANKEN = [
         "detail": "U uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan u of aan uw leverancier."
       }
     ],
-    "declarabel": "Nog niet vervallen bedragen uit de verbouwingsspecificatie, de koop- of aannemingsovereenkomst, meerwerk en verschuldigde bijkomende kosten. U kunt alleen rekeningen declareren die qua bedrag of werkzaamheden binnen uw verbouwplan passen."
+    "declarabel": "Kosten die binnen uw verbouwplan vallen en nog niet zijn voldaan: bedragen uit de verbouwingsspecificatie, uit de koop- of aannemingsovereenkomst, en het meerwerk met de kosten die daarbij horen. Past een rekening qua bedrag of werkzaamheden niet in dat plan, dan wordt zij niet betaald."
   },
   {
     "id": "centraal-beheer",
@@ -745,7 +745,7 @@ export const BANKEN = [
         "detail": "De factuur of kassabon mag niet ouder zijn dan zes maanden voor de startdatum van de hypotheek."
       }
     ],
-    "declarabel": "Alles wat aan de woning vastzit, en alleen wat is afgesproken in uw verbouwplan of koop-aanneemovereenkomst. Een meeneembaar vloerkleed valt er niet onder, een nieuw kozijn wel."
+    "declarabel": "Wat na de verbouwing vast aan de woning zit, en alleen voor zover het in uw verbouwplan of koop-aanneemovereenkomst staat. Verplaatsbare inrichting valt erbuiten."
   }
 ];
 
