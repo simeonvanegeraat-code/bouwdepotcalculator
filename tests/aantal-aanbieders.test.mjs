@@ -22,7 +22,7 @@ const AANTAL = data.aanbieders.length;
 
 const TELWOORD = {
     2: 'twee', 3: 'drie', 4: 'vier', 5: 'vijf', 6: 'zes', 7: 'zeven', 8: 'acht',
-    9: 'negen', 10: 'tien', 11: 'elf', 12: 'twaalf',
+    9: 'negen', 10: 'tien', 11: 'elf', 12: 'twaalf', 13: 'dertien',
 };
 
 const paginas = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
@@ -35,7 +35,7 @@ const paginas = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
  * Bewust niet losser: een patroon op "van de N" ving ook "van de 34 posten" en
  * "van de twee rekenmodellen", en die hebben niets met aanbieders te maken.
  */
-const PATROON = /(\d+|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|elf|twaalf)\s+(?:vergeleken\s+)?(?:geldverstrekkers|aanbieders|banken)/gi;
+const PATROON = /\b(\d+|dertien|twaalf|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|elf)\s+(?:vergeleken\s+)?(?:geldverstrekkers|aanbieders|banken)/gi;
 
 const alsGetal = (woord) => {
     const n = Number(woord);

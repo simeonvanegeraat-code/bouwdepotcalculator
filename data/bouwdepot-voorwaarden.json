@@ -995,6 +995,88 @@
         "Staan er meerdere rubrieken op een factuur, dan stuurt u diezelfde factuur meerdere keren in, per rubriek met het bijbehorende bedrag.",
         "Het depot is meestal ongeveer acht werkdagen na het passeren bij de notaris bruikbaar."
       ]
+    },
+    {
+      "id": "allianz",
+      "naam": "Allianz",
+      "automatischTeControleren": false,
+      "handcontroleReden": "Allianz blokkeert geautomatiseerd ophalen en zet de bouwdepotvoorwaarden in een PDF. De looptijden staan ook op de productpagina; de rest komt uit Informatie bouwdepot. Beide met de hand nalopen.",
+      "bron": "https://www.allianz.nl/content/dam/onemarketing/benelu/allianz-nl/local/5/500083-51.pdf",
+      "bronnen": [
+        "https://www.allianz.nl/particulier/hypotheken/hypotheekvormen/annuitair.html"
+      ],
+      "gecontroleerd": "2026-10-02",
+      "looptijdVerbouwMaanden": 12,
+      "looptijdNieuwbouwMaanden": 24,
+      "verlengingMaanden": {
+        "verbouw": null,
+        "nieuwbouw": null,
+        "geenVerlengingGepubliceerd": true,
+        "detail": "Allianz noemt in zijn bouwdepotinformatie geen mogelijkheid tot verlenging en geen voorwaarden daarvoor. Vraag bij uw adviseur na of er in uw situatie iets mogelijk is."
+      },
+      "rentevergoeding": {
+        "waarde": "Ja, gelijk aan uw hypotheekrente",
+        "detail": "U ontvangt dezelfde vergoeding als de rente die u over de lening betaalt. Zodra u facturen indient gaat u over dat bedrag hypotheekrente betalen, dus uw maandlast stijgt naarmate de verbouwing vordert.",
+        "model": "beperkt-in-duur",
+        "vergoedingMaanden": {
+          "verbouw": 12,
+          "nieuwbouw": 24
+        },
+        "tarief": {
+          "verbouw": "gelijk-aan-hypotheekrente",
+          "nieuwbouw": "gelijk-aan-hypotheekrente"
+        }
+      },
+      "verlengingAanvragen": {
+        "maandenVoorEinde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "opnamemethode": "declaratie",
+      "maxPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "minPerOpname": {
+        "bedrag": null,
+        "status": "niet-gepubliceerd"
+      },
+      "doorlooptijdUitbetaling": {
+        "digitaal": null,
+        "post": null,
+        "werkdagenDigitaal": null,
+        "status": "niet-gepubliceerd"
+      },
+      "declarabel": "Werk aan de woning zelf, zoals een keuken, badkamer of vloer, en de materialen die daarbij horen. Allianz noemt onder meer gehuurd gereedschap, verf en gipsplaten. U kunt alleen declareren wat in uw verbouwplan staat.",
+      "restant": {
+        "waarde": "Wordt afgelost op de hypotheek",
+        "detail": "Geeft u aan dat de verbouwing klaar is en staat er nog geld in het depot, dan lost Allianz dat af op uw hypotheek."
+      },
+      "eigenArbeid": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "voorschieten": {
+        "waarde": null,
+        "status": "niet-gepubliceerd"
+      },
+      "declaratieEisen": [
+        {
+          "eis": "soort-bewijs",
+          "waarde": "Kopie van een factuur, rekening of kassabon",
+          "detail": "Een bestelbon of offerte wordt niet uitbetaald. Daarop bestaat een uitzondering: een bestelbon van IKEA voor zaken die vast aan de woning komen te zitten."
+        },
+        {
+          "eis": "factuurouderdom",
+          "waarde": "De factuurdatum moet na de hypotheekaanvraag liggen",
+          "detail": "Ligt de datum op de factuur, rekening of kassabon voor de aanvraagdatum van de hypotheek, dan kan Allianz niet uitbetalen."
+        }
+      ],
+      "bijzonderheden": [
+        "Het afleveradres op de rekening moet het adres van het onderpand zijn.",
+        "Op de rekening moeten bedrijfsnaam, adres, plaatsnaam, telefoonnummer, bankrekeningnummer en KvK-nummer staan, plus een omschrijving van wat er is gekocht of gedaan. Die omschrijving gebruikt Allianz om te bepalen of het werk de woningwaarde verhoogt.",
+        "Uw verbouwplan wijzigen kan via het online portaal, maar Allianz vraagt dan een nieuwe waardebepaling. Bij een hypotheek met NHG is een gewijzigd taxatierapport verplicht.",
+        "Allianz wijst erop dat de hypotheek verhogen tijdens de verbouwing vaak niet mogelijk is."
+      ]
     }
   ]
 }

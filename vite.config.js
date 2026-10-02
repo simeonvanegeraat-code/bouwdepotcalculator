@@ -22,6 +22,7 @@ export default defineConfig({
         bouwdepotAsn: resolve(__dirname, 'bouwdepot-asn.html'),
         bouwdepotArgenta: resolve(__dirname, 'bouwdepot-argenta.html'),
         bouwdepotCentraalBeheer: resolve(__dirname, 'bouwdepot-centraal-beheer.html'),
+        bouwdepotAllianz: resolve(__dirname, 'bouwdepot-allianz.html'),
         bouwdepotObvion: resolve(__dirname, 'bouwdepot-obvion.html'),
         bouwdepotSns: resolve(__dirname, 'bouwdepot-sns.html'),
         bouwdepotRabobank: resolve(__dirname, 'bouwdepot-rabobank.html'),

@@ -746,6 +746,66 @@ export const BANKEN = [
       }
     ],
     "declarabel": "Wat na de verbouwing vast aan de woning zit, en alleen voor zover het in uw verbouwplan of koop-aanneemovereenkomst staat. Verplaatsbare inrichting valt erbuiten."
+  },
+  {
+    "id": "allianz",
+    "naam": "Allianz",
+    "pagina": "bouwdepot-allianz.html",
+    "looptijd": {
+      "verbouw": 12,
+      "nieuwbouw": 24
+    },
+    "verlenging": {
+      "verbouw": null,
+      "nieuwbouw": null,
+      "eenmalig": null,
+      "duurOnbekend": false,
+      "geen": true
+    },
+    "maximaal": {
+      "verbouw": 12,
+      "nieuwbouw": 24
+    },
+    "vergoeding": {
+      "samenvatting": "Ja, gelijk aan uw hypotheekrente",
+      "detail": "U ontvangt dezelfde vergoeding als de rente die u over de lening betaalt. Zodra u facturen indient gaat u over dat bedrag hypotheekrente betalen, dus uw maandlast stijgt naarmate de verbouwing vordert.",
+      "model": "beperkt-in-duur",
+      "maanden": {
+        "verbouw": 12,
+        "nieuwbouw": 24
+      },
+      "tarief": {
+        "verbouw": "gelijk-aan-hypotheekrente",
+        "nieuwbouw": "gelijk-aan-hypotheekrente"
+      }
+    },
+    "verlengingAanvragen": {
+      "maandenVoorEinde": null,
+      "soort": null,
+      "detail": null
+    },
+    "opnamemethode": "declaratie",
+    "uitbetaling": null,
+    "uitbetalingWerkdagen": null,
+    "voorschieten": null,
+    "restant": {
+      "waarde": "Wordt afgelost op de hypotheek",
+      "detail": "Geeft u aan dat de verbouwing klaar is en staat er nog geld in het depot, dan lost Allianz dat af op uw hypotheek."
+    },
+    "eigenArbeid": null,
+    "eisen": [
+      {
+        "eis": "soort-bewijs",
+        "waarde": "Kopie van een factuur, rekening of kassabon",
+        "detail": "Een bestelbon of offerte wordt niet uitbetaald. Daarop bestaat een uitzondering: een bestelbon van IKEA voor zaken die vast aan de woning komen te zitten."
+      },
+      {
+        "eis": "factuurouderdom",
+        "waarde": "De factuurdatum moet na de hypotheekaanvraag liggen",
+        "detail": "Ligt de datum op de factuur, rekening of kassabon voor de aanvraagdatum van de hypotheek, dan kan Allianz niet uitbetalen."
+      }
+    ],
+    "declarabel": "Werk aan de woning zelf, zoals een keuken, badkamer of vloer, en de materialen die daarbij horen. Allianz noemt onder meer gehuurd gereedschap, verf en gipsplaten. U kunt alleen declareren wat in uw verbouwplan staat."
   }
 ];
 
