@@ -243,33 +243,42 @@
 
                     <div>
                         <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-renteverlies-depot">Bouwdepotbedrag</label></div>
-                        <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-renteverlies-depot" value="50000" inputmode="numeric"></div>
+                        <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-renteverlies-depot" aria-describedby="fout-renteverlies-depot" value="50000" inputmode="numeric"></div>
+                        <span class="bs-veld__fout" id="fout-renteverlies-depot" role="alert"></span>
                     </div>
 
                     <div class="bs-veldrij">
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-renteverlies-hypotheek">Hypotheekrente</label></div>
-                            <div class="bs-omhulsel"><input type="text" id="input-renteverlies-hypotheek" value="4,0" inputmode="decimal"><span>%</span></div>
+                            <div class="bs-omhulsel"><input type="text" id="input-renteverlies-hypotheek" aria-describedby="fout-renteverlies-hypotheek" value="4,0" inputmode="decimal"><span>%</span></div>
+                            <span class="bs-veld__fout" id="fout-renteverlies-hypotheek" role="alert"></span>
                         </div>
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-renteverlies-vergoeding">Depotvergoeding</label></div>
-                            <div class="bs-omhulsel"><input type="text" id="input-renteverlies-vergoeding" value="3,0" inputmode="decimal"><span>%</span></div>
+                            <div class="bs-omhulsel"><input type="text" id="input-renteverlies-vergoeding" aria-describedby="fout-renteverlies-vergoeding" value="3,0" inputmode="decimal"><span>%</span></div>
+                            <span class="bs-veld__fout" id="fout-renteverlies-vergoeding" role="alert"></span>
                         </div>
                     </div>
 
                     <div>
-                        <div class="bs-veld__kop">
-                            <label class="bs-veld__naam" for="input-renteverlies-maanden">Bouwperiode</label>
-                            <span class="bs-veld__waarde tnum"><input class="bs-kort" type="number" id="input-renteverlies-maanden" value="12" min="1" max="36" step="1" inputmode="numeric"> mnd</span>
+                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-renteverlies-maanden">Bouwperiode</label></div>
+                        <div class="bs-omhulsel">
+                            <span></span>
+                            <input type="text" id="input-renteverlies-maanden" aria-describedby="fout-renteverlies-maanden" value="12" inputmode="numeric">
+                            <span>mnd</span>
                         </div>
+                        <span class="bs-veld__fout" id="fout-renteverlies-maanden" role="alert"></span>
                         <input class="bs-schuif" type="range" id="range-renteverlies-maanden" min="1" max="36" step="1" value="12" aria-label="Bouwperiode in maanden">
                     </div>
 
                     <div id="veld-vergoedingsduur">
-                        <div class="bs-veld__kop">
-                            <label class="bs-veld__naam" for="input-renteverlies-vergoedingsduur">Vergoeding loopt</label>
-                            <span class="bs-veld__waarde tnum"><input class="bs-kort" type="number" id="input-renteverlies-vergoedingsduur" value="12" min="0" max="36" step="1" inputmode="numeric"> mnd</span>
+                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-renteverlies-vergoedingsduur">Vergoeding loopt</label></div>
+                        <div class="bs-omhulsel">
+                            <span></span>
+                            <input type="text" id="input-renteverlies-vergoedingsduur" aria-describedby="fout-renteverlies-vergoedingsduur" value="12" inputmode="numeric">
+                            <span>mnd</span>
                         </div>
+                        <span class="bs-veld__fout" id="fout-renteverlies-vergoedingsduur" role="alert"></span>
                         <p class="bs-hulp" id="renteverlies-duur-note">Vrijwel geen enkele aanbieder vergoedt de hele looptijd. Staat dit getal lager dan uw bouwperiode, dan telt de vergoeding alleen over de eerste maanden mee.</p>
                     </div>
 

@@ -13,7 +13,18 @@
  */
 
 import { huidigeBank, opBankwissel } from './bankkeuze.js';
-import { leesGetal, toonGetal, euro } from './getallen.js';
+import { leesGetal, toonGetal, euro, maakVeldlezer } from './getallen.js';
+
+// Dertig procent is de bovengrens: boven die marge is het geen reserve meer
+// maar een tweede begroting.
+const leesMarge = maakVeldlezer({
+    'in-onvoorzien': {
+        lezer: leesGetal, min: 0, max: 30, exclusiefNul: false,
+        leeg: 'Vul een percentage in, of nul als u geen reserve aanhoudt.',
+        teLaag: 'Een reserve onder de nul procent bestaat niet.',
+        teHoog: 'Boven de 30 procent is het geen reserve meer; controleer het percentage.',
+    },
+});
 import { berekenBegroting } from './begrotingrekenen.js';
 
 const wortel = document.getElementById('begroting');
@@ -119,7 +130,10 @@ if (wortel) {
             doel.textContent = gevuld ? `${euro.format(som)} in ${gevuld === 1 ? '1 post' : gevuld + ' posten'}` : '';
         }
 
-        const margePct = Number(marge?.value) || 0;
+        // Een onleesbare reserve werd hier nul, en dan verdween de hele marge uit
+        // de begroting zonder dat er iets op het scherm veranderde.
+        const margePct = leesMarge(marge);
+        if (margePct === null) return;
         const { depot, eigen, noodzakelijk, gewenst, margeBedrag, depotMetMarge, totaal, aantal } =
             berekenBegroting(ingevuld, margePct);
 

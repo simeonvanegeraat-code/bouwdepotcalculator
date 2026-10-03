@@ -247,35 +247,43 @@
                     <div class="bs-veldrij">
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-new-bruto">Nieuwe hypotheeklast (bruto)</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-new-bruto" value="1550" inputmode="numeric"></div>
+                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-new-bruto" aria-describedby="fout-dubbel-new-bruto" value="1550" inputmode="numeric"></div>
+                            <span class="bs-veld__fout" id="fout-dubbel-new-bruto" role="alert"></span>
                         </div>
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-new-netto">Netto, indien bekend</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-new-netto" value="0" inputmode="numeric"></div>
+                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-new-netto" aria-describedby="fout-dubbel-new-netto" value="0" inputmode="numeric"></div>
+                            <span class="bs-veld__fout" id="fout-dubbel-new-netto" role="alert"></span>
                             <p class="bs-hulp">Laat op nul staan als u de bruto last wilt aanhouden.</p>
                         </div>
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-current">Huidige woonlast</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-current" value="1100" inputmode="numeric"></div>
+                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-current" aria-describedby="fout-dubbel-current" value="1100" inputmode="numeric"></div>
+                            <span class="bs-veld__fout" id="fout-dubbel-current" role="alert"></span>
                         </div>
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-extra">Extra vaste lasten</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-extra" value="100" inputmode="numeric"></div>
+                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-extra" aria-describedby="fout-dubbel-extra" value="100" inputmode="numeric"></div>
+                            <span class="bs-veld__fout" id="fout-dubbel-extra" role="alert"></span>
                             <p class="bs-hulp">Dubbele energie, opslag, verzekeringen of tijdelijke huur.</p>
                         </div>
                     </div>
 
                     <div>
                         <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-renteverlies">Renteverlies bouwdepot</label></div>
-                        <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-renteverlies" value="0" inputmode="numeric"></div>
+                        <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-renteverlies" aria-describedby="fout-dubbel-renteverlies" value="0" inputmode="numeric"></div>
+                        <span class="bs-veld__fout" id="fout-dubbel-renteverlies" role="alert"></span>
                         <p class="bs-hulp">Per maand, indien van toepassing. <a href="renteverlies-bouwdepot.html">Bereken uw renteverlies</a>, of laat op nul als uw aanbieder geen depotvergoeding hanteert.</p>
                     </div>
 
                     <div>
-                        <div class="bs-veld__kop">
-                            <label class="bs-veld__naam" for="input-dubbel-months">Overlapduur</label>
-                            <span class="bs-veld__waarde tnum"><input class="bs-kort" type="number" id="input-dubbel-months" value="6" min="1" max="36" step="1" inputmode="numeric"> mnd</span>
+                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-months">Overlapduur</label></div>
+                        <div class="bs-omhulsel">
+                            <span></span>
+                            <input type="text" id="input-dubbel-months" aria-describedby="fout-dubbel-months" value="6" inputmode="numeric">
+                            <span>mnd</span>
                         </div>
+                        <span class="bs-veld__fout" id="fout-dubbel-months" role="alert"></span>
                         <input class="bs-schuif" type="range" id="range-dubbel-months" min="1" max="36" step="1" value="6" aria-label="Overlapduur in maanden">
                     </div>
                 </div>

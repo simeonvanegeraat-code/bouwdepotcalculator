@@ -9,13 +9,11 @@
 // Telt vier mijlpalen, zonder ingevulde waarden. Zie meting.js.
 import './meting.js';
 
-import { leesGetal, leesPercentage, euro, koppelBedragvelden, koppelPercentagevelden } from './getallen.js';
+import { leesGetal, leesPercentage, euro, koppelBedragvelden, koppelPercentagevelden, maakVeldlezer } from './getallen.js';
 
 
 const amountInput = document.getElementById('input-amount');
-const amountRange = document.getElementById('range-amount');
 const rateInput = document.getElementById('input-rate');
-const rateRange = document.getElementById('range-rate');
 const monthsInput = document.getElementById('input-months');
 const monthsRange = document.getElementById('range-months');
 const financedInput = document.getElementById('input-financed');
@@ -88,10 +86,53 @@ if (amountInput && rateInput && monthsInput && financedInput) {
         });
     }
 
+    const GRENZEN = {
+        'input-amount': {
+            lezer: leesGetal, min: 0, max: 5000000, exclusiefNul: true,
+            leeg: 'Vul de grondslag voor de bouwrente in.',
+            teLaag: 'Vul een bedrag boven de nul in.',
+            teHoog: 'Boven vijf miljoen euro rekent deze tool niet; controleer het bedrag.',
+        },
+        'input-rate': {
+            lezer: leesPercentage, min: 0, max: 20, exclusiefNul: false,
+            leeg: 'Vul het bouwrentepercentage in.',
+            teLaag: 'Een percentage onder de nul bestaat niet.',
+            teHoog: 'Boven de 20 procent rekent geen enkele aanbieder bouwrente; controleer het percentage.',
+        },
+        'input-months': {
+            lezer: leesGetal, min: 1, max: 36, exclusiefNul: true,
+            leeg: 'Vul in over hoeveel maanden u bouwrente betaalt.',
+            teLaag: 'Een periode begint bij één maand.',
+            teHoog: 'Deze rekentool rekent met periodes tot 36 maanden.',
+        },
+        'input-mortgage-rate': {
+            lezer: leesPercentage, min: 0, max: 20, exclusiefNul: false,
+            leeg: 'Vul uw hypotheekrente in.',
+            teLaag: 'Een rente onder de nul procent bestaat niet; vul een positief percentage in.',
+            teHoog: 'Boven de 20 procent is geen hypotheekrente; controleer het percentage.',
+        },
+    };
+
+    const leesVeld = maakVeldlezer(GRENZEN);
+
+    /** Zet de uitkomst op nul zolang de invoer niet klopt. */
+    function toonGeenUitkomst() {
+        const nul = euro.format(0);
+        [resBase, resMonthly, resFinancing, resTotal].forEach((el) => {
+            if (el) el.textContent = nul;
+        });
+        if (resConclusion) resConclusion.textContent = 'Pas uw invoer aan voor een indicatie.';
+        if (btnDownload) delete btnDownload.dataset.report;
+    }
+
     function calculate() {
-        const amount = Math.max(0, leesGetal(amountInput.value) || 0);
-        const rate = Math.max(0, leesPercentage(rateInput.value) || 0);
-        const months = Math.max(1, Number(monthsInput.value) || 1);
+        const amount = leesVeld(amountInput);
+        const rate = leesVeld(rateInput);
+        const months = leesVeld(monthsInput);
+        if ([amount, rate, months].some((v) => v === null)) {
+            toonGeenUitkomst();
+            return;
+        }
 
         const base = amount * (rate / 100) * (months / 12);
         const monthly = base / months;
@@ -102,7 +143,14 @@ if (amountInput && rateInput && monthsInput && financedInput) {
         mortgageWrapper.style.display = isFinanced ? 'block' : 'none';
 
         if (isFinanced) {
-            const mortgageRate = Math.max(0, leesPercentage(mortgageInput.value) || 0);
+            // Pas valideren als het veld ook zichtbaar is: wie niet meefinanciert
+            // hoeft geen hypotheekrente in te vullen en mag er geen melding over
+            // krijgen.
+            const mortgageRate = leesVeld(mortgageInput);
+            if (mortgageRate === null) {
+                toonGeenUitkomst();
+                return;
+            }
             financingImpact = base * (mortgageRate / 100) * (months / 12);
             resultExplain.textContent = 'Basisbouwrente en financieringseffect zijn gescheiden weergegeven. Financieringseffect is indicatief berekend over dezelfde gekozen periode.';
         } else {
@@ -166,8 +214,10 @@ if (amountInput && rateInput && monthsInput && financedInput) {
         if (btnDownload) btnDownload.dataset.report = JSON.stringify(report);
     }
 
-    sync(amountInput, amountRange, 10000, 500000);
-    sync(rateInput, rateRange, 0, 15);
+    // Bedrag en rente hebben geen schuif meer: je typt ze. calculate() klemt
+    // de waarde zelf al, dus er gaat geen controle verloren.
+    amountInput.addEventListener('input', calculate);
+    rateInput.addEventListener('input', calculate);
     sync(monthsInput, monthsRange, 1, 36);
 
     financedInput.addEventListener('change', calculate);
@@ -178,7 +228,6 @@ if (amountInput && rateInput && monthsInput && financedInput) {
             const presetMonths = Number(btn.dataset.months);
 
             amountInput.value = presetAmount;
-            amountRange.value = clamp(presetAmount, Number(amountRange.min), Number(amountRange.max));
             monthsInput.value = presetMonths;
             monthsRange.value = clamp(presetMonths, Number(monthsRange.min), Number(monthsRange.max));
             calculate();

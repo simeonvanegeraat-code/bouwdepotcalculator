@@ -1,5 +1,5 @@
 import { bindReportButton, startRekenpagina } from './rekenpagina.js';
-import { leesGetal, toonGetal, leesPercentage, euro } from './getallen.js';
+import { leesGetal, toonGetal, leesPercentage, euro, maakVeldlezer } from './getallen.js';
 import { tekenStaafgrafiek } from './staafgrafiek.js';
 import { annuiteitTermijn } from './annuiteit.js';
 
@@ -11,11 +11,8 @@ function initNieuwbouwCalculator() {
     bindReportButton(btnDownload);
 
     const inputLand = document.getElementById('input-land');
-    const rangeLand = document.getElementById('range-land');
     const inputConstruction = document.getElementById('input-construction');
-    const rangeConstruction = document.getElementById('range-construction');
     const inputInterest = document.getElementById('input-interest');
-    const rangeInterest = document.getElementById('range-interest');
     const inputDiscount = document.getElementById('input-depot-discount');
     const inputBuildMonths = document.getElementById('input-build-months');
     const rangeBuildMonths = document.getElementById('range-build-months');
@@ -36,6 +33,60 @@ function initNieuwbouwCalculator() {
     const resAverageMonthly = document.getElementById('res-average-monthly');
     const resOverlapTotal = document.getElementById('res-overlap-total');
     const resConclusion = document.getElementById('res-nieuwbouw-conclusion');
+
+    // Grondkosten mogen nul zijn: wie de grond al heeft, financiert alleen de
+    // bouw. De korting op de depotvergoeding mag ook nul zijn -- dat is precies
+    // wat een aanbieder doet die de volle hypotheekrente vergoedt.
+    const GRENZEN = {
+        'input-land': {
+            lezer: leesGetal, min: 0, max: 2000000, exclusiefNul: false,
+            leeg: 'Vul de grondkosten in, of nul als u de grond al heeft.',
+            teLaag: 'Grondkosten onder de nul bestaan niet.',
+            teHoog: 'Boven twee miljoen euro rekent deze tool niet; controleer het bedrag.',
+        },
+        'input-construction': {
+            lezer: leesGetal, min: 0, max: 3000000, exclusiefNul: true,
+            leeg: 'Vul de aanneemsom in.',
+            teLaag: 'Vul een aanneemsom boven de nul in.',
+            teHoog: 'Boven drie miljoen euro rekent deze tool niet; controleer het bedrag.',
+        },
+        'input-interest': {
+            lezer: leesPercentage, min: 0, max: 20, exclusiefNul: false,
+            leeg: 'Vul uw hypotheekrente in.',
+            teLaag: 'Een rente onder de nul procent bestaat niet; vul een positief percentage in.',
+            teHoog: 'Boven de 20 procent is geen hypotheekrente; controleer het percentage.',
+        },
+        'input-depot-discount': {
+            lezer: leesPercentage, min: 0, max: 20, exclusiefNul: false,
+            leeg: 'Vul de korting op de depotvergoeding in, of nul.',
+            teLaag: 'Een korting onder de nul procent bestaat niet.',
+            teHoog: 'Boven de 20 procent kort geen enkele aanbieder; controleer het percentage.',
+        },
+        'input-build-months': {
+            lezer: leesGetal, min: 1, max: 36, exclusiefNul: true,
+            leeg: 'Vul in hoeveel maanden de bouw duurt.',
+            teLaag: 'Een bouwduur begint bij één maand.',
+            teHoog: 'Deze rekentool rekent met bouwduren tot 36 maanden.',
+        },
+        'input-current-housing': {
+            lezer: leesGetal, min: 0, max: 100000, exclusiefNul: false,
+            leeg: 'Vul uw huidige woonlast in, of nul als u die niet heeft.',
+            teLaag: 'Een woonlast onder de nul bestaat niet.',
+            teHoog: 'Boven de honderdduizend euro per maand rekent deze tool niet.',
+        },
+    };
+
+    const leesVeld = maakVeldlezer(GRENZEN);
+
+    /** Zet de uitkomst op nul zolang de invoer niet klopt. */
+    function toonGeenUitkomst() {
+        const nul = euro.format(0);
+        [resTotalLoan, resStartMonthly, resMaxMonthly, resLoss, resExtraNow, resPeakTotal, resAverageMonthly].forEach((el) => {
+            if (el) el.textContent = nul;
+        });
+        if (resConclusion) resConclusion.textContent = 'Pas uw invoer aan voor een indicatie.';
+        if (btnDownload) delete btnDownload.dataset.report;
+    }
     const resInterpretation = document.getElementById('res-nieuwbouw-interpretation');
     const resTimeline = document.getElementById('res-nieuwbouw-timeline');
     const resMethod = document.getElementById('res-nieuwbouw-method');
@@ -156,7 +207,7 @@ function initNieuwbouwCalculator() {
             // eerder alleen "invoerveld, 1".
             const nr = index + 1;
             row.innerHTML = `
-                <div><span class="bs-term-veldnaam" aria-hidden="true">Maand</span><input type="number" min="1" max="36" value="${term.month}" data-idx="${index}" class="bs-term-maand bs-term-sortering" aria-label="Termijn ${nr}: in welke bouwmaand"></div>
+                <div><span class="bs-term-veldnaam" aria-hidden="true">Maand</span><input type="text" inputmode="numeric" value="${term.month}" data-idx="${index}" class="bs-term-maand bs-term-sortering" aria-label="Termijn ${nr}: in welke bouwmaand"></div>
                 <div><input type="text" value="${term.desc}" data-idx="${index}" class="bs-term-omschrijving bs-term-trigger" aria-label="Termijn ${nr}: omschrijving"></div>
                 <div class="bs-icoonveld bs-term-euro"><span class="icon" aria-hidden="true">€</span><input type="text" inputmode="decimal" value="${toonGetal(euroAmount)}" data-idx="${index}" class="bs-term-bedrag" aria-label="Termijn ${nr}: bedrag in euro"></div>
                 <div class="bs-icoonveld bs-term-pct pct"><input type="text" inputmode="decimal" value="${toonGetal(parseFloat(term.percent.toFixed(2)), term.percent % 1 === 0 ? 0 : 1)}" data-idx="${index}" class="bs-term-percentage" aria-label="Termijn ${nr}: deel van de aanneemsom in procent"><span class="icon" aria-hidden="true">%</span></div>
@@ -345,12 +396,16 @@ function initNieuwbouwCalculator() {
         // leesGetal leest een punt als duizendscheiding en maakte daar 380
         // procent van. Die parser hoort alleen op de vrije tekstvelden van
         // het termijnschema, waar de bezoeker zelf de notatie kiest.
-        const landPrice = leesGetal(inputLand.value) || 0;
-        const constructPrice = leesGetal(inputConstruction.value) || 0;
-        const interest = leesPercentage(inputInterest.value) || 0;
-        const discount = leesPercentage(inputDiscount.value) || 0;
-        const buildMonths = parseInt(inputBuildMonths?.value, 10) || 12;
-        const currentHousingCost = leesGetal(inputCurrentHousing?.value) || 0;
+        const landPrice = leesVeld(inputLand);
+        const constructPrice = leesVeld(inputConstruction);
+        const interest = leesVeld(inputInterest);
+        const discount = leesVeld(inputDiscount);
+        const buildMonths = leesVeld(inputBuildMonths);
+        const currentHousingCost = leesVeld(inputCurrentHousing);
+        if ([landPrice, constructPrice, interest, discount, buildMonths, currentHousingCost].some((v) => v === null)) {
+            toonGeenUitkomst();
+            return;
+        }
 
         const monthlyRate = (interest / 100) / 12;
         let depotRate = (interest - discount) / 100 / 12;
@@ -500,12 +555,9 @@ function initNieuwbouwCalculator() {
         if(tableBody) tableBody.innerHTML = tableHTML;
     }
 
-    rangeLand.addEventListener('input', (e) => { inputLand.value = e.target.value; calculate(); });
-    inputLand.addEventListener('input', (e) => { rangeLand.value = e.target.value; calculate(); });
-    rangeConstruction.addEventListener('input', (e) => { inputConstruction.value = e.target.value; renderTerms(); calculate(); });
-    inputConstruction.addEventListener('input', (e) => { rangeConstruction.value = e.target.value; renderTerms(); calculate(); });
-    rangeInterest.addEventListener('input', (e) => { inputInterest.value = e.target.value; calculate(); });
-    inputInterest.addEventListener('input', (e) => { rangeInterest.value = e.target.value; calculate(); });
+    inputLand.addEventListener('input', calculate);
+    inputConstruction.addEventListener('input', () => { renderTerms(); calculate(); });
+    inputInterest.addEventListener('input', calculate);
     inputDiscount.addEventListener('input', calculate);
     if(rangeBuildMonths) rangeBuildMonths.addEventListener('input', (e) => { inputBuildMonths.value = e.target.value; volgBouwduur(); calculate(); });
     if(inputBuildMonths) inputBuildMonths.addEventListener('input', (e) => { rangeBuildMonths.value = e.target.value; volgBouwduur(); calculate(); });
@@ -518,9 +570,6 @@ function initNieuwbouwCalculator() {
             if (button.dataset.months) inputBuildMonths.value = button.dataset.months;
             if (button.dataset.housing) inputCurrentHousing.value = button.dataset.housing;
             if (button.dataset.discount) inputDiscount.value = button.dataset.discount;
-            if (rangeLand) rangeLand.value = inputLand.value;
-            if (rangeConstruction) rangeConstruction.value = inputConstruction.value;
-            if (rangeInterest) rangeInterest.value = inputInterest.value;
             if (rangeBuildMonths) rangeBuildMonths.value = inputBuildMonths.value;
             volgBouwduur();
             calculate();

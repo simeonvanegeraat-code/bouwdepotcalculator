@@ -231,23 +231,26 @@
 
                     <div>
                         <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-amount">Grondslag voor de bouwrente</label></div>
-                        <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-amount" value="100000" inputmode="numeric"></div>
-                        <input class="bs-schuif" type="range" id="range-amount" min="10000" max="500000" step="5000" value="100000" aria-label="Grondslag voor de bouwrente">
+                        <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-amount" aria-describedby="fout-amount" value="100000" inputmode="numeric"></div>
+                        <span class="bs-veld__fout" id="fout-amount" role="alert"></span>
                         <p class="bs-hulp">Meestal de grondprijs plus de bouwtermijnen die al vervallen waren bij ondertekening.</p>
                     </div>
 
                     <div class="bs-veldrij">
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-rate">Bouwrentepercentage</label></div>
-                            <div class="bs-omhulsel"><input type="text" id="input-rate" value="4,00" inputmode="decimal"><span>%</span></div>
-                            <input class="bs-schuif" type="range" id="range-rate" min="0" max="15" step="0.1" value="4" aria-label="Bouwrentepercentage">
+                            <div class="bs-omhulsel"><input type="text" id="input-rate" aria-describedby="fout-rate" value="4,00" inputmode="decimal"><span>%</span></div>
+                            <span class="bs-veld__fout" id="fout-rate" role="alert"></span>
                             <p class="bs-hulp">Staat in uw koop-/aannemingsovereenkomst.</p>
                         </div>
                         <div>
-                            <div class="bs-veld__kop">
-                                <label class="bs-veld__naam" for="input-months">Periode</label>
-                                <span class="bs-veld__waarde tnum"><input class="bs-kort" type="number" id="input-months" value="6" min="1" max="36" step="1" inputmode="numeric"> mnd</span>
+                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-months">Periode</label></div>
+                            <div class="bs-omhulsel">
+                                <span></span>
+                                <input type="text" id="input-months" aria-describedby="fout-months" value="6" inputmode="numeric">
+                                <span>mnd</span>
                             </div>
+                            <span class="bs-veld__fout" id="fout-months" role="alert"></span>
                             <input class="bs-schuif" type="range" id="range-months" min="1" max="36" step="1" value="6" aria-label="Periode in maanden">
                             <p class="bs-hulp">Van start project tot het passeren van de akte.</p>
                         </div>
@@ -263,7 +266,8 @@
 
                     <div id="mortgage-wrapper" style="display:none;">
                         <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-mortgage-rate">Hypotheekrente</label></div>
-                        <div class="bs-omhulsel"><input type="text" id="input-mortgage-rate" value="3,80" inputmode="decimal"><span>%</span></div>
+                        <div class="bs-omhulsel"><input type="text" id="input-mortgage-rate" aria-describedby="fout-mortgage-rate" value="3,80" inputmode="decimal"><span>%</span></div>
+                        <span class="bs-veld__fout" id="fout-mortgage-rate" role="alert"></span>
                         <p class="bs-hulp">Meefinancieren betekent dat u over de bouwrente zelf ook rente betaalt.</p>
                     </div>
                 </div>

@@ -23,7 +23,7 @@ import './meting.js';
 import { huidigeBank, opBankwissel } from './bankkeuze.js';
 import { maakAgenda, downloadAgenda } from './agenda.js';
 import { maakPlan } from './declaratieplan.js';
-import { leesGetal, toonGetal, euro, koppelBedragvelden, koppelPercentagevelden } from './getallen.js';
+import { leesGetal, toonGetal, euro, koppelBedragvelden, koppelPercentagevelden, maakVeldlezer } from './getallen.js';
 
 const wortel = document.getElementById('depotplanner');
 
@@ -394,6 +394,18 @@ if (wortel) {
 
     /* ------------------------------------------------------------- berekenen */
 
+    // Alleen het depotbedrag. De stand ernaast heeft al een eigen melding, want
+    // die wordt afgezet tegen dit bedrag en niet tegen een vaste grens; dezelfde
+    // reden waarom de posten hun eigen controle houden.
+    const leesVeld = maakVeldlezer({
+        'dp-bedrag': {
+            lezer: leesGetal, min: 0, max: 1000000, exclusiefNul: true,
+            leeg: 'Vul het bedrag van uw bouwdepot in.',
+            teLaag: 'Vul een depotbedrag boven de nul in.',
+            teHoog: 'Boven een miljoen euro is geen bouwdepot meer; controleer het bedrag.',
+        },
+    });
+
     function bereken() {
         bewaar();
 
@@ -405,7 +417,11 @@ if (wortel) {
 
         const bank = huidigeBank();
         const soort = velden.soort?.value === 'nieuwbouw' ? 'nieuwbouw' : 'verbouw';
-        const bedrag = Math.max(0, leesGetal(velden.bedrag?.value) || 0);
+        const bedrag = leesVeld(velden.bedrag);
+        if (bedrag === null) {
+            if (uit.saldo) uit.saldo.textContent = euro.format(0);
+            return;
+        }
         // Stil afkappen is precies waar deze site niet voor staat: de bezoeker
         // typt 80.000, ziet 50.000 terug en weet niet of de tool hem begrepen
         // heeft. We rekenen wel door met een bruikbare waarde, maar zeggen het.

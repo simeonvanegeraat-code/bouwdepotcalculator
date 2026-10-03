@@ -1,5 +1,5 @@
 import { bindReportButton, startRekenpagina } from './rekenpagina.js';
-import { leesGetal, leesPercentage, euro } from './getallen.js';
+import { leesGetal, leesPercentage, euro, maakVeldlezer } from './getallen.js';
 import { tekenStaafgrafiek } from './staafgrafiek.js';
 import { annuiteitTermijn } from './annuiteit.js';
 import { setMemoryLockById } from './shared-form-memory';
@@ -18,7 +18,6 @@ function initBelastingCalculator() {
     const inputIncome = document.getElementById('fiscal-income');
     const inputAmount = document.getElementById('fiscal-amount');
     const inputInterest = document.getElementById('fiscal-interest');
-    const rangeInterest = document.getElementById('range-fiscal-interest');
     const inputWoz = document.getElementById('fiscal-woz');
     const alertVillataks = document.getElementById('villataks-alert');
 
@@ -63,9 +62,7 @@ function initBelastingCalculator() {
     }
     if(params.has('interest')) {
          inputInterest.value = params.get('interest');
-         rangeInterest.value = params.get('interest');
          setMemoryLockById('fiscal-interest');
-         setMemoryLockById('range-fiscal-interest');
     }
 
     const typeLabels = {
@@ -111,13 +108,58 @@ function initBelastingCalculator() {
         });
     }
 
+    const GRENZEN = {
+        'fiscal-income': {
+            lezer: leesGetal, min: 0, max: 2000000, exclusiefNul: true,
+            leeg: 'Vul uw bruto jaarinkomen in.',
+            teLaag: 'Vul een jaarinkomen boven de nul in.',
+            teHoog: 'Boven twee miljoen euro per jaar rekent deze tool niet.',
+        },
+        'fiscal-amount': {
+            lezer: leesGetal, min: 0, max: 5000000, exclusiefNul: true,
+            leeg: 'Vul uw hypotheekbedrag in.',
+            teLaag: 'Vul een hypotheekbedrag boven de nul in.',
+            teHoog: 'Boven vijf miljoen euro rekent deze tool niet; controleer het bedrag.',
+        },
+        'fiscal-interest': {
+            lezer: leesPercentage, min: 0, max: 20, exclusiefNul: false,
+            leeg: 'Vul uw hypotheekrente in.',
+            teLaag: 'Een rente onder de nul procent bestaat niet; vul een positief percentage in.',
+            teHoog: 'Boven de 20 procent is geen hypotheekrente; controleer het percentage.',
+        },
+        // De WOZ-waarde bepaalt het eigenwoningforfait; nul zou dat op nul zetten
+        // en het netto voordeel te rooskleurig maken.
+        'fiscal-woz': {
+            lezer: leesGetal, min: 0, max: 10000000, exclusiefNul: true,
+            leeg: 'Vul de WOZ-waarde van uw woning in.',
+            teLaag: 'Vul een WOZ-waarde boven de nul in.',
+            teHoog: 'Boven tien miljoen euro rekent deze tool niet; controleer de waarde.',
+        },
+    };
+
+    const leesVeld = maakVeldlezer(GRENZEN);
+
+    /** Zet de uitkomst op nul zolang de invoer niet klopt. */
+    function toonGeenUitkomst() {
+        const nul = euro.format(0);
+        [outBrutoMonth, outBenefitMonth, outCostsBenefit, outNettoMonth, outNettoYear].forEach((el) => {
+            if (el) el.textContent = nul;
+        });
+        if (outConclusion) outConclusion.textContent = 'Pas uw invoer aan voor een indicatie.';
+        if (btnDownloadFiscal) delete btnDownloadFiscal.dataset.report;
+    }
+
     function calculateFiscalPro() {
-        const type = inputType.value; 
-        const income = leesGetal(inputIncome.value) || 0;
-        const amount = leesGetal(inputAmount.value) || 0;
-        const interestPct = leesPercentage(inputInterest.value) || 0;
-        const woz = leesGetal(inputWoz.value) || 0;
-        
+        const type = inputType.value;
+        const income = leesVeld(inputIncome);
+        const amount = leesVeld(inputAmount);
+        const interestPct = leesVeld(inputInterest);
+        const woz = leesVeld(inputWoz);
+        if ([income, amount, interestPct, woz].some((v) => v === null)) {
+            toonGeenUitkomst();
+            return;
+        }
+
         let oneTimeCosts = 0;
         if(checkAdvice.checked) oneTimeCosts += parseFloat(checkAdvice.value);
         if(checkNotary.checked) oneTimeCosts += parseFloat(checkNotary.value);
@@ -283,8 +325,7 @@ function initBelastingCalculator() {
     inputType.addEventListener('change', calculateFiscalPro);
     inputIncome.addEventListener('input', calculateFiscalPro);
     inputAmount.addEventListener('input', calculateFiscalPro);
-    inputInterest.addEventListener('input', (e) => { rangeInterest.value = e.target.value; calculateFiscalPro(); });
-    rangeInterest.addEventListener('input', (e) => { inputInterest.value = e.target.value; calculateFiscalPro(); });
+    inputInterest.addEventListener('input', calculateFiscalPro);
     inputWoz.addEventListener('input', calculateFiscalPro);
     [checkAdvice, checkNotary, checkValuation, checkNhg].forEach(box => {
         box.addEventListener('change', calculateFiscalPro);

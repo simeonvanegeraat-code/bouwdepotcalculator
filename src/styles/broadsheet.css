@@ -240,12 +240,27 @@
 /* Geen doos maar een liniaal. Het papier is de doos al; een kader eromheen is
    een tweede kader. De lijn is perszwart en niet grijs, want een veld waar je
    iets in typt hoort even stellig te zijn als de rest van de pagina. */
-/* Drie vaste kolommen: teken vooraf, de waarde, teken achteraf. Vast en niet
-   meeschalend, want alleen dan staat het getal van élk veld op dezelfde plek --
-   ook bij een veld zonder euroteken ervoor. */
+/* Een grootboekregel. De lijn is de kolom; het teken staat tegen de linkerkant
+   en de waarde tegen de rechterkant. Zo eindigt elke waarde in de kolom op
+   dezelfde x, en blijft dat zo op elke schermbreedte.
+
+   Waarom dit anders is dan het was: de waarde stond eerder in een vaste kolom
+   van 9ch, ergens in het midden van een lijn die doorliep tot de rand. Op een
+   venster van 1296px bleef er ruim 550px lege lijn achter elk bedrag staan. Een
+   lijn onder een getal is typografisch óf een grootboekregel óf een
+   onderstreping; dit was geen van beide, en dát is waarom het onaf aanvoelde.
+
+   De twee goten moeten vast zijn en niet meeschalen. Zodra de eenheid zijn
+   eigen breedte bepaalt, duwt een lange eenheid het getal naar links en
+   eindigen de waarden alsnog op verschillende x: gemeten 324, 305 en 290 voor
+   drie velden onder elkaar. Een grootboek heeft precies daarom een smalle
+   eenheidskolom naast de bedragkolom. */
 .bs-omhulsel {
-    display: grid; grid-template-columns: 1.8ch auto 1fr; align-items: baseline; gap: 8px;
-    min-height: var(--bs-tap); padding: 0 0 8px;
+    --bs-veld-voor: 1.4em;   /* het euroteken */
+    --bs-veld-na:   2.4em;   /* de eenheid erachter; breed genoeg voor "jaar" */
+    display: grid; grid-template-columns: var(--bs-veld-voor) 1fr var(--bs-veld-na);
+    align-items: baseline; gap: 8px;
+    min-height: var(--bs-tap); padding: 0 0 9px;
     background: none; border: 0; border-bottom: 1px solid var(--bs-ink); border-radius: 0;
 }
 .bs-omhulsel:focus-within { border-bottom-color: var(--bs-accent); box-shadow: 0 1px 0 0 var(--bs-accent); }
@@ -256,16 +271,14 @@
     font-variant-numeric: tabular-nums; color: var(--bs-ink);
     background: none; border: 0; outline: none;
 }
-/* Eén vaste waardekolom, rechts uitgelijnd. Zo eindigt elk getal op dezelfde
-   plek en begint elk teken op dezelfde plek -- ook als het ene veld "3,80" en
-   het andere "1.250.000" bevat. Een veld dat meekrimpt met zijn inhoud las
-   prettiger per veld, maar liet het procentteken zeventien pixels verspringen
-   zodra je een cijfer wegliet, en tussen de velden onderling lijnde er niets
-   uit. Negen tekens, want "1.250.000" is de langste waarde die deze velden
-   aannemen. */
-.bs-omhulsel input { grid-column: 2; width: 9ch; text-align: right; }
+/* De waarde vult de middenkolom en staat rechts: tegen de eenheidsgoot aan, en
+   dus tegen het eind van de lijn. Een veld dat meekrimpt met zijn inhoud
+   (field-sizing: content, Baseline sinds juni 2026) las prettiger per veld,
+   maar liet het procentteken zeventien pixels verspringen zodra je een cijfer
+   wegliet. Daarom staat het hier bewust niet. */
+.bs-omhulsel input { grid-column: 2; width: 100%; min-width: 0; text-align: right; }
 .bs-omhulsel > span:first-child { grid-column: 1; }
-.bs-omhulsel > input + span { grid-column: 3; }
+.bs-omhulsel > input + span { grid-column: 3; text-align: left; }
 
 /* Nog steeds een systeemlijst -- de eigen lijst uit de preview komt als aparte
    stap, want die vraagt JavaScript en toetsenbordwerk. Wel alvast op dezelfde
@@ -281,10 +294,48 @@
 }
 .bs-select:focus-visible { outline: none; border-bottom-color: var(--bs-accent); box-shadow: 0 1px 0 0 var(--bs-accent); }
 
+/* Waar de browser het kent, wordt ook de uitklaplijst zelf opgemaakt. Het blijft
+   een echte <select>, dus toetsenbord, schermlezer en het mobiele wiel komen
+   van de browser -- er komt géén zelfgebouwde lijst, en er valt dus ook niets
+   kapot aan toegankelijkheid. Waar de browser het niet kent, blijft precies de
+   lijst staan die er hierboven is getekend.
+
+   Dit vervangt punt B uit spec/invoervelden.md: dat ging uit van een eigen
+   lijst van zo'n zeventig regels, met het risico dat die minder toegankelijk
+   zou worden dan de systeemlijst. Dat risico vervalt hiermee. */
+@supports (appearance: base-select) {
+    .bs-select, .bs-select::picker(select) { appearance: base-select; }
+    /* In deze modus is de lijst zelf een flexcontainer met de gekozen waarde en
+       de chevron erin; zonder align-items hangt de chevron tegen de bovenkant. */
+    .bs-select { display: flex; align-items: center; gap: 10px; background-image: none; padding-right: 0; }
+    /* De eigen chevron terug. Zonder dit tekent de browser zijn standaarddriehoek,
+       en die is zwart en massief naast een kolom die verder uit haarlijnen bestaat. */
+    .bs-select::picker-icon {
+        content: ''; width: 16px; height: 16px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23516254' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat center;
+        transition: rotate .15s;
+    }
+    .bs-select:open::picker-icon { rotate: 180deg; }
+    .bs-select::picker(select) {
+        padding: 4px 0; background: var(--bs-bone);
+        border: 1px solid var(--bs-ink); border-radius: 0;
+    }
+    .bs-select option { padding: 11px 16px; font-size: var(--bs-t-klein); }
+    .bs-select option:checked { font-weight: 600; }
+    .bs-select option::checkmark { color: var(--bs-accent); }
+}
+
 /* De greep had een zwarte ring om een teal bol: twee kleuren en een rand voor
    een onderdeel dat alleen maar hoeft aan te wijzen waar je staat. Nu één
    kleur, kleiner, met een schaduw in plaats van een rand. */
-.bs-schuif { -webkit-appearance: none; appearance: none; width: 100%; height: 22px; margin: 10px 0 0; background: none; }
+/* 44px hoog en niet 22px. De greep is klein, maar het vák eromheen is wat je
+   met een duim raakt; op 22px haalde geen enkele schuif op de site de eis van
+   44 × 44. De bovenmarge krimpt mee, dus het kost 12px per schuif en geen 22. */
+/* De negatieve bovenmarge haalt het dode wit weg dat het 44px-vak boven de baan
+   zet. Zonder dat stond de baan 41px onder de lijn en hing de schuif los van
+   het veld waar hij bij hoort; nu 29px. De raakzone blijft 44px hoog -- hij
+   overlapt alleen de onderste witruimte van de foutregel, en daar staat niets. */
+.bs-schuif { -webkit-appearance: none; appearance: none; width: 100%; height: var(--bs-tap); margin: -12px 0 0; background: none; }
 .bs-schuif::-webkit-slider-runnable-track { height: 2px; background: var(--bs-lijn); }
 .bs-schuif::-moz-range-track { height: 2px; background: var(--bs-lijn); }
 .bs-schuif::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; margin-top: -8px; border-radius: 50%; background: var(--bs-accent); border: 0; box-shadow: 0 1px 4px var(--bs-accent-schaduw); cursor: grab; }
@@ -738,15 +789,6 @@
 .bs-vervolgstap { margin: 18px 0 0; font-size: var(--bs-t-klein); line-height: 1.5; color: var(--bs-newsprint); }
 .bs-vervolgstap a { color: var(--bs-ink); font-weight: 500; }
 
-/* Een kort getalveld in de kop van een veld, naast het label. Voor een maat die
-   je zowel wilt kunnen typen als slepen. */
-.bs-kort {
-    width: 4.5ch; padding: 4px 0;
-    font: inherit; font-size: var(--bs-t-klein); font-weight: 500;
-    font-variant-numeric: tabular-nums; text-align: right; color: var(--bs-ink);
-    background: none; border: 0; border-bottom: 1px solid var(--bs-lijn);
-}
-.bs-kort:focus-visible { outline: none; border-bottom-color: var(--bs-accent); }
 
 /* ==========================================================================
    Begroting: categorieën en posten

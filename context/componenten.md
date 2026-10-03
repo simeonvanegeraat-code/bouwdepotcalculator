@@ -54,12 +54,12 @@ precies het soort wijziging waarbij fouten insluipen die geen test ziet.
 | `.bs-knop` | Primaire actie. Enige plek met diepte, en die schaduw is getint met het accent. Varianten: `--spook` op donkere grond (**niet op licht: de rand verdwijnt**), `--licht` secundair op licht |
 | `.bs-beloften` | Rij korte beloften met een accentblokje ervoor |
 | `.bs-veld__kop` / `.bs-veld__naam` / `.bs-veld__waarde` / `.bs-veld__fout` | Label, huidige waarde en foutmelding bij een invoerveld. De naam staat op leesmaat in gewone zinsvorm — **geen kapitaaltjes**, want die maat is van stempels en kruimelpaden en die sla je over |
-| `.bs-omhulsel` | Invoerveld met een voor- of achtervoegsel (`€`, `%`). **Een liniaal en geen doos**: het papier is de doos al, een kader eromheen is een tweede kader. Het teken staat naast het getal, niet tegen de rand |
-| `.bs-select` / `.bs-schuif` | Keuzelijst en schuifregelaar, allebei op dezelfde liniaal. De keuzelijst is nog een systeemlijst met een eigen pijl; de eigen lijst uit [../spec/invoervelden.md](../spec/invoervelden.md) komt als aparte stap |
+| `.bs-omhulsel` | Invoerveld met een voor- of achtervoegsel (`€`, `%`, `jaar`, `mnd`). **Een grootboekregel**: de lijn is de kolom, het teken staat links en de waarde rechts tegen het eind. Zo eindigt elke waarde in de kolom op dezelfde x, op elke schermbreedte. De twee goten (`--bs-veld-voor`, `--bs-veld-na`) zijn vast — meeschalen laat een lange eenheid het getal naar links duwen en dan lijnt er alsnog niets uit |
+| `.bs-select` | Keuzelijst, op dezelfde liniaal. Blijft een echte `<select>`, dus toetsenbord, schermlezer en het mobiele wiel komen van de browser. Waar `appearance: base-select` bestaat wordt ook de uitklaplijst opgemaakt; waar niet, de lijst van vandaag. **Geen zelfgebouwde lijst** — dat was het plan en het is vervallen, zie [../spec/invoervelden.md](../spec/invoervelden.md). De waarde staat links en niet rechts zoals bij een getal: je lijnt prose niet uit op zijn rechterkant |
+| `.bs-schuif` | Schuifregelaar, 44px hoog voor de duim met een negatieve bovenmarge zodat hij aan zijn veld blijft hangen. **Altijd naast een veld, nooit als enige manier** om een waarde te zetten |
 | `.bs-chips` / `.bs-chip` | Voorkeuzes als tekst met een streep eronder, geen knop met een kader: een suggestie hoort niet even hard te roepen als de knop "Bereken". Raakzone blijft 44px. Stand staat in `aria-pressed`, **niet in een eigen klasse** |
 | `.bs-keuzevak` | Aanvinkoptie met toelichting |
 | `.bs-veldrij` | Twee velden naast elkaar vanaf 560px |
-| `.bs-kort` | Kort getalveld in de veldkop, naast het label. Voor een maat die je zowel wilt typen als slepen |
 | `.bs-hulp` | Hulptekst onder een invoerveld. Legt dít veld uit. **Niet voor waarschuwingen** — die horen in `.bs-melding` met de accentrand |
 | `.bs-notitie` | Kanttekening bij de uitkomst: wat het getal niet zegt |
 | `.bs-vervolgstap` | De volgende vraag, onder de uitkomstkolom. **Bewust een kale tekstregel en geen knop:** een tweede knop maakt van de uitkomst een keuzemenu |

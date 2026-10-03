@@ -1,6 +1,6 @@
 import { bindReportButton, startRekenpagina } from './rekenpagina.js';
 import { opBankwissel, vergoedingsTarief } from './bankkeuze.js';
-import { leesGetal, leesPercentage, euro } from './getallen.js';
+import { leesGetal, leesPercentage, euro, maakVeldlezer } from './getallen.js';
 
 /* 1B. MAANDLASTEN BOUWDEPOT CALCULATOR */
 function initMaandlastenBouwdepotCalculator() {
@@ -81,13 +81,83 @@ function initMaandlastenBouwdepotCalculator() {
         };
     }
 
+    // Zes velden die tot nu toe met "|| 0" werden gelezen. Wie zich vertypte
+    // kreeg geen melding maar een nul, en dus een geloofwaardige maandlast over
+    // een bedrag dat hij nooit heeft ingevuld. Dezelfde grenzen en dezelfde
+    // lezer als de rekenmachine erboven; zie maakVeldlezer in getallen.js.
+    const GRENZEN = {
+        'input-total-mortgage': {
+            lezer: leesGetal, min: 0, max: 5000000, exclusiefNul: true,
+            leeg: 'Vul uw totale hypotheekbedrag in.',
+            teLaag: 'Vul een hypotheekbedrag boven de nul in.',
+            teHoog: 'Boven vijf miljoen euro rekent deze tool niet; controleer het bedrag.',
+        },
+        'input-depot-amount': {
+            lezer: leesGetal, min: 0, max: 1000000, exclusiefNul: true,
+            leeg: 'Vul het bedrag van uw bouwdepot in.',
+            teLaag: 'Vul een depotbedrag boven de nul in.',
+            teHoog: 'Boven een miljoen euro is geen bouwdepot meer; controleer het bedrag.',
+        },
+        'input-mortgage-rate': {
+            lezer: leesPercentage, min: 0, max: 20, exclusiefNul: false,
+            leeg: 'Vul uw hypotheekrente in.',
+            teLaag: 'Een rente onder de nul procent bestaat niet; vul een positief percentage in.',
+            teHoog: 'Boven de 20 procent is geen hypotheekrente; controleer het percentage.',
+        },
+        // Nul mag hier wél: er zijn aanbieders die geen depotvergoeding betalen,
+        // en de hulptekst onder het veld vraagt daar expliciet om een nul.
+        'input-depot-rate': {
+            lezer: leesPercentage, min: 0, max: 20, exclusiefNul: false,
+            leeg: 'Vul de depotvergoeding in, of nul als uw aanbieder niets vergoedt.',
+            teLaag: 'Een vergoeding onder de nul procent bestaat niet.',
+            teHoog: 'Boven de 20 procent vergoedt geen enkele aanbieder; controleer het percentage.',
+        },
+        // Gelijk aan het bereik van de schuif ernaast.
+        'input-depot-months': {
+            lezer: leesGetal, min: 1, max: 36, exclusiefNul: true,
+            leeg: 'Vul in hoeveel maanden de bouw duurt.',
+            teLaag: 'Een bouwperiode begint bij één maand.',
+            teHoog: 'Deze rekentool rekent met bouwperiodes tot 36 maanden.',
+        },
+        // Nul is hier de normale waarde: de meeste mensen hebben geen dubbele
+        // lasten. Daarom geen exclusiefNul en een lege waarde die nul betekent.
+        'input-extra-housing': {
+            lezer: leesGetal, min: 0, max: 100000, exclusiefNul: false,
+            leeg: 'Vul nul in als u geen dubbele woonlasten heeft.',
+            teLaag: 'Een woonlast onder de nul bestaat niet.',
+            teHoog: 'Boven de honderdduizend euro per maand rekent deze tool niet.',
+        },
+    };
+
+    const leesVeld = maakVeldlezer(GRENZEN);
+
+    /**
+     * Zet de uitkomst op nul zolang de invoer niet klopt.
+     *
+     * Bewust niet: de laatste geldige uitkomst laten staan. Dan blijft er een
+     * bedrag in beeld dat niet meer bij de invoer hoort, en dat is precies het
+     * geloofwaardige-maar-onjuiste antwoord dat we willen vermijden.
+     */
+    function toonGeenUitkomst() {
+        const nul = euro.format(0);
+        [resGross, resComp, resNet, resPeriod, resDouble].forEach((el) => {
+            if (el) el.textContent = nul;
+        });
+        if (resConclusion) resConclusion.textContent = 'Pas uw invoer aan voor een indicatie.';
+        if (btnDownloadMaandlasten) delete btnDownloadMaandlasten.dataset.report;
+    }
+
     function calculate() {
-        const mortgage = leesGetal(inputMortgage.value) || 0;
-        const depot = leesGetal(inputDepot.value) || 0;
-        const mortgageRate = leesPercentage(inputRate.value) || 0;
-        const depotRate = leesPercentage(inputDepotRate.value) || 0;
-        const months = parseInt(inputMonths.value, 10) || 1;
-        const extraHousing = leesGetal(inputHousing.value) || 0;
+        const mortgage = leesVeld(inputMortgage);
+        const depot = leesVeld(inputDepot);
+        const mortgageRate = leesVeld(inputRate);
+        const depotRate = leesVeld(inputDepotRate);
+        const months = leesVeld(inputMonths);
+        const extraHousing = leesVeld(inputHousing);
+        if ([mortgage, depot, mortgageRate, depotRate, months, extraHousing].some((v) => v === null)) {
+            toonGeenUitkomst();
+            return;
+        }
         const pattern = opnamePattern.value || 'even';
         const factor = patternFactors[pattern] || 0.5;
 

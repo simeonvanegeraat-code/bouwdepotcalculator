@@ -21,7 +21,7 @@
 // Telt vier mijlpalen, zonder ingevulde waarden. Zie meting.js.
 import './meting.js';
 
-import { leesGetal, euro, koppelBedragvelden, koppelPercentagevelden } from './getallen.js';
+import { leesGetal, euro, koppelBedragvelden, koppelPercentagevelden, maakVeldlezer } from './getallen.js';
 
 const wortel = document.getElementById('leenruimte');
 
@@ -77,12 +77,43 @@ if (wortel) {
 
     /* ------------------------------------------------------------- berekenen */
 
+    // Eigen geld en kosten buiten het depot mogen nul zijn; de andere drie niet,
+    // want dan is er niets om leenruimte mee uit te rekenen.
+    const BEDRAG = (leeg, max = 5000000) => ({
+        lezer: leesGetal, min: 0, max, exclusiefNul: false,
+        leeg, teLaag: 'Een bedrag onder de nul bestaat niet.',
+        teHoog: 'Dit bedrag is hoger dan waar deze tool mee rekent; controleer het.',
+    });
+
+    const GRENZEN = {
+        'lr-bedrag': { ...BEDRAG('Vul het bedrag voor uw verbouwing in.', 1000000), exclusiefNul: true, teLaag: 'Vul een bedrag boven de nul in.' },
+        'lr-hypotheek': BEDRAG('Vul uw huidige hypotheek in, of nul als u die niet heeft.'),
+        'lr-waarde': { ...BEDRAG('Vul de woningwaarde na verbouwing in.'), exclusiefNul: true, teLaag: 'Vul een woningwaarde boven de nul in.' },
+        'lr-eigen-geld': BEDRAG('Vul uw eigen geld in, of nul als u dat niet inzet.', 1000000),
+        'lr-buiten-depot': BEDRAG('Vul de kosten buiten het depot in, of nul.', 1000000),
+    };
+
+    const leesVeld = maakVeldlezer(GRENZEN);
+
+    /** Zet de uitkomst op nul zolang de invoer niet klopt. */
+    function toonGeenUitkomst() {
+        const nul = euro.format(0);
+        [uit.ruimte, uit.gat, uit.nodig, uit.buffer].forEach((el) => {
+            if (el) el.textContent = nul;
+        });
+        if (uit.zin) uit.zin.textContent = 'Pas uw invoer aan voor een indicatie.';
+    }
+
     function bereken() {
-        const bedrag = Math.max(0, leesGetal(velden.bedrag?.value) || 0);
-        const hypotheek = Math.max(0, leesGetal(velden.hypotheek?.value) || 0);
-        const waarde = Math.max(0, leesGetal(velden.waarde?.value) || 0);
-        const eigenGeld = Math.max(0, leesGetal(velden.eigenGeld?.value) || 0);
-        const buitenDepot = Math.max(0, leesGetal(velden.buitenDepot?.value) || 0);
+        const bedrag = leesVeld(velden.bedrag);
+        const hypotheek = leesVeld(velden.hypotheek);
+        const waarde = leesVeld(velden.waarde);
+        const eigenGeld = leesVeld(velden.eigenGeld);
+        const buitenDepot = leesVeld(velden.buitenDepot);
+        if ([bedrag, hypotheek, waarde, eigenGeld, buitenDepot].some((v) => v === null)) {
+            toonGeenUitkomst();
+            return;
+        }
 
         const ruimte = Math.max(0, waarde - hypotheek);
         const gat = Math.max(0, bedrag - ruimte);

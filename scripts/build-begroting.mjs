@@ -158,11 +158,18 @@ ${headerHtml()}
                         </dl>
 
                         <div class="bs-notitie">
-                            <div class="bs-veld__kop">
-                                <label class="bs-veld__naam" for="in-onvoorzien">Reserve voor onvoorzien</label>
-                                <span class="bs-veld__waarde tnum" id="toon-onvoorzien">10%</span>
+                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="in-onvoorzien">Reserve voor onvoorzien</label></div>
+                            <!-- Een veld en geen schuif. Dit is een percentage, en de hulptekst
+                                 hieronder noemt de drie waarden die er in de bouw toe doen: tien,
+                                 vijftien en twintig. Die typ je sneller dan je ze sleept. De schuif
+                                 was bovendien de enige bediening, met de waarde alleen-lezen op
+                                 halve maat ernaast -- hetzelfde gebrek als bij Looptijd. -->
+                            <div class="bs-omhulsel">
+                                <span></span>
+                                <input type="text" id="in-onvoorzien" value="10" inputmode="numeric" aria-describedby="fout-in-onvoorzien">
+                                <span>%</span>
                             </div>
-                            <input class="bs-schuif" type="range" id="in-onvoorzien" min="0" max="30" step="1" value="10">
+                            <span class="bs-veld__fout" id="fout-in-onvoorzien" role="alert"></span>
                             <p class="bs-hulp">Sloopwerk legt vaak verborgen gebreken bloot. Een begroting zonder marge loopt bijna altijd vast. Tien procent is in de bouw de gangbare vuistregel; bij oudere woningen wordt vijftien tot twintig procent aangehouden.</p>
                         </div>
 
@@ -282,29 +289,34 @@ ${categorieen}
                     <div class="bs-invoer">
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-bedrag">Gewenst bedrag voor de verbouwing</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-bedrag" value="75000" inputmode="numeric"></div>
+                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-bedrag" aria-describedby="fout-lr-bedrag" value="75000" inputmode="numeric"></div>
+                                <span class="bs-veld__fout" id="fout-lr-bedrag" role="alert"></span>
                             <p class="bs-hulp">Komt uit uw <a href="verbouwbegroting.html">verbouwbegroting</a>, of vul uw eigen schatting in.</p>
                         </div>
 
                         <div class="bs-veldrij">
                             <div>
                                 <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-hypotheek">Huidige hypotheek</label></div>
-                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-hypotheek" value="300000" inputmode="numeric"></div>
+                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-hypotheek" aria-describedby="fout-lr-hypotheek" value="300000" inputmode="numeric"></div>
+                                <span class="bs-veld__fout" id="fout-lr-hypotheek" role="alert"></span>
                                 <p class="bs-hulp">Openstaand saldo v&oacute;&oacute;r de extra lening.</p>
                             </div>
                             <div>
                                 <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-waarde">Waarde na verbouwing</label></div>
-                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-waarde" value="360000" inputmode="numeric"></div>
+                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-waarde" aria-describedby="fout-lr-waarde" value="360000" inputmode="numeric"></div>
+                                <span class="bs-veld__fout" id="fout-lr-waarde" role="alert"></span>
                                 <p class="bs-hulp">Gebruik bij voorkeur een taxatie, niet uw eigen inschatting.</p>
                             </div>
                             <div>
                                 <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-eigen-geld">Beschikbaar eigen geld</label></div>
-                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-eigen-geld" value="25000" inputmode="numeric"></div>
+                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-eigen-geld" aria-describedby="fout-lr-eigen-geld" value="25000" inputmode="numeric"></div>
+                                <span class="bs-veld__fout" id="fout-lr-eigen-geld" role="alert"></span>
                                 <p class="bs-hulp">Alleen wat u echt voor dit plan reserveert.</p>
                             </div>
                             <div>
                                 <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-buiten-depot">Kosten buiten het depot</label></div>
-                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-buiten-depot" value="10000" inputmode="numeric"></div>
+                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-buiten-depot" aria-describedby="fout-lr-buiten-depot" value="10000" inputmode="numeric"></div>
+                                <span class="bs-veld__fout" id="fout-lr-buiten-depot" role="alert"></span>
                                 <p class="bs-hulp">Losse spullen, inrichting en posten die uw bank niet accepteert. Staat in uw <a href="verbouwbegroting.html">begroting</a> onder eigen geld.</p>
                             </div>
                         </div>

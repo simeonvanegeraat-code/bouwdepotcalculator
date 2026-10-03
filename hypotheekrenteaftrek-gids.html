@@ -246,11 +246,13 @@
                     <div class="bs-veldrij">
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="fiscal-income">Bruto jaarinkomen</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="fiscal-income" value="60000" inputmode="numeric"></div>
+                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="fiscal-income" aria-describedby="fout-fiscal-income" value="60000" inputmode="numeric"></div>
+                            <span class="bs-veld__fout" id="fout-fiscal-income" role="alert"></span>
                         </div>
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="fiscal-woz">WOZ-waarde woning</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="fiscal-woz" value="400000" inputmode="numeric"></div>
+                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="fiscal-woz" aria-describedby="fout-fiscal-woz" value="400000" inputmode="numeric"></div>
+                            <span class="bs-veld__fout" id="fout-fiscal-woz" role="alert"></span>
                         </div>
                     </div>
 
@@ -260,14 +262,15 @@
 
                     <div>
                         <div class="bs-veld__kop"><label class="bs-veld__naam" for="fiscal-amount">Leenbedrag</label></div>
-                        <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="fiscal-amount" value="50000" inputmode="numeric"></div>
+                        <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="fiscal-amount" aria-describedby="fout-fiscal-amount" value="50000" inputmode="numeric"></div>
+                        <span class="bs-veld__fout" id="fout-fiscal-amount" role="alert"></span>
                     </div>
 
                     <div class="bs-veldrij">
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="fiscal-interest">Hypotheekrente</label></div>
-                            <div class="bs-omhulsel"><input type="text" id="fiscal-interest" value="3,80" inputmode="decimal"><span>%</span></div>
-                            <input class="bs-schuif" type="range" id="range-fiscal-interest" min="0.5" max="10" step="0.1" value="3.8" aria-label="Hypotheekrente">
+                            <div class="bs-omhulsel"><input type="text" id="fiscal-interest" aria-describedby="fout-fiscal-interest" value="3,80" inputmode="decimal"><span>%</span></div>
+                            <span class="bs-veld__fout" id="fout-fiscal-interest" role="alert"></span>
                         </div>
                         <div>
                             <div class="bs-veld__kop"><label class="bs-veld__naam" for="fiscal-type">Hypotheekvorm</label></div>

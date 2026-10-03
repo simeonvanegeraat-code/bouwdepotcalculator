@@ -1,6 +1,6 @@
 import { bindReportButton, startRekenpagina } from './rekenpagina.js';
 import { huidigeBank, opBankwissel } from './bankkeuze.js';
-import { leesGetal, leesPercentage, euro } from './getallen.js';
+import { leesGetal, leesPercentage, euro, maakVeldlezer } from './getallen.js';
 import { annuiteitTermijn } from './annuiteit.js';
 import { setMemoryLockById } from './shared-form-memory';
 import {
@@ -15,11 +15,10 @@ function initVerbouwCalculator() {
     bindReportButton(btnDownload);
 
     const inputType = document.getElementById('input-type'); 
-    const rangeAmount = document.getElementById('range-amount');
     const inputAmount = document.getElementById('input-amount');
-    const rangeInterest = document.getElementById('range-interest');
     const inputInterest = document.getElementById('input-interest');
     const rangeDuration = document.getElementById('range-duration');
+    const inputDuration = document.getElementById('input-duration');
     const checkAftrek = document.getElementById('check-aftrek');
     const rowVoordeel = document.getElementById('row-voordeel');
 
@@ -30,17 +29,10 @@ function initVerbouwCalculator() {
     const bedragUitUrl = urlParams.get('bedrag') || urlParams.get('amount');
     if (bedragUitUrl && Number(bedragUitUrl) > 0) {
         inputAmount.value = bedragUitUrl;
-        if (rangeAmount) {
-            const min = Number(rangeAmount.min) || 0;
-            const max = Number(rangeAmount.max) || Number(bedragUitUrl);
-            rangeAmount.value = Math.min(Math.max(Number(bedragUitUrl), min), max);
-        }
         // Voorkomt dat de onthouden invoer het meegegeven bedrag overschrijft.
         setMemoryLockById('input-amount');
-        setMemoryLockById('range-amount');
     }
 
-    const valDuration = document.getElementById('val-duration');
     const resBruto = document.getElementById('res-bruto');
     const rowBruto = document.getElementById('row-bruto');
     const resVoordeel = document.getElementById('res-voordeel');
@@ -137,23 +129,19 @@ function initVerbouwCalculator() {
             teLaag: 'Een rente onder de nul procent bestaat niet; vul een positief percentage in.',
             teHoog: 'Boven de 20 procent is geen hypotheekrente; controleer het percentage.',
         },
+        // De grenzen zijn gelijk aan het bereik van de schuif ernaast. Anders
+        // zou je een looptijd kunnen typen die de schuif niet kan aanwijzen, en
+        // staan veld en schuif iets anders te beweren.
+        'input-duration': {
+            lezer: leesGetal,
+            min: 10, max: 30, exclusiefNul: true,
+            leeg: 'Vul een looptijd in jaren in.',
+            teLaag: 'Deze rekentool rekent met looptijden van 10 tot 30 jaar.',
+            teHoog: 'Een hypotheek loopt maximaal 30 jaar.',
+        },
     };
 
-    /** Geeft de waarde terug, of null als het veld ongeldig is. */
-    function leesVeld(veld) {
-        const regels = GRENZEN[veld.id];
-        const melding = document.getElementById(`fout-${veld.id.replace('input-', '')}`);
-        const waarde = regels.lezer(veld.value);
-
-        let fout = '';
-        if (veld.value.trim() === '' || waarde === null) fout = regels.leeg;
-        else if (waarde < regels.min || (regels.exclusiefNul && waarde === 0)) fout = regels.teLaag;
-        else if (waarde > regels.max) fout = regels.teHoog;
-
-        if (melding) melding.textContent = fout;
-        veld.setAttribute('aria-invalid', fout ? 'true' : 'false');
-        return fout ? null : waarde;
-    }
+    const leesVeld = maakVeldlezer(GRENZEN);
 
     /** Zet de uitkomst terug op nul zolang de invoer niet klopt. */
     function toonGeenUitkomst() {
@@ -167,13 +155,14 @@ function initVerbouwCalculator() {
 
     function calculate() {
         const type = inputType ? inputType.value : 'annuity';
-        const years = parseInt(rangeDuration.value, 10) || 30;
-
-        valDuration.textContent = `${years} Jaar`;
-
+        // De looptijd komt uit het veld en niet uit de schuif: de schuif is het
+        // hulpmiddel, het veld is waar de waarde staat. Hij gaat langs dezelfde
+        // controle als bedrag en rente, zodat een onmogelijke looptijd een
+        // melding geeft in plaats van stilletjes een ander antwoord.
         const amount = leesVeld(inputAmount);
         const interest = leesVeld(inputInterest);
-        if (amount === null || interest === null) {
+        const years = leesVeld(inputDuration);
+        if (amount === null || interest === null || years === null) {
             toonGeenUitkomst();
             return;
         }
@@ -349,7 +338,6 @@ function initVerbouwCalculator() {
         // Als er knoppen zijn geselecteerd, update de input
         if(activeCount > 0) {
             if(inputAmount) inputAmount.value = totalAddon;
-            if(rangeAmount) rangeAmount.value = totalAddon;
             if(btnResetCosts) btnResetCosts.style.display = 'block';
             calculate(); 
         } else {
@@ -379,7 +367,6 @@ function initVerbouwCalculator() {
                 if (Number.isNaN(presetAmount)) return;
 
                 if (inputAmount) inputAmount.value = presetAmount;
-                if (rangeAmount) rangeAmount.value = presetAmount;
 
                 if (costBtns.length) {
                     costBtns.forEach((costBtn) => zetGekozen(costBtn, false));
@@ -393,16 +380,15 @@ function initVerbouwCalculator() {
 
     // Event Listeners Inputs
     if(inputType) inputType.addEventListener('change', calculate);
-    rangeAmount.addEventListener('input', (e) => { inputAmount.value = e.target.value; calculate(); });
-    inputAmount.addEventListener('input', (e) => { rangeAmount.value = e.target.value; calculate(); });
-    rangeInterest.addEventListener('input', (e) => { inputInterest.value = e.target.value; calculate(); });
-    inputInterest.addEventListener('input', (e) => { rangeInterest.value = e.target.value; calculate(); });
-    rangeDuration.addEventListener('input', calculate);
+    inputAmount.addEventListener('input', calculate);
+    inputInterest.addEventListener('input', calculate);
+    rangeDuration.addEventListener('input', (e) => { inputDuration.value = e.target.value; calculate(); });
+    inputDuration.addEventListener('input', (e) => { rangeDuration.value = e.target.value; calculate(); });
     checkAftrek.addEventListener('change', calculate);
 
     // De bankkeuze verandert de maandlast niet, maar hoort wel op het overzicht
     // dat de bezoeker meeneemt naar zijn adviseur.
-    opBankwissel(() => { if (rangeAmount) calculate(); });
+    opBankwissel(() => { if (inputAmount) calculate(); });
 
     // De haalbaarheidscheck zat hier als uitklapblok en woont nu op een eigen
     // pagina. Oude links met ?plan=haalbaarheid mogen niet stilletjes op een
@@ -417,7 +403,7 @@ function initVerbouwCalculator() {
         return;
     }
 
-    if(rangeAmount) calculate();
+    if (inputAmount) calculate();
 }
 
 startRekenpagina(initVerbouwCalculator);

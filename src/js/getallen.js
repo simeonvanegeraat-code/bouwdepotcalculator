@@ -177,3 +177,44 @@ export function koppelPercentagevelden(wortel = document) {
         koppelPercentageveld(veld);
     });
 }
+
+/**
+ * Maakt een veldlezer voor een rekenpagina.
+ *
+ * Geeft de waarde terug, of null als het veld ongeldig is, en schrijft de
+ * melding in de foutplek die bij het veld hoort (`fout-<id zonder input->`).
+ *
+ * Waarom dit gedeeld is: de maandlasten-rekenmachine las haar zes velden met
+ * `leesGetal(veld.value) || 0`. Wie zich vertypte kreeg geen melding maar een
+ * nul, en daarmee een compleet en geloofwaardig antwoord op een bedrag dat hij
+ * nooit heeft ingevuld. De bouwdepot-rekenmachine had de controle al; die stond
+ * alleen in haar eigen bestand. Eén functie, twee rekenmachines.
+ *
+ * @param {Record<string, {lezer: Function, min: number, max: number,
+ *                         exclusiefNul?: boolean, leeg: string,
+ *                         teLaag: string, teHoog: string}>} grenzen
+ */
+export function maakVeldlezer(grenzen) {
+    return function leesVeld(veld) {
+        // Een veld dat niet op deze pagina staat, of waar geen grenzen voor zijn
+        // opgegeven, levert null. De aanroeper stopt dan met rekenen -- beter dan
+        // doorrekenen met een waarde die nergens vandaan komt.
+        if (!veld) return null;
+        const regels = grenzen[veld.id];
+        if (!regels) return null;
+
+        // Alleen een leidend "input-" eraf. Zonder anker sloopte replace ook een
+        // "input-" midden in een id, en dan wees de melding naar niets.
+        const melding = document.getElementById(`fout-${veld.id.replace(/^input-/, '')}`);
+        const waarde = regels.lezer(veld.value);
+
+        let fout = '';
+        if (veld.value.trim() === '' || waarde === null) fout = regels.leeg;
+        else if (waarde < regels.min || (regels.exclusiefNul && waarde === 0)) fout = regels.teLaag;
+        else if (waarde > regels.max) fout = regels.teHoog;
+
+        if (melding) melding.textContent = fout;
+        veld.setAttribute('aria-invalid', fout ? 'true' : 'false');
+        return fout ? null : waarde;
+    };
+}

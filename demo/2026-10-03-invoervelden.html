@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Invoerpreview — hoe een waarde op zijn liniaal staat</title>
+<!--
+    Werkbestand, geen pagina van de site. Bewust GEEN ingang in vite.config.js.
+
+    De vraag die hier wordt voorgelegd is er precies één: waar staat de waarde
+    ten opzichte van de lijn eronder? Een lijn onder een getal betekent
+    typografisch óf een grootboekregel (de lijn is de kolom, de waarde staat
+    tegen het eind) óf een onderstreping (de lijn is zo breed als de waarde).
+    Wat er vandaag op de site staat is geen van beide: een grootboekregel met
+    de waarde in het midden geparkeerd. Op 1296px blijft er ruim 550px lege
+    lijn achter elk bedrag staan.
+
+    Alle drie de richtingen hieronder doen daarnaast dezelfde zeven dingen,
+    want die volgen niet uit de vorm maar uit de meting van 02-10. Ze staan in
+    spec/invoervelden.md en zijn in elke kolom gelijk:
+
+      1. elk veld is één component met een vaste interne volgorde;
+      2. elke waarde staat op dezelfde maat -- 28px, ook de looptijd;
+      3. elke vraag naar een hoeveelheid heeft een veld om in te typen,
+         nooit alleen een schuif;
+      4. twee velden naast elkaar hebben hun lijn en hun schuif op dezelfde
+         hoogte;
+      5. één gereserveerde regel per veld die hulptekst óf de foutmelding
+         draagt, zodat er niets verspringt;
+      6. geen type=number en dus geen spinknoppen;
+      7. de keuzelijst staat op dezelfde liniaal als de rest.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../src/styles/broadsheet.css">
+<style>
+/* ==========================================================================
+   Bediening van de preview zelf. Gereedschap, geen ontwerp.
+   ========================================================================== */
+.pv-balk {
+    position: sticky; top: 0; z-index: 20;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px;
+    padding: 12px 20px; background: #121613; color: #fafffa;
+    font: 500 12px/1.4 'Inter', sans-serif; letter-spacing: .06em; text-transform: uppercase;
+}
+.pv-balk strong { font-weight: 600; letter-spacing: .1em; }
+.pv-balk button {
+    font: inherit; padding: 7px 12px; cursor: pointer;
+    color: #fafffa; background: none; border: 1px solid rgba(250,255,250,.3); border-radius: 4px;
+}
+.pv-balk button[aria-pressed="true"] { background: #0E5F58; border-color: #0E5F58; }
+.pv-balk span { opacity: .6; text-transform: none; letter-spacing: 0; font-weight: 400; }
+
+.pv-rooster { display: grid; gap: 1px; background: #d8e2d8; }
+@media (min-width: 1240px) { .pv-rooster[data-naast="ja"] { grid-template-columns: repeat(4, 1fr); } }
+
+.pv-kolom { background: var(--bs-bone); padding: 0 0 56px; }
+.pv-kop { padding: 24px clamp(16px, 2.2vw, 28px) 0; }
+.pv-kop h2 { margin: 0; font: 500 24px/1.15 'Inter', sans-serif; letter-spacing: -.03em; }
+.pv-merk { display: inline-block; margin: 0 0 8px; padding: 3px 8px; font: 600 11px/1 'Inter', sans-serif; letter-spacing: .1em; text-transform: uppercase; color: #fff; background: var(--bs-ink); }
+.pv-kolom--nu .pv-merk { background: #8c2f12; }
+.pv-kop p { margin: 8px 0 0; font: 400 13.5px/1.6 'Inter', sans-serif; color: var(--bs-newsprint); max-width: 44ch; }
+.pv-kop dl { margin: 14px 0 0; font: 400 12px/1.55 'Inter', sans-serif; color: var(--bs-newsprint); }
+.pv-kop dt { font-weight: 600; color: var(--bs-ink); margin-top: 9px; }
+.pv-kop dd { margin: 0; }
+
+/* De echte breedte van een invoerkolom. Op de site is die vandaag 796px bij een
+   venster van 1296px, en dat is het halve probleem: niemand maakt een veld voor
+   één bedrag 800px breed. Hier staat de realistische maat. */
+.pv-veldwerk { padding: 22px clamp(16px, 2.2vw, 28px) 0; }
+.pv-veldwerk > div { max-width: 440px; }
+.pv-rooster[data-breed="375"] .pv-veldwerk > div { max-width: 343px; }
+
+/* ==========================================================================
+   GEMEENSCHAPPELIJK -- wat in alle drie de richtingen gelijk is
+   Eén component met een vaste interne volgorde: naam, liniaal, hulp-of-fout,
+   schuif, snelkeuzes. Omdat de volgorde vastligt, kan een veld niet meer van
+   vorm verschillen van zijn buurman. Dat is de eigenlijke reparatie; de drie
+   richtingen verschillen alleen in de regel zelf.
+   ========================================================================== */
+.v-veld + .v-veld { margin-top: var(--bs-gap); }
+.v-naam { font-size: var(--bs-t-veldnaam); font-weight: 500; letter-spacing: -.01em; color: var(--bs-ink); }
+
+/* Twee vaste goten: één voor het teken vooraf (€) en één voor de eenheid
+   erachter (%, jaar, mnd). Ze moeten vast zijn en niet meeschalen, want anders
+   duwt een lange eenheid het getal naar links en eindigen de getallen alsnog op
+   verschillende x. Gemeten in de eerste opzet van deze preview: 324, 305 en 290
+   voor drie velden onder elkaar. Een grootboek heeft juist daarom een smalle
+   eenheidskolom naast de bedragkolom. */
+.v-veld { --v-voor: 1.4em; --v-na: 2.8em; }
+
+/* Eén gereserveerde regel per veld. Hij draagt de hulptekst als die er is en de
+   foutmelding als die er is. Altijd aanwezig, dus niets verspringt zodra er een
+   melding komt. Dat kost 17px per veld en levert op dat de kolom niet meer
+   beweegt tijdens het typen -- de huidige opzet reserveert die plek bij 4 van
+   de 69 velden, en dat zijn dus de enige vier die niet schokken. */
+.v-onder {
+    display: block; min-height: 17px; margin-top: 7px;
+    font-size: var(--bs-t-micro); line-height: 1.5; color: var(--bs-newsprint);
+}
+.v-onder a { color: inherit; }
+.v-veld[data-fout] .v-onder { color: #8c2f12; font-weight: 600; }
+
+/* De schuif is een hulpmiddel naast het veld en nooit de enige manier om een
+   waarde te zetten. Hij staat onder de hulpregel, op dezelfde plek in elk veld,
+   met zijn bereik eronder -- anders is onzichtbaar waar hij heen kan. Dunner
+   spoor en kleinere greep dan nu: hij hoeft alleen aan te wijzen waar je staat. */
+/* 44px hoog en niet 22px. De greep is klein, maar het vak eromheen is wat je
+   met een duim raakt; op de site is dat vandaag de halve eis. De bovenmarge
+   krimpt mee, dus het kost 12px per schuif en geen 22px. */
+.v-schuif { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: var(--bs-tap); margin: 0; background: none; cursor: pointer; }
+.v-schuif::-webkit-slider-runnable-track { height: 1px; background: var(--bs-lijn); }
+.v-schuif::-moz-range-track { height: 1px; background: var(--bs-lijn); }
+.v-schuif::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: var(--bs-accent); border: 0; }
+.v-schuif::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--bs-accent); border: 0; }
+.v-bereik { display: flex; justify-content: space-between; font-size: var(--bs-t-micro); color: var(--bs-newsprint); font-variant-numeric: tabular-nums; }
+
+.v-chips { display: flex; flex-wrap: wrap; gap: 0 16px; margin-top: 6px; }
+.v-chip {
+    min-height: var(--bs-tap); padding: 11px 0;
+    font: inherit; font-size: var(--bs-t-klein); font-weight: 400; font-variant-numeric: tabular-nums;
+    color: var(--bs-newsprint); background: none; border: 0; border-bottom: 1px solid var(--bs-lijn); border-radius: 0; cursor: pointer;
+}
+.v-chip:hover { color: var(--bs-ink); border-bottom-color: var(--bs-accent); }
+.v-chip[aria-pressed="true"] { color: var(--bs-accent); font-weight: 500; border-bottom-color: var(--bs-accent); }
+
+/* Het vinkje. Een systeemvinkje tekent zijn eigen blauw en zijn eigen hoek, en
+   is daarmee het enige onderdeel in de kolom dat niemand heeft aangeraakt. Dit
+   is nog steeds een echte checkbox met een eigen vlak eroverheen, dus
+   toetsenbord en schermlezer blijven van de browser. */
+.v-vink { display: flex; gap: 12px; align-items: flex-start; padding: 16px 0 0; margin-top: var(--bs-gap); border-top: 1px solid var(--bs-lijn); cursor: pointer; }
+.v-vink input { position: absolute; width: 20px; height: 20px; margin: 0; opacity: 0; }
+.v-vink__vlak { flex: none; display: grid; place-items: center; width: 20px; height: 20px; margin-top: 1px; border: 1px solid var(--bs-ink); }
+.v-vink input:checked + .v-vink__vlak { background: var(--bs-accent); border-color: var(--bs-accent); }
+.v-vink__vlak svg { width: 13px; height: 13px; stroke: #fff; stroke-width: 2.5; fill: none; visibility: hidden; }
+.v-vink input:checked + .v-vink__vlak svg { visibility: visible; }
+.v-vink input:focus-visible + .v-vink__vlak { outline: 2px solid var(--bs-accent); outline-offset: 2px; }
+.v-vink b { display: block; font-size: var(--bs-t-klein); font-weight: 500; }
+.v-vink small { display: block; margin-top: 2px; font-size: var(--bs-t-micro); color: var(--bs-newsprint); }
+
+/* De keuzelijst blijft een echte <select>, dus toetsenbord, schermlezer en het
+   mobiele wiel komen van de browser. Waar de browser appearance:base-select
+   kent, wordt ook de uitklaplijst zelf opgemaakt; waar niet, blijft het de
+   lijst van vandaag. Dat is het hele punt: er komt geen zelfgebouwde lijst, dus
+   er valt ook niets kapot aan toegankelijkheid.
+   NB nog na te trekken: Chrome/Edge 135+, Safari 27, Firefox achter een vlag. */
+.v-lijst { -webkit-appearance: none; appearance: none; width: 100%; font: inherit; color: var(--bs-ink); background: none; border: 0; cursor: pointer; }
+.v-lijstrij { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 10px; }
+.v-pijl { width: 15px; height: 15px; stroke: var(--bs-newsprint); stroke-width: 2; fill: none; }
+
+@supports (appearance: base-select) {
+    .v-lijst, .v-lijst::picker(select) { appearance: base-select; }
+    .v-lijst::picker-icon { display: none; }
+    .v-lijst::picker(select) { padding: 4px 0; background: var(--bs-bone); border: 1px solid var(--bs-ink); }
+    .v-lijst option { padding: 11px 16px; font-size: var(--bs-t-klein); }
+    .v-lijst option:checked { font-weight: 600; }
+    .v-lijst option::checkmark { color: var(--bs-accent); }
+}
+
+/* ==========================================================================
+   NU -- wat er vandaag op de site staat, als meetlat
+   ========================================================================== */
+.nu-kop { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.nu-waarde { font-size: var(--bs-t-klein); color: var(--bs-newsprint); font-variant-numeric: tabular-nums; }
+.nu-om { display: grid; grid-template-columns: 1.8ch auto 1fr; align-items: baseline; gap: 8px; min-height: var(--bs-tap); padding: 0 0 8px; border-bottom: 1px solid var(--bs-ink); }
+.nu-om > span { grid-column: 1; color: var(--bs-newsprint); font-size: var(--bs-t-veldteken); }
+.nu-om input { grid-column: 2; width: 9ch; padding: 4px 0 0; font: inherit; font-size: var(--bs-t-invoer); font-weight: 500; letter-spacing: -.03em; font-variant-numeric: tabular-nums; text-align: right; background: none; border: 0; outline: none; }
+.nu-om > input + span { grid-column: 3; }
+/* Het gearceerde stuk is de lege lijn: wat er achter de waarde onbenut blijft. */
+.nu-leeg { position: relative; }
+.nu-leeg::after {
+    content: "lege lijn"; position: absolute; right: 0; bottom: 9px; left: calc(1.8ch + 9ch + 24px);
+    padding-right: 2px; text-align: right;
+    font: 600 10px/1.9 'Inter', sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #c86a4a;
+    background: repeating-linear-gradient(135deg, rgba(200,106,74,.13) 0 5px, transparent 5px 10px);
+}
+
+/* ==========================================================================
+   RICHTING A -- Grootboekregel, naam erboven
+   De lijn is de kolom. Het teken staat tegen de linkerkant, de waarde tegen de
+   rechterkant. Elke waarde in de kolom eindigt dus op dezelfde x, en dat blijft
+   zo op elke schermbreedte -- de uitlijning hangt niet van een vaste 9ch af.
+   ========================================================================== */
+.ra-regel {
+    display: grid; grid-template-columns: var(--v-voor) 1fr var(--v-na); align-items: baseline; gap: 8px;
+    min-height: var(--bs-tap); margin-top: 4px; padding: 0 0 9px;
+    border-bottom: 1px solid var(--bs-ink);
+}
+.ra-regel:focus-within { border-bottom-color: var(--bs-accent); box-shadow: 0 1px 0 0 var(--bs-accent); }
+.ra-teken, .ra-eenheid { font-size: var(--bs-t-veldteken); color: var(--bs-newsprint); }
+.ra-eenheid { text-align: left; }
+.ra-regel input {
+    grid-column: 2; width: 100%; min-width: 0; padding: 4px 0 0;
+    font: inherit; font-size: var(--bs-t-invoer); font-weight: 500; letter-spacing: -.03em; line-height: 1.15;
+    font-variant-numeric: tabular-nums; text-align: right; color: var(--bs-ink); background: none; border: 0; outline: none;
+}
+.ra-regel .v-lijstrij { grid-column: 2 / 4; }
+.ra-regel .v-lijst { font-size: var(--bs-t-invoer); font-weight: 500; letter-spacing: -.02em; }
+.v-veld[data-fout] .ra-regel { border-bottom-color: #8c2f12; box-shadow: 0 1px 0 0 #8c2f12; }
+
+/* ==========================================================================
+   RICHTING B -- Grootboekregel, naam op de regel
+   Hetzelfde anker als A, maar de naam staat links op de lijn in plaats van
+   erboven. Eén regel per veld. Dat is de strakste vorm en de kortste kolom, en
+   op 375px is hoogte de schaarste: de eis is dat invoer en uitkomst in beeld
+   blijven.
+   ========================================================================== */
+.rb-regel {
+    display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 12px;
+    min-height: var(--bs-tap); padding: 7px 0 9px;
+    border-bottom: 1px solid var(--bs-ink);
+}
+.rb-regel:focus-within { border-bottom-color: var(--bs-accent); box-shadow: 0 1px 0 0 var(--bs-accent); }
+.rb-waarde { display: flex; align-items: baseline; justify-content: flex-end; gap: 6px; }
+.rb-waarde > span { font-size: var(--bs-t-klein); color: var(--bs-newsprint); }
+.rb-waarde > input + span { display: inline-block; width: var(--v-na); text-align: left; }
+.rb-regel input {
+    width: 7.5ch; padding: 0;
+    font: inherit; font-size: var(--bs-t-invoer); font-weight: 500; letter-spacing: -.03em; line-height: 1.1;
+    font-variant-numeric: tabular-nums; text-align: right; color: var(--bs-ink); background: none; border: 0; outline: none;
+}
+/* Dezelfde maat als de getallen in deze richting. Stond eerst op 14px, en dat
+   was precies het gebrek dat deze preview aanklaagt: de Bouwperiode op de site
+   staat op halve grootte naast de bedragen. Het gevolg is wel dat een lange
+   optie in B niet past -- zie de prijs die bij deze richting staat. */
+.rb-regel .v-lijst { width: auto; font-size: var(--bs-t-invoer); font-weight: 500; letter-spacing: -.02em; text-align: right; }
+.v-veld[data-fout] .rb-regel { border-bottom-color: #8c2f12; box-shadow: 0 1px 0 0 #8c2f12; }
+
+/* ==========================================================================
+   RICHTING C -- Onderstreping
+   De lijn is zo breed als de waarde nodig heeft, en hoort dus bij de waarde in
+   plaats van bij de kolom. Links onder de naam; de rechterhelft blijft vrij.
+   Binnen de streep staat het getal rechts, zodat de cijfers onderling wél
+   uitlijnen.
+   ========================================================================== */
+.rc-streep, .rc-lijstrij {
+    display: inline-grid; align-items: baseline; gap: 8px;
+    min-height: var(--bs-tap); margin-top: 2px; padding: 0 0 9px;
+    border-bottom: 2px solid var(--bs-ink);
+}
+.rc-streep { grid-template-columns: var(--v-voor) 10ch var(--v-na); }
+.rc-lijstrij { grid-template-columns: auto auto; gap: 14px; }
+.rc-streep:focus-within, .rc-lijstrij:focus-within { border-bottom-color: var(--bs-accent); }
+.rc-streep > span { font-size: var(--bs-t-veldteken); color: var(--bs-newsprint); }
+.rc-streep > input + span { text-align: left; }
+.rc-streep input {
+    width: 100%; padding: 4px 0 0;
+    font: inherit; font-size: var(--bs-t-invoer); font-weight: 500; letter-spacing: -.03em; line-height: 1.15;
+    font-variant-numeric: tabular-nums; text-align: right; color: var(--bs-ink); background: none; border: 0; outline: none;
+}
+.rc-lijstrij .v-lijst { width: auto; font-size: var(--bs-t-invoer); font-weight: 500; letter-spacing: -.02em; }
+.v-veld[data-fout] .rc-streep { border-bottom-color: #8c2f12; }
+</style>
+</head>
+<body class="bs">
+
+<div class="pv-balk">
+    <strong>Invoerpreview &middot; 3 oktober 2026</strong>
+    <button type="button" id="knop-naast" aria-pressed="false">Naast elkaar</button>
+    <button type="button" id="knop-375" aria-pressed="false">375px</button>
+    <button type="button" id="knop-fout" aria-pressed="false">Foutstand</button>
+    <span>De vraag: waar staat de waarde ten opzichte van zijn lijn?</span>
+</div>
+
+<div class="pv-rooster" id="rooster" data-naast="nee" data-breed="auto">
+
+    <!-- ================= NU ================= -->
+    <section class="pv-kolom pv-kolom--nu">
+        <div class="pv-kop">
+            <span class="pv-merk">Nu op de site</span>
+            <h2>Geen van beide</h2>
+            <p>Een grootboekregel met de waarde in het midden geparkeerd. Het gearceerde stuk
+               is wat er leeg blijft: op een venster van 1296px is dat ruim 550px achter elk bedrag.</p>
+            <dl>
+                <dt>Waarde eindigt op</dt><dd>206px van een lijn van 343px</dd>
+                <dt>Looptijd</dt><dd>14px, alleen-lezen, geen veld om in te typen</dd>
+                <dt>Plek voor een melding</dt><dd>bij 4 van de 69 velden</dd>
+                <dt>Beginwaarde</dt><dd><code>25000</code>, terwijl de snelkeuze eronder <code>25.000</code> zegt</dd>
+            </dl>
+        </div>
+        <div class="pv-veldwerk"><div>
+            <div class="v-veld">
+                <div class="nu-kop"><span class="v-naam">Bedrag bouwdepot</span></div>
+                <div class="nu-om nu-leeg"><span>&euro;</span><input type="text" value="25000" inputmode="numeric" aria-label="Bedrag bouwdepot, huidige vorm"></div>
+            </div>
+            <div class="v-veld">
+                <div class="nu-kop"><span class="v-naam">Hypotheekrente</span></div>
+                <div class="nu-om"><input type="text" value="3,80" inputmode="decimal" aria-label="Hypotheekrente, huidige vorm"><span>%</span></div>
+            </div>
+            <div class="v-veld">
+                <div class="nu-kop"><span class="v-naam">Looptijd</span><span class="nu-waarde">30 Jaar</span></div>
+                <input class="v-schuif" type="range" min="10" max="30" step="5" value="30" aria-label="Looptijd, huidige vorm">
+            </div>
+        </div></div>
+    </section>
+
+    <!-- ================= A ================= -->
+    <section class="pv-kolom">
+        <div class="pv-kop">
+            <span class="pv-merk">Richting A</span>
+            <h2>Grootboekregel</h2>
+            <p>De lijn is de kolom. Teken links, waarde rechts tegen het eind. Elke waarde
+               eindigt op dezelfde x, op elke schermbreedte.</p>
+            <dl>
+                <dt>Sterk</dt><dd>Niets zweeft, en de uitlijning hangt niet van een vaste veldbreedte af. Leest als een rekeningafschrift.</dd>
+                <dt>Prijs</dt><dd>Op breed scherm staan naam en waarde ver uit elkaar, tenzij de invoerkolom een maat krijgt. Daarom staat hij hier op 440px.</dd>
+            </dl>
+        </div>
+        <div class="pv-veldwerk"><div>
+            <div class="v-veld">
+                <span class="v-naam" id="a-l1">Bedrag bouwdepot</span>
+                <div class="ra-regel">
+                    <span class="ra-teken">&euro;</span>
+                    <input type="text" value="25.000" inputmode="numeric" aria-labelledby="a-l1">
+                </div>
+                <span class="v-onder" data-hulp="Het bedrag dat uw geldverstrekker in depot houdt." data-fout="Vul een bedrag tussen 5.000 en 150.000 in.">Het bedrag dat uw geldverstrekker in depot houdt.</span>
+                <input class="v-schuif" type="range" min="5000" max="150000" step="500" value="25000" aria-label="Bedrag bouwdepot">
+                <div class="v-bereik"><span>5.000</span><span>150.000</span></div>
+                <div class="v-chips" role="group" aria-label="Veelgekozen bedragen">
+                    <button class="v-chip" type="button" aria-pressed="false">15.000</button>
+                    <button class="v-chip" type="button" aria-pressed="true">25.000</button>
+                    <button class="v-chip" type="button" aria-pressed="false">50.000</button>
+                    <button class="v-chip" type="button" aria-pressed="false">100.000</button>
+                </div>
+            </div>
+            <div class="v-veld">
+                <span class="v-naam" id="a-l2">Hypotheekrente</span>
+                <div class="ra-regel">
+                    <span class="ra-teken"></span>
+                    <input type="text" value="3,80" inputmode="decimal" aria-labelledby="a-l2">
+                    <span class="ra-eenheid">%</span>
+                </div>
+                <span class="v-onder" data-hulp="" data-fout="Vul een rente tussen 0,1 en 10 in."></span>
+                <input class="v-schuif" type="range" min="0.1" max="10" step="0.1" value="3.8" aria-label="Hypotheekrente">
+                <div class="v-bereik"><span>0,1</span><span>10</span></div>
+            </div>
+            <div class="v-veld">
+                <span class="v-naam" id="a-l3">Looptijd</span>
+                <div class="ra-regel">
+                    <span class="ra-teken"></span>
+                    <input type="text" value="30" inputmode="numeric" aria-labelledby="a-l3">
+                    <span class="ra-eenheid">jaar</span>
+                </div>
+                <span class="v-onder"></span>
+                <input class="v-schuif" type="range" min="10" max="30" step="5" value="30" aria-label="Looptijd">
+                <div class="v-bereik"><span>10</span><span>30</span></div>
+            </div>
+            <div class="v-veld">
+                <span class="v-naam" id="a-l4">Hypotheekvorm</span>
+                <div class="ra-regel">
+                    <span class="ra-teken"></span>
+                    <span class="v-lijstrij">
+                        <select class="v-lijst" aria-labelledby="a-l4"><option>Annu&iuml;teiten</option><option>Lineair</option></select>
+                        <svg class="v-pijl" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                    </span>
+                </div>
+                <span class="v-onder">Bij annu&iuml;teiten blijft uw bruto maandlast gelijk.</span>
+            </div>
+            <label class="v-vink">
+                <input type="checkbox" checked>
+                <span class="v-vink__vlak"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg></span>
+                <span><b>Toon renteaftrekindicatie</b><small>Maximaal 37,56%, v&oacute;&oacute;r eigenwoningforfait</small></span>
+            </label>
+        </div></div>
+    </section>
+
+    <!-- ================= B ================= -->
+    <section class="pv-kolom">
+        <div class="pv-kop">
+            <span class="pv-merk">Richting B</span>
+            <h2>Naam op de regel</h2>
+            <p>Hetzelfde anker als A, maar de naam staat links op de lijn in plaats van
+               erboven. E&eacute;n regel per veld.</p>
+            <dl>
+                <dt>Sterk</dt><dd>De strakste vorm en de kortste kolom: ruim 20px minder per veld, en op mobiel is hoogte de schaarste.</dd>
+                <dt>Prijs</dt><dd>Een lange naam en een lang bedrag vechten om dezelfde regel. "Extra woonlasten tijdens de bouw" past er niet naast.</dd>
+            </dl>
+        </div>
+        <div class="pv-veldwerk"><div>
+            <div class="v-veld">
+                <div class="rb-regel">
+                    <span class="v-naam" id="b-l1">Bedrag bouwdepot</span>
+                    <!-- De lege span achteraan is geen vulsel: hij houdt de eenheidsgoot
+                         open, zodat een bedrag zonder eenheid op dezelfde x eindigt als
+                         een percentage mét eenheid. -->
+                    <span class="rb-waarde"><span>&euro;</span><input type="text" value="25.000" inputmode="numeric" aria-labelledby="b-l1"><span aria-hidden="true"></span></span>
+                </div>
+                <span class="v-onder" data-hulp="Het bedrag dat uw geldverstrekker in depot houdt." data-fout="Vul een bedrag tussen 5.000 en 150.000 in.">Het bedrag dat uw geldverstrekker in depot houdt.</span>
+                <input class="v-schuif" type="range" min="5000" max="150000" step="500" value="25000" aria-label="Bedrag bouwdepot">
+                <div class="v-bereik"><span>5.000</span><span>150.000</span></div>
+                <div class="v-chips" role="group" aria-label="Veelgekozen bedragen">
+                    <button class="v-chip" type="button" aria-pressed="false">15.000</button>
+                    <button class="v-chip" type="button" aria-pressed="true">25.000</button>
+                    <button class="v-chip" type="button" aria-pressed="false">50.000</button>
+                    <button class="v-chip" type="button" aria-pressed="false">100.000</button>
+                </div>
+            </div>
+            <div class="v-veld">
+                <div class="rb-regel">
+                    <span class="v-naam" id="b-l2">Hypotheekrente</span>
+                    <span class="rb-waarde"><input type="text" value="3,80" inputmode="decimal" aria-labelledby="b-l2"><span>%</span></span>
+                </div>
+                <span class="v-onder" data-hulp="" data-fout="Vul een rente tussen 0,1 en 10 in."></span>
+                <input class="v-schuif" type="range" min="0.1" max="10" step="0.1" value="3.8" aria-label="Hypotheekrente">
+                <div class="v-bereik"><span>0,1</span><span>10</span></div>
+            </div>
+            <div class="v-veld">
+                <div class="rb-regel">
+                    <span class="v-naam" id="b-l3">Looptijd</span>
+                    <span class="rb-waarde"><input type="text" value="30" inputmode="numeric" aria-labelledby="b-l3"><span>jaar</span></span>
+                </div>
+                <span class="v-onder"></span>
+                <input class="v-schuif" type="range" min="10" max="30" step="5" value="30" aria-label="Looptijd">
+                <div class="v-bereik"><span>10</span><span>30</span></div>
+            </div>
+            <div class="v-veld">
+                <div class="rb-regel">
+                    <span class="v-naam" id="b-l4">Hypotheekvorm</span>
+                    <span class="rb-waarde">
+                        <select class="v-lijst" aria-labelledby="b-l4"><option>Annu&iuml;teiten</option><option>Lineair</option></select>
+                        <svg class="v-pijl" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                    </span>
+                </div>
+                <span class="v-onder">Bij annu&iuml;teiten blijft uw bruto maandlast gelijk.</span>
+            </div>
+            <label class="v-vink">
+                <input type="checkbox" checked>
+                <span class="v-vink__vlak"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg></span>
+                <span><b>Toon renteaftrekindicatie</b><small>Maximaal 37,56%, v&oacute;&oacute;r eigenwoningforfait</small></span>
+            </label>
+        </div></div>
+    </section>
+
+    <!-- ================= C ================= -->
+    <section class="pv-kolom">
+        <div class="pv-kop">
+            <span class="pv-merk">Richting C</span>
+            <h2>Onderstreping</h2>
+            <p>De lijn is zo breed als de waarde nodig heeft, en hoort dus bij de waarde in
+               plaats van bij de kolom. De rechterhelft blijft vrij.</p>
+            <dl>
+                <dt>Sterk</dt><dd>Niets loopt leeg, op geen enkele breedte. Naam en waarde staan altijd dicht bij elkaar.</dd>
+                <dt>Prijs</dt><dd>De kolom krijgt een rafelige rechterkant, en dat is precies wat een grootboek niet heeft.</dd>
+            </dl>
+        </div>
+        <div class="pv-veldwerk"><div>
+            <div class="v-veld">
+                <span class="v-naam" id="c-l1">Bedrag bouwdepot</span><br>
+                <span class="rc-streep"><span>&euro;</span><input type="text" value="25.000" inputmode="numeric" aria-labelledby="c-l1"></span>
+                <span class="v-onder" data-hulp="Het bedrag dat uw geldverstrekker in depot houdt." data-fout="Vul een bedrag tussen 5.000 en 150.000 in.">Het bedrag dat uw geldverstrekker in depot houdt.</span>
+                <input class="v-schuif" type="range" min="5000" max="150000" step="500" value="25000" aria-label="Bedrag bouwdepot">
+                <div class="v-bereik"><span>5.000</span><span>150.000</span></div>
+                <div class="v-chips" role="group" aria-label="Veelgekozen bedragen">
+                    <button class="v-chip" type="button" aria-pressed="false">15.000</button>
+                    <button class="v-chip" type="button" aria-pressed="true">25.000</button>
+                    <button class="v-chip" type="button" aria-pressed="false">50.000</button>
+                    <button class="v-chip" type="button" aria-pressed="false">100.000</button>
+                </div>
+            </div>
+            <div class="v-veld">
+                <span class="v-naam" id="c-l2">Hypotheekrente</span><br>
+                <span class="rc-streep"><span></span><input type="text" value="3,80" inputmode="decimal" aria-labelledby="c-l2"><span>%</span></span>
+                <span class="v-onder" data-hulp="" data-fout="Vul een rente tussen 0,1 en 10 in."></span>
+                <input class="v-schuif" type="range" min="0.1" max="10" step="0.1" value="3.8" aria-label="Hypotheekrente">
+                <div class="v-bereik"><span>0,1</span><span>10</span></div>
+            </div>
+            <div class="v-veld">
+                <span class="v-naam" id="c-l3">Looptijd</span><br>
+                <span class="rc-streep"><span></span><input type="text" value="30" inputmode="numeric" aria-labelledby="c-l3"><span>jaar</span></span>
+                <span class="v-onder"></span>
+                <input class="v-schuif" type="range" min="10" max="30" step="5" value="30" aria-label="Looptijd">
+                <div class="v-bereik"><span>10</span><span>30</span></div>
+            </div>
+            <div class="v-veld">
+                <span class="v-naam" id="c-l4">Hypotheekvorm</span><br>
+                <span class="rc-lijstrij">
+                    <select class="v-lijst" aria-labelledby="c-l4"><option>Annu&iuml;teiten</option><option>Lineair</option></select>
+                    <svg class="v-pijl" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+                </span>
+                <span class="v-onder">Bij annu&iuml;teiten blijft uw bruto maandlast gelijk.</span>
+            </div>
+            <label class="v-vink">
+                <input type="checkbox" checked>
+                <span class="v-vink__vlak"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 13 4 4L19 7"/></svg></span>
+                <span><b>Toon renteaftrekindicatie</b><small>Maximaal 37,56%, v&oacute;&oacute;r eigenwoningforfait</small></span>
+            </label>
+        </div></div>
+    </section>
+
+</div>
+
+<script type="module">
+/* Alleen bediening van de preview. Geen rekenwerk: dit gaat over vorm. */
+const rooster = document.getElementById('rooster');
+const wissel = (knop, aan) => knop.setAttribute('aria-pressed', aan ? 'true' : 'false');
+
+document.getElementById('knop-naast').addEventListener('click', (e) => {
+    const aan = rooster.dataset.naast !== 'ja';
+    rooster.dataset.naast = aan ? 'ja' : 'nee';
+    wissel(e.currentTarget, aan);
+});
+document.getElementById('knop-375').addEventListener('click', (e) => {
+    const aan = rooster.dataset.breed !== '375';
+    rooster.dataset.breed = aan ? '375' : 'auto';
+    wissel(e.currentTarget, aan);
+});
+
+/* De foutstand is de belangrijkste toets van de drie: hij laat zien of de kolom
+   verspringt zodra er een melding komt. Bij de huidige opzet gebeurt dat bij 65
+   van de 69 velden; bij alle drie de richtingen hieronder niet, want de regel
+   is al gereserveerd. */
+document.getElementById('knop-fout').addEventListener('click', (e) => {
+    const aan = !rooster.hasAttribute('data-fout');
+    rooster.toggleAttribute('data-fout', aan);
+    for (const veld of document.querySelectorAll('.v-veld')) {
+        const onder = veld.querySelector('.v-onder');
+        if (!onder || onder.dataset.fout === undefined) continue;
+        veld.toggleAttribute('data-fout', aan);
+        onder.textContent = aan ? onder.dataset.fout : onder.dataset.hulp;
+    }
+    wissel(e.currentTarget, aan);
+});
+
+/* Opmaken bij het verlaten, kaal tijdens het typen. Dit is wat op de site
+   ontbreekt bij het laden: daar staat value="25000" in de HTML en niemand maakt
+   het op, dus het veld zegt 25000 terwijl de snelkeuze eronder 25.000 zegt. */
+const nl = new Intl.NumberFormat('nl-NL');
+for (const veld of document.querySelectorAll('input[inputmode="numeric"]')) {
+    veld.addEventListener('focus', () => { veld.value = veld.value.replace(/\./g, ''); });
+    veld.addEventListener('blur', () => {
+        const n = Number(veld.value.replace(/\./g, '').replace(',', '.'));
+        if (veld.value.trim() !== '' && Number.isFinite(n)) veld.value = nl.format(n);
+    });
+}
+</script>
+</body>
+</html>

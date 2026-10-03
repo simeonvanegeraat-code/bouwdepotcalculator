@@ -1,5 +1,5 @@
 import { bindReportButton, startRekenpagina } from './rekenpagina.js';
-import { leesGetal, euro } from './getallen.js';
+import { leesGetal, euro, maakVeldlezer } from './getallen.js';
 
 /* 1C. DUBBELE LASTEN NIEUWBOUW CALCULATOR */
 function initDubbeleLastenNieuwbouwCalculator() {
@@ -68,15 +68,60 @@ function initDubbeleLastenNieuwbouwCalculator() {
         };
     }
 
+    // Vier van de zes velden mogen nul zijn: wie geen netto last weet laat dat
+    // veld op nul staan, en niet iedereen heeft extra kosten of renteverlies.
+    // Leeglaten mag niet, want dan is onduidelijk of er nul bedoeld is of dat
+    // het veld nog ingevuld moet worden -- daar is de melding voor.
+    const BEDRAG = (leeg, wat) => ({
+        lezer: leesGetal, min: 0, max: 100000, exclusiefNul: false,
+        leeg, teLaag: `Een ${wat} onder de nul bestaat niet.`,
+        teHoog: 'Boven de honderdduizend euro per maand rekent deze tool niet.',
+    });
+
+    const GRENZEN = {
+        'input-dubbel-new-bruto': {
+            ...BEDRAG('Vul de bruto maandlast van uw nieuwe woning in.', 'maandlast'),
+            exclusiefNul: true,
+            teLaag: 'Vul een maandlast boven de nul in.',
+        },
+        'input-dubbel-new-netto': BEDRAG('Vul uw netto maandlast in, of nul als u die nog niet weet.', 'maandlast'),
+        'input-dubbel-current': BEDRAG('Vul uw huidige woonlast in, of nul als u die niet heeft.', 'woonlast'),
+        'input-dubbel-extra': BEDRAG('Vul uw extra kosten in, of nul als u die niet heeft.', 'kostenpost'),
+        'input-dubbel-renteverlies': BEDRAG('Vul uw renteverlies in, of nul als u dat niet heeft.', 'renteverlies'),
+        'input-dubbel-months': {
+            lezer: leesGetal, min: 1, max: 36, exclusiefNul: true,
+            leeg: 'Vul in hoeveel maanden de overlap duurt.',
+            teLaag: 'Een overlapperiode begint bij één maand.',
+            teHoog: 'Deze rekentool rekent met overlapperiodes tot 36 maanden.',
+        },
+    };
+
+    const leesVeld = maakVeldlezer(GRENZEN);
+
+    /** Zet de uitkomst op nul zolang de invoer niet klopt. */
+    function toonGeenUitkomst() {
+        const nul = euro.format(0);
+        [resMonthly, resTotal, resPeak].forEach((el) => {
+            if (el) el.textContent = nul;
+        });
+        if (resConclusion) resConclusion.textContent = 'Pas uw invoer aan voor een indicatie.';
+        if (btnDownloadDubbel) delete btnDownloadDubbel.dataset.report;
+    }
+
     function calculate() {
         const type = inputType?.value || 'huur';
-        const newBruto = leesGetal(inputNewBruto?.value) || 0;
-        const newNetto = leesGetal(inputNewNetto?.value) || 0;
-        const current = leesGetal(inputCurrent?.value) || 0;
-        const extra = leesGetal(inputExtra?.value) || 0;
-        const renteverlies = leesGetal(inputRenteverlies?.value) || 0;
-        const months = Math.min(36, Math.max(1, parseInt(inputMonths?.value || '1', 10)));
-        if (inputMonths) inputMonths.value = months;
+        const newBruto = leesVeld(inputNewBruto);
+        const newNetto = leesVeld(inputNewNetto);
+        const current = leesVeld(inputCurrent);
+        const extra = leesVeld(inputExtra);
+        const renteverlies = leesVeld(inputRenteverlies);
+        const months = leesVeld(inputMonths);
+        if ([newBruto, newNetto, current, extra, renteverlies, months].some((v) => v === null)) {
+            toonGeenUitkomst();
+            return;
+        }
+
+        // De schuif volgt het veld, niet andersom.
         if (rangeMonths) rangeMonths.value = months;
 
         const usedNewMonthly = newNetto > 0 ? newNetto : newBruto;

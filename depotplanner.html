@@ -231,7 +231,8 @@
                         <div class="bs-veldrij">
                             <div>
                                 <div class="bs-veld__kop"><label class="bs-veld__naam" for="dp-bedrag">Depotbedrag</label></div>
-                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="dp-bedrag" value="50000" inputmode="numeric"></div>
+                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="dp-bedrag" value="50000" inputmode="numeric" aria-describedby="fout-dp-bedrag"></div>
+                                <span class="bs-veld__fout" id="fout-dp-bedrag" role="alert"></span>
                             </div>
                             <div>
                                 <!-- Bankapps tonen het restant, niet de som van wat u hebt

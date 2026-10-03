@@ -9,7 +9,7 @@ import { leesGetal, leesPercentage } from './getallen.js';
 // pagina's. Wie hier een ton invulde, kreeg elders honderd euro terug.
 const SHARED_FIELD_CONFIG = {
     mortgageRate: {
-        selectors: ['#input-interest', '#range-interest', '#input-mortgage-rate', '#input-renteverlies-hypotheek', '#fiscal-interest', '#range-fiscal-interest'],
+        selectors: ['#input-interest', '#input-mortgage-rate', '#input-renteverlies-hypotheek', '#fiscal-interest'],
         type: 'number',
         lezer: leesPercentage,
         minMeaningful: 0.01
@@ -19,7 +19,7 @@ const SHARED_FIELD_CONFIG = {
         type: 'select'
     },
     depotAmount: {
-        selectors: ['#input-amount', '#range-amount', '#input-depot-amount', '#input-renteverlies-depot'],
+        selectors: ['#input-amount', '#input-depot-amount', '#input-renteverlies-depot'],
         type: 'number',
         lezer: leesGetal,
         minMeaningful: 1

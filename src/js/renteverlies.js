@@ -1,6 +1,6 @@
 import { bindReportButton, startRekenpagina } from './rekenpagina.js';
 import { opBankwissel, vergoedingsTarief } from './bankkeuze.js';
-import { leesGetal, leesPercentage, euro } from './getallen.js';
+import { leesGetal, leesPercentage, euro, maakVeldlezer } from './getallen.js';
 
 /* 1D. RENTEVERLIES BOUWDEPOT CALCULATOR */
 function initRenteverliesCalculator() {
@@ -87,14 +87,68 @@ function initRenteverliesCalculator() {
         return weights;
     }
 
+    const GRENZEN = {
+        'input-renteverlies-depot': {
+            lezer: leesGetal, min: 0, max: 1000000, exclusiefNul: true,
+            leeg: 'Vul het bedrag van uw bouwdepot in.',
+            teLaag: 'Vul een depotbedrag boven de nul in.',
+            teHoog: 'Boven een miljoen euro is geen bouwdepot meer; controleer het bedrag.',
+        },
+        'input-renteverlies-hypotheek': {
+            lezer: leesPercentage, min: 0, max: 20, exclusiefNul: false,
+            leeg: 'Vul uw hypotheekrente in.',
+            teLaag: 'Een rente onder de nul procent bestaat niet; vul een positief percentage in.',
+            teHoog: 'Boven de 20 procent is geen hypotheekrente; controleer het percentage.',
+        },
+        // Nul mag: er zijn aanbieders die niets vergoeden.
+        'input-renteverlies-vergoeding': {
+            lezer: leesPercentage, min: 0, max: 20, exclusiefNul: false,
+            leeg: 'Vul de depotvergoeding in, of nul als uw aanbieder niets vergoedt.',
+            teLaag: 'Een vergoeding onder de nul procent bestaat niet.',
+            teHoog: 'Boven de 20 procent vergoedt geen enkele aanbieder; controleer het percentage.',
+        },
+        'input-renteverlies-maanden': {
+            lezer: leesGetal, min: 1, max: 36, exclusiefNul: true,
+            leeg: 'Vul in hoeveel maanden de bouw duurt.',
+            teLaag: 'Een bouwperiode begint bij één maand.',
+            teHoog: 'Deze rekentool rekent met bouwperiodes tot 36 maanden.',
+        },
+        // Nul is hier een geldig antwoord: een aanbieder die niets vergoedt,
+        // vergoedt ook nul maanden lang.
+        'input-renteverlies-vergoedingsduur': {
+            lezer: leesGetal, min: 0, max: 36, exclusiefNul: false,
+            leeg: 'Vul in hoeveel maanden de vergoeding doorloopt, of nul.',
+            teLaag: 'Een vergoedingsduur onder nul maanden bestaat niet.',
+            teHoog: 'Deze rekentool rekent met een vergoedingsduur tot 36 maanden.',
+        },
+    };
+
+    const leesVeld = maakVeldlezer(GRENZEN);
+
+    /** Zet de uitkomst op nul zolang de invoer niet klopt. */
+    function toonGeenUitkomst() {
+        const nul = euro.format(0);
+        [resMortgage, resCompensation, resNet, resMonth].forEach((el) => {
+            if (el) el.textContent = nul;
+        });
+        if (resConclusion) resConclusion.textContent = 'Pas uw invoer aan voor een indicatie.';
+        if (btnDownloadRenteverlies) delete btnDownloadRenteverlies.dataset.report;
+    }
+
     function calculate() {
-        const depot = leesGetal(inputDepot.value) || 0;
-        const mortgageRate = leesPercentage(inputMortgageRate.value) || 0;
-        const depotRate = leesPercentage(inputDepotRate.value) || 0;
-        const months = Math.min(36, Math.max(1, parseInt(inputMonths.value || '1', 10)));
+        const depot = leesVeld(inputDepot);
+        const mortgageRate = leesVeld(inputMortgageRate);
+        const depotRate = leesVeld(inputDepotRate);
+        const months = leesVeld(inputMonths);
+        if ([depot, mortgageRate, depotRate, months].some((v) => v === null)) {
+            toonGeenUitkomst();
+            return;
+        }
         const pattern = inputPattern.value || 'even';
 
-        inputMonths.value = months;
+        // De schuif volgt het veld, niet andersom. Het veld werd hier eerder
+        // overschreven met de geklemde waarde terwijl je nog aan het typen was;
+        // dat onderbreken is op 29 augustus juist weggehaald.
         if (rangeMonths) rangeMonths.value = months;
 
         // Twee rekenmodellen. Bij 'vergoeding' betaalt u hypotheekrente over het hele
@@ -109,9 +163,14 @@ function initRenteverliesCalculator() {
         // depot afloopt. Wie daarna nog geld in het depot heeft staan, betaalt wel
         // rente maar ontvangt niets meer terug. Dat is precies de periode waarin
         // het renteverlies oploopt, dus die mag niet buiten de berekening blijven.
-        const payoutMonths = inputPayoutMonths
-            ? Math.min(months, Math.max(0, parseInt(inputPayoutMonths.value || '0', 10)))
-            : months;
+        // Langer vergoeden dan de bouw duurt kan niet, dus die kap blijft staan;
+        // een onmogelijke waarde geeft nu een melding in plaats van stil een nul.
+        const payoutGetypt = inputPayoutMonths ? leesVeld(inputPayoutMonths) : months;
+        if (payoutGetypt === null) {
+            toonGeenUitkomst();
+            return;
+        }
+        const payoutMonths = Math.min(months, payoutGetypt);
 
         const weights = getWeights(months, pattern);
         const totalWeight = weights.reduce((sum, weight) => sum + weight, 0) || 1;
