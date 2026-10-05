@@ -1,5 +1,5 @@
 {
-  "bijgewerkt": "2026-09-28",
+  "bijgewerkt": "2026-10-05",
   "bronnen": {
     "https://www.abnamro.nl/nl/prive/hypotheken/hypotheek-afsluiten/bouwdepot/voorwaarden-bouwdepot.html": {
       "hash": "ce9f20fcd3cdf2bd",
@@ -159,6 +159,81 @@
         "Na dat eerste jaar wordt de looptijd automatisch verlengd met 1 jaar.",
         "Na een half jaar trek je in box 1 de ontvangen rente af van de betaalde rente.",
         "Spelregels Belastingdienst Je bouwdepot of verbouwingsdepot vallen in principe onder je vermogen in box 3."
+      ]
+    },
+    "https://www.asr.nl/hypotheek/bouwdepot": {
+      "hash": "c5045f134b0774dd",
+      "aantal": 9,
+      "zinnen": [
+        "Het geld staat maximaal 12 maanden in je depot.",
+        "Het geld staat maximaal 24 maanden in je depot.",
+        "Je kunt je bouwdepot voor een verbouwing dan één keer nog 12 maanden laten verlengen.",
+        "Je kunt je depot één keer met 12 maanden verlengen, zonder rentevergoeding.",
+        "Je kunt je depot één keer met 6 maanden verlengen, zonder rentevergoeding.",
+        "Vind een onafhankelijke adviseur in de buurt Actuele rente bekijken Rekening bouwdepot indienen Contact Veelgestelde vragen over je bestaande hypotheek Telefoon: (030) 278 27 82 Contactformulier Hulp bij betalingsproblemen Documenten Lijst met energiebesparende maatregelen Onze producten Verzekeringen Hypotheken Pensioen Beleggen a.s.r.",
+        "Voor een bouwdepot voor nieuwbouw is dat één keer 6 maanden.",
+        "We betalen je rekening binnen maximaal 5 werkdagen aan jou of de aannemer.",
+        "Zit er na 24 maanden nog geld in je depot?"
+      ]
+    },
+    "https://www.asnbank.nl/hypotheek/mijn-asn-hypotheek/bouwdepot.html": {
+      "hash": "0fdec997a9c82049",
+      "aantal": 16,
+      "zinnen": [
+        "ASN Gespreid Beleggen ASN Themabeleggen Beleggingsfondsen Koersen Je werkelijke rendement doorgeven Hypotheek Hypotheek Je eerste huis kopen Afspraak maken Hypotheekrentes Maximale hypotheek berekenen Krijg 3 extra's om je huis te verduurzamen Bij een hypotheek van ASN Bank.",
+        "Aanvragen bouwdepotdeclaratie ASN Hypotheek (pdf) 198,71 KB Voorwaarden declaraties bouwdepot Betaal je er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van?",
+        "Bij een verbouwing en verduurzaming mag je de eerste 6 maanden de betaalde rente en kosten aftrekken in box 1 zonder deze te verrekenen met de rente die je hebt gekregen.",
+        "Bij nieuwbouw mag je alleen het verschil tussen de betaalde rente en kosten en de ontvangen rente aftrekken in box 1.",
+        "Dit kan bij zowel (ver)bouw als een verduurzaming tot 2 jaar na het openen van het bouwdepot.",
+        "Er na 2 jaar nog geld in zit.",
+        "Geld dat nog in je depot staat Staat er na 2 jaar of bij eerdere beëindiging van het bouwdepot nog geld in je bouwdepot dat bestemd was voor verduurzaming?",
+        "Inloggen ASN Online Bankieren\" data-wm-linkcode=\"C104\">Declareren bouwdepot Heb je je inloggegevens voor online bankieren nog niet ontvangen en wil je alvast declareren?",
+        "Je bouwdepot en de Belastingdienst Je bouwdepot valt in principe onder je vermogen in box 3.",
+        "Je kunt het maximaal 2 jaar gebruiken.",
+        "Je mag een bouwdepot tijdelijk in box 1 plaatsen.",
+        "Klik hier voor het overzicht van de vergoedingen van het bouwdepot: Overzicht vergoedingen bouwdepot (pdf) 59,04 KB Energiebesparende maatregelen declareren Heb je een leningdeel speciaal voor het verduurzamen van je huis?",
+        "Na een half jaar trek je in box 1 de ontvangen rente af van de betaalde rente.",
+        "Onder voorwaarden is het bouwdepot daarna nog met 1 jaar te verlengen.",
+        "Open je ASN Bankrekening Sparen Sparen ASN Sparen ASN Jeugdsparen ASN Depositosparen Spaarrente Welke spaarrekening past bij jou Sparen met een vaste rente Profiteer van 2,60% rente op jaarbasis op een 1-jaarsdeposito bij ASN Bank.",
+        "Sinds 1 januari 2013 heb je alleen recht op renteaftrek als je bouwdepot aan een lineaire of annuïteitenhypotheek is gekoppeld die je in 30 jaar volledig aflost."
+      ]
+    },
+    "https://www.argenta.nl/wonen/veelgestelde-vragen/bouwdepot": {
+      "hash": "4897cfd95d21e16f",
+      "aantal": 4,
+      "zinnen": [
+        "Afhankelijk van de voorwaarden van jouw lening kan het bouwdepot maximaal 2x met 6 maanden worden verlengd.",
+        "Een bouwdepot is niet verplicht als de kosten van de verbouwing lager zijn dan € 25.000,-.",
+        "Het volledige bedrag komt dan in het bouwdepot (zelfs als het kleiner is dan € 25.000,-).",
+        "Je leent dan een bepaald bedrag dat voor maximaal 2 jaar in het bouwdepot wordt gezet."
+      ]
+    },
+    "https://www.argenta.nl/hypotheekadvies/wat-is-een-bouwdepot": {
+      "hash": "46c1835568821518",
+      "aantal": 5,
+      "zinnen": [
+        "Dan mag je jouw bouwdepot daarna nog 2 keer met 6 maanden verlengen.",
+        "Dat bedrag wordt voor maximaal 2 jaar in het bouwdepot gezet.",
+        "Dat betekent dat je over je bouwdepot voor maximaal 24 maanden geen rente hoeft te betalen.",
+        "Jouw bouwdepot is 24 maanden geldig.",
+        "Over jouw bouwdepot betaal je voor maximaal 24 maanden geen rente."
+      ]
+    },
+    "https://www.centraalbeheer.nl/hypotheek/klant/bouwdepot": {
+      "hash": "f7516cab8f740158",
+      "aantal": 11,
+      "zinnen": [
+        "'&q=' : '#q=') + document.getElementsByClassName('js-site-header__search__input')[0].value; return false;\" cb-search=\"\" data-click-event-level=\"zoeken\"> Home Hypotheek Klant Mijn bouwdepot Mijn bouwdepot Regel het hier Met je bouwdepot betaal je de (ver)bouw of verduurzaming van jouw huis.",
+        "(055) 579 8100 Tot 18.00 uur 3 tips voor een snelle betaling Wil je een factuur of kassabon uit je bouwdepot betalen?",
+        "3 dingen die je moet weten over je bouwdepot: Het bouwdepot is bedoeld voor alles dat aan jouw huis vastzit.",
+        "Als je alles volgens de spelregels instuurt, betalen wij binnen 6 werkdagen.",
+        "Binnen je bouwdepot heb je 1 of meer rubrieken .",
+        "De factuur of kassabon mag niet ouder zijn dan 6 maanden vóór de startdatum van de hypotheek.",
+        "Dit is meestal 8 werkdagen na het passeren bij de notaris.",
+        "Je bereikt ons van maandag tot en met vrijdag van 8.00 tot 18.00 uur.",
+        "Je bouwdepot heeft een standaard looptijd van 2 jaar.",
+        "Je mag de rente die je betaalt voor je bouwdepot tot maximaal 2 jaar aftrekken van de belasting.",
+        "Staan er meerdere rubrieken op 1 factuur?"
       ]
     }
   }
