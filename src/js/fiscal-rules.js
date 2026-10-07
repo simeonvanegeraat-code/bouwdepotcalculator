@@ -7,8 +7,8 @@ export const TAX_RULES_2026 = Object.freeze({
     thirdRate: 0.495,
     maxMortgageDeductionRate: 0.3756,
     hillenDeductionRate: 0.71867,
-    highValueThreshold: 1330000,
-    highValueBaseForfait: 4655,
+    highValueThreshold: 1350000,   // 2026; was 1.330.000 in 2025
+    highValueBaseForfait: 4725,    // 2026; was 4.655 in 2025
     highValueRate: 0.0235,
     nhgFeeRate: 0.004,
     nhgLimit: 470000,

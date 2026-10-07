@@ -28,8 +28,13 @@ test('calculates every 2026 eigenwoningforfait tier', () => {
     assert.equal(calculateEigenwoningforfait(40000), 80);
     assert.equal(calculateEigenwoningforfait(60000), 150);
     assert.equal(calculateEigenwoningforfait(400000), 1400);
-    assert.equal(calculateEigenwoningforfait(1330000), 4655);
-    assert.equal(calculateEigenwoningforfait(1400000), 6300);
+    // De villagrens ligt in 2026 op 1.350.000 met een basis van 4.725; in 2025
+    // was dat 1.330.000 en 4.655. Die twee waarden waren blijven staan, waardoor
+    // een woning van 1,34 miljoen het villatarief kreeg dat pas boven 1,35
+    // miljoen geldt. Deze regels bewaken precies die grens.
+    assert.equal(calculateEigenwoningforfait(1340000), 4690);   // nog 0,35%
+    assert.equal(calculateEigenwoningforfait(1350000), 4725);   // exact op de grens
+    assert.equal(calculateEigenwoningforfait(1400000), 5900);   // 4.725 + 2,35% over 50.000
 });
 
 test('applies the 2026 Hillen phase-out to a small home-loan balance', () => {

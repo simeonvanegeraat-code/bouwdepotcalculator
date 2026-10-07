@@ -1,5 +1,6 @@
 import { bindReportButton, startRekenpagina } from './rekenpagina.js';
 import { leesGetal, toonGetal, leesPercentage, euro, maakVeldlezer } from './getallen.js';
+import { vergoedingOverMaand } from './depotvergoeding.js';
 import { tekenStaafgrafiek } from './staafgrafiek.js';
 import { annuiteitTermijn } from './annuiteit.js';
 
@@ -433,17 +434,25 @@ function initNieuwbouwCalculator() {
 
         for(let m = 1; m <= maxMonth; m++) {
             
+            const beginDepot = currentDepot;
+
             // Gebruik filter om ALLE betalingen in deze maand te vinden
             const monthlyTerms = terms.filter(t => t.month === m);
-            
+
             monthlyTerms.forEach(term => {
                   const amount = (term.percent / 100) * constructPrice;
                   currentDepot -= amount;
             });
-            
+
             if(currentDepot < 0) currentDepot = 0;
 
-            const interestReceivable = currentDepot * depotRate;
+            // Over het gemiddelde saldo binnen de maand, niet over het saldo dat
+            // na de termijnbetaling overblijft. Dat laatste doet alsof de termijn
+            // op dag één van de maand is betaald en liet een halve maand
+            // vergoeding wegvallen: 8,3% te weinig over een bouw van twaalf
+            // maanden. De renteverliestool rekende hier al zo, en die twee
+            // moeten hetzelfde antwoord geven op dezelfde vraag.
+            const interestReceivable = vergoedingOverMaand(beginDepot, currentDepot, depotRate);
             const grossInterest = totalLoan * monthlyRate;
             let netPayment = fullAnnuity - interestReceivable;
             if(netPayment < 0) netPayment = 0;
