@@ -47,6 +47,10 @@ button, input { font: inherit; color: inherit; }
 
 .tnum { font-variant-numeric: tabular-nums; }
 
+/* Een element met het hidden-attribuut blijft weg, ook als een klasse het een
+   display geeft. */
+[hidden] { display: none !important; }
+
 :focus-visible {
     outline: 2px solid var(--ui-forest);
     outline-offset: 3px;

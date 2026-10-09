@@ -37,10 +37,11 @@
 
     <!-- De homepage gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
     <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
     <link rel="stylesheet" href="/src/styles/next/homepage.css">
     <noscript><style>.hp-beeld, .hp-legenda { display: none; }</style></noscript>
 </head>
-<body class="hp">
+<body class="ui hp">
     <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
@@ -171,7 +172,7 @@
 
     <main id="inhoud">
         <section class="hp-hero" data-hero>
-            <p class="hp-opschrift">Onafhankelijke rekentools voor nieuwbouw, verbouwen en bouwdepot</p>
+            <p class="ui-opschrift">Onafhankelijke rekentools voor nieuwbouw, verbouwen en bouwdepot</p>
             <!-- De kop is de routekeuze: beide woorden zijn een link. -->
             <h1><a href="nieuwbouw.html" data-wijst="nieuw">Nieuwbouw</a> of <a href="verbouwbegroting.html" data-wijst="verbouw">verbouwen</a>?</h1>
             <p class="hp-lead">Reken door wat je bouwdepot en je woningplan per maand kosten, voordat je tekent.</p>
@@ -185,7 +186,7 @@
                     <div class="hp-kant__tekst">
                         <h2>Ik koop nieuwbouw</h2>
                         <p>Je betaalt al terwijl het huis er nog niet staat. Zie per bouwmaand wat dat is, en wanneer het piekt.</p>
-                        <p class="hp-vb"><span>Voorbeeld</span> &euro; 500.000 hypotheek, twaalf maanden bouw: zwaarste maand <strong class="tnum" data-vast="piek">&euro; 3.419</strong> bruto.</p>
+                        <p class="hp-vb"><span>Voorbeeld</span> &euro; 500.000 hypotheek, twaalf maanden bouw: zwaarste maand <strong class="tnum" data-vast="piek">&euro; 3.530</strong> bruto.</p>
                         <a class="hp-ga" href="nieuwbouw.html">Open de nieuwbouwroute <span aria-hidden="true">&rarr;</span></a>
                     </div>
                 </article>
@@ -235,15 +236,15 @@
                             <li>
                                 <button class="hp-fasen__knop" type="button" data-fase="bouw" aria-pressed="false">
                                     <span class="hp-fasen__naam">Tijdens de bouw</span>
-                                    <span class="hp-fasen__bedrag tnum"><span data-vast="start">&euro; 2.505</span> <span aria-hidden="true">&rarr;</span><span class="ui-alleen-lezer">oplopend tot</span> <span data-vast="piek">&euro; 3.419</span></span>
+                                    <span class="hp-fasen__bedrag tnum"><span data-vast="start">&euro; 2.505</span> <span aria-hidden="true">&rarr;</span><span class="ui-alleen-lezer">oplopend tot</span> <span data-vast="eind">&euro; 3.419</span></span>
                                     <span class="hp-fasen__wat">Hypotheek na depotvergoeding plus huidige woonlast. Loopt op naarmate het depot leegraakt.</span>
                                 </button>
                             </li>
                             <li>
                                 <button class="hp-fasen__knop" type="button" data-fase="na" aria-pressed="false">
                                     <span class="hp-fasen__naam">Na oplevering</span>
-                                    <span class="hp-fasen__bedrag tnum"><span data-vast="na">&euro; 2.330</span></span>
-                                    <span class="hp-fasen__wat">Alleen de nieuwe hypotheek, als je oude woonlast wegvalt.</span>
+                                    <span class="hp-fasen__bedrag tnum"><span data-vast="piek">&euro; 3.530</span> <span aria-hidden="true">&rarr;</span><span class="ui-alleen-lezer">daarna</span> <span data-vast="na">&euro; 2.330</span></span>
+                                    <span class="hp-fasen__wat">Je huidige woonlast loopt nog twee maanden door: dat zijn de zwaarste maanden. Daarna alleen de nieuwe hypotheek.</span>
                                 </button>
                             </li>
                         </ol>
@@ -288,14 +289,14 @@
                             <tr><td>Bouwmaand 9</td><td>&euro; 70.000</td><td>&euro; 1.970</td><td>&euro; 1.200</td><td>&euro; 3.170</td></tr>
                             <tr><td>Bouwmaand 10</td><td>&euro; 70.000</td><td>&euro; 2.108</td><td>&euro; 1.200</td><td>&euro; 3.308</td></tr>
                             <tr><td>Bouwmaand 11</td><td>&euro; 70.000</td><td>&euro; 2.108</td><td>&euro; 1.200</td><td>&euro; 3.308</td></tr>
-                            <tr class="is-piek"><td>Bouwmaand 12 (hoogste)</td><td>&euro; 0</td><td>&euro; 2.219</td><td>&euro; 1.200</td><td>&euro; 3.419</td></tr>
-                            <tr><td>1 mnd na oplevering</td><td>&euro; 0</td><td>&euro; 2.330</td><td>&ndash;</td><td>&euro; 2.330</td></tr>
-                            <tr><td>2 mnd na oplevering</td><td>&euro; 0</td><td>&euro; 2.330</td><td>&ndash;</td><td>&euro; 2.330</td></tr>
+                            <tr><td>Bouwmaand 12</td><td>&euro; 0</td><td>&euro; 2.219</td><td>&euro; 1.200</td><td>&euro; 3.419</td></tr>
+                            <tr class="is-piek"><td>1 mnd na oplevering (hoogste)</td><td>&euro; 0</td><td>&euro; 2.330</td><td>&euro; 1.200</td><td>&euro; 3.530</td></tr>
+                            <tr><td>2 mnd na oplevering</td><td>&euro; 0</td><td>&euro; 2.330</td><td>&euro; 1.200</td><td>&euro; 3.530</td></tr>
                             <tr><td>3 mnd na oplevering</td><td>&euro; 0</td><td>&euro; 2.330</td><td>&ndash;</td><td>&euro; 2.330</td></tr>
                         </tbody>
                     </table>
                 </div>
-                <p class="hp-tabel__noot">Grond &euro; 150.000, aanneemsom &euro; 350.000, 3,80% rente, 30 jaar annu&iuml;tair, vijf bouwtermijnen. Depotvergoeding gelijk aan de hypotheekrente; dat <a href="bouwdepot-voorwaarden-vergelijken.html">verschilt per geldverstrekker</a>. Aangenomen is dat de oude woonlast stopt bij oplevering. Bruto: zonder hypotheekrenteaftrek.</p>
+                <p class="hp-tabel__noot">Grond &euro; 150.000, aanneemsom &euro; 350.000, 3,80% rente, 30 jaar annu&iuml;tair, vijf bouwtermijnen. Depotvergoeding gelijk aan de hypotheekrente; dat <a href="bouwdepot-voorwaarden-vergelijken.html">verschilt per geldverstrekker</a>. Aangenomen is dat je huidige woonlast nog twee maanden doorloopt na oplevering. Bruto: zonder hypotheekrenteaftrek.</p>
             </details>
             <p class="hp-onder__ga"><a href="nieuwbouw.html">Reken dit door met je eigen cijfers <span aria-hidden="true">&rarr;</span></a></p>
         </section>
@@ -332,7 +333,7 @@
              dat ze bij de dataset blijven kloppen: verandert de data, dan faalt
              de test op deze getallen. -->
         <section class="hp-kern" id="waarom">
-            <p class="hp-opschrift">Eigen onderzoek</p>
+            <p class="ui-opschrift">Eigen onderzoek</p>
             <h2>Dertien banken, dertien verschillende bouwdepots</h2>
             <p class="hp-kern__lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Wij zochten ze op bij de bron en zetten ze naast elkaar.</p>
 
@@ -376,7 +377,7 @@
         </section>
     </main>
 
-    <footer class="hp-voet">
+    <footer class="ui-voet">
         <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
         <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>

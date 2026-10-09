@@ -5,110 +5,13 @@
  * invoerveld), de maandlijn (een donker paneel met kolommen die naar een
  * staafgrafiek draaien), de routes, alle rekenhulpen en de kerncijfers.
  *
- * Koppen in Inter Tight, maten en opschriften in een monospace.
+ * Koppen in Inter Tight, maten en opschriften in een monospace. De kop en de
+ * voet staan in kop.css, omdat de rekenpagina's ze delen.
  */
-
-/* ==========================================================================
-   Kop
-   De opmaak komt uit scripts/build-header.mjs en is op elke pagina dezelfde
-   (tests/header.test.mjs). Hier krijgt hij alleen de nieuwe vormgeving; de
-   klassen blijven bs-*, want de generator is de bron.
-   ========================================================================== */
-
-.hp { --hp-kop: 4.5rem; }
-
-.hp .bs-wrap { width: 100%; max-width: var(--ui-max); margin: 0 auto; padding: 0 var(--ui-rand); }
-.hp .bs-kop { position: relative; z-index: 20; }
-.hp .bs-kop__inner { display: flex; align-items: center; gap: 1.25rem; min-height: var(--hp-kop); }
-.hp .bs-merk { font-weight: 600; letter-spacing: -0.01em; text-decoration: none; color: var(--ui-forest); }
-.hp .bs-merk span { font-weight: 400; color: var(--ui-ink); }
-.hp .bs-merk b { font-weight: 400; color: var(--ui-muted); }
-
-.hp .bs-kop__nav { margin-left: auto; display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2.25rem); }
-.hp .bs-kop__nav a,
-.hp .bs-kop__knop {
-    font-family: var(--ui-mono);
-    font-size: 0.8125rem;
-    color: var(--ui-ink);
-    text-decoration: none;
-}
-.hp .bs-kop__nav a { display: inline-flex; align-items: center; min-height: 2.75rem; }
-.hp .bs-kop__nav a:hover,
-.hp .bs-kop__knop:hover { text-decoration: underline; text-underline-offset: 0.4em; }
-
-.hp .bs-kop__knop {
-    display: none;
-    align-items: center;
-    gap: 0.6rem;
-    min-height: 2.75rem;
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: pointer;
-}
-/* De terugval staat standaard aan en de knop uit; pas als de browser popover
-   aantoonbaar ondersteunt wisselen ze om. */
-@supports selector(:popover-open) {
-    .hp .bs-kop__knop { display: inline-flex; }
-    .hp .bs-kop__nav .bs-kop__terugval { display: none; }
-}
-
-.hp .bs-staafjes { display: flex; align-items: flex-end; gap: 3px; height: 1rem; }
-.hp .bs-staafjes i { display: block; width: 3px; background: var(--ui-forest); transition: height 0.18s ease; }
-.hp .bs-staafjes i:nth-child(1) { height: 60%; }
-.hp .bs-staafjes i:nth-child(2) { height: 100%; }
-.hp .bs-staafjes i:nth-child(3) { height: 40%; }
-
-.hp .bs-paneel {
-    display: none;
-    position: fixed;
-    inset: var(--hp-kop) 0 auto 0;
-    width: 100%;
-    max-width: none;
-    max-height: calc(100dvh - var(--hp-kop));
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-top: 1.5px solid var(--ui-ink);
-    border-bottom: 1px solid var(--ui-line);
-    background: var(--ui-canvas);
-    color: var(--ui-ink);
-    overflow-y: auto;
-    box-shadow: 0 24px 48px -28px rgba(16, 41, 36, 0.4);
-}
-.hp .bs-paneel:popover-open { display: block; }
-.hp .bs-paneel::backdrop { background: rgba(16, 41, 36, 0.24); }
-.hp .bs-paneel__inner { display: grid; gap: clamp(1.25rem, 3vw, 2rem); padding-block: clamp(1.25rem, 3vw, 2rem); }
-.hp .bs-paneel__vraag { margin-bottom: 0.4rem; font-family: var(--ui-mono); font-size: 0.75rem; color: var(--ui-muted); }
-.hp .bs-paneel__lijst { display: grid; gap: 2px; }
-.hp .bs-paneel__lijst a {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 2.75rem;
-    padding: 0.5rem 0.75rem;
-    margin-inline: -0.75rem;
-    border-radius: 0.5rem;
-    text-decoration: none;
-}
-.hp .bs-paneel__lijst a:hover,
-.hp .bs-paneel__lijst a:focus-visible { background: var(--ui-sage-licht); }
-.hp .bs-paneel__lijst strong { font-weight: 600; color: var(--ui-forest); }
-.hp .bs-paneel__lijst span { font-size: 0.875rem; line-height: 1.4; color: var(--ui-muted); }
-
-@media (min-width: 760px) {
-    .hp .bs-paneel__inner { grid-template-columns: repeat(3, 1fr); }
-    .hp .bs-paneel__groep--ook { display: none; }
-}
-@media (max-width: 759.98px) {
-    .hp .bs-kop__nav > a:not(.bs-kop__terugval) { display: none; }
-}
 
 /* ==========================================================================
    De keuze
    ========================================================================== */
-
-.hp-opschrift { font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
 
 .hp-hero {
     max-width: var(--ui-max);
@@ -519,19 +422,6 @@
 .hp-beloften a, .hp-acties a { color: var(--ui-forest); font-weight: 600; text-underline-offset: 0.3em; }
 .hp-acties { display: flex; flex-wrap: wrap; gap: 0.25rem 2rem; margin-top: 2rem; }
 .hp-acties a { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; }
-
-.hp-voet {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.5rem 2rem;
-    padding: 1.5rem var(--ui-rand) 2.5rem;
-    border-top: 1px solid var(--ui-line);
-    font-size: 0.875rem;
-    color: var(--ui-muted);
-}
-.hp-voet nav { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
-.hp-voet a { display: inline-flex; align-items: center; min-height: 2.75rem; text-underline-offset: 0.3em; }
 
 /* ==========================================================================
    Smal scherm

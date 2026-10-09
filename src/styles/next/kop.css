@@ -1,0 +1,115 @@
+/*
+ * Kop, voet en opschrift van de nieuwe vormgeving, gedeeld door de homepage en
+ * de rekenpagina's die al zijn omgezet (body-klasse "ui").
+ */
+
+.ui-opschrift { font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
+
+/* ==========================================================================
+   Kop
+   De opmaak komt uit scripts/build-header.mjs en is op elke pagina dezelfde
+   (tests/header.test.mjs). Hier krijgt hij alleen de nieuwe vormgeving; de
+   klassen blijven bs-*, want de generator is de bron.
+   ========================================================================== */
+
+.ui { --ui-kop: 4.5rem; }
+
+.ui .bs-wrap { width: 100%; max-width: var(--ui-max); margin: 0 auto; padding: 0 var(--ui-rand); }
+.ui .bs-kop { position: relative; z-index: 20; }
+.ui .bs-kop__inner { display: flex; align-items: center; gap: 1.25rem; min-height: var(--ui-kop); }
+.ui .bs-merk { font-weight: 600; letter-spacing: -0.01em; text-decoration: none; color: var(--ui-forest); }
+.ui .bs-merk span { font-weight: 400; color: var(--ui-ink); }
+.ui .bs-merk b { font-weight: 400; color: var(--ui-muted); }
+
+.ui .bs-kop__nav { margin-left: auto; display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2.25rem); }
+.ui .bs-kop__nav a,
+.ui .bs-kop__knop {
+    font-family: var(--ui-mono);
+    font-size: 0.8125rem;
+    color: var(--ui-ink);
+    text-decoration: none;
+}
+.ui .bs-kop__nav a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+.ui .bs-kop__nav a:hover,
+.ui .bs-kop__knop:hover { text-decoration: underline; text-underline-offset: 0.4em; }
+
+.ui .bs-kop__knop {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+/* De terugval staat standaard aan en de knop uit; pas als de browser popover
+   aantoonbaar ondersteunt wisselen ze om. */
+@supports selector(:popover-open) {
+    .ui .bs-kop__knop { display: inline-flex; }
+    .ui .bs-kop__nav .bs-kop__terugval { display: none; }
+}
+
+.ui .bs-staafjes { display: flex; align-items: flex-end; gap: 3px; height: 1rem; }
+.ui .bs-staafjes i { display: block; width: 3px; background: var(--ui-forest); transition: height 0.18s ease; }
+.ui .bs-staafjes i:nth-child(1) { height: 60%; }
+.ui .bs-staafjes i:nth-child(2) { height: 100%; }
+.ui .bs-staafjes i:nth-child(3) { height: 40%; }
+
+.ui .bs-paneel {
+    display: none;
+    position: fixed;
+    inset: var(--ui-kop) 0 auto 0;
+    width: 100%;
+    max-width: none;
+    max-height: calc(100dvh - var(--ui-kop));
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-top: 1.5px solid var(--ui-ink);
+    border-bottom: 1px solid var(--ui-line);
+    background: var(--ui-canvas);
+    color: var(--ui-ink);
+    overflow-y: auto;
+    box-shadow: 0 24px 48px -28px rgba(16, 41, 36, 0.4);
+}
+.ui .bs-paneel:popover-open { display: block; }
+.ui .bs-paneel::backdrop { background: rgba(16, 41, 36, 0.24); }
+.ui .bs-paneel__inner { display: grid; gap: clamp(1.25rem, 3vw, 2rem); padding-block: clamp(1.25rem, 3vw, 2rem); }
+.ui .bs-paneel__vraag { margin-bottom: 0.4rem; font-family: var(--ui-mono); font-size: 0.75rem; color: var(--ui-muted); }
+.ui .bs-paneel__lijst { display: grid; gap: 2px; }
+.ui .bs-paneel__lijst a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    margin-inline: -0.75rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+}
+.ui .bs-paneel__lijst a:hover,
+.ui .bs-paneel__lijst a:focus-visible { background: var(--ui-sage-licht); }
+.ui .bs-paneel__lijst strong { font-weight: 600; color: var(--ui-forest); }
+.ui .bs-paneel__lijst span { font-size: 0.875rem; line-height: 1.4; color: var(--ui-muted); }
+
+@media (min-width: 760px) {
+    .ui .bs-paneel__inner { grid-template-columns: repeat(3, 1fr); }
+    .ui .bs-paneel__groep--ook { display: none; }
+}
+@media (max-width: 759.98px) {
+    .ui .bs-kop__nav > a:not(.bs-kop__terugval) { display: none; }
+}
+
+.ui-voet {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    padding: 1.5rem var(--ui-rand) 2.5rem;
+    border-top: 1px solid var(--ui-line);
+    font-size: 0.875rem;
+    color: var(--ui-muted);
+}
+.ui-voet nav { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+.ui-voet a { display: inline-flex; align-items: center; min-height: 2.75rem; text-underline-offset: 0.3em; }

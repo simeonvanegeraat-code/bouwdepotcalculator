@@ -19,6 +19,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { voorbeeldTijdlijn, AANNAMES, euro } from '../src/homepage/voorbeeld.js';
+import { berekenTijdlijn } from '../src/domain/nieuwbouw.js';
 import { annuiteitTermijn } from '../src/js/annuiteit.js';
 import { RENTE, JAREN } from '../src/homepage/woningen-aannames.js';
 
@@ -49,12 +50,23 @@ test('het model geeft de met de hand nagerekende uitkomsten', () => {
     //   vergoeding = 35000 * 0,038 / 12 = 110,83; last = 2.329,79 - 110,83 + 1.200
     const m12 = tijdlijn.regels.find((r) => r.bouwmaand === 12);
     assert.ok(Math.abs(m12.totaal - 3418.96) < 0.01, `bouwmaand 12 is ${m12.totaal}`);
-    assert.equal(tijdlijn.piek, m12, 'de hoogste maand hoort bouwmaand 12 te zijn');
+
+    // De eerste maand na oplevering: het depot is leeg en de huidige woonlast
+    // loopt nog door. 2.329,79 + 1.200 = 3.529,79, de hoogste maand.
+    assert.equal(tijdlijn.piek.label, '1 mnd na oplevering');
+    assert.ok(Math.abs(tijdlijn.piek.totaal - 3529.79) < 0.01, `de piek is ${tijdlijn.piek.totaal}`);
 });
 
-test('het depot loopt van de aanneemsom naar nul en de termijnen tellen op tot 100%', () => {
-    const som = AANNAMES.termijnen.reduce((s, t) => s + t.percent, 0);
-    assert.equal(som, 100);
+test('de homepage rekent met de standaardinvoer van de nieuwbouwpagina', () => {
+    // Wie doorklikt naar nieuwbouw.html moet daar dezelfde zwaarste maand zien.
+    const pagina = berekenTijdlijn();
+    assert.equal(tijdlijn.piek.totaal, pagina.piek.totaal);
+    assert.equal(tijdlijn.annuiteit, pagina.maandlastDaarna);
+    const bouw = tijdlijn.regels.filter((r) => r.fase === 'bouw');
+    assert.deepEqual(bouw.map((r) => r.totaal), pagina.regels.filter((r) => r.fase === 'bouw').map((r) => r.totaal));
+});
+
+test('het depot loopt van de aanneemsom naar nul', () => {
     const bouw = tijdlijn.regels.filter((r) => r.fase === 'bouw');
     assert.equal(bouw.at(-1).depot, 0);
     for (const r of bouw) assert.ok(r.vergoeding >= 0 && r.hypotheek <= tijdlijn.annuiteit + 1e-9);
@@ -64,13 +76,14 @@ test('de losse bedragen in de tekst komen uit het model', () => {
     const verwacht = {
         voor: tijdlijn.regels[0].totaal,
         start: tijdlijn.regels.find((r) => r.fase === 'bouw').totaal,
+        eind: tijdlijn.regels.filter((r) => r.fase === 'bouw').at(-1).totaal,
         piek: tijdlijn.piek.totaal,
         na: tijdlijn.annuiteit,
         aanbouw: annuiteitTermijn(60000, RENTE / 100 / 12, JAREN * 12),
         snel: annuiteitTermijn(25000, RENTE / 100 / 12, JAREN * 12),
     };
     const gevonden = [...html.matchAll(/data-vast="([a-z]+)"[^>]*>([^<]*)</g)];
-    assert.ok(gevonden.length >= 7, `verwacht minstens zeven gemarkeerde bedragen, gevonden ${gevonden.length}`);
+    assert.ok(gevonden.length >= 8, `verwacht minstens acht gemarkeerde bedragen, gevonden ${gevonden.length}`);
     for (const [, naam, tekst] of gevonden) {
         assert.ok(naam in verwacht, `onbekend bedrag "${naam}" op de homepage`);
         assert.equal(plat(tekst), bedrag(verwacht[naam]), `het bedrag "${naam}" op de homepage`);
@@ -103,4 +116,6 @@ test('de aannames onder de tabel zijn de aannames van het model', () => {
     assert.ok(noot.includes(`${AANNAMES.rentePercent.toFixed(2).replace('.', ',')}% rente`), 'rente');
     assert.ok(noot.includes(`${AANNAMES.looptijdJaren} jaar`), 'looptijd');
     assert.ok(noot.includes('Bruto'), 'de vermelding dat het bruto is');
+    assert.equal(AANNAMES.overlapNaOplevering, 2);
+    assert.ok(noot.includes('nog twee maanden doorloopt na oplevering'), 'de overlap na oplevering');
 });

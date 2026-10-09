@@ -74,12 +74,11 @@ assen.innerHTML = `
 const prijslaag = document.querySelector('[data-prijzen]');
 const kaartjes = [];
 if (prijslaag) {
-    const eersteNa = regels.findIndex((r) => r.fase === 'na');
     const keuze = [
         { i: 1, naam: 'vooraf' },
         { i: regels.indexOf(eersteBouw), naam: 'bouwmaand 1', extra: true },
         { i: piekIndex, naam: 'hoogste maand' },
-        { i: eersteNa + 1, naam: 'na oplevering' },
+        { i: regels.length - 1, naam: 'daarna' },
     ];
     for (const k of keuze) {
         const el = document.createElement('p');
