@@ -10,5 +10,5 @@ en niemand hoeft te onthouden hoe het ook alweer moest.
 | [publiceren.md](publiceren.md) | Voor elke deploy |
 | [search-console.md](search-console.md) | Wekelijks, zodra er een export is |
 
-Een routine hoort kort te zijn. Wordt hij lang, dan is het waarschijnlijk een
-spec.
+Een routine hoort kort te zijn. Wordt hij lang, dan beschrijft hij waarschijnlijk
+een functie, en dan hoort hij in [../FEATURES.md](../FEATURES.md).

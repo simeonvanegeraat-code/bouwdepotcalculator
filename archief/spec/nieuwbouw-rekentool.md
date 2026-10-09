@@ -67,7 +67,7 @@ zijpad. Dat is onze opening.
 
 ## Voor welke bezoeker
 
-De **nieuwbouwkoper**, zie [reis-nieuwbouwkoper.md](../customers/reis-nieuwbouwkoper.md).
+De **nieuwbouwkoper**, zie [reis-nieuwbouwkoper.md](../../customers/reis-nieuwbouwkoper.md).
 Zijn vraag is niet "wat kost een bouwdepot" maar "wat wordt mijn zwaarste maand
 en kan ik die dragen".
 
@@ -97,7 +97,7 @@ bouwkosten, meerwerk met soort, en de periode vóór bouwstart.
 ## Wat we niet bouwen
 
 - **Geen aanbeveling.** Geen "deze bank past het beste", geen koppeling van de
-  uitkomst aan een aanbieder. Zie [JURIDISCHE-CHECK.md](../plannen/JURIDISCHE-CHECK.md) §2.
+  uitkomst aan een aanbieder. Zie [JURIDISCHE-CHECK.md](../../context/JURIDISCHE-CHECK.md) §2.
 - **Geen acceptatietoets.** De tool kent inkomen, verplichtingen en taxatie niet
   en zegt niets over of de bank meegaat.
 - **Geen account, geen serveropslag.** Invoer blijft op het apparaat.

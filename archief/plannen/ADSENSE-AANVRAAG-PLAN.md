@@ -65,7 +65,7 @@ die vermeldingen staan in structured data die Google rechtstreeks uitleest.
 
 Die laatste is klein maar staat letterlijk in Google's eigen sitegereedheidspagina
 als aanbeveling. Het past bovendien bij wat de site al is: het
-Rabobank-signaal uit [signalen.md](../customers/signalen.md) kwam van een
+Rabobank-signaal uit [signalen.md](../../customers/signalen.md) kwam van een
 bezoeker die een fout meldde. Dit maakt dat kanaal zichtbaar in plaats van
 verstopt op de contactpagina.
 
@@ -138,8 +138,18 @@ Wat het oplevert: elke pagina krijgt tientallen regels die nergens anders kunnen
 staan, en het beantwoordt de vraag waarmee bezoekers binnenkomen — "wat kost dit
 bij mijn bank".
 
-**Acceptatie:** elke aanbiederpagina boven 55% uniek, gemeten met hetzelfde
-vijfwoordsscript als in het onderzoek. `tests/nuance.test.mjs` blijft groen.
+**Acceptatie — ingetrokken op 9 oktober 2026.** Hier stond: elke aanbiederpagina
+boven 55% uniek, gemeten met het vijfwoordsscript uit het onderzoek. Dat
+criterium is vervallen om twee redenen. Het is een zelfverzonnen maatstaf —
+Google meet geen vijfwoordsreeksen — en het is zelfvernietigend: elke aanbieder
+die erbij komt verlaagt de score van alle andere, want het corpus groeit mee. Bij
+acht aanbieders was het 25–39%, bij dertien 16–29%, zonder dat er één letter
+veranderde.
+
+**Ervoor in de plaats:** heeft deze pagina een doorgerekend voorbeeld op basis
+van de vergoedingsregel van díe aanbieder, ja of nee. Dat is wat dit blok
+eigenlijk wil, en het beweegt niet mee met de omvang van de site.
+`tests/nuance.test.mjs` blijft groen.
 
 **Wat we hier níet doen:** de lege cellen invullen. Die blijven "niet
 gepubliceerd" tot je het bij de bron navraagt. En we gaan niet naar 15

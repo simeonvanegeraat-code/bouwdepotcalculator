@@ -2,8 +2,8 @@
 
 De inhoudelijke analyses: waarom dit product bestaat, hoe het eruit hoort te
 zien, wat het moet verdienen en wat er juridisch wel en niet mag. Je opent ze
-niet elke sessie — daarvoor zijn [roadmap.md](../roadmap.md) en
-[review.md](../review.md) — maar wel als je een keuze wilt terugvinden.
+niet elke sessie — daarvoor zijn [roadmap.md](../roadmap-2026-07-tot-09.md) en
+[review.md](../../review.md) — maar wel als je een keuze wilt terugvinden.
 
 Ze stonden tot 1 september 2026 los in de repo-root, naast tweeëndertig
 HTML-pagina's. De inhoud is niet veranderd, alleen de plek.
@@ -17,7 +17,7 @@ HTML-pagina's. De inhoud is niet veranderd, alleen de plek.
 | [MARKT-EN-ADSENSE-ONDERZOEK.md](MARKT-EN-ADSENSE-ONDERZOEK.md) | **Begin hier voor alles rond markt, groei en verdienmodel.** Het volledige onderzoek van 22 september 2026: marktomvang, concurrentie, AdSense-beleid en de gemeten staat van de site |
 | [ADSENSE-AANVRAAG-PLAN.md](ADSENSE-AANVRAAG-PLAN.md) | Het uitvoeringsplan dat daaruit volgt: elf werkdagen in vijf blokken, met een acceptatiecriterium per blok en een afvinklijst vóór indienen |
 | [ADSENSE-PLAN.md](ADSENSE-PLAN.md) | ~~Het verdienmodel~~ — **achterhaald**, zie hieronder |
-| [JURIDISCHE-CHECK.md](JURIDISCHE-CHECK.md) | De AFM-grens. **Lees dit vóór je iets bouwt dat op een aanbeveling lijkt** |
+| [JURIDISCHE-CHECK.md](../../context/JURIDISCHE-CHECK.md) | De AFM-grens. **Lees dit vóór je iets bouwt dat op een aanbeveling lijkt** |
 | [CONCURRENTIE-EN-OORDEEL.md](CONCURRENTIE-EN-OORDEEL.md) | Wat anderen doen, en waar wij bewust van afwijken |
 
 ---
@@ -31,7 +31,7 @@ een plandocument overneemt.** Wat er nu bekend is:
 - **De nulmeting van de homepage in `ONTWERPPLAN.md`** is van 14 augustus 2026
   en klopt niet meer: 5 secties in plaats van 29, en 0,3 scherm tot de uitkomst
   in plaats van 3,1. De actuele meting staat in
-  [demo/2026-08-19-nulmeting-homepage.md](../demo/2026-08-19-nulmeting-homepage.md).
+  [demo/2026-08-19-nulmeting-homepage.md](../../demo/2026-08-19-nulmeting-homepage.md).
 - **De hiërarchiefout uit `ONTWERPPLAN-HIERARCHIE.md`** is gerepareerd. Het
   document beschrijft dus een probleem dat er niet meer is; de redenering
   erachter geldt nog wel.

@@ -62,7 +62,7 @@ aanbieder, maar een gat in de hele markt:
 > adviseur voordat u tekent.
 
 Dat is informatiever dan zestien lege cellen én het houdt de openstaande vraag
-uit [../customers/signalen.md](../customers/signalen.md) zichtbaar.
+uit [../customers/signalen.md](../../customers/signalen.md) zichtbaar.
 
 ## Wat we niet bouwen
 

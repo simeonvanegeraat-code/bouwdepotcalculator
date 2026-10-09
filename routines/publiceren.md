@@ -1,5 +1,10 @@
 # Routine: publiceren
 
+> **Geldt voor gewoon onderhoud.** Voor het herontwerp van oktober 2026 geldt
+> iets anders: dat werk loopt op een aparte branch en gaat pas naar `main` na
+> expliciete toestemming van de eigenaar. Zie [../CLAUDE.md](../CLAUDE.md)
+> paragraaf 6 en de review-gates in [../ROADMAP.md](../ROADMAP.md).
+
 De site staat op Vercel en volgt de main-branch. Publiceren is dus: mergen. Wat
 je daarvoor doet telt.
 

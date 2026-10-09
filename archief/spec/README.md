@@ -3,21 +3,28 @@
 Een spec per stuk werk, geschreven voordat er code is. Doel: vooraf vastleggen
 wat af betekent, zodat achteraf niet de uitkomst tot doel wordt verklaard.
 
-## Wanneer wel
+## Een spec is gereedschap, geen verplichting
 
-- Een nieuwe pagina of tool.
-- Een herziening die meerdere pagina's raakt.
-- Een wijziging aan het datamodel.
+Dit stond tot 9 oktober 2026 als regel: een spec vóór elk stuk werk. Dat leverde
+vier specs op die op akkoord wachtten, waarvan de oudste uit augustus. Drie
+daarvan zijn nooit gebouwd — geschreven, nooit besloten, plankwerk.
 
-## Wanneer niet
+Sindsdien geldt: **we bouwen en laten zien.** Schrijf een spec alleen als hij
+jou helpt, en dat is in de praktijk bij één soort werk zo: als je er zelf niet
+uitkomt en er een keuze gemaakt moet worden die niet van jou is. Dan zet je twee
+of drie richtingen naast elkaar in [../demo/](../demo/) en laat je kiezen. Dat
+werkte bij [invoervelden.md](invoervelden.md).
 
-Een tekstcorrectie, een bugfix, of een losse stijlaanpassing. Die gaan direct
-naar de code en langs [../review.md](../review.md).
+## Houdbaarheid
+
+**Een spec die twee weken op akkoord wacht, gaat weg of wordt alsnog beslist.**
+Hij kost niets zichtbaars, maar hij suggereert dat er een plan is waar geen plan
+is — en dat is erger dan een lege map.
 
 ## Werkwijze
 
 1. Kopieer [template.md](template.md) naar `spec/<korte-naam>.md`.
-2. Vul hem in en leg hem voor voordat je begint.
+2. Zet de keuze erin die gemaakt moet worden, niet de hele oplossing.
 3. Werk hem bij als er onderweg iets verandert; een spec die niet meer klopt is
    erger dan geen spec.
 4. Verwijs vanuit het logboek in `review.md` naar de spec als het werk klaar is.
@@ -47,4 +54,4 @@ naar de code en langs [../review.md](../review.md).
   ouder werk, opgeleverd.
 
 De volgorde volgt verder uit het bovenste blok van
-[../roadmap.md](../roadmap.md).
+[../roadmap.md](../roadmap-2026-07-tot-09.md).

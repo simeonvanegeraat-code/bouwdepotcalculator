@@ -96,13 +96,13 @@ Als hij zijn voorwaarden niet in leesbare vorm publiceert. Allianz zet drie van
 de elf velden op een gewone pagina en de rest in PDF's; Hypotrust zet de
 antwoorden achter JavaScript-only uitklappers. Een aanbieder met drie gevulde
 velden levert precies de halflege pagina op die
-[../spec/schema-opruimen.md](../spec/schema-opruimen.md) heeft weggehaald.
+[../spec/schema-opruimen.md](../archief/spec/schema-opruimen.md) heeft weggehaald.
 
 Beter één aanbieder minder dan twaalf lege cellen erbij.
 
 ## Een veld toevoegen of weghalen
 
-De regel uit [../spec/schema-opruimen.md](../spec/schema-opruimen.md):
+De regel uit [../spec/schema-opruimen.md](../archief/spec/schema-opruimen.md):
 
 - Publiceert **minstens één** aanbieder het? Dan hoort het in de tabel, ook als
   de rest leeg blijft. Blanco is dan informatie: die aanbieder is minder open.

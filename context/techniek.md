@@ -54,6 +54,7 @@ Zie ../routines/bronnen-controleren.md.
 
 ## Ontwerpsysteem
 
-src/styles/design-system.css bevat de tokens: kleur, typeschaal, ruimte op
+src/styles/broadsheet.css bevat de tokens: kleur, typeschaal, ruimte op
 4/8pt. Pagina's consumeren tokens en definieren niets zelf. Het palet is diep
-teal op warm papier, bewust geen bankkleur.
+teal op warm papier, bewust geen bankkleur. (Het bestand heette tot 1 september
+2026 design-system.css; die naam bestaat niet meer.)

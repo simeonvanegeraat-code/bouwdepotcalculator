@@ -17,10 +17,10 @@ over een andere site. Trek er tot die tijd geen conclusies uit.
      maar zonder klikken heeft een titelprobleem. Een pagina zonder vertoningen
      heeft een indexeringsprobleem.
    - **Wordt er nu wél gecrawld?** Dat was het kernprobleem uit
-     [../plannen/ADSENSE-PLAN.md](../plannen/ADSENSE-PLAN.md): veertien pagina's waren in zes
+     [../plannen/ADSENSE-PLAN.md](../archief/plannen/ADSENSE-PLAN.md): veertien pagina's waren in zes
      maanden nooit opgehaald.
 3. Zet wat je eruit haalt op één plek: nieuwe bezoekersvragen in `customers/`,
-   werk dat eruit volgt in [../roadmap.md](../roadmap.md).
+   werk dat eruit volgt in [../roadmap.md](../archief/roadmap-2026-07-tot-09.md).
 
 ## Wat je er niet mee doet
 

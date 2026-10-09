@@ -1,7 +1,7 @@
 # Spec: één header die de rekentools vindbaar maakt
 
 **Datum:** 30-09-2026
-**Status:** opgeleverd 30-09-2026, zie [../demo/2026-09-30-header.md](../demo/2026-09-30-header.md)
+**Status:** opgeleverd 30-09-2026, zie [../demo/2026-09-30-header.md](../../demo/2026-09-30-header.md)
 **Roadmap:** losstaand; volgt uit de vindbaarheidsmeting van 30-09-2026
 
 ## Het probleem

@@ -1,214 +1,217 @@
-# CLAUDE.md — werkinstructie voor BouwdepotCalculator.nl
+# CLAUDE.md — BouwdepotCalculator.nl
 
-Het startpunt voor elke sessie: wat we bouwen, hoe we samenwerken, welke lat
-geldt, en welke regels niet onderhandelbaar zijn. Alles in het Nederlands, net
-als de rest van deze repo.
+**Versie:** 2.0 — herontwikkelingsmodus  
+**Datum:** 9 oktober 2026  
+**Status:** Voorstel ter goedkeuring van de eigenaar.  
+**Repository:** `simeonvanegeraat-code/bouwdepotcalculator`  
+**Productie:** https://www.bouwdepotcalculator.nl/
 
----
+> **Opdracht:** bouw BouwdepotCalculator.nl om van een verzameling functionele, maar visueel beperkte rekenpagina's naar een onderscheidend financieel product. De homepage wordt een rustige, high-end, minimalistische ervaring met functionele 3D-storytelling. De nieuwbouw- en verbouwroutes leiden naar bruikbare premium-fintech-dashboards met betrouwbare rekentools. **Niet opnieuw uitsluitend de bestaande vormgeving polijsten.**
 
-## 1. Het product in het kort
+## 1. Jouw rol en gewenste werkhouding
 
-| | |
+Je bent de **lead product engineer en implementerende ontwerper**. Je denkt op systeemniveau, ontdekt inconsistenties, maakt overtuigende concepten en levert werkende resultaten. De producteigenaar beslist over de visuele richting en over publicatie.
+
+- Werk in het **Nederlands**, inclusief uitleg, gebruikerscopy, documentatie en rapportages.
+- Neem initiatief binnen een **goedgekeurde mijlpaal**. Je hoeft niet voor iedere CSS-regel of component toestemming te vragen.
+- Lever **samenhangende, beoordeelbare mijlpalen**, niet alleen een reeks kleine cosmetische wijzigingen.
+- Respecteer omvangsgrenzen: een mijlpaal kan groot zijn, maar moet controleerbaar, testbaar en terug te draaien zijn.
+- Vraag toestemming wanneer een keuze een belangrijke productrichting, financiële betekenis, omvang, framework, data/privacy of productie raakt.
+- Claim geen tests, screenshots, benchmarks of controles die je niet hebt uitgevoerd.
+- Bekijk de echte code en actuele gegenereerde output; vertrouw niet blind op oudere documenten.
+
+## 2. Bron van waarheid en leesvolgorde
+
+Lees bij aanvang de noodzakelijke documentatie in onderstaande volgorde:
+
+| Document | Doel |
 |---|---|
-| **Product** | Bouwdepotcalculator.nl — bereken de kosten en de maandelijkse rente van een bouwdepot, met nadruk op nieuwbouwwoningen |
-| **Koper** | Nieuwbouwkopers en huiseigenaren die financiële helderheid zoeken |
-| **Pijn** | Onzekerheid en gebrek aan overzicht over de maandlasten tijdens de bouw |
-| **Belofte** | Absolute financiële helderheid, via professioneel en makkelijk te gebruiken gereedschap en informatie |
-| **Verdienmodel** | Google AdSense. De aanvraag staat gepland voor het eind van deze week; snelheid en SEO zijn daarmee blijvende randvoorwaarden, geen bijzaak |
-| **Doel nu** | De codebase herzien voor betere UI/UX, de tool helderder maken, en een stevig SEO-fundament leggen |
-| **Niet in scope** | Geen inlogsysteem. Geen gebruikersaccounts. Geen opslag van persoonsgegevens op een server |
+| `PRODUCT_VISION.md` | Missie, doelgroep, productidentiteit en grenzen |
+| `USER_EXPERIENCE.md` | Routes en interactieprincipes |
+| `DESIGN_SYSTEM.md` | Twee ontwerpwerelden en ontwerp-/motionregels |
+| `FEATURES.md` | Functionele eisen en financiële acceptatiecriteria |
+| `TECHNICAL_ARCHITECTURE.md` | Architectuur, hergebruik, test- en migratieregels |
+| `SEO_ADSENSE.md` | Zoekverkeer, contentkwaliteit en advertentiegrenzen |
+| `ROADMAP.md` | Mijlpalen, volgorde en review-gates |
+| `CLAUDE.md` | Deze operationele werkafspraken |
 
-Er zijn twee reizen die wezenlijk verschillen — zie [customers/](customers/).
-Verbouwers kiezen vooraf en rekenen. Nieuwbouwkopers krijgen het depot er
-automatisch bij en hebben vooral uitvoeringsvragen.
+**Bij tegenstrijdigheid:**
+1. Geldende wetgeving, privacy, financiële juistheid en gebruikersveiligheid gaan voor.
+2. De meest recent expliciet goedgekeurde beslissing van de producteigenaar gaat voor de documenten.
+3. De acht nieuwe kerndocumenten zijn leidend voor **toekomstig product en ontwerp**.
+4. De actuele broncode en actuele tests zijn leidend voor **hoe de huidige site daadwerkelijk werkt**.
+5. Oude `plannen/`, `context/`, `spec/`, `demo/`, `review.md` en de historische `roadmap.md` zijn **historische input**, geen bindende ontwerpinstructies. Behoud hun kennis over fouten, bankdata en rekenregels, maar neem oude visuele beperkingen niet automatisch over.
 
----
+**Let op bestandsnamen:** de nieuwe roadmap is `ROADMAP.md`; de historische repo heeft `roadmap.md`. Op hoofdlettergevoelige systemen zijn dit verschillende bestanden. Laat ze nooit ongemerkt twee concurrerende roadmaps blijven. Archiveer of herlabel de oude roadmap pas na een expliciet migratiebesluit.
 
-## 2. Zo werken we samen
+**Migratieregel:** zet deze acht documenten eerst gezamenlijk in een aparte documentatiebranch. Vervang de bestaande `CLAUDE.md` pas in die branch, zodat we de nieuwe werkinstructies als één set beoordelen. Controleer interne verwijzingen en oude instructies voordat ontwikkelwerk begint.
 
-Je werkt samen met een founder/operator. Die leest mee en beslist.
+## 3. Niet-onderhandelbare productvisie
 
-**Klein en te overzien.** Eén onderwerp per wijziging. Liever drie wijzigingen
-die elk in twee minuten te beoordelen zijn dan één die een halve avond kost.
+### Homepage: minimalistisch met gerichte 3D-ervaring
+- Luxe editorial look: warme lichte achtergrond, sterke typografie, veel witruimte.
+- Een betekenisvol 3D-object of -verhaal dat de relatie tussen bouwen en geldstromen laat zien.
+- Scrollinteractie mag fascineren, maar mag inhoud, navigatie en toegankelijkheid niet blokkeren.
+- Routes naar **Nieuwbouw**, **Verbouwen / uitbreiden**, en **Direct bouwdepot berekenen**; lopend depot blijft vindbaar.
+- Mobiele en reduced-motion ervaring moeten ook zonder 3D volledig werken.
 
-**Raakt het productgedrag? Eerst het plan.** Verandert er iets aan wat de
-bezoeker ziet, invoert of terugkrijgt: leg eerst kort voor wat je gaat doen en
-waarom, en begin daarna pas. Voor een tekstcorrectie, een stijlaanpassing of een
-bugfix is dat niet nodig — doe die gewoon.
+### Dashboards: rustig premium fintech
+- Prioriteit aan directe financiële inzichten en subtiele interactie.
+- Heldere maandgrafieken, begrotingen, scenariovergelijkingen, tabellen en aannames.
+- Echte invoervelden naast eventuele sliders; geen grafiek zonder tekstalternatief.
+- Transparant onderscheid tussen bruto/netto, lasten/kosten, hypotheek/depot, aannames/feiten.
+- Geen visuele drukte, onnodige gamification of massaal herhaalde kaartjes.
 
-**Blijf binnen de opdracht.** Zie je onderweg een tweede probleem, meld het en
-maak eerst af waar je mee bezig was. Niet stilletjes meenemen.
+**De huidige `broadsheet.css` is een bestaande implementatie, géén ontwerpdoel.** Je mag nieuwe, herbruikbare tokens en componenten bouwen. Verwijder of vervang de oude stijl pas gecontroleerd, wanneer de nieuwe ervaring geaccepteerd is en kritieke pagina's correct blijven werken.
 
-**Volg de bestaande stijl.** Kijk hoe het naastgelegen bestand het doet:
-Nederlandse namen, vier spaties inspringen, commentaar dat uitlegt waaróm. Je
-wijziging hoort niet op te vallen tussen de rest.
+## 4. Eerste opdracht: audit, niet implementeren
 
-**Draai de checks die ertoe doen.** Minimaal `npm test`; bij iets dat de build of
-de data raakt `npm run build`. Bij UI: zelf in de browser kijken, op 1440 én op
-375 breed.
+Begin met **mijlpaal 0 in `ROADMAP.md`**. Verander in deze fase geen gebruikersgerichte sitecode.
 
-**Sluit af met drie dingen:** wat er veranderd is, waarmee je het getest hebt, en
-wat een mens nog moet beoordelen. Dat laatste is geen formaliteit — noem het echt
-als je ergens onzeker over bent of iets hebt aangenomen.
+1. Inspecteer de Git-branch, de werkboom, package scripts en deploymentconfiguratie.
+2. Inventariseer alle HTML-routes, zoekkritieke pagina's, JavaScript-modules, rekencores, localStorage-gebruik, CSS, bronnen, scripts, generators en tests.
+3. Controleer welke documentatie en paden verouderd zijn; maak een lijst met concrete conflicten.
+4. Leg de huidige run/build/test-uitkomsten vast. Rapporteer mislukkingen zonder ze stil te repareren of te verbergen.
+5. Noteer ontbrekende metingen: Search Console-export, gebruikersgedrag, performance en AdSense-status. Verzin geen waarden.
+6. Maak een feature-gapmatrix: **bestaat en bruikbaar / bestaat maar herzien / ontbreekt**.
+7. Maak een voorstel voor een kleine, veilige pilot op een nieuwe ontwikkelbranch.
 
-**Commit of push alleen als erom gevraagd wordt.**
+**Oplevering:** een beknopte audit met bestandspaden, risico's, uitgevoerde commando's, testresultaten, en een voorstel voor mijlpaal 1. **Stop daarna voor beoordeling.**
 
----
+## 5. Grote mijlpalen: wat mag autonoom en wanneer stoppen?
 
-## 3. Harde regels
+Na goedkeuring van de vorige mijlpaal mag je de volgende volledig uitvoeren.
 
-Deze komen uit fouten die al een keer gemaakt zijn.
+| Fase | Resultaat | Gate |
+|---|---|---|
+| 0 — Audit | technische nulmeting + risico's | eigenaar keurt aanpak goed |
+| 1 — Ontwerp | drie **onderscheidende** homepageconcepten met echte preview, plus dashboardrichting | eigenaar kiest richting |
+| 2 — Homepage | werkende high-end homepage met optionele 3D en routes | eigenaar beoordeelt mobiel, desktop en motion |
+| 3 — Nieuwbouw | minimaal één complete maandlastentijdlijn met correcte rekenkern en scenario | financiële en UX-review |
+| 4 — Verbouwen | begroting, financieringsinzicht en export | financiële en UX-review |
+| 5 — Integratie | consistente navigatie, bankdata, exports, oude calculators | regressie- en SEO-review |
+| 6 — Monetisatie | kwaliteitscontrole, toestemming, advertentieposities, meting | afzonderlijke acceptatie |
+| 7 — Publicatie | gecontroleerde uitrol | **expliciete toestemming** |
 
-**Data verzin je niet.** Elke waarde in `data/bouwdepot-voorwaarden.json` komt
-van de officiële publieke pagina van de aanbieder, met bron en datum. Publiceert
-een aanbieder iets niet, dan `null` met status `niet-gepubliceerd` — nooit een
-schatting. Een verouderde cel is beter dan een verkeerde cel.
+**Ontwerpen is niet automatisch bouwen.** In fase 1 eerst echte, visuele concepten opleveren. Geen definitieve keuze voor een 3D-engine, componentbibliotheek of volledige frameworkmigratie vóór een onderbouwd voorstel en goedkeuring.
 
-**Nuance mag niet verdwijnen.** Heeft een veld een `detail`, dan rendert dat
-overal mee, ook in een krappe tabel. `tests/nuance.test.mjs` faalt als dat niet
-gebeurt. Dit is de fout die een echte gebruiker meldde; zie
-[customers/signalen.md](customers/signalen.md).
+## 6. Git en beschermde omgeving
 
-**Geen advies, alleen informatie.** Geen persoonlijke aanbeveling, geen "beste
-bank voor jou", geen bezoekersgegevens naar een geldverstrekker. Zodra we dat wel
-doen is het AFM-vergunningplichtig. Zie
-[JURIDISCHE-CHECK.md](plannen/JURIDISCHE-CHECK.md).
+- **Nooit direct op `main` ontwikkelen** voor de herontwikkeling.
+- Gebruik een expliciete branch, bijvoorbeeld `redesign/phase-0-audit` en later `redesign/homepage-prototype`.
+- Voer geen `push`, merge, release of productie-deploy uit zonder uitdrukkelijk verzoek. Een lokale commit alleen als de eigenaar daarvoor toestemming geeft of de lopende opdracht dat expliciet autoriseert.
+- Geen geforceerde pushes, branchverwijderingen, history rewrites, secrets in commits of automatische productiemigraties.
+- Bij een niet-schone werkboom: inspecteer en meld bestaande wijzigingen voordat je iets overschrijft.
+- Prototype-URL's en builds mogen geen onbedoelde indexeerbare duplicaten of privacyproblemen opleveren.
+- Zorg dat iedere mijlpaal afzonderlijk terug te draaien is.
 
-**Antwoord eerst, diepte op verzoek.** Elke pagina begint met de uitkomst, niet
-met een inleiding. Tekstvolume is geen kwaliteitsmaat en is dat nooit geweest.
+## 7. Architectuur en migratieregels
 
-**Tekst staat in de HTML.** Verdieping bereik je via echte links naar echte
-pagina's, niet alleen achter JavaScript of in tabbladen.
+De huidige applicatie is een **statische Vite multi-page site** met afzonderlijke HTML-ingangen, gedeelde JS-modules en generatoren. Begin met deze architectuur; een Next.js-, React- of andere frameworkmigratie is **niet vanzelfsprekend**.
 
-**Ontwerp via tokens.** Kleur, maat en ruimte komen uit
-`src/styles/design-system.css`. Geen losse hexwaarden of pixelmaten in
-paginabestanden of in JavaScript. We imiteren geen bank: de site ontleent zijn
-waarde aan onafhankelijkheid.
+- Scheid financiële rekenlogica, datalaag, grafieken en presentatielaag.
+- Hergebruik bestaande geteste functies waar ze correct zijn; verbeter isolatie voordat je grote veranderingen maakt.
+- Pas gegenereerde bestanden niet met de hand aan; inspecteer eerst het generatiescript en de inputbron.
+- Controleer bijvoorbeeld de bestaande `data/bouwdepot-voorwaarden.json`, de generatiepijplijn, `vite.config.js`, `src/styles/broadsheet.css`, `src/js/` en `tests/` — **werkelijke paden eerst verifiëren**.
+- Voeg dependencies alleen toe na uitleg van nut, bundle-impact, onderhoud en fallback.
+- Nieuwe 3D-code laad je alleen waar nodig, met een lichte statische fallback en `prefers-reduced-motion`.
+- Geen login, backend-gebruikersdatabase of betalingen toevoegen zonder apart productbesluit.
+- Gebruik consistente design tokens, semantische componenten en een gedeelde toegankelijkheidsstandaard.
 
-**Meten, niet aannemen.** Bekijk een verandering in de browser voordat je zegt
-dat hij goed is. Zie [review.md](review.md) en [demo/](demo/).
+## 8. Financiële juistheid gaat boven visuele afwerking
 
----
+**Verboden fouten:**
+- Het bouwdepot als extra hypotheek bovenop de hele lening meetellen zonder contractgrond.
+- Depotopnames gelijkstellen aan automatische aflossing.
+- Contractafhankelijke depotvergoeding, fiscale effecten of bankregels verzinnen.
+- Een netto-bedrag tonen zonder expliciet vastgelegde fiscale uitgangspunten.
+- Financiële last, aflossing, rente en kosten zonder definitie door elkaar gebruiken.
+- Vertraagde oplevering uitsluitend als `extra maanden × huidige huur` modelleren wanneer de UI een volledig financieel effect belooft.
+- Ontbrekende data als nul presenteren, of bedragen uit voorbeeldscenario's als persoonlijke waarheid weergeven.
 
-## 4. De kwaliteitslat
+**Verplicht bij elke rekenwijziging:**
+1. Documenteer model, eenheden, timing en formule.
+2. Controleer verwachte uitkomsten onafhankelijk van de bestaande code.
+3. Test nulgevallen, grenswaarden, meerdere leningdelen en afwijkende scenario's waar toepasselijk.
+4. Scheid contract-/bankafhankelijke feiten van generieke illustratieve aannames.
+5. Houd de weergegeven grafiek, maandtabel, samenvatting en printversie rekenkundig consistent.
 
-Vier eisen aan het product, en één aan de code. Allemaal toetsbaar; de checklist
-staat in [review.md](review.md).
+De website informeert en rekent; hij geeft geen persoonlijke krediet- of productaanbeveling. Veronderstel niet dat één disclaimer op zichzelf alle juridische risico's wegneemt; escaleer nieuwe commerciële of adviesachtige functies voor beoordeling.
 
-### Financieel-serieus om te zien
-Iemand die hier zijn hypotheeklasten uitrekent moet het gevoel hebben dat het
-klopt. Dat komt van rust en precisie: ruime witruimte, één accentkleur, bedragen
-in tabular numerals zodat ze niet verspringen tijdens het typen. Niet van kaders,
-kleuren of drukte.
+## 9. SEO, content, AdSense en privacy
 
-### In vijf seconden te snappen
-Een nieuwe bezoeker moet binnen vijf seconden zien wát hij invult en wáár het
-antwoord verschijnt, zonder uitleg te lezen. De toets is letterlijk: laat iemand
-vijf seconden naar de pagina kijken en vraag wat hij denkt te moeten doen.
-Twijfelt hij, dan is het scherm nog niet af.
+- Bestaande succesvolle zoeklandingspagina's en URL-slugs zijn assets: **niet zomaar hernoemen, samenvoegen of verwijderen**.
+- Bestaande canonical-URL's, indexeerbare HTML-content, interne links, sitemap en verwijzingen beschermen.
+- Nieuwe dashboards mogen individuele rekenpagina's aanvullen, niet organische bezoekers tot een verplichte onboarding dwingen.
+- Voor SEO-wijzigingen: voor/na-URL-overzicht, redirectplan indien nodig, controle op canonical en crawlbaarheid.
+- Maak geen massale, bijna identieke SEO-pagina's of inhoud puur voor AdSense.
+- AdSense-toelating en inkomsten zijn niet gegarandeerd; maak geen verzonnen opbrengstschattingen of zogenaamd vaste paginaminima.
+- Advertenties mogen invoer, uitslagen, essentiële uitleg en belangrijkste interacties niet onderbreken.
+- Controleer toepasselijke Europese toestemmingsregels en Google's CMP-vereisten voordat advertenties operationeel worden ingezet.
+- Bezoekersgegevens worden niet zonder transparantie naar een eigen server gestuurd. Bekijk bestaand localStorage-gebruik voor je gedeelde state maakt.
 
-### Mobiel is de maatstaf, niet het randgeval
-Ontwerp op 375px breed en verbreed daarna. De harde eis op de homepage: invoer én
-uitkomst in beeld zonder scrollen. De nulmeting was 3,1 schermen scrollen tot de
-uitkomst; zie [demo/](demo/). Aanraakzones minimaal 44 × 44px.
+## 10. Ontwerpkaders: visueel én meetbaar
 
-### Snel, want daar hangt het verdienmodel aan
-De site is statisch en heeft geen framework. Zo houden. Elke nieuwe
-afhankelijkheid kost laadtijd en moet die verdienen: weeg hem expliciet en laad
-hem alleen op de pagina's die hem gebruiken. Geen bibliotheek meebundelen voor
-iets wat in twintig regels eigen code kan. Beeld maken we als eigen SVG, passend
-bij de tokens.
+Bij UI-werk wordt **daadwerkelijk in de browser** gecontroleerd, mits browser-/previewmiddelen beschikbaar zijn. Als die niet beschikbaar zijn, rapporteer je dat en vraag je om een previewreview; claim geen uitgevoerde visuele controle.
 
-### En de code zelf
-Schoon en te onderhouden: geen dode code laten staan, geen tweede manier
-introduceren om iets te doen dat al ergens gebeurt, geen gegenereerd bestand met
-de hand aanpassen. Wat je nu bouwt moet over drie maanden nog te volgen zijn.
+Controleer ten minste:
+- Desktop rond 1440px; mobiel rond 375px; indien mogelijk ook tablet.
+- Headline-hiërarchie, uitlijning, hover/focus, formuliervalidatie, toetsenbord en leesbaarheid.
+- `prefers-reduced-motion`, fallback zonder WebGL en bruikbaarheid bij langzame verbinding.
+- WCAG AA-relevante contrasten, bereikbare aanraakvlakken en labels.
+- Geen geknipte bedragen, horizontaal scrollende pagina of beweging die een actie blokkeert.
+- Performance via meetbare metrics in plaats van visueel gevoel; rapporteer meetomgeving en eventuele beperkingen.
 
----
+**Designreview:** een nieuw concept is niet klaar omdat de CSS anders is. Het moet aantoonbaar een andere hiërarchie, compositie, route-ervaring en productpresentatie geven dan de vorige broadsheet-website.
 
-## 5. Commando's
+## 11. Tests en lokale commando's
+
+Controleer de scripts in `package.json` voordat je ze gebruikt. De repository bevat ten minste een Vite-devserver en npm-scripts voor tests/build en gegenereerde bankgegevens.
+
+Verwachte basiscommando's, **na verificatie van het actuele packagebestand**:
 
 ```bash
+npm install
 npm run dev
-```
-
-```bash
 npm test
-```
-
-```bash
 npm run build
 ```
 
-- `npm run dev` — Vite op poort 5173. Ook via de preview-tool
-  (`.claude/launch.json`, configuratie `vite`).
-- `npm test` — `node --test` over `tests/`. Bewaakt data-integriteit, niet UI.
-- `npm run build` — draait eerst de tests, dan de generatoren, dan Vite. Een
-  falende test blokkeert de build met opzet.
-- `npm run check:voorwaarden` — vergelijkt de bronpagina's van de aanbieders met
-  `data/bronnen-snapshot.json`. Werkt niets automatisch bij; meldt alleen.
+- Run de relevante bestaande tests en voeg nieuwe tests toe voor nieuwe rekenlogica.
+- Vergelijk bekende scenario-uitkomsten vóór en na een UI-migratie.
+- Als een generator HTML/CSS/JS produceert: wijzig de bron, niet uitsluitend de uitvoer.
+- Rapporteer welke controles wel en niet uitvoerbaar waren. Een falende test is een blocker, geen reden om de test weg te halen.
+- Geef na elke mijlpaal een korte lijst met resterende risico's en menselijke reviewpunten.
+
+## 12. Standaard opleverformat per mijlpaal
+
+Rapporteer in het Nederlands:
+
+1. **Wat is opgeleverd?** Benoem het bezoekersvoordeel.
+2. **Wat is veranderd?** Belangrijkste bestanden, componenten en routes.
+3. **Wat werkt aantoonbaar?** Tests, build, preview, screenshots en meetgegevens, zonder te overdrijven.
+4. **Wat is nog onzeker?** Bijvoorbeeld bankregels, fiscale aannames of mobiele prestaties.
+5. **Wat moet de eigenaar kiezen of beoordelen?** Eén compacte beslisvraag of acceptatiecheck.
+6. **Volgende stap na goedkeuring.** Niet automatisch naar de volgende mijlpaal doorgaan.
+
+Vermijd lange opsommingen van triviale wijzigingen. De review gaat over productkwaliteit en risico's, niet over aantallen gewijzigde regels.
+
+## 13. Wat je niet meer moet doen
+
+- Niet op eigen initiatief de huidige homepage nogmaals minimaal restylen.
+- Niet blind oude broadsheet-regels volgen omdat ze in vorige plannen staan.
+- Niet de productvisie vernauwen tot een statische calculator met extra tekst.
+- Niet een grote refactor voorstellen zonder aantoonbaar bezoekers- of onderhoudsvoordeel.
+- Niet in één keer alle pagina's migreren voordat het nieuwe patroon is geaccepteerd.
+- Niet een luxe 3D-hero maken die mobiel trager of onbruikbaar wordt.
+- Niet alleen suggesties of wireframes leveren wanneer om een werkend prototype is gevraagd.
+- Niet ongevraagd verschillende financiële formules herschrijven om een grafiek te laten passen.
+- Niet uit een verouderd plandocument een productie- of AdSense-status afleiden.
+
+## 14. Startinstructie voor de eerstvolgende Claude Code-sessie
+
+> Lees `CLAUDE.md` en de zeven genoemde productdocumenten. Voer **uitsluitend mijlpaal 0 (audit en nulmeting)** uit volgens `ROADMAP.md`. Analyseer actuele code, bestaande rekenfuncties, tests, route- en SEO-risico's en verouderde documentatie. Voer passende bestaande tests en build uit als de omgeving dit toelaat. Lever een feature-gapmatrix en een voorstel voor drie **werkelijk verschillende** homepageconcepten om in mijlpaal 1 te ontwerpen. Wijzig geen gebruikersgerichte code, push niets en deploy niets. Stop na je audit voor mijn review.
 
 ---
 
-## 6. Waar staat wat
-
-```
-*.html                 31 pagina's, elk een eigen Vite-ingang
-src/js/                logica per pagina + gedeelde modules
-src/styles/            design-system.css is de bron van waarheid voor vorm
-data/                  geverifieerde brondata (handwerk, met bronvermelding)
-scripts/build-*.mjs    genereren HTML-fragmenten en JS uit data/
-tests/                 node:test, bewaakt dat pagina's de data trouw blijven
-public/                robots.txt, sitemap.xml, ads.txt, favicons, og-image
-dist/                  build-uitvoer, niet in git
-```
-
-`src/js/bankdata.generated.js` is **gegenereerd**. Nooit met de hand aanpassen —
-wijzig `data/bouwdepot-voorwaarden.json` en draai `npm run build:voorwaarden`.
-
-Hetzelfde geldt voor **de header van elke pagina**. Die komt uit
-`data/navigatie.json` via `npm run build:header`. Pas je hem met de hand aan in
-een HTML-bestand, dan is hij bij de volgende build weg en faalt
-`tests/header.test.mjs`. Dat is met opzet: hij stond eerder in 26 bestanden en
-liep uit elkaar tot er zes verschillende navigaties waren.
-
-### Een pagina toevoegen
-
-1. Het HTML-bestand in de repo-root.
-2. Een ingang in `vite.config.js` — anders komt de pagina niet in de build.
-3. Een `<url>` in `public/sitemap.xml`.
-4. Interne links vanaf de pagina's waar hij thuishoort.
-
-Volledige routine: [routines/nieuwe-pagina.md](routines/nieuwe-pagina.md).
-
----
-
-## 7. De werkmap
-
-| Bestand of map | Waarvoor |
-|---|---|
-| [roadmap.md](roadmap.md) | Wat nu, wat hierna, wat later. Eén bron voor volgorde |
-| [review.md](review.md) | Wanneer werk af is, plus het logboek van opgeleverd werk |
-| [context/](context/) | Bedrijfscontext, techniek, en waarom keuzes zijn gemaakt |
-| [context/componenten.md](context/componenten.md) | Welke 109 componenten er zijn en waar ze niet voor zijn. Kijk hier vóór je een klasse maakt |
-| [customers/](customers/) | De twee reizen en wat echte bezoekers melden |
-| [spec/](spec/) | Eén bestand per stuk werk, geschreven vóór de code |
-| [demo/](demo/) | Voor-en-na bewijs van UI-werk, met gemeten waarden |
-| [routines/](routines/) | Terugkerende taken met een vast stappenplan |
-| [plannen/](plannen/) | De inhoudelijke analyses: product, ontwerp, kwaliteit, verdienmodel, juridisch, concurrentie |
-
-De werkmap verwijst naar de plannen en herhaalt ze niet. Andersom geldt: die
-plannen zijn analyses van een moment en lopen op onderdelen achter op de code —
-[plannen/README.md](plannen/README.md) noemt per document wat verouderd is.
-**Meet zelf voordat je een getal uit een plandocument overneemt.**
-
----
-
-## 8. Conventies
-
-- **Nederlands** overal: code-commentaar, tests, commits, documentatie.
-- **Commits** in gebiedende wijs, en ze beschrijven wat er verandert voor de
-  bezoeker: "Haal de leenruimte uit het uitklapblok en maak er een eigen pagina
-  van" — niet "fix css".
-- **Commentaar legt uit waaróm**, niet wat er staat. De bestaande bestanden laten
-  het bedoelde niveau zien.
+**Productregel voor elke beslissing:** de homepage maakt nieuwsgierig; de dashboards geven financiële controle; tests en bronnen maken de resultaten betrouwbaar.

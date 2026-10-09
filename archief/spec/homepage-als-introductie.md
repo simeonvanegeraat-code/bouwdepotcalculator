@@ -8,7 +8,7 @@
 
 De homepage ís de rekenmachine. Voor wie binnenkomt met "wat kost mijn bouwdepot
 per maand" werkt dat goed: de uitkomst staat op 375px na 0,42 scherm in beeld
-([demo/2026-08-19-nulmeting-homepage.md](../demo/2026-08-19-nulmeting-homepage.md)).
+([demo/2026-08-19-nulmeting-homepage.md](../../demo/2026-08-19-nulmeting-homepage.md)).
 Dat is niet wat we willen veranderen.
 
 Het probleem zit ernaast. De site heeft zeven rekenhulpen en 31 pagina's, en de
@@ -27,7 +27,7 @@ cijfer. Wat wél gemeten is, staat hierboven en in de demo-map.
 Beide reizen, maar de winst zit bij de nieuwbouwkoper. Die krijgt het depot er
 automatisch bij en heeft uitvoeringsvragen — termijnen, dubbele lasten,
 declaraties — en niet in de eerste plaats een maandlastvraag. Zie
-[customers/reis-nieuwbouwkoper.md](../customers/reis-nieuwbouwkoper.md).
+[customers/reis-nieuwbouwkoper.md](../../customers/reis-nieuwbouwkoper.md).
 De verbouwer, die wél komt om te rekenen, mag er geen last van krijgen: voor hem
 moet de rekenmachine één klik weg zijn en verder onveranderd werken.
 

@@ -1,80 +1,17 @@
-# Review
+# Logboek
 
-Drie dingen: waar je op nakijkt, hoe je bevindingen indeelt, en wat er al
-opgeleverd is.
+Wat er is opgeleverd, waarmee het is nagekeken, en wat er open bleef staan.
+Nieuwste bovenaan.
 
----
+De checklist die hier stond is op 9 oktober 2026 vervallen. Wanneer werk af is
+staat nu in [FEATURES.md](FEATURES.md) paragraaf 18 en, voor
+architectuurwijzigingen, in
+[TECHNICAL_ARCHITECTURE.md](TECHNICAL_ARCHITECTURE.md) paragraaf 13.
 
-## 1. Checklist vóór opleveren
+Dit logboek blijft wél. Het bewaart wat er is opgeleverd, waarmee het is
+nagekeken en welke fouten er onderweg zijn gemaakt. Die kennis gaat niet mee in
+de nieuwe productrichting, maar hij is wel duur betaald.
 
-Loop af wat van toepassing is. Sla je iets over, zeg dan wélk punt.
-
-### Product en UX
-- [ ] Snapt een nieuwe bezoeker de tool binnen vijf seconden — wat vul ik in, waar verschijnt het antwoord — zonder uitleg te lezen?
-- [ ] Ziet het er professioneel en betrouwbaar uit? Rust en precisie, geen drukte.
-- [ ] Volledig responsive: geen layoutproblemen op 375px, niets loopt over of valt weg.
-- [ ] Is er structurele ruimte voor SEO-content en advertenties, zonder dat die het rekenwerk onderbreken?
-
-### Code en scope
-- [ ] Is de wijziging klein genoeg om te beoordelen? Eén onderwerp.
-- [ ] Geen onnodige complexiteit toegevoegd: geen tweede manier om iets te doen dat al bestaat, geen bibliotheek voor wat in twintig regels kan.
-- [ ] Zijn invoerfouten afgevangen? Leeg veld, nul, negatief bedrag, tekst in een getalveld, onrealistisch hoge invoer — de bezoeker krijgt een begrijpelijke melding, geen `NaN` en geen lege uitkomst.
-- [ ] Past de wijziging bij het huidige blok in [roadmap.md](roadmap.md)?
-
-### Altijd
-- [ ] `npm test` slaagt.
-- [ ] `npm run build` slaagt (die draait de tests en de generatoren).
-- [ ] Geen gegenereerd bestand met de hand aangepast (`src/js/bankdata.generated.js`).
-- [ ] Nieuwe of hernoemde pagina staat in `vite.config.js` én in `public/sitemap.xml`.
-- [ ] Commentaar, teksten en commit zijn in het Nederlands.
-
-### Bij wijzigingen aan de UI
-- [ ] Zelf in de browser bekeken — desktop (1440px) én mobiel (375px).
-- [ ] Kleur, maat en ruimte komen uit `src/styles/design-system.css`, geen losse waarden — ook niet in JavaScript.
-- [ ] Aanraakzones minimaal 44 × 44px, contrast haalt WCAG AA.
-- [ ] De uitkomst staat bovenaan, de uitleg eronder.
-- [ ] Bedragen verspringen niet tijdens het typen.
-- [ ] Voor-en-na met gemeten waarden vastgelegd in [demo/](demo/).
-
-### Bij wijzigingen aan data of voorwaarden
-- [ ] Elke gewijzigde waarde heeft een bron-URL en een controledatum.
-- [ ] Niets gepubliceerd? Dan `null` met status `niet-gepubliceerd`, geen schatting.
-- [ ] Elke `detail` komt overal mee, ook op de vergelijkingspagina.
-- [ ] Geen kop die meer belooft dan de toelichting waarmaakt.
-- [ ] Geen persoonlijke aanbeveling, geen "beste keuze".
-
-### Bij wijzigingen die SEO of laadtijd raken
-- [ ] Titel en metabeschrijving zijn uniek en beschrijven deze pagina.
-- [ ] Eén `<h1>`, en de koppen lopen op zonder niveaus over te slaan.
-- [ ] De inhoud staat in de HTML, niet alleen achter JavaScript.
-- [ ] Verdieping via echte links naar echte pagina's.
-- [ ] `lastmod` in de sitemap bijgewerkt.
-- [ ] Geen nieuwe afhankelijkheid zonder afweging; wat je toevoegt laadt alleen op de pagina's die het gebruiken.
-- [ ] De bundel van de gewijzigde pagina is niet zonder reden gegroeid.
-
----
-
-## 2. Bevindingen indelen
-
-Alles wat uit een review komt, krijgt één van deze drie. Zonder indeling wordt
-elke opmerking even zwaar, en dan blijft er niets over dat écht moet.
-
-| Categorie | Wat erin hoort | Wat ermee gebeurt |
-|---|---|---|
-| **Must fix** | Bugs, kapotte UI, verkeerde berekeningen, onjuiste of ongenuanceerde data | Blokkeert opleveren. Eerst dit |
-| **Should fix** | UX-verbeteringen, opmaak, naamgeving, dubbele code | Mag mee als het klein is, anders naar de roadmap |
-| **Okay to ship** | Voldoet aan de eisen | Opleveren en in het logboek zetten |
-
-Een verkeerde berekening of een dataveld dat zijn nuance verliest is altijd
-**must fix**, ook als het onbeduidend lijkt. Daar hangt het vertrouwen aan, en
-dat is het hele product.
-
----
-
-## 3. Logboek
-
-Nieuwste bovenaan. Eén regel per opgeleverd stuk werk: wat er veranderde, hoe
-het is nagekeken, en wat er open bleef staan.
 
 | Datum | Wat | Nagekeken met | Open gebleven |
 |---|---|---|---|
@@ -82,7 +19,7 @@ het is nagekeken, en wat er open bleef staan.
 | 02-09-2026 | De hoofdknop had zwarte letters op teal, op elf pagina's: `.bs a` is een klasse plus een element en won van `.bs-knop`. Opgelost in de generieke linkregel, want een knop is geen link. Daarnaast een wisknop op privacy.html waarmee de bezoeker zelf weghaalt wat de site op zijn apparaat bewaart; die belofte stond er wel, maar wees in de praktijk naar de browserinstellingen | Alle 25 pagina's met een knop nagelopen op de berekende kleur: primair wit, `--licht` inkt op bone, `--spook` bone op de zwarte band, en geen enkele knop donker op donker. Wisknop van begin tot eind: 88.000 ingevuld geeft € 1.157 en overleeft herladen, wissen meldt "2 bewaarde gegevens verwijderd", terug op de rekenpagina staat 50.000 met € 1.204. Eerste klik wist niets. Productie geverifieerd. 76/76 tests | De wisknop gebruikt `localStorage.clear()` en geen lijst sleutels: de site bewaart onder zeven namen en zo'n lijst veroudert — de depotplanner staat al op v3. Gevolg is wel dat hij álles wist wat deze site heeft weggeschreven, ook wat er later bij komt. Dat is hier de bedoeling, maar het is een keuze en geen detail. Alle vier de open vragen uit de spec zijn nu beslist: slug blijft `bouwdepot-berekenen.html`, "echt" blijft in de kop |
 | 01-09-2026 | `main.js` opgesplitst: zes rekenpagina's uit één bestand van 1.794 regels, nu een module per pagina. Elke pagina laadde de code van alle zes. Ook de euro-opmaker samengevoegd; die stond in zes modules apart. Nieuw: `src/js/rekenpagina.js` met wat de zes werkelijk delen | Rekencode per pagina van 53,3 kB naar 5,7 tot 13,2 kB. Alle zes uitkomsten gelijk aan ervoor (116, 1.204, 3.530, 1.250, 218, 2.750) plus de vier andere rekenpagina's. Interactie getoetst waar de modules elkaar raken: bedrag verdubbelen, bouwduur 12 naar 24, bankkeuze naar Rabobank. Printknop met rapportgegevens op alle zes. 76/76 tests, build slaagt | Het omzetscript knipte bij de laatste sectie de sluitende `});` mee weg; main.js parseerde toen niet meer en twee pagina's gaven stil € 0. Een module die niet parseert draait helemaal niet, dus er kwam geen console-fout op het moment dat je hem zoekt. Gevonden door de bedragen van alle zes naast elkaar te leggen. `tests/rapportvelden.test.mjs` las een vaste bestandenlijst en leest nu de hele map, zodat een nieuwe pagina niet buiten de bewaking valt |
 | 01-09-2026 | De hele site staat op de broadsheet-richting. Blok 9 tot en met 13 van de migratie: bouwrente, stappenplan, advieschecklist, de negen voorwaardenpagina's, de vijf uitlegpagina's en de vijf beleidspagina's. Daarna zijn `design-system.css`, `pagina.css` en `calculator.css` verwijderd — 87 kB die geen pagina meer laadde — en heten de klassen die JavaScript zelf schrijft ook `bs-`, waardoor ze eindelijk onder `tests/componenten.test.mjs` vallen. Alle 32 pagina's dragen nu `<body class="bs">` en laden één stylesheet | Elke pagina op 375 en 1440 naast zijn versie uit git gelegd, met schone localStorage. Op mobiel overal winst: de uitkomst of de kernzin staat 0,05 tot 0,12 scherm hoger en de pagina's zijn 12 tot 26 procent korter. Op 1440 gelijk of iets korter, op vier uitlegpagina's honderd tot honderdvijftig pixels langer. Uitkomsten bij gelijke invoer identiek gecontroleerd (bouwrente € 2.000, ABN 24/36 maanden, belasting € 218). Geen horizontale overloop op 375, 600, 720, 800, 900, 1024 en 1440. Na de opruiming elke interactie nagelopen die niet in de HTML staat: printdocument, bankkeuze, uitgeschakeld veld, termijnschema, grafiek, tabel en zwevende balk. 76/76 tests, build slaagt, productie geverifieerd | Vijf onderdelen bleken al een paar dagen zonder opmaak live te staan: het printdocument, de bankkeuze, het uitgeschakelde veld op renteverlies, het tekort op leenruimte en het formuleblok. Allemaal dingen die je pas ziet als je klikt of afdrukt, en dus door geen enkele test of oogopslag gevonden. Ze kwamen boven met een script dat élke klasse uit de HTML én de JavaScript-bestanden vergelijkt met de stylesheet; dat hoort vóór het weghalen van een stylesheet te draaien, niet erna. Verder: `injectResetActions()` in `shared-form-memory.js` is dode code geworden (zoekt `.calculator-card`, die nergens meer bestaat) en daarmee ook de knop om onthouden invoer te wissen — apart opgepakt. De prefix `bs-` blijft staan hoewel de reden ervoor weg is; hem verwijderen raakt 32 pagina's zonder dat er iets verandert |
-| 31-08-2026 | De homepage is een introductie geworden en de rekenmachine staat op `bouwdepot-berekenen.html`. Nieuwe ontwerptaal: een redactionele broadsheet naar New Form Capital, met ons eigen teal als enige accent, in `src/styles/broadsheet.css`. De uitkomst verschijnt als rekening op papier — zwevend en meerekenend op de homepage, stilstaand op de rekenpagina. De annuïteitenformule stond drie keer letterlijk in `main.js` en zit nu in `src/js/annuiteit.js`. Zie [spec/homepage-als-introductie.md](spec/homepage-als-introductie.md) | Uitkomsten van de nieuwe rekenpagina naast de oude homepage gelegd: € 25.000 / 3,80% / 30 jaar geeft op beide € 116 bruto, € 79 rente, € 37 aflossing en € 16.936 totale rente; lineair op beide € 149 en € 14.290. Rekenpagina op 375px: uitkomst op 0,42 scherm (gelijk aan de oude homepage), eerste invoerveld op 0,91 (was 1,04). Homepage op 375px: "Start berekenen" op 0,38 scherm. Kopregels gemeten op 375/600/820/1000/1200/1400/1600/1920: overal drie regels zonder ongewenste afbreking. De homepage laadt nu 22 kB aan JS en CSS. 76/76 tests, build slaagt, previews blijven buiten `dist` | De andere 29 pagina's staan nog op de oude ontwerptaal; twee talen naast elkaar tot die migratie af is. `tests/typografie.test.mjs` staat drie lettergewichten toe: de oude richting gebruikt 400/600/700 en de nieuwe 400/500/600, dus bij de volgende pagina moet er één weg. Het SEO-effect van de verhuizing is pas over twee tot vier weken te zien in Search Console. De kop claimt met "echt" iets over anderen; die staat nog open |
+| 31-08-2026 | De homepage is een introductie geworden en de rekenmachine staat op `bouwdepot-berekenen.html`. Nieuwe ontwerptaal: een redactionele broadsheet naar New Form Capital, met ons eigen teal als enige accent, in `src/styles/broadsheet.css`. De uitkomst verschijnt als rekening op papier — zwevend en meerekenend op de homepage, stilstaand op de rekenpagina. De annuïteitenformule stond drie keer letterlijk in `main.js` en zit nu in `src/js/annuiteit.js`. Zie [spec/homepage-als-introductie.md](archief/spec/homepage-als-introductie.md) | Uitkomsten van de nieuwe rekenpagina naast de oude homepage gelegd: € 25.000 / 3,80% / 30 jaar geeft op beide € 116 bruto, € 79 rente, € 37 aflossing en € 16.936 totale rente; lineair op beide € 149 en € 14.290. Rekenpagina op 375px: uitkomst op 0,42 scherm (gelijk aan de oude homepage), eerste invoerveld op 0,91 (was 1,04). Homepage op 375px: "Start berekenen" op 0,38 scherm. Kopregels gemeten op 375/600/820/1000/1200/1400/1600/1920: overal drie regels zonder ongewenste afbreking. De homepage laadt nu 22 kB aan JS en CSS. 76/76 tests, build slaagt, previews blijven buiten `dist` | De andere 29 pagina's staan nog op de oude ontwerptaal; twee talen naast elkaar tot die migratie af is. `tests/typografie.test.mjs` staat drie lettergewichten toe: de oude richting gebruikt 400/600/700 en de nieuwe 400/500/600, dus bij de volgende pagina moet er één weg. Het SEO-effect van de verhuizing is pas over twee tot vier weken te zien in Search Console. De kop claimt met "echt" iets over anderen; die staat nog open |
 | 29-08-2026 | Alle tien de rekentools doorlopen op "krijgt de bezoeker waarvoor hij kwam". Twee must-fixes gevonden en opgelost: `40.000` werd als € 40 doorgerekend zonder melding, en de zin over annuïteiten klopte niet zodra de renteaftrek aanstond. 32 velden van `type="number"` naar tekst, 37 leesaanroepen naar `leesGetal` of het nieuwe `leesPercentage` | Elke pagina getoetst met kale notatie, Nederlandse notatie en met euro- en procentteken: overal dezelfde uitkomst. Doorgifte tussen pagina's getoetst (100.000 en 4,25 kwamen goed aan). Bestaande grenzen doen het nog. Metingen in [demo/2026-08-29-nederlandse-notatie.md](demo/2026-08-29-nederlandse-notatie.md). 76/76 tests, 4 nieuwe | Onderweg zelf stukgemaakt en hersteld: het gedeelde geheugen las `100.000` als 100 en gaf dat door aan andere pagina's. Maandvelden zijn bewust `type="number"` gebleven |
 | 22-08-2026 | De homepage voelde als één tool. Vijf sites doorgemeten en drie dingen aangepakt: lettergewichten van twaalf naar drie, een gereedschapsbalk die de zeven rekenhulpen bij naam noemt op alle 31 pagina's, en drie feiten onder een belofteregel die nu over de site gaat in plaats van over privacy | Echte bestemmingen in het eerste scherm van 4 naar 9 (Independer 11, Rabobank 38). Gewichten 12 → 3, groottes 13 → 9. Mobiel gecontroleerd: kop blijft 57px, balk en feiten verschijnen pas vanaf 640px, speling boven de vouw van 25 naar 78px. Metingen in [demo/2026-08-22-homepage-volwassen.md](demo/2026-08-22-homepage-volwassen.md). 72/72 tests, twee nieuwe bewakers | Mijn eerdere advies "koppen naar 400" was te smal getrokken uit twee sites; Wise zet zijn H1 op 900. De regel is weinig en ver uit elkaar, niet licht. Gecorrigeerd in ontwerpreferenties.md. De belofteregel loopt op 375px over drie regels |
 | 22-08-2026 | Alle 31 pagina's hebben een deelkaart: `og:`- en `twitter:`-tags, zodat een gedeelde link in WhatsApp, LinkedIn of Slack de titel, de omschrijving en het domein toont in plaats van een kale URL. Nieuwe bewakingstest `tests/deelkaart.test.mjs` met vier controles | Van 0 naar 31 pagina's met `og:title` en `twitter:card`, ook na `npm run build` (de drie generatoren zijn meegenomen, anders waren ze bij de eerstvolgende build weer verdwenen). De test bewaakt aanwezigheid, gelijkheid met `<title>` en de metabeschrijving, de lengtegrenzen van 60 en 160, en uniciteit. 67/67 tests | Zonder afbeelding: `public/og-1200x630.png` is een leeg bestand van 0 bytes. De kaart toont nu tekst en domein. Ik heb een ontwerp getekend en bekeken, maar het uit de browser naar schijf halen kost onevenredig veel; een 1200x630 PNG in dat bestand zetten en `og:image` toevoegen is daarna vijf minuten werk |
@@ -107,8 +44,8 @@ het is nagekeken, en wat er open bleef staan.
 | 19-08-2026 | Nieuwbouw: het lege grafiekvlak vervangen door een eigen SVG-staafgrafiek uit de tokens; Chart.js-code en de arrays die hem voedden verwijderd | Meetkundig gecontroleerd op 3, 12, 24 en 36 maanden: staafaantal gelijk aan de tabel, niets buiten het tekenvlak, geen stapelfouten, eigen last stijgt monotoon. Mobiel 375px en donkere modus nagelopen. 0 hex-waarden in de SVG, 0 consolefouten, 29/29 tests | Nog te doen: hetzelfde voor `belasting.html` (fiscalChart), daarna kan `chart.js` uit package.json |
 | 19-08-2026 | Rapportschema uitgebreid met tabellen (v1.2.0); de nieuwbouwpagina stuurt het maand-tot-maand verloop mee in de PDF, inclusief een kolom "incl. woonlast" die op het scherm ontbreekt | PDF onderschept zonder te downloaden: 26 rijen bij 24 mnd, gelijk aan het scherm. Paginawissel getest met 122 rijen: 4 pagina's, kolomkop 3x herhaald. Homepage (zonder tabel) onveranderd 1 pagina. 29/29 tests | Zes andere calculators kunnen nu ook een tabel meesturen; nog niet gedaan |
 | 19-08-2026 | Nieuwbouw: het standaard termijnschema schaalt nu mee met de bouwduur in plaats van vast te staan op maand 1/3/6/9/12 | Browser op 1, 6, 12, 24 en 36 maanden: termijnen en piekmaand schuiven mee, depot loopt tot het einde van de bouw. Zelf ingevulde schema's blijven staan bij het wijzigen van de bouwduur. `npm run build`, 29/29 tests, 0 consolefouten | De maand-tot-maand tabel zit **niet** in de PDF-download; alleen samenvattende cijfers |
-| 19-08-2026 | De drie must fixes van de homepage: invoervalidatie met melding, "Zes banken" naar acht plus een test die koppen bewaakt, en de FAQ-vragen zichtbaar op de pagina | Browser: negatief/leeg/nul/miljard/negatieve rente geven nu een melding en geen bedrag; 0% rente rekent gewoon door. Regressietest bewezen door de oude kop terug te zetten. `npm run build`, 29/29 tests, 0 consolefouten | Should fix 4 t/m 8 uit [spec/homepage.md](spec/homepage.md); pagina werd 0,9 scherm langer door de FAQ |
-| 19-08-2026 | Selectie op de bedragknoppen hersteld via `aria-pressed` in plaats van de klasse `.selected`; jsPDF wordt pas bij de klik geladen | Browser: chip wit → teal met witte tekst, bedrag en uitkomst volgen mee. Build: homepage van 423 kB naar **74 kB** JS, jsPDF als losse chunk. `npm test` 28/28 | Volledige inspectie van de homepage staat in [spec/homepage.md](spec/homepage.md): 3 must fix, 5 should fix |
+| 19-08-2026 | De drie must fixes van de homepage: invoervalidatie met melding, "Zes banken" naar acht plus een test die koppen bewaakt, en de FAQ-vragen zichtbaar op de pagina | Browser: negatief/leeg/nul/miljard/negatieve rente geven nu een melding en geen bedrag; 0% rente rekent gewoon door. Regressietest bewezen door de oude kop terug te zetten. `npm run build`, 29/29 tests, 0 consolefouten | Should fix 4 t/m 8 uit [spec/homepage.md](archief/spec/homepage.md); pagina werd 0,9 scherm langer door de FAQ |
+| 19-08-2026 | Selectie op de bedragknoppen hersteld via `aria-pressed` in plaats van de klasse `.selected`; jsPDF wordt pas bij de klik geladen | Browser: chip wit → teal met witte tekst, bedrag en uitkomst volgen mee. Build: homepage van 423 kB naar **74 kB** JS, jsPDF als losse chunk. `npm test` 28/28 | Volledige inspectie van de homepage staat in [spec/homepage.md](archief/spec/homepage.md): 3 must fix, 5 should fix |
 | 19-08-2026 | `src/styles/main.css` verwijderd (3.658 regels, door geen enkele pagina geladen); stale commentaar in `main.js` bijgewerkt | `npm run build`, `npm test` (28/28), homepage in de browser op 1280 en 375: 0 ongestyleerde knoppen, 0 consolefouten, geen verweesde CSS-variabelen | **Must fix:** selectie op de homepageknoppen is onzichtbaar (`.selected` had alleen styling in main.css) |
 | 19-08-2026 | Nulmeting homepage en ontwerpreferenties vastgelegd; roadmap gecorrigeerd op twee achterhaalde aannames | Live site uitgelezen op 375px; rabobank.nl en belastingdienst.nl op 1280px | Zoekdata volgt rond 26-08 |
 | 19-08-2026 | Werkmap ingericht: CLAUDE.md, roadmap, review, en de mappen context/customers/spec/demo/routines | `npm test` (28/28), links gecontroleerd; geen code geraakt | Eerste spec moet nog geschreven worden |

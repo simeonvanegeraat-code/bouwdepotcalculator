@@ -1,5 +1,12 @@
 # Componenten
 
+> **Dit beschrijft de huidige site, niet het nieuwe ontwerp.** Sinds 9 oktober
+> 2026 geldt [../DESIGN_SYSTEM.md](../DESIGN_SYSTEM.md) voor wat we bouwen; dat
+> document gebruikt een eigen `--ui-*`-namespace en noemt `broadsheet.css`
+> uitdrukkelijk geen ontwerpdoel. Deze lijst blijft nodig zolang de bestaande
+> eenendertig pagina’s draaien: hij vertelt wat een `bs-`-klasse betekent en
+> waar hij bewust niet voor is.
+
 Wat er bestaat, waar het voor is, en waar het bewust niet voor is.
 
 De tokens staan bovenaan `src/styles/broadsheet.css` en documenteren zichzelf:
@@ -12,14 +19,17 @@ vult dit bestand.
 hebt er al staat is groot: `.alleen-print` is een keer opnieuw uitgevonden
 terwijl hij er al was.
 
-`tests/componenten.test.mjs` faalt zodra er een component in de CSS staat die
-hier ontbreekt.
+Tot 9 oktober 2026 bewaakte `tests/componenten.test.mjs` dat deze lijst volledig
+bleef. Die test is weggehaald: hij dwong een documentwijziging af bij elke
+CSS-wijziging en dat woog niet op tegen wat hij ving. Dit bestand is nu naslag,
+geen verplichting — vul het aan als het je helpt, niet omdat het moet.
+
 
 ---
 
 ## 1. De broadsheet-richting — `broadsheet.css`
 
-De ontwerptaal uit [ONTWERPPLAN.md](../plannen/ONTWERPPLAN.md) §3, en sinds 1 september
+De ontwerptaal uit [ONTWERPPLAN.md](../archief/plannen/ONTWERPPLAN.md) §3, en sinds 1 september
 2026 de enige. Alle 32 pagina's laden dit bestand en dragen `<body class="bs">`.
 
 `design-system.css`, `pagina.css` en `calculator.css` bestaan niet meer. Ze
@@ -55,7 +65,7 @@ precies het soort wijziging waarbij fouten insluipen die geen test ziet.
 | `.bs-beloften` | Rij korte beloften met een accentblokje ervoor |
 | `.bs-veld__kop` / `.bs-veld__naam` / `.bs-veld__waarde` / `.bs-veld__fout` | Label, huidige waarde en foutmelding bij een invoerveld. De naam staat op leesmaat in gewone zinsvorm — **geen kapitaaltjes**, want die maat is van stempels en kruimelpaden en die sla je over |
 | `.bs-omhulsel` | Invoerveld met een voor- of achtervoegsel (`€`, `%`, `jaar`, `mnd`). **Een grootboekregel**: de lijn is de kolom, het teken staat links en de waarde rechts tegen het eind. Zo eindigt elke waarde in de kolom op dezelfde x, op elke schermbreedte. De twee goten (`--bs-veld-voor`, `--bs-veld-na`) zijn vast — meeschalen laat een lange eenheid het getal naar links duwen en dan lijnt er alsnog niets uit |
-| `.bs-select` | Keuzelijst, op dezelfde liniaal. Blijft een echte `<select>`, dus toetsenbord, schermlezer en het mobiele wiel komen van de browser. Waar `appearance: base-select` bestaat wordt ook de uitklaplijst opgemaakt; waar niet, de lijst van vandaag. **Geen zelfgebouwde lijst** — dat was het plan en het is vervallen, zie [../spec/invoervelden.md](../spec/invoervelden.md). De waarde staat links en niet rechts zoals bij een getal: je lijnt prose niet uit op zijn rechterkant |
+| `.bs-select` | Keuzelijst, op dezelfde liniaal. Blijft een echte `<select>`, dus toetsenbord, schermlezer en het mobiele wiel komen van de browser. Waar `appearance: base-select` bestaat wordt ook de uitklaplijst opgemaakt; waar niet, de lijst van vandaag. **Geen zelfgebouwde lijst** — dat was het plan en het is vervallen, zie [../spec/invoervelden.md](../archief/spec/invoervelden.md). De waarde staat links en niet rechts zoals bij een getal: je lijnt prose niet uit op zijn rechterkant |
 | `.bs-schuif` | Schuifregelaar, 44px hoog voor de duim met een negatieve bovenmarge zodat hij aan zijn veld blijft hangen. **Altijd naast een veld, nooit als enige manier** om een waarde te zetten |
 | `.bs-chips` / `.bs-chip` | Voorkeuzes als tekst met een streep eronder, geen knop met een kader: een suggestie hoort niet even hard te roepen als de knop "Bereken". Raakzone blijft 44px. Stand staat in `aria-pressed`, **niet in een eigen klasse** |
 | `.bs-keuzevak` | Aanvinkoptie met toelichting |

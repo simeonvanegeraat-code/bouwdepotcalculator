@@ -37,7 +37,7 @@ herleidbaar naar een bron, en waar we iets niet weten staat dat er.
 ## Wat we bewust niet zijn
 
 - **Geen adviseur.** Geen persoonlijke aanbevelingen. Dat zou de site
-  AFM-vergunningplichtig maken; zie [plannen/JURIDISCHE-CHECK.md](../plannen/JURIDISCHE-CHECK.md).
+  AFM-vergunningplichtig maken; zie [plannen/JURIDISCHE-CHECK.md](../../context/JURIDISCHE-CHECK.md).
 - **Geen bank.** De site ontleent zijn waarde aan onafhankelijkheid, ook
   visueel.
 - **Geen brede rekensite.** BerekenHet heeft zestig calculators over het hele

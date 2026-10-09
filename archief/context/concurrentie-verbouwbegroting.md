@@ -40,11 +40,11 @@ de mailbox" staat er herhaaldelijk; de vervolgstap vraagt persoonsgegevens.
 **Iedereen toont bedragen, niemand onderbouwt ze.** De twee bekeken sites geven
 prijzen zonder bron of met een verwijzing naar "gemiddelden" die je niet kunt
 controleren. Onze harde regel — geen waarde zonder bron en datum — sluit dat uit.
-Zie [../CLAUDE.md](../CLAUDE.md).
+Zie [../CLAUDE.md](../../CLAUDE.md).
 
 **Het tweede model kunnen we sowieso niet volgen.** Bezoekersgegevens doorsturen
 naar bedrijven is precies wat
-[../plannen/JURIDISCHE-CHECK.md](../plannen/JURIDISCHE-CHECK.md) als grens aanwijst, en het is
+[../plannen/JURIDISCHE-CHECK.md](../../context/JURIDISCHE-CHECK.md) als grens aanwijst, en het is
 buiten scope: geen accounts, geen persoonsgegevens naar derden.
 
 **Onze lege velden zijn dus geen achterstand maar een positie.** Het voelt als een

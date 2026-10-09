@@ -48,7 +48,7 @@ Gemeten op 1280px breed op rabobank.nl/particulieren en belastingdienst.nl.
 
 Beide referenties zetten hun koppen op gewicht 400 en laten de hiërarchie
 volledig door grootte doen. Onze koppen staan op 560 tot 690. Zie
-[../context/ontwerpreferenties.md](../context/ontwerpreferenties.md).
+[../context/ontwerpreferenties.md](../archief/context/ontwerpreferenties.md).
 
 ## Hoe opnieuw te meten
 

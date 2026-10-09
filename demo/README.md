@@ -5,7 +5,24 @@ dagenlang over ontwerpkwaliteit geoordeeld zonder de site ooit te bekijken.
 Ontwerpkwaliteit werd afgeleid uit woordentellingen en HTML-structuur, en toen
 er eindelijk gemeten werd bleek het beeld heel anders.
 
-Dus: geen enkele UI-verandering geldt als klaar zonder een meting hier.
+Dus: **meet, oordeel niet uit je hoofd.**
+
+Tot 9 oktober 2026 stond hier dat geen enkele UI-verandering klaar was zonder
+een meting in deze map. Die eis woog even zwaar voor een schuifregelaar die
+twaalf pixels opschuift als voor een nieuwe ontwerprichting, en dat hielp niet.
+
+**Sindsdien hoort hier alleen werk dat de vorm van een pagina verandert**: een
+nieuwe richting, een component dat anders gaat staan, een kolom die herzien
+wordt. Voor de rest is "zelf bekeken op 375 en op breed scherm" genoeg — dat
+staat in [../CLAUDE.md](../CLAUDE.md) paragraaf 10, Ontwerpkaders.
+
+Deze map is ook de plek om twee of drie richtingen naast elkaar te zetten als er
+een keuze gemaakt moet worden. Zo is de invoerkolom beslist.
+
+**Sinds het herontwerp van oktober 2026 is dit geen bijzaak meer.**
+[../ROADMAP.md](../ROADMAP.md) vraagt per mijlpaal om voor-en-na bewijs op
+desktop en mobiel, en [../DESIGN_SYSTEM.md](../DESIGN_SYSTEM.md) paragraaf 9 om
+echte schermafdrukken op 1440px en 375px. Die horen hier.
 
 ## Werkwijze
 
@@ -49,7 +66,7 @@ in `vite.config.js` en komen dus niet in de build.
   ontwerptalen voor de homepage. Keuze gemaakt: de broadsheet-richting.
 - [2026-09-02-invoervelden.html](2026-09-02-invoervelden.html) — drie richtingen
   voor de invoerkolom van de rekenpagina's, met dezelfde velden in alle drie.
-  Hoort bij [../spec/invoervelden.md](../spec/invoervelden.md). Nog te kiezen.
+  Hoort bij [../spec/invoervelden.md](../archief/spec/invoervelden.md). Nog te kiezen.
 
 ## Nulmeting
 

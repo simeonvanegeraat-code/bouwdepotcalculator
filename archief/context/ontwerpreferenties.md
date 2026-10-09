@@ -48,7 +48,7 @@ betere leermeester van de twee.
 
 **Het palet van Rabobank.** Blauw en oranje blijven van hen. Het besluit van
 14-08-2026 staat: wij imiteren geen bank, juist omdat we banken vergelijken. Zie
-[beslissingen.md](beslissingen.md). Onze teal blijft. Wat we van Rabobank lenen
+[beslissingen.md](../../context/beslissingen.md). Onze teal blijft. Wat we van Rabobank lenen
 is typografische discipline, geen huisstijl.
 
 **Hun hoeveelheid marketingblokken.** Dertien afbeeldingen en achttien H2's op
@@ -89,7 +89,7 @@ Belangrijker dan de typografie: het aantal uitwegen in het eerste scherm.
 Independer noemt zijn acht producten bij naam in de kopregio -- geen
 categorielabels als "Uitleg" maar de dingen zelf -- en zet er drie redenen
 onder om ze te geloven. Dat patroon is overgenomen als `.toolbalk` en
-`.beloften`. Zie [componenten.md](componenten.md).
+`.beloften`. Zie [componenten.md](../../context/componenten.md).
 ## Open punt voor de founder
 
 Koppen van gewicht 660 naar ongeveer 450 halen verandert het gezicht van de hele

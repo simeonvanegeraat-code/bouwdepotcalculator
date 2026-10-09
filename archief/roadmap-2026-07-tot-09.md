@@ -1,20 +1,26 @@
 # Roadmap
 
-**Bijgewerkt:** 31 augustus 2026
+**Bijgewerkt:** 9 oktober 2026
 
-**Huidig doel:** de bestaande codebase van bouwdepotcalculator.nl herzien en
-verbeteren, zodat hij professioneler en beter geordend is en klaar voor groei via
-SEO en AdSense.
+**Doel:** een site waarop Simeon trots is. Dat gaat voor inkomsten; zie
+[CLAUDE.md](../CLAUDE.md) paragraaf 2 voor wat trots concreet betekent.
 
-Eén regel voor volgorde: **wat de bezoeker sneller aan zijn antwoord helpt gaat
-voor.** SEO volgt daaruit; het gaat er niet aan vooraf.
+Dit bestand is geschiedenis geworden, geen planning. Tot 1 september stond hier
+“Focus deze week” boven vier blokken; die blokken zijn af en die week is
+al vijf weken voorbij. Het stond er nog, en dat is precies hoe een regelbestand
+onbruikbaar wordt.
+
+**Er is nu geen volgordeplan, en dat is een keuze.** We bouwen en laten zien;
+wat er als volgende aan de beurt is besluit Simeon per keer. Wat er open staat
+is terug te vinden in [review.md](../review.md) en in de analyses in
+[plannen/](plannen/).
+
+Wat hieronder staat is wat er tussen juli en september is opgeruimd. Het blijft
+staan omdat het uitlegt waarom de codebase is zoals hij is.
 
 ---
 
-## Focus deze week
-
-Vier blokken, in deze volgorde. De AdSense-aanvraag gaat er aan het eind van de
-week achteraan.
+## De opruimfase, juli tot september 2026
 
 ### 1. Audit en opruimen — een geordend fundament
 
@@ -106,7 +112,7 @@ Het patroon per pagina, en dat is niet vrijblijvend:
   genest, dan valt het raster terug op één kolom. Op mobiel ziet dat er precies
   hetzelfde uit en geen enkele test merkt het; op breed scherm staat de invoer
   dan opeens onder de uitkomst in plaats van ernaast.
-- Nieuwe componenten in [context/componenten.md](context/componenten.md), met
+- Nieuwe componenten in [context/componenten.md](../context/componenten.md), met
   erbij waar ze **niet** voor zijn.
 
 **Afgerond op 1 september 2026.** Alle 32 pagina's dragen `<body class="bs">` en
@@ -129,7 +135,7 @@ definieert. Draai zoiets vóór je een stylesheet weghaalt, niet erna.
 [ONTWERPPLAN-HIERARCHIE.md](plannen/ONTWERPPLAN-HIERARCHIE.md) is al gerepareerd, en de
 homepage-cijfers uit [ONTWERPPLAN.md](plannen/ONTWERPPLAN.md) kloppen niet meer. De
 actuele meting staat in
-[demo/2026-08-19-nulmeting-homepage.md](demo/2026-08-19-nulmeting-homepage.md):
+[demo/2026-08-19-nulmeting-homepage.md](../demo/2026-08-19-nulmeting-homepage.md):
 5 secties in plaats van 29, en 0,3 scherm tot de uitkomst in plaats van 3,1.
 Meet zelf voordat je iets uit een plandocument overneemt.
 
@@ -172,7 +178,7 @@ hoeveel onzekerheid ze bij de bezoeker wegnemen.
 net live; bruikbare Search Console-cijfers komen pas een week later. De analyse
 leunt daarom op de tool zelf, op de twee reizen in [customers/](customers/) en op
 [CONCURRENTIE-EN-OORDEEL.md](plannen/CONCURRENTIE-EN-OORDEEL.md). Zoekdata toetst het
-achteraf; zie [routines/search-console.md](routines/search-console.md).
+achteraf; zie [routines/search-console.md](../routines/search-console.md).
 
 ### 5. AdSense aanvragen — eind van de week
 

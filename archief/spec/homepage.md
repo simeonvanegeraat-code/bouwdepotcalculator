@@ -87,7 +87,7 @@ nu niets.
 ### 7. Invoer staat 1,6 scherm onder de uitkomst
 Je ziet een antwoord op 0,3 scherm en kunt pas op 1,6 scherm je eigen bedrag
 typen. Voor bezoekers die op rekenintentie binnenkomen is dat de verkeerde
-volgorde. Zie [../demo/2026-08-19-nulmeting-homepage.md](../demo/2026-08-19-nulmeting-homepage.md).
+volgorde. Zie [../demo/2026-08-19-nulmeting-homepage.md](../../demo/2026-08-19-nulmeting-homepage.md).
 
 ### 8. Kopgewicht 660 tegenover 400 bij de referenties
 Zie [../context/ontwerpreferenties.md](../context/ontwerpreferenties.md).
