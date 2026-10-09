@@ -8,6 +8,12 @@
       "port": 5173
     },
     {
+      "name": "vite-prototypes",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "--port", "5183", "--strictPort"],
+      "port": 5183
+    },
+    {
       "name": "statische-preview",
       "runtimeExecutable": "node",
       "runtimeArgs": ["scripts/dev-server.mjs", "4323"],

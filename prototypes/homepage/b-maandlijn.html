@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept B · Maandlijn — prototype homepage</title>
+    <!-- Prototype: niet indexeren. Dit bestand staat niet in vite.config.js en
+         komt dus niet in de productiebuild terecht. -->
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./basis.css">
+    <link rel="stylesheet" href="./b-maandlijn.css">
+</head>
+<body class="b">
+    <a class="ui-skip" href="#routes">Direct naar de routes</a>
+
+    <header class="b-kop">
+        <a class="b-merk" href="./index.html">Bouwdepot<span>Calculator</span></a>
+        <nav class="b-nav" aria-label="Hoofdnavigatie">
+            <a href="/nieuwbouw.html">Nieuwbouw</a>
+            <a href="/verbouwbegroting.html">Verbouwen</a>
+            <a href="/bouwdepot-berekenen.html">Bouwdepot berekenen</a>
+            <a href="/stappenplan.html">Tools &amp; uitleg</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="b-hero">
+            <h1>Bouwen kost elke maand <em>iets anders.</em></h1>
+            <div class="b-hero__zij">
+                <p class="b-lead">Onafhankelijke rekentools voor nieuwbouw, verbouwen en je bouwdepot. Zie per maand wat je betaalt, en welke maand het zwaarst weegt.</p>
+                <div class="b-acties">
+                    <a class="b-knop" href="/nieuwbouw.html">Ik koop nieuwbouw</a>
+                    <a class="b-knop b-knop--lijn" href="/verbouwbegroting.html">Ik ga verbouwen</a>
+                </div>
+                <p class="b-direct"><a href="/bouwdepot-berekenen.html">Direct bouwdepot berekenen <span aria-hidden="true">→</span></a></p>
+            </div>
+        </section>
+
+        <!-- De baan is langer dan het scherm; het toneel blijft erin staan
+             terwijl de camera van schuin-bovenaf naar recht-van-voren draait.
+             Aan het eind staat er een gewone staafgrafiek. -->
+        <div class="b-baan" data-baan>
+            <section class="b-toneel" data-toneel aria-labelledby="b-toneel-kop">
+                <div class="b-paneel">
+                    <div class="b-paneel__kop">
+                        <h2 id="b-toneel-kop">Achttien maanden, bruto per maand</h2>
+                        <p class="b-stempel">Voorbeeld · € 500.000 hypotheek · 12 maanden bouw</p>
+                    </div>
+
+                    <ol class="b-fasen" data-fasen>
+                        <li>
+                            <p class="b-fasen__naam">Vóór de bouw</p>
+                            <p class="b-fasen__bedrag tnum" data-b="voor">€ 1.200</p>
+                            <p class="b-fasen__wat">Alleen je huidige woonlast.</p>
+                        </li>
+                        <li>
+                            <p class="b-fasen__naam">Tijdens de bouw</p>
+                            <p class="b-fasen__bedrag tnum"><span data-b="start">€ 2.505</span> <span aria-hidden="true">→</span><span class="ui-alleen-lezer">oplopend tot</span> <span data-b="piek">€ 3.419</span></p>
+                            <p class="b-fasen__wat">Hypotheek na depotvergoeding plus huidige woonlast. Loopt op naarmate het depot leegraakt.</p>
+                        </li>
+                        <li>
+                            <p class="b-fasen__naam">Na oplevering</p>
+                            <p class="b-fasen__bedrag tnum" data-b="na">€ 2.330</p>
+                            <p class="b-fasen__wat">Alleen de nieuwe hypotheek, als je oude woonlast wegvalt.</p>
+                        </li>
+                    </ol>
+
+                    <div class="b-beeld" data-beeld aria-hidden="true">
+                        <div class="b-vloer is-plat" data-vloer></div>
+                        <div class="b-assen" data-assen></div>
+                    </div>
+
+                    <ul class="b-legenda">
+                        <li><i class="b-legenda__oud"></i>Huidige woonlast</li>
+                        <li><i class="b-legenda__nieuw"></i>Nieuwe hypotheek, na depotvergoeding</li>
+                        <li><i class="b-legenda__piek"></i>Hoogste maand</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <section class="b-onder">
+            <details class="b-tabel">
+                <summary>Dezelfde cijfers als tabel, met de aannames</summary>
+                <div class="b-tabel__rol">
+                    <table>
+                        <thead><tr><th scope="col">Maand</th><th scope="col">Nog in depot</th><th scope="col">Hypotheek na depotvergoeding</th><th scope="col">Huidige woonlast</th><th scope="col">Bruto totaal</th></tr></thead>
+                        <tbody data-tabel></tbody>
+                    </table>
+                </div>
+                <p class="b-tabel__noot">Grond € 150.000, aanneemsom € 350.000, 3,80% rente, 30 jaar annuïtair, vijf bouwtermijnen. Depotvergoeding gelijk aan de hypotheekrente; dat <a href="/bouwdepot-voorwaarden-vergelijken.html">verschilt per geldverstrekker</a>. Aangenomen is dat de oude woonlast stopt bij oplevering. Bruto: zonder hypotheekrenteaftrek.</p>
+            </details>
+            <p class="b-onder__ga"><a href="/nieuwbouw.html">Reken dit door met je eigen cijfers <span aria-hidden="true">→</span></a></p>
+        </section>
+
+        <section class="b-index" id="routes" aria-labelledby="b-index-kop">
+            <h2 id="b-index-kop">Waar wil je beginnen?</h2>
+            <ol>
+                <li><a href="/nieuwbouw.html"><span class="b-index__nr">01</span><span class="b-index__naam">Ik koop nieuwbouw</span><span class="b-index__wat">Maandlasten, bouwtermijnen, dubbele lasten</span><span class="b-index__pijl" aria-hidden="true">→</span></a></li>
+                <li><a href="/verbouwbegroting.html"><span class="b-index__nr">02</span><span class="b-index__naam">Ik ga verbouwen of uitbreiden</span><span class="b-index__wat">Begroting, leenruimte, maandlast</span><span class="b-index__pijl" aria-hidden="true">→</span></a></li>
+                <li><a href="/bouwdepot-berekenen.html"><span class="b-index__nr">03</span><span class="b-index__naam">Bouwdepot berekenen</span><span class="b-index__wat">Eén bedrag, direct een maandlast</span><span class="b-index__pijl" aria-hidden="true">→</span></a></li>
+                <li class="b-index__klein"><a href="/depotplanner.html"><span class="b-index__nr">04</span><span class="b-index__naam">Mijn bouwdepot loopt al</span><span class="b-index__wat">Einddatum, restsaldo, declaraties</span><span class="b-index__pijl" aria-hidden="true">→</span></a></li>
+            </ol>
+        </section>
+
+        <section class="b-bewijs" aria-label="Waarom je op de cijfers kunt bouwen">
+            <p><strong>Dertien geldverstrekkers</strong> naast elkaar, elk gegeven met bron en controledatum. <a href="/bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a></p>
+            <p><strong>Niets naar onze server.</strong> Wat je invult blijft op je eigen apparaat. <a href="/privacy.html">Privacy</a></p>
+            <p><strong>Open rekenregels.</strong> Elke formule, aanname en bron staat beschreven. <a href="/methodologie.html">Methodologie</a></p>
+        </section>
+    </main>
+
+    <footer class="b-voet">
+        <span>© 2026 BouwdepotCalculator.nl — informatie, geen advies</span>
+        <span><a href="/methodologie.html">Methodologie</a> · <a href="/privacy.html">Privacy</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a></span>
+    </footer>
+
+    <nav class="proto-balk" aria-label="Prototypes">
+        <a href="./index.html">Overzicht</a>
+        <a href="./a-bouwlagen.html">A</a>
+        <a href="./b-maandlijn.html" aria-current="page">B</a>
+        <a href="./c-twee-woningen.html">C</a>
+        <a href="./d-samen.html">D</a>
+    </nav>
+
+    <noscript><style>.b-beeld, .b-legenda { display: none; } .b-baan { height: auto; } .b-toneel { position: static; height: auto; }</style></noscript>
+    <script type="module" src="./b-maandlijn.js"></script>
+</body>
+</html>

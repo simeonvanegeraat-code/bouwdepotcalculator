@@ -1,0 +1,262 @@
+/* Concept C · Twee woningen
+   De kop is de keuze. Geen scrollverhaal maar een kort moment: twee
+   bouwtekeningen die tot leven komen als je ze aanwijst. Strakke schreefloze
+   kop, maatvoering in een monospace, lijnen in plaats van vlakken. */
+
+.c {
+    --c-kop: 'Inter Tight', var(--ui-sans);
+    --c-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+    --c-wand: var(--ui-ink);
+}
+
+.c-kop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem var(--ui-rand);
+}
+.c-merk { font-family: var(--c-kop); font-weight: 600; text-decoration: none; color: var(--ui-forest); }
+.c-merk span { font-weight: 400; color: var(--ui-ink); }
+.c-nav { display: flex; gap: clamp(1rem, 2.4vw, 2.25rem); font-family: var(--c-mono); font-size: 0.8125rem; }
+.c-nav a { display: inline-flex; align-items: center; min-height: 2.75rem; text-decoration: none; }
+.c-nav a:hover { text-decoration: underline; text-underline-offset: 0.4em; }
+
+.c-opschrift {
+    font-family: var(--c-mono);
+    font-size: 0.8125rem;
+    color: var(--ui-muted);
+}
+
+/* --- Hero --- */
+
+.c-hero {
+    max-width: var(--ui-max);
+    margin: 0 auto;
+    padding: clamp(1rem, 3vh, 2.5rem) var(--ui-rand) 0;
+}
+.c-hero h1 {
+    margin: 0.75rem 0 0.5rem;
+    font-family: var(--c-kop);
+    font-weight: 500;
+    font-size: clamp(2.75rem, 7.3vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    color: var(--ui-ink);
+}
+.c-hero h1 a {
+    color: var(--ui-forest);
+    text-decoration: underline;
+    text-decoration-color: var(--ui-sage);
+    text-decoration-thickness: 0.055em;
+    text-underline-offset: 0.1em;
+    transition: text-decoration-color 0.25s ease;
+}
+.c-hero h1 a:hover,
+.c-hero[data-actief="nieuw"] h1 a[data-wijst="nieuw"],
+.c-hero[data-actief="verbouw"] h1 a[data-wijst="verbouw"] { text-decoration-color: var(--ui-forest); }
+.c-lead { font-size: 1.1875rem; max-width: 34rem; }
+
+.c-twee {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: clamp(1rem, 3vh, 2rem);
+    border-top: 1.5px solid var(--c-wand);
+}
+.c-kant {
+    position: relative;
+    padding: 0.5rem clamp(1rem, 2.5vw, 2.5rem) 1.75rem 0;
+    transition: background 0.3s ease;
+}
+.c-kant + .c-kant { padding-left: clamp(1rem, 2.5vw, 2.5rem); padding-right: 0; border-left: 1px solid var(--ui-line); }
+.c-kant__tekst { max-width: 27rem; }
+.c-kant h2 { font-family: var(--c-kop); font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+.c-vb { margin-top: 0.75rem; font-size: 0.9375rem; color: var(--ui-muted); }
+.c-vb span {
+    font-family: var(--c-mono);
+    font-size: 0.75rem;
+    border: 1px solid var(--ui-sage);
+    border-radius: 3px;
+    padding: 0.05rem 0.4rem;
+    margin-right: 0.35rem;
+    color: var(--ui-forest);
+}
+.c-vb strong { color: var(--ui-ink); font-weight: 600; }
+.c-ga {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    color: var(--ui-forest);
+    text-underline-offset: 0.35em;
+}
+.c-ga span { transition: transform 0.2s ease; }
+/* De hele helft is aanklikbaar; de link zelf blijft de enige tabstop. */
+.c-ga::after { content: ''; position: absolute; inset: 0; }
+.c-kant:hover .c-ga span { transform: translateX(5px); }
+
+/* --- Tekeningen --- */
+
+.c-tekening { width: 100%; height: auto; max-height: 46vh; overflow: visible; }
+.c-l, .c-maat { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.c-l--grond { stroke: var(--ui-sage); stroke-width: 1; }
+.c-l--staat { stroke: var(--c-wand); stroke-width: 1.5; }
+.c-l--plan { stroke: var(--ui-muted); stroke-width: 1; stroke-dasharray: 4 5; opacity: 0.8; transition: opacity 0.4s ease; }
+.c-l--bouw {
+    stroke: var(--ui-forest);
+    stroke-width: 1.75;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.55s ease;
+    transition-delay: 0s;
+}
+.c-vlak { stroke: none; }
+.c-vlak--staat { fill: var(--ui-surface); opacity: 0.85; }
+.c-vlak--plan { fill: var(--ui-sage); opacity: 0; transition: opacity 0.5s ease; }
+.c-maat { stroke: var(--ui-champagne); stroke-width: 1; }
+.c-maattekst { font-family: var(--c-mono); font-size: 11px; fill: #7A5C2E; }
+
+/* Aangewezen helft: de streeplijnen worden gebouwd, van onder naar boven. */
+.c-kant.is-actief .c-l--bouw { stroke-dashoffset: 0; transition-delay: var(--d, 0s); }
+.c-kant.is-actief .c-vlak--plan { opacity: 0.32; transition-delay: 0.35s; }
+.c-kant.is-actief .c-l--plan { opacity: 0; }
+
+/* --- Snel rekenen --- */
+
+.c-snel {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+    padding: 1rem 0 1.25rem;
+    border-top: 1.5px solid var(--c-wand);
+}
+.c-snel label { font-weight: 600; }
+.c-snel__veld {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0 0.85rem;
+    min-height: 2.75rem;
+    background: var(--ui-surface);
+    border: 1px solid var(--ui-muted);
+    border-radius: 0.5rem;
+    font-family: var(--c-mono);
+}
+.c-snel__veld:focus-within { outline: 2px solid var(--ui-forest); outline-offset: 2px; }
+.c-snel__veld input { width: 7.5rem; border: 0; background: none; outline: 0; font-variant-numeric: tabular-nums; }
+.c-snel__uit { font-family: var(--c-kop); font-size: 1.375rem; font-weight: 600; letter-spacing: -0.02em; }
+.c-snel__uit[data-fout] { font-family: var(--ui-sans); font-size: 0.9375rem; font-weight: 400; letter-spacing: 0; color: #8A3A3A; }
+.c-snel__ga { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; font-weight: 600; color: var(--ui-forest); text-underline-offset: 0.35em; }
+.c-snel__noot { grid-column: 1 / -1; font-size: 0.8125rem; color: var(--ui-muted); }
+
+/* --- Plattegrond --- */
+
+.c-plan { max-width: var(--ui-max); margin: 0 auto; padding: clamp(4rem, 9vw, 8rem) var(--ui-rand) clamp(3rem, 6vw, 5rem); }
+.c-plan__kop h2 {
+    margin: 0.5rem 0 2rem;
+    font-family: var(--c-kop);
+    font-weight: 500;
+    font-size: clamp(2rem, 4.4vw, 4rem);
+    letter-spacing: -0.04em;
+    line-height: 1;
+}
+.c-vloer {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(9.5rem, auto);
+    border: 3px solid var(--c-wand);
+    background: var(--c-wand);
+    gap: 1.5px;
+}
+.c-kamer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1.1rem 1.25rem 2.5rem;
+    background: var(--ui-canvas);
+    text-decoration: none;
+    transition: background 0.25s ease;
+}
+.c-kamer__nr { font-family: var(--c-mono); font-size: 0.75rem; color: var(--ui-muted); }
+.c-kamer strong { font-family: var(--c-kop); font-size: clamp(1.25rem, 1.9vw, 1.75rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; color: var(--ui-forest); }
+.c-kamer span:last-child { font-size: 0.9375rem; line-height: 1.4; max-width: 22rem; }
+.c-kamer:hover, .c-kamer:focus-visible { background: var(--ui-sage-licht); }
+.c-kamer:focus-visible { outline-offset: -4px; }
+/* De deur: een kwartcirkel linksonder, die verder opendraait bij aanwijzen. */
+.c-kamer::after {
+    content: '';
+    position: absolute;
+    left: 1.25rem;
+    bottom: 0;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1px solid var(--ui-muted);
+    border-bottom: 3px solid var(--ui-canvas);
+    border-left-width: 1.5px;
+    border-radius: 0 100% 0 0;
+    margin-bottom: -2px;
+    transform-origin: 0 100%;
+    transition: transform 0.3s ease, border-bottom-color 0.25s ease;
+}
+.c-kamer:hover::after { transform: rotate(-12deg); border-bottom-color: var(--ui-sage-licht); }
+
+.c-kamer--a { grid-column: span 6; grid-row: span 2; }
+.c-kamer--b { grid-column: span 3; }
+.c-kamer--c { grid-column: span 3; }
+.c-kamer--d { grid-column: span 4; grid-row: span 2; }
+.c-kamer--e { grid-column: span 2; grid-row: span 2; }
+.c-kamer--f { grid-column: span 6; }
+.c-kamer--g { grid-column: span 3; }
+.c-kamer--h { grid-column: span 6; }
+.c-kamer--i { grid-column: span 3; }
+.c-kamer--a strong, .c-kamer--d strong { font-size: clamp(1.75rem, 3.2vw, 3rem); letter-spacing: -0.04em; }
+
+.c-bewijs {
+    max-width: var(--ui-max);
+    margin: 0 auto;
+    padding: 0 var(--ui-rand) clamp(4rem, 8vw, 7rem);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    font-size: 0.9375rem;
+}
+.c-bewijs p { max-width: 21rem; }
+.c-bewijs span { display: block; font-family: var(--c-mono); font-size: 0.75rem; color: var(--ui-muted); margin-bottom: 0.4rem; }
+.c-bewijs a { display: inline-block; padding: 0.5rem 0; font-weight: 600; color: var(--ui-forest); text-underline-offset: 0.3em; }
+
+.c-voet {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    padding: 2rem var(--ui-rand) 5rem;
+    border-top: 1px solid var(--ui-line);
+    font-size: 0.875rem;
+    color: var(--ui-muted);
+}
+
+@media (max-width: 899px) {
+    .c-nav a:not(:nth-child(3)) { display: none; }
+    .c-nav a { white-space: nowrap; font-size: 0.8125rem; text-decoration: underline; text-underline-offset: 0.35em; }
+    .c-hero h1 { font-size: clamp(2.75rem, 13.5vw, 5rem); }
+    .c-twee { grid-template-columns: 1fr; }
+    .c-kant, .c-kant + .c-kant { padding: 0.5rem 0 1.5rem; border-left: 0; }
+    .c-kant + .c-kant { border-top: 1px solid var(--ui-line); }
+    .c-tekening { max-height: none; }
+    .c-maattekst { font-size: 17px; }
+    .c-snel { grid-template-columns: 1fr auto; }
+    .c-snel label, .c-snel__ga { grid-column: 1 / -1; }
+    .c-snel__uit { text-align: right; font-size: 1.125rem; }
+    .c-vloer { grid-template-columns: 1fr 1fr; grid-auto-rows: auto; }
+    .c-kamer, .c-kamer--a, .c-kamer--d, .c-kamer--f, .c-kamer--h { grid-column: span 2; grid-row: auto; }
+    .c-kamer--b, .c-kamer--c, .c-kamer--e, .c-kamer--g, .c-kamer--i { grid-column: span 1; }
+    .c-kamer--e { grid-column: span 2; }
+    .c-kamer--i { order: 1; }
+    .c-kamer--h { order: 2; }
+    .c-kamer { padding: 1rem 1rem 2.25rem; }
+    .c-bewijs { grid-template-columns: 1fr; gap: 1.25rem; }
+}
