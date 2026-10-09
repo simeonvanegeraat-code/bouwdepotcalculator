@@ -215,8 +215,9 @@
         </section>
 
         <!-- De kolommen zijn versiering bij de tekst en de tabel, daarom
-             aria-hidden. Ze draaien één keer naar een staafgrafiek als het
-             paneel in beeld komt; zie src/homepage/maandlijn.js. -->
+             aria-hidden. Ze draaien naar een staafgrafiek als het paneel in
+             beeld komt en maken daarna af en toe een rondje naar 3D. De knop
+             zet dat stil; zie src/homepage/maandlijn.js. -->
         <section class="hp-toneel" data-toneel aria-labelledby="hp-toneel-kop">
                 <div class="hp-paneel">
                     <div class="hp-paneel__kop">
@@ -262,7 +263,7 @@
                             <li><i class="hp-legenda__nieuw"></i>Nieuwe hypotheek, na depotvergoeding</li>
                             <li><i class="hp-legenda__piek"></i>Hoogste maand</li>
                         </ul>
-                        <button class="hp-draai" type="button" data-draai aria-pressed="true" hidden>Bekijk als grafiek</button>
+                        <button class="hp-draai" type="button" data-draai aria-pressed="false" hidden>pauzeer animatie</button>
                     </div>
                 </div>
         </section>
@@ -304,7 +305,7 @@
         <!-- Het anker #gereedschap wordt gebruikt door de kop op alle andere
              pagina's en door de redirect van /calculators.html in vercel.json. -->
         <section class="hp-index" id="gereedschap" aria-labelledby="hp-index-kop">
-            <h2 id="hp-index-kop">Waar wil je beginnen?</h2>
+            <h2 class="hp-tussenkop" id="hp-index-kop">Waar wil je beginnen?</h2>
             <ol>
                 <li><a href="nieuwbouw.html"><span class="hp-index__nr">01</span><span class="hp-index__naam">Ik koop nieuwbouw</span><span class="hp-index__wat">Maandlasten, bouwtermijnen, dubbele lasten</span><span class="hp-index__pijl" aria-hidden="true">&rarr;</span></a></li>
                 <li><a href="verbouwbegroting.html"><span class="hp-index__nr">02</span><span class="hp-index__naam">Ik ga verbouwen of uitbreiden</span><span class="hp-index__wat">Begroting, leenruimte, maandlast</span><span class="hp-index__pijl" aria-hidden="true">&rarr;</span></a></li>
@@ -314,7 +315,7 @@
         </section>
 
         <section class="hp-register" aria-labelledby="hp-register-kop">
-            <h2 id="hp-register-kop">Alle rekenhulpen en uitleg</h2>
+            <h2 class="hp-tussenkop" id="hp-register-kop">Alle rekenhulpen en uitleg</h2>
             <ul>
                 <li><a href="bouwdepot-berekenen.html#tijdens-de-bouw"><strong>Maandlast tijdens de bouw</strong><span>Rente over de hele lening, min de vergoeding over wat nog in depot staat.</span></a></li>
                 <li><a href="dubbele-lasten-nieuwbouw.html"><strong>Dubbele lasten</strong><span>De periode waarin je oude en nieuwe woonlasten tegelijk draagt.</span></a></li>

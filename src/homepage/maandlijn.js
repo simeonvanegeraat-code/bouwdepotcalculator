@@ -6,13 +6,18 @@
  * hoogtes (uit het model) en hangt de bedragen als kaartjes aan de kolommen.
  *
  * De beweging hangt niet aan de scrollpositie. Komt het paneel in beeld, dan
- * rijzen de kolommen en draait de camera één keer van schuin-boven naar recht
- * van voren; dan staat er een staafgrafiek met een nullijn. Daarna bedient de
- * bezoeker het zelf: een knop wisselt tussen 3D en grafiek, en een fase
- * aanwijzen of aanklikken licht de bijbehorende kolommen op. Een eerdere
- * versie liet de camera meedraaien met het scrollen en zette het paneel
- * daarvoor ruim twee schermen vast; dat voelde als scrollen zonder vooruit te
- * komen.
+ * rijzen de kolommen en draait de camera van schuin-boven naar recht van voren;
+ * dan staat er een staafgrafiek met een nullijn. Daarna maakt de camera om de
+ * ongeveer elf seconden een kort rondje naar 3D en terug, zodat de pagina niet
+ * stilvalt. De grafiek is de rusttoestand: daar staat hij het grootste deel
+ * van de tijd, want dat is het beeld dat je kunt aflezen.
+ *
+ * Het rondje stopt als het paneel uit beeld is, als het tabblad niet zichtbaar
+ * is, als de bezoeker een fase heeft vastgezet, en met de knop "Animatie
+ * pauzeren". Wie verminderde beweging heeft ingesteld krijgt alleen de
+ * grafiek. Een eerdere versie liet de camera meedraaien met het scrollen en
+ * zette het paneel daarvoor ruim twee schermen vast; dat voelde als scrollen
+ * zonder vooruit te komen.
  *
  * De bedragen in de tekst en de tabel staan in index.html zelf, zodat ze er
  * ook zonder JavaScript zijn. tests/homepage-voorbeeld.test.mjs bewaakt dat ze
@@ -142,49 +147,93 @@ function volg(ms) {
     requestAnimationFrame(stap);
 }
 
-/* --- 3D of grafiek --- */
+/* --- Grafiek, met af en toe een rondje naar 3D --- */
 
 const stil = matchMedia('(prefers-reduced-motion: reduce)');
+const RUST_MS = 8000;      // zo lang staat de grafiek stil
+const RONDJE_MS = 3200;    // zo lang duurt het uitstapje naar 3D, heen-draaien inbegrepen
 
 function zetGrafiek(aan) {
     beeld.classList.toggle('is-grafiek', aan);
-    if (draaiknop) {
-        draaiknop.textContent = aan ? 'Bekijk in 3D' : 'Bekijk als grafiek';
-        draaiknop.setAttribute('aria-pressed', String(!aan));
-    }
     volg(1900);
 }
 
-// De knop staat verborgen in de HTML: zonder script valt er niets te draaien.
-if (draaiknop) draaiknop.hidden = false;
-draaiknop?.addEventListener('click', () => zetGrafiek(!beeld.classList.contains('is-grafiek')));
+// Welke fase de bezoeker heeft vastgezet of aanwijst. Staat hier en niet bij
+// de faseknoppen verderop, omdat de lus hieronder er al naar kijkt.
+let vast = null;
+let aangewezen = null;
 
-// Eén keer afspelen, zodra het bouwwerk goed in beeld is: eerst rijzen de
-// kolommen, dan draait de camera naar de grafiek.
+let afgespeeld = false;
+let inBeeld = false;
+let gepauzeerd = false;
+let klok = null;
+
+/** Mag de camera nu uit zichzelf bewegen? */
+const magLopen = () => afgespeeld && inBeeld && !gepauzeerd && !document.hidden && !stil.matches && vast === null;
+
+function plan(ms, werk) {
+    clearTimeout(klok);
+    klok = setTimeout(werk, ms);
+}
+
+function rondje() {
+    if (!magLopen()) return;
+    zetGrafiek(false);
+    plan(RONDJE_MS, () => {
+        zetGrafiek(true);
+        plan(RUST_MS, rondje);
+    });
+}
+
+/** Herstart of stopt de lus, afhankelijk van wat er net veranderd is. */
+function werkLusBij() {
+    clearTimeout(klok);
+    if (magLopen()) { plan(RUST_MS, rondje); return; }
+    // Niet halverwege een rondje blijven hangen: terug naar de grafiek.
+    if (afgespeeld) zetGrafiek(true);
+}
+
+// De eerste keer: de kolommen rijzen, dan draait de camera naar de grafiek.
 function speelAf() {
     vloer.classList.remove('is-plat');
     volg(1600);
-    if (stil.matches) { zetGrafiek(true); return; }
-    setTimeout(() => zetGrafiek(true), 1500);
+    const klaar = () => { zetGrafiek(true); afgespeeld = true; werkLusBij(); };
+    if (stil.matches) klaar();
+    else setTimeout(klaar, 1500);
 }
 
 if (stil.matches || !('IntersectionObserver' in window)) {
+    inBeeld = true;
     speelAf();
 } else {
-    const kijker = new IntersectionObserver((items) => {
-        if (!items.some((item) => item.isIntersecting)) return;
-        kijker.disconnect();
-        speelAf();
-    }, { threshold: 0.45 });
-    kijker.observe(beeld);
+    new IntersectionObserver(([item]) => {
+        inBeeld = item.isIntersecting;
+        if (inBeeld && vloer.classList.contains('is-plat')) speelAf();
+        else werkLusBij();
+    }, { threshold: 0.45 }).observe(beeld);
+    document.addEventListener('visibilitychange', werkLusBij);
+    stil.addEventListener('change', werkLusBij);
+}
+
+// Wat vanzelf beweegt moet stil te zetten zijn. De knop staat verborgen in de
+// HTML en blijft dat voor wie verminderde beweging heeft ingesteld: dan is er
+// niets om te pauzeren.
+if (draaiknop && !stil.matches) {
+    draaiknop.hidden = false;
+    draaiknop.addEventListener('click', () => {
+        gepauzeerd = !gepauzeerd;
+        draaiknop.textContent = gepauzeerd ? 'speel animatie af' : 'pauzeer animatie';
+        draaiknop.setAttribute('aria-pressed', String(gepauzeerd));
+        werkLusBij();
+        // Bij hervatten meteen iets laten zien, niet pas na acht seconden.
+        if (!gepauzeerd && magLopen()) rondje();
+    });
 }
 
 /* --- Fasen: aanwijzen licht op, aanklikken zet vast --- */
 
 const NAMEN = ['voor', 'bouw', 'na'];
 const faseknoppen = [...fasen.querySelectorAll('[data-fase]')];
-let vast = null;
-let aangewezen = null;
 
 function toonFase() {
     const naam = aangewezen ?? vast;
@@ -205,7 +254,7 @@ for (const knop of faseknoppen) {
     const naam = knop.dataset.fase;
     knop.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { aangewezen = naam; toonFase(); } });
     knop.addEventListener('pointerleave', () => { aangewezen = null; toonFase(); });
-    knop.addEventListener('click', () => { vast = vast === naam ? null : naam; aangewezen = null; toonFase(); });
+    knop.addEventListener('click', () => { vast = vast === naam ? null : naam; aangewezen = null; toonFase(); werkLusBij(); });
 }
 
 /* --- Start --- */

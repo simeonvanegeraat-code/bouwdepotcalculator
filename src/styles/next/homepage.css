@@ -13,6 +13,11 @@
    De keuze
    ========================================================================== */
 
+/* De afstand tussen twee onderwerpen. Eén maat, zodat de pagina overal met
+   dezelfde adem leest; op een telefoon is hij naar verhouding het grootst,
+   omdat daar alles onder elkaar staat. */
+.hp { --hp-ruimte: clamp(5.5rem, 11vw, 9.5rem); }
+
 .hp-hero {
     max-width: var(--ui-max);
     margin: 0 auto;
@@ -40,15 +45,15 @@
 .hp-hero h1 a:hover,
 .hp-hero[data-actief="nieuw"] h1 a[data-wijst="nieuw"],
 .hp-hero[data-actief="verbouw"] h1 a[data-wijst="verbouw"] { text-decoration-color: var(--ui-forest); }
-.hp-lead { font-size: 1.1875rem; max-width: 36rem; }
+.hp-lead { font-size: 1.1875rem; max-width: 36rem; margin-top: 1rem; }
 
 .hp-twee {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin-top: clamp(1rem, 3vh, 2rem);
+    margin-top: clamp(1.75rem, 4vh, 3rem);
     border-top: 1.5px solid var(--ui-ink);
 }
-.hp-kant { position: relative; padding: 0.5rem clamp(1rem, 2.5vw, 2.5rem) 1.75rem 0; }
+.hp-kant { position: relative; padding: 0.75rem clamp(1rem, 2.5vw, 2.5rem) 2.75rem 0; }
 .hp-kant + .hp-kant { padding-left: clamp(1rem, 2.5vw, 2.5rem); padding-right: 0; border-left: 1px solid var(--ui-line); }
 .hp-kant__tekst { max-width: 27rem; }
 .hp-kant h2 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
@@ -112,8 +117,8 @@
     grid-template-columns: auto auto 1fr auto;
     align-items: center;
     gap: 0.5rem 1.25rem;
-    padding: 1rem 0 1.25rem;
-    margin-bottom: clamp(1.5rem, 4vw, 3rem);
+    padding: 1.5rem 0 1.75rem;
+    margin-bottom: calc(var(--hp-ruimte) * 0.6);
     border-top: 1.5px solid var(--ui-ink);
 }
 .hp-snel label { font-weight: 600; }
@@ -314,19 +319,20 @@
 .hp-prijzen[data-actief] .hp-prijs:not(.is-actief) { opacity: 0.4; }
 
 .hp-paneel__voet { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 2rem; }
+/* Wat vanzelf beweegt moet stil te zetten zijn, maar het hoeft niet op te
+   vallen: een regel tekst in de kleur van de legenda, geen knopvorm. Het
+   aanraakvlak blijft wel 44 pixels hoog. */
 .hp-draai {
     min-height: 2.75rem;
-    padding: 0 1.1rem;
-    border: 1px solid rgba(247, 245, 240, 0.5);
-    border-radius: 999px;
+    padding: 0;
+    border: 0;
     background: none;
-    color: var(--ui-canvas);
+    color: #B9CEC2;
     font-family: var(--ui-mono);
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
 }
-.hp-draai:hover { background: var(--ui-canvas); color: var(--ui-forest); }
+.hp-draai:hover { color: var(--ui-canvas); text-decoration: underline; text-underline-offset: 0.35em; }
 .hp-legenda { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; font-size: 0.8125rem; color: #D5E0D9; }
 .hp-legenda li { display: flex; align-items: center; gap: 0.5rem; }
 .hp-legenda i { width: 0.75rem; height: 0.75rem; border-radius: 2px; }
@@ -349,7 +355,7 @@
 
 /* --- Onder het toneel: dezelfde cijfers als tabel --- */
 
-.hp-onder { max-width: var(--ui-max); margin: 0 auto; padding: 1.5rem var(--ui-rand) 0; }
+.hp-onder { max-width: var(--ui-max); margin: 0 auto; padding: 2rem var(--ui-rand) 0; }
 .hp-tabel summary { cursor: pointer; min-height: 2.75rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 600; }
 .hp-tabel__rol { overflow-x: auto; margin-top: 0.75rem; }
 .hp-tabel table { width: 100%; min-width: 36rem; border-collapse: collapse; font-size: 0.9375rem; font-variant-numeric: tabular-nums; }
@@ -365,8 +371,10 @@
    Routes en alle rekenhulpen
    ========================================================================== */
 
-.hp-index { max-width: var(--ui-max); margin: 0 auto; padding: clamp(4rem, 9vw, 8rem) var(--ui-rand) 0; scroll-margin-top: 1rem; }
-.hp-index h2 { font-family: var(--ui-mono); font-weight: 400; font-size: 0.8125rem; color: var(--ui-muted); margin-bottom: 1.25rem; }
+.hp-index { max-width: var(--ui-max); margin: 0 auto; padding: var(--hp-ruimte) var(--ui-rand) 0; scroll-margin-top: 1rem; }
+/* Een echte tussenkop. Als klein opschrift viel hij op een telefoon weg en las
+   de pagina als één doorlopende tekst. */
+.hp-tussenkop { margin-bottom: 1.5rem; font-weight: 500; font-size: clamp(1.75rem, 3.4vw, 3rem); letter-spacing: -0.035em; line-height: 1.05; color: var(--ui-ink); text-wrap: balance; }
 .hp-index ol { border-top: 1.5px solid var(--ui-forest); }
 .hp-index ol a {
     display: grid;
@@ -391,8 +399,7 @@
 .hp-index__klein .hp-index__naam { font-size: clamp(1.25rem, 2.2vw, 1.75rem); letter-spacing: -0.03em; }
 
 /* Alle rekenhulpen: geen kaarten, een register. */
-.hp-register { max-width: var(--ui-max); margin: 0 auto; padding: clamp(2.5rem, 5vw, 4rem) var(--ui-rand) 0; }
-.hp-register h2 { font-family: var(--ui-mono); font-weight: 400; font-size: 0.8125rem; color: var(--ui-muted); margin-bottom: 0.75rem; }
+.hp-register { max-width: var(--ui-max); margin: 0 auto; padding: var(--hp-ruimte) var(--ui-rand) 0; }
 .hp-register ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(1.5rem, 4vw, 4rem); }
 .hp-register a {
     display: block;
@@ -408,17 +415,17 @@
    Kerncijfers en vertrouwen
    ========================================================================== */
 
-.hp-kern { max-width: var(--ui-max); margin: 0 auto; padding: clamp(4rem, 9vw, 8rem) var(--ui-rand) clamp(4rem, 8vw, 7rem); scroll-margin-top: 1rem; }
+.hp-kern { max-width: var(--ui-max); margin: 0 auto; padding: var(--hp-ruimte) var(--ui-rand) var(--hp-ruimte); scroll-margin-top: 1rem; }
 .hp-kern h2 { margin: 0.5rem 0 0.75rem; font-weight: 500; font-size: clamp(2rem, 4.4vw, 4rem); letter-spacing: -0.04em; line-height: 1; max-width: 16em; text-wrap: balance; }
 .hp-kern__lead { max-width: 38rem; }
-.hp-kern__rij { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); margin-top: clamp(2rem, 4vw, 3.5rem); border-top: 1.5px solid var(--ui-ink); }
+.hp-kern__rij { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); margin-top: clamp(2.5rem, 5vw, 4rem); border-top: 1.5px solid var(--ui-ink); }
 .hp-kern__item { padding-top: 1.25rem; }
 .hp-kern__cijfer { font-size: clamp(3rem, 6.5vw, 6rem); font-weight: 500; letter-spacing: -0.05em; line-height: 1; color: var(--ui-forest); }
 .kern__van { font-size: 0.45em; letter-spacing: -0.02em; color: var(--ui-muted); }
 .hp-kern__eenheid { margin: 0.5rem 0 0.4rem; font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
 .hp-kern__tekst { font-size: 0.9375rem; max-width: 24rem; }
 
-.hp-beloften { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); margin-top: clamp(2.5rem, 5vw, 4rem); font-size: 0.9375rem; }
+.hp-beloften { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); margin-top: clamp(3rem, 6vw, 5rem); font-size: 0.9375rem; }
 .hp-beloften h3 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.3rem; }
 .hp-beloften p { max-width: 24rem; }
 .hp-beloften a, .hp-acties a { color: var(--ui-forest); font-weight: 600; text-underline-offset: 0.3em; }
@@ -432,8 +439,14 @@
 @media (max-width: 899px) {
     .hp-hero h1 { font-size: clamp(2.25rem, 10.4vw, 4.25rem); }
     .hp-twee { grid-template-columns: 1fr; }
-    .hp-kant, .hp-kant + .hp-kant { padding: 0.5rem 0 1.5rem; border-left: 0; }
-    .hp-kant + .hp-kant { border-top: 1px solid var(--ui-line); }
+    /* Onder elkaar: elke woning is een eigen blok, met een stevige lijn en
+       ruimte ertussen in plaats van een haarlijn. */
+    .hp-kant, .hp-kant + .hp-kant { padding: 0.75rem 0 3rem; border-left: 0; }
+    .hp-kant + .hp-kant { border-top: 1.5px solid var(--ui-ink); padding-top: 1.25rem; }
+    .hp-kant h2 { font-size: 1.75rem; margin-top: 0.5rem; }
+    .hp-kern__rij { gap: 2.25rem; }
+    .hp-beloften { gap: 2rem; }
+    .hp-register a { padding: 1.1rem 0; }
     .hp-tekening { max-height: none; }
     .hp-maattekst { font-size: 17px; }
     .hp-snel { grid-template-columns: 1fr auto; }
@@ -444,7 +457,7 @@
     .hp-index__wat { grid-column: 2; grid-row: 2; }
     .hp-index__pijl { grid-row: 1; grid-column: 3; }
     .hp-register ul { grid-template-columns: 1fr 1fr; }
-    .hp-kern__rij, .hp-beloften { grid-template-columns: 1fr; gap: 1.5rem; }
+    .hp-kern__rij, .hp-beloften { grid-template-columns: 1fr; }
 }
 @media (max-width: 559px) {
     .hp-register ul { grid-template-columns: 1fr; }
