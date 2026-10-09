@@ -63,6 +63,9 @@ import { drukAf } from './afdrukdocument.js';
         averageMonthlyEffect: { label: 'Gemiddeld per maand', type: 'currency' },
         totalMortgageInterest: { label: 'Totale hypotheekrente', type: 'currency' },
         totalCompensation: { label: 'Totale vergoeding', type: 'currency' },
+        compensationMonths: { label: 'Vergoeding loopt', type: 'months' },
+        interestOnIdle: { label: 'Rente over stilstaand geld', type: 'currency' },
+        interestOnDrawn: { label: 'Rente over opgenomen geld', type: 'currency' },
         interpretationLabel: { label: 'Effectinschatting', type: 'interpretation' },
 
         // Bouwrente. Deze zes ontbraken, waardoor het overzicht terugviel op de

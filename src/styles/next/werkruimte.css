@@ -626,3 +626,16 @@
 .wr-keuze__knop { min-height: 2.5rem; padding: 0 1rem; border: 0; border-radius: 999px; background: none; color: #D5E0D9; font-size: 0.875rem; cursor: pointer; }
 .wr-keuze__knop[aria-pressed='true'] { background: var(--ui-canvas); color: var(--ui-forest); font-weight: 600; }
 @media print { .wr-keuze { display: none; } }
+
+/* De maandtabel van het renteverlies: zes kolommen, op een telefoon vier. */
+.wr-tabel--verlies { min-width: 0; }
+.wr-tabel--verlies th:nth-child(2), .wr-tabel--verlies td:nth-child(2) { text-align: right; white-space: nowrap; min-width: 0; color: inherit; }
+.wr-tabel--verlies td:nth-child(5) { font-weight: 600; }
+.wr-tabel--verlies td:last-child { font-weight: 400; }
+@media (max-width: 699px) {
+    .wr-tabel--verlies { font-size: 0.8125rem; }
+    .wr-tabel--verlies :is(th, td):is(:nth-child(3), :nth-child(6)) { display: none; }
+    .wr-tabel--verlies :is(th, td) { padding: 0.5rem 0.3rem; }
+    .wr-tabel--verlies .wr-tabel__lang { display: none; }
+}
+.wr-uitkomst__noot a { text-underline-offset: 0.25em; }
