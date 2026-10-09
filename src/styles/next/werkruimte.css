@@ -285,6 +285,12 @@
 .wr-tabel tr[data-fase='overlap'] td { background: #F3F6F3; }
 .wr-tabel tr.is-piek td { background: #F1E7D6; }
 .wr-tabel tr[data-grens] td { border-bottom: 2px solid var(--ui-ink); }
+/* Zonder doorlopende woonlast zijn de laatste twee kolommen een herhaling van
+   de achtste; dan is die het eindbedrag van de regel. */
+.wr-tabel.is-zonder-woonlast :is(th, td):is(:nth-child(9), :nth-child(10)) { display: none; }
+.wr-tabel.is-zonder-woonlast td:nth-child(8) { font-weight: 600; }
+.wr-tabel.is-zonder-woonlast { min-width: 0; }
+.wr-tabel.is-zonder-woonlast td:nth-child(2) { min-width: 0; }
 
 /* De compacte tabel voor een telefoon. De regel onder een maand en de knop
    bestaan alleen daar; op een breed scherm staat alles in de kolommen zelf. */
@@ -340,6 +346,7 @@
 .wr-kern { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); border-top: 1.5px solid var(--ui-ink); }
 .wr-kern > div { padding-top: 1.25rem; }
 .wr-kern__cijfer { font-size: clamp(2.75rem, 5.5vw, 5rem); font-weight: 500; letter-spacing: -0.05em; line-height: 1; color: var(--ui-forest); }
+.wr-kern .kern__van { font-size: 0.45em; letter-spacing: -0.02em; color: var(--ui-muted); }
 .wr-kern__eenheid { margin: 0.5rem 0 0.4rem; font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
 .wr-kern__tekst { font-size: 0.9375rem; max-width: 24rem; }
 
@@ -547,3 +554,75 @@
     .wr-spec__groep { break-inside: avoid; }
     body { background: #fff; }
 }
+
+/* ==========================================================================
+   Hypotheekrenteaftrek
+   Het verloop over de jaren als staven met diepte, het gekozen jaar eronder,
+   en de tijdlijn van het bouwdepot.
+   ========================================================================== */
+
+.wr-grafiek--verloop { min-height: 16rem; }
+.wr-v-netto { fill: var(--ui-forest); }
+.wr-v-netto.wr-v--zij { fill: var(--ui-forest-diep); }
+.wr-v-netto.wr-v--dak { fill: #2C5A51; }
+.wr-v-terug { fill: var(--ui-champagne); }
+.wr-v-terug.wr-v--zij { fill: #B08F5F; }
+.wr-v-terug.wr-v--dak { fill: #E4CDA8; }
+.wr-v-bij { fill: #A34242; }
+.wr-v-bij.wr-v--zij { fill: #7E3030; }
+.wr-v-bij.wr-v--dak { fill: #C56A6A; }
+.wr-v-kolom { opacity: 0.72; transition: opacity 0.2s ease; }
+.wr-v-merk { fill: var(--ui-ink); }
+.wr-v-kolom.is-gekozen { opacity: 1; }
+.wr-v-raak { fill: transparent; cursor: pointer; }
+.wr-legenda__terug { background: var(--ui-champagne); }
+.wr-legenda__bij { background: #A34242; }
+
+/* Een knop die eruitziet als een regel tekst: voor iets dat mag, niet moet. */
+.wr-tekstknop { padding: 0; min-height: 1.5rem; border: 0; background: none; font: inherit; font-size: inherit; color: var(--ui-forest); text-decoration: underline; text-underline-offset: 0.25em; cursor: pointer; }
+.wr-legenda .wr-tekstknop { color: var(--ui-muted); }
+
+.wr-jaar { display: grid; gap: 0.75rem; padding: 1rem 1.1rem; background: var(--ui-canvas); border-radius: 0.75rem; }
+.wr-jaar__kies { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); align-items: center; gap: 1rem; }
+.wr-jaar__kies label { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.wr-jaar__kies .wr-schuif { margin: 0; min-height: 2.75rem; }
+.wr-jaar .wr-verschil { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0; background: none; gap: 0.5rem 1rem; }
+.wr-jaar .wr-hulp { margin: 0; }
+@media (max-width: 420px) { .wr-jaar .wr-verschil dd { font-size: 1.125rem; } }
+
+.wr-tabel--jaren { min-width: 0; }
+.wr-tabel--jaren th:nth-child(2), .wr-tabel--jaren td:nth-child(2) { text-align: right; white-space: nowrap; min-width: 0; color: inherit; }
+@media (max-width: 699px) {
+    .wr-tabel--jaren { font-size: 0.8125rem; }
+    .wr-tabel--jaren :is(th, td):is(:nth-child(2), :nth-child(3)) { display: none; }
+    .wr-tabel--jaren :is(th, td) { padding: 0.5rem 0.3rem; }
+}
+
+.wr-vink + .wr-vink { margin-top: -0.75rem; }
+.wr-groep .wr-groep { padding-top: 0.25rem; border-top: 0; }
+
+.wr-sectie--vervolg { padding-top: clamp(1.5rem, 3vw, 2.5rem); }
+/* De drie perioden van een verbouwingsdepot, op schaal: zes, achttien en de
+   maanden daarna. Op een telefoon onder elkaar. */
+.wr-tijdlijn { display: grid; gap: 1.25rem; }
+.wr-tijdlijn article { padding-top: 0.9rem; border-top: 0.5rem solid var(--ui-forest); }
+.wr-tijdlijn article:nth-child(2) { border-top-color: var(--ui-sage); }
+.wr-tijdlijn article:nth-child(3) { border-top-color: var(--ui-line); }
+.wr-tijdlijn__periode { font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
+.wr-tijdlijn h3 { font-size: 1.125rem; font-weight: 600; margin: 0.15rem 0 0.35rem; }
+.wr-tijdlijn p { font-size: 0.9375rem; }
+@media (min-width: 900px) {
+    .wr-tijdlijn { grid-template-columns: 6fr 18fr 8fr; gap: 0.35rem; }
+    .wr-tijdlijn article { padding-right: 1.25rem; }
+    .wr-tijdlijn article:nth-child(1), .wr-tijdlijn article:nth-child(3) { min-width: 15rem; }
+}
+.wr-dl--voorbeeld { grid-template-columns: minmax(0, 1fr) auto; padding: 1rem 1.1rem; background: var(--ui-surface); border: 1px solid var(--ui-line); border-radius: 0.75rem; }
+.wr-dl--voorbeeld dt { color: inherit; }
+.wr-proza.wr-lijst { gap: 0.45rem; }
+.wr-kop .wr-lead a { color: var(--ui-forest); text-underline-offset: 0.25em; }
+
+/* Een keuze uit twee, in het donkere uitkomstpaneel. */
+.wr-keuze { display: inline-flex; gap: 0.25rem; margin: 0.6rem 0 0.9rem; padding: 0.2rem; border: 1px solid rgba(247, 245, 240, 0.35); border-radius: 999px; }
+.wr-keuze__knop { min-height: 2.5rem; padding: 0 1rem; border: 0; border-radius: 999px; background: none; color: #D5E0D9; font-size: 0.875rem; cursor: pointer; }
+.wr-keuze__knop[aria-pressed='true'] { background: var(--ui-canvas); color: var(--ui-forest); font-weight: 600; }
+@media print { .wr-keuze { display: none; } }

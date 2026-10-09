@@ -1,5 +1,6 @@
 /**
- * De tijdlijn van de nieuwbouwpagina als staafgrafiek in SVG.
+ * De maandtijdlijn als staafgrafiek in SVG, voor de nieuwbouwpagina en voor
+ * bouwdepot-berekenen.html.
  *
  * Deze functie rekent niets uit. Ze tekent de maandregels die ze krijgt: de
  * hoogte van een staaf is `woonlast + hypotheek` uit dezelfde regel waar de
@@ -16,9 +17,13 @@
 const euro = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
 const r1 = (n) => n.toFixed(1);
 
-/** Rondt het maximum naar boven af op een rond bedrag voor de as. */
+/**
+ * Rondt het maximum naar boven af op een rond bedrag voor de as. De kleine
+ * stappen zijn er voor een los bouwdepot: bij een maandlast van 116 euro is
+ * een as tot 500 een grafiek van bijna niets.
+ */
 function asMaximum(hoogste) {
-    const stap = hoogste > 8000 ? 2000 : hoogste > 4000 ? 1000 : 500;
+    const stap = hoogste > 8000 ? 2000 : hoogste > 4000 ? 1000 : hoogste > 1000 ? 500 : hoogste > 400 ? 200 : hoogste > 100 ? 50 : 20;
     return Math.max(stap, Math.ceil(hoogste / stap) * stap);
 }
 
@@ -31,8 +36,9 @@ function asMaximum(hoogste) {
  * @param {number} gegevens.eindeOverlap
  * @param {object[]|null} [gegevens.basis]  regels van de basis, als er een scenario getoond wordt
  * @param {string} gegevens.omschrijving    tekst voor wie de grafiek niet ziet
+ * @param {string} [gegevens.merkTekst]     wat er bij de streep na de bouw staat
  */
-export function tekenTijdlijn(houder, { regels, piek, oplevermaand, eindeOverlap, basis = null, omschrijving }) {
+export function tekenTijdlijn(houder, { regels, piek, oplevermaand, eindeOverlap, basis = null, omschrijving, merkTekst = 'oplevering' }) {
     const breedte = Math.max(280, Math.round(houder.clientWidth || 640));
     const smal = breedte < 480;
     const hoogte = smal ? 250 : 300;
@@ -78,11 +84,12 @@ export function tekenTijdlijn(houder, { regels, piek, oplevermaand, eindeOverlap
     const merk = (naMaand, tekst, licht) => {
         if (naMaand >= regels.length) return '';
         const mx = m.links + naMaand * stap;
-        const anker = mx > breedte * 0.7 ? 'end' : 'start';
+        // Links van de streep als de tekst rechts niet meer in beeld past.
+        const anker = mx > breedte * 0.7 || mx + 5 + tekst.length * 7 > breedte ? 'end' : 'start';
         return `<line class="wr-g-merk${licht ? ' wr-g-merk--licht' : ''}" x1="${r1(mx)}" x2="${r1(mx)}" y1="${m.boven - 20}" y2="${r1(y(0))}"/>`
             + `<text class="wr-g-merktekst" x="${r1(mx + (anker === 'end' ? -5 : 5))}" y="${m.boven - (licht ? 24 : 12)}" text-anchor="${anker}">${tekst}</text>`;
     };
-    svg += merk(oplevermaand, 'oplevering', false);
+    svg += merk(oplevermaand, merkTekst, false);
     if (eindeOverlap > oplevermaand) svg += merk(eindeOverlap, smal ? 'woonlast stopt' : 'huidige woonlast stopt', true);
 
     // De hoogste maand: een rand eromheen en het bedrag erboven. Niet alleen

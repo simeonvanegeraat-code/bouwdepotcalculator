@@ -88,6 +88,12 @@ import { drukAf } from './afdrukdocument.js';
         delayMonths: { label: 'Oplevering later', type: 'months' },
         overlapAfterDelivery: { label: 'Woonlast loopt door na oplevering', type: 'months' },
         monthlyAfter: { label: 'Maandlast daarna', type: 'currency' },
+        renovationMonths: { label: 'Duur van de verbouwing', type: 'months' },
+        homeMortgage: { label: 'Hypotheek voor de woning zelf', type: 'currency' },
+        monthlyFirst: { label: 'Eerste maand van de verbouwing', type: 'currency' },
+        monthlyPeakDuring: { label: 'Hoogste maand tijdens de verbouwing', type: 'currency' },
+        averageDuring: { label: 'Gemiddeld tijdens de verbouwing', type: 'currency' },
+        totalInterestTerm: { label: 'Rente over de hele looptijd', type: 'currency' },
         planningMainOutcome: { label: 'Belangrijkste uitkomst', type: 'text' },
         peakMonth: { label: 'Piekmaand', type: 'month_index' },
         peakTotalMonthly: { label: 'Hoogste totale maandlast', type: 'currency' },
@@ -101,7 +107,14 @@ import { drukAf } from './afdrukdocument.js';
         wozValue: { label: 'WOZ-waarde', type: 'currency' },
         oneTimeDeductibleCosts: { label: 'Eenmalig aftrekbare kosten', type: 'currency' },
         taxBenefitMonthly: { label: 'Belastingvoordeel per maand', type: 'currency' },
-        netYearly: { label: 'Netto per jaar', type: 'currency' }
+        netYearly: { label: 'Netto per jaar', type: 'currency' },
+        partnerIncome: { label: 'Bruto jaarinkomen partner', type: 'currency' },
+        stateAge: { label: 'AOW-leeftijd bereikt', type: 'boolean' },
+        interestYear: { label: 'Hypotheekrente in jaar 1', type: 'currency' },
+        homeForfait: { label: 'Eigenwoningforfait', type: 'currency' },
+        taxBenefitYearly: { label: 'Belastingvoordeel in jaar 1', type: 'currency' },
+        oneTimeBenefit: { label: 'Eenmalig terug over financieringskosten', type: 'currency' },
+        allocatedTo: { label: 'Aftrek toegerekend aan', type: 'text' }
     };
 
     const INTERPRETATION_LABELS = {
