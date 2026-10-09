@@ -29,7 +29,7 @@ export const MODELLEN = {
             { vorm: zadeldak(-3.2, 3.2, 3.2, 4.9, -2.55, 2.55), soort: 'plan' },
         ],
         maten: [
-            { van: [-4.1, 0, 2.3], tot: [-4.1, 4.9, 2.3], tekst: 'aanneemsom € 350.000', anker: 'middle', dx: 0, dy: -10, bij: 'tot' },
+            { van: [-4.1, 0, 2.3], tot: [-4.1, 4.9, 2.3], tekst: 'aanneemsom € 350.000', anker: 'middle', dx: -9, dy: 0, langs: true },
             { van: [-4.6, 0, 4.6], tot: [4.6, 0, 4.6], tekst: 'grond € 150.000', anker: 'middle', dx: 0, dy: 20 },
         ],
     },
@@ -94,7 +94,12 @@ export function geometrie(model, yaw = BASIS.yaw, pitch = BASIS.pitch) {
         maten.push({ t: 'line', k: 'hp-maat', attrs: { x1: r(x1), y1: r(y1), x2: r(x2), y2: r(y2) } });
         maten.push({ t: 'line', k: 'hp-maat', attrs: { x1: r(x1 - nx), y1: r(y1 - ny), x2: r(x1 + nx), y2: r(y1 + ny) } });
         maten.push({ t: 'line', k: 'hp-maat', attrs: { x1: r(x2 - nx), y1: r(y2 - ny), x2: r(x2 + nx), y2: r(y2 + ny) } });
-        maten.push({ t: 'text', k: 'hp-maattekst', attrs: { x: r((m.bij === 'tot' ? x2 : (x1 + x2) / 2) + m.dx), y: r((m.bij === 'tot' ? y2 : (y1 + y2) / 2) + m.dy), 'text-anchor': m.anker }, tekst: m.tekst });
+        // Een staande maat krijgt zijn tekst langs de lijn, van onder naar
+        // boven te lezen. Boven de lijn liep hij door het dak heen.
+        const tx = (x1 + x2) / 2 + m.dx, ty = (y1 + y2) / 2 + m.dy;
+        const attrs = { x: r(tx), y: r(ty), 'text-anchor': m.anker };
+        if (m.langs) attrs.transform = `rotate(-90 ${r(tx)} ${r(ty)})`;
+        maten.push({ t: 'text', k: 'hp-maattekst', attrs, tekst: m.tekst });
     }
 
     return [...vlakken, ...lijnen, ...maten];
