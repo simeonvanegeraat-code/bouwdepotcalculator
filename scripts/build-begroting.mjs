@@ -136,7 +136,7 @@ ${headerHtml()}
         <div class="wr-wrap wr-kop wr-geen-print">
             <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Verbouwen</span></nav>
             <h1 id="reken-titel">Wat gaat je verbouwing kosten?</h1>
-            <p class="wr-lead">Begin met een bedrag en zie direct of het binnen de waarde van je woning past en wat het per maand doet. Werk het daarna uit tot een begroting per post.</p>
+            <p class="wr-lead">Begin met een bedrag en zie direct of het binnen de waarde van je woning past en wat het met je maandlast doet. Werk het daarna uit tot een verbouwbegroting per post, met wat uit het bouwdepot mag.</p>
         </div>
 
         <!-- De pagina opent met de vraag die iedereen kan beantwoorden: ongeveer
@@ -148,6 +148,10 @@ ${headerHtml()}
              drie redirects in vercel.json (/leenruimte.html en twee oudere
              adressen). -->
         <div class="wr-wrap wr-geen-print" id="leenruimte">
+            <div class="wr-sectie--strak">
+                <p class="ui-opschrift">Leenruimte</p>
+                <h2 class="wr-tussenkop">Past je verbouwing binnen de waarde van je woning?</h2>
+            </div>
             <div class="wr-werk">
                 <section class="wr-paneel wr-uitkomst" aria-live="polite" aria-labelledby="lr-kop">
                     <p class="wr-uitkomst__label"><span id="lr-kop">Te lenen binnen de waarde van je woning</span> <span class="wr-stempel" id="lr-stempel">Voorbeeld</span></p>
@@ -160,12 +164,12 @@ ${headerHtml()}
                     </div>
 
                     <dl class="wr-cijfers wr-cijfers--twee">
-                        <div><dt>Extra per maand</dt><dd class="tnum" id="lr-res-maand">&ndash;<small id="lr-res-maand-noot">bruto</small></dd></div>
+                        <div><dt>Extra maandlast</dt><dd class="tnum" id="lr-res-maand">&ndash;<small id="lr-res-maand-noot">bruto</small></dd></div>
                         <div><dt>Eigen geld nodig</dt><dd class="tnum" id="lr-res-nodig">&ndash;<small id="lr-res-nodig-noot"></small></dd></div>
                         <div><dt>Eigen geld daarna</dt><dd class="tnum" id="lr-res-buffer">&ndash;<small id="lr-res-buffer-noot"></small></dd></div>
                         <div><dt>Ruimte in je woning</dt><dd class="tnum" id="lr-res-ruimte">&ndash;<small>woningwaarde min huidige hypotheek</small></dd></div>
                     </dl>
-                    <p class="wr-uitkomst__noot">Een waardetoets, geen inkomenstoets. De hoofdregel is dat de totale hypotheek niet boven 100% van de woningwaarde uitkomt; wat je werkelijk kunt lenen hangt ook af van je inkomen en de beoordeling van de geldverstrekker.</p>
+                    <p class="wr-uitkomst__noot">Je leenruimte op basis van de woningwaarde: een waardetoets, geen inkomenstoets. De hoofdregel is dat de totale hypotheek niet boven 100% van de woningwaarde uitkomt; wat je werkelijk kunt lenen hangt ook af van je inkomen en de beoordeling van de geldverstrekker.</p>
                 </section>
 
                 <form class="wr-paneel wr-invoer" novalidate onsubmit="return false">
@@ -251,7 +255,7 @@ ${categorieen}
                     <div><dt>Uit het bouwdepot</dt><dd class="tnum" id="res-depot">&euro; 0<small>naar verwachting, met de reserve</small></dd></div>
                     <div><dt>Uit eigen geld</dt><dd class="tnum" id="res-eigen">&euro; 0<small>zit niet vast aan de woning</small></dd></div>
                     <div><dt>Waarvan onvoorzien</dt><dd class="tnum" id="res-marge">&euro; 0<small id="res-marge-noot">reserve over het depotdeel</small></dd></div>
-                    <div><dt>Extra per maand</dt><dd class="tnum" id="res-maand">&ndash;<small id="res-maand-noot">volgt uit de berekening hierboven</small></dd></div>
+                    <div><dt>Extra maandlast</dt><dd class="tnum" id="res-maand">&ndash;<small id="res-maand-noot">volgt uit de berekening hierboven</small></dd></div>
                 </dl>
 
                 <div class="wr-uitkomst__veld">
@@ -317,6 +321,7 @@ ${categorieen}
             <p class="ui-opschrift">Volgende stap</p>
             <h2>Van begroting naar financiering</h2>
             <div class="wr-register">
+                <a href="bouwdepot-berekenen.html#tijdens-de-bouw"><strong>Je maandlast tijdens de verbouwing</strong><span>Rente over de hele lening, min de vergoeding over wat nog in depot staat.</span></a>
                 <a id="naar-maandlast" href="bouwdepot-berekenen.html"><strong>Wat kost dit per maand, precies?</strong><span>Het depotbedrag omgerekend naar een maandlast, met je eigen looptijd, hypotheekvorm en bank.</span></a>
                 <a href="${HUB}"><strong>Wat accepteert mijn bank?</strong><span>Looptijd, vergoeding en bewijsstukken van ${banken.aanbieders.length} geldverstrekkers naast elkaar.</span></a>
                 <a href="stappenplan.html#adviesgesprek"><strong>Naar het adviesgesprek</strong><span>Wat je meeneemt en welke vragen je stelt, in een printbare checklist.</span></a>

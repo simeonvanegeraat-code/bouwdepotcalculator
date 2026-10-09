@@ -21,8 +21,10 @@
 .hp-hero h1 {
     margin: 0.75rem 0 0.5rem;
     font-weight: 500;
-    font-size: clamp(2.75rem, 7.3vw, 7.5rem);
-    line-height: 0.95;
+    font-size: clamp(2.5rem, 6.1vw, 6.25rem);
+    line-height: 0.97;
+    max-width: 16em;
+    text-wrap: balance;
     letter-spacing: -0.045em;
     color: var(--ui-ink);
 }
@@ -428,7 +430,7 @@
    ========================================================================== */
 
 @media (max-width: 899px) {
-    .hp-hero h1 { font-size: clamp(2.75rem, 13.5vw, 5rem); }
+    .hp-hero h1 { font-size: clamp(2.25rem, 10.4vw, 4.25rem); }
     .hp-twee { grid-template-columns: 1fr; }
     .hp-kant, .hp-kant + .hp-kant { padding: 0.5rem 0 1.5rem; border-left: 0; }
     .hp-kant + .hp-kant { border-top: 1px solid var(--ui-line); }

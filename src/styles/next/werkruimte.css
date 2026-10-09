@@ -498,6 +498,8 @@
 .wr-sectie > .wr-werk { padding-bottom: 0; }
 .wr-sectie--strak { padding-top: 0; padding-bottom: 1.5rem; }
 .wr-sectie--strak > h2 { margin-bottom: 0.75rem; }
+/* Een tussenkop direct onder de paginatitel: kleiner, zodat hij de titel niet herhaalt. */
+.wr-tussenkop { margin: 0.25rem 0 0; font-size: clamp(1.25rem, 2vw, 1.625rem); font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
 
 /* --- Specificatie: alleen op papier --- */
 
