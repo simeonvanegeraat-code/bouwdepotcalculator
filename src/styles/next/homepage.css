@@ -110,6 +110,14 @@
 .hp-kant.is-actief .hp-vlak--plan { opacity: 0.32; transition-delay: 0.35s; }
 .hp-kant.is-actief .hp-l--plan { opacity: 0; }
 
+/* Op een aanraakscherm hangt de bouw aan de scrollpositie: --p loopt van 0
+   (alleen de fundering) naar 1 (het huis staat). Elke lijn begint op zijn
+   eigen moment, de laagste eerst; --dn is dezelfde waarde als --d, zonder
+   eenheid. Geen overgangen: het script dempt de beweging zelf. */
+.hp-kant.is-scroll .hp-l--bouw { transition: none; stroke-dashoffset: clamp(0, calc(1 - (var(--p, 0) - var(--dn, 0) * 0.6) / 0.4), 1); }
+.hp-kant.is-scroll .hp-vlak--plan { transition: none; opacity: calc(clamp(0, (var(--p, 0) - 0.7) / 0.3, 1) * 0.32); }
+.hp-kant.is-scroll .hp-l--plan { transition: none; opacity: calc(0.8 - clamp(0, var(--p, 0) * 1.25, 1) * 0.8); }
+
 /* --- Het ene invoerveld --- */
 
 .hp-snel {

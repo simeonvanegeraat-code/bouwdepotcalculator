@@ -75,7 +75,9 @@ export function geometrie(model, yaw = BASIS.yaw, pitch = BASIS.pitch) {
             lijnen.push({ t: 'line', k: `hp-l hp-l--${deel.soort}`, attrs });
             if (deel.soort === 'plan') {
                 // De "gebouwde" lijn ligt over de streeplijn en wordt van onder
-                // naar boven getrokken: hoe hoger de rand, hoe later.
+                // naar boven getrokken: hoe hoger de rand, hoe later. De
+                // waarde gaat twee keer mee: als vertraging in seconden voor
+                // de muis, en kaal voor het meebouwen met de scrollpositie.
                 const hoogte = (punten[a][1] + punten[b][1]) / 2;
                 lijnen.push({ t: 'line', k: 'hp-l hp-l--bouw', attrs, lengte: true, vertraging: (hoogte / 5).toFixed(2) });
             }
@@ -102,7 +104,7 @@ export function geometrie(model, yaw = BASIS.yaw, pitch = BASIS.pitch) {
 export function svgInhoud(onderdelen) {
     return onderdelen.map((o) => {
         const attrs = Object.entries(o.attrs ?? { points: o.pts }).map(([k, v]) => `${k}="${v}"`).join(' ');
-        const extra = (o.lengte ? ' pathLength="1"' : '') + (o.vertraging ? ` style="--d:${o.vertraging}s"` : '');
+        const extra = (o.lengte ? ' pathLength="1"' : '') + (o.vertraging ? ` style="--d:${o.vertraging}s;--dn:${o.vertraging}"` : '');
         if (o.t === 'text') return `<text class="${o.k}" ${attrs}>${o.tekst}</text>`;
         return `<${o.t} class="${o.k}" ${attrs}${extra}/>`;
     }).join('');

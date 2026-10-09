@@ -58,15 +58,6 @@ for (const woord of document.querySelectorAll('[data-wijst]')) {
     woord.addEventListener('blur', () => wijsAan(null));
 }
 
-// Zonder muis is er niets aan te wijzen: daar bouwt een tekening zich zodra hij
-// in beeld komt, en blijft dan staan.
-if (!fijn) {
-    const kijker = new IntersectionObserver((items) => {
-        for (const item of items) if (item.isIntersecting) item.target.classList.add('is-actief');
-    }, { threshold: 0.55 });
-    kanten.forEach((k) => kijker.observe(k));
-}
-
 /* --- Tekeningen --- */
 
 const tekeningen = [...document.querySelectorAll('[data-tekening]')].map((svg) => {
@@ -76,6 +67,48 @@ const tekeningen = [...document.querySelectorAll('[data-tekening]')].map((svg) =
 });
 
 const stil = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* --- Aanraakscherm: de huizen bouwen mee met het scrollen ---
+   Zonder muis is er niets aan te wijzen. Eerst speelde de bouw daar één keer
+   af zodra een tekening in beeld kwam; het eerste huis staat bij het laden al
+   in beeld, dus dat was voorbij voordat iemand keek. Nu hangt de bouw aan de
+   plek van de tekening op het scherm: onderaan staat alleen de fundering, en
+   terwijl hij omhoog schuift wordt het huis getrokken. Terugscrollen breekt
+   het weer af. De stand loopt gedempt naar zijn doel, zodat het bij het laden
+   zichtbaar begint en een vinger die schokkerig scrolt geen schokkerige
+   tekening geeft. */
+if (!fijn && stil) {
+    for (const k of kanten) k.classList.add('is-actief');
+} else if (!fijn) {
+    const staat = kanten.map((kant) => ({ kant, svg: kant.querySelector('svg'), doel: 0, nu: 0 }));
+    for (const s of staat) s.kant.classList.add('is-scroll');
+    let loopt = false;
+
+    function meet() {
+        for (const s of staat) {
+            const r = s.svg.getBoundingClientRect();
+            // Waar het midden van de tekening staat: 0 is de bovenrand van het
+            // scherm, 1 de onderrand. Tussen 0,78 en 0,38 wordt er gebouwd.
+            const midden = (r.top + r.height / 2) / innerHeight;
+            s.doel = Math.min(1, Math.max(0, (0.78 - midden) / 0.4));
+        }
+        if (!loopt) { loopt = true; requestAnimationFrame(stap); }
+    }
+
+    function stap() {
+        let bezig = false;
+        for (const s of staat) {
+            s.nu += (s.doel - s.nu) * 0.14;
+            if (Math.abs(s.doel - s.nu) < 0.002) s.nu = s.doel; else bezig = true;
+            s.kant.style.setProperty('--p', s.nu.toFixed(3));
+        }
+        if (bezig) requestAnimationFrame(stap); else loopt = false;
+    }
+
+    addEventListener('scroll', meet, { passive: true });
+    addEventListener('resize', meet);
+    meet();
+}
 
 if (!stil) {
     let muis = 0, kijk = 0, plat = 0, platNu = 0, loopt = false;
