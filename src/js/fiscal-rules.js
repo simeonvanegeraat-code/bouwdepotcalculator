@@ -3,10 +3,24 @@ export const TAX_RULES_2026 = Object.freeze({
     firstBracketLimit: 38883,
     secondBracketLimit: 78426,
     firstRate: 0.3575,
+    // Wie de AOW-leeftijd heeft betaalt geen AOW-premie meer: eerste schijf 17,85%.
+    aowFirstRate: 0.1785,
     secondRate: 0.3756,
     thirdRate: 0.495,
     maxMortgageDeductionRate: 0.3756,
+    // Algemene heffingskorting: het maximum, en de afbouw per euro
+    // verzamelinkomen boven de grens. Een aftrekpost verlaagt het
+    // verzamelinkomen en levert zo ook meer korting op.
+    generalCreditMax: 3115,
+    generalCreditStart: 29736,
+    generalCreditPhaseOut: 0.06398,
+    generalCreditMaxAow: 1556,
+    generalCreditPhaseOutAow: 0.03195,
+    // Aftrek wegens geen of geringe eigenwoningschuld. Sinds het Belastingplan
+    // 2026 daalt hij 4,8 procentpunt per jaar en is hij per 1 januari 2041 weg
+    // (was: 3,33 procentpunt per jaar, tot 2048).
     hillenDeductionRate: 0.71867,
+    hillenEndYear: 2041,
     highValueThreshold: 1350000,   // 2026; was 1.330.000 in 2025
     highValueBaseForfait: 4725,    // 2026; was 4.655 in 2025
     highValueRate: 0.0235,
