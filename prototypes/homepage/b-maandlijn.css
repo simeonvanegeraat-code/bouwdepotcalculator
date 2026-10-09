@@ -1,0 +1,330 @@
+/* Concept B · Maandlijn
+   Geen huis maar de maanden zelf als bouwwerk. Grote schreefloze kop, één
+   donker paneel waarin achttien kolommen staan, en een index als routekeuze.
+   De 3D is pure CSS: geen bibliotheek, geen canvas. */
+
+.b { --b-sans: 'Manrope', var(--ui-sans); font-family: var(--b-sans); }
+
+.b-kop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem var(--ui-rand);
+}
+.b-merk { font-weight: 600; letter-spacing: -0.02em; text-decoration: none; color: var(--ui-forest); }
+.b-merk span { font-weight: 400; color: var(--ui-ink); }
+.b-nav { display: flex; gap: clamp(1rem, 2.4vw, 2.25rem); font-size: 0.9375rem; font-weight: 500; }
+.b-nav a { display: inline-flex; align-items: center; min-height: 2.75rem; text-decoration: none; }
+.b-nav a:hover { text-decoration: underline; text-underline-offset: 0.35em; }
+
+/* --- Hero: de kop draagt de pagina, de acties staan er asymmetrisch onder --- */
+
+.b-hero {
+    max-width: var(--ui-max);
+    margin: 0 auto;
+    padding: clamp(1.5rem, 5vh, 4rem) var(--ui-rand) clamp(2rem, 4vh, 3rem);
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: 2rem clamp(2rem, 5vw, 5rem);
+    align-items: end;
+}
+.b-hero h1 {
+    font-weight: 500;
+    font-size: clamp(2.75rem, 7.4vw, 7.25rem);
+    line-height: 0.94;
+    letter-spacing: -0.05em;
+    color: var(--ui-forest);
+    text-wrap: balance;
+}
+.b-hero h1 em { font-style: normal; color: #6F8F7F; }
+.b-lead { font-size: 1.0625rem; line-height: 1.55; }
+.b-acties { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+.b-knop {
+    display: inline-flex;
+    align-items: center;
+    min-height: 3rem;
+    padding: 0 1.35rem;
+    border: 1.5px solid var(--ui-forest);
+    border-radius: 0.75rem;
+    background: var(--ui-forest);
+    color: var(--ui-canvas);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.b-knop:hover { background: var(--ui-forest-diep); transform: translateY(-1px); }
+.b-knop--lijn { background: transparent; color: var(--ui-forest); }
+.b-knop--lijn:hover { background: var(--ui-forest); color: var(--ui-canvas); }
+.b-direct { margin-top: 0.75rem; }
+.b-direct a { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; font-weight: 600; text-underline-offset: 0.35em; }
+
+/* --- Baan en toneel --- */
+
+.b-baan { height: 240vh; }
+.b-toneel {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    padding: 0.75rem;
+}
+.b-paneel {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    background: var(--ui-forest);
+    color: var(--ui-canvas);
+    border-radius: 1.75rem;
+    overflow: hidden;
+}
+.b-paneel__kop { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; }
+.b-paneel__kop h2 { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
+.b-stempel { font-size: 0.8125rem; color: #B9CEC2; }
+
+.b-fasen {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-top: clamp(1rem, 3vh, 2rem);
+    max-width: 62rem;
+}
+.b-fasen li {
+    padding-top: 0.9rem;
+    border-top: 2px solid rgba(247, 245, 240, 0.28);
+    transition: opacity 0.3s ease, border-color 0.3s ease;
+}
+.b-fasen__naam { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #B9CEC2; }
+.b-fasen__bedrag { font-size: clamp(1.5rem, 2.6vw, 2.5rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1.2; margin: 0.2rem 0 0.3rem; }
+.b-fasen__wat { font-size: 0.875rem; line-height: 1.45; color: #D5E0D9; max-width: 19rem; }
+/* Niet-actieve fasen blijven leesbaar: ze wijken, ze verdwijnen niet. */
+.b-fasen[data-actief] li { opacity: 0.72; }
+.b-fasen[data-actief="0"] li:nth-child(1),
+.b-fasen[data-actief="1"] li:nth-child(2),
+.b-fasen[data-actief="2"] li:nth-child(3) { opacity: 1; border-top-color: var(--ui-champagne); }
+
+/* --- Het bouwwerk --- */
+
+.b-beeld {
+    --w: 30px;      /* breedte en diepte van een kolom */
+    --stap: 46px;   /* hart-op-hart */
+    --k: 0.085;     /* pixels per euro; het script verkleint dit als het toneel laag is */
+    --n: 18;
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 12rem;
+}
+.b-vloer {
+    position: absolute;
+    left: 50%;
+    top: 74%;
+    width: calc(var(--n) * var(--stap) - (var(--stap) - var(--w)));
+    height: var(--w);
+    margin-left: calc((var(--n) * var(--stap) - (var(--stap) - var(--w))) / -2);
+    transform-style: preserve-3d;
+    will-change: transform;
+    transform: translateY(var(--dy, 0px)) rotateX(var(--rx, 62deg)) rotateZ(var(--rz, 40deg));
+}
+/* Dimmen gaat via de kleur van de vlakken. Opacity op een kolom zou hem plat
+   drukken: een doorschijnend element kan geen 3D-kinderen houden. */
+@property --licht { syntax: '<number>'; inherits: true; initial-value: 1; }
+
+.b-staaf {
+    --licht: 1;
+    position: absolute;
+    top: 0;
+    left: calc(var(--i) * var(--stap));
+    width: var(--w);
+    height: var(--w);
+    transform-style: preserve-3d;
+    transform: scale3d(1, 1, 1);
+    transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), --licht 0.3s ease;
+    transition-delay: calc(var(--i) * 30ms), 0s;
+}
+.b-vloer.is-plat .b-staaf { transform: scale3d(1, 1, 0.002); }
+.b-vloer[data-actief] .b-staaf { --licht: 0.3; }
+.b-vloer[data-actief="0"] .b-staaf[data-fase="voor"],
+.b-vloer[data-actief="1"] .b-staaf[data-fase="bouw"],
+.b-vloer[data-actief="2"] .b-staaf[data-fase="na"] { --licht: 1; }
+
+.b-seg {
+    --h: calc(var(--e) * var(--k) * 1px);
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: translateZ(calc(var(--z) * var(--k) * 1px));
+}
+.b-seg i, .b-seg b, .b-seg u { position: absolute; display: block; }
+.b-seg i { inset: 0; transform: translateZ(var(--h)); background: color-mix(in srgb, var(--top) calc(var(--licht) * 100%), var(--ui-forest)); }
+.b-seg b { left: 0; bottom: 0; width: 100%; height: var(--h); transform-origin: 50% 100%; transform: rotateX(-90deg); background: color-mix(in srgb, var(--voor) calc(var(--licht) * 100%), var(--ui-forest)); }
+.b-seg u { top: 0; right: 0; width: var(--h); height: 100%; transform-origin: 100% 50%; transform: rotateY(90deg); background: color-mix(in srgb, var(--zij) calc(var(--licht) * 100%), var(--ui-forest)); }
+.b-seg--oud { --top: #BCD2C5; --voor: #9BB8A8; --zij: #7B9A89; }
+.b-seg--nieuw { --top: #FFFFFF; --voor: #F3EFE6; --zij: #D2CCBE; }
+.b-staaf.is-piek .b-seg--nieuw { --top: #E3C79E; --voor: #CFAD7D; --zij: #B08F61; }
+
+/* De assen horen bij het eindbeeld: ze verschijnen als de camera recht voor
+   de kolommen staat en de sculptuur een grafiek is geworden. */
+.b-assen {
+    position: absolute;
+    left: 50%;
+    top: 74%;
+    width: calc(var(--n) * var(--stap) - (var(--stap) - var(--w)));
+    margin-left: calc((var(--n) * var(--stap) - (var(--stap) - var(--w))) / -2);
+    margin-top: calc(var(--w) / 2);
+    opacity: var(--assen, 0);
+    font-size: 0.75rem;
+    color: #D5E0D9;
+    pointer-events: none;
+}
+.b-assen__lijn { height: 1px; background: rgba(247, 245, 240, 0.4); }
+.b-assen__groepen { display: flex; margin-top: 0.5rem; }
+.b-assen__groepen span { text-align: center; border-left: 1px solid rgba(247, 245, 240, 0.25); padding: 0 0.25rem; white-space: nowrap; overflow: hidden; }
+.b-assen__groepen span:first-child { border-left: 0; }
+.b-assen__piek {
+    position: absolute;
+    bottom: calc(100% + var(--piek) * var(--k) * 1px + 0.5rem);
+    left: calc(var(--piek-i) * var(--stap) + var(--w) / 2);
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ui-champagne);
+}
+
+/* Prijskaartjes (concept D): het script zet ze op de bovenkant van hun kolom. */
+.b-prijzen { position: absolute; inset: 0; pointer-events: none; }
+.b-prijs {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1.1rem;
+    white-space: nowrap;
+    line-height: 1.15;
+    /* Een rand in de paneelkleur houdt het kaartje leesbaar voor een kolom. */
+    text-shadow: 0 0 3px var(--ui-forest), 0 0 8px var(--ui-forest), 0 0 14px var(--ui-forest);
+    transition: opacity 0.3s ease;
+}
+.b-prijs::after { content: ''; position: absolute; bottom: 0.2rem; left: 50%; width: 1px; height: 0.7rem; background: currentColor; opacity: 0.6; }
+.b-prijs strong { font-size: clamp(1rem, 1.5vw, 1.375rem); font-weight: 600; letter-spacing: -0.02em; }
+.b-prijs span { font-size: 0.75rem; color: #D5E0D9; }
+.b-prijs[data-fase="voor"] strong { color: #BCD2C5; }
+.b-prijs:nth-child(3) strong { color: var(--ui-champagne); }
+.b-prijzen[data-actief] .b-prijs:not(.is-actief) { opacity: 0.4; }
+
+.b-legenda { position: relative; display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; font-size: 0.8125rem; color: #D5E0D9; }
+.b-legenda li { display: flex; align-items: center; gap: 0.5rem; }
+.b-legenda i { width: 0.75rem; height: 0.75rem; border-radius: 2px; }
+.b-legenda__oud { background: #9BB8A8; }
+.b-legenda__nieuw { background: #F3EFE6; }
+.b-legenda__piek { background: var(--ui-champagne); }
+
+/* --- Onder het toneel --- */
+
+.b-onder { max-width: var(--ui-max); margin: 0 auto; padding: 1.5rem var(--ui-rand) 0; }
+.b-tabel summary { cursor: pointer; min-height: 2.75rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+.b-tabel__rol { overflow-x: auto; margin-top: 0.75rem; }
+.b-tabel table { width: 100%; min-width: 36rem; border-collapse: collapse; font-size: 0.9375rem; font-variant-numeric: tabular-nums; }
+.b-tabel th, .b-tabel td { padding: 0.5rem 0.75rem; text-align: right; border-bottom: 1px solid var(--ui-line); }
+.b-tabel th:first-child, .b-tabel td:first-child { text-align: left; padding-left: 0; }
+.b-tabel th { font-size: 0.8125rem; font-weight: 600; color: var(--ui-muted); vertical-align: bottom; }
+.b-tabel tr.is-piek td { font-weight: 600; background: #F1E7D6; }
+.b-tabel__noot { margin-top: 1rem; max-width: 46rem; font-size: 0.875rem; color: var(--ui-muted); }
+.b-onder__ga { margin-top: 0.5rem; }
+.b-onder__ga a { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; font-weight: 600; color: var(--ui-forest); text-underline-offset: 0.35em; }
+
+/* --- Index: de routes als inhoudsopgave --- */
+
+.b-index { max-width: var(--ui-max); margin: 0 auto; padding: clamp(4rem, 9vw, 8rem) var(--ui-rand) clamp(3rem, 6vw, 5rem); }
+.b-index h2 { font-size: 1rem; font-weight: 600; color: var(--ui-muted); margin-bottom: 1.25rem; }
+.b-index ol { border-top: 1.5px solid var(--ui-forest); }
+.b-index a {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 20rem) 3rem;
+    align-items: baseline;
+    gap: 1rem;
+    padding: clamp(1rem, 2.4vw, 2rem) 1rem;
+    margin: 0 -1rem;
+    border-bottom: 1px solid var(--ui-line);
+    border-radius: 0.75rem;
+    text-decoration: none;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+.b-index__nr { font-size: 0.875rem; font-weight: 600; color: var(--ui-muted); font-variant-numeric: tabular-nums; transition: color 0.25s ease; }
+.b-index__naam { font-size: clamp(1.75rem, 4.4vw, 4rem); font-weight: 500; letter-spacing: -0.045em; line-height: 1.02; color: var(--ui-forest); transition: color 0.25s ease; }
+.b-index__wat { font-size: 0.9375rem; color: var(--ui-muted); transition: color 0.25s ease; }
+.b-index__pijl { font-size: 1.5rem; text-align: right; transition: transform 0.25s ease; }
+.b-index a:hover, .b-index a:focus-visible { background: var(--ui-forest); border-bottom-color: transparent; }
+.b-index a:hover span, .b-index a:focus-visible span { color: var(--ui-canvas); }
+.b-index a:hover .b-index__pijl { transform: translateX(6px); }
+.b-index__klein .b-index__naam { font-size: clamp(1.25rem, 2.2vw, 1.75rem); letter-spacing: -0.03em; }
+
+.b-bewijs {
+    max-width: var(--ui-max);
+    margin: 0 auto;
+    padding: 0 var(--ui-rand) clamp(4rem, 8vw, 7rem);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    font-size: 0.9375rem;
+}
+.b-bewijs p { max-width: 20rem; }
+.b-bewijs strong { display: block; font-size: 1.125rem; font-weight: 600; color: var(--ui-forest); }
+.b-bewijs a { display: inline-block; padding: 0.5rem 0; font-weight: 600; color: var(--ui-forest); text-underline-offset: 0.3em; }
+
+.b-voet {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    padding: 2rem var(--ui-rand) 5rem;
+    border-top: 1px solid var(--ui-line);
+    font-size: 0.875rem;
+    color: var(--ui-muted);
+}
+
+@media (max-width: 1099px) {
+    .b-beeld { --w: 22px; --stap: 34px; --k: 0.07; }
+}
+
+@media (max-width: 899px) {
+    .b-nav a:not(:nth-child(3)) { display: none; }
+    .b-nav a { white-space: nowrap; font-size: 0.8125rem; text-decoration: underline; text-underline-offset: 0.35em; }
+    .b-hero { grid-template-columns: 1fr; align-items: start; }
+    .b-hero h1 { font-size: clamp(2.75rem, 13vw, 4.5rem); }
+    .b-knop { flex: 1 1 auto; justify-content: center; }
+    .b-index a { grid-template-columns: 2.25rem minmax(0, 1fr) 2rem; }
+    .b-index__wat { grid-column: 2; grid-row: 2; }
+    .b-index__pijl { grid-row: 1; grid-column: 3; }
+    .b-bewijs { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+
+@media (max-width: 699px) {
+    .b-baan { height: 220vh; }
+    .b-toneel { padding: 0.5rem; }
+    .b-paneel { border-radius: 1.25rem; padding: 1.1rem 1rem; }
+    .b-beeld { --w: 12px; --stap: 18px; --k: 0.05; }
+    .b-fasen { grid-template-columns: 1fr; gap: 0; margin-top: 0.75rem; }
+    .b-fasen li { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 0 1rem; padding: 0.45rem 0; border-top-width: 1px; }
+    .b-fasen__naam { font-size: 0.75rem; }
+    .b-fasen__bedrag { font-size: 1.25rem; margin: 0; }
+    .b-fasen__wat { grid-column: 1 / -1; font-size: 0.8125rem; }
+    .b-fasen[data-actief] li:not(.is-actief) .b-fasen__wat { display: none; }
+    .b-assen { font-size: 0.6875rem; }
+    .b-prijs--extra { display: none; }
+    .b-prijs span { font-size: 0.6875rem; }
+    .b-assen__piek { transform: translateX(-78%); font-size: 0.75rem; }
+    .b-legenda { font-size: 0.75rem; gap: 0.25rem 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    /* Geen draaiende camera: het toneel staat stil in zijn eindbeeld, de
+       gewone grafiek, en neemt alleen zijn eigen hoogte in. */
+    .b-baan { height: auto; }
+    .b-toneel { position: static; height: auto; min-height: 44rem; display: grid; }
+}

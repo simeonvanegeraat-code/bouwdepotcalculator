@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drie homepageconcepten — prototype</title>
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./basis.css">
+    <style>
+        .o { max-width: 72rem; margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) var(--ui-rand) 5rem; }
+        .o h1 { font-size: clamp(2rem, 4.5vw, 3.25rem); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; color: var(--ui-forest); max-width: 20em; }
+        .o > p { max-width: 44rem; margin-top: 1rem; }
+        .o-lijst { margin-top: 3rem; border-top: 1.5px solid var(--ui-forest); }
+        .o-lijst a { display: grid; grid-template-columns: 3rem minmax(0, 15rem) minmax(0, 1fr) auto; gap: 0.5rem 2rem; align-items: baseline; padding: 1.75rem 0; border-bottom: 1px solid var(--ui-line); text-decoration: none; }
+        .o-lijst a:hover strong { text-decoration: underline; text-underline-offset: 0.2em; }
+        .o-letter { font-size: 1.5rem; font-weight: 600; color: var(--ui-muted); }
+        .o-lijst strong { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; color: var(--ui-forest); }
+        .o-lijst em { display: block; font-style: normal; font-size: 0.875rem; color: var(--ui-muted); margin-top: 0.25rem; }
+        .o-lijst span:last-child { font-weight: 600; color: var(--ui-forest); white-space: nowrap; }
+        .o h2 { margin-top: 3.5rem; font-size: 1.25rem; font-weight: 600; }
+        .o-rol { overflow-x: auto; margin-top: 1rem; }
+        .o table { width: 100%; min-width: 44rem; border-collapse: collapse; font-size: 0.9375rem; }
+        .o th, .o td { text-align: left; vertical-align: top; padding: 0.7rem 1rem 0.7rem 0; border-bottom: 1px solid var(--ui-line); }
+        .o thead th { font-size: 0.8125rem; color: var(--ui-muted); }
+        .o tbody th { font-weight: 600; width: 9rem; }
+        .o-noot { font-size: 0.875rem; color: var(--ui-muted); }
+        .o code { font-size: 0.875em; background: var(--ui-sage-licht); padding: 0.1em 0.35em; border-radius: 4px; }
+        @media (max-width: 699px) {
+            .o-lijst a { grid-template-columns: 2rem minmax(0, 1fr); }
+            .o-lijst a > :nth-child(3), .o-lijst a > :nth-child(4) { grid-column: 2; }
+        }
+    </style>
+</head>
+<body>
+    <main class="o">
+        <h1>Drie richtingen voor de nieuwe homepage</h1>
+        <p>Mijlpaal 1: ontwerpconcepten ter beoordeling. Alle drie werken in de browser, gebruiken hetzelfde rekenvoorbeeld en linken naar de bestaande rekentools. Geen van de drie staat in de productiebuild.</p>
+
+        <div class="o-lijst">
+            <a href="./d-samen.html">
+                <span class="o-letter">D</span>
+                <strong>Samengevoegd<em>Na de eerste beoordeling</em></strong>
+                <span>De twee woningen van C als opening, de draaiende grafiek van B daaronder met de bedragen aan de kolommen, en het keuzemenu van B onderaan.</span>
+                <span>Bekijk D →</span>
+            </a>
+            <a href="./a-bouwlagen.html">
+                <span class="o-letter">A</span>
+                <strong>Bouwlagen<em>Het huis als hoofdpersoon</em></strong>
+                <span>Een architectonisch huis komt tijdens het scrollen laag voor laag terug. Elke laag is een bouwtermijn; een meter naast het huis laat zien wat er nog in depot staat en wat de maand kost.</span>
+                <span>Bekijk A →</span>
+            </a>
+            <a href="./b-maandlijn.html">
+                <span class="o-letter">B</span>
+                <strong>Maandlijn<em>De cijfers als bouwwerk</em></strong>
+                <span>Geen huis: achttien maanden staan als kolommen op een donker vlak. Tijdens het scrollen draait de camera tot het bouwwerk een gewone, afleesbare staafgrafiek is.</span>
+                <span>Bekijk B →</span>
+            </a>
+            <a href="./c-twee-woningen.html">
+                <span class="o-letter">C</span>
+                <strong>Twee woningen<em>De kop is de keuze</em></strong>
+                <span>Geen scrollverhaal: twee bouwtekeningen naast elkaar, nieuwbouw en verbouwen. Wijs er één aan en de stippellijnen worden gebouwd. Daaronder een plattegrond van alle rekentools.</span>
+                <span>Bekijk C →</span>
+            </a>
+        </div>
+
+        <h2>Waarin ze verschillen</h2>
+        <div class="o-rol">
+            <table>
+                <thead><tr><th></th><th scope="col">A · Bouwlagen</th><th scope="col">B · Maandlijn</th><th scope="col">C · Twee woningen</th></tr></thead>
+                <tbody>
+                    <tr><th scope="row">3D-element</th><td>Massief huis met licht en schaduw</td><td>Kolommen per maand, abstract</td><td>Lijntekening met maatlijnen in euro's</td></tr>
+                    <tr><th scope="row">Techniek</th><td>WebGL (Three.js), pas geladen na de eerste weergave</td><td>Alleen CSS-transformaties</td><td>SVG met een eigen projectie van ± 100 regels</td></tr>
+                    <tr><th scope="row">Scroll</th><td>Tekst loopt door, huis blijft staan (vier stappen)</td><td>Eén paneel blijft staan terwijl de camera draait</td><td>Vrijwel geen; de interactie is aanwijzen</td></tr>
+                    <tr><th scope="row">Typografie</th><td>Schreef (Instrument Serif) met Inter</td><td>Grote schreefloze (Manrope)</td><td>Inter Tight met een monospace voor maten</td></tr>
+                    <tr><th scope="row">Routekeuze</th><td>Knoppen in de hero, daarna twee grote deuren</td><td>Knoppen in de hero, daarna een genummerde index</td><td>De twee woorden van de kop zelf, plus één invoerveld</td></tr>
+                    <tr><th scope="row">Zonder beweging</th><td>Stilstaand SVG-huis, alle tekst en bedragen blijven</td><td>Direct de staafgrafiek</td><td>Stilstaande tekeningen</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>Zo test je de terugval</h2>
+        <p class="o-noot">Concept A zonder 3D: <a href="./a-bouwlagen.html?geen3d">a-bouwlagen.html?geen3d</a>. Verminderde beweging zet je aan in je besturingssysteem of in de ontwikkeltools van de browser (<code>prefers-reduced-motion</code>).</p>
+        <p class="o-noot" style="margin-top:0.75rem">Het rekenvoorbeeld is de standaardinvoer van <a href="/nieuwbouw.html">nieuwbouw.html</a>: grond € 150.000, aanneemsom € 350.000, 3,80% rente, twaalf maanden bouw, huidige woonlast € 1.200. Alle bedragen zijn bruto.</p>
+    </main>
+</body>
+</html>

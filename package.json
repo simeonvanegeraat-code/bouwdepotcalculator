@@ -13,6 +13,7 @@
     "build:header": "node scripts/build-header.mjs"
   },
   "devDependencies": {
+    "three": "^0.186.1",
     "vite": "^5.4.0"
   },
   "allowScripts": {

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept A · Bouwlagen — prototype homepage</title>
+    <!-- Prototype: niet indexeren. Dit bestand staat niet in vite.config.js en
+         komt dus niet in de productiebuild terecht. -->
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./basis.css">
+    <link rel="stylesheet" href="./a-bouwlagen.css">
+</head>
+<body class="a">
+    <a class="ui-skip" href="#routes">Direct naar de routes</a>
+
+    <header class="a-kop">
+        <a class="a-merk" href="./index.html">Bouwdepot<span>Calculator</span></a>
+        <nav class="a-nav" aria-label="Hoofdnavigatie">
+            <a href="/nieuwbouw.html">Nieuwbouw</a>
+            <a href="/verbouwbegroting.html">Verbouwen</a>
+            <a href="/bouwdepot-berekenen.html">Bouwdepot berekenen</a>
+            <a class="a-nav__extra" href="/stappenplan.html">Tools &amp; uitleg</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="a-verhaal" data-verhaal>
+
+            <!-- Het toneel staat naast de tekst en blijft staan terwijl de
+                 tekst gewoon doorscrolt. De poster is het eerste beeld; het
+                 canvas neemt het pas over als de 3D-scene klaar is. -->
+            <div class="a-toneel" data-toneel>
+                <div class="a-toneel__beeld">
+                    <div class="a-toneel__poster">
+                        <svg class="a-poster" viewBox="0 0 571 399" role="img" aria-label="Abstract woonhuis op een kavel, opgebouwd uit fundering, twee bouwlagen en een dak">
+                        <polygon points="212.5,117.1 559.2,238.5 358.7,381.7 12.0,260.3" fill="#c7d1ca"/>
+                        <polygon points="559.2,244.1 358.7,387.3 358.7,381.7 559.2,238.5" fill="#98a09a"/>
+                        <polygon points="233.2,166.1 459.3,245.3 479.3,283.1 363.2,366.0 140.9,288.2 111.9,252.8" fill="#183B35" opacity=".13"/>
+                        <polygon points="12.0,265.9 358.7,387.3 358.7,381.7 12.0,260.3" fill="#b5bfb8"/>
+                        <polygon points="231.5,149.8 468.9,232.9 339.6,325.2 102.3,242.1" fill="#b4aea2"/>
+                        <polygon points="468.9,244.8 339.6,337.1 339.6,325.2 468.9,232.9" fill="#8a857c"/>
+                        <polygon points="102.3,254.0 339.6,337.1 339.6,325.2 102.3,242.1" fill="#a49f94"/>
+                        <polygon points="233.2,94.8 459.3,174.0 338.0,260.6 111.9,181.5" fill="#e6e2da"/>
+                        <polygon points="459.3,233.7 338.0,320.4 338.0,260.6 459.3,174.0" fill="#b0ada6"/>
+                        <polygon points="111.9,241.2 338.0,320.4 338.0,260.6 111.9,181.5" fill="#d2cec6"/>
+                        <polygon points="233.2,39.0 459.3,118.2 338.0,204.8 111.9,125.7" fill="#dfdbcf"/>
+                        <polygon points="459.3,174.0 338.0,260.6 338.0,204.8 459.3,118.2" fill="#aba79e"/>
+                        <polygon points="111.9,181.5 338.0,260.6 338.0,204.8 111.9,125.7" fill="#ccc7bd"/>
+                        <polygon points="232.3,31.7 473.5,116.1 406.2,96.4 165.0,12.0" fill="#183a34"/>
+                        <polygon points="97.7,127.8 338.9,212.2 406.2,96.4 165.0,12.0" fill="#1c453e"/>
+                        <polygon points="473.5,116.1 338.9,212.2 406.2,96.4" fill="#15322d"/>
+                        <polygon points="137.5,251.0 167.6,261.6 167.6,211.8 137.5,201.2" fill="#212e33"/>
+                        <polygon points="168.4,261.0 167.6,261.6 167.6,211.8 168.4,211.2" fill="#1b262a"/>
+                        <polygon points="138.2,200.7 168.4,211.2 167.6,211.8 137.5,201.2" fill="#243238"/>
+                        <polygon points="197.7,254.2 307.0,292.5 307.0,262.6 197.7,224.3" fill="#212e33"/>
+                        <polygon points="198.5,223.8 307.8,262.0 307.0,262.6 197.7,224.3" fill="#243238"/>
+                        <polygon points="307.8,291.9 307.0,292.5 307.0,262.6 307.8,262.0" fill="#1b262a"/>
+                        <polygon points="137.5,177.3 201.5,199.8 201.5,171.9 137.5,149.4" fill="#212e33"/>
+                        <polygon points="138.2,148.9 202.3,171.3 201.5,171.9 137.5,149.4" fill="#243238"/>
+                        <polygon points="202.3,199.2 201.5,199.8 201.5,171.9 202.3,171.3" fill="#1b262a"/>
+                        <polygon points="246.7,215.6 307.0,236.7 307.0,208.8 246.7,187.7" fill="#212e33"/>
+                        <polygon points="247.5,187.1 307.8,208.2 307.0,208.8 246.7,187.7" fill="#243238"/>
+                        <polygon points="307.8,236.1 307.0,236.7 307.0,208.8 307.8,208.2" fill="#1b262a"/>
+                        <polygon points="436.7,233.1 368.1,282.1 368.1,252.2 436.7,203.3" fill="#1b262a"/>
+                        <polygon points="435.6,202.9 436.7,203.3 368.1,252.2 367.0,251.8" fill="#243238"/>
+                        <polygon points="367.0,281.7 368.1,282.1 368.1,252.2 367.0,251.8" fill="#212e33"/>
+                        <polygon points="415.6,192.4 383.9,215.0 383.9,187.2 415.6,164.5" fill="#1b262a"/>
+                        <polygon points="414.5,164.2 415.6,164.5 383.9,187.2 382.8,186.8" fill="#243238"/>
+                        <polygon points="382.8,214.6 383.9,215.0 383.9,187.2 382.8,186.8" fill="#212e33"/>
+                        </svg>
+                    </div>
+                    <canvas class="a-toneel__canvas" data-canvas aria-hidden="true"></canvas>
+                </div>
+
+                <div class="a-meter" aria-hidden="true">
+                    <p class="a-meter__fase" data-meter="fase">Vóór de bouw</p>
+                    <div class="a-meter__rij">
+                        <div>
+                            <p class="a-meter__label">Nog in depot</p>
+                            <p class="a-meter__bedrag tnum" data-meter="depot">€ 350.000</p>
+                            <div class="a-meter__balk"><i data-meter="balk"></i></div>
+                        </div>
+                        <div>
+                            <p class="a-meter__label">Bruto per maand</p>
+                            <p class="a-meter__bedrag tnum" data-meter="maand">€ 1.200</p>
+                            <p class="a-meter__noot" data-meter="noot">alleen je huidige woonlast</p>
+                        </div>
+                    </div>
+                    <p class="a-meter__stempel">Voorbeeld</p>
+                </div>
+            </div>
+
+            <section class="a-hero">
+                <p class="a-eyebrow">Onafhankelijke rekentools voor nieuwbouw, verbouwen en bouwdepot</p>
+                <h1>Wat je bouwt,<br><em>wanneer je betaalt.</em></h1>
+                <p class="a-lead">Zie per maand wat je woningplan kost: vóór, tijdens en na de bouw. En wat er verandert als de planning schuift.</p>
+
+                <div class="a-acties">
+                    <a class="a-knop" href="/nieuwbouw.html">Ik koop nieuwbouw <span aria-hidden="true">→</span></a>
+                    <a class="a-knop a-knop--lijn" href="/verbouwbegroting.html">Ik ga verbouwen <span aria-hidden="true">→</span></a>
+                </div>
+                <p class="a-direct"><a href="/bouwdepot-berekenen.html">Direct bouwdepot berekenen</a></p>
+
+                <p class="a-scrolltip" aria-hidden="true"><span></span>Scroll, en het huis komt laag voor laag terug</p>
+            </section>
+
+            <ol class="a-stappen">
+                <li class="a-stap" data-stap>
+                    <p class="a-stap__nr">01 <span>Bij de notaris</span></p>
+                    <h2>Je hele hypotheek gaat in. Het huis staat er nog niet.</h2>
+                    <p>In dit voorbeeld leen je € 500.000. De grond van € 150.000 wordt meteen betaald; de aanneemsom van € 350.000 staat in je bouwdepot. Je betaalt rente over de hele lening en ontvangt rente over wat nog in depot staat.</p>
+                    <dl class="a-feit">
+                        <div><dt>Bouwmaand 1, bruto</dt><dd class="tnum" data-bedrag="m1">€ 2.505</dd></div>
+                        <div><dt>waarvan huidige woonlast</dt><dd class="tnum">€ 1.200</dd></div>
+                    </dl>
+                </li>
+                <li class="a-stap" data-stap>
+                    <p class="a-stap__nr">02 <span>Ruwbouw</span></p>
+                    <h2>Elke bouwlaag is een termijn uit je depot.</h2>
+                    <p>Begane grond en verdieping staan: 35% van de aanneemsom is opgenomen. Het depot slinkt, dus de rente die je terugkrijgt ook. Je maandlast loopt op terwijl je lening gelijk blijft.</p>
+                    <dl class="a-feit">
+                        <div><dt>Bouwmaand 4, bruto</dt><dd class="tnum" data-bedrag="m4">€ 2.809</dd></div>
+                        <div><dt>nog in depot</dt><dd class="tnum">€ 227.500</dd></div>
+                    </dl>
+                </li>
+                <li class="a-stap" data-stap>
+                    <p class="a-stap__nr">03 <span>Dak en afbouw</span></p>
+                    <h2>Hoe dichter bij de sleutel, hoe hoger de maand.</h2>
+                    <p>Het dak zit erop, de installaties zijn betaald. Er staat nog € 70.000 in depot. Dit zijn de maanden waarin oude en nieuwe woonlast het zwaarst op elkaar drukken.</p>
+                    <dl class="a-feit">
+                        <div><dt>Bouwmaand 10, bruto</dt><dd class="tnum" data-bedrag="m10">€ 3.308</dd></div>
+                        <div><dt>nog in depot</dt><dd class="tnum">€ 70.000</dd></div>
+                    </dl>
+                </li>
+                <li class="a-stap" data-stap>
+                    <p class="a-stap__nr">04 <span>Oplevering</span></p>
+                    <h2>De zwaarste maand is de laatste. Daarna zakt het.</h2>
+                    <p>In de maand van oplevering betaal je in dit voorbeeld het meest. Valt daarna je oude woonlast weg, dan blijft alleen de hypotheek over. Schuift de oplevering, dan schuift die piek mee.</p>
+                    <dl class="a-feit">
+                        <div><dt>Bouwmaand 12, bruto</dt><dd class="tnum" data-bedrag="m12">€ 3.419</dd></div>
+                        <div><dt>daarna per maand</dt><dd class="tnum" data-bedrag="na">€ 2.330</dd></div>
+                    </dl>
+                    <p class="a-stap__noot">Voorbeeld met 3,80% rente, 30 jaar annuïtair, twaalf maanden bouw en een depotvergoeding gelijk aan de hypotheekrente. Dat laatste <a href="/bouwdepot-voorwaarden-vergelijken.html">verschilt per geldverstrekker</a>. Bruto: zonder hypotheekrenteaftrek.</p>
+                </li>
+            </ol>
+        </div>
+
+        <section class="a-routes" id="routes" aria-labelledby="routes-kop">
+            <p class="a-eyebrow" id="routes-kop">Reken het door voor je eigen plan</p>
+            <div class="a-routes__twee">
+                <a class="a-route" href="/nieuwbouw.html">
+                    <span class="a-route__naam">Ik koop <em>nieuwbouw</em></span>
+                    <span class="a-route__wat">Bouwtermijnen, dubbele lasten en de maand waarin het het zwaarst drukt.</span>
+                    <span class="a-route__ga">Open de nieuwbouwroute <span aria-hidden="true">→</span></span>
+                </a>
+                <a class="a-route" href="/verbouwbegroting.html">
+                    <span class="a-route__naam">Ik ga <em>verbouwen</em></span>
+                    <span class="a-route__wat">Begroting per post, wat uit het depot mag en wat het per maand doet.</span>
+                    <span class="a-route__ga">Open de verbouwroute <span aria-hidden="true">→</span></span>
+                </a>
+            </div>
+            <p class="a-routes__rest">
+                Eén bedrag doorrekenen? <a href="/bouwdepot-berekenen.html">Bouwdepot berekenen</a>
+                <span aria-hidden="true">·</span>
+                Loopt je depot al? <a href="/depotplanner.html">Naar de depotplanner</a>
+            </p>
+        </section>
+
+        <section class="a-bewijs" aria-label="Waarom je op de cijfers kunt bouwen">
+            <div>
+                <p class="a-bewijs__cijfer tnum">13</p>
+                <p>geldverstrekkers naast elkaar, elk gegeven met bron en controledatum.</p>
+                <a href="/bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
+            </div>
+            <div>
+                <p class="a-bewijs__cijfer tnum">0</p>
+                <p>gegevens naar onze server. Wat je invult blijft op je eigen apparaat.</p>
+                <a href="/privacy.html">Privacy</a>
+            </div>
+            <div>
+                <p class="a-bewijs__cijfer">Open</p>
+                <p>rekenregels: elke formule, aanname en bron staat beschreven.</p>
+                <a href="/methodologie.html">Methodologie</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="a-voet">
+        <span>© 2026 BouwdepotCalculator.nl — informatie, geen advies</span>
+        <span><a href="/methodologie.html">Methodologie</a> · <a href="/privacy.html">Privacy</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a></span>
+    </footer>
+
+    <nav class="proto-balk" aria-label="Prototypes">
+        <a href="./index.html">Overzicht</a>
+        <a href="./a-bouwlagen.html" aria-current="page">A</a>
+        <a href="./b-maandlijn.html">B</a>
+        <a href="./c-twee-woningen.html">C</a>
+        <a href="./d-samen.html">D</a>
+    </nav>
+
+    <script type="module" src="./a-bouwlagen.js"></script>
+</body>
+</html>

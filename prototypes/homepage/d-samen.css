@@ -1,0 +1,42 @@
+/* Concept D · Samengevoegd
+   De opening van C, het toneel en het keuzemenu van B. Dit bestand legt alleen
+   vast waar de twee elkaar raken: één lettertypefamilie, en een toneel waarin
+   de uitleg naast de grafiek staat in plaats van erboven. */
+
+.d { font-family: var(--ui-sans); }
+.d .b-paneel__kop h2,
+.d .b-fasen__bedrag,
+.d .b-prijs strong,
+.d .b-index__naam { font-family: var(--c-kop); }
+.d .b-fasen__naam,
+.d .b-stempel,
+.d .b-prijs span,
+.d .b-index__nr,
+.d .b-assen { font-family: var(--c-mono); letter-spacing: 0; }
+.d .b-fasen__naam { text-transform: none; font-size: 0.8125rem; font-weight: 500; }
+.d .b-paneel__kop h2 { font-size: clamp(1.5rem, 2.6vw, 2.5rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; }
+.d .b-index h2 { font-family: var(--c-mono); font-weight: 400; font-size: 0.8125rem; }
+.d .c-snel { margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+/* De kaartjes aan de kolommen dragen het pieklabel al. */
+.d .b-assen__piek { display: none; }
+
+.d-midden { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+
+@media (min-width: 900px) {
+    .d-midden {
+        display: grid;
+        grid-template-columns: minmax(15rem, 19rem) minmax(0, 1fr);
+        gap: clamp(1.5rem, 4vw, 4rem);
+        margin-top: clamp(1rem, 3vh, 2rem);
+    }
+    .d .b-fasen { grid-template-columns: 1fr; align-content: center; gap: 0; margin: 0; }
+    .d .b-fasen li {
+        padding: 1rem 0 1rem 1.25rem;
+        border-top: 0;
+        border-left: 2px solid rgba(247, 245, 240, 0.28);
+    }
+    .d .b-fasen[data-actief="0"] li:nth-child(1),
+    .d .b-fasen[data-actief="1"] li:nth-child(2),
+    .d .b-fasen[data-actief="2"] li:nth-child(3) { border-left-color: var(--ui-champagne); }
+    .d .b-fasen__bedrag { font-size: clamp(1.5rem, 2.2vw, 2.125rem); }
+}

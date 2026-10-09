@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept C · Twee woningen — prototype homepage</title>
+    <!-- Prototype: niet indexeren. Dit bestand staat niet in vite.config.js en
+         komt dus niet in de productiebuild terecht. -->
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./basis.css">
+    <link rel="stylesheet" href="./c-twee-woningen.css">
+</head>
+<body class="c">
+    <a class="ui-skip" href="#routes">Direct naar alle rekentools</a>
+
+    <header class="c-kop">
+        <a class="c-merk" href="./index.html">Bouwdepot<span>Calculator</span></a>
+        <nav class="c-nav" aria-label="Hoofdnavigatie">
+            <a href="/nieuwbouw.html">Nieuwbouw</a>
+            <a href="/verbouwbegroting.html">Verbouwen</a>
+            <a href="/bouwdepot-berekenen.html">Bouwdepot berekenen</a>
+            <a href="#routes">Tools &amp; uitleg</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="c-hero" data-hero>
+            <p class="c-opschrift">Onafhankelijke rekentools voor nieuwbouw, verbouwen en bouwdepot</p>
+            <!-- De kop is de routekeuze: beide woorden zijn een link. -->
+            <h1><a href="/nieuwbouw.html" data-wijst="nieuw">Nieuwbouw</a> of <a href="/verbouwbegroting.html" data-wijst="verbouw">verbouwen</a>?</h1>
+            <p class="c-lead">Reken door wat je plan per maand kost, voordat je tekent.</p>
+
+            <div class="c-twee">
+                <article class="c-kant" data-kant="nieuw">
+                    <svg class="c-tekening" data-tekening="nieuw" viewBox="20 80 560 370" role="img" aria-label="Lijntekening van een nieuwbouwwoning: de fundering ligt er, het huis is nog gestippeld"><polygon class="c-vlak c-vlak--staat" points="255.3,221.9 451.5,286.4 344.7,358.0 148.5,293.5"/><polygon class="c-vlak c-vlak--plan" points="256.7,128.3 443.5,189.7 343.3,256.9 156.5,195.5"/><polygon class="c-vlak c-vlak--staat" points="451.5,296.4 344.7,368.0 344.7,358.0 451.5,286.4"/><polygon class="c-vlak c-vlak--staat" points="148.5,303.6 344.7,368.0 344.7,358.0 148.5,293.5"/><polygon class="c-vlak c-vlak--plan" points="443.5,287.0 343.3,354.2 343.3,256.9 443.5,189.7"/><polygon class="c-vlak c-vlak--plan" points="156.5,292.8 343.3,354.2 343.3,256.9 156.5,195.5"/><polygon class="c-vlak c-vlak--plan" points="144.8,197.2 344.0,262.6 399.6,168.3 200.4,102.9"/><polygon class="c-vlak c-vlak--plan" points="455.2,188.1 344.0,262.6 399.6,168.3"/><line class="c-l c-l--grond" x1="239.6" y1="197.4" x2="526.0" y2="291.5"/><line class="c-l c-l--grond" x1="526.0" y1="291.5" x2="360.4" y2="402.6"/><line class="c-l c-l--grond" x1="360.4" y1="402.6" x2="74.0" y2="308.5"/><line class="c-l c-l--grond" x1="74.0" y1="308.5" x2="239.6" y2="197.4"/><line class="c-l c-l--staat" x1="255.3" y1="232.0" x2="451.5" y2="296.4"/><line class="c-l c-l--staat" x1="451.5" y1="296.4" x2="344.7" y2="368.0"/><line class="c-l c-l--staat" x1="344.7" y1="368.0" x2="148.5" y2="303.6"/><line class="c-l c-l--staat" x1="148.5" y1="303.6" x2="255.3" y2="232.0"/><line class="c-l c-l--staat" x1="255.3" y1="221.9" x2="451.5" y2="286.4"/><line class="c-l c-l--staat" x1="451.5" y1="286.4" x2="344.7" y2="358.0"/><line class="c-l c-l--staat" x1="344.7" y1="358.0" x2="148.5" y2="293.5"/><line class="c-l c-l--staat" x1="148.5" y1="293.5" x2="255.3" y2="221.9"/><line class="c-l c-l--staat" x1="255.3" y1="232.0" x2="255.3" y2="221.9"/><line class="c-l c-l--staat" x1="451.5" y1="296.4" x2="451.5" y2="286.4"/><line class="c-l c-l--staat" x1="344.7" y1="368.0" x2="344.7" y2="358.0"/><line class="c-l c-l--staat" x1="148.5" y1="303.6" x2="148.5" y2="293.5"/><line class="c-l c-l--plan" x1="256.7" y1="225.6" x2="443.5" y2="287.0"/><line class="c-l c-l--bouw" x1="256.7" y1="225.6" x2="443.5" y2="287.0" pathLength="1" style="--d:0.06s"/><line class="c-l c-l--plan" x1="443.5" y1="287.0" x2="343.3" y2="354.2"/><line class="c-l c-l--bouw" x1="443.5" y1="287.0" x2="343.3" y2="354.2" pathLength="1" style="--d:0.06s"/><line class="c-l c-l--plan" x1="343.3" y1="354.2" x2="156.5" y2="292.8"/><line class="c-l c-l--bouw" x1="343.3" y1="354.2" x2="156.5" y2="292.8" pathLength="1" style="--d:0.06s"/><line class="c-l c-l--plan" x1="156.5" y1="292.8" x2="256.7" y2="225.6"/><line class="c-l c-l--bouw" x1="156.5" y1="292.8" x2="256.7" y2="225.6" pathLength="1" style="--d:0.06s"/><line class="c-l c-l--plan" x1="256.7" y1="128.3" x2="443.5" y2="189.7"/><line class="c-l c-l--bouw" x1="256.7" y1="128.3" x2="443.5" y2="189.7" pathLength="1" style="--d:0.64s"/><line class="c-l c-l--plan" x1="443.5" y1="189.7" x2="343.3" y2="256.9"/><line class="c-l c-l--bouw" x1="443.5" y1="189.7" x2="343.3" y2="256.9" pathLength="1" style="--d:0.64s"/><line class="c-l c-l--plan" x1="343.3" y1="256.9" x2="156.5" y2="195.5"/><line class="c-l c-l--bouw" x1="343.3" y1="256.9" x2="156.5" y2="195.5" pathLength="1" style="--d:0.64s"/><line class="c-l c-l--plan" x1="156.5" y1="195.5" x2="256.7" y2="128.3"/><line class="c-l c-l--bouw" x1="156.5" y1="195.5" x2="256.7" y2="128.3" pathLength="1" style="--d:0.64s"/><line class="c-l c-l--plan" x1="256.7" y1="225.6" x2="256.7" y2="128.3"/><line class="c-l c-l--bouw" x1="256.7" y1="225.6" x2="256.7" y2="128.3" pathLength="1" style="--d:0.35s"/><line class="c-l c-l--plan" x1="443.5" y1="287.0" x2="443.5" y2="189.7"/><line class="c-l c-l--bouw" x1="443.5" y1="287.0" x2="443.5" y2="189.7" pathLength="1" style="--d:0.35s"/><line class="c-l c-l--plan" x1="343.3" y1="354.2" x2="343.3" y2="256.9"/><line class="c-l c-l--bouw" x1="343.3" y1="354.2" x2="343.3" y2="256.9" pathLength="1" style="--d:0.35s"/><line class="c-l c-l--plan" x1="156.5" y1="292.8" x2="156.5" y2="195.5"/><line class="c-l c-l--bouw" x1="156.5" y1="292.8" x2="156.5" y2="195.5" pathLength="1" style="--d:0.35s"/><line class="c-l c-l--plan" x1="256.7" y1="175.3" x2="443.5" y2="236.7"/><line class="c-l c-l--bouw" x1="256.7" y1="175.3" x2="443.5" y2="236.7" pathLength="1" style="--d:0.36s"/><line class="c-l c-l--plan" x1="443.5" y1="236.7" x2="343.3" y2="303.9"/><line class="c-l c-l--bouw" x1="443.5" y1="236.7" x2="343.3" y2="303.9" pathLength="1" style="--d:0.36s"/><line class="c-l c-l--plan" x1="343.3" y1="303.9" x2="156.5" y2="242.5"/><line class="c-l c-l--bouw" x1="343.3" y1="303.9" x2="156.5" y2="242.5" pathLength="1" style="--d:0.36s"/><line class="c-l c-l--plan" x1="156.5" y1="242.5" x2="256.7" y2="175.3"/><line class="c-l c-l--bouw" x1="156.5" y1="242.5" x2="256.7" y2="175.3" pathLength="1" style="--d:0.36s"/><line class="c-l c-l--plan" x1="256.0" y1="122.6" x2="455.2" y2="188.1"/><line class="c-l c-l--bouw" x1="256.0" y1="122.6" x2="455.2" y2="188.1" pathLength="1" style="--d:0.64s"/><line class="c-l c-l--plan" x1="455.2" y1="188.1" x2="344.0" y2="262.6"/><line class="c-l c-l--bouw" x1="455.2" y1="188.1" x2="344.0" y2="262.6" pathLength="1" style="--d:0.64s"/><line class="c-l c-l--plan" x1="344.0" y1="262.6" x2="144.8" y2="197.2"/><line class="c-l c-l--bouw" x1="344.0" y1="262.6" x2="144.8" y2="197.2" pathLength="1" style="--d:0.64s"/><line class="c-l c-l--plan" x1="144.8" y1="197.2" x2="256.0" y2="122.6"/><line class="c-l c-l--bouw" x1="144.8" y1="197.2" x2="256.0" y2="122.6" pathLength="1" style="--d:0.64s"/><line class="c-l c-l--plan" x1="200.4" y1="102.9" x2="399.6" y2="168.3"/><line class="c-l c-l--bouw" x1="200.4" y1="102.9" x2="399.6" y2="168.3" pathLength="1" style="--d:0.98s"/><line class="c-l c-l--plan" x1="256.0" y1="122.6" x2="200.4" y2="102.9"/><line class="c-l c-l--bouw" x1="256.0" y1="122.6" x2="200.4" y2="102.9" pathLength="1" style="--d:0.81s"/><line class="c-l c-l--plan" x1="144.8" y1="197.2" x2="200.4" y2="102.9"/><line class="c-l c-l--bouw" x1="144.8" y1="197.2" x2="200.4" y2="102.9" pathLength="1" style="--d:0.81s"/><line class="c-l c-l--plan" x1="455.2" y1="188.1" x2="399.6" y2="168.3"/><line class="c-l c-l--bouw" x1="455.2" y1="188.1" x2="399.6" y2="168.3" pathLength="1" style="--d:0.81s"/><line class="c-l c-l--plan" x1="344.0" y1="262.6" x2="399.6" y2="168.3"/><line class="c-l c-l--bouw" x1="344.0" y1="262.6" x2="399.6" y2="168.3" pathLength="1" style="--d:0.81s"/><line class="c-maat" x1="122.2" y1="291.7" x2="122.2" y2="127.3"/><line class="c-maat" x1="117.2" y1="291.7" x2="127.2" y2="291.7"/><line class="c-maat" x1="117.2" y1="127.3" x2="127.2" y2="127.3"/><text class="c-maattekst" x="122.2" y="117.3" text-anchor="middle">aanneemsom € 350.000</text><line class="c-maat" x1="56.6" y1="320.2" x2="342.9" y2="414.3"/><line class="c-maat" x1="58.1" y1="315.4" x2="55.0" y2="324.9"/><line class="c-maat" x1="344.5" y1="409.5" x2="341.4" y2="419.0"/><text class="c-maattekst" x="199.7" y="387.2" text-anchor="middle">grond € 150.000</text></svg>
+                    <div class="c-kant__tekst">
+                        <h2>Ik koop nieuwbouw</h2>
+                        <p>Je betaalt al terwijl het huis er nog niet staat. Zie per bouwmaand wat dat is, en wanneer het piekt.</p>
+                        <p class="c-vb"><span>Voorbeeld</span> € 500.000 hypotheek, twaalf maanden bouw: zwaarste maand <strong class="tnum" data-c="piek">€ 3.419</strong> bruto.</p>
+                        <a class="c-ga" href="/nieuwbouw.html">Open de nieuwbouwroute <span aria-hidden="true">→</span></a>
+                    </div>
+                </article>
+
+                <article class="c-kant" data-kant="verbouw">
+                    <svg class="c-tekening" data-tekening="verbouw" viewBox="20 80 560 370" role="img" aria-label="Lijntekening van een bestaand huis met een gestippelde aanbouw"><polygon class="c-vlak c-vlak--staat" points="231.8,126.8 406.2,184.2 305.9,251.4 131.6,194.1"/><polygon class="c-vlak c-vlak--staat" points="406.2,284.8 305.9,352.0 305.9,251.4 406.2,184.2"/><polygon class="c-vlak c-vlak--staat" points="131.6,294.7 305.9,352.0 305.9,251.4 131.6,194.1"/><polygon class="c-vlak c-vlak--staat" points="119.9,195.7 306.7,257.1 362.3,162.8 175.5,101.4"/><polygon class="c-vlak c-vlak--staat" points="417.8,182.5 306.7,257.1 362.3,162.8"/><polygon class="c-vlak c-vlak--plan" points="380.0,243.6 467.2,272.3 393.1,322.0 305.9,293.3"/><polygon class="c-vlak c-vlak--plan" points="467.2,331.0 393.1,380.7 393.1,322.0 467.2,272.3"/><polygon class="c-vlak c-vlak--plan" points="305.9,352.0 393.1,380.7 393.1,322.0 305.9,293.3"/><line class="c-l c-l--grond" x1="233.4" y1="195.4" x2="550.9" y2="299.7"/><line class="c-l c-l--grond" x1="550.9" y1="299.7" x2="385.3" y2="410.8"/><line class="c-l c-l--grond" x1="385.3" y1="410.8" x2="67.8" y2="306.4"/><line class="c-l c-l--grond" x1="67.8" y1="306.4" x2="233.4" y2="195.4"/><line class="c-l c-l--staat" x1="231.8" y1="227.5" x2="406.2" y2="284.8"/><line class="c-l c-l--staat" x1="406.2" y1="284.8" x2="305.9" y2="352.0"/><line class="c-l c-l--staat" x1="305.9" y1="352.0" x2="131.6" y2="294.7"/><line class="c-l c-l--staat" x1="131.6" y1="294.7" x2="231.8" y2="227.5"/><line class="c-l c-l--staat" x1="231.8" y1="126.8" x2="406.2" y2="184.2"/><line class="c-l c-l--staat" x1="406.2" y1="184.2" x2="305.9" y2="251.4"/><line class="c-l c-l--staat" x1="305.9" y1="251.4" x2="131.6" y2="194.1"/><line class="c-l c-l--staat" x1="131.6" y1="194.1" x2="231.8" y2="126.8"/><line class="c-l c-l--staat" x1="231.8" y1="227.5" x2="231.8" y2="126.8"/><line class="c-l c-l--staat" x1="406.2" y1="284.8" x2="406.2" y2="184.2"/><line class="c-l c-l--staat" x1="305.9" y1="352.0" x2="305.9" y2="251.4"/><line class="c-l c-l--staat" x1="131.6" y1="294.7" x2="131.6" y2="194.1"/><line class="c-l c-l--staat" x1="231.1" y1="121.1" x2="417.8" y2="182.5"/><line class="c-l c-l--staat" x1="417.8" y1="182.5" x2="306.7" y2="257.1"/><line class="c-l c-l--staat" x1="306.7" y1="257.1" x2="119.9" y2="195.7"/><line class="c-l c-l--staat" x1="119.9" y1="195.7" x2="231.1" y2="121.1"/><line class="c-l c-l--staat" x1="175.5" y1="101.4" x2="362.3" y2="162.8"/><line class="c-l c-l--staat" x1="231.1" y1="121.1" x2="175.5" y2="101.4"/><line class="c-l c-l--staat" x1="119.9" y1="195.7" x2="175.5" y2="101.4"/><line class="c-l c-l--staat" x1="417.8" y1="182.5" x2="362.3" y2="162.8"/><line class="c-l c-l--staat" x1="306.7" y1="257.1" x2="362.3" y2="162.8"/><line class="c-l c-l--plan" x1="380.0" y1="302.3" x2="467.2" y2="331.0"/><line class="c-l c-l--bouw" x1="380.0" y1="302.3" x2="467.2" y2="331.0" pathLength="1" style="--d:0.00s"/><line class="c-l c-l--plan" x1="467.2" y1="331.0" x2="393.1" y2="380.7"/><line class="c-l c-l--bouw" x1="467.2" y1="331.0" x2="393.1" y2="380.7" pathLength="1" style="--d:0.00s"/><line class="c-l c-l--plan" x1="393.1" y1="380.7" x2="305.9" y2="352.0"/><line class="c-l c-l--bouw" x1="393.1" y1="380.7" x2="305.9" y2="352.0" pathLength="1" style="--d:0.00s"/><line class="c-l c-l--plan" x1="305.9" y1="352.0" x2="380.0" y2="302.3"/><line class="c-l c-l--bouw" x1="305.9" y1="352.0" x2="380.0" y2="302.3" pathLength="1" style="--d:0.00s"/><line class="c-l c-l--plan" x1="380.0" y1="243.6" x2="467.2" y2="272.3"/><line class="c-l c-l--bouw" x1="380.0" y1="243.6" x2="467.2" y2="272.3" pathLength="1" style="--d:0.35s"/><line class="c-l c-l--plan" x1="467.2" y1="272.3" x2="393.1" y2="322.0"/><line class="c-l c-l--bouw" x1="467.2" y1="272.3" x2="393.1" y2="322.0" pathLength="1" style="--d:0.35s"/><line class="c-l c-l--plan" x1="393.1" y1="322.0" x2="305.9" y2="293.3"/><line class="c-l c-l--bouw" x1="393.1" y1="322.0" x2="305.9" y2="293.3" pathLength="1" style="--d:0.35s"/><line class="c-l c-l--plan" x1="305.9" y1="293.3" x2="380.0" y2="243.6"/><line class="c-l c-l--bouw" x1="305.9" y1="293.3" x2="380.0" y2="243.6" pathLength="1" style="--d:0.35s"/><line class="c-l c-l--plan" x1="380.0" y1="302.3" x2="380.0" y2="243.6"/><line class="c-l c-l--bouw" x1="380.0" y1="302.3" x2="380.0" y2="243.6" pathLength="1" style="--d:0.17s"/><line class="c-l c-l--plan" x1="467.2" y1="331.0" x2="467.2" y2="272.3"/><line class="c-l c-l--bouw" x1="467.2" y1="331.0" x2="467.2" y2="272.3" pathLength="1" style="--d:0.17s"/><line class="c-l c-l--plan" x1="393.1" y1="380.7" x2="393.1" y2="322.0"/><line class="c-l c-l--bouw" x1="393.1" y1="380.7" x2="393.1" y2="322.0" pathLength="1" style="--d:0.17s"/><line class="c-l c-l--plan" x1="305.9" y1="352.0" x2="305.9" y2="293.3"/><line class="c-l c-l--bouw" x1="305.9" y1="352.0" x2="305.9" y2="293.3" pathLength="1" style="--d:0.17s"/><line class="c-maat" x1="286.3" y1="365.2" x2="373.4" y2="393.8"/><line class="c-maat" x1="287.8" y1="360.4" x2="284.7" y2="369.9"/><line class="c-maat" x1="375.0" y1="389.1" x2="371.9" y2="398.6"/><text class="c-maattekst" x="335.9" y="399.5" text-anchor="middle">aanbouw € 60.000</text></svg>
+                    <div class="c-kant__tekst">
+                        <h2>Ik ga verbouwen</h2>
+                        <p>Zet je plan post voor post in een begroting en zie wat het met je maandlast doet.</p>
+                        <p class="c-vb"><span>Voorbeeld</span> aanbouw van € 60.000 meefinancieren: <strong class="tnum" data-c="aanbouw">€ 280</strong> bruto per maand.</p>
+                        <a class="c-ga" href="/verbouwbegroting.html">Open de verbouwroute <span aria-hidden="true">→</span></a>
+                    </div>
+                </article>
+            </div>
+
+            <form class="c-snel" data-snel novalidate>
+                <label for="c-bedrag">Alleen een bouwdepot doorrekenen?</label>
+                <div class="c-snel__veld">
+                    <span aria-hidden="true">€</span>
+                    <input id="c-bedrag" type="text" inputmode="numeric" autocomplete="off" value="25.000" aria-describedby="c-snel-uit c-snel-noot">
+                </div>
+                <output class="c-snel__uit tnum" id="c-snel-uit" for="c-bedrag" data-snel-uit>€ 116 bruto per maand</output>
+                <a class="c-snel__ga" href="/bouwdepot-berekenen.html">Volledig berekenen <span aria-hidden="true">→</span></a>
+                <p class="c-snel__noot" id="c-snel-noot">Indicatie bij 3,80% rente, 30 jaar annuïtair. Je eigen rente, looptijd en bank vul je in de rekentool in.</p>
+            </form>
+        </section>
+
+        <section class="c-plan" id="routes" aria-labelledby="c-plan-kop">
+            <div class="c-plan__kop">
+                <p class="c-opschrift">Plattegrond · schaal 1 : alles</p>
+                <h2 id="c-plan-kop">Alle rekentools, op één verdieping.</h2>
+            </div>
+            <div class="c-vloer">
+                <a class="c-kamer c-kamer--a" href="/nieuwbouw.html"><span class="c-kamer__nr">01 nieuwbouw</span><strong>Maand voor maand</strong><span>Bouwtermijnen, depotvergoeding en je zwaarste maand.</span></a>
+                <a class="c-kamer c-kamer--b" href="/dubbele-lasten-nieuwbouw.html"><span class="c-kamer__nr">02</span><strong>Dubbele lasten</strong><span>Oude en nieuwe woonlast tegelijk.</span></a>
+                <a class="c-kamer c-kamer--c" href="/bouwrente-nieuwbouw.html"><span class="c-kamer__nr">03</span><strong>Bouwrente</strong><span>Rente over grond en termijnen.</span></a>
+                <a class="c-kamer c-kamer--d" href="/verbouwbegroting.html"><span class="c-kamer__nr">04 verbouwen</span><strong>Verbouwbegroting</strong><span>Post voor post, met wat uit het depot mag.</span></a>
+                <a class="c-kamer c-kamer--e" href="/verbouwbegroting.html#leenruimte"><span class="c-kamer__nr">05</span><strong>Leenruimte</strong><span>Past het binnen de woningwaarde?</span></a>
+                <a class="c-kamer c-kamer--f" href="/bouwdepot-berekenen.html"><span class="c-kamer__nr">06 bouwdepot</span><strong>Bouwdepot berekenen</strong><span>Van depotbedrag naar maandlast.</span></a>
+                <a class="c-kamer c-kamer--g" href="/depotplanner.html"><span class="c-kamer__nr">07 lopend depot</span><strong>Depotplanner</strong><span>Einddatum, restsaldo, declaraties.</span></a>
+                <a class="c-kamer c-kamer--h" href="/bouwdepot-voorwaarden-vergelijken.html"><span class="c-kamer__nr">08</span><strong>Voorwaarden per bank</strong><span>Dertien geldverstrekkers, met bron en datum.</span></a>
+                <a class="c-kamer c-kamer--i" href="/stappenplan.html"><span class="c-kamer__nr">09</span><strong>Uitleg</strong><span>Hoe een bouwdepot werkt.</span></a>
+            </div>
+        </section>
+
+        <section class="c-bewijs" aria-label="Waarom je op de cijfers kunt bouwen">
+            <p><span>A</span> Onafhankelijk: geen leadformulier, geen samenwerking met geldverstrekkers. <a href="/over-ons.html">Over ons</a></p>
+            <p><span>B</span> Wat je invult blijft op je eigen apparaat. Geen account. <a href="/privacy.html">Privacy</a></p>
+            <p><span>C</span> Elke formule, aanname en bron staat beschreven. <a href="/methodologie.html">Methodologie</a></p>
+        </section>
+    </main>
+
+    <footer class="c-voet">
+        <span>© 2026 BouwdepotCalculator.nl — informatie, geen advies</span>
+        <span><a href="/methodologie.html">Methodologie</a> · <a href="/privacy.html">Privacy</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a></span>
+    </footer>
+
+    <nav class="proto-balk" aria-label="Prototypes">
+        <a href="./index.html">Overzicht</a>
+        <a href="./a-bouwlagen.html">A</a>
+        <a href="./b-maandlijn.html">B</a>
+        <a href="./c-twee-woningen.html" aria-current="page">C</a>
+        <a href="./d-samen.html">D</a>
+    </nav>
+
+    <script type="module" src="./c-twee-woningen.js"></script>
+</body>
+</html>
