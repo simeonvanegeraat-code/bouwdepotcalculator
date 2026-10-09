@@ -326,6 +326,8 @@
 
 .wr-melding { margin: clamp(2.5rem, 6vw, 5rem) 0; padding: 1.25rem 1.5rem; border-left: 3px solid var(--ui-champagne); background: var(--ui-surface); font-size: 0.9375rem; display: grid; gap: 0.5rem; }
 
+.wr-melding--klein { margin: 0; padding: 0.85rem 1.1rem; background: var(--ui-canvas); font-size: 0.875rem; }
+
 /* --- Balk onderaan op smal scherm --- */
 
 .wr-vast {

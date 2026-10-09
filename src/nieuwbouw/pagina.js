@@ -19,20 +19,27 @@ import { HYPOTHEEKVORMEN } from '../domain/hypotheek.js';
 import {
     berekenTijdlijn, controleerSchema, gespreideTermijnen, standaardTermijnen, vergelijk,
 } from '../domain/nieuwbouw.js';
+import { BANKEN } from '../js/bankdata.generated.js';
 import { tekenTijdlijn } from './grafiek.js';
 
 const GRENZEN = {
     'input-land': {
         lezer: leesGetal, min: 0, max: 2000000, exclusiefNul: false,
-        leeg: 'Vul de grondkosten in, of nul als je de grond al hebt.',
+        leeg: 'Vul in welk deel van de koopsom de grond is, of nul als je de grond al hebt.',
         teLaag: 'Grondkosten onder de nul bestaan niet.',
         teHoog: 'Boven twee miljoen euro rekent deze tool niet; controleer het bedrag.',
     },
-    'input-construction': {
-        lezer: leesGetal, min: 0, max: 3000000, exclusiefNul: true,
-        leeg: 'Vul de aanneemsom in.',
-        teLaag: 'Vul een aanneemsom boven de nul in.',
-        teHoog: 'Boven drie miljoen euro rekent deze tool niet; controleer het bedrag.',
+    'input-von': {
+        lezer: leesGetal, min: 0, max: 5000000, exclusiefNul: true,
+        leeg: 'Vul de koopsom v.o.n. in.',
+        teLaag: 'Vul een koopsom boven de nul in.',
+        teHoog: 'Boven vijf miljoen euro rekent deze tool niet; controleer het bedrag.',
+    },
+    'input-meerwerk': {
+        lezer: leesGetal, min: 0, max: 1000000, exclusiefNul: false,
+        leeg: 'Vul het meerwerk in dat je meefinanciert, of nul.',
+        teLaag: 'Meerwerk onder de nul bestaat niet; minderwerk trek je van de koopsom af.',
+        teHoog: 'Boven een miljoen euro meerwerk rekent deze tool niet; controleer het bedrag.',
     },
     'input-eigen-geld': {
         lezer: leesGetal, min: 0, max: 5000000, exclusiefNul: false,
@@ -87,8 +94,8 @@ const metTeken = (bedrag) => (Math.abs(bedrag) < 0.5 ? euro.format(0) : `${bedra
 function initNieuwbouw() {
     const el = (id) => document.getElementById(id);
     const veld = {
-        grond: el('input-land'), aanneemsom: el('input-construction'), eigenGeld: el('input-eigen-geld'), rente: el('input-interest'),
-        depotSoort: el('input-depot-soort'),
+        von: el('input-von'), grond: el('input-land'), meerwerk: el('input-meerwerk'), eigenGeld: el('input-eigen-geld'),
+        rente: el('input-interest'), meefinancieren: el('input-meefinancieren'), depotSoort: el('input-depot-soort'),
         afslag: el('input-depot-discount'), bouwduur: el('input-build-months'), woonlast: el('input-current-housing'),
         overlap: el('input-overlap'), vertraging: el('input-vertraging'), vorm: el('input-vorm'),
     };
@@ -98,7 +105,10 @@ function initNieuwbouw() {
     const printknop = el('btn-download');
     bindReportButton(printknop);
 
-    for (const v of [veld.grond, veld.aanneemsom, veld.eigenGeld, veld.woonlast]) koppelBedragveld(v);
+    for (const v of [veld.von, veld.grond, veld.meerwerk, veld.eigenGeld, veld.woonlast]) koppelBedragveld(v);
+    // De aanneemsom vraagt de pagina niet: het is de koopsom min de grond, plus
+    // het meerwerk dat wordt meegefinancierd.
+    const aanneemsomNu = () => Math.max(0, (leesGetal(veld.von.value) ?? 0) - (leesGetal(veld.grond.value) ?? 0) + (leesGetal(veld.meerwerk.value) ?? 0));
     const veldAfslag = el('veld-depot-discount');
     const toonAfslag = () => { veldAfslag.hidden = veld.depotSoort.value !== 'lager'; };
     for (const v of [veld.rente, veld.afslag]) koppelPercentageveld(v);
@@ -126,7 +136,7 @@ function initNieuwbouw() {
     }
 
     function tekenTermijnen() {
-        const aanneemsom = leesGetal(veld.aanneemsom.value) || 0;
+        const aanneemsom = aanneemsomNu();
         lijst.innerHTML = '';
         termijnen.forEach((t, i) => {
             const nr = i + 1;
@@ -148,7 +158,8 @@ function initNieuwbouw() {
 
             in_('maand').addEventListener('change', (e) => {
                 zelfIngesteld = true;
-                t.maand = Math.max(1, Math.round(leesGetal(e.target.value) ?? 1));
+                // Maand 0 mag: dat is een termijn die bij de notaris al vervallen was.
+                t.maand = Math.max(0, Math.round(leesGetal(e.target.value) ?? 1));
                 termijnen.sort((a, b) => a.maand - b.maand);
                 tekenTermijnen(); reken();
             });
@@ -161,7 +172,7 @@ function initNieuwbouw() {
             // venster bij; opnieuw tekenen zou de cursor laten wegspringen.
             in_('bedrag').addEventListener('input', (e) => {
                 zelfIngesteld = true;
-                t.percent = ((leesGetal(e.target.value) ?? 0) / (leesGetal(veld.aanneemsom.value) || 1)) * 100;
+                t.percent = ((leesGetal(e.target.value) ?? 0) / (aanneemsomNu() || 1)) * 100;
                 in_('percent').value = toonGetal(Math.round(t.percent * 10) / 10, 1);
                 werkTotaalBij(); reken();
             });
@@ -169,7 +180,7 @@ function initNieuwbouw() {
                 zelfIngesteld = true;
                 // Een percentage, dus de punt is hier een decimaalteken.
                 t.percent = leesPercentage(e.target.value) ?? 0;
-                in_('bedrag').value = toonGetal(Math.round((t.percent / 100) * (leesGetal(veld.aanneemsom.value) || 0)));
+                in_('bedrag').value = toonGetal(Math.round((t.percent / 100) * aanneemsomNu()));
                 werkTotaalBij(); reken();
             });
             for (const rol of ['bedrag', 'percent']) in_(rol).addEventListener('change', tekenTermijnen);
@@ -204,7 +215,7 @@ function initNieuwbouw() {
     const uit = {
         bedrag: el('res-peak-total'), zin: el('res-peak-month'), opbouw: el('res-opbouw'),
         eerste: el('res-eerste'), daarna: el('res-daarna'), bovenop: el('res-bovenop'), bovenopNoot: el('res-bovenop-noot'),
-        rente: el('res-loss'), lening: el('res-lening'), leningNoot: el('res-lening-noot'), samenvatting: el('res-samenvatting'), verschil: el('res-verschil'),
+        rente: el('res-loss'), aanneemsom: el('res-aanneemsom'), termijnmelding: el('res-termijnmelding'), lening: el('res-lening'), leningNoot: el('res-lening-noot'), samenvatting: el('res-samenvatting'), verschil: el('res-verschil'),
         scenariotekst: el('res-scenario'), tabel: el('details-table-body'), grafiek: el('verloop-grafiek'),
         aannames: el('res-aannames'), vast: el('wr-vast'), vastBedrag: el('wr-vast-bedrag'),
         legendaBasis: el('legenda-basis'),
@@ -214,6 +225,7 @@ function initNieuwbouw() {
     function toonGeenUitkomst(klachten) {
         uit.lening.textContent = '–';
         uit.leningNoot.textContent = '';
+        uit.termijnmelding.hidden = true;
         uit.bedrag.firstChild.textContent = '–';
         uit.zin.dataset.status = 'afwijkend';
         uit.zin.textContent = klachten.length
@@ -249,30 +261,38 @@ function initNieuwbouw() {
         const rente = leesVeld(veld.rente);
         const afslag = soort === 'lager' ? leesVeld(veld.afslag) : soort === 'geen' ? rente : 0;
         const gelezen = {
-            grond: leesVeld(veld.grond), aanneemsom: leesVeld(veld.aanneemsom), eigenGeld: leesVeld(veld.eigenGeld),
+            von: leesVeld(veld.von), grond: leesVeld(veld.grond), meerwerk: leesVeld(veld.meerwerk), eigenGeld: leesVeld(veld.eigenGeld),
             rentePercent: rente, kortingDepotPercent: afslag, bouwduurMaanden: leesVeld(veld.bouwduur),
             huidigeWoonlast: leesVeld(veld.woonlast), overlapNaOplevering: leesVeld(veld.overlap),
             vertraging: leesVeld(veld.vertraging),
         };
+        uit.aanneemsom.textContent = gelezen.von !== null && gelezen.grond !== null && gelezen.meerwerk !== null && gelezen.grond < gelezen.von
+            ? euro.format(gelezen.von - gelezen.grond + gelezen.meerwerk) : '–';
         if (Object.values(gelezen).some((w) => w === null)) { toonGeenUitkomst([]); return; }
-        // Meer eigen geld dan het hele project kost is een tikfout, geen scenario.
-        if (gelezen.eigenGeld > gelezen.grond + gelezen.aanneemsom) {
-            el('fout-eigen-geld').textContent = 'Je eigen geld is hoger dan grond en aanneemsom samen; controleer het bedrag.';
-            veld.eigenGeld.setAttribute('aria-invalid', 'true');
+        // Twee combinaties die elk veld apart goedkeurt maar samen niet kunnen.
+        const weiger = (id, v, tekst) => {
+            el(id).textContent = tekst;
+            v.setAttribute('aria-invalid', 'true');
             toonGeenUitkomst([]);
-            return;
-        }
+        };
+        if (gelezen.grond >= gelezen.von) { weiger('fout-land', veld.grond, 'De grond kan niet evenveel of meer kosten dan de koopsom v.o.n.'); return; }
+        if (gelezen.eigenGeld > gelezen.von + gelezen.meerwerk) { weiger('fout-eigen-geld', veld.eigenGeld, 'Je eigen geld is hoger dan koopsom en meerwerk samen; controleer het bedrag.'); return; }
         if (schema.klachten.length) { toonGeenUitkomst(schema.klachten); return; }
 
-        const { vertraging: ruweVertraging, ...rest } = gelezen;
         const invoer = {
-            ...rest,
-            bouwduurMaanden: Math.round(rest.bouwduurMaanden),
-            overlapNaOplevering: Math.round(rest.overlapNaOplevering),
+            grond: gelezen.grond,
+            aanneemsom: gelezen.von - gelezen.grond + gelezen.meerwerk,
+            eigenGeld: gelezen.eigenGeld,
+            rentePercent: gelezen.rentePercent,
+            kortingDepotPercent: gelezen.kortingDepotPercent,
+            bouwduurMaanden: Math.round(gelezen.bouwduurMaanden),
+            huidigeWoonlast: gelezen.huidigeWoonlast,
+            overlapNaOplevering: Math.round(gelezen.overlapNaOplevering),
+            renteMeefinancieren: veld.meefinancieren.value === 'mee',
             vorm: veld.vorm.value,
             termijnen,
         };
-        const vertraging = Math.round(ruweVertraging);
+        const vertraging = Math.round(gelezen.vertraging);
         const v = vergelijk(invoer, { vertragingMaanden: vertraging });
         const t = vertraging > 0 ? v.scenario : v.basis;
         const { piek, sommen } = t;
@@ -281,7 +301,7 @@ function initNieuwbouw() {
         uit.lening.textContent = euro.format(t.lening);
         uit.leningNoot.textContent = t.lening === 0
             ? '. Je leent niets, dus er is geen hypotheeklast.'
-            : `, waarvan ${euro.format(t.depotBijStart)} bij de start in je bouwdepot staat.`;
+            : `${t.meegefinancierd > 0.5 ? `, inclusief ${euro.format(t.meegefinancierd)} meegefinancierde rente` : ''}. Daarvan staat ${euro.format(t.depotBijStart)} bij de start in je bouwdepot.`;
 
         /* Het ene bedrag, en waar het uit bestaat. */
         uit.bedrag.firstChild.textContent = euro.format(piek.totaal);
@@ -296,6 +316,17 @@ function initNieuwbouw() {
         uit.bovenopNoot.textContent = `over de ${maanden(sommen.maandenDubbel)} tot je huidige woonlast stopt`;
         uit.rente.firstChild.textContent = euro.format(sommen.renteNaVergoeding);
         uit.vastBedrag.textContent = euro.format(piek.totaal);
+
+        /* Loopt de bouw langer dan de vergoeding bij veel aanbieders duurt? Het
+           model laat de vergoeding doorlopen, dus dat hoort erbij gezegd. */
+        const gestopt = BANKEN.filter((b) => {
+            const duur = b.vergoeding?.maanden?.nieuwbouw;
+            return typeof duur === 'number' && duur > 0 && duur < t.oplevermaand;
+        }).length;
+        uit.termijnmelding.hidden = gestopt === 0;
+        if (gestopt > 0) {
+            uit.termijnmelding.innerHTML = `Je bouw loopt ${t.oplevermaand} maanden. Bij ${gestopt} van de ${BANKEN.length} aanbieders in onze vergelijking is de depotvergoeding dan al gestopt, terwijl deze berekening hem laat doorlopen. Je werkelijke last ligt in de laatste maanden dan hoger. <a href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de termijn van jouw bank</a>.`;
+        }
 
         /* Grafiek en de zin eronder. */
         const laatsteBouw = t.regels[t.oplevermaand - 1];
@@ -334,6 +365,7 @@ function initNieuwbouw() {
         uit.tabel.innerHTML = t.regels.map((r) => {
             let fase = r.fase === 'bouw' ? (r.termijn ?? '') : r.fase === 'overlap' ? 'Na oplevering, nog dubbel' : 'Alleen de hypotheek';
             if (r.uitEigenGeld > 0.5) fase += ` (${euro.format(r.uitEigenGeld)} uit eigen geld)`;
+            if (r.renteUitDepot > 0.5) fase += ` · ${euro.format(r.renteUitDepot)} rente uit depot`;
             const grens = r.maand === t.oplevermaand || r.maand === t.eindeOverlap ? ' data-grens' : '';
             return `<tr data-fase="${r.fase}"${r === piek ? ' class="is-piek"' : ''}${grens}>
                 <td>${r.maand}${r === piek ? ' (hoogste)' : ''}</td><td>${fase}</td>
@@ -347,8 +379,12 @@ function initNieuwbouw() {
         /* Aannames: de invoer waarmee is gerekend, leesbaar terug. */
         const depotrente = Math.max(0, invoer.rentePercent - invoer.kortingDepotPercent);
         uit.aannames.innerHTML = [
-            ['Grond en aanneemsom', euro.format(invoer.grond + invoer.aanneemsom)],
+            ['Koopsom v.o.n.', euro.format(gelezen.von)],
+            ['waarvan grond', euro.format(invoer.grond)],
+            ['Meerwerk, meegefinancierd', gelezen.meerwerk ? euro.format(gelezen.meerwerk) : 'geen'],
+            ['Aanneemsom met meerwerk', euro.format(invoer.aanneemsom)],
             ['Eigen geld', invoer.eigenGeld ? euro.format(invoer.eigenGeld) : 'geen'],
+            ['Rente tijdens de bouw', invoer.renteMeefinancieren ? `meegefinancierd: ${euro.format(t.meegefinancierd)}` : 'betaal je zelf'],
             ['Hypotheek', euro.format(t.lening)],
             ['waarvan in depot bij de start', euro.format(t.depotBijStart)],
             ['Hypotheekvorm', `${HYPOTHEEKVORMEN[invoer.vorm]}, 30 jaar`],
@@ -357,7 +393,7 @@ function initNieuwbouw() {
             ['Bouwduur', maanden(invoer.bouwduurMaanden) + (vertraging ? ` + ${maanden(vertraging)} vertraging` : '')],
             ['Huidige woonlast', invoer.huidigeWoonlast ? `${euro.format(invoer.huidigeWoonlast)} per maand` : 'niet ingevuld'],
             ['Loopt door na oplevering', maanden(invoer.overlapNaOplevering)],
-            ['Bouwtermijnen', `${termijnen.length}${zelfIngesteld ? ', zelf ingesteld' : ', standaardschema'}`],
+            ['Bouwtermijnen', `${termijnen.length}${zelfIngesteld ? ', zelf ingesteld' : ', voorbeeldschema'}`],
         ].map(([naam, waarde]) => `<dt>${naam}</dt><dd>${waarde}</dd>`).join('');
 
         /* Afdrukoverzicht: dezelfde maandregels, als ruwe getallen. */
@@ -365,7 +401,8 @@ function initNieuwbouw() {
             toolTitle: 'Nieuwbouwplanning en zwaarste maand',
             generatedAt: new Date().toISOString(),
             inputs: {
-                landCost: invoer.grond, constructionCost: invoer.aanneemsom, availableOwnFunds: invoer.eigenGeld,
+                vonPrice: gelezen.von, landCost: invoer.grond, extraWork: gelezen.meerwerk, constructionCost: invoer.aanneemsom,
+                availableOwnFunds: invoer.eigenGeld, interestFinanced: t.meegefinancierd,
                 totalMortgage: t.lening, mortgageRate: invoer.rentePercent,
                 depotRateDiscount: depotrente, mortgageType: HYPOTHEEKVORMEN[invoer.vorm],
                 buildMonths: invoer.bouwduurMaanden, delayMonths: vertraging,
@@ -400,10 +437,12 @@ function initNieuwbouw() {
 
     /* -------------------------------- binden -------------------------------- */
 
-    for (const v of [veld.grond, veld.eigenGeld, veld.rente, veld.afslag, veld.woonlast, veld.overlap]) v.addEventListener('input', reken);
+    for (const v of [veld.eigenGeld, veld.rente, veld.afslag, veld.woonlast, veld.overlap]) v.addEventListener('input', reken);
+    // Deze drie bepalen samen de aanneemsom, en daarmee de bedragen in het schema.
+    for (const v of [veld.von, veld.grond, veld.meerwerk]) v.addEventListener('input', () => { tekenTermijnen(); reken(); });
+    veld.meefinancieren.addEventListener('change', reken);
     veld.vorm.addEventListener('change', reken);
     veld.depotSoort.addEventListener('change', () => { toonAfslag(); reken(); });
-    veld.aanneemsom.addEventListener('input', () => { tekenTermijnen(); reken(); });
 
     const koppelSchuif = (invoerveld, schuif, na) => {
         schuif.addEventListener('input', () => { invoerveld.value = schuif.value; na(); reken(); });
@@ -420,8 +459,10 @@ function initNieuwbouw() {
     for (const knop of document.querySelectorAll('[data-voorbeeld]')) {
         knop.addEventListener('click', () => {
             const d = knop.dataset;
+            veld.von.value = toonGetal(Number(d.von));
             veld.grond.value = toonGetal(Number(d.grond));
-            veld.aanneemsom.value = toonGetal(Number(d.aanneemsom));
+            veld.meerwerk.value = '0';
+            veld.meefinancieren.value = 'zelf';
             veld.eigenGeld.value = '0';
             veld.rente.value = procent(Number(d.rente)).replace('%', '');
             veld.depotSoort.value = Number(d.afslag) > 0 ? 'lager' : 'gelijk';

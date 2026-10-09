@@ -36,6 +36,30 @@
  *
  *   Alles is bruto: er zit geen hypotheekrenteaftrek in.
  *
+ * RENTE TIJDENS DE BOUW MEEFINANCIEREN
+ *
+ *   Met `renteMeefinancieren` betaalt de bezoeker de rente tijdens de bouw niet
+ *   zelf. De geldverstrekker leent dan vooraf een bedrag R extra en zet dat in
+ *   het depot; elke bouwmaand gaat de rente min de depotvergoeding daaruit. Uit
+ *   eigen zak blijft tijdens de bouw de aflossing over, plus de oude woonlast.
+ *
+ *   R is zo groot als de som van die maandbedragen. Maar een hogere lening kost
+ *   zelf ook rente, en over het extra depot komt vergoeding terug: R hangt dus
+ *   van zichzelf af. De functie zoekt het bedrag waarbij het potje op de
+ *   oplevermaand precies leeg is, door de berekening te herhalen tot R niet
+ *   meer verandert. Per maand: eerst de bouwtermijn, dan de vergoeding over het
+ *   gemiddelde saldo, en aan het eind van de maand de rente uit het potje.
+ *
+ *   De lening is daarna R hoger, en de maandlast na de bouw dus ook. Is het
+ *   potje eerder leeg dan de bouw klaar is (bij vertraging), dan betaalt de
+ *   bezoeker de rest van de rente zelf. Hoeveel een aanbieder maximaal
+ *   meefinanciert staat in de offerte; dit model kent geen maximum.
+ *
+ * AL VERVALLEN TERMIJNEN
+ *
+ *   Een termijn in maand 0 is bij de notaris al vervallen: hij wordt bij het
+ *   passeren betaald en komt nooit in het depot.
+ *
  * DRIE FASEN
  *
  *   'bouw'     maand 1 t/m de oplevermaand
@@ -76,6 +100,7 @@ export const STANDAARD = Object.freeze({
     bouwduurMaanden: 12,
     huidigeWoonlast: 1200,
     overlapNaOplevering: 2,
+    renteMeefinancieren: false,
 });
 
 /**
@@ -130,6 +155,7 @@ export function controleerSchema(termijnen, bouwduur) {
             : `De termijnen tellen op tot ${procent(totaal)} van de aanneemsom, dat is meer dan het geheel.`);
     }
     if (termijnen.some((t) => t.percent < 0)) klachten.push('Een termijn kan niet onder de nul liggen.');
+    if (termijnen.some((t) => t.maand < 0)) klachten.push('Een termijn kan niet voor de notaris liggen; gebruik maand 0 voor wat dan al vervallen is.');
     const teLaat = termijnen.filter((t) => t.maand > bouwduur);
     if (teLaat.length) {
         klachten.push(teLaat.length === 1
@@ -150,6 +176,28 @@ export function controleerSchema(termijnen, bouwduur) {
  */
 export function berekenTijdlijn(invoer = {}) {
     const a = { ...STANDAARD, ...invoer };
+    if (!a.renteMeefinancieren) return rekenMetRentepot(a, 0);
+    // Bij een scenario ligt het meegefinancierde bedrag al vast: dat is bij de
+    // offerte bepaald op de geplande bouw, niet op de vertraging.
+    if (Number.isFinite(a.meegefinancierdBedrag)) return rekenMetRentepot(a, Math.max(0, a.meegefinancierdBedrag));
+
+    // Zoek het bedrag waarbij het potje precies de rente tijdens de bouw dekt.
+    let pot = 0;
+    for (let ronde = 0; ronde < 50; ronde++) {
+        const nodig = rekenMetRentepot(a, pot).renteTijdensBouwNetto;
+        if (Math.abs(nodig - pot) < 0.001) break;
+        pot = nodig;
+    }
+    return rekenMetRentepot(a, pot);
+}
+
+/**
+ * De eigenlijke berekening, met een gegeven bedrag aan meegefinancierde rente.
+ * `renteTijdensBouwNetto` in de uitkomst is wat er tijdens de geplande bouw aan
+ * rente min vergoeding nodig was; daarmee zoekt berekenTijdlijn het bedrag
+ * waarbij het potje precies toereikend is.
+ */
+function rekenMetRentepot(a, rentepotBijStart) {
     const vertraging = Math.max(0, a.vertragingMaanden ?? 0);
     const termijnen = (a.termijnen ?? standaardTermijnen(a.bouwduurMaanden))
         .map((t) => ({ ...t, maand: t.maand >= a.bouwduurMaanden ? t.maand + vertraging : t.maand }));
@@ -160,38 +208,60 @@ export function berekenTijdlijn(invoer = {}) {
 
     const maandrente = a.rentePercent / 100 / 12;
     const depotrente = Math.max(0, (a.rentePercent - a.kortingDepotPercent) / 100 / 12);
-    const lening = Math.max(0, a.grond + a.aanneemsom - a.eigenGeld);
-    // Wat er van het eigen geld over is nadat de grond is betaald.
+    const basislening = Math.max(0, a.grond + a.aanneemsom - a.eigenGeld);
+    const lening = basislening + rentepotBijStart;
+    const bedrag = (t) => (t.percent / 100) * a.aanneemsom;
+
+    // Wat er van het eigen geld over is nadat de grond is betaald, en daarna
+    // de termijnen die bij de notaris al vervallen waren.
     let eigenRest = Math.max(0, a.eigenGeld - a.grond);
-    const depotBijStart = Math.max(0, a.aanneemsom - eigenRest);
+    const vervallen = termijnen.filter((t) => t.maand <= 0).reduce((som, t) => som + bedrag(t), 0);
+    const vervallenUitEigenGeld = Math.min(eigenRest, vervallen);
+    eigenRest -= vervallenUitEigenGeld;
+    const bouwdepotBijStart = Math.max(0, a.aanneemsom - vervallen - eigenRest);
+
     const schema = leningschema({ hoofdsom: lening, maandrente, looptijdMaanden: a.looptijdJaren * 12, vorm: a.vorm }, horizon);
 
     const regels = [];
-    let depot = depotBijStart;
+    let bouwdepot = bouwdepotBijStart;   // geld voor de aannemer
+    let rentepot = rentepotBijStart;     // meegefinancierde rente
+    let renteTijdensBouwNetto = 0;
     for (let maand = 1; maand <= horizon; maand++) {
-        const begin = depot;
+        const begin = bouwdepot + rentepot;
         const vandaag = termijnen.filter((t) => t.maand === maand);
-        const termijnbedrag = vandaag.reduce((som, t) => som + (t.percent / 100) * a.aanneemsom, 0);
+        const termijnbedrag = vandaag.reduce((som, t) => som + bedrag(t), 0);
         const uitEigenGeld = Math.min(eigenRest, termijnbedrag);
         eigenRest -= uitEigenGeld;
-        const opname = Math.min(begin, termijnbedrag - uitEigenGeld);
-        depot = Math.max(0, begin - opname);
+        const opname = Math.min(bouwdepot, termijnbedrag - uitEigenGeld);
+        bouwdepot = Math.max(0, bouwdepot - opname);
         // Percentages als 14,3 zijn binair niet exact; zonder dit blijft er na
         // de laatste termijn een miljardste euro in depot staan.
-        if (depot < 1e-6) depot = 0;
+        if (bouwdepot < 1e-6) bouwdepot = 0;
 
         const { rente, aflossing, betaling, restschuld } = schema[maand - 1];
-        const vergoeding = vergoedingOverMaand(begin, depot, depotrente);
-        const hypotheek = Math.max(0, betaling - vergoeding);
+        const vergoeding = vergoedingOverMaand(begin, bouwdepot + rentepot, depotrente);
         const fase = maand <= oplevermaand ? 'bouw' : maand <= eindeOverlap ? 'overlap' : 'na';
+
+        // Meefinancieren: de rente min de vergoeding komt uit het potje, aan
+        // het eind van de maand en alleen tijdens de bouw.
+        let renteUitDepot = 0;
+        if (a.renteMeefinancieren && fase === 'bouw') {
+            const netto = Math.max(0, rente - vergoeding);
+            if (maand <= a.bouwduurMaanden) renteTijdensBouwNetto += netto;
+            renteUitDepot = Math.min(rentepot, netto);
+            rentepot -= renteUitDepot;
+            if (rentepot < 1e-6) rentepot = 0;
+        }
+
+        const hypotheek = Math.max(0, betaling - vergoeding - renteUitDepot);
         const woonlast = fase === 'na' ? 0 : a.huidigeWoonlast;
 
         regels.push({
             maand, fase,
             termijn: vandaag.map((t) => t.naam).filter(Boolean).join(', ') || null,
-            termijnbedrag, uitEigenGeld, opname, depot,
+            termijnbedrag, uitEigenGeld, opname, depot: bouwdepot + rentepot,
             rente, aflossing, betaling, restschuld,
-            vergoeding, hypotheek, woonlast,
+            vergoeding, renteUitDepot, hypotheek, woonlast,
             totaal: hypotheek + woonlast,
         });
     }
@@ -207,7 +277,11 @@ export function berekenTijdlijn(invoer = {}) {
     return {
         invoer: { ...a, termijnen, vertragingMaanden: vertraging },
         lening,
-        depotBijStart,
+        basislening,
+        meegefinancierd: rentepotBijStart,
+        renteTijdensBouwNetto,
+        vervallenBijNotaris: vervallen,
+        depotBijStart: bouwdepotBijStart + rentepotBijStart,
         oplevermaand,
         eindeOverlap,
         regels,
@@ -219,6 +293,7 @@ export function berekenTijdlijn(invoer = {}) {
             renteTijdensBouw: som(bouw, 'rente'),
             vergoeding: som(bouw, 'vergoeding'),
             renteNaVergoeding: som(bouw, 'rente') - som(bouw, 'vergoeding'),
+            renteUitDepot: som(bouw, 'renteUitDepot'),
             // Over de hele periode waarin de oude woonlast nog loopt.
             hypotheekTijdensDubbel: som(dubbel, 'hypotheek'),
             woonlastTijdensDubbel: som(dubbel, 'woonlast'),
@@ -241,7 +316,9 @@ export function vergelijk(invoer, scenario) {
         berekenTijdlijn({ ...invoer, ...scenario }).eindeOverlap,
     ) + 1;
     const basis = berekenTijdlijn({ ...invoer, horizonMaanden: horizon });
-    const anders = berekenTijdlijn({ ...invoer, ...scenario, horizonMaanden: horizon });
+    // Het meegefinancierde bedrag is dat van de basis: het lag vast voordat de
+    // vertraging bekend was.
+    const anders = berekenTijdlijn({ ...invoer, ...scenario, horizonMaanden: horizon, meegefinancierdBedrag: basis.meegefinancierd });
     const totaal = (t) => t.regels.reduce((s, r) => s + r.totaal, 0);
     return {
         horizon,

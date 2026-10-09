@@ -240,6 +240,7 @@ test('de standaardwaarden zijn die van de pagina', () => {
     assert.deepEqual({ ...STANDAARD }, {
         grond: 150000, aanneemsom: 350000, eigenGeld: 0, rentePercent: 3.8, kortingDepotPercent: 0, looptijdJaren: 30,
         vorm: 'annuiteit', bouwduurMaanden: 12, huidigeWoonlast: 1200, overlapNaOplevering: 2,
+        renteMeefinancieren: false,
     });
 });
 
@@ -295,4 +296,74 @@ test('alles uit eigen geld: geen lening, geen depot, geen hypotheeklast', () => 
     assert.equal(t.depotBijStart, 0);
     assert.ok(t.regels.every((r) => r.hypotheek === 0 && r.vergoeding === 0 && Number.isFinite(r.totaal)));
     assert.equal(t.piek.totaal, 1200);
+});
+
+/* ---------------------- rente tijdens de bouw meefinancieren ---------------------- */
+
+test('meefinancieren: tijdens de bouw betaal je alleen de aflossing, daarna meer', () => {
+    const zelf = berekenTijdlijn();
+    const mee = berekenTijdlijn({ renteMeefinancieren: true });
+    const R = mee.meegefinancierd;
+
+    // De lening en het depot zijn R hoger; het potje is bij oplevering leeg.
+    bijna(mee.lening, 500000 + R, 'lening', 1e-6);
+    bijna(mee.depotBijStart, 350000 + R, 'depot bij start', 1e-6);
+    bijna(mee.sommen.renteUitDepot, R, 'uit het potje gehaald', 0.01);
+    bijna(mee.restDepotBijOplevering, 0, 'depot bij oplevering', 0.01);
+
+    // Maand 1, onafhankelijk van R: rente over (500.000 + R), vergoeding over
+    // gemiddeld (323.750 + R). Het verschil is 176.250 * 0,038 / 12 = 558,13.
+    bijna(mee.regels[0].renteUitDepot, 558.13, 'rente uit depot in maand 1');
+
+    // Uit eigen zak tijdens de bouw: alleen de aflossing, plus de woonlast.
+    for (const r of mee.regels.filter((x) => x.fase === 'bouw')) {
+        bijna(r.hypotheek, r.aflossing, `eigen betaling maand ${r.maand}`, 0.01);
+        bijna(r.totaal, r.aflossing + 1200, `totaal maand ${r.maand}`, 0.01);
+    }
+
+    // R is iets meer dan de rente min vergoeding zonder meefinancieren (12.081):
+    // over R zelf loopt ook rente, waar vergoeding tegenover staat zolang het
+    // nog in depot zit.
+    assert.ok(R > zelf.sommen.renteNaVergoeding && R < zelf.sommen.renteNaVergoeding * 1.03, `R is ${R}`);
+
+    // Daarna betaal je over een hogere lening: annuiteit over (500.000 + R).
+    const i = 0.038 / 12;
+    bijna(mee.maandlastDaarna, (500000 + R) * i / (1 - (1 + i) ** -360), 'maandlast daarna');
+    assert.ok(mee.maandlastDaarna > zelf.maandlastDaarna);
+    // De piek ligt nu na de oplevering en is hoger dan zonder meefinancieren.
+    assert.equal(mee.piek.maand, 13);
+    assert.ok(mee.piek.totaal > zelf.piek.totaal);
+});
+
+test('meefinancieren bij een aflossingsvrije lening: tijdens de bouw alleen de woonlast', () => {
+    const t = berekenTijdlijn({ renteMeefinancieren: true, vorm: 'aflossingsvrij' });
+    for (const r of t.regels.filter((x) => x.fase === 'bouw')) bijna(r.totaal, 1200, `maand ${r.maand}`, 0.01);
+    bijna(t.restDepotBijOplevering, 0, 'depot bij oplevering', 0.01);
+});
+
+test('meefinancieren en vertraging: het potje is op, de rest betaal je zelf', () => {
+    const v = vergelijk({ renteMeefinancieren: true }, { vertragingMaanden: 3 });
+    assert.equal(v.scenario.meegefinancierd, v.basis.meegefinancierd);
+    // In de maanden van uitstel is er geen potje meer: rente min vergoeding uit eigen zak.
+    const m14 = v.scenario.regels[13];
+    assert.equal(m14.fase, 'bouw');
+    bijna(m14.renteUitDepot, 0, 'rente uit depot in maand 14', 0.01);
+    bijna(m14.hypotheek, m14.betaling - m14.vergoeding, 'eigen betaling maand 14', 0.01);
+    assert.ok(v.verschil.cumulatief > 0);
+});
+
+/* ------------------------- al vervallen bij de notaris ------------------------- */
+
+test('een termijn in maand 0 is bij de notaris betaald en komt niet in het depot', () => {
+    const termijnen = standaardTermijnen(12).map((t) => (t.maand === 1 ? { ...t, maand: 0 } : t));
+    const t = berekenTijdlijn({ termijnen });
+    assert.equal(t.vervallenBijNotaris, 52500);
+    assert.equal(t.depotBijStart, 297500);
+    assert.equal(t.lening, 500000);
+    // Maand 1: het depot blijft 297.500; vergoeding 297500 * 0,038 / 12 = 942,08.
+    assert.equal(t.regels[0].depot, 297500);
+    bijna(t.regels[0].vergoeding, 942.08, 'vergoeding maand 1');
+    assert.equal(t.restDepotBijOplevering, 0);
+    assert.deepEqual(controleerSchema(termijnen, 12).klachten, []);
+    assert.equal(controleerSchema([{ maand: -1, percent: 100, naam: 'x' }], 12).klachten.length, 1);
 });

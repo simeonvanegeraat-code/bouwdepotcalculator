@@ -200,29 +200,37 @@
                 <div>
                     <p class="wr-veld__naam" id="voorbeelden-kop">Begin met een voorbeeld</p>
                     <div class="wr-chips" role="group" aria-labelledby="voorbeelden-kop">
-                        <button type="button" class="wr-chip" data-voorbeeld data-grond="150000" data-aanneemsom="350000" data-rente="3.8" data-maanden="12" data-woonlast="1200" data-afslag="0">Gemiddelde nieuwbouw</button>
-                        <button type="button" class="wr-chip" data-voorbeeld data-grond="200000" data-aanneemsom="500000" data-rente="4.1" data-maanden="16" data-woonlast="1500" data-afslag="0.5">Hoge bouwsom</button>
-                        <button type="button" class="wr-chip" data-voorbeeld data-grond="150000" data-aanneemsom="350000" data-rente="3.9" data-maanden="24" data-woonlast="1200" data-afslag="0.5">Lange bouwduur</button>
-                        <button type="button" class="wr-chip" data-voorbeeld data-grond="130000" data-aanneemsom="320000" data-rente="3.7" data-maanden="12" data-woonlast="1350" data-afslag="0">Huur + nieuwbouw</button>
+                        <button type="button" class="wr-chip" data-voorbeeld data-von="500000" data-grond="150000" data-rente="3.8" data-maanden="12" data-woonlast="1200" data-afslag="0">Gemiddelde nieuwbouw</button>
+                        <button type="button" class="wr-chip" data-voorbeeld data-von="700000" data-grond="200000" data-rente="4.1" data-maanden="16" data-woonlast="1500" data-afslag="0.5">Hoge koopsom</button>
+                        <button type="button" class="wr-chip" data-voorbeeld data-von="500000" data-grond="150000" data-rente="3.9" data-maanden="24" data-woonlast="1200" data-afslag="0.5">Lange bouwduur</button>
+                        <button type="button" class="wr-chip" data-voorbeeld data-von="450000" data-grond="130000" data-rente="3.7" data-maanden="12" data-woonlast="1350" data-afslag="0">Huur + nieuwbouw</button>
                     </div>
                 </div>
 
-                <!-- De velden staan per document bij elkaar: wie zijn contract en
-                     zijn offerte erbij pakt, vult ze van boven naar beneden in. -->
+                <!-- Acht velden die bijna iedereen bij de hand heeft, per document
+                     bij elkaar. Wat een goede standaardwaarde heeft staat onder
+                     "Meer instellingen". -->
                 <fieldset class="wr-groep">
                     <legend>Uit je koop- en aannemingsovereenkomst</legend>
                     <div class="wr-veld">
-                        <label for="input-land">Grondkosten</label>
-                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="input-land" aria-describedby="fout-land hulp-land" value="150000" inputmode="numeric" autocomplete="off"></div>
-                        <span class="wr-veld__fout" id="fout-land" role="alert"></span>
-                        <p class="wr-hulp" id="hulp-land">De koopsom van de grond. Die betaal je bij de notaris.</p>
+                        <label for="input-von">Koopsom v.o.n.</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="input-von" aria-describedby="fout-von hulp-von" value="500000" inputmode="numeric" autocomplete="off"></div>
+                        <span class="wr-veld__fout" id="fout-von" role="alert"></span>
+                        <p class="wr-hulp" id="hulp-von">De prijs van grond en woning samen, zonder meerwerk.</p>
                     </div>
                     <div class="wr-veld">
-                        <label for="input-construction">Aanneemsom</label>
-                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="input-construction" aria-describedby="fout-construction hulp-construction" value="350000" inputmode="numeric" autocomplete="off"></div>
-                        <span class="wr-veld__fout" id="fout-construction" role="alert"></span>
-                        <p class="wr-hulp" id="hulp-construction">Wat je de bouwer betaalt, inclusief meerwerk dat je meefinanciert.</p>
+                        <label for="input-land">Waarvan grond</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="input-land" aria-describedby="fout-land hulp-land" value="150000" inputmode="numeric" autocomplete="off"></div>
+                        <span class="wr-veld__fout" id="fout-land" role="alert"></span>
+                        <p class="wr-hulp" id="hulp-land">De koopsom van de grond. Die betaal je bij de notaris; de rest is de aanneemsom.</p>
                     </div>
+                    <div class="wr-veld">
+                        <label for="input-meerwerk">Meerwerk dat je meefinanciert</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="input-meerwerk" aria-describedby="fout-meerwerk hulp-meerwerk" value="0" inputmode="numeric" autocomplete="off"></div>
+                        <span class="wr-veld__fout" id="fout-meerwerk" role="alert"></span>
+                        <p class="wr-hulp" id="hulp-meerwerk">Opties van je meerwerklijst die je in de hypotheek meeneemt. Vul nul in als je die zelf betaalt of niet hebt.</p>
+                    </div>
+                    <p class="wr-afgeleid" aria-live="polite">Aanneemsom met meerwerk: <strong class="tnum" id="res-aanneemsom">&ndash;</strong></p>
                     <div class="wr-veld">
                         <label for="input-build-months">Bouwduur</label>
                         <div class="wr-veld__in"><input type="text" id="input-build-months" aria-describedby="fout-build-months hulp-build-months" value="12" inputmode="numeric" autocomplete="off"><span aria-hidden="true">mnd</span></div>
@@ -247,24 +255,12 @@
                         <span class="wr-veld__fout" id="fout-interest" role="alert"></span>
                     </div>
                     <div class="wr-veld">
-                        <label for="input-depot-soort">Rente die je over je bouwdepot ontvangt</label>
-                        <div class="wr-veld__in"><select id="input-depot-soort" aria-describedby="hulp-depot-soort">
-                            <option value="gelijk" selected>Gelijk aan mijn hypotheekrente</option>
-                            <option value="lager">Lager dan mijn hypotheekrente</option>
-                            <option value="geen">Ik krijg geen vergoeding</option>
+                        <label for="input-meefinancieren">Rente tijdens de bouw</label>
+                        <div class="wr-veld__in"><select id="input-meefinancieren" aria-describedby="hulp-meefinancieren">
+                            <option value="zelf" selected>Betaal ik zelf, elke maand</option>
+                            <option value="mee">Financier ik mee in de hypotheek</option>
                         </select></div>
-                        <p class="wr-hulp" id="hulp-depot-soort">Over het geld dat nog in depot staat krijg je meestal rente terug. Hoeveel staat in je offerte. <a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet jouw bank?</a></p>
-                    </div>
-                    <div class="wr-veld" id="veld-depot-discount" hidden>
-                        <label for="input-depot-discount">Hoeveel lager?</label>
-                        <div class="wr-veld__in"><input type="text" id="input-depot-discount" aria-describedby="fout-depot-discount hulp-depot-discount" value="1,00" inputmode="decimal" autocomplete="off"><span aria-hidden="true">%</span></div>
-                        <span class="wr-veld__fout" id="fout-depot-discount" role="alert"></span>
-                        <p class="wr-hulp" id="hulp-depot-discount">In procentpunten. Is je hypotheekrente 3,80% en krijg je 2,80% over je depot, vul dan 1 in.</p>
-                    </div>
-                    <div class="wr-veld">
-                        <label for="input-vorm">Hypotheekvorm</label>
-                        <div class="wr-veld__in"><select id="input-vorm" aria-describedby="hulp-vorm"></select></div>
-                        <p class="wr-hulp" id="hulp-vorm">Gerekend als &eacute;&eacute;n leningdeel van 30 jaar met vaste rente. Heb je meerdere leningdelen, kies dan het grootste; de uitkomst is dan een benadering.</p>
+                        <p class="wr-hulp" id="hulp-meefinancieren">Bij meefinancieren leen je de rente tijdens de bouw erbij en betaal je in die maanden alleen de aflossing. Je hypotheek en je maandlast daarna worden hoger. Staat in je offerte als &lsquo;renteverlies tijdens de bouw&rsquo;.</p>
                     </div>
                 </fieldset>
 
@@ -276,23 +272,49 @@
                         <span class="wr-veld__fout" id="fout-current-housing" role="alert"></span>
                         <p class="wr-hulp" id="hulp-current-housing">Kale huur, of rente en aflossing van je huidige hypotheek. Zonder energie en verzekeringen. Vul nul in als je die niet hebt.</p>
                     </div>
+                </fieldset>
+
+                <details class="wr-uitklap">
+                    <summary><span>Meer instellingen<small>Depotrente, overlap na oplevering en hypotheekvorm</small></span></summary>
+                    <div class="wr-uitklap__body">
+                        <div class="wr-veld">
+                            <label for="input-depot-soort">Rente die je over je bouwdepot ontvangt</label>
+                            <div class="wr-veld__in"><select id="input-depot-soort" aria-describedby="hulp-depot-soort">
+                                <option value="gelijk" selected>Gelijk aan mijn hypotheekrente</option>
+                                <option value="lager">Lager dan mijn hypotheekrente</option>
+                                <option value="geen">Ik krijg geen vergoeding</option>
+                            </select></div>
+                            <p class="wr-hulp" id="hulp-depot-soort">Bij de meeste aanbieders is dit gelijk aan je hypotheekrente. <a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet jouw bank?</a></p>
+                        </div>
+                        <div class="wr-veld" id="veld-depot-discount" hidden>
+                            <label for="input-depot-discount">Hoeveel lager?</label>
+                            <div class="wr-veld__in"><input type="text" id="input-depot-discount" aria-describedby="fout-depot-discount hulp-depot-discount" value="1,00" inputmode="decimal" autocomplete="off"><span aria-hidden="true">%</span></div>
+                            <span class="wr-veld__fout" id="fout-depot-discount" role="alert"></span>
+                            <p class="wr-hulp" id="hulp-depot-discount">In procentpunten. Is je hypotheekrente 3,80% en krijg je 2,80% over je depot, vul dan 1 in.</p>
+                        </div>
                     <div class="wr-veld">
-                        <label for="input-overlap">Hoe lang betaal je die nog na de oplevering?</label>
+                        <label for="input-overlap">Hoe lang betaal je je huidige woning nog na de oplevering?</label>
                         <div class="wr-veld__in"><input type="text" id="input-overlap" aria-describedby="fout-overlap hulp-overlap" value="2" inputmode="numeric" autocomplete="off"><span aria-hidden="true">mnd</span></div>
                         <span class="wr-veld__fout" id="fout-overlap" role="alert"></span>
                         <p class="wr-hulp" id="hulp-overlap">Denk aan je opzegtermijn, de tijd om te verhuizen of de verkoop van je huis. In die maanden is het depot leeg en betaal je dubbel.</p>
                     </div>
-                </fieldset>
+                        <div class="wr-veld">
+                            <label for="input-vorm">Hypotheekvorm</label>
+                            <div class="wr-veld__in"><select id="input-vorm" aria-describedby="hulp-vorm"></select></div>
+                            <p class="wr-hulp" id="hulp-vorm">Gerekend als &eacute;&eacute;n leningdeel van 30 jaar met vaste rente. Heb je meerdere leningdelen, kies dan het grootste; de uitkomst is dan een benadering.</p>
+                        </div>
+                    </div>
+                </details>
 
                 <details class="wr-uitklap">
                     <summary><span>Termijnschema<small>Alleen nodig als je al weet wanneer de termijnen vallen</small></span></summary>
                     <div class="wr-uitklap__body">
-                        <p class="wr-hulp">Zonder eigen schema rekenen we met vijf gangbare bouwfasen, verdeeld over je bouwduur. Het schema staat in je aannemingsovereenkomst: vul per termijn de bouwmaand en het bedrag of percentage in.</p>
+                        <p class="wr-hulp">Zonder eigen schema rekenen we met een voorbeeld van vijf bouwfasen, verdeeld over je bouwduur. Elk contract heeft zijn eigen schema: het staat in je aannemingsovereenkomst. Vul per termijn de bouwmaand en het bedrag of percentage in. Was een termijn bij de notaris al vervallen, zet hem dan op maand 0.</p>
                         <div class="wr-termijnkop">
                             <span class="wr-knoppen">
                                 <button class="wr-knop wr-knop--klein" id="add-term-btn" type="button">+ Termijn</button>
                                 <button class="wr-knop wr-knop--klein" id="auto-spread-btn" type="button">Gelijk spreiden</button>
-                                <button class="wr-knop wr-knop--klein" id="standaard-schema-btn" type="button">Standaard</button>
+                                <button class="wr-knop wr-knop--klein" id="standaard-schema-btn" type="button">Voorbeeld</button>
                             </span>
                             <span class="wr-termijntotaal" id="total-percent" role="status">100% toegewezen</span>
                         </div>
@@ -319,6 +341,7 @@
                     <li id="legenda-basis" hidden><i class="wr-legenda__basis"></i>Zonder vertraging</li>
                 </ul>
                 <p class="wr-samenvatting" id="res-samenvatting"></p>
+                <p class="wr-melding wr-melding--klein" id="res-termijnmelding" role="status" hidden></p>
 
                 <div class="wr-scenario">
                     <div class="wr-paneel__kop" style="margin-bottom:0">
@@ -357,7 +380,7 @@
                                     <th scope="col">Rente</th>
                                     <th scope="col">Aflossing</th>
                                     <th scope="col">Depot&shy;vergoeding</th>
-                                    <th scope="col">Hypotheek na vergoeding</th>
+                                    <th scope="col">Hypotheek, zelf te betalen</th>
                                     <th scope="col">Huidige woonlast</th>
                                     <th scope="col">Bruto totaal</th>
                                 </tr>
@@ -388,6 +411,8 @@
                     <ul class="wr-lijst">
                         <li>Je hele hypotheek gaat in bij de notaris; je betaalt vanaf maand 1 rente en aflossing over de hele lening.</li>
                         <li>Eigen geld gaat eerst op: aan de grond, en wat er over is aan de eerste bouwtermijnen. Je offerte kan anders voorschrijven.</li>
+                        <li>Meerwerk dat je meefinanciert telt mee in de aanneemsom en wordt over dezelfde termijnen verdeeld. In de praktijk factureert een bouwer meerwerk vaak apart.</li>
+                        <li>Financier je de rente tijdens de bouw mee, dan lenen we precies zoveel extra als de rente min depotvergoeding over de geplande bouw. Dat bedrag staat in depot en gaat er elke maand uit. Je aanbieder kan een ander of een maximaal bedrag hanteren.</li>
                         <li>Het depot is geen extra lening: het is het deel van je hypotheek dat nog niet aan de aannemer is betaald.</li>
                         <li>Over wat nog in depot staat ontvang je vergoeding, berekend over het gemiddelde saldo van de maand.</li>
                         <li>Een bouwtermijn verlaagt het depot, niet je schuld.</li>
@@ -399,7 +424,7 @@
                     <ul class="wr-lijst">
                         <li>Hypotheekrenteaftrek: die hangt van je inkomen af. Zie de <a href="hypotheekrenteaftrek-gids.html">belastingcalculator</a>.</li>
                         <li>Bouwrente die je aan de bouwer betaalt over al vervallen termijnen. Zie <a href="bouwrente-nieuwbouw.html">bouwrente</a>.</li>
-                        <li>Meerwerk, keuken, vloer, tuin en verhuiskosten.</li>
+                        <li>Keuken, vloer, tuin en verhuiskosten die je niet meefinanciert.</li>
                         <li>Het moment waarop jouw aanbieder stopt met vergoeden, of het depot sluit.</li>
                         <li>Meerdere leningdelen, renteherziening en extra aflossingen.</li>
                     </ul>
@@ -421,7 +446,7 @@
                 </article>
                 <article>
                     <h3>Het termijnschema doet ertoe</h3>
-                    <p>Een schema met grote termijnen vroeg in de bouw laat de last sneller oplopen dan een gelijkmatige verdeling. Staat je schema in de aannemingsovereenkomst, vul het dan in bij het termijnschema hierboven.</p>
+                    <p>Een schema met grote termijnen vroeg in de bouw laat de last sneller oplopen dan een gelijkmatige verdeling. Staat je schema in de aannemingsovereenkomst, vul het dan in bij het termijnschema hierboven. Het schema waarmee we standaard rekenen is een voorbeeld, geen norm.</p>
                 </article>
                 <article>
                     <h3>Dit is geen netto bedrag</h3>
