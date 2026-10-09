@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,14 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
+
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
             <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
@@ -164,1146 +169,919 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Verbouwbegroting</span>
-    </nav>
+    <main id="inhoud">
+        <div class="wr-wrap wr-kop wr-geen-print">
+            <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Verbouwen</span></nav>
+            <h1 id="reken-titel">Wat gaat je verbouwing kosten?</h1>
+            <p class="wr-lead">Zet je offertes op een rij en zie welk deel uit het bouwdepot mag, welk deel je zelf betaalt en wat het per maand doet.</p>
+        </div>
 
-    <main id="begroting">
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <h1 class="bs-reken__titel" id="reken-titel">Wat gaat uw verbouwing kosten?</h1>
-                <p class="bs-reken__lead">En vooral: welk deel mag uit het bouwdepot en welk deel betaalt u zelf?</p>
+        <!-- Volgorde in de HTML: uitkomst, begroting. Op een telefoon staat het
+             totaal zo bovenaan; op een breed scherm blijft het rechts naast de
+             begroting in beeld. De optelling gebeurt in src/js/begrotingrekenen.js. -->
+        <div class="wr-wrap wr-werk wr-werk--lang wr-geen-print" id="begroting">
 
-                <div class="bs-reken__grid">
-                    <div>
-                        <article class="bs-blad">
-                            <div class="bs-blad__kop">
-                                <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
-                                <span class="bs-blad__stempel">Begroting</span>
-                            </div>
+            <section class="wr-paneel wr-uitkomst" id="uitkomst" aria-live="polite">
+                <p class="wr-uitkomst__label"><span>Totale verbouwkosten</span> <span class="wr-stempel">Jouw begroting</span></p>
+                <strong class="wr-uitkomst__bedrag tnum" id="res-totaal" data-bedrag>&euro; 0</strong>
+                <p class="wr-uitkomst__zin" id="res-zin">Vul in wat je verwacht uit te geven.</p>
 
-                            <div class="bs-antwoord">
-                                <p class="bs-antwoord__label">Totale verbouwkosten</p>
-                                <strong class="bs-antwoord__bedrag" id="res-totaal" data-bedrag>&euro; 0</strong>
-                                <p class="bs-antwoord__zin" id="res-zin">Vul hieronder in wat u verwacht uit te geven.</p>
-                            </div>
+                <dl class="wr-cijfers wr-cijfers--twee">
+                    <div><dt>Uit het bouwdepot</dt><dd class="tnum" id="res-depot">&euro; 0<small>naar verwachting, met de reserve</small></dd></div>
+                    <div><dt>Uit eigen geld</dt><dd class="tnum" id="res-eigen">&euro; 0<small>zit niet vast aan de woning</small></dd></div>
+                    <div><dt>Waarvan onvoorzien</dt><dd class="tnum" id="res-marge">&euro; 0<small id="res-marge-noot">reserve over het depotdeel</small></dd></div>
+                    <div><dt>Extra per maand</dt><dd class="tnum" id="res-maand">&ndash;<small id="res-maand-noot">vul hieronder de financiering in</small></dd></div>
+                </dl>
 
-                        <dl class="bs-uitsplitsing">
-                            <div><dt>Naar verwachting uit het depot</dt><dd class="tnum" id="res-depot" data-bedrag>&euro; 0</dd></div>
-                            <div><dt>Uit eigen geld</dt><dd class="tnum" id="res-eigen" data-bedrag>&euro; 0</dd></div>
-                            <div><dt>Waarvan onvoorzien</dt><dd class="tnum" id="res-marge" data-bedrag>&euro; 0</dd></div>
-                        </dl>
-
-                        <div class="bs-notitie">
-                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="in-onvoorzien">Reserve voor onvoorzien</label></div>
-                            <!-- Een veld en geen schuif. Dit is een percentage, en de hulptekst
-                                 hieronder noemt de drie waarden die er in de bouw toe doen: tien,
-                                 vijftien en twintig. Die typ je sneller dan je ze sleept. De schuif
-                                 was bovendien de enige bediening, met de waarde alleen-lezen op
-                                 halve maat ernaast -- hetzelfde gebrek als bij Looptijd. -->
-                            <div class="bs-omhulsel">
-                                <span></span>
-                                <input type="text" id="in-onvoorzien" value="10" inputmode="numeric" aria-describedby="fout-in-onvoorzien">
-                                <span>%</span>
-                            </div>
-                            <span class="bs-veld__fout" id="fout-in-onvoorzien" role="alert"></span>
-                            <p class="bs-hulp">Sloopwerk legt vaak verborgen gebreken bloot. Een begroting zonder marge loopt bijna altijd vast. Tien procent is in de bouw de gangbare vuistregel; bij oudere woningen wordt vijftien tot twintig procent aangehouden.</p>
-                        </div>
-
-                            <p class="bs-blad__voet">Indicatief &middot; informatie, geen advies</p>
-                        </article>
-
-                        <details class="bs-uitklap bs-aannames">
-                            <summary><span><b>Verdeling noodzakelijk en gewenst</b><small>Waar uw budget aan vastzit</small></span></summary>
-                            <div class="bs-uitklap__body">
-                                <dl class="bs-uitsplitsing">
-                                    <div><dt>Noodzakelijk</dt><dd class="tnum" id="res-noodzakelijk">&euro; 0</dd></div>
-                                    <div><dt>Gewenst</dt><dd class="tnum" id="res-gewenst">&euro; 0</dd></div>
-                                    <div><dt>Reserve voor onvoorzien</dt><dd class="tnum" id="res-marge-split">&euro; 0</dd></div>
-                                </dl>
-                                <p class="bs-hulp">De reserve staat apart: die hoort bij geen van beide, want u weet nog niet waaraan u hem kwijtraakt. Samen met de twee bedragen erboven vormt hij het totaal.</p>
-                                <p class="bs-hulp">Leg vóór de start vast welke wens als eerste vervalt als het budget onder druk komt. Dan hoeft u die keuze niet te maken terwijl de aannemer staat te wachten.</p>
-                                <p class="bs-hulp" id="res-aantal">0 posten ingevuld</p>
-                            </div>
-                        </details>
-
-                    </div>
-
-                    <div class="bs-invoer">
-                        <div class="bs-melding no-print">
-                        <p><strong>Wij vullen bewust geen prijzen voor u in.</strong> Verbouwkosten verschillen te sterk per woning, regio en uitvoering om een bedrag te noemen dat wij kunnen onderbouwen. Gebruik uw eigen offertes; dat is bovendien wat uw geldverstrekker wil zien.</p>
-                        <p>Wat wij wél toevoegen: per post of die doorgaans uit het bouwdepot mag. Dat is afgeleid uit wat de 13 vergeleken geldverstrekkers zelf publiceren.</p>
-                    </div>
-
-                        <div data-bankkeuze class="no-print"></div>
-
-                        <div class="bs-melding no-print" id="begroting-bankmelding" hidden>
-                            <p id="begroting-bankmelding-tekst"></p>
-                        </div>
-
-                <details class="bs-cat">
-                    <summary class="bs-cat__kop">
-                        <h2>Ruwbouw en constructie</h2>
-                        <p>Werk aan de structuur van de woning. Vrijwel altijd declarabel, maar vaak wel het duurst en het meest gevoelig voor meerwerk.</p>
-                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
-                             zes blokken weet je zonder dit niet waar je staat, en of een
-                             categorie waar je niets aan doet al afgehandeld is. -->
-                        <p class="bs-cat__subtotaal" data-subtotaal="ruwbouw"></p>
-                        <span class="bs-cat__aantal">7 posten</span>
-                    </summary>
-                    <div class="bs-cat__posten">
-                        <div class="bs-post" data-genoemd-door="ing">
-                            <div class="bs-post__naam">
-                                <label for="post-uitbouw">Uitbouw of aanbouw</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-uitbouw" data-post="uitbouw" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="uitbouw" aria-label="Prioriteit Uitbouw of aanbouw">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post" data-genoemd-door="ing">
-                            <div class="bs-post__naam">
-                                <label for="post-dakkapel">Dakkapel</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-dakkapel" data-post="dakkapel" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="dakkapel" aria-label="Prioriteit Dakkapel">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post">
-                            <div class="bs-post__naam">
-                                <label for="post-constructie">Constructieve aanpassing, muur doorbreken</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-constructie" data-post="constructie" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="constructie" aria-label="Prioriteit Constructieve aanpassing, muur doorbreken">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post" data-genoemd-door="rabobank">
-                            <div class="bs-post__naam">
-                                <label for="post-aannemer">Aannemer, arbeidsloon</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-aannemer" data-post="aannemer" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="aannemer" aria-label="Prioriteit Aannemer, arbeidsloon">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post" data-genoemd-door="rabobank">
-                            <div class="bs-post__naam">
-                                <label for="post-architect">Architect of constructeur</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-architect" data-post="architect" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="architect" aria-label="Prioriteit Architect of constructeur">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post" data-genoemd-door="rabobank">
-                            <div class="bs-post__naam">
-                                <label for="post-bouwmaterialen">Bouwmaterialen</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-bouwmaterialen" data-post="bouwmaterialen" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="bouwmaterialen" aria-label="Prioriteit Bouwmaterialen">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post" data-genoemd-door="ing">
-                            <div class="bs-post__naam">
-                                <label for="post-asbest">Asbestverwijdering bij verbouwing</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-asbest" data-post="asbest" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="asbest" aria-label="Prioriteit Asbestverwijdering bij verbouwing">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                    </div>
-                </details>
-                <details class="bs-cat">
-                    <summary class="bs-cat__kop">
-                        <h2>Keuken en badkamer</h2>
-                        <p>De meest voorkomende verbouwposten. Let op het onderscheid tussen vast ingebouwd en los meubilair of apparatuur.</p>
-                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
-                             zes blokken weet je zonder dit niet waar je staat, en of een
-                             categorie waar je niets aan doet al afgehandeld is. -->
-                        <p class="bs-cat__subtotaal" data-subtotaal="keuken-badkamer"></p>
-                        <span class="bs-cat__aantal">4 posten</span>
-                    </summary>
-                    <div class="bs-cat__posten">
-                        <div class="bs-post" data-genoemd-door="abn-amro rabobank ing">
-                            <div class="bs-post__naam">
-                                <label for="post-keuken">Keuken met inbouwapparatuur</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-keuken" data-post="keuken" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="keuken" aria-label="Prioriteit Keuken met inbouwapparatuur">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post bs-post--eigen-geld">
-                            <div class="bs-post__naam">
-                                <label for="post-keuken-los">Losse apparatuur, niet ingebouwd</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--eigen">eigen geld</span></span>
-                                <small class="bs-post__letop">Een vrijstaande koelkast of losse magnetron neemt u mee bij verhuizing en wordt doorgaans afgewezen.</small>
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-keuken-los" data-post="keuken-los" data-vast="false" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="keuken-los" aria-label="Prioriteit Losse apparatuur, niet ingebouwd">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post" data-genoemd-door="rabobank ing">
-                            <div class="bs-post__naam">
-                                <label for="post-badkamer">Badkamer, vast sanitair en tegelwerk</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-badkamer" data-post="badkamer" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="badkamer" aria-label="Prioriteit Badkamer, vast sanitair en tegelwerk">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post">
-                            <div class="bs-post__naam">
-                                <label for="post-toilet">Toilet vernieuwen</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-toilet" data-post="toilet" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="toilet" aria-label="Prioriteit Toilet vernieuwen">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                    </div>
-                </details>
-                <details class="bs-cat">
-                    <summary class="bs-cat__kop">
-                        <h2>Afbouw en afwerking</h2>
-                        <p>Hier zit de meeste twijfel. De vuistregel: zit het vast en gaat het niet mee bij verhuizing, dan komt het doorgaans in aanmerking.</p>
-                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
-                             zes blokken weet je zonder dit niet waar je staat, en of een
-                             categorie waar je niets aan doet al afgehandeld is. -->
-                        <p class="bs-cat__subtotaal" data-subtotaal="afbouw"></p>
-                        <span class="bs-cat__aantal">9 posten</span>
-                    </summary>
-                    <div class="bs-cat__posten">
-                        <div class="bs-post" data-genoemd-door="abn-amro ing">
-                            <div class="bs-post__naam">
-                                <label for="post-vloer-vast">Vloer die vastzit, zoals gelijmd parket of tegels</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-vloer-vast" data-post="vloer-vast" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="vloer-vast" aria-label="Prioriteit Vloer die vastzit, zoals gelijmd parket of tegels">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post bs-post--eigen-geld">
-                            <div class="bs-post__naam">
-                                <label for="post-vloer-los">Losliggende vloer of tapijt</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--eigen">eigen geld</span></span>
-                                <small class="bs-post__letop">Een zwevende of losliggende vloer wordt vaak niet als verbetering gezien.</small>
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-vloer-los" data-post="vloer-los" data-vast="false" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="vloer-los" aria-label="Prioriteit Losliggende vloer of tapijt">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post" data-genoemd-door="ing">
-                            <div class="bs-post__naam">
-                                <label for="post-kozijnen">Kozijnen, ramen en deuren</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-kozijnen" data-post="kozijnen" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="kozijnen" aria-label="Prioriteit Kozijnen, ramen en deuren">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post">
-                            <div class="bs-post__naam">
-                                <label for="post-stucwerk">Stucwerk en binnenwanden</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-stucwerk" data-post="stucwerk" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="stucwerk" aria-label="Prioriteit Stucwerk en binnenwanden">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post" data-genoemd-door="ing">
-                            <div class="bs-post__naam">
-                                <label for="post-schilderwerk">Onderhoudsschilderwerk</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-schilderwerk" data-post="schilderwerk" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="schilderwerk" aria-label="Prioriteit Onderhoudsschilderwerk">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post" data-genoemd-door="ing">
-                            <div class="bs-post__naam">
-                                <label for="post-verlichting-vast">Ingebouwde verlichting, zoals inbouwspots</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-verlichting-vast" data-post="verlichting-vast" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="verlichting-vast" aria-label="Prioriteit Ingebouwde verlichting, zoals inbouwspots">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post bs-post--eigen-geld">
-                            <div class="bs-post__naam">
-                                <label for="post-verlichting-los">Losse verlichting, zoals een wandlamp</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--eigen">eigen geld</span></span>
-                                <small class="bs-post__letop">ING noemt losse verlichting expliciet als niet-declarabel.</small>
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-verlichting-los" data-post="verlichting-los" data-vast="false" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="verlichting-los" aria-label="Prioriteit Losse verlichting, zoals een wandlamp">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post bs-post--eigen-geld">
-                            <div class="bs-post__naam">
-                                <label for="post-raamdecoratie">Gordijnen, jaloezieën of shutters</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--eigen">eigen geld</span></span>
-                                <small class="bs-post__letop">ING en Rabobank noemen raamdecoratie expliciet als niet-declarabel.</small>
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-raamdecoratie" data-post="raamdecoratie" data-vast="false" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="raamdecoratie" aria-label="Prioriteit Gordijnen, jaloezieën of shutters">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post bs-post--eigen-geld">
-                            <div class="bs-post__naam">
-                                <label for="post-meubels">Meubels en inboedel</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--eigen">eigen geld</span></span>
-                                <small class="bs-post__letop">Rabobank noemt spullen die u bij verhuizing meeneemt expliciet als niet-declarabel.</small>
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-meubels" data-post="meubels" data-vast="false" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="meubels" aria-label="Prioriteit Meubels en inboedel">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                    </div>
-                </details>
-                <details class="bs-cat">
-                    <summary class="bs-cat__kop">
-                        <h2>Verduurzaming</h2>
-                        <p>Vaak een aparte pot met eigen regels. Sommige aanbieders openen hiervoor een verduurzamingsdepot met een eigen lijst toegestane maatregelen.</p>
-                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
-                             zes blokken weet je zonder dit niet waar je staat, en of een
-                             categorie waar je niets aan doet al afgehandeld is. -->
-                        <p class="bs-cat__subtotaal" data-subtotaal="verduurzaming"></p>
-                        <span class="bs-cat__aantal">7 posten</span>
-                    </summary>
-                    <div class="bs-cat__posten">
-                        <div class="bs-post">
-                            <div class="bs-post__naam">
-                                <label for="post-isolatie">Gevel-, dak-, vloer- of leidingisolatie</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-isolatie" data-post="isolatie" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="isolatie" aria-label="Prioriteit Gevel-, dak-, vloer- of leidingisolatie">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post">
-                            <div class="bs-post__naam">
-                                <label for="post-beglazing">Hoogrendementsbeglazing, minimaal HR++</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-beglazing" data-post="beglazing" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="beglazing" aria-label="Prioriteit Hoogrendementsbeglazing, minimaal HR++">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post">
-                            <div class="bs-post__naam">
-                                <label for="post-warmtepomp">Warmtepomp</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-warmtepomp" data-post="warmtepomp" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="warmtepomp" aria-label="Prioriteit Warmtepomp">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post" data-genoemd-door="ing">
-                            <div class="bs-post__naam">
-                                <label for="post-zonnepanelen">Zonnepanelen</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-zonnepanelen" data-post="zonnepanelen" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="zonnepanelen" aria-label="Prioriteit Zonnepanelen">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post">
-                            <div class="bs-post__naam">
-                                <label for="post-ventilatie">Energiezuinig ventilatiesysteem</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                <small class="bs-post__letop">ING vergoedt dit alleen in combinatie met een andere energiebesparende maatregel.</small>
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-ventilatie" data-post="ventilatie" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="ventilatie" aria-label="Prioriteit Energiezuinig ventilatiesysteem">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post">
-                            <div class="bs-post__naam">
-                                <label for="post-wtw-douche">Douche-warmteterugwinning</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-wtw-douche" data-post="wtw-douche" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="wtw-douche" aria-label="Prioriteit Douche-warmteterugwinning">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post bs-post--eigen-geld">
-                            <div class="bs-post__naam">
-                                <label for="post-thuisbatterij">Thuisbatterij</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--eigen">eigen geld</span></span>
-                                <small class="bs-post__letop">ING sluit thuisbatterij, HR-cv-ketel, zonneboiler en vloerverwarming uit van het verduurzamingsdepot.</small>
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-thuisbatterij" data-post="thuisbatterij" data-vast="false" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="thuisbatterij" aria-label="Prioriteit Thuisbatterij">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                    </div>
-                </details>
-                <details class="bs-cat">
-                    <summary class="bs-cat__kop">
-                        <h2>Buiten en terrein</h2>
-                        <p>Hier lopen de voorwaarden het meest uiteen. Vraag dit vooraf na bij uw eigen geldverstrekker.</p>
-                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
-                             zes blokken weet je zonder dit niet waar je staat, en of een
-                             categorie waar je niets aan doet al afgehandeld is. -->
-                        <p class="bs-cat__subtotaal" data-subtotaal="buiten"></p>
-                        <span class="bs-cat__aantal">3 posten</span>
-                    </summary>
-                    <div class="bs-cat__posten">
-                        <div class="bs-post" data-genoemd-door="ing">
-                            <div class="bs-post__naam">
-                                <label for="post-tuin">Aanleg, onderhoud en inrichting van de tuin</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                <small class="bs-post__letop">ING noemt de tuin expliciet als declarabel. Niet elke aanbieder doet dat; controleer uw eigen voorwaarden.</small>
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-tuin" data-post="tuin" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="tuin" aria-label="Prioriteit Aanleg, onderhoud en inrichting van de tuin">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post" data-genoemd-door="ing">
-                            <div class="bs-post__naam">
-                                <label for="post-zonwering">Op maat gemaakte zonwering, vast bevestigd</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-zonwering" data-post="zonwering" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="zonwering" aria-label="Prioriteit Op maat gemaakte zonwering, vast bevestigd">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post">
-                            <div class="bs-post__naam">
-                                <label for="post-oprit">Bestrating, oprit of terras</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-oprit" data-post="oprit" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="oprit" aria-label="Prioriteit Bestrating, oprit of terras">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                    </div>
-                </details>
-                <details class="bs-cat">
-                    <summary class="bs-cat__kop">
-                        <h2>Overige kosten</h2>
-                        <p>Posten die vaak vergeten worden in de begroting maar wel geld kosten. Let op: sommige mogen niet uit het depot en moet u uit eigen geld betalen.</p>
-                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
-                             zes blokken weet je zonder dit niet waar je staat, en of een
-                             categorie waar je niets aan doet al afgehandeld is. -->
-                        <p class="bs-cat__subtotaal" data-subtotaal="overig"></p>
-                        <span class="bs-cat__aantal">4 posten</span>
-                    </summary>
-                    <div class="bs-cat__posten">
-                        <div class="bs-post">
-                            <div class="bs-post__naam">
-                                <label for="post-vergunning">Omgevingsvergunning en leges</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-vergunning" data-post="vergunning" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="vergunning" aria-label="Prioriteit Omgevingsvergunning en leges">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post bs-post--eigen-geld">
-                            <div class="bs-post__naam">
-                                <label for="post-gereedschap">Gereedschap, zoals een boor of zaagmachine</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--eigen">eigen geld</span></span>
-                                <small class="bs-post__letop">ING noemt gereedschap expliciet als niet-declarabel.</small>
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-gereedschap" data-post="gereedschap" data-vast="false" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="gereedschap" aria-label="Prioriteit Gereedschap, zoals een boor of zaagmachine">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post bs-post--eigen-geld">
-                            <div class="bs-post__naam">
-                                <label for="post-opslag">Tijdelijke opslag of huisvesting</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--eigen">eigen geld</span></span>
-                                <small class="bs-post__letop">Dit verbetert de woning niet en komt doorgaans niet uit het depot. Reken hier eigen geld voor.</small>
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-opslag" data-post="opslag" data-vast="false" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="opslag" aria-label="Prioriteit Tijdelijke opslag of huisvesting">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                        <div class="bs-post">
-                            <div class="bs-post__naam">
-                                <label for="post-onvoorzien">Onvoorzien en meerwerk</label>
-                                <span class="bs-post__merk"><span class="bs-merkje bs-merkje--depot">uit depot</span></span>
-                                <small class="bs-post__letop">Geen bewijsstuk vooraf, maar wel de post waar begrotingen het vaakst op stuklopen. Reserveer hier bewust ruimte voor.</small>
-                            </div>
-                            <div class="bs-post__invoer">
-                                <div class="bs-omhulsel">
-                                    <span>&euro;</span>
-                                    <!-- Tekstinvoer en niet type="number": daarin las de browser
-                                         "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
-                                         Wie zijn offerte overtypte zag zijn totaal kelderen zonder
-                                         dat er iets misging op het scherm. inputmode houdt het
-                                         numerieke toetsenbord op mobiel; leesGetal doet de rest. -->
-                                    <input type="text" id="post-onvoorzien" data-post="onvoorzien" data-vast="true" inputmode="decimal" placeholder="0">
-                                </div>
-                                <select class="bs-select bs-post__prioriteit" data-prioriteit="onvoorzien" aria-label="Prioriteit Onvoorzien en meerwerk">
-                                    <option value="noodzakelijk">Noodzakelijk</option>
-                                    <option value="gewenst">Gewenst</option>
-                                </select>
-                            </div>
-                            <span class="bs-post__fout" role="alert"></span>
-                        </div>
-                    </div>
-                </details>
-                    </div>
-
-                    <!-- Printen en doorrekenen doe je als de begroting staat, dus
-                         ná de invoer. Derde blok in het raster. -->
-                    <div class="bs-reken__na no-print">
-                        <a class="bs-knop" id="naar-maandlast" href="bouwdepot-berekenen.html">Wat kost dit per maand?</a>
-                        <button id="begroting-printen" class="bs-knop bs-knop--licht" type="button">Specificatie printen</button>
-                        <button id="begroting-wissen" class="bs-knop bs-knop--licht" type="button">Wissen</button>
-                        <p class="bs-voorbehoud">Uw begroting blijft op dit apparaat en wordt nergens verstuurd.</p>
-                    </div>
+                <div class="wr-uitkomst__veld">
+                    <label for="in-onvoorzien">Reserve voor onvoorzien</label>
+                    <div class="wr-veld__in"><input type="text" id="in-onvoorzien" value="10" inputmode="numeric" aria-describedby="fout-in-onvoorzien hulp-in-onvoorzien" autocomplete="off"><span aria-hidden="true">%</span></div>
+                    <span class="wr-veld__fout" id="fout-in-onvoorzien" role="alert"></span>
+                    <p class="wr-hulp" id="hulp-in-onvoorzien">Sloopwerk legt vaak verborgen gebreken bloot. Tien procent is in de bouw de gangbare vuistregel; bij oudere woningen wordt vijftien tot twintig procent aangehouden.</p>
                 </div>
-            </div>
-        </section>
+
+                <dl class="wr-dl wr-uitkomst__split">
+                    <dt>Noodzakelijk</dt><dd id="res-noodzakelijk">&euro; 0</dd>
+                    <dt>Gewenst</dt><dd id="res-gewenst">&euro; 0</dd>
+                    <dt id="res-aantal">0 posten ingevuld</dt><dd></dd>
+                </dl>
+
+                <div class="wr-knoppen">
+                    <a class="wr-knop wr-knop--licht" href="#leenruimte">Kan ik dit lenen?</a>
+                    <button id="begroting-printen" class="wr-knop wr-knop--licht" type="button">Specificatie printen</button>
+                    <button id="begroting-wissen" class="wr-knop wr-knop--licht" type="button">Wissen</button>
+                </div>
+            </section>
+
+            <section class="wr-paneel wr-invoer" aria-labelledby="begroting-kop">
+                <div class="wr-paneel__kop">
+                    <h2 id="begroting-kop">Je begroting</h2>
+                    <p class="wr-micro">Blijft op dit apparaat</p>
+                </div>
+
+                <p class="wr-hulp wr-hulp--groot"><strong>We vullen bewust geen prijzen voor je in.</strong> Verbouwkosten verschillen te sterk per woning, regio en uitvoering om een bedrag te noemen dat we kunnen onderbouwen. Gebruik je eigen offertes; dat is ook wat je geldverstrekker wil zien. Wat we wel toevoegen: per post of die doorgaans uit het bouwdepot mag, afgeleid uit wat de 13 vergeleken geldverstrekkers zelf publiceren.</p>
+
+                <div data-bankkeuze></div>
+                <p class="wr-melding wr-melding--klein" id="begroting-bankmelding" hidden><span id="begroting-bankmelding-tekst"></span></p>
+
+                <div class="wr-cats">
+                <details class="wr-cat" data-cat="ruwbouw">
+                    <summary class="wr-cat__kop">
+                        <span class="wr-cat__titel">
+                            <h3>Ruwbouw en constructie</h3>
+                            <span class="wr-cat__uitleg">Werk aan de structuur van de woning. Vrijwel altijd declarabel, maar vaak wel het duurst en het meest gevoelig voor meerwerk.</span>
+                        </span>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat. -->
+                        <span class="wr-cat__stand"><span class="wr-cat__subtotaal tnum" data-subtotaal="ruwbouw"></span><span class="wr-cat__aantal">7 posten</span></span>
+                    </summary>
+                    <div class="wr-cat__posten">
+                        <div class="wr-post" data-genoemd-door="ing">
+                            <div class="wr-post__naam">
+                                <label for="post-uitbouw">Uitbouw of aanbouw</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-uitbouw" data-post="uitbouw" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="uitbouw" aria-label="Prioriteit Uitbouw of aanbouw">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post" data-genoemd-door="ing">
+                            <div class="wr-post__naam">
+                                <label for="post-dakkapel">Dakkapel</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-dakkapel" data-post="dakkapel" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="dakkapel" aria-label="Prioriteit Dakkapel">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-constructie">Constructieve aanpassing, muur doorbreken</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-constructie" data-post="constructie" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="constructie" aria-label="Prioriteit Constructieve aanpassing, muur doorbreken">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post" data-genoemd-door="rabobank">
+                            <div class="wr-post__naam">
+                                <label for="post-aannemer">Aannemer, arbeidsloon</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-aannemer" data-post="aannemer" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="aannemer" aria-label="Prioriteit Aannemer, arbeidsloon">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post" data-genoemd-door="rabobank">
+                            <div class="wr-post__naam">
+                                <label for="post-architect">Architect of constructeur</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-architect" data-post="architect" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="architect" aria-label="Prioriteit Architect of constructeur">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post" data-genoemd-door="rabobank">
+                            <div class="wr-post__naam">
+                                <label for="post-bouwmaterialen">Bouwmaterialen</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-bouwmaterialen" data-post="bouwmaterialen" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="bouwmaterialen" aria-label="Prioriteit Bouwmaterialen">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post" data-genoemd-door="ing">
+                            <div class="wr-post__naam">
+                                <label for="post-asbest">Asbestverwijdering bij verbouwing</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-asbest" data-post="asbest" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="asbest" aria-label="Prioriteit Asbestverwijdering bij verbouwing">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                    </div>
+                </details>
+                <details class="wr-cat" data-cat="keuken-badkamer">
+                    <summary class="wr-cat__kop">
+                        <span class="wr-cat__titel">
+                            <h3>Keuken en badkamer</h3>
+                            <span class="wr-cat__uitleg">De meest voorkomende verbouwposten. Let op het onderscheid tussen vast ingebouwd en los meubilair of apparatuur.</span>
+                        </span>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat. -->
+                        <span class="wr-cat__stand"><span class="wr-cat__subtotaal tnum" data-subtotaal="keuken-badkamer"></span><span class="wr-cat__aantal">4 posten</span></span>
+                    </summary>
+                    <div class="wr-cat__posten">
+                        <div class="wr-post" data-genoemd-door="abn-amro rabobank ing">
+                            <div class="wr-post__naam">
+                                <label for="post-keuken">Keuken met inbouwapparatuur</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-keuken" data-post="keuken" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="keuken" aria-label="Prioriteit Keuken met inbouwapparatuur">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-keuken-los">Losse apparatuur, niet ingebouwd</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--eigen">eigen geld</span></span>
+                                <small class="wr-post__letop">Een vrijstaande koelkast of losse magnetron neemt u mee bij verhuizing en wordt doorgaans afgewezen.</small>
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-keuken-los" data-post="keuken-los" data-vast="false" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="keuken-los" aria-label="Prioriteit Losse apparatuur, niet ingebouwd">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post" data-genoemd-door="rabobank ing">
+                            <div class="wr-post__naam">
+                                <label for="post-badkamer">Badkamer, vast sanitair en tegelwerk</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-badkamer" data-post="badkamer" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="badkamer" aria-label="Prioriteit Badkamer, vast sanitair en tegelwerk">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-toilet">Toilet vernieuwen</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-toilet" data-post="toilet" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="toilet" aria-label="Prioriteit Toilet vernieuwen">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                    </div>
+                </details>
+                <details class="wr-cat" data-cat="afbouw">
+                    <summary class="wr-cat__kop">
+                        <span class="wr-cat__titel">
+                            <h3>Afbouw en afwerking</h3>
+                            <span class="wr-cat__uitleg">Hier zit de meeste twijfel. De vuistregel: zit het vast en gaat het niet mee bij verhuizing, dan komt het doorgaans in aanmerking.</span>
+                        </span>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat. -->
+                        <span class="wr-cat__stand"><span class="wr-cat__subtotaal tnum" data-subtotaal="afbouw"></span><span class="wr-cat__aantal">9 posten</span></span>
+                    </summary>
+                    <div class="wr-cat__posten">
+                        <div class="wr-post" data-genoemd-door="abn-amro ing">
+                            <div class="wr-post__naam">
+                                <label for="post-vloer-vast">Vloer die vastzit, zoals gelijmd parket of tegels</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-vloer-vast" data-post="vloer-vast" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="vloer-vast" aria-label="Prioriteit Vloer die vastzit, zoals gelijmd parket of tegels">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-vloer-los">Losliggende vloer of tapijt</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--eigen">eigen geld</span></span>
+                                <small class="wr-post__letop">Een zwevende of losliggende vloer wordt vaak niet als verbetering gezien.</small>
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-vloer-los" data-post="vloer-los" data-vast="false" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="vloer-los" aria-label="Prioriteit Losliggende vloer of tapijt">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post" data-genoemd-door="ing">
+                            <div class="wr-post__naam">
+                                <label for="post-kozijnen">Kozijnen, ramen en deuren</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-kozijnen" data-post="kozijnen" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="kozijnen" aria-label="Prioriteit Kozijnen, ramen en deuren">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-stucwerk">Stucwerk en binnenwanden</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-stucwerk" data-post="stucwerk" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="stucwerk" aria-label="Prioriteit Stucwerk en binnenwanden">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post" data-genoemd-door="ing">
+                            <div class="wr-post__naam">
+                                <label for="post-schilderwerk">Onderhoudsschilderwerk</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-schilderwerk" data-post="schilderwerk" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="schilderwerk" aria-label="Prioriteit Onderhoudsschilderwerk">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post" data-genoemd-door="ing">
+                            <div class="wr-post__naam">
+                                <label for="post-verlichting-vast">Ingebouwde verlichting, zoals inbouwspots</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-verlichting-vast" data-post="verlichting-vast" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="verlichting-vast" aria-label="Prioriteit Ingebouwde verlichting, zoals inbouwspots">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-verlichting-los">Losse verlichting, zoals een wandlamp</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--eigen">eigen geld</span></span>
+                                <small class="wr-post__letop">ING noemt losse verlichting expliciet als niet-declarabel.</small>
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-verlichting-los" data-post="verlichting-los" data-vast="false" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="verlichting-los" aria-label="Prioriteit Losse verlichting, zoals een wandlamp">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-raamdecoratie">Gordijnen, jaloezieën of shutters</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--eigen">eigen geld</span></span>
+                                <small class="wr-post__letop">ING en Rabobank noemen raamdecoratie expliciet als niet-declarabel.</small>
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-raamdecoratie" data-post="raamdecoratie" data-vast="false" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="raamdecoratie" aria-label="Prioriteit Gordijnen, jaloezieën of shutters">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-meubels">Meubels en inboedel</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--eigen">eigen geld</span></span>
+                                <small class="wr-post__letop">Rabobank noemt spullen die u bij verhuizing meeneemt expliciet als niet-declarabel.</small>
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-meubels" data-post="meubels" data-vast="false" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="meubels" aria-label="Prioriteit Meubels en inboedel">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                    </div>
+                </details>
+                <details class="wr-cat" data-cat="verduurzaming">
+                    <summary class="wr-cat__kop">
+                        <span class="wr-cat__titel">
+                            <h3>Verduurzaming</h3>
+                            <span class="wr-cat__uitleg">Vaak een aparte pot met eigen regels. Sommige aanbieders openen hiervoor een verduurzamingsdepot met een eigen lijst toegestane maatregelen.</span>
+                        </span>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat. -->
+                        <span class="wr-cat__stand"><span class="wr-cat__subtotaal tnum" data-subtotaal="verduurzaming"></span><span class="wr-cat__aantal">7 posten</span></span>
+                    </summary>
+                    <div class="wr-cat__posten">
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-isolatie">Gevel-, dak-, vloer- of leidingisolatie</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-isolatie" data-post="isolatie" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="isolatie" aria-label="Prioriteit Gevel-, dak-, vloer- of leidingisolatie">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-beglazing">Hoogrendementsbeglazing, minimaal HR++</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-beglazing" data-post="beglazing" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="beglazing" aria-label="Prioriteit Hoogrendementsbeglazing, minimaal HR++">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-warmtepomp">Warmtepomp</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-warmtepomp" data-post="warmtepomp" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="warmtepomp" aria-label="Prioriteit Warmtepomp">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post" data-genoemd-door="ing">
+                            <div class="wr-post__naam">
+                                <label for="post-zonnepanelen">Zonnepanelen</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-zonnepanelen" data-post="zonnepanelen" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="zonnepanelen" aria-label="Prioriteit Zonnepanelen">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-ventilatie">Energiezuinig ventilatiesysteem</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                <small class="wr-post__letop">ING vergoedt dit alleen in combinatie met een andere energiebesparende maatregel.</small>
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-ventilatie" data-post="ventilatie" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="ventilatie" aria-label="Prioriteit Energiezuinig ventilatiesysteem">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-wtw-douche">Douche-warmteterugwinning</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-wtw-douche" data-post="wtw-douche" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="wtw-douche" aria-label="Prioriteit Douche-warmteterugwinning">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-thuisbatterij">Thuisbatterij</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--eigen">eigen geld</span></span>
+                                <small class="wr-post__letop">ING sluit thuisbatterij, HR-cv-ketel, zonneboiler en vloerverwarming uit van het verduurzamingsdepot.</small>
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-thuisbatterij" data-post="thuisbatterij" data-vast="false" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="thuisbatterij" aria-label="Prioriteit Thuisbatterij">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                    </div>
+                </details>
+                <details class="wr-cat" data-cat="buiten">
+                    <summary class="wr-cat__kop">
+                        <span class="wr-cat__titel">
+                            <h3>Buiten en terrein</h3>
+                            <span class="wr-cat__uitleg">Hier lopen de voorwaarden het meest uiteen. Vraag dit vooraf na bij uw eigen geldverstrekker.</span>
+                        </span>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat. -->
+                        <span class="wr-cat__stand"><span class="wr-cat__subtotaal tnum" data-subtotaal="buiten"></span><span class="wr-cat__aantal">3 posten</span></span>
+                    </summary>
+                    <div class="wr-cat__posten">
+                        <div class="wr-post" data-genoemd-door="ing">
+                            <div class="wr-post__naam">
+                                <label for="post-tuin">Aanleg, onderhoud en inrichting van de tuin</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                <small class="wr-post__letop">ING noemt de tuin expliciet als declarabel. Niet elke aanbieder doet dat; controleer uw eigen voorwaarden.</small>
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-tuin" data-post="tuin" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="tuin" aria-label="Prioriteit Aanleg, onderhoud en inrichting van de tuin">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post" data-genoemd-door="ing">
+                            <div class="wr-post__naam">
+                                <label for="post-zonwering">Op maat gemaakte zonwering, vast bevestigd</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-zonwering" data-post="zonwering" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="zonwering" aria-label="Prioriteit Op maat gemaakte zonwering, vast bevestigd">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-oprit">Bestrating, oprit of terras</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-oprit" data-post="oprit" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="oprit" aria-label="Prioriteit Bestrating, oprit of terras">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                    </div>
+                </details>
+                <details class="wr-cat" data-cat="overig">
+                    <summary class="wr-cat__kop">
+                        <span class="wr-cat__titel">
+                            <h3>Overige kosten</h3>
+                            <span class="wr-cat__uitleg">Posten die vaak vergeten worden in de begroting maar wel geld kosten. Let op: sommige mogen niet uit het depot en moet u uit eigen geld betalen.</span>
+                        </span>
+                        <!-- Subtotaal per categorie. Met vierendertig velden verspreid over
+                             zes blokken weet je zonder dit niet waar je staat. -->
+                        <span class="wr-cat__stand"><span class="wr-cat__subtotaal tnum" data-subtotaal="overig"></span><span class="wr-cat__aantal">4 posten</span></span>
+                    </summary>
+                    <div class="wr-cat__posten">
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-vergunning">Omgevingsvergunning en leges</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-vergunning" data-post="vergunning" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="vergunning" aria-label="Prioriteit Omgevingsvergunning en leges">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-gereedschap">Gereedschap, zoals een boor of zaagmachine</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--eigen">eigen geld</span></span>
+                                <small class="wr-post__letop">ING noemt gereedschap expliciet als niet-declarabel.</small>
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-gereedschap" data-post="gereedschap" data-vast="false" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="gereedschap" aria-label="Prioriteit Gereedschap, zoals een boor of zaagmachine">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-opslag">Tijdelijke opslag of huisvesting</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--eigen">eigen geld</span></span>
+                                <small class="wr-post__letop">Dit verbetert de woning niet en komt doorgaans niet uit het depot. Reken hier eigen geld voor.</small>
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-opslag" data-post="opslag" data-vast="false" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="opslag" aria-label="Prioriteit Tijdelijke opslag of huisvesting">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                        <div class="wr-post">
+                            <div class="wr-post__naam">
+                                <label for="post-onvoorzien">Onvoorzien en meerwerk</label>
+                                <span class="wr-post__merk"><span class="wr-merkje wr-merkje--depot">uit depot</span></span>
+                                <small class="wr-post__letop">Geen bewijsstuk vooraf, maar wel de post waar begrotingen het vaakst op stuklopen. Reserveer hier bewust ruimte voor.</small>
+                            </div>
+                            <div class="wr-post__invoer">
+                                <!-- Tekstinvoer en niet type="number": daarin las de browser
+                                     "20.000" als 20 en gooide hij "EUR 20.000" helemaal weg.
+                                     inputmode houdt het numerieke toetsenbord op mobiel. -->
+                                <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="post-onvoorzien" data-post="onvoorzien" data-vast="true" inputmode="decimal" placeholder="0" autocomplete="off"></div>
+                                <select class="wr-post__prioriteit" data-prioriteit="onvoorzien" aria-label="Prioriteit Onvoorzien en meerwerk">
+                                    <option value="noodzakelijk">Noodzakelijk</option>
+                                    <option value="gewenst">Gewenst</option>
+                                </select>
+                            </div>
+                            <span class="wr-veld__fout wr-post__fout" role="alert"></span>
+                        </div>
+                    </div>
+                </details>
+                <details class="wr-cat" data-cat="eigen" id="cat-eigen">
+                    <summary class="wr-cat__kop">
+                        <span class="wr-cat__titel">
+                            <h3>Eigen posten</h3>
+                            <span class="wr-cat__uitleg">Staat iets niet in de lijst? Voeg het hier toe en kies zelf of het vast aan de woning zit.</span>
+                        </span>
+                        <span class="wr-cat__stand"><span class="wr-cat__subtotaal tnum" data-subtotaal="eigen"></span><span class="wr-cat__aantal" id="eigen-aantal">zelf toevoegen</span></span>
+                    </summary>
+                    <div class="wr-cat__posten">
+                        <div id="eigen-posten"></div>
+                        <p><button class="wr-knop wr-knop--klein" id="eigen-post-erbij" type="button">+ Post toevoegen</button></p>
+                    </div>
+                </details>
+                </div>
+            </section>
+        </div>
 
         <!-- De specificatie die de bezoeker meeneemt. Alleen bij printen zichtbaar:
              op het scherm is het formulier het gereedschap, op papier is een
-             ingevuld formulier geen document. Wordt gevuld door begroting.js. -->
-        <section id="specificatie" class="bs-alleen-print" aria-hidden="true"></section>
+             ingevuld formulier geen document. Wordt gevuld door pagina.js. -->
+        <section id="specificatie" class="wr-wrap wr-alleen-print" aria-hidden="true"></section>
 
-        <section class="bs-sectie no-print">
-            <div class="bs-wrap">
-                <p class="bs-micro">De vuistregel</p>
-                <h2 class="bs-titel">Zit het vast, dan mag het meestal</h2>
-                <div class="bs-proza">
-                    <p>Een bouwdepot is bedoeld voor kwaliteitsverbetering van de woning. De praktische toets die vrijwel elke geldverstrekker hanteert: <strong>kunt u het meenemen bij een verhuizing, dan hoort het er niet in</strong>. Een ingebouwde oven wel, een vrijstaande koelkast niet. Gelijmd parket wel, een losliggende vloer niet.</p>
-                    <p>Van de 34 posten hierboven vallen er 8 doorgaans buiten het depot. Die staan gemarkeerd, zodat u er eigen geld voor kunt reserveren in plaats van er tijdens de verbouwing achter te komen.</p>
-                    <p>Twijfelt u over een post, vraag het dan schriftelijk na bij uw geldverstrekker en bewaar het antwoord. Zie ook <a href="bouwdepot-declaratie-afgewezen.html">waarom declaraties worden afgewezen</a>.</p>
-                </div>
-            </div>
-        </section>
+        <!-- Het anker #leenruimte wordt gebruikt door de kop, de homepage en drie
+             redirects in vercel.json (/leenruimte.html en twee oudere adressen). -->
+        <div class="wr-wrap wr-sectie wr-geen-print" id="leenruimte">
+            <p class="ui-opschrift">Kan je dit lenen?</p>
+            <h2>Past je verbouwing binnen de waarde van je woning?</h2>
+            <p class="wr-lead" style="margin-bottom:1.5rem">Een waardetoets, geen inkomenstoets. Wat je werkelijk kunt lenen hangt daarnaast af van je inkomen en de beoordeling van de geldverstrekker.</p>
 
+            <div class="wr-werk">
+                <section class="wr-paneel wr-uitkomst" aria-live="polite">
+                    <p class="wr-uitkomst__label"><span>Ruimte op basis van woningwaarde</span> <span class="wr-stempel" id="lr-stempel">Voorbeeld</span></p>
+                    <strong class="wr-uitkomst__bedrag tnum" id="lr-res-ruimte" data-bedrag>&ndash;</strong>
+                    <p class="wr-uitkomst__zin" id="lr-res-zin">De berekening wordt geladen.</p>
 
-        <section class="bs-reken" id="leenruimte">
-            <div class="bs-wrap">
-                <nav class="bs-kruimel" aria-label="Kruimelpad">
-                    <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Leenruimte</span>
-                </nav>
-                <p class="bs-micro">Kunt u dit lenen?</p>
-                <h2 class="bs-reken__titel">Past uw verbouwing binnen de waarde van uw woning?</h2>
-                <p class="bs-reken__lead">Een waardetoets, geen inkomenstoets. Wat u werkelijk kunt lenen hangt daarnaast af van uw inkomen en de beoordeling van de geldverstrekker.</p>
-
-                <div class="bs-reken__grid">
-                    <div>
-                        <article class="bs-blad">
-                            <div class="bs-blad__kop">
-                                <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
-                                <span class="bs-blad__stempel">Waardetoets</span>
-                            </div>
-
-                            <div class="bs-antwoord">
-                                <p class="bs-antwoord__label">Ruimte op basis van woningwaarde</p>
-                                <strong class="bs-antwoord__bedrag" id="lr-res-ruimte" data-bedrag>&euro; 0</strong>
-                                <p class="bs-antwoord__zin" id="lr-res-zin">Vul uw gegevens in om de waarderuimte te beoordelen.</p>
-                            </div>
-
-                            <div class="bs-verhouding" aria-hidden="true">
-                                <div class="bs-verhouding__balk">
-                                    <div class="bs-verhouding__rente" id="lr-balk-lening" style="width:0%"></div>
-                                    <div class="bs-verhouding__aflossing" id="lr-balk-ruimte" style="width:0%"></div>
-                                </div>
-                                <p class="bs-verhouding__legenda">
-                                    <span><i class="bs-verhouding__rente"></i>Huidige hypotheek</span>
-                                    <span><i class="bs-verhouding__aflossing"></i>Extra lening</span>
-                                </p>
-                                <p class="bs-hulp" id="lr-res-verhouding">Vul de waarde na verbouwing in</p>
-                            </div>
-
-                            <dl class="bs-uitsplitsing">
-                                <div><dt>Niet gedekt door waarderuimte</dt><dd class="tnum" id="lr-res-gat" data-bedrag>&euro; 0</dd></div>
-                                <div><dt>Eigen geld nodig in dit model</dt><dd class="tnum" id="lr-res-nodig" data-bedrag>&euro; 0</dd></div>
-                                <div><dt>Eigen buffer daarna</dt><dd class="tnum" id="lr-res-buffer" data-bedrag>&euro; 0</dd></div>
-                            </dl>
-
-                            <p class="bs-notitie">De hoofdregel is dat de totale hypotheek niet boven 100% van de woningwaarde uitkomt. Bij energiebesparende maatregelen geldt soms meer ruimte.</p>
-
-                            <p class="bs-blad__voet">Indicatief &middot; informatie, geen advies</p>
-                        </article>
-
-                        <p class="bs-vervolgstap">Past uw plan binnen de waarderuimte? <a href="bouwdepot-berekenen.html#tijdens-de-bouw">Bereken wat het per maand kost &rarr;</a></p>
+                    <div class="wr-verhouding" aria-hidden="true">
+                        <div class="wr-verhouding__balk"><i id="lr-balk-lening"></i><b id="lr-balk-ruimte"></b></div>
+                        <p class="wr-verhouding__legenda"><span><i></i>Huidige hypotheek</span><span><b></b>Extra lening</span><span id="lr-res-verhouding"></span></p>
                     </div>
 
-                    <div class="bs-invoer">
-                        <div>
-                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-bedrag">Gewenst bedrag voor de verbouwing</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-bedrag" aria-describedby="fout-lr-bedrag" value="75000" inputmode="numeric"></div>
-                                <span class="bs-veld__fout" id="fout-lr-bedrag" role="alert"></span>
-                            <p class="bs-hulp">Komt uit uw <a href="verbouwbegroting.html">verbouwbegroting</a>, of vul uw eigen schatting in.</p>
+                    <dl class="wr-cijfers wr-cijfers--twee">
+                        <div><dt>Te lenen binnen de waarde</dt><dd class="tnum" id="lr-res-financierbaar">&ndash;<small>van het bedrag voor de verbouwing</small></dd></div>
+                        <div><dt>Extra per maand</dt><dd class="tnum" id="lr-res-maand">&ndash;<small id="lr-res-maand-noot">bruto</small></dd></div>
+                        <div><dt>Eigen geld nodig</dt><dd class="tnum" id="lr-res-nodig">&ndash;<small id="lr-res-nodig-noot"></small></dd></div>
+                        <div><dt>Eigen buffer daarna</dt><dd class="tnum" id="lr-res-buffer">&ndash;<small id="lr-res-buffer-noot"></small></dd></div>
+                    </dl>
+                    <p class="wr-uitkomst__noot">De hoofdregel is dat de totale hypotheek niet boven 100% van de woningwaarde uitkomt. Bij energiebesparende maatregelen geldt soms meer ruimte.</p>
+                </section>
+
+                <form class="wr-paneel wr-invoer" novalidate onsubmit="return false">
+                    <div class="wr-paneel__kop">
+                        <h2>Jouw gegevens</h2>
+                        <p class="wr-micro">Blijft op dit apparaat</p>
+                    </div>
+
+                    <fieldset class="wr-groep">
+                        <legend>Uit je begroting</legend>
+                        <label class="wr-vink" id="lr-volg-rij" hidden><input type="checkbox" id="lr-volg" checked> <span>Neem de bedragen uit mijn begroting hierboven over</span></label>
+                        <div class="wr-veld">
+                            <label for="lr-bedrag">Bedrag dat je wilt lenen</label>
+                            <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="lr-bedrag" aria-describedby="fout-lr-bedrag hulp-lr-bedrag" value="75000" inputmode="numeric" autocomplete="off"></div>
+                            <span class="wr-veld__fout" id="fout-lr-bedrag" role="alert"></span>
+                            <p class="wr-hulp" id="hulp-lr-bedrag">Wat uit het bouwdepot moet komen: de posten die vast aan de woning zitten, met de reserve.</p>
                         </div>
-
-                        <div class="bs-veldrij">
-                            <div>
-                                <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-hypotheek">Huidige hypotheek</label></div>
-                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-hypotheek" aria-describedby="fout-lr-hypotheek" value="300000" inputmode="numeric"></div>
-                                <span class="bs-veld__fout" id="fout-lr-hypotheek" role="alert"></span>
-                                <p class="bs-hulp">Openstaand saldo v&oacute;&oacute;r de extra lening.</p>
-                            </div>
-                            <div>
-                                <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-waarde">Waarde na verbouwing</label></div>
-                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-waarde" aria-describedby="fout-lr-waarde" value="360000" inputmode="numeric"></div>
-                                <span class="bs-veld__fout" id="fout-lr-waarde" role="alert"></span>
-                                <p class="bs-hulp">Gebruik bij voorkeur een taxatie, niet uw eigen inschatting.</p>
-                            </div>
-                            <div>
-                                <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-eigen-geld">Beschikbaar eigen geld</label></div>
-                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-eigen-geld" aria-describedby="fout-lr-eigen-geld" value="25000" inputmode="numeric"></div>
-                                <span class="bs-veld__fout" id="fout-lr-eigen-geld" role="alert"></span>
-                                <p class="bs-hulp">Alleen wat u echt voor dit plan reserveert.</p>
-                            </div>
-                            <div>
-                                <div class="bs-veld__kop"><label class="bs-veld__naam" for="lr-buiten-depot">Kosten buiten het depot</label></div>
-                                <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="lr-buiten-depot" aria-describedby="fout-lr-buiten-depot" value="10000" inputmode="numeric"></div>
-                                <span class="bs-veld__fout" id="fout-lr-buiten-depot" role="alert"></span>
-                                <p class="bs-hulp">Losse spullen, inrichting en posten die uw bank niet accepteert. Staat in uw <a href="verbouwbegroting.html">begroting</a> onder eigen geld.</p>
-                            </div>
+                        <div class="wr-veld">
+                            <label for="lr-buiten-depot">Kosten buiten het depot</label>
+                            <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="lr-buiten-depot" aria-describedby="fout-lr-buiten-depot hulp-lr-buiten-depot" value="10000" inputmode="numeric" autocomplete="off"></div>
+                            <span class="wr-veld__fout" id="fout-lr-buiten-depot" role="alert"></span>
+                            <p class="wr-hulp" id="hulp-lr-buiten-depot">Losse spullen, inrichting en posten die je bank niet accepteert. Die betaal je sowieso zelf.</p>
                         </div>
+                    </fieldset>
+
+                    <fieldset class="wr-groep">
+                        <legend>Je woning en hypotheek</legend>
+                        <div class="wr-veld">
+                            <label for="lr-hypotheek">Huidige hypotheek</label>
+                            <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="lr-hypotheek" aria-describedby="fout-lr-hypotheek hulp-lr-hypotheek" value="300000" inputmode="numeric" autocomplete="off"></div>
+                            <span class="wr-veld__fout" id="fout-lr-hypotheek" role="alert"></span>
+                            <p class="wr-hulp" id="hulp-lr-hypotheek">Het openstaande bedrag, v&oacute;&oacute;r de extra lening. Staat op je jaaroverzicht of in de app van je bank. Vul nul in als je geen hypotheek hebt.</p>
+                        </div>
+                        <div class="wr-veld">
+                            <label for="lr-waarde">Woningwaarde na verbouwing</label>
+                            <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="lr-waarde" aria-describedby="fout-lr-waarde hulp-lr-waarde" value="360000" inputmode="numeric" autocomplete="off"></div>
+                            <span class="wr-veld__fout" id="fout-lr-waarde" role="alert"></span>
+                            <p class="wr-hulp" id="hulp-lr-waarde">Uit een taxatierapport. Je eigen inschatting of de WOZ-waarde plus de verbouwkosten is geen betrouwbare maat: niet elke euro verbouwing wordt een euro waarde.</p>
+                        </div>
+                        <div class="wr-veld">
+                            <label for="lr-eigen-geld">Eigen geld voor dit plan</label>
+                            <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="lr-eigen-geld" aria-describedby="fout-lr-eigen-geld hulp-lr-eigen-geld" value="25000" inputmode="numeric" autocomplete="off"></div>
+                            <span class="wr-veld__fout" id="fout-lr-eigen-geld" role="alert"></span>
+                            <p class="wr-hulp" id="hulp-lr-eigen-geld">Alleen wat je echt voor deze verbouwing opzij hebt staan.</p>
+                        </div>
+                        <div class="wr-veld">
+                            <label for="input-interest">Hypotheekrente voor de extra lening</label>
+                            <div class="wr-veld__in"><input type="text" id="input-interest" aria-describedby="fout-input-interest hulp-input-interest" value="3,80" inputmode="decimal" autocomplete="off"><span aria-hidden="true">%</span></div>
+                            <span class="wr-veld__fout" id="fout-input-interest" role="alert"></span>
+                            <p class="wr-hulp" id="hulp-input-interest">Om de maandlast te schatten. Gerekend als annu&iuml;teit over 30 jaar.</p>
+                        </div>
+                    </fieldset>
+
+                    <div class="wr-knoppen">
+                        <button class="wr-knop wr-knop--klein" id="lr-praktijkcase" type="button">Laad een voorbeeld van &euro; 75.000</button>
                     </div>
-
-                    <!-- Doorrekenen en de praktijkcase horen ná de invoer: het zijn
-                         acties die je neemt als je klaar bent met invullen. -->
-                    <div class="bs-reken__na no-print">
-                        <a class="bs-knop" id="lr-naar-maandlast" href="bouwdepot-berekenen.html">Wat kost dit per maand?</a>
-                        <button class="bs-knop bs-knop--licht" id="lr-praktijkcase" type="button">Laad praktijkcase van &euro; 75.000</button>
-                        <p class="bs-voorbehoud">Uw invoer blijft op dit apparaat en wordt nergens verstuurd.</p>
-                    </div>
-                </div>
+                </form>
             </div>
-        </section>
-        <section class="bs-sectie" id="uitleg">
-            <div class="bs-wrap">
-                <p class="bs-micro">Belangrijk onderscheid</p>
-                <h2 class="bs-titel">Drie grenzen, en deze pagina toetst er &eacute;&eacute;n</h2>
-                <div class="bs-kolommen">
-                    <article>
-                        <h3>De waardegrens &mdash; wat hier wordt berekend</h3>
-                        <p>De totale hypotheek mag als hoofdregel niet boven 100% van de woningwaarde na verbouwing uitkomen. Die grens toetst deze pagina. Voor energiebesparende maatregelen geldt bij sommige aanbieders extra ruimte.</p>
-                    </article>
-                    <article>
-                        <h3>De inkomensgrens &mdash; hier niet berekend</h3>
-                        <p>Een positieve waardetoets zegt niets over wat u op basis van inkomen, rente en verplichtingen kunt dragen. Die beoordeling zit bewust niet in deze tool; daarvoor heeft u een adviseur nodig.</p>
-                    </article>
-                    <article>
-                        <h3>Uw eigen kasstroom</h3>
-                        <p>Een financieringsgat en kosten die niet uit het depot mogen, vragen eigen geld. Wat daarna overblijft is uw zichtbare buffer voor tegenvallers, en niet automatisch uw volledige noodbuffer.</p>
-                    </article>
-                    <article>
-                        <h3>Sluitend is niet hetzelfde als goedgekeurd</h3>
-                        <p>De taxatie kan lager uitvallen dan verwacht, en een geldverstrekker kan posten weigeren. Gebruik de uitkomst als vragenlijst voor uw dossier, niet als toezegging.</p>
-                    </article>
-                </div>
+        </div>
+
+        <section class="wr-wrap wr-sectie wr-geen-print">
+            <p class="ui-opschrift">De vuistregel</p>
+            <h2>Zit het vast, dan mag het meestal</h2>
+            <div class="wr-proza">
+                <p>Een bouwdepot is bedoeld voor kwaliteitsverbetering van de woning. De praktische toets die vrijwel elke geldverstrekker hanteert: <strong>kun je het meenemen bij een verhuizing, dan hoort het er niet in</strong>. Een ingebouwde oven wel, een vrijstaande koelkast niet. Gelijmd parket wel, een losliggende vloer niet.</p>
+                <p>Van de 34 posten hierboven vallen er 8 doorgaans buiten het depot. Die staan gemarkeerd, zodat je er eigen geld voor kunt reserveren in plaats van er tijdens de verbouwing achter te komen.</p>
+                <p>Twijfel je over een post, vraag het dan schriftelijk na bij je geldverstrekker en bewaar het antwoord. Zie ook <a href="bouwdepot-declaratie-afgewezen.html">waarom declaraties worden afgewezen</a>.</p>
             </div>
         </section>
 
-        <section class="bs-sectie no-print">
-            <div class="bs-wrap">
-                <p class="bs-micro">Volgende stap</p>
-                <h2 class="bs-titel">Van begroting naar financiering</h2>
-                <div class="bs-rooster">
-                    <a class="bs-tool" href="bouwdepot-berekenen.html">
-                        <span class="bs-tool__naam">Wat kost dit per maand?</span>
-                        <span class="bs-tool__uitleg">Het depotbedrag omgerekend naar een maandlast, met uw eigen rente en looptijd.</span>
-                        <span class="bs-tool__meta">Maandlast berekenen &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="bouwdepot-voorwaarden-vergelijken.html">
-                        <span class="bs-tool__naam">Wat accepteert mijn bank?</span>
-                        <span class="bs-tool__uitleg">Looptijd, vergoeding en bewijsstukken van 13 geldverstrekkers naast elkaar.</span>
-                        <span class="bs-tool__meta">Voorwaarden bekijken &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="stappenplan.html#adviesgesprek">
-                        <span class="bs-tool__naam">Naar het adviesgesprek</span>
-                        <span class="bs-tool__uitleg">Wat u meeneemt en welke vragen u stelt, in een printbare checklist.</span>
-                        <span class="bs-tool__meta">Checklist bekijken &rarr;</span>
-                    </a>
-                </div>
+        <section class="wr-wrap wr-sectie wr-geen-print" id="uitleg">
+            <p class="ui-opschrift">Belangrijk onderscheid</p>
+            <h2>Drie grenzen, en deze pagina toetst er &eacute;&eacute;n</h2>
+            <div class="wr-kolommen">
+                <article>
+                    <h3>De waardegrens: wat hier wordt berekend</h3>
+                    <p>De totale hypotheek mag als hoofdregel niet boven 100% van de woningwaarde na verbouwing uitkomen. Die grens toetst deze pagina. Voor energiebesparende maatregelen geldt bij sommige aanbieders extra ruimte.</p>
+                </article>
+                <article>
+                    <h3>De inkomensgrens: hier niet berekend</h3>
+                    <p>Een positieve waardetoets zegt niets over wat je op basis van inkomen, rente en verplichtingen kunt dragen. Die beoordeling zit bewust niet in deze tool; daarvoor heb je een adviseur nodig.</p>
+                </article>
+                <article>
+                    <h3>Je eigen kasstroom</h3>
+                    <p>Een financieringsgat en kosten die niet uit het depot mogen, vragen eigen geld. Wat daarna overblijft is je zichtbare buffer voor tegenvallers, en niet automatisch je volledige noodbuffer.</p>
+                </article>
+                <article>
+                    <h3>Sluitend is niet hetzelfde als goedgekeurd</h3>
+                    <p>De taxatie kan lager uitvallen dan verwacht, en een geldverstrekker kan posten weigeren. Gebruik de uitkomst als vragenlijst voor je dossier, niet als toezegging.</p>
+                </article>
             </div>
         </section>
 
-        <section class="bs-sectie no-print">
-            <div class="bs-wrap">
-                <div class="bs-melding">
-                    <p><strong>Indicatief hulpmiddel.</strong> Of een post daadwerkelijk uit uw depot betaald mag worden, bepaalt uw eigen geldverstrekker op basis van uw verbouwingsplan en voorwaarden. De markeringen hier zijn afgeleid uit publieke productinformatie en zijn geen toezegging.</p>
-                    <p>Lees de <a href="methodologie.html">rekenregels en beperkingen</a>. Ziet u een post die bij uw bank anders wordt beoordeeld? <a href="contact.html">Laat het weten</a>.</p>
-                </div>
+        <section class="wr-wrap wr-sectie wr-geen-print">
+            <p class="ui-opschrift">Volgende stap</p>
+            <h2>Van begroting naar financiering</h2>
+            <div class="wr-register">
+                <a id="naar-maandlast" href="bouwdepot-berekenen.html"><strong>Wat kost dit per maand, precies?</strong><span>Het depotbedrag omgerekend naar een maandlast, met je eigen looptijd, hypotheekvorm en bank.</span></a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html"><strong>Wat accepteert mijn bank?</strong><span>Looptijd, vergoeding en bewijsstukken van 13 geldverstrekkers naast elkaar.</span></a>
+                <a href="stappenplan.html#adviesgesprek"><strong>Naar het adviesgesprek</strong><span>Wat je meeneemt en welke vragen je stelt, in een printbare checklist.</span></a>
+                <a href="depotplanner.html"><strong>Loopt je depot al?</strong><span>Einddatum, restsaldo en het moment waarop de vergoeding stopt.</span></a>
             </div>
         </section>
+
+        <div class="wr-wrap wr-geen-print">
+            <div class="wr-melding">
+                <p><strong>Indicatief hulpmiddel.</strong> Of een post daadwerkelijk uit je depot betaald mag worden, bepaalt je eigen geldverstrekker op basis van je verbouwingsplan en voorwaarden. De markeringen hier zijn afgeleid uit publieke productinformatie en zijn geen toezegging.</p>
+                <p>Lees de <a href="methodologie.html">rekenregels en beperkingen</a>. Je begroting blijft op dit apparaat en wordt nergens verstuurd. Zie je een post die bij jouw bank anders wordt beoordeeld? <a href="contact.html">Laat het weten</a>.</p>
+            </div>
+        </div>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
+    <div class="wr-vast" id="wr-vast" role="status"><span>Totale verbouwkosten</span><strong class="tnum" id="wr-vast-bedrag"></strong></div>
 
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="/">Home</a> &middot; <a href="verbouwbegroting.html">Verbouwbegroting</a> &middot; <a href="verbouwbegroting.html#leenruimte">Leenruimte</a> &middot; <a href="depotplanner.html">Depotplanner</a> &middot; <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a> &middot; <a href="stappenplan.html">Uitleg</a> &middot; <a href="over-ons.html">Over ons</a> &middot; <a href="methodologie.html">Methodologie</a> &middot; <a href="contact.html">Contact</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="cookies.html">Cookies</a> &middot; <a href="voorwaarden.html">Voorwaarden</a></span>
-        </div>
+    <footer class="ui-voet wr-geen-print">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="voorwaarden.html">Voorwaarden</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
 
-    <script type="module" src="/src/js/begroting.js"></script>
-    <script type="module" src="/src/js/leenruimte.js"></script>
-    <script type="module" src="/src/js/stickybalk.js"></script>
+    <script type="module" src="/src/verbouwen/pagina.js"></script>
 
     <script type="application/ld+json">
     {

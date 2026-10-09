@@ -364,3 +364,156 @@
     .wr-tabelrol { overflow: visible; }
     .wr-tabel { min-width: 0; font-size: 0.6875rem; }
 }
+
+/* ==========================================================================
+   Verbouwbegroting
+   Een lange lijst posten links, het totaal rechts dat in beeld blijft.
+   ========================================================================== */
+
+@media (min-width: 960px) {
+    .wr-werk--lang {
+        grid-template-columns: minmax(0, 1fr) minmax(19rem, 25rem);
+        grid-template-areas: "invoer uitkomst";
+        grid-template-rows: auto;
+    }
+    .wr-werk--lang > .wr-uitkomst { position: sticky; top: 1rem; }
+}
+
+.wr-cijfers--twee { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.wr-uitkomst .is-tekort { color: #F4D9A8; }
+.wr-uitkomst__noot { margin-top: 1.25rem; font-size: 0.875rem; line-height: 1.5; color: #D5E0D9; }
+.wr-uitkomst__veld { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid rgba(247, 245, 240, 0.25); }
+.wr-uitkomst__veld label { display: block; font-size: 0.9375rem; font-weight: 600; margin-bottom: 0.35rem; }
+.wr-uitkomst__veld .wr-veld__in { max-width: 9rem; background: var(--ui-surface); border-color: var(--ui-surface); color: var(--ui-ink); }
+.wr-uitkomst__veld .wr-hulp { color: #D5E0D9; }
+.wr-uitkomst .wr-veld__fout { color: #F4D9A8; }
+.wr-uitkomst__split { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(247, 245, 240, 0.25); }
+.wr-uitkomst__split dt { color: #D5E0D9; }
+.wr-uitkomst .wr-knoppen { margin-top: 1.25rem; }
+.wr-knop--licht { border-color: rgba(247, 245, 240, 0.55); color: var(--ui-canvas); font-weight: 500; font-size: 0.875rem; padding: 0 0.9rem; }
+.wr-knop--licht:hover { background: var(--ui-canvas); color: var(--ui-forest); }
+
+.wr-hulp--groot { margin: 0; font-size: 0.9375rem; color: var(--ui-ink); }
+
+/* De bankkeuze komt uit src/js/bankkeuze.js en houdt zijn bs-klassen. */
+.wr .bs-bankkeuze { display: grid; gap: 0.35rem; }
+.wr .bs-bankkeuze__label { font-size: 0.9375rem; font-weight: 600; }
+.wr .bs-bankkeuze__kiezer {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0 0.85rem;
+    background: var(--ui-canvas);
+    border: 1px solid #B8C2BD;
+    border-radius: 0.625rem;
+    font: inherit;
+    color: inherit;
+}
+.wr .bs-bankkeuze__uitleg { font-size: 0.875rem; line-height: 1.45; color: var(--ui-muted); }
+.wr .bs-bankkeuze__uitleg a { color: var(--ui-forest); text-underline-offset: 0.25em; }
+
+/* --- Categorieen en posten --- */
+
+.wr-cats { border-bottom: 1px solid var(--ui-line); }
+.wr-cat { border-top: 1px solid var(--ui-line); }
+.wr-cat__kop {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.25rem 1rem;
+    padding: 0.9rem 2rem 0.9rem 0;
+    position: relative;
+    cursor: pointer;
+    list-style: none;
+}
+.wr-cat__kop::-webkit-details-marker { display: none; }
+.wr-cat__kop::after { content: "+"; position: absolute; right: 0.25rem; top: 50%; transform: translateY(-50%); font-family: var(--ui-mono); font-size: 1.25rem; color: var(--ui-muted); }
+.wr-cat[open] > .wr-cat__kop::after { content: "\2212"; }
+.wr-cat__titel h3 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.015em; color: var(--ui-forest); }
+.wr-cat__uitleg { display: block; font-size: 0.875rem; line-height: 1.4; color: var(--ui-muted); }
+.wr-cat__stand { display: grid; justify-items: end; gap: 0.1rem; font-family: var(--ui-mono); font-size: 0.75rem; color: var(--ui-muted); white-space: nowrap; }
+.wr-cat__subtotaal { font-family: var(--ui-sans); font-size: 0.9375rem; font-weight: 600; color: var(--ui-ink); }
+.wr-cat__posten { padding-bottom: 1rem; }
+
+.wr-post {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 19rem);
+    align-items: start;
+    gap: 0.4rem 1.25rem;
+    padding: 0.7rem 0;
+    border-top: 1px dashed var(--ui-line);
+}
+.wr-post__naam label { font-weight: 500; margin-right: 0.5rem; }
+.wr-post.is-gevuld .wr-post__naam label { font-weight: 600; }
+.wr-post__merk { display: inline-flex; flex-wrap: wrap; gap: 0.3rem; vertical-align: middle; }
+.wr-merkje { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-family: var(--ui-mono); font-size: 0.6875rem; white-space: nowrap; }
+.wr-merkje--depot { background: var(--ui-sage-licht); color: var(--ui-forest); }
+.wr-merkje--eigen { background: #F1E7D6; color: #6B4A16; }
+.wr-merkje--eigenbank { background: var(--ui-forest); color: var(--ui-canvas); }
+.wr-post__letop { display: block; margin-top: 0.2rem; font-size: 0.8125rem; line-height: 1.4; color: var(--ui-muted); }
+.wr-post__invoer { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.4rem; }
+.wr-post__invoer .wr-veld__in { min-height: 2.75rem; }
+.wr-post select, .wr-post--eigen input[data-eigen="naam"] {
+    min-height: 2.75rem;
+    padding: 0 0.6rem;
+    background: var(--ui-canvas);
+    border: 1px solid #B8C2BD;
+    border-radius: 0.625rem;
+    font: inherit;
+    font-size: 0.875rem;
+    color: inherit;
+    min-width: 0;
+}
+.wr-post__fout { grid-column: 1 / -1; }
+.wr-post--eigen .wr-post__naam { display: grid; gap: 0.4rem; }
+.wr-post--eigen input[data-eigen="naam"] { width: 100%; font-size: 1rem; }
+.wr-post--eigen .wr-post__invoer { grid-template-columns: minmax(0, 1fr) auto 2.75rem; }
+.wr-post--eigen .wr-termijn__weg { grid-row: auto; grid-column: auto; }
+
+@media (max-width: 699px) {
+    .wr-post { grid-template-columns: minmax(0, 1fr); }
+    .wr-cat__kop { grid-template-columns: minmax(0, 1fr); }
+    .wr-cat__stand { justify-items: start; grid-auto-flow: column; justify-content: start; gap: 0.75rem; align-items: baseline; }
+}
+
+/* --- Financieringscheck --- */
+
+.wr-vink { display: flex; align-items: center; gap: 0.6rem; min-height: 2.75rem; font-size: 0.9375rem; cursor: pointer; }
+.wr-vink input { width: 1.15rem; height: 1.15rem; accent-color: var(--ui-forest); }
+/* Een overgenomen bedrag is geen invoer: het veld ziet er daarom anders uit. */
+.wr-veld__in.is-overgenomen { background: none; border-style: dashed; color: var(--ui-muted); }
+
+.wr-verhouding { margin-top: 1.25rem; }
+.wr-verhouding__balk { display: flex; height: 0.75rem; background: rgba(247, 245, 240, 0.18); border-radius: 999px; overflow: hidden; }
+.wr-verhouding__balk i { display: block; background: var(--ui-sage); transition: width 0.3s ease; }
+.wr-verhouding__balk b { display: block; background: var(--ui-champagne); transition: width 0.3s ease; }
+.wr-verhouding__legenda { display: flex; flex-wrap: wrap; gap: 0.25rem 1.1rem; margin-top: 0.5rem; font-size: 0.8125rem; color: #D5E0D9; }
+.wr-verhouding__legenda span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.wr-verhouding__legenda i, .wr-verhouding__legenda b { width: 0.7rem; height: 0.7rem; border-radius: 2px; }
+.wr-verhouding__legenda i { background: var(--ui-sage); }
+.wr-verhouding__legenda b { background: var(--ui-champagne); }
+.wr-verhouding__legenda span:last-child { margin-left: auto; font-family: var(--ui-mono); }
+
+.wr-proza { max-width: 44rem; display: grid; gap: 0.9rem; border-top: 1.5px solid var(--ui-ink); padding-top: 1.5rem; }
+.wr-proza a { color: var(--ui-forest); text-underline-offset: 0.25em; }
+.wr-sectie > .wr-werk { padding-bottom: 0; }
+
+/* --- Specificatie: alleen op papier --- */
+
+.wr-alleen-print { display: none; }
+.wr-spec__kop { margin-bottom: 1rem; }
+.wr-spec__kop h2 { font-size: 1.5rem; font-weight: 600; }
+.wr-spec__tabel { width: 100%; border-collapse: collapse; font-size: 0.8125rem; }
+.wr-spec__tabel th, .wr-spec__tabel td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #ccc; text-align: left; vertical-align: top; }
+.wr-spec__bedrag { text-align: right !important; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.wr-spec__kopregel th { border-top: 1px solid #000; border-bottom: 1px solid #000; font-size: 0.75rem; }
+.wr-spec__totaal td { border-top: 2px solid #000; font-weight: 600; }
+.wr-spec__voet { margin-top: 1rem; font-size: 0.75rem; line-height: 1.5; }
+.wr-spec__voet h3 { margin: 0.9rem 0 0.25rem; font-size: 0.8125rem; font-weight: 600; }
+.wr-spec__voet ul { list-style: disc; padding-left: 1.1rem; }
+
+@media print {
+    .wr-geen-print { display: none !important; }
+    .wr-alleen-print { display: block; padding: 0; }
+    .wr-spec__groep { break-inside: avoid; }
+    body { background: #fff; }
+}
