@@ -52,7 +52,7 @@
     min-width: 0;
 }
 .wr-paneel__kop { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.25rem 1.5rem; margin-bottom: 1rem; }
-.wr-paneel h2 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
+.wr-paneel h2, .wr-paneel__titel { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
 .wr-micro { font-family: var(--ui-mono); font-size: 0.75rem; color: var(--ui-muted); }
 .wr-stempel {
     font-family: var(--ui-mono);
@@ -496,6 +496,8 @@
 .wr-proza { max-width: 44rem; display: grid; gap: 0.9rem; border-top: 1.5px solid var(--ui-ink); padding-top: 1.5rem; }
 .wr-proza a { color: var(--ui-forest); text-underline-offset: 0.25em; }
 .wr-sectie > .wr-werk { padding-bottom: 0; }
+.wr-sectie--strak { padding-top: 0; padding-bottom: 1.5rem; }
+.wr-sectie--strak > h2 { margin-bottom: 0.75rem; }
 
 /* --- Specificatie: alleen op papier --- */
 

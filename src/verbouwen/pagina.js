@@ -14,10 +14,14 @@
  * de waardetoets en de maandlast in src/domain/verbouwing.js; op beide zit een
  * test. Dit bestand leest velden, meldt wat er niet klopt en toont de uitkomst.
  *
- * De begroting en de financieringscheck horen bij elkaar: zodra er posten zijn
- * ingevuld neemt de check het depotbedrag en de eigen posten over. Wie alleen
- * de check wil gebruiken (het anker #leenruimte is een eigen ingang vanuit
- * zoekmachines) vult die twee bedragen zelf in.
+ * De pagina opent met de check: één bedrag en de woning, en er staat meteen een
+ * uitkomst. Daaronder staat de begroting per post. Zodra daar iets is ingevuld
+ * neemt de check het totaal en de losse posten over; wie alleen de check wil
+ * gebruiken vult het bedrag zelf in.
+ *
+ * De check vraagt één bedrag: wat de verbouwing kost. Het deel daarvan dat niet
+ * vast aan de woning zit mag doorgaans niet uit het depot; dat gaat eraf voor
+ * wat er geleend moet worden, en komt bij wat er aan eigen geld nodig is.
  *
  * Alles blijft in localStorage op het apparaat van de bezoeker, onder dezelfde
  * sleutels als de vorige versie van de pagina.
@@ -53,8 +57,8 @@ const GRENZEN = {
         teLaag: 'Een reserve onder de nul procent bestaat niet.',
         teHoog: 'Boven de 30 procent is het geen reserve meer; controleer het percentage.',
     },
-    'lr-bedrag': { ...BEDRAG('Vul het bedrag in dat je wilt lenen.', 1000000), exclusiefNul: true, teLaag: 'Vul een bedrag boven de nul in.' },
-    'lr-buiten-depot': BEDRAG('Vul de kosten buiten het depot in, of nul.', 1000000),
+    'lr-totaal': { ...BEDRAG('Vul in wat je verbouwing ongeveer kost.', 2000000), exclusiefNul: true, teLaag: 'Vul een bedrag boven de nul in.' },
+    'lr-buiten-depot': BEDRAG('Vul in welk deel losse spullen zijn, of nul.', 2000000),
     'lr-hypotheek': BEDRAG('Vul je huidige hypotheek in, of nul als je die niet hebt.'),
     'lr-waarde': { ...BEDRAG('Vul de woningwaarde na verbouwing in.'), exclusiefNul: true, teLaag: 'Vul een woningwaarde boven de nul in.' },
     'lr-eigen-geld': BEDRAG('Vul je eigen geld in, of nul als je dat niet inzet.', 1000000),
@@ -132,7 +136,7 @@ function initVerbouwen() {
     /* ----------------------------------------------------------------- opslag */
 
     const lr = {
-        bedrag: el('lr-bedrag'), buitenDepot: el('lr-buiten-depot'), hypotheek: el('lr-hypotheek'),
+        totaal: el('lr-totaal'), buitenDepot: el('lr-buiten-depot'), hypotheek: el('lr-hypotheek'),
         waarde: el('lr-waarde'), eigenGeld: el('lr-eigen-geld'),
     };
     const rente = el('input-interest');
@@ -178,6 +182,18 @@ function initVerbouwen() {
             // De vorige versie bewaarde ook onaangeraakte voorbeeldwaarden. Zonder
             // vlag telt opgeslagen invoer daarom alleen als eigen invoer wanneer
             // hij van het voorbeeld afwijkt.
+            // De vorige versie vroeg het te lenen bedrag en de losse kosten apart;
+            // samen zijn die wat hier het totaal heet.
+            if (!check.totaal && check.bedrag) {
+                // Stond daar nog het onaangeraakte voorbeeld van toen, dan is er
+                // niets van de bezoeker om terug te zetten.
+                const oudVoorbeeld = { bedrag: 75000, buitenDepot: 10000, hypotheek: 300000, waarde: 360000, eigenGeld: 25000 };
+                if (Object.entries(oudVoorbeeld).every(([naam, waarde]) => leesGetal(check[naam]) === waarde)) {
+                    for (const naam of Object.keys(oudVoorbeeld)) delete check[naam];
+                } else {
+                    check.totaal = String((leesGetal(check.bedrag) ?? 0) + (leesGetal(check.buitenDepot) ?? 0));
+                }
+            }
             let wijktAf = false;
             for (const [naam, veld] of Object.entries(lr)) {
                 if (!check[naam]) continue;
@@ -187,7 +203,7 @@ function initVerbouwen() {
             eigenCheck = check.aangeraakt ?? wijktAf;
             if (check.volg === false) volg.checked = false;
         } catch (_) { /* een kapotte opslag mag de pagina niet omleggen */ }
-        if (uitUrl && Number(uitUrl) > 0) { lr.bedrag.value = uitUrl; volg.checked = false; eigenCheck = true; }
+        if (uitUrl && Number(uitUrl) > 0) { lr.totaal.value = uitUrl; volg.checked = false; eigenCheck = true; }
     }
 
     /* ----------------------------------------------------------------- lezen */
@@ -239,7 +255,7 @@ function initVerbouwen() {
         vast: el('wr-vast'), vastBedrag: el('wr-vast-bedrag'),
     };
     const uitLr = {
-        ruimte: el('lr-res-ruimte'), zin: el('lr-res-zin'), financierbaar: el('lr-res-financierbaar'),
+        ruimte: el('lr-res-ruimte'), zin: el('lr-res-zin'), financierbaar: el('lr-res-financierbaar'), van: el('lr-res-van'),
         maand: el('lr-res-maand'), maandNoot: el('lr-res-maand-noot'), nodig: el('lr-res-nodig'), nodigNoot: el('lr-res-nodig-noot'),
         buffer: el('lr-res-buffer'), bufferNoot: el('lr-res-buffer-noot'), verhouding: el('lr-res-verhouding'),
         balkLening: el('lr-balk-lening'), balkRuimte: el('lr-balk-ruimte'),
@@ -281,8 +297,8 @@ function initVerbouwen() {
 
         /* De financieringscheck neemt de begroting over zodra die er is. */
         volgRij.hidden = b.aantal === 0;
-        const overnemen = b.aantal > 0 && volg.checked && b.depotMetMarge > 0;
-        for (const [veld, waarde] of [[lr.bedrag, b.depotMetMarge], [lr.buitenDepot, b.eigen]]) {
+        const overnemen = b.aantal > 0 && volg.checked;
+        for (const [veld, waarde] of [[lr.totaal, b.totaal], [lr.buitenDepot, b.eigen]]) {
             veld.readOnly = overnemen;
             veld.closest('.wr-veld__in').classList.toggle('is-overgenomen', overnemen);
             if (overnemen) veld.value = toonGetal(Math.round(waarde));
@@ -297,7 +313,7 @@ function initVerbouwen() {
             uit.maandNoot.textContent = `bruto, over ${euro.format(check.financierbaar)} extra lening`;
         } else {
             zet(uit.maand, '–');
-            uit.maandNoot.textContent = b.aantal > 0 ? 'vul hieronder de financiering in' : 'volgt uit je begroting en de financiering';
+            uit.maandNoot.textContent = b.aantal > 0 ? 'vul de berekening hierboven in' : 'volgt uit de berekening hierboven';
         }
 
         // Doorgeven aan de rekenpagina, zodat de reeks begroting -> maandlast doorloopt.
@@ -310,32 +326,46 @@ function initVerbouwen() {
 
     /** De waardetoets en de maandlast. Geeft null als de invoer niet klopt. */
     function berekenCheck() {
-        const invoer = {
-            bedrag: leesVeld(lr.bedrag), buitenDepot: leesVeld(lr.buitenDepot), hypotheek: leesVeld(lr.hypotheek),
+        const gelezen = {
+            totaal: leesVeld(lr.totaal), buitenDepot: leesVeld(lr.buitenDepot), hypotheek: leesVeld(lr.hypotheek),
             waarde: leesVeld(lr.waarde), eigenGeld: leesVeld(lr.eigenGeld),
         };
         const rentePct = leesVeld(rente);
-        if (Object.values(invoer).some((w) => w === null)) {
+        let klopt = Object.values(gelezen).every((w) => w !== null);
+        if (klopt && gelezen.buitenDepot > gelezen.totaal) {
+            el('fout-lr-buiten-depot').textContent = 'De losse spullen kunnen niet meer zijn dan het hele bedrag.';
+            lr.buitenDepot.setAttribute('aria-invalid', 'true');
+            lr.buitenDepot.closest('details').open = true;
+            klopt = false;
+        }
+        if (!klopt) {
             for (const dd of [uitLr.ruimte, uitLr.financierbaar, uitLr.maand, uitLr.nodig, uitLr.buffer]) zet(dd, '–');
+            uitLr.van.textContent = '';
             uitLr.zin.textContent = 'Pas de gemarkeerde velden aan voor een indicatie.';
             uitLr.verhouding.textContent = '';
             uitLr.balkLening.style.width = uitLr.balkRuimte.style.width = '0%';
             return null;
         }
 
+        // Wat er geleend moet worden is het bedrag min de losse spullen: die
+        // mogen niet uit het depot en komen dus uit eigen geld.
+        const { totaal, ...rest } = gelezen;
+        const invoer = { ...rest, bedrag: totaal - gelezen.buitenDepot };
         const r = berekenLeenruimte(invoer);
         const maand = rentePct === null ? null : maandlastExtraLening(r.financierbaar, rentePct, LOOPTIJD_JAREN);
+        const los = invoer.buitenDepot;
 
-        zet(uitLr.ruimte, euro.format(r.ruimte));
         zet(uitLr.financierbaar, euro.format(r.financierbaar));
+        uitLr.van.textContent = `van ${euro.format(totaal)}`;
+        zet(uitLr.ruimte, euro.format(r.ruimte));
         zet(uitLr.maand, maand === null ? '–' : euro.format(maand));
         uitLr.maandNoot.textContent = maand === null ? 'vul een rente in' : `bruto, ${procent(rentePct)}, ${LOOPTIJD_JAREN} jaar annuïtair`;
         zet(uitLr.nodig, euro.format(r.nodig));
         uitLr.nodigNoot.textContent = r.gat > 0
-            ? `${euro.format(r.gat)} past niet binnen de waarde, plus ${euro.format(invoer.buitenDepot)} buiten het depot`
-            : 'de kosten buiten het depot';
+            ? `${euro.format(r.gat)} past niet binnen de waarde${los > 0 ? `, plus ${euro.format(los)} losse spullen` : ''}`
+            : los > 0 ? 'de losse spullen die niet uit het depot mogen' : 'het hele bedrag past binnen de lening';
         zet(uitLr.buffer, r.buffer < 0 ? `− ${euro.format(Math.abs(r.buffer))}` : euro.format(r.buffer));
-        uitLr.bufferNoot.textContent = r.buffer < 0 ? 'tekort aan eigen geld' : 'van je eigen geld blijft over';
+        uitLr.bufferNoot.textContent = r.buffer < 0 ? 'tekort aan eigen geld' : 'blijft over als buffer';
         uitLr.buffer.classList.toggle('is-tekort', r.buffer < 0);
 
         const pctHyp = Math.min(100, (invoer.hypotheek / invoer.waarde) * 100);
@@ -345,11 +375,11 @@ function initVerbouwen() {
 
         uitLr.zin.textContent = r.gat === 0
             ? r.buffer >= 0
-                ? `Het bedrag past binnen de waarderuimte. Na de kosten buiten het depot blijft ${euro.format(r.buffer)} eigen geld over.`
-                : `Het bedrag past binnen de waarderuimte, maar voor de kosten buiten het depot ontbreekt nog ${euro.format(Math.abs(r.buffer))}.`
+                ? `Wat je wilt lenen past binnen de waarde van je woning.${los > 0 ? ` Na de losse spullen blijft ${euro.format(r.buffer)} eigen geld over.` : ''}`
+                : `Wat je wilt lenen past binnen de waarde van je woning, maar voor de losse spullen ontbreekt nog ${euro.format(Math.abs(r.buffer))} eigen geld.`
             : r.buffer >= 0
-                ? `Van het bedrag valt ${euro.format(r.gat)} buiten de waarderuimte. Met je eigen geld is dat te overbruggen; er blijft ${euro.format(r.buffer)} over.`
-                : `Van het bedrag valt ${euro.format(r.gat)} buiten de waarderuimte. Daarvoor ontbreekt indicatief ${euro.format(Math.abs(r.buffer))} aan eigen geld.`;
+                ? `${euro.format(r.gat)} past niet binnen de waarde van je woning. Met je eigen geld is dat te overbruggen; daarna blijft ${euro.format(r.buffer)} over.`
+                : `${euro.format(r.gat)} past niet binnen de waarde van je woning. Daarvoor ontbreekt indicatief ${euro.format(Math.abs(r.buffer))} aan eigen geld.`;
 
         return maand === null ? null : { ...r, maand, rentePct, invoer };
     }
@@ -455,11 +485,11 @@ function initVerbouwen() {
     el('lr-praktijkcase').addEventListener('click', () => {
         volg.checked = false;
         eigenCheck = false;
-        lr.bedrag.value = toonGetal(75000);
+        lr.totaal.value = toonGetal(75000);
         lr.hypotheek.value = toonGetal(300000);
         lr.waarde.value = toonGetal(360000);
         lr.eigenGeld.value = toonGetal(25000);
-        lr.buitenDepot.value = toonGetal(10000);
+        lr.buitenDepot.value = '0';
         bereken();
     });
 
@@ -521,13 +551,17 @@ function initVerbouwen() {
         const gevuld = [...categorie.querySelectorAll('[data-post]')].some((v) => v.value.trim() !== '');
         if (gevuld || (categorie.dataset.cat === 'eigen' && eigenPosten.length)) categorie.open = true;
     }
+    // Is er nog niets ingevuld, dan staat de eerste categorie open: een
+    // begroting van nul euro zonder één zichtbaar veld nodigt nergens toe uit.
+    if (!wortel.querySelector('.wr-cat[open]')) wortel.querySelector('.wr-cat').open = true;
 
-    // Op een smal scherm staat de begroting onder het totaal. De balk houdt het
-    // bedrag in beeld zodra het totaal zelf uit beeld is gescrold.
+    // Op een smal scherm staan de posten onder het totaal. De balk houdt het
+    // bedrag in beeld zolang de begroting in beeld is en het totaal zelf niet.
     if ('IntersectionObserver' in window) {
-        new IntersectionObserver(([item]) => {
-            uit.vast.classList.toggle('is-zichtbaar', !item.isIntersecting && uit.vastBedrag.textContent !== '');
-        }).observe(uit.totaal);
+        let sectie = false, totaal = true;
+        const werkBalkBij = () => uit.vast.classList.toggle('is-zichtbaar', sectie && !totaal && uit.vastBedrag.textContent !== '');
+        new IntersectionObserver(([item]) => { sectie = item.isIntersecting; werkBalkBij(); }).observe(wortel);
+        new IntersectionObserver(([item]) => { totaal = item.isIntersecting; werkBalkBij(); }).observe(uit.totaal);
     }
 
     bereken();

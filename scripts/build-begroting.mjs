@@ -136,49 +136,86 @@ ${headerHtml()}
         <div class="wr-wrap wr-kop wr-geen-print">
             <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Verbouwen</span></nav>
             <h1 id="reken-titel">Wat gaat je verbouwing kosten?</h1>
-            <p class="wr-lead">Zet je offertes op een rij en zie welk deel uit het bouwdepot mag, welk deel je zelf betaalt en wat het per maand doet.</p>
+            <p class="wr-lead">Begin met een bedrag en zie direct of het binnen de waarde van je woning past en wat het per maand doet. Werk het daarna uit tot een begroting per post.</p>
         </div>
 
-        <!-- Volgorde in de HTML: uitkomst, begroting. Op een telefoon staat het
-             totaal zo bovenaan; op een breed scherm blijft het rechts naast de
-             begroting in beeld. De optelling gebeurt in src/js/begrotingrekenen.js. -->
+        <!-- De pagina opent met de vraag die iedereen kan beantwoorden: ongeveer
+             welk bedrag, en wat is de woning waard. Dat geeft meteen een
+             uitkomst. De begroting per post staat eronder en neemt het bedrag
+             over zodra hij is ingevuld.
+
+             Het anker #leenruimte wordt gebruikt door de kop, de homepage en
+             drie redirects in vercel.json (/leenruimte.html en twee oudere
+             adressen). -->
+        <div class="wr-wrap wr-geen-print" id="leenruimte">
+            <div class="wr-werk">
+                <section class="wr-paneel wr-uitkomst" aria-live="polite" aria-labelledby="lr-kop">
+                    <p class="wr-uitkomst__label"><span id="lr-kop">Te lenen binnen de waarde van je woning</span> <span class="wr-stempel" id="lr-stempel">Voorbeeld</span></p>
+                    <strong class="wr-uitkomst__bedrag tnum" id="lr-res-financierbaar" data-bedrag>&ndash;<small id="lr-res-van"></small></strong>
+                    <p class="wr-uitkomst__zin" id="lr-res-zin">De berekening wordt geladen.</p>
+
+                    <div class="wr-verhouding" aria-hidden="true">
+                        <div class="wr-verhouding__balk"><i id="lr-balk-lening"></i><b id="lr-balk-ruimte"></b></div>
+                        <p class="wr-verhouding__legenda"><span><i></i>Huidige hypotheek</span><span><b></b>Extra lening</span><span id="lr-res-verhouding"></span></p>
+                    </div>
+
+                    <dl class="wr-cijfers wr-cijfers--twee">
+                        <div><dt>Extra per maand</dt><dd class="tnum" id="lr-res-maand">&ndash;<small id="lr-res-maand-noot">bruto</small></dd></div>
+                        <div><dt>Eigen geld nodig</dt><dd class="tnum" id="lr-res-nodig">&ndash;<small id="lr-res-nodig-noot"></small></dd></div>
+                        <div><dt>Eigen geld daarna</dt><dd class="tnum" id="lr-res-buffer">&ndash;<small id="lr-res-buffer-noot"></small></dd></div>
+                        <div><dt>Ruimte in je woning</dt><dd class="tnum" id="lr-res-ruimte">&ndash;<small>woningwaarde min huidige hypotheek</small></dd></div>
+                    </dl>
+                    <p class="wr-uitkomst__noot">Een waardetoets, geen inkomenstoets. De hoofdregel is dat de totale hypotheek niet boven 100% van de woningwaarde uitkomt; wat je werkelijk kunt lenen hangt ook af van je inkomen en de beoordeling van de geldverstrekker.</p>
+                </section>
+
+                <form class="wr-paneel wr-invoer" novalidate onsubmit="return false">
+                    <div class="wr-paneel__kop">
+                        <h2>Jouw gegevens</h2>
+                        <p class="wr-micro">Blijft op dit apparaat</p>
+                    </div>
+
+                    <fieldset class="wr-groep">
+                        <legend>Je verbouwing</legend>
+${veld('lr-totaal', 'Wat kost je verbouwing ongeveer?', '75000', 'Een ruwe schatting is genoeg om te beginnen. Vul je hieronder een begroting in, dan nemen we dat totaal over.')}
+                        <label class="wr-vink" id="lr-volg-rij" hidden><input type="checkbox" id="lr-volg" checked> <span>Neem het totaal uit mijn begroting over</span></label>
+                    </fieldset>
+
+                    <fieldset class="wr-groep">
+                        <legend>Je woning en hypotheek</legend>
+${veld('lr-hypotheek', 'Huidige hypotheek', '300000', 'Wat er nu nog openstaat. Staat op je jaaroverzicht of in de app van je bank. Vul nul in als je geen hypotheek hebt.')}
+${veld('lr-waarde', 'Woningwaarde na verbouwing', '360000', 'Staat in een taxatierapport. Heb je dat nog niet, vul dan in wat je woning nu waard is: dan zie je wat er minimaal kan. Niet elke euro verbouwing wordt een euro waarde.')}
+${veld('lr-eigen-geld', 'Eigen geld voor dit plan', '25000', 'Alleen wat je echt voor deze verbouwing opzij hebt staan. Vul nul in als je alles wilt lenen.')}
+${veld('input-interest', 'Hypotheekrente voor de extra lening', '3,80', 'De rente voor een nieuw leningdeel bij je geldverstrekker. Hiermee schatten we de maandlast, als annu&iuml;teit over 30 jaar.', '%', 'decimal', '')}
+                    </fieldset>
+
+                    <details class="wr-uitklap">
+                        <summary><span>Meer instellingen<small>Losse spullen die niet uit het depot mogen</small></span></summary>
+                        <div class="wr-uitklap__body">
+${veld('lr-buiten-depot', 'Waarvan losse spullen en inrichting', '0', 'Het deel van je bedrag dat niet vast aan de woning zit, zoals meubels en losse apparatuur. Dat mag doorgaans niet uit het bouwdepot en betaal je zelf. Met een begroting hieronder vullen we dit voor je in.')}
+                        </div>
+                    </details>
+
+                    <div class="wr-knoppen">
+                        <button class="wr-knop wr-knop--klein" id="lr-praktijkcase" type="button">Terug naar het voorbeeld</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- De begroting per post. Volgorde in de HTML: posten, totaal. Op een
+             telefoon begin je zo bij de velden en houdt de balk onderaan het
+             totaal in beeld; op een breed scherm staat het totaal rechts naast
+             de posten. De optelling gebeurt in src/js/begrotingrekenen.js. -->
+        <div class="wr-wrap wr-sectie wr-sectie--strak wr-geen-print">
+            <p class="ui-opschrift">Stap twee, als je offertes hebt</p>
+            <h2>Maak er een begroting van</h2>
+            <p class="wr-lead">Zet je offertes op een rij en zie welk deel uit het bouwdepot mag en welk deel je zelf betaalt. Het totaal gaat mee naar de berekening hierboven.</p>
+        </div>
         <div class="wr-wrap wr-werk wr-werk--lang wr-geen-print" id="begroting">
-
-            <section class="wr-paneel wr-uitkomst" id="uitkomst" aria-live="polite">
-                <p class="wr-uitkomst__label"><span>Totale verbouwkosten</span> <span class="wr-stempel">Jouw begroting</span></p>
-                <strong class="wr-uitkomst__bedrag tnum" id="res-totaal" data-bedrag>&euro; 0</strong>
-                <p class="wr-uitkomst__zin" id="res-zin">Vul in wat je verwacht uit te geven.</p>
-
-                <dl class="wr-cijfers wr-cijfers--twee">
-                    <div><dt>Uit het bouwdepot</dt><dd class="tnum" id="res-depot">&euro; 0<small>naar verwachting, met de reserve</small></dd></div>
-                    <div><dt>Uit eigen geld</dt><dd class="tnum" id="res-eigen">&euro; 0<small>zit niet vast aan de woning</small></dd></div>
-                    <div><dt>Waarvan onvoorzien</dt><dd class="tnum" id="res-marge">&euro; 0<small id="res-marge-noot">reserve over het depotdeel</small></dd></div>
-                    <div><dt>Extra per maand</dt><dd class="tnum" id="res-maand">&ndash;<small id="res-maand-noot">vul hieronder de financiering in</small></dd></div>
-                </dl>
-
-                <div class="wr-uitkomst__veld">
-                    <label for="in-onvoorzien">Reserve voor onvoorzien</label>
-                    <div class="wr-veld__in"><input type="text" id="in-onvoorzien" value="10" inputmode="numeric" aria-describedby="fout-in-onvoorzien hulp-in-onvoorzien" autocomplete="off"><span aria-hidden="true">%</span></div>
-                    <span class="wr-veld__fout" id="fout-in-onvoorzien" role="alert"></span>
-                    <p class="wr-hulp" id="hulp-in-onvoorzien">Sloopwerk legt vaak verborgen gebreken bloot. Tien procent is in de bouw de gangbare vuistregel; bij oudere woningen wordt vijftien tot twintig procent aangehouden.</p>
-                </div>
-
-                <dl class="wr-dl wr-uitkomst__split">
-                    <dt>Noodzakelijk</dt><dd id="res-noodzakelijk">&euro; 0</dd>
-                    <dt>Gewenst</dt><dd id="res-gewenst">&euro; 0</dd>
-                    <dt id="res-aantal">0 posten ingevuld</dt><dd></dd>
-                </dl>
-
-                <div class="wr-knoppen">
-                    <a class="wr-knop wr-knop--licht" href="#leenruimte">Kan ik dit lenen?</a>
-                    <button id="begroting-printen" class="wr-knop wr-knop--licht" type="button">Specificatie printen</button>
-                    <button id="begroting-wissen" class="wr-knop wr-knop--licht" type="button">Wissen</button>
-                </div>
-            </section>
 
             <section class="wr-paneel wr-invoer" aria-labelledby="begroting-kop">
                 <div class="wr-paneel__kop">
-                    <h2 id="begroting-kop">Je begroting</h2>
+                    <h3 class="wr-paneel__titel" id="begroting-kop">Je posten</h3>
                     <p class="wr-micro">Blijft op dit apparaat</p>
                 </div>
 
@@ -204,67 +241,44 @@ ${categorieen}
                 </details>
                 </div>
             </section>
+
+            <section class="wr-paneel wr-uitkomst" id="uitkomst" aria-live="polite">
+                <p class="wr-uitkomst__label"><span>Totaal van je begroting</span> <span class="wr-stempel">Per post</span></p>
+                <strong class="wr-uitkomst__bedrag tnum" id="res-totaal" data-bedrag>&euro; 0</strong>
+                <p class="wr-uitkomst__zin" id="res-zin">Vul in wat je verwacht uit te geven.</p>
+
+                <dl class="wr-cijfers wr-cijfers--twee">
+                    <div><dt>Uit het bouwdepot</dt><dd class="tnum" id="res-depot">&euro; 0<small>naar verwachting, met de reserve</small></dd></div>
+                    <div><dt>Uit eigen geld</dt><dd class="tnum" id="res-eigen">&euro; 0<small>zit niet vast aan de woning</small></dd></div>
+                    <div><dt>Waarvan onvoorzien</dt><dd class="tnum" id="res-marge">&euro; 0<small id="res-marge-noot">reserve over het depotdeel</small></dd></div>
+                    <div><dt>Extra per maand</dt><dd class="tnum" id="res-maand">&ndash;<small id="res-maand-noot">volgt uit de berekening hierboven</small></dd></div>
+                </dl>
+
+                <div class="wr-uitkomst__veld">
+                    <label for="in-onvoorzien">Reserve voor onvoorzien</label>
+                    <div class="wr-veld__in"><input type="text" id="in-onvoorzien" value="10" inputmode="numeric" aria-describedby="fout-in-onvoorzien hulp-in-onvoorzien" autocomplete="off"><span aria-hidden="true">%</span></div>
+                    <span class="wr-veld__fout" id="fout-in-onvoorzien" role="alert"></span>
+                    <p class="wr-hulp" id="hulp-in-onvoorzien">Sloopwerk legt vaak verborgen gebreken bloot. Tien procent is in de bouw de gangbare vuistregel; bij oudere woningen wordt vijftien tot twintig procent aangehouden.</p>
+                </div>
+
+                <dl class="wr-dl wr-uitkomst__split">
+                    <dt>Noodzakelijk</dt><dd id="res-noodzakelijk">&euro; 0</dd>
+                    <dt>Gewenst</dt><dd id="res-gewenst">&euro; 0</dd>
+                    <dt id="res-aantal">0 posten ingevuld</dt><dd></dd>
+                </dl>
+
+                <div class="wr-knoppen">
+                    <a class="wr-knop wr-knop--licht" href="#leenruimte">Naar de berekening</a>
+                    <button id="begroting-printen" class="wr-knop wr-knop--licht" type="button">Specificatie printen</button>
+                    <button id="begroting-wissen" class="wr-knop wr-knop--licht" type="button">Wissen</button>
+                </div>
+            </section>
         </div>
 
         <!-- De specificatie die de bezoeker meeneemt. Alleen bij printen zichtbaar:
              op het scherm is het formulier het gereedschap, op papier is een
              ingevuld formulier geen document. Wordt gevuld door pagina.js. -->
         <section id="specificatie" class="wr-wrap wr-alleen-print" aria-hidden="true"></section>
-
-        <!-- Het anker #leenruimte wordt gebruikt door de kop, de homepage en drie
-             redirects in vercel.json (/leenruimte.html en twee oudere adressen). -->
-        <div class="wr-wrap wr-sectie wr-geen-print" id="leenruimte">
-            <p class="ui-opschrift">Kan je dit lenen?</p>
-            <h2>Past je verbouwing binnen de waarde van je woning?</h2>
-            <p class="wr-lead" style="margin-bottom:1.5rem">Een waardetoets, geen inkomenstoets. Wat je werkelijk kunt lenen hangt daarnaast af van je inkomen en de beoordeling van de geldverstrekker.</p>
-
-            <div class="wr-werk">
-                <section class="wr-paneel wr-uitkomst" aria-live="polite">
-                    <p class="wr-uitkomst__label"><span>Ruimte op basis van woningwaarde</span> <span class="wr-stempel" id="lr-stempel">Voorbeeld</span></p>
-                    <strong class="wr-uitkomst__bedrag tnum" id="lr-res-ruimte" data-bedrag>&ndash;</strong>
-                    <p class="wr-uitkomst__zin" id="lr-res-zin">De berekening wordt geladen.</p>
-
-                    <div class="wr-verhouding" aria-hidden="true">
-                        <div class="wr-verhouding__balk"><i id="lr-balk-lening"></i><b id="lr-balk-ruimte"></b></div>
-                        <p class="wr-verhouding__legenda"><span><i></i>Huidige hypotheek</span><span><b></b>Extra lening</span><span id="lr-res-verhouding"></span></p>
-                    </div>
-
-                    <dl class="wr-cijfers wr-cijfers--twee">
-                        <div><dt>Te lenen binnen de waarde</dt><dd class="tnum" id="lr-res-financierbaar">&ndash;<small>van het bedrag voor de verbouwing</small></dd></div>
-                        <div><dt>Extra per maand</dt><dd class="tnum" id="lr-res-maand">&ndash;<small id="lr-res-maand-noot">bruto</small></dd></div>
-                        <div><dt>Eigen geld nodig</dt><dd class="tnum" id="lr-res-nodig">&ndash;<small id="lr-res-nodig-noot"></small></dd></div>
-                        <div><dt>Eigen buffer daarna</dt><dd class="tnum" id="lr-res-buffer">&ndash;<small id="lr-res-buffer-noot"></small></dd></div>
-                    </dl>
-                    <p class="wr-uitkomst__noot">De hoofdregel is dat de totale hypotheek niet boven 100% van de woningwaarde uitkomt. Bij energiebesparende maatregelen geldt soms meer ruimte.</p>
-                </section>
-
-                <form class="wr-paneel wr-invoer" novalidate onsubmit="return false">
-                    <div class="wr-paneel__kop">
-                        <h2>Jouw gegevens</h2>
-                        <p class="wr-micro">Blijft op dit apparaat</p>
-                    </div>
-
-                    <fieldset class="wr-groep">
-                        <legend>Uit je begroting</legend>
-                        <label class="wr-vink" id="lr-volg-rij" hidden><input type="checkbox" id="lr-volg" checked> <span>Neem de bedragen uit mijn begroting hierboven over</span></label>
-${veld('lr-bedrag', 'Bedrag dat je wilt lenen', '75000', 'Wat uit het bouwdepot moet komen: de posten die vast aan de woning zitten, met de reserve.')}
-${veld('lr-buiten-depot', 'Kosten buiten het depot', '10000', 'Losse spullen, inrichting en posten die je bank niet accepteert. Die betaal je sowieso zelf.')}
-                    </fieldset>
-
-                    <fieldset class="wr-groep">
-                        <legend>Je woning en hypotheek</legend>
-${veld('lr-hypotheek', 'Huidige hypotheek', '300000', 'Het openstaande bedrag, v&oacute;&oacute;r de extra lening. Staat op je jaaroverzicht of in de app van je bank. Vul nul in als je geen hypotheek hebt.')}
-${veld('lr-waarde', 'Woningwaarde na verbouwing', '360000', 'Uit een taxatierapport. Je eigen inschatting of de WOZ-waarde plus de verbouwkosten is geen betrouwbare maat: niet elke euro verbouwing wordt een euro waarde.')}
-${veld('lr-eigen-geld', 'Eigen geld voor dit plan', '25000', 'Alleen wat je echt voor deze verbouwing opzij hebt staan.')}
-${veld('input-interest', 'Hypotheekrente voor de extra lening', '3,80', 'Om de maandlast te schatten. Gerekend als annu&iuml;teit over 30 jaar.', '%', 'decimal', '')}
-                    </fieldset>
-
-                    <div class="wr-knoppen">
-                        <button class="wr-knop wr-knop--klein" id="lr-praktijkcase" type="button">Laad een voorbeeld van &euro; 75.000</button>
-                    </div>
-                </form>
-            </div>
-        </div>
 
         <section class="wr-wrap wr-sectie wr-geen-print">
             <p class="ui-opschrift">De vuistregel</p>
