@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,13 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- De homepage gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/homepage.css">
+    <noscript><style>.hp-beeld, .hp-legenda { display: none; }</style></noscript>
 </head>
-<body class="bs">
+<body class="hp">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,214 +169,219 @@
         </div>
     </header>
 
-    <main>
-        <!-- De typografische muur. Ernaast de uitkomst als rekening op papier:
-             onze fotografie is het getal. Zie ONTWERPPLAN.md §3. -->
-        <section class="bs-muur" data-kantelveld>
-            <div class="bs-wrap bs-muur__grid">
-                <div>
-                    <h1>
-                        <span class="bs-regel">Wat kost uw</span>
-                        <span class="bs-regel">bouwdepot echt,</span>
-                        <span class="bs-regel">per maand?</span>
-                    </h1>
+    <main id="inhoud">
+        <section class="hp-hero" data-hero>
+            <p class="hp-opschrift">Onafhankelijke rekentools voor nieuwbouw, verbouwen en bouwdepot</p>
+            <!-- De kop is de routekeuze: beide woorden zijn een link. -->
+            <h1><a href="nieuwbouw.html" data-wijst="nieuw">Nieuwbouw</a> of <a href="verbouwbegroting.html" data-wijst="verbouw">verbouwen</a>?</h1>
+            <p class="hp-lead">Reken door wat je bouwdepot en je woningplan per maand kosten, voordat je tekent.</p>
 
-                    <div class="bs-muur__voet">
-                        <p class="bs-muur__lead">De rente over uw hele lening, min de vergoeding die u over het niet-opgenomen depot terugkrijgt. Bij nieuwbouw komen de dubbele lasten er nog bij.</p>
-                        <a class="bs-knop" href="bouwdepot-berekenen.html">
-                            Start berekenen
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13"/><path d="m12 5 7 7-7 7"/></svg>
-                        </a>
+            <!-- De tekeningen staan stilstaand in de HTML; src/homepage/woningen.js
+                 laat ze meedraaien en afbouwen. De bedragen in deze sectie en in
+                 de maandlijn worden bewaakt door tests/homepage-voorbeeld.test.mjs. -->
+            <div class="hp-twee">
+                <article class="hp-kant" data-kant="nieuw">
+                    <svg class="hp-tekening" data-tekening="nieuw" viewBox="20 80 560 370" role="img" aria-label="Lijntekening van een nieuwbouwwoning: de fundering ligt er, het huis is nog gestippeld"><polygon class="hp-vlak hp-vlak--staat" points="255.3,221.9 451.5,286.4 344.7,358.0 148.5,293.5"/><polygon class="hp-vlak hp-vlak--plan" points="256.7,128.3 443.5,189.7 343.3,256.9 156.5,195.5"/><polygon class="hp-vlak hp-vlak--staat" points="451.5,296.4 344.7,368.0 344.7,358.0 451.5,286.4"/><polygon class="hp-vlak hp-vlak--staat" points="148.5,303.6 344.7,368.0 344.7,358.0 148.5,293.5"/><polygon class="hp-vlak hp-vlak--plan" points="443.5,287.0 343.3,354.2 343.3,256.9 443.5,189.7"/><polygon class="hp-vlak hp-vlak--plan" points="156.5,292.8 343.3,354.2 343.3,256.9 156.5,195.5"/><polygon class="hp-vlak hp-vlak--plan" points="144.8,197.2 344.0,262.6 399.6,168.3 200.4,102.9"/><polygon class="hp-vlak hp-vlak--plan" points="455.2,188.1 344.0,262.6 399.6,168.3"/><line class="hp-l hp-l--grond" x1="239.6" y1="197.4" x2="526.0" y2="291.5"/><line class="hp-l hp-l--grond" x1="526.0" y1="291.5" x2="360.4" y2="402.6"/><line class="hp-l hp-l--grond" x1="360.4" y1="402.6" x2="74.0" y2="308.5"/><line class="hp-l hp-l--grond" x1="74.0" y1="308.5" x2="239.6" y2="197.4"/><line class="hp-l hp-l--staat" x1="255.3" y1="232.0" x2="451.5" y2="296.4"/><line class="hp-l hp-l--staat" x1="451.5" y1="296.4" x2="344.7" y2="368.0"/><line class="hp-l hp-l--staat" x1="344.7" y1="368.0" x2="148.5" y2="303.6"/><line class="hp-l hp-l--staat" x1="148.5" y1="303.6" x2="255.3" y2="232.0"/><line class="hp-l hp-l--staat" x1="255.3" y1="221.9" x2="451.5" y2="286.4"/><line class="hp-l hp-l--staat" x1="451.5" y1="286.4" x2="344.7" y2="358.0"/><line class="hp-l hp-l--staat" x1="344.7" y1="358.0" x2="148.5" y2="293.5"/><line class="hp-l hp-l--staat" x1="148.5" y1="293.5" x2="255.3" y2="221.9"/><line class="hp-l hp-l--staat" x1="255.3" y1="232.0" x2="255.3" y2="221.9"/><line class="hp-l hp-l--staat" x1="451.5" y1="296.4" x2="451.5" y2="286.4"/><line class="hp-l hp-l--staat" x1="344.7" y1="368.0" x2="344.7" y2="358.0"/><line class="hp-l hp-l--staat" x1="148.5" y1="303.6" x2="148.5" y2="293.5"/><line class="hp-l hp-l--plan" x1="256.7" y1="225.6" x2="443.5" y2="287.0"/><line class="hp-l hp-l--bouw" x1="256.7" y1="225.6" x2="443.5" y2="287.0" pathLength="1" style="--d:0.06s"/><line class="hp-l hp-l--plan" x1="443.5" y1="287.0" x2="343.3" y2="354.2"/><line class="hp-l hp-l--bouw" x1="443.5" y1="287.0" x2="343.3" y2="354.2" pathLength="1" style="--d:0.06s"/><line class="hp-l hp-l--plan" x1="343.3" y1="354.2" x2="156.5" y2="292.8"/><line class="hp-l hp-l--bouw" x1="343.3" y1="354.2" x2="156.5" y2="292.8" pathLength="1" style="--d:0.06s"/><line class="hp-l hp-l--plan" x1="156.5" y1="292.8" x2="256.7" y2="225.6"/><line class="hp-l hp-l--bouw" x1="156.5" y1="292.8" x2="256.7" y2="225.6" pathLength="1" style="--d:0.06s"/><line class="hp-l hp-l--plan" x1="256.7" y1="128.3" x2="443.5" y2="189.7"/><line class="hp-l hp-l--bouw" x1="256.7" y1="128.3" x2="443.5" y2="189.7" pathLength="1" style="--d:0.64s"/><line class="hp-l hp-l--plan" x1="443.5" y1="189.7" x2="343.3" y2="256.9"/><line class="hp-l hp-l--bouw" x1="443.5" y1="189.7" x2="343.3" y2="256.9" pathLength="1" style="--d:0.64s"/><line class="hp-l hp-l--plan" x1="343.3" y1="256.9" x2="156.5" y2="195.5"/><line class="hp-l hp-l--bouw" x1="343.3" y1="256.9" x2="156.5" y2="195.5" pathLength="1" style="--d:0.64s"/><line class="hp-l hp-l--plan" x1="156.5" y1="195.5" x2="256.7" y2="128.3"/><line class="hp-l hp-l--bouw" x1="156.5" y1="195.5" x2="256.7" y2="128.3" pathLength="1" style="--d:0.64s"/><line class="hp-l hp-l--plan" x1="256.7" y1="225.6" x2="256.7" y2="128.3"/><line class="hp-l hp-l--bouw" x1="256.7" y1="225.6" x2="256.7" y2="128.3" pathLength="1" style="--d:0.35s"/><line class="hp-l hp-l--plan" x1="443.5" y1="287.0" x2="443.5" y2="189.7"/><line class="hp-l hp-l--bouw" x1="443.5" y1="287.0" x2="443.5" y2="189.7" pathLength="1" style="--d:0.35s"/><line class="hp-l hp-l--plan" x1="343.3" y1="354.2" x2="343.3" y2="256.9"/><line class="hp-l hp-l--bouw" x1="343.3" y1="354.2" x2="343.3" y2="256.9" pathLength="1" style="--d:0.35s"/><line class="hp-l hp-l--plan" x1="156.5" y1="292.8" x2="156.5" y2="195.5"/><line class="hp-l hp-l--bouw" x1="156.5" y1="292.8" x2="156.5" y2="195.5" pathLength="1" style="--d:0.35s"/><line class="hp-l hp-l--plan" x1="256.7" y1="175.3" x2="443.5" y2="236.7"/><line class="hp-l hp-l--bouw" x1="256.7" y1="175.3" x2="443.5" y2="236.7" pathLength="1" style="--d:0.36s"/><line class="hp-l hp-l--plan" x1="443.5" y1="236.7" x2="343.3" y2="303.9"/><line class="hp-l hp-l--bouw" x1="443.5" y1="236.7" x2="343.3" y2="303.9" pathLength="1" style="--d:0.36s"/><line class="hp-l hp-l--plan" x1="343.3" y1="303.9" x2="156.5" y2="242.5"/><line class="hp-l hp-l--bouw" x1="343.3" y1="303.9" x2="156.5" y2="242.5" pathLength="1" style="--d:0.36s"/><line class="hp-l hp-l--plan" x1="156.5" y1="242.5" x2="256.7" y2="175.3"/><line class="hp-l hp-l--bouw" x1="156.5" y1="242.5" x2="256.7" y2="175.3" pathLength="1" style="--d:0.36s"/><line class="hp-l hp-l--plan" x1="256.0" y1="122.6" x2="455.2" y2="188.1"/><line class="hp-l hp-l--bouw" x1="256.0" y1="122.6" x2="455.2" y2="188.1" pathLength="1" style="--d:0.64s"/><line class="hp-l hp-l--plan" x1="455.2" y1="188.1" x2="344.0" y2="262.6"/><line class="hp-l hp-l--bouw" x1="455.2" y1="188.1" x2="344.0" y2="262.6" pathLength="1" style="--d:0.64s"/><line class="hp-l hp-l--plan" x1="344.0" y1="262.6" x2="144.8" y2="197.2"/><line class="hp-l hp-l--bouw" x1="344.0" y1="262.6" x2="144.8" y2="197.2" pathLength="1" style="--d:0.64s"/><line class="hp-l hp-l--plan" x1="144.8" y1="197.2" x2="256.0" y2="122.6"/><line class="hp-l hp-l--bouw" x1="144.8" y1="197.2" x2="256.0" y2="122.6" pathLength="1" style="--d:0.64s"/><line class="hp-l hp-l--plan" x1="200.4" y1="102.9" x2="399.6" y2="168.3"/><line class="hp-l hp-l--bouw" x1="200.4" y1="102.9" x2="399.6" y2="168.3" pathLength="1" style="--d:0.98s"/><line class="hp-l hp-l--plan" x1="256.0" y1="122.6" x2="200.4" y2="102.9"/><line class="hp-l hp-l--bouw" x1="256.0" y1="122.6" x2="200.4" y2="102.9" pathLength="1" style="--d:0.81s"/><line class="hp-l hp-l--plan" x1="144.8" y1="197.2" x2="200.4" y2="102.9"/><line class="hp-l hp-l--bouw" x1="144.8" y1="197.2" x2="200.4" y2="102.9" pathLength="1" style="--d:0.81s"/><line class="hp-l hp-l--plan" x1="455.2" y1="188.1" x2="399.6" y2="168.3"/><line class="hp-l hp-l--bouw" x1="455.2" y1="188.1" x2="399.6" y2="168.3" pathLength="1" style="--d:0.81s"/><line class="hp-l hp-l--plan" x1="344.0" y1="262.6" x2="399.6" y2="168.3"/><line class="hp-l hp-l--bouw" x1="344.0" y1="262.6" x2="399.6" y2="168.3" pathLength="1" style="--d:0.81s"/><line class="hp-maat" x1="122.2" y1="291.7" x2="122.2" y2="127.3"/><line class="hp-maat" x1="117.2" y1="291.7" x2="127.2" y2="291.7"/><line class="hp-maat" x1="117.2" y1="127.3" x2="127.2" y2="127.3"/><text class="hp-maattekst" x="122.2" y="117.3" text-anchor="middle">aanneemsom € 350.000</text><line class="hp-maat" x1="56.6" y1="320.2" x2="342.9" y2="414.3"/><line class="hp-maat" x1="58.1" y1="315.4" x2="55.0" y2="324.9"/><line class="hp-maat" x1="344.5" y1="409.5" x2="341.4" y2="419.0"/><text class="hp-maattekst" x="199.7" y="387.2" text-anchor="middle">grond € 150.000</text></svg>
+                    <div class="hp-kant__tekst">
+                        <h2>Ik koop nieuwbouw</h2>
+                        <p>Je betaalt al terwijl het huis er nog niet staat. Zie per bouwmaand wat dat is, en wanneer het piekt.</p>
+                        <p class="hp-vb"><span>Voorbeeld</span> &euro; 500.000 hypotheek, twaalf maanden bouw: zwaarste maand <strong class="tnum" data-vast="piek">&euro; 3.419</strong> bruto.</p>
+                        <a class="hp-ga" href="nieuwbouw.html">Open de nieuwbouwroute <span aria-hidden="true">&rarr;</span></a>
                     </div>
+                </article>
 
-                    <ul class="bs-beloften">
-                        <li>Elk gegeven met bron en controledatum</li>
-                        <li>Uw invoer blijft op dit apparaat</li>
-                        <li>Wij verkopen niets</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <div class="bs-toneel">
-                        <div class="bs-kantel" data-kantel>
-                            <article class="bs-blad bs-blad--zwevend">
-                                <div class="bs-blad__kop">
-                                    <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
-                                    <span class="bs-blad__stempel">Voorbeeld</span>
-                                </div>
-
-                                <dl class="bs-uitsplitsing">
-                                    <div><dt>Depotbedrag</dt><dd class="tnum" id="vb-bedrag">&euro; 25.000</dd></div>
-                                    <div><dt>Hypotheekrente</dt><dd class="tnum">3,80%</dd></div>
-                                    <div><dt>Looptijd</dt><dd class="tnum">30 jaar</dd></div>
-                                    <div><dt>Hypotheekvorm</dt><dd>Annu&iuml;teiten</dd></div>
-                                </dl>
-
-                                <dl class="bs-uitsplitsing">
-                                    <div><dt>Rente eerste maand</dt><dd class="tnum" id="vb-rente">&euro; 79</dd></div>
-                                    <div><dt>Aflossing eerste maand</dt><dd class="tnum" id="vb-aflossing">&euro; 37</dd></div>
-                                </dl>
-
-                                <div class="bs-antwoord">
-                                    <p class="bs-antwoord__label">Bruto per maand</p>
-                                    <strong class="bs-antwoord__bedrag tnum" id="vb-totaal">&euro; 116</strong>
-                                </div>
-
-                                <p class="bs-blad__voet">Indicatief &middot; informatie, geen advies</p>
-                            </article>
-                        </div>
+                <article class="hp-kant" data-kant="verbouw">
+                    <svg class="hp-tekening" data-tekening="verbouw" viewBox="20 80 560 370" role="img" aria-label="Lijntekening van een bestaand huis met een gestippelde aanbouw"><polygon class="hp-vlak hp-vlak--staat" points="231.8,126.8 406.2,184.2 305.9,251.4 131.6,194.1"/><polygon class="hp-vlak hp-vlak--staat" points="406.2,284.8 305.9,352.0 305.9,251.4 406.2,184.2"/><polygon class="hp-vlak hp-vlak--staat" points="131.6,294.7 305.9,352.0 305.9,251.4 131.6,194.1"/><polygon class="hp-vlak hp-vlak--staat" points="119.9,195.7 306.7,257.1 362.3,162.8 175.5,101.4"/><polygon class="hp-vlak hp-vlak--staat" points="417.8,182.5 306.7,257.1 362.3,162.8"/><polygon class="hp-vlak hp-vlak--plan" points="380.0,243.6 467.2,272.3 393.1,322.0 305.9,293.3"/><polygon class="hp-vlak hp-vlak--plan" points="467.2,331.0 393.1,380.7 393.1,322.0 467.2,272.3"/><polygon class="hp-vlak hp-vlak--plan" points="305.9,352.0 393.1,380.7 393.1,322.0 305.9,293.3"/><line class="hp-l hp-l--grond" x1="233.4" y1="195.4" x2="550.9" y2="299.7"/><line class="hp-l hp-l--grond" x1="550.9" y1="299.7" x2="385.3" y2="410.8"/><line class="hp-l hp-l--grond" x1="385.3" y1="410.8" x2="67.8" y2="306.4"/><line class="hp-l hp-l--grond" x1="67.8" y1="306.4" x2="233.4" y2="195.4"/><line class="hp-l hp-l--staat" x1="231.8" y1="227.5" x2="406.2" y2="284.8"/><line class="hp-l hp-l--staat" x1="406.2" y1="284.8" x2="305.9" y2="352.0"/><line class="hp-l hp-l--staat" x1="305.9" y1="352.0" x2="131.6" y2="294.7"/><line class="hp-l hp-l--staat" x1="131.6" y1="294.7" x2="231.8" y2="227.5"/><line class="hp-l hp-l--staat" x1="231.8" y1="126.8" x2="406.2" y2="184.2"/><line class="hp-l hp-l--staat" x1="406.2" y1="184.2" x2="305.9" y2="251.4"/><line class="hp-l hp-l--staat" x1="305.9" y1="251.4" x2="131.6" y2="194.1"/><line class="hp-l hp-l--staat" x1="131.6" y1="194.1" x2="231.8" y2="126.8"/><line class="hp-l hp-l--staat" x1="231.8" y1="227.5" x2="231.8" y2="126.8"/><line class="hp-l hp-l--staat" x1="406.2" y1="284.8" x2="406.2" y2="184.2"/><line class="hp-l hp-l--staat" x1="305.9" y1="352.0" x2="305.9" y2="251.4"/><line class="hp-l hp-l--staat" x1="131.6" y1="294.7" x2="131.6" y2="194.1"/><line class="hp-l hp-l--staat" x1="231.1" y1="121.1" x2="417.8" y2="182.5"/><line class="hp-l hp-l--staat" x1="417.8" y1="182.5" x2="306.7" y2="257.1"/><line class="hp-l hp-l--staat" x1="306.7" y1="257.1" x2="119.9" y2="195.7"/><line class="hp-l hp-l--staat" x1="119.9" y1="195.7" x2="231.1" y2="121.1"/><line class="hp-l hp-l--staat" x1="175.5" y1="101.4" x2="362.3" y2="162.8"/><line class="hp-l hp-l--staat" x1="231.1" y1="121.1" x2="175.5" y2="101.4"/><line class="hp-l hp-l--staat" x1="119.9" y1="195.7" x2="175.5" y2="101.4"/><line class="hp-l hp-l--staat" x1="417.8" y1="182.5" x2="362.3" y2="162.8"/><line class="hp-l hp-l--staat" x1="306.7" y1="257.1" x2="362.3" y2="162.8"/><line class="hp-l hp-l--plan" x1="380.0" y1="302.3" x2="467.2" y2="331.0"/><line class="hp-l hp-l--bouw" x1="380.0" y1="302.3" x2="467.2" y2="331.0" pathLength="1" style="--d:0.00s"/><line class="hp-l hp-l--plan" x1="467.2" y1="331.0" x2="393.1" y2="380.7"/><line class="hp-l hp-l--bouw" x1="467.2" y1="331.0" x2="393.1" y2="380.7" pathLength="1" style="--d:0.00s"/><line class="hp-l hp-l--plan" x1="393.1" y1="380.7" x2="305.9" y2="352.0"/><line class="hp-l hp-l--bouw" x1="393.1" y1="380.7" x2="305.9" y2="352.0" pathLength="1" style="--d:0.00s"/><line class="hp-l hp-l--plan" x1="305.9" y1="352.0" x2="380.0" y2="302.3"/><line class="hp-l hp-l--bouw" x1="305.9" y1="352.0" x2="380.0" y2="302.3" pathLength="1" style="--d:0.00s"/><line class="hp-l hp-l--plan" x1="380.0" y1="243.6" x2="467.2" y2="272.3"/><line class="hp-l hp-l--bouw" x1="380.0" y1="243.6" x2="467.2" y2="272.3" pathLength="1" style="--d:0.35s"/><line class="hp-l hp-l--plan" x1="467.2" y1="272.3" x2="393.1" y2="322.0"/><line class="hp-l hp-l--bouw" x1="467.2" y1="272.3" x2="393.1" y2="322.0" pathLength="1" style="--d:0.35s"/><line class="hp-l hp-l--plan" x1="393.1" y1="322.0" x2="305.9" y2="293.3"/><line class="hp-l hp-l--bouw" x1="393.1" y1="322.0" x2="305.9" y2="293.3" pathLength="1" style="--d:0.35s"/><line class="hp-l hp-l--plan" x1="305.9" y1="293.3" x2="380.0" y2="243.6"/><line class="hp-l hp-l--bouw" x1="305.9" y1="293.3" x2="380.0" y2="243.6" pathLength="1" style="--d:0.35s"/><line class="hp-l hp-l--plan" x1="380.0" y1="302.3" x2="380.0" y2="243.6"/><line class="hp-l hp-l--bouw" x1="380.0" y1="302.3" x2="380.0" y2="243.6" pathLength="1" style="--d:0.17s"/><line class="hp-l hp-l--plan" x1="467.2" y1="331.0" x2="467.2" y2="272.3"/><line class="hp-l hp-l--bouw" x1="467.2" y1="331.0" x2="467.2" y2="272.3" pathLength="1" style="--d:0.17s"/><line class="hp-l hp-l--plan" x1="393.1" y1="380.7" x2="393.1" y2="322.0"/><line class="hp-l hp-l--bouw" x1="393.1" y1="380.7" x2="393.1" y2="322.0" pathLength="1" style="--d:0.17s"/><line class="hp-l hp-l--plan" x1="305.9" y1="352.0" x2="305.9" y2="293.3"/><line class="hp-l hp-l--bouw" x1="305.9" y1="352.0" x2="305.9" y2="293.3" pathLength="1" style="--d:0.17s"/><line class="hp-maat" x1="286.3" y1="365.2" x2="373.4" y2="393.8"/><line class="hp-maat" x1="287.8" y1="360.4" x2="284.7" y2="369.9"/><line class="hp-maat" x1="375.0" y1="389.1" x2="371.9" y2="398.6"/><text class="hp-maattekst" x="335.9" y="399.5" text-anchor="middle">aanbouw € 60.000</text></svg>
+                    <div class="hp-kant__tekst">
+                        <h2>Ik ga verbouwen</h2>
+                        <p>Zet je plan post voor post in een begroting en zie wat het met je maandlast doet.</p>
+                        <p class="hp-vb"><span>Voorbeeld</span> aanbouw van &euro; 60.000 meefinancieren: <strong class="tnum" data-vast="aanbouw">&euro; 280</strong> bruto per maand.</p>
+                        <a class="hp-ga" href="verbouwbegroting.html">Open de verbouwroute <span aria-hidden="true">&rarr;</span></a>
                     </div>
-
-                    <!-- Eén schuif, geen tweede rekenmachine. Wie rente of looptijd
-                         wil veranderen hoort door te klikken; anders is de knop
-                         "Start berekenen" een loze belofte. -->
-                    <div class="bs-regelaar">
-                        <div class="bs-regelaar__kop">
-                            <label class="bs-micro" for="voorbeeld-bedrag">Schuif eens met uw depotbedrag</label>
-                            <span class="bs-regelaar__waarde tnum" id="vb-waarde">&euro; 25.000</span>
-                        </div>
-                        <input class="bs-schuif" type="range" id="voorbeeld-bedrag" min="5000" max="150000" step="1000" value="25000" aria-label="Depotbedrag in het voorbeeld">
-                        <p class="bs-regelaar__hint">Voorproefje &mdash; de volledige tool rekent ook met rente, looptijd, hypotheekvorm en uw bank</p>
-                    </div>
-                </div>
+                </article>
             </div>
+
+            <form class="hp-snel" data-snel novalidate>
+                <label for="hp-bedrag">Alleen een bouwdepot doorrekenen?</label>
+                <div class="hp-snel__veld">
+                    <span aria-hidden="true">&euro;</span>
+                    <input id="hp-bedrag" type="text" inputmode="numeric" autocomplete="off" value="25.000" aria-describedby="hp-snel-uit hp-snel-noot">
+                </div>
+                <output class="hp-snel__uit tnum" id="hp-snel-uit" for="hp-bedrag" data-snel-uit><span data-vast="snel">&euro; 116</span> bruto per maand</output>
+                <a class="hp-snel__ga" href="bouwdepot-berekenen.html">Volledig berekenen <span aria-hidden="true">&rarr;</span></a>
+                <p class="hp-snel__noot" id="hp-snel-noot">Indicatie bij 3,80% rente, 30 jaar annu&iuml;tair. Je eigen rente, looptijd en bank vul je in de rekentool in.</p>
+            </form>
         </section>
 
-        <section class="bs-sectie" id="gereedschap">
-            <div class="bs-wrap">
-                <div class="bs-sectiekop">
-                    <div>
-                        <p class="bs-micro">Zeven rekenhulpen en de uitleg</p>
-                        <h2 class="bs-titel">Voor elke vraag een eigen berekening</h2>
+        <!-- De kolommen zijn versiering bij de tekst en de tabel, daarom
+             aria-hidden. Ze draaien één keer naar een staafgrafiek als het
+             paneel in beeld komt; zie src/homepage/maandlijn.js. -->
+        <section class="hp-toneel" data-toneel aria-labelledby="hp-toneel-kop">
+                <div class="hp-paneel">
+                    <div class="hp-paneel__kop">
+                        <h2 id="hp-toneel-kop">Zo loopt je maandlast rond de bouw</h2>
+                        <p class="hp-stempel">Voorbeeld &middot; &euro; 500.000 hypotheek &middot; 12 maanden bouw</p>
                     </div>
-                    <a class="bs-knop bs-knop--licht" href="stappenplan.html">Naar de uitleg</a>
-                </div>
 
-                <div class="bs-rooster">
-                    <a class="bs-tool" href="bouwdepot-berekenen.html">
-                        <span class="bs-micro">Maandlasten</span>
-                        <span class="bs-tool__naam">Bouwdepot per maand</span>
-                        <span class="bs-tool__uitleg">Wat het depot u bruto en netto kost, met de verhouding tussen rente en aflossing.</span>
-                        <span class="bs-tool__meta">Berekenen &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="verbouwbegroting.html">
-                        <span class="bs-micro">Verbouwen</span>
-                        <span class="bs-tool__naam">Verbouwbegroting</span>
-                        <span class="bs-tool__uitleg">Post voor post wat uw verbouwing kost, en welk deel daarvan uit het depot mag.</span>
-                        <span class="bs-tool__meta">Begroting maken &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="verbouwbegroting.html#leenruimte">
-                        <span class="bs-micro">Lenen</span>
-                        <span class="bs-tool__naam">Leenruimte</span>
-                        <span class="bs-tool__uitleg">Uw waarderuimte en eigen geld getoetst tegen de woningwaarde na verbouwing.</span>
-                        <span class="bs-tool__meta">Ruimte toetsen &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="nieuwbouw.html">
-                        <span class="bs-micro">Nieuwbouw</span>
-                        <span class="bs-tool__naam">Nieuwbouwplanning</span>
-                        <span class="bs-tool__uitleg">Bouwtermijnen, dubbele lasten en de maand waarin het het zwaarst drukt.</span>
-                        <span class="bs-tool__meta">Planning maken &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="depotplanner.html">
-                        <span class="bs-micro">Lopend depot</span>
-                        <span class="bs-tool__naam">Depotplanner</span>
-                        <span class="bs-tool__uitleg">Houd bij wat er nog in het depot zit en wanneer de vergoeding stopt.</span>
-                        <span class="bs-tool__meta">Depot bijhouden &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="hypotheekrenteaftrek-gids.html">
-                        <span class="bs-micro">Belasting</span>
-                        <span class="bs-tool__naam">Belastingvoordeel</span>
-                        <span class="bs-tool__uitleg">Wat de hypotheekrenteaftrek doet met uw netto last, met de regels van 2026.</span>
-                        <span class="bs-tool__meta">Voordeel berekenen &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="bouwdepot-berekenen.html#tijdens-de-bouw">
-                        <span class="bs-micro">Tijdens de bouw</span>
-                        <span class="bs-tool__naam">Maandlasten in de depotfase</span>
-                        <span class="bs-tool__uitleg">Rente over de hele lening, min de vergoeding over het deel dat nog in depot staat.</span>
-                        <span class="bs-tool__meta">Last berekenen &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="bouwdepot-voorwaarden-vergelijken.html">
-                        <span class="bs-micro">Vergelijken</span>
-                        <span class="bs-tool__naam">Voorwaarden per bank</span>
-                        <span class="bs-tool__uitleg">Acht geldverstrekkers naast elkaar: maximale looptijd, vergoeding en opnames.</span>
-                        <span class="bs-tool__meta">Vergelijken &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="stappenplan.html">
-                        <span class="bs-micro">Uitleg</span>
-                        <span class="bs-tool__naam">Kennisbank</span>
-                        <span class="bs-tool__uitleg">Wat een bouwdepot is, wat u eruit mag betalen en waar declaraties op stuklopen.</span>
-                        <span class="bs-tool__meta">Lezen &rarr;</span>
-                    </a>
+                    <div class="hp-midden">
+                        <ol class="hp-fasen" data-fasen>
+                            <li>
+                                <button class="hp-fasen__knop" type="button" data-fase="voor" aria-pressed="false">
+                                    <span class="hp-fasen__naam">V&oacute;&oacute;r de bouw</span>
+                                    <span class="hp-fasen__bedrag tnum"><span data-vast="voor">&euro; 1.200</span></span>
+                                    <span class="hp-fasen__wat">Alleen je huidige woonlast.</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="hp-fasen__knop" type="button" data-fase="bouw" aria-pressed="false">
+                                    <span class="hp-fasen__naam">Tijdens de bouw</span>
+                                    <span class="hp-fasen__bedrag tnum"><span data-vast="start">&euro; 2.505</span> <span aria-hidden="true">&rarr;</span><span class="ui-alleen-lezer">oplopend tot</span> <span data-vast="piek">&euro; 3.419</span></span>
+                                    <span class="hp-fasen__wat">Hypotheek na depotvergoeding plus huidige woonlast. Loopt op naarmate het depot leegraakt.</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="hp-fasen__knop" type="button" data-fase="na" aria-pressed="false">
+                                    <span class="hp-fasen__naam">Na oplevering</span>
+                                    <span class="hp-fasen__bedrag tnum"><span data-vast="na">&euro; 2.330</span></span>
+                                    <span class="hp-fasen__wat">Alleen de nieuwe hypotheek, als je oude woonlast wegvalt.</span>
+                                </button>
+                            </li>
+                        </ol>
+
+                        <div class="hp-beeld" data-beeld aria-hidden="true">
+                            <div class="hp-vloer is-plat" data-vloer></div>
+                            <div class="hp-assen" data-assen></div>
+                            <div class="hp-prijzen" data-prijzen></div>
+                        </div>
+                    </div>
+
+                    <div class="hp-paneel__voet">
+                        <ul class="hp-legenda">
+                            <li><i class="hp-legenda__oud"></i>Huidige woonlast</li>
+                            <li><i class="hp-legenda__nieuw"></i>Nieuwe hypotheek, na depotvergoeding</li>
+                            <li><i class="hp-legenda__piek"></i>Hoogste maand</li>
+                        </ul>
+                        <button class="hp-draai" type="button" data-draai aria-pressed="true" hidden>Bekijk als grafiek</button>
+                    </div>
                 </div>
-            </div>
+        </section>
+
+        <section class="hp-onder">
+            <details class="hp-tabel">
+                <summary>Dezelfde cijfers als tabel, met de aannames</summary>
+                <div class="hp-tabel__rol">
+                    <table>
+                        <caption class="ui-alleen-lezer">Voorbeeld: bruto maandlast per maand, v&oacute;&oacute;r, tijdens en na de bouw</caption>
+                        <thead><tr><th scope="col">Maand</th><th scope="col">Nog in depot</th><th scope="col">Hypotheek na depotvergoeding</th><th scope="col">Huidige woonlast</th><th scope="col">Bruto totaal</th></tr></thead>
+                        <tbody data-tabel>
+                            <tr><td>3 mnd vooraf</td><td>n.v.t.</td><td>&ndash;</td><td>&euro; 1.200</td><td>&euro; 1.200</td></tr>
+                            <tr><td>2 mnd vooraf</td><td>n.v.t.</td><td>&ndash;</td><td>&euro; 1.200</td><td>&euro; 1.200</td></tr>
+                            <tr><td>1 mnd vooraf</td><td>n.v.t.</td><td>&ndash;</td><td>&euro; 1.200</td><td>&euro; 1.200</td></tr>
+                            <tr><td>Bouwmaand 1</td><td>&euro; 297.500</td><td>&euro; 1.305</td><td>&euro; 1.200</td><td>&euro; 2.505</td></tr>
+                            <tr><td>Bouwmaand 2</td><td>&euro; 297.500</td><td>&euro; 1.388</td><td>&euro; 1.200</td><td>&euro; 2.588</td></tr>
+                            <tr><td>Bouwmaand 3</td><td>&euro; 227.500</td><td>&euro; 1.499</td><td>&euro; 1.200</td><td>&euro; 2.699</td></tr>
+                            <tr><td>Bouwmaand 4</td><td>&euro; 227.500</td><td>&euro; 1.609</td><td>&euro; 1.200</td><td>&euro; 2.809</td></tr>
+                            <tr><td>Bouwmaand 5</td><td>&euro; 227.500</td><td>&euro; 1.609</td><td>&euro; 1.200</td><td>&euro; 2.809</td></tr>
+                            <tr><td>Bouwmaand 6</td><td>&euro; 157.500</td><td>&euro; 1.720</td><td>&euro; 1.200</td><td>&euro; 2.920</td></tr>
+                            <tr><td>Bouwmaand 7</td><td>&euro; 157.500</td><td>&euro; 1.831</td><td>&euro; 1.200</td><td>&euro; 3.031</td></tr>
+                            <tr><td>Bouwmaand 8</td><td>&euro; 157.500</td><td>&euro; 1.831</td><td>&euro; 1.200</td><td>&euro; 3.031</td></tr>
+                            <tr><td>Bouwmaand 9</td><td>&euro; 70.000</td><td>&euro; 1.970</td><td>&euro; 1.200</td><td>&euro; 3.170</td></tr>
+                            <tr><td>Bouwmaand 10</td><td>&euro; 70.000</td><td>&euro; 2.108</td><td>&euro; 1.200</td><td>&euro; 3.308</td></tr>
+                            <tr><td>Bouwmaand 11</td><td>&euro; 70.000</td><td>&euro; 2.108</td><td>&euro; 1.200</td><td>&euro; 3.308</td></tr>
+                            <tr class="is-piek"><td>Bouwmaand 12 (hoogste)</td><td>&euro; 0</td><td>&euro; 2.219</td><td>&euro; 1.200</td><td>&euro; 3.419</td></tr>
+                            <tr><td>1 mnd na oplevering</td><td>&euro; 0</td><td>&euro; 2.330</td><td>&ndash;</td><td>&euro; 2.330</td></tr>
+                            <tr><td>2 mnd na oplevering</td><td>&euro; 0</td><td>&euro; 2.330</td><td>&ndash;</td><td>&euro; 2.330</td></tr>
+                            <tr><td>3 mnd na oplevering</td><td>&euro; 0</td><td>&euro; 2.330</td><td>&ndash;</td><td>&euro; 2.330</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="hp-tabel__noot">Grond &euro; 150.000, aanneemsom &euro; 350.000, 3,80% rente, 30 jaar annu&iuml;tair, vijf bouwtermijnen. Depotvergoeding gelijk aan de hypotheekrente; dat <a href="bouwdepot-voorwaarden-vergelijken.html">verschilt per geldverstrekker</a>. Aangenomen is dat de oude woonlast stopt bij oplevering. Bruto: zonder hypotheekrenteaftrek.</p>
+            </details>
+            <p class="hp-onder__ga"><a href="nieuwbouw.html">Reken dit door met je eigen cijfers <span aria-hidden="true">&rarr;</span></a></p>
+        </section>
+
+        <!-- Het anker #gereedschap wordt gebruikt door de kop op alle andere
+             pagina's en door de redirect van /calculators.html in vercel.json. -->
+        <section class="hp-index" id="gereedschap" aria-labelledby="hp-index-kop">
+            <h2 id="hp-index-kop">Waar wil je beginnen?</h2>
+            <ol>
+                <li><a href="nieuwbouw.html"><span class="hp-index__nr">01</span><span class="hp-index__naam">Ik koop nieuwbouw</span><span class="hp-index__wat">Maandlasten, bouwtermijnen, dubbele lasten</span><span class="hp-index__pijl" aria-hidden="true">&rarr;</span></a></li>
+                <li><a href="verbouwbegroting.html"><span class="hp-index__nr">02</span><span class="hp-index__naam">Ik ga verbouwen of uitbreiden</span><span class="hp-index__wat">Begroting, leenruimte, maandlast</span><span class="hp-index__pijl" aria-hidden="true">&rarr;</span></a></li>
+                <li><a href="bouwdepot-berekenen.html"><span class="hp-index__nr">03</span><span class="hp-index__naam">Bouwdepot berekenen</span><span class="hp-index__wat">E&eacute;n bedrag, direct een maandlast</span><span class="hp-index__pijl" aria-hidden="true">&rarr;</span></a></li>
+                <li class="hp-index__klein"><a href="depotplanner.html"><span class="hp-index__nr">04</span><span class="hp-index__naam">Mijn bouwdepot loopt al</span><span class="hp-index__wat">Einddatum, restsaldo, declaraties</span><span class="hp-index__pijl" aria-hidden="true">&rarr;</span></a></li>
+            </ol>
+        </section>
+
+        <section class="hp-register" aria-labelledby="hp-register-kop">
+            <h2 id="hp-register-kop">Alle rekenhulpen en uitleg</h2>
+            <ul>
+                <li><a href="bouwdepot-berekenen.html#tijdens-de-bouw"><strong>Maandlast tijdens de bouw</strong><span>Rente over de hele lening, min de vergoeding over wat nog in depot staat.</span></a></li>
+                <li><a href="dubbele-lasten-nieuwbouw.html"><strong>Dubbele lasten</strong><span>De periode waarin je oude en nieuwe woonlasten tegelijk draagt.</span></a></li>
+                <li><a href="bouwrente-nieuwbouw.html"><strong>Bouwrente</strong><span>Wat je betaalt over de grond en de termijnen v&oacute;&oacute;r de hypotheek loopt.</span></a></li>
+                <li><a href="renteverlies-bouwdepot.html"><strong>Renteverlies</strong><span>Betaalde hypotheekrente min ontvangen depotvergoeding.</span></a></li>
+                <li><a href="verbouwbegroting.html#leenruimte"><strong>Leenruimte</strong><span>Past het bedrag binnen de waarde van je woning na verbouwing?</span></a></li>
+                <li><a href="hypotheekrenteaftrek-gids.html"><strong>Hypotheekrenteaftrek</strong><span>Je netto maandlast, met de regels van 2026.</span></a></li>
+                <li><a href="bouwdepot-voorwaarden-vergelijken.html"><strong>Voorwaarden per bank</strong><span>Looptijd, vergoeding en opnames naast elkaar, met bron en datum.</span></a></li>
+                <li><a href="bouwdepot-declaratie-afgewezen.html"><strong>Declaratie afgewezen</strong><span>De acht redenen waarop het stukloopt, en wat je dan doet.</span></a></li>
+                <li><a href="stappenplan.html"><strong>Uitleg</strong><span>Wat een bouwdepot is en wat je eruit mag betalen.</span></a></li>
+            </ul>
         </section>
 
         <!-- De kerncijfers komen uit data/bouwdepot-voorwaarden.json. Ze staan
              hier met de hand in de pagina en tests/kerncijfers.test.mjs bewaakt
              dat ze bij de dataset blijven kloppen: verandert de data, dan faalt
              de test op deze getallen. -->
-        <section class="bs-donker" id="waarom">
-            <div class="bs-wrap">
-                <p class="bs-micro">Eigen onderzoek</p>
-                <h2 class="bs-titel">Dertien banken, dertien verschillende bouwdepots</h2>
-                <p class="bs-donker__lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Wij zochten ze op bij de bron en zetten ze naast elkaar.</p>
+        <section class="hp-kern" id="waarom">
+            <p class="hp-opschrift">Eigen onderzoek</p>
+            <h2>Dertien banken, dertien verschillende bouwdepots</h2>
+            <p class="hp-kern__lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Wij zochten ze op bij de bron en zetten ze naast elkaar.</p>
 
-                <div class="bs-kern">
-                    <div class="bs-kern__item">
-                        <p class="bs-kern__cijfer tnum">24&ndash;42</p>
-                        <p class="bs-kern__eenheid">maanden de tijd</p>
-                        <p class="bs-kern__tekst">Zoveel tijd krijgt u voor een verbouwing, inclusief verlenging. Bijna anderhalf jaar verschil tussen de ruimste en de krapste aanbieder.</p>
-                    </div>
-                    <div class="bs-kern__item">
-                        <p class="bs-kern__cijfer tnum">12<span class="kern__van">/13</span></p>
-                        <p class="bs-kern__eenheid">betaalt depotrente</p>
-                        <p class="bs-kern__tekst">Bijna alle aanbieders vergoeden rente over wat er nog in het depot staat. &Eacute;&eacute;n doet dat niet, maar rekent er dan ook geen rente over: die betaalt u pas zodra u opneemt.</p>
-                    </div>
-                    <div class="bs-kern__item">
-                        <p class="bs-kern__cijfer tnum">32</p>
-                        <p class="bs-kern__eenheid">gegevens niet gepubliceerd</p>
-                        <p class="bs-kern__tekst">Zoveel voorwaarden zetten aanbieders niet openbaar. Wij vullen ze niet in met een schatting; ze blijven zichtbaar leeg.</p>
-                    </div>
+            <div class="hp-kern__rij">
+                <div class="hp-kern__item">
+                    <p class="hp-kern__cijfer tnum">24&ndash;42</p>
+                    <p class="hp-kern__eenheid">maanden de tijd</p>
+                    <p class="hp-kern__tekst">Zoveel tijd krijg je voor een verbouwing, inclusief verlenging. Bijna anderhalf jaar verschil tussen de ruimste en de krapste aanbieder.</p>
                 </div>
-
-                <div class="bs-kolommen">
-                    <article>
-                        <h3>Wij sturen u nergens heen</h3>
-                        <p>Geen leadformulier, geen samenwerking met geldverstrekkers en geen gegevens die ergens heen gaan. Wij geven informatie, geen advies.</p>
-                    </article>
-                    <article>
-                        <h3>Uw invoer blijft van u</h3>
-                        <p>Geen account, geen opslag op onze server. Wat u invult blijft op uw eigen apparaat staan. Zie <a href="privacy.html">privacy</a>.</p>
-                    </article>
-                    <article>
-                        <h3>Rekenregels gecontroleerd</h3>
-                        <p>Bronnen: <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/tariefsaanpassing-eigen-woning" target="_blank" rel="noopener noreferrer nofollow">Belastingdienst</a> en <a href="https://www.rijksoverheid.nl/vraag-en-antwoord/huis-kopen/maximaal-bedrag-lenen-koopwoning" target="_blank" rel="noopener noreferrer nofollow">Rijksoverheid</a>. Rekenregels gecontroleerd op 21 juli 2026. Klopt er iets niet? <a href="contact.html">Laat het weten</a>.</p>
-                    </article>
+                <div class="hp-kern__item">
+                    <p class="hp-kern__cijfer tnum">12<span class="kern__van">/13</span></p>
+                    <p class="hp-kern__eenheid">betaalt depotrente</p>
+                    <p class="hp-kern__tekst">Bijna alle aanbieders vergoeden rente over wat er nog in het depot staat. E&eacute;n doet dat niet, maar rekent er dan ook geen rente over: die betaal je pas zodra je opneemt.</p>
                 </div>
-
-                <div class="bs-acties">
-                    <a class="bs-knop bs-knop--spook" href="methodologie.html">Onze werkwijze</a>
-                    <a class="bs-knop bs-knop--spook" href="bouwdepot-voorwaarden-vergelijken.html">Waar de cijfers vandaan komen</a>
+                <div class="hp-kern__item">
+                    <p class="hp-kern__cijfer tnum">32</p>
+                    <p class="hp-kern__eenheid">gegevens niet gepubliceerd</p>
+                    <p class="hp-kern__tekst">Zoveel voorwaarden zetten aanbieders niet openbaar. Wij vullen ze niet in met een schatting; ze blijven zichtbaar leeg.</p>
                 </div>
             </div>
+
+            <div class="hp-beloften">
+                <article>
+                    <h3>Wij sturen je nergens heen</h3>
+                    <p>Geen leadformulier, geen samenwerking met geldverstrekkers en geen gegevens die ergens heen gaan. Wij geven informatie, geen advies.</p>
+                </article>
+                <article>
+                    <h3>Je invoer blijft van jou</h3>
+                    <p>Geen account, geen opslag op onze server. Wat je invult blijft op je eigen apparaat staan. Zie <a href="privacy.html">privacy</a>.</p>
+                </article>
+                <article>
+                    <h3>Rekenregels gecontroleerd</h3>
+                    <p>Bronnen: <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/tariefsaanpassing-eigen-woning" target="_blank" rel="noopener noreferrer nofollow">Belastingdienst</a> en <a href="https://www.rijksoverheid.nl/vraag-en-antwoord/huis-kopen/maximaal-bedrag-lenen-koopwoning" target="_blank" rel="noopener noreferrer nofollow">Rijksoverheid</a>. Rekenregels gecontroleerd op 21 juli 2026. Klopt er iets niet? <a href="contact.html">Laat het weten</a>.</p>
+                </article>
+            </div>
+
+            <p class="hp-acties">
+                <a href="methodologie.html">Onze werkwijze <span aria-hidden="true">&rarr;</span></a>
+                <a href="bouwdepot-voorwaarden-vergelijken.html">Waar de cijfers vandaan komen <span aria-hidden="true">&rarr;</span></a>
+            </p>
         </section>
     </main>
 
-    <div class="bs-band" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
-
-    <footer class="bs-voet">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="hp-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
 
-    <script type="module" src="/src/js/homepage.js"></script>
+    <script type="module" src="/src/homepage/index.js"></script>
 
     <script type="application/ld+json">
     {

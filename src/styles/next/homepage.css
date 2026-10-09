@@ -1,0 +1,564 @@
+/*
+ * De homepage.
+ *
+ * Opbouw van boven naar beneden: de kop, de keuze (twee lijntekeningen en één
+ * invoerveld), de maandlijn (een donker paneel met kolommen die naar een
+ * staafgrafiek draaien), de routes, alle rekenhulpen en de kerncijfers.
+ *
+ * Koppen in Inter Tight, maten en opschriften in een monospace.
+ */
+
+/* ==========================================================================
+   Kop
+   De opmaak komt uit scripts/build-header.mjs en is op elke pagina dezelfde
+   (tests/header.test.mjs). Hier krijgt hij alleen de nieuwe vormgeving; de
+   klassen blijven bs-*, want de generator is de bron.
+   ========================================================================== */
+
+.hp { --hp-kop: 4.5rem; }
+
+.hp .bs-wrap { width: 100%; max-width: var(--ui-max); margin: 0 auto; padding: 0 var(--ui-rand); }
+.hp .bs-kop { position: relative; z-index: 20; }
+.hp .bs-kop__inner { display: flex; align-items: center; gap: 1.25rem; min-height: var(--hp-kop); }
+.hp .bs-merk { font-weight: 600; letter-spacing: -0.01em; text-decoration: none; color: var(--ui-forest); }
+.hp .bs-merk span { font-weight: 400; color: var(--ui-ink); }
+.hp .bs-merk b { font-weight: 400; color: var(--ui-muted); }
+
+.hp .bs-kop__nav { margin-left: auto; display: flex; align-items: center; gap: clamp(1rem, 2.4vw, 2.25rem); }
+.hp .bs-kop__nav a,
+.hp .bs-kop__knop {
+    font-family: var(--ui-mono);
+    font-size: 0.8125rem;
+    color: var(--ui-ink);
+    text-decoration: none;
+}
+.hp .bs-kop__nav a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+.hp .bs-kop__nav a:hover,
+.hp .bs-kop__knop:hover { text-decoration: underline; text-underline-offset: 0.4em; }
+
+.hp .bs-kop__knop {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+}
+/* De terugval staat standaard aan en de knop uit; pas als de browser popover
+   aantoonbaar ondersteunt wisselen ze om. */
+@supports selector(:popover-open) {
+    .hp .bs-kop__knop { display: inline-flex; }
+    .hp .bs-kop__nav .bs-kop__terugval { display: none; }
+}
+
+.hp .bs-staafjes { display: flex; align-items: flex-end; gap: 3px; height: 1rem; }
+.hp .bs-staafjes i { display: block; width: 3px; background: var(--ui-forest); transition: height 0.18s ease; }
+.hp .bs-staafjes i:nth-child(1) { height: 60%; }
+.hp .bs-staafjes i:nth-child(2) { height: 100%; }
+.hp .bs-staafjes i:nth-child(3) { height: 40%; }
+
+.hp .bs-paneel {
+    display: none;
+    position: fixed;
+    inset: var(--hp-kop) 0 auto 0;
+    width: 100%;
+    max-width: none;
+    max-height: calc(100dvh - var(--hp-kop));
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-top: 1.5px solid var(--ui-ink);
+    border-bottom: 1px solid var(--ui-line);
+    background: var(--ui-canvas);
+    color: var(--ui-ink);
+    overflow-y: auto;
+    box-shadow: 0 24px 48px -28px rgba(16, 41, 36, 0.4);
+}
+.hp .bs-paneel:popover-open { display: block; }
+.hp .bs-paneel::backdrop { background: rgba(16, 41, 36, 0.24); }
+.hp .bs-paneel__inner { display: grid; gap: clamp(1.25rem, 3vw, 2rem); padding-block: clamp(1.25rem, 3vw, 2rem); }
+.hp .bs-paneel__vraag { margin-bottom: 0.4rem; font-family: var(--ui-mono); font-size: 0.75rem; color: var(--ui-muted); }
+.hp .bs-paneel__lijst { display: grid; gap: 2px; }
+.hp .bs-paneel__lijst a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.75rem;
+    margin-inline: -0.75rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+}
+.hp .bs-paneel__lijst a:hover,
+.hp .bs-paneel__lijst a:focus-visible { background: var(--ui-sage-licht); }
+.hp .bs-paneel__lijst strong { font-weight: 600; color: var(--ui-forest); }
+.hp .bs-paneel__lijst span { font-size: 0.875rem; line-height: 1.4; color: var(--ui-muted); }
+
+@media (min-width: 760px) {
+    .hp .bs-paneel__inner { grid-template-columns: repeat(3, 1fr); }
+    .hp .bs-paneel__groep--ook { display: none; }
+}
+@media (max-width: 759.98px) {
+    .hp .bs-kop__nav > a:not(.bs-kop__terugval) { display: none; }
+}
+
+/* ==========================================================================
+   De keuze
+   ========================================================================== */
+
+.hp-opschrift { font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
+
+.hp-hero {
+    max-width: var(--ui-max);
+    margin: 0 auto;
+    padding: clamp(0.5rem, 2vh, 2rem) var(--ui-rand) 0;
+}
+.hp-hero h1 {
+    margin: 0.75rem 0 0.5rem;
+    font-weight: 500;
+    font-size: clamp(2.75rem, 7.3vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    color: var(--ui-ink);
+}
+/* De kop is de routekeuze: beide woorden zijn een link. */
+.hp-hero h1 a {
+    color: var(--ui-forest);
+    text-decoration: underline;
+    text-decoration-color: var(--ui-sage);
+    text-decoration-thickness: 0.055em;
+    text-underline-offset: 0.1em;
+    transition: text-decoration-color 0.25s ease;
+}
+.hp-hero h1 a:hover,
+.hp-hero[data-actief="nieuw"] h1 a[data-wijst="nieuw"],
+.hp-hero[data-actief="verbouw"] h1 a[data-wijst="verbouw"] { text-decoration-color: var(--ui-forest); }
+.hp-lead { font-size: 1.1875rem; max-width: 36rem; }
+
+.hp-twee {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: clamp(1rem, 3vh, 2rem);
+    border-top: 1.5px solid var(--ui-ink);
+}
+.hp-kant { position: relative; padding: 0.5rem clamp(1rem, 2.5vw, 2.5rem) 1.75rem 0; }
+.hp-kant + .hp-kant { padding-left: clamp(1rem, 2.5vw, 2.5rem); padding-right: 0; border-left: 1px solid var(--ui-line); }
+.hp-kant__tekst { max-width: 27rem; }
+.hp-kant h2 { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+.hp-vb { margin-top: 0.75rem; font-size: 0.9375rem; color: var(--ui-muted); }
+.hp-vb span {
+    font-family: var(--ui-mono);
+    font-size: 0.75rem;
+    border: 1px solid var(--ui-sage);
+    border-radius: 3px;
+    padding: 0.05rem 0.4rem;
+    margin-right: 0.35rem;
+    color: var(--ui-forest);
+}
+.hp-vb strong { color: var(--ui-ink); font-weight: 600; }
+.hp-ga {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    margin-top: 0.5rem;
+    font-weight: 600;
+    color: var(--ui-forest);
+    text-underline-offset: 0.35em;
+}
+.hp-ga span { transition: transform 0.2s ease; }
+/* De hele helft is aanklikbaar; de link zelf blijft de enige tabstop. */
+.hp-ga::after { content: ''; position: absolute; inset: 0; }
+.hp-kant:hover .hp-ga span { transform: translateX(5px); }
+
+/* --- Tekeningen: wat er staat is een lijn, wat gepland is een streeplijn --- */
+
+.hp-tekening { width: 100%; height: auto; max-height: 46vh; overflow: visible; }
+.hp-l, .hp-maat { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.hp-l--grond { stroke: var(--ui-sage); stroke-width: 1; }
+.hp-l--staat { stroke: var(--ui-ink); stroke-width: 1.5; }
+.hp-l--plan { stroke: var(--ui-muted); stroke-width: 1; stroke-dasharray: 4 5; opacity: 0.8; transition: opacity 0.4s ease; }
+.hp-l--bouw {
+    stroke: var(--ui-forest);
+    stroke-width: 1.75;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.55s ease;
+    transition-delay: 0s;
+}
+.hp-vlak { stroke: none; }
+.hp-vlak--staat { fill: var(--ui-surface); opacity: 0.85; }
+.hp-vlak--plan { fill: var(--ui-sage); opacity: 0; transition: opacity 0.5s ease; }
+.hp-maat { stroke: var(--ui-champagne); stroke-width: 1; }
+.hp-maattekst { font-family: var(--ui-mono); font-size: 11px; fill: #7A5C2E; }
+
+/* Aangewezen of voorbijgescrold: de streeplijnen worden gebouwd, van onder
+   naar boven. */
+.hp-kant.is-actief .hp-l--bouw { stroke-dashoffset: 0; transition-delay: var(--d, 0s); }
+.hp-kant.is-actief .hp-vlak--plan { opacity: 0.32; transition-delay: 0.35s; }
+.hp-kant.is-actief .hp-l--plan { opacity: 0; }
+
+/* --- Het ene invoerveld --- */
+
+.hp-snel {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+    padding: 1rem 0 1.25rem;
+    margin-bottom: clamp(1.5rem, 4vw, 3rem);
+    border-top: 1.5px solid var(--ui-ink);
+}
+.hp-snel label { font-weight: 600; }
+.hp-snel__veld {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0 0.85rem;
+    min-height: 2.75rem;
+    background: var(--ui-surface);
+    border: 1px solid var(--ui-muted);
+    border-radius: 0.5rem;
+    font-family: var(--ui-mono);
+}
+.hp-snel__veld:focus-within { outline: 2px solid var(--ui-forest); outline-offset: 2px; }
+.hp-snel__veld input { width: 7.5rem; border: 0; background: none; outline: 0; font-variant-numeric: tabular-nums; }
+.hp-snel__uit { font-size: 1.375rem; font-weight: 600; letter-spacing: -0.02em; }
+.hp-snel__uit[data-fout] { font-size: 0.9375rem; font-weight: 400; letter-spacing: 0; color: #8A3A3A; }
+.hp-snel__ga { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; font-weight: 600; color: var(--ui-forest); text-underline-offset: 0.35em; }
+.hp-snel__noot { grid-column: 1 / -1; font-size: 0.8125rem; color: var(--ui-muted); }
+
+/* ==========================================================================
+   De maandlijn
+   Een donker paneel met kolommen die één keer van 3D naar een staafgrafiek
+   draaien. De 3D is pure CSS: geen bibliotheek, geen canvas. Het paneel staat
+   gewoon in de pagina; er wordt niets vastgezet tijdens het scrollen.
+   ========================================================================== */
+
+.hp-toneel { padding: 0.75rem; }
+.hp-paneel {
+    position: relative;
+    min-height: min(88svh, 46rem);
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    background: var(--ui-forest);
+    color: var(--ui-canvas);
+    border-radius: 1.75rem;
+    overflow: hidden;
+}
+.hp-paneel :focus-visible { outline-color: var(--ui-canvas); }
+.hp-paneel__kop { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; }
+.hp-paneel__kop h2 { font-size: clamp(1.5rem, 2.6vw, 2.5rem); font-weight: 500; letter-spacing: -0.035em; line-height: 1.05; }
+.hp-stempel { font-family: var(--ui-mono); font-size: 0.8125rem; color: #B9CEC2; }
+
+.hp-midden { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+
+.hp-fasen { display: grid; grid-template-columns: 1fr; margin-top: 0.75rem; }
+.hp-fasen li { border-top: 1px solid rgba(247, 245, 240, 0.28); transition: opacity 0.3s ease, border-color 0.3s ease; }
+/* Elke fase is een knop: aanwijzen licht de kolommen op, aanklikken zet vast. */
+.hp-fasen__knop {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 0 1rem;
+    width: 100%;
+    padding: 0.55rem 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+.hp-fasen__knop > span { display: block; }
+.hp-fasen__knop[aria-pressed="true"] .hp-fasen__naam::after { content: ' · vastgezet'; }
+.hp-fasen__naam { font-family: var(--ui-mono); font-size: 0.75rem; color: #B9CEC2; }
+.hp-fasen__bedrag { font-size: 1.25rem; font-weight: 500; letter-spacing: -0.04em; line-height: 1.2; }
+.hp-fasen__wat { grid-column: 1 / -1; font-size: 0.8125rem; line-height: 1.45; color: #D5E0D9; max-width: 19rem; }
+/* Niet-actieve fasen blijven leesbaar: ze wijken, ze verdwijnen niet. */
+.hp-fasen[data-actief] li { opacity: 0.72; }
+.hp-fasen[data-actief] li.is-actief { opacity: 1; border-color: var(--ui-champagne); }
+@media (max-width: 899px) {
+    .hp-fasen[data-actief] li:not(.is-actief) .hp-fasen__wat { display: none; }
+}
+
+@media (min-width: 900px) {
+    .hp-midden {
+        display: grid;
+        grid-template-columns: minmax(15rem, 19rem) minmax(0, 1fr);
+        gap: clamp(1.5rem, 4vw, 4rem);
+        margin-top: clamp(1rem, 3vh, 2rem);
+    }
+    .hp-fasen { align-content: center; margin: 0; }
+    .hp-fasen li { border-top: 0; border-left: 2px solid rgba(247, 245, 240, 0.28); }
+    .hp-fasen__knop { display: block; padding: 1rem 0 1rem 1.25rem; }
+    .hp-fasen__naam { font-size: 0.8125rem; }
+    .hp-fasen__bedrag { font-size: clamp(1.5rem, 2.2vw, 2.125rem); margin: 0.2rem 0 0.3rem; }
+    .hp-fasen__wat { font-size: 0.875rem; }
+}
+
+/* --- Het bouwwerk --- */
+
+.hp-beeld {
+    --w: 30px;      /* breedte en diepte van een kolom */
+    --stap: 46px;   /* hart-op-hart */
+    --k: 0.085;     /* pixels per euro; het script verkleint dit als het toneel laag is */
+    --n: 18;
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 20rem;
+}
+.hp-vloer {
+    position: absolute;
+    left: 50%;
+    top: 74%;
+    width: calc(var(--n) * var(--stap) - (var(--stap) - var(--w)));
+    height: var(--w);
+    margin-left: calc((var(--n) * var(--stap) - (var(--stap) - var(--w))) / -2);
+    transform-style: preserve-3d;
+    will-change: transform;
+    transform: translateY(var(--dy, 0px)) rotateX(62deg) rotateZ(40deg);
+    /* De draaiing is een gewone overgang: de browser verdeelt hem zelf over de
+       beelden, onafhankelijk van hoe er gescrold wordt. */
+    transition: transform 1.5s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.hp-beeld.is-grafiek .hp-vloer { transform: translateY(0px) rotateX(90deg) rotateZ(0deg); }
+
+/* Dimmen gaat via de kleur van de vlakken. Opacity op een kolom zou hem plat
+   drukken: een doorschijnend element kan geen 3D-kinderen houden. */
+@property --licht { syntax: '<number>'; inherits: true; initial-value: 1; }
+
+.hp-staaf {
+    --licht: 1;
+    position: absolute;
+    top: 0;
+    left: calc(var(--i) * var(--stap));
+    width: var(--w);
+    height: var(--w);
+    transform-style: preserve-3d;
+    transform: scale3d(1, 1, 1);
+    transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1), --licht 0.3s ease;
+    transition-delay: calc(var(--i) * 30ms), 0s;
+}
+.hp-vloer.is-plat .hp-staaf { transform: scale3d(1, 1, 0.002); }
+.hp-vloer[data-actief] .hp-staaf { --licht: 0.3; }
+.hp-vloer[data-actief="0"] .hp-staaf[data-fase="voor"],
+.hp-vloer[data-actief="1"] .hp-staaf[data-fase="bouw"],
+.hp-vloer[data-actief="2"] .hp-staaf[data-fase="na"] { --licht: 1; }
+
+.hp-seg {
+    --h: calc(var(--e) * var(--k) * 1px);
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: translateZ(calc(var(--z) * var(--k) * 1px));
+}
+.hp-seg i, .hp-seg b, .hp-seg u { position: absolute; display: block; }
+.hp-seg i { inset: 0; transform: translateZ(var(--h)); background: color-mix(in srgb, var(--top) calc(var(--licht) * 100%), var(--ui-forest)); }
+.hp-seg b { left: 0; bottom: 0; width: 100%; height: var(--h); transform-origin: 50% 100%; transform: rotateX(-90deg); background: color-mix(in srgb, var(--voor) calc(var(--licht) * 100%), var(--ui-forest)); }
+.hp-seg u { top: 0; right: 0; width: var(--h); height: 100%; transform-origin: 100% 50%; transform: rotateY(90deg); background: color-mix(in srgb, var(--zij) calc(var(--licht) * 100%), var(--ui-forest)); }
+.hp-seg--oud { --top: #BCD2C5; --voor: #9BB8A8; --zij: #7B9A89; }
+.hp-seg--nieuw { --top: #FFFFFF; --voor: #F3EFE6; --zij: #D2CCBE; }
+.hp-staaf.is-piek .hp-seg--nieuw { --top: #E3C79E; --voor: #CFAD7D; --zij: #B08F61; }
+
+/* De assen horen bij het eindbeeld: ze verschijnen als de camera recht voor
+   de kolommen staat en het bouwwerk een grafiek is geworden. */
+.hp-assen {
+    position: absolute;
+    left: 50%;
+    top: 74%;
+    width: calc(var(--n) * var(--stap) - (var(--stap) - var(--w)));
+    margin-left: calc((var(--n) * var(--stap) - (var(--stap) - var(--w))) / -2);
+    margin-top: calc(var(--w) / 2);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    font-family: var(--ui-mono);
+    font-size: 0.75rem;
+    color: #D5E0D9;
+    pointer-events: none;
+}
+.hp-beeld.is-grafiek .hp-assen { opacity: 1; transition: opacity 0.4s ease 1.1s; }
+.hp-assen__lijn { height: 1px; background: rgba(247, 245, 240, 0.4); }
+.hp-assen__groepen { display: flex; margin-top: 0.5rem; }
+.hp-assen__groepen span { text-align: center; border-left: 1px solid rgba(247, 245, 240, 0.25); padding: 0 0.25rem; white-space: nowrap; overflow: hidden; }
+.hp-assen__groepen span:first-child { border-left: 0; }
+
+/* Prijskaartjes: het script zet ze op de bovenkant van hun kolom. */
+.hp-prijzen { position: absolute; inset: 0; pointer-events: none; }
+.hp-prijs {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1.1rem;
+    white-space: nowrap;
+    line-height: 1.15;
+    /* Een rand in de paneelkleur houdt het kaartje leesbaar voor een kolom. */
+    text-shadow: 0 0 3px var(--ui-forest), 0 0 8px var(--ui-forest), 0 0 14px var(--ui-forest);
+    transition: opacity 0.3s ease;
+}
+.hp-prijs::after { content: ''; position: absolute; bottom: 0.2rem; left: 50%; width: 1px; height: 0.7rem; background: currentColor; opacity: 0.6; }
+.hp-prijs strong { font-size: clamp(1rem, 1.5vw, 1.375rem); font-weight: 600; letter-spacing: -0.02em; }
+.hp-prijs span { font-family: var(--ui-mono); font-size: 0.75rem; color: #D5E0D9; }
+.hp-prijs[data-fase="voor"] strong { color: #BCD2C5; }
+.hp-prijs:nth-child(3) strong { color: var(--ui-champagne); }
+.hp-prijzen[data-actief] .hp-prijs:not(.is-actief) { opacity: 0.4; }
+
+.hp-paneel__voet { position: relative; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 2rem; }
+.hp-draai {
+    min-height: 2.75rem;
+    padding: 0 1.1rem;
+    border: 1px solid rgba(247, 245, 240, 0.5);
+    border-radius: 999px;
+    background: none;
+    color: var(--ui-canvas);
+    font-family: var(--ui-mono);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.hp-draai:hover { background: var(--ui-canvas); color: var(--ui-forest); }
+.hp-legenda { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; font-size: 0.8125rem; color: #D5E0D9; }
+.hp-legenda li { display: flex; align-items: center; gap: 0.5rem; }
+.hp-legenda i { width: 0.75rem; height: 0.75rem; border-radius: 2px; }
+.hp-legenda__oud { background: #9BB8A8; }
+.hp-legenda__nieuw { background: #F3EFE6; }
+.hp-legenda__piek { background: var(--ui-champagne); }
+
+@media (max-width: 1099px) {
+    .hp-beeld { --w: 22px; --stap: 34px; --k: 0.07; }
+}
+@media (max-width: 699px) {
+    .hp-toneel { padding: 0.5rem; }
+    .hp-paneel { border-radius: 1.25rem; padding: 1.1rem 1rem; }
+    .hp-beeld { --w: 12px; --stap: 18px; --k: 0.05; min-height: 16rem; }
+    .hp-assen { font-size: 0.6875rem; }
+    .hp-prijs--extra { display: none; }
+    .hp-prijs span { font-size: 0.6875rem; }
+    .hp-legenda { font-size: 0.75rem; gap: 0.25rem 1rem; }
+}
+
+/* --- Onder het toneel: dezelfde cijfers als tabel --- */
+
+.hp-onder { max-width: var(--ui-max); margin: 0 auto; padding: 1.5rem var(--ui-rand) 0; }
+.hp-tabel summary { cursor: pointer; min-height: 2.75rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 600; }
+.hp-tabel__rol { overflow-x: auto; margin-top: 0.75rem; }
+.hp-tabel table { width: 100%; min-width: 36rem; border-collapse: collapse; font-size: 0.9375rem; font-variant-numeric: tabular-nums; }
+.hp-tabel th, .hp-tabel td { padding: 0.5rem 0.75rem; text-align: right; border-bottom: 1px solid var(--ui-line); }
+.hp-tabel th:first-child, .hp-tabel td:first-child { text-align: left; padding-left: 0; }
+.hp-tabel th { font-size: 0.8125rem; font-weight: 600; color: var(--ui-muted); vertical-align: bottom; }
+.hp-tabel tr.is-piek td { font-weight: 600; background: #F1E7D6; }
+.hp-tabel__noot { margin-top: 1rem; max-width: 46rem; font-size: 0.875rem; color: var(--ui-muted); }
+.hp-onder__ga { margin-top: 0.5rem; }
+.hp-onder__ga a { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; font-weight: 600; color: var(--ui-forest); text-underline-offset: 0.35em; }
+
+/* ==========================================================================
+   Routes en alle rekenhulpen
+   ========================================================================== */
+
+.hp-index { max-width: var(--ui-max); margin: 0 auto; padding: clamp(4rem, 9vw, 8rem) var(--ui-rand) 0; scroll-margin-top: 1rem; }
+.hp-index h2 { font-family: var(--ui-mono); font-weight: 400; font-size: 0.8125rem; color: var(--ui-muted); margin-bottom: 1.25rem; }
+.hp-index ol { border-top: 1.5px solid var(--ui-forest); }
+.hp-index ol a {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 20rem) 3rem;
+    align-items: baseline;
+    gap: 1rem;
+    padding: clamp(1rem, 2.4vw, 2rem) 1rem;
+    margin: 0 -1rem;
+    border-bottom: 1px solid var(--ui-line);
+    border-radius: 0.75rem;
+    text-decoration: none;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+.hp-index__nr { font-family: var(--ui-mono); font-size: 0.875rem; color: var(--ui-muted); transition: color 0.25s ease; }
+.hp-index__naam { font-size: clamp(1.75rem, 4.4vw, 4rem); font-weight: 500; letter-spacing: -0.045em; line-height: 1.02; color: var(--ui-forest); transition: color 0.25s ease; }
+.hp-index__wat { font-size: 0.9375rem; color: var(--ui-muted); transition: color 0.25s ease; }
+.hp-index__pijl { font-size: 1.5rem; text-align: right; transition: transform 0.25s ease; }
+.hp-index ol a:hover, .hp-index ol a:focus-visible { background: var(--ui-forest); border-bottom-color: transparent; }
+.hp-index ol a:hover span, .hp-index ol a:focus-visible span { color: var(--ui-canvas); }
+.hp-index ol a:focus-visible { outline-offset: 4px; }
+.hp-index ol a:hover .hp-index__pijl { transform: translateX(6px); }
+.hp-index__klein .hp-index__naam { font-size: clamp(1.25rem, 2.2vw, 1.75rem); letter-spacing: -0.03em; }
+
+/* Alle rekenhulpen: geen kaarten, een register. */
+.hp-register { max-width: var(--ui-max); margin: 0 auto; padding: clamp(2.5rem, 5vw, 4rem) var(--ui-rand) 0; }
+.hp-register h2 { font-family: var(--ui-mono); font-weight: 400; font-size: 0.8125rem; color: var(--ui-muted); margin-bottom: 0.75rem; }
+.hp-register ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(1.5rem, 4vw, 4rem); }
+.hp-register a {
+    display: block;
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--ui-line);
+    text-decoration: none;
+}
+.hp-register strong { display: block; font-weight: 600; color: var(--ui-forest); }
+.hp-register span { display: block; font-size: 0.875rem; line-height: 1.45; color: var(--ui-muted); }
+.hp-register a:hover strong { text-decoration: underline; text-underline-offset: 0.3em; }
+
+/* ==========================================================================
+   Kerncijfers en vertrouwen
+   ========================================================================== */
+
+.hp-kern { max-width: var(--ui-max); margin: 0 auto; padding: clamp(4rem, 9vw, 8rem) var(--ui-rand) clamp(4rem, 8vw, 7rem); scroll-margin-top: 1rem; }
+.hp-kern h2 { margin: 0.5rem 0 0.75rem; font-weight: 500; font-size: clamp(2rem, 4.4vw, 4rem); letter-spacing: -0.04em; line-height: 1; max-width: 16em; text-wrap: balance; }
+.hp-kern__lead { max-width: 38rem; }
+.hp-kern__rij { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); margin-top: clamp(2rem, 4vw, 3.5rem); border-top: 1.5px solid var(--ui-ink); }
+.hp-kern__item { padding-top: 1.25rem; }
+.hp-kern__cijfer { font-size: clamp(3rem, 6.5vw, 6rem); font-weight: 500; letter-spacing: -0.05em; line-height: 1; color: var(--ui-forest); }
+.kern__van { font-size: 0.45em; letter-spacing: -0.02em; color: var(--ui-muted); }
+.hp-kern__eenheid { margin: 0.5rem 0 0.4rem; font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
+.hp-kern__tekst { font-size: 0.9375rem; max-width: 24rem; }
+
+.hp-beloften { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 4vw, 4rem); margin-top: clamp(2.5rem, 5vw, 4rem); font-size: 0.9375rem; }
+.hp-beloften h3 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.3rem; }
+.hp-beloften p { max-width: 24rem; }
+.hp-beloften a, .hp-acties a { color: var(--ui-forest); font-weight: 600; text-underline-offset: 0.3em; }
+.hp-acties { display: flex; flex-wrap: wrap; gap: 0.25rem 2rem; margin-top: 2rem; }
+.hp-acties a { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; }
+
+.hp-voet {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    padding: 1.5rem var(--ui-rand) 2.5rem;
+    border-top: 1px solid var(--ui-line);
+    font-size: 0.875rem;
+    color: var(--ui-muted);
+}
+.hp-voet nav { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+.hp-voet a { display: inline-flex; align-items: center; min-height: 2.75rem; text-underline-offset: 0.3em; }
+
+/* ==========================================================================
+   Smal scherm
+   ========================================================================== */
+
+@media (max-width: 899px) {
+    .hp-hero h1 { font-size: clamp(2.75rem, 13.5vw, 5rem); }
+    .hp-twee { grid-template-columns: 1fr; }
+    .hp-kant, .hp-kant + .hp-kant { padding: 0.5rem 0 1.5rem; border-left: 0; }
+    .hp-kant + .hp-kant { border-top: 1px solid var(--ui-line); }
+    .hp-tekening { max-height: none; }
+    .hp-maattekst { font-size: 17px; }
+    .hp-snel { grid-template-columns: 1fr auto; }
+    .hp-snel label, .hp-snel__ga { grid-column: 1 / -1; }
+    .hp-snel__uit { text-align: right; font-size: 1.125rem; }
+
+    .hp-index ol a { grid-template-columns: 2.25rem minmax(0, 1fr) 2rem; }
+    .hp-index__wat { grid-column: 2; grid-row: 2; }
+    .hp-index__pijl { grid-row: 1; grid-column: 3; }
+    .hp-register ul { grid-template-columns: 1fr 1fr; }
+    .hp-kern__rij, .hp-beloften { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+@media (max-width: 559px) {
+    .hp-register ul { grid-template-columns: 1fr; }
+}
+
+@media print {
+    .hp-beeld, .hp-paneel__voet { display: none; }
+    .hp-paneel { background: none; color: var(--ui-ink); }
+}

@@ -1,0 +1,84 @@
+/*
+ * Tokens en basis van de nieuwe vormgeving (namespace --ui-*).
+ *
+ * Staat los van broadsheet.css (--bs-*). Alleen pagina's die al zijn omgezet
+ * laden dit bestand; op dit moment is dat de homepage. Een pagina laadt óf
+ * broadsheet.css óf dit bestand, nooit allebei: beide zetten een eigen reset.
+ */
+
+:root {
+    --ui-canvas: #F7F5F0;
+    --ui-surface: #FFFFFF;
+    --ui-forest: #183B35;
+    --ui-forest-diep: #102924;
+    --ui-ink: #26353B;
+    --ui-muted: #5C6A66;
+    --ui-sage: #9BB8A8;
+    --ui-sage-licht: #DDE7E0;
+    --ui-champagne: #CFAD7D;
+    --ui-line: #DCE2DD;
+
+    --ui-rand: clamp(1.25rem, 4vw, 4rem);
+    --ui-max: 1440px;
+    --ui-sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --ui-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background: var(--ui-canvas);
+    color: var(--ui-ink);
+    font-family: var(--ui-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+}
+
+h1, h2, h3, p, ul, ol, dl, dd, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+a { color: inherit; }
+img, svg, canvas { display: block; max-width: 100%; }
+button, input { font: inherit; color: inherit; }
+
+.tnum { font-variant-numeric: tabular-nums; }
+
+:focus-visible {
+    outline: 2px solid var(--ui-forest);
+    outline-offset: 3px;
+    border-radius: 2px;
+}
+
+.ui-skip {
+    position: absolute;
+    left: var(--ui-rand);
+    top: -4rem;
+    z-index: 100;
+    padding: 0.6rem 1rem;
+    background: var(--ui-forest);
+    color: var(--ui-canvas);
+    border-radius: 0.5rem;
+}
+.ui-skip:focus { top: 0.75rem; }
+
+.ui-alleen-lezer {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
