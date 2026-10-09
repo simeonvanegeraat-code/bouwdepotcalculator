@@ -369,20 +369,27 @@
 
                 <details class="wr-uitklap" open>
                     <summary><span>Tabel<small>Dezelfde cijfers als de grafiek, per maand uitgesplitst</small></span></summary>
+                    <!-- Tien kolommen passen niet op een telefoon. Daar toont de tabel
+                         de vier die het antwoord dragen, met de bouwtermijn als
+                         regel onder de maand; de knop zet alle kolommen terug. -->
+                    <p class="wr-tabelkeuze">
+                        <button class="wr-knop wr-knop--klein" id="tabel-kolommen" type="button" aria-pressed="false">Alle kolommen tonen</button>
+                        <span class="wr-hulp" id="tabel-uitleg">Totaal is je hypotheek plus je huidige woonlast.</span>
+                    </p>
                     <div class="wr-tabelrol" tabindex="0" role="region" aria-label="Maand voor maand, als tabel">
-                        <table class="wr-tabel">
+                        <table class="wr-tabel" id="maandtabel">
                             <thead>
                                 <tr>
                                     <th scope="col">Mnd</th>
                                     <th scope="col">Fase of termijn</th>
                                     <th scope="col">Termijn uit depot</th>
-                                    <th scope="col">Depot, eind maand</th>
+                                    <th scope="col">Depot<span class="wr-tabel__lang">, eind maand</span></th>
                                     <th scope="col">Rente</th>
                                     <th scope="col">Aflossing</th>
                                     <th scope="col">Depot&shy;vergoeding</th>
-                                    <th scope="col">Hypotheek, zelf te betalen</th>
+                                    <th scope="col">Hypotheek<span class="wr-tabel__lang">, zelf te betalen</span></th>
                                     <th scope="col">Huidige woonlast</th>
-                                    <th scope="col">Bruto totaal</th>
+                                    <th scope="col"><span class="wr-tabel__lang">Bruto </span>totaal</th>
                                 </tr>
                             </thead>
                             <tbody id="details-table-body"></tbody>

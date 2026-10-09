@@ -367,13 +367,21 @@ function initNieuwbouw() {
             if (r.uitEigenGeld > 0.5) fase += ` (${euro.format(r.uitEigenGeld)} uit eigen geld)`;
             if (r.renteUitDepot > 0.5) fase += ` · ${euro.format(r.renteUitDepot)} rente uit depot`;
             const grens = r.maand === t.oplevermaand || r.maand === t.eindeOverlap ? ' data-grens' : '';
-            return `<tr data-fase="${r.fase}"${r === piek ? ' class="is-piek"' : ''}${grens}>
-                <td>${r.maand}${r === piek ? ' (hoogste)' : ''}</td><td>${fase}</td>
+            // Op een telefoon staat de kolom met fase of termijn niet in beeld.
+            // Wat daar bijzonder aan is krijgt dan een eigen regel onder de
+            // maand: een betaalde termijn, de hoogste maand, een nieuwe fase.
+            const eersteVanFase = r.fase !== 'bouw' && t.regels[r.maand - 2]?.fase !== r.fase;
+            const noot = [r === piek ? 'Hoogste maand' : '', r.fase === 'bouw' || eersteVanFase ? fase : '',
+                r.opname ? `${euro.format(r.opname)} uit depot` : ''].filter(Boolean).join(' · ');
+            const klassen = (extra) => [r === piek ? 'is-piek' : '', extra].filter(Boolean).join(' ');
+            const nootRij = noot ? `<tr class="${klassen('wr-tabel__noot')}" data-fase="${r.fase}"${grens}><td colspan="10">${noot}</td></tr>` : '';
+            return `<tr data-fase="${r.fase}"${r === piek ? ' class="is-piek"' : ''}${grens}${noot ? ' data-met-noot' : ''}>
+                <td>${r.maand}${r === piek ? '<span class="wr-tabel__lang"> (hoogste)</span>' : ''}</td><td>${fase}</td>
                 <td>${r.opname ? euro.format(r.opname) : '–'}</td><td>${euro.format(r.depot)}</td>
                 <td>${euro.format(r.rente)}</td><td>${euro.format(r.aflossing)}</td>
                 <td>${r.vergoeding > 0.005 ? `− ${euro.format(r.vergoeding)}` : '–'}</td>
                 <td>${euro.format(r.hypotheek)}</td><td>${r.woonlast ? euro.format(r.woonlast) : '–'}</td>
-                <td>${euro.format(r.totaal)}</td></tr>`;
+                <td>${euro.format(r.totaal)}</td></tr>${nootRij}`;
         }).join('');
 
         /* Aannames: de invoer waarmee is gerekend, leesbaar terug. */
@@ -476,6 +484,16 @@ function initNieuwbouw() {
             reken();
         });
     }
+
+    // Op een telefoon is de tabel compact; deze knop zet alle kolommen terug,
+    // en dan schuift de tabel opzij.
+    const kolomknop = el('tabel-kolommen');
+    kolomknop.addEventListener('click', () => {
+        const volledig = el('maandtabel').classList.toggle('is-volledig');
+        kolomknop.textContent = volledig ? 'Compacte tabel' : 'Alle kolommen tonen';
+        kolomknop.setAttribute('aria-pressed', String(volledig));
+        el('tabel-uitleg').textContent = volledig ? 'Schuif de tabel opzij voor alle kolommen.' : 'Totaal is je hypotheek plus je huidige woonlast.';
+    });
 
     // De grafiek wordt op de werkelijke breedte getekend; verandert die, dan opnieuw.
     if ('ResizeObserver' in window) {
