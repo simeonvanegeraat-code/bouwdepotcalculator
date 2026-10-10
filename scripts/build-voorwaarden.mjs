@@ -277,7 +277,7 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
     <title>${esc(titel)}</title>
     <meta name="description" content="${esc(omschrijving)}">
     <meta name="robots" content="index,follow,max-image-preview:large">
-    <meta name="author" content="Simeon van Egeraat">
+    <meta name="author" content="Simeon">
     <link rel="canonical" href="${SITE}/${bestand}">
     <!-- Wat een gedeelde link laat zien in WhatsApp, LinkedIn en Slack. Titel,
          omschrijving en adres zijn bewust dezelfde als hierboven;
@@ -487,7 +487,7 @@ ${DISCLAIMER}
       description: `Feitelijke vergelijking van de gepubliceerde bouwdepotvoorwaarden van ${data.aanbieders.length} Nederlandse geldverstrekkers.`,
       url: `${SITE}/${HUB}`,
       dateModified: data._laatstBijgewerkt,
-      author: { '@type': 'Person', name: 'Simeon van Egeraat' },
+      author: { '@type': 'Person', name: 'Simeon' },
       publisher: { '@type': 'Organization', name: 'BouwdepotCalculator.nl', url: SITE },
       isAccessibleForFree: true,
     }),
@@ -688,7 +688,7 @@ ${bronnen.map((b) => `                    <li><a href="${esc(b)}" target="_blank
       headline: `Bouwdepot bij ${a.naam}: de voorwaarden`,
       url: `${SITE}/${bestandsnaam(a)}`,
       dateModified: a.gecontroleerd,
-      author: { '@type': 'Person', name: 'Simeon van Egeraat' },
+      author: { '@type': 'Person', name: 'Simeon' },
       publisher: { '@type': 'Organization', name: 'BouwdepotCalculator.nl', url: SITE },
       isAccessibleForFree: true,
     }),

@@ -116,7 +116,7 @@ const html = `<!DOCTYPE html>
     <title>Declaratie bouwdepot afgewezen | Redenen en oplossingen</title>
     <meta name="description" content="Waarom banken een bouwdepot-declaratie afwijzen: een offerte in plaats van een factuur, losse spullen of een te oud bewijsstuk. Met de eisen per bank.">
     <meta name="robots" content="index,follow,max-image-preview:large">
-    <meta name="author" content="Simeon van Egeraat">
+    <meta name="author" content="Simeon">
     <link rel="canonical" href="${SITE}/${BESTAND}">
     <!-- Wat een gedeelde link laat zien in WhatsApp, LinkedIn en Slack. Titel,
          omschrijving en adres zijn bewust dezelfde als hierboven;
@@ -273,7 +273,7 @@ ${uitbetaaltijden}
       description: `De eisen die ${data.aanbieders.length} Nederlandse geldverstrekkers stellen aan een bouwdepot-declaratie, gegroepeerd per afwijzingsreden.`,
       url: `${SITE}/${BESTAND}`,
       dateModified: data._laatstBijgewerkt,
-      author: { '@type': 'Person', name: 'Simeon van Egeraat' },
+      author: { '@type': 'Person', name: 'Simeon' },
       publisher: { '@type': 'Organization', name: 'BouwdepotCalculator.nl', url: SITE },
       isAccessibleForFree: true,
     }, null, 2).replace(/\n/g, '\n    ')}

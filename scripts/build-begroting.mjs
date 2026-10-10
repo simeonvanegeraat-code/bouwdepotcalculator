@@ -94,7 +94,7 @@ const html = `<!DOCTYPE html>
     <title>Verbouwbegroting maken | Wat mag uit het bouwdepot?</title>
     <meta name="description" content="Stel uw verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel u zelf betaalt. Met een specificatie voor uw adviseur.">
     <meta name="robots" content="index,follow,max-image-preview:large">
-    <meta name="author" content="Simeon van Egeraat">
+    <meta name="author" content="Simeon">
     <link rel="canonical" href="${SITE}/${BESTAND}">
     <!-- Wat een gedeelde link laat zien in WhatsApp, LinkedIn en Slack. Titel,
          omschrijving en adres zijn bewust dezelfde als hierboven;
