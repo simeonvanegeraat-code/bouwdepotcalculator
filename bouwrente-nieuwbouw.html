@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,13 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,205 +169,225 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Bouwrente</span>
-    </nav>
+    <main id="inhoud">
+        <div class="wr-wrap wr-kop">
+            <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="nieuwbouw.html">Nieuwbouw</a> <span aria-hidden="true">&middot;</span> <span>Bouwrente</span></nav>
+            <h1 id="reken-titel">Bouwrente bij nieuwbouw berekenen</h1>
+            <p class="wr-lead">De rente die de ontwikkelaar rekent over de grond en over bouwtermijnen die al vervallen zijn, vanaf de start van het project tot aan de notaris. Reken uit wat je bij het passeren afrekent, en wat het kost als je het meefinanciert.</p>
+        </div>
 
+        <!-- Volgorde in de HTML: uitkomst, invoer, verloop. Op een telefoon staat
+             het antwoord zo bovenaan; op een breed scherm zet het raster de
+             invoer links. Alle bedragen komen uit src/domain/bouwrente.js. -->
+        <div class="wr-wrap wr-werk" id="bouwrente-calc" aria-labelledby="reken-titel">
 
-    <main>
-        <section class="bs-reken" aria-labelledby="reken-titel" id="bouwrente-calc">
-            <div class="bs-wrap">
-                <h1 class="bs-reken__titel" id="reken-titel">Wat kost de bouwrente in uw nieuwbouwproject?</h1>
-                <p class="bs-reken__lead">De rente die de ontwikkelaar rekent over grond en al vervallen bouwtermijnen, vanaf de start van het project tot aan de notaris.</p>
+            <section class="wr-paneel wr-uitkomst" id="uitkomst" aria-live="polite">
+                <p class="wr-uitkomst__label"><span>Bouwrente tot aan de notaris</span> <span class="wr-stempel">Indicatie</span></p>
+                <strong class="wr-uitkomst__bedrag tnum" id="res-base" data-bedrag>&ndash;<small id="res-base-noot">af te rekenen bij de notaris</small></strong>
+                <p class="wr-uitkomst__zin"><span id="res-bouwrente-conclusion">De berekening wordt geladen.</span> <span id="res-opbouw"></span></p>
 
+                <dl class="wr-cijfers">
+                    <div><dt>Rente over de grond</dt><dd class="tnum" id="res-grond">&ndash;<small id="res-grond-noot"></small></dd></div>
+                    <div><dt>Rente over vervallen termijnen</dt><dd class="tnum" id="res-termijnen">&ndash;<small id="res-termijnen-noot"></small></dd></div>
+                    <div><dt>Waarvan na je handtekening</dt><dd class="tnum" id="res-na">&ndash;<small id="res-na-noot"></small></dd></div>
+                    <div><dt id="dt-financing">Betaal je zelf</dt><dd class="tnum" id="res-financing">&ndash;<small id="res-financing-noot"></small></dd></div>
+                </dl>
 
-            <div class="bs-reken__grid">
+                <p class="wr-uitkomst__noot">Bouwrente is iets anders dan renteverlies op je bouwdepot. Bouwrente speelt v&oacute;&oacute;r de akte, depotrente erna.</p>
+            </section>
+
+            <form class="wr-paneel wr-invoer" id="invoer" novalidate onsubmit="return false">
+                <div class="wr-paneel__kop">
+                    <h2>Jouw gegevens</h2>
+                    <p class="wr-micro">Blijft op dit apparaat</p>
+                </div>
+
+                <fieldset class="wr-groep">
+                    <legend>Uit je koop- en aannemingsovereenkomst</legend>
+                    <div class="wr-veld">
+                        <label for="input-rate">Rentepercentage</label>
+                        <div class="wr-veld__in"><input type="text" id="input-rate" aria-describedby="fout-rate hulp-rate" value="4,00" inputmode="decimal" autocomplete="off"><span aria-hidden="true">%</span></div>
+                        <span class="wr-veld__fout" id="fout-rate" role="alert"></span>
+                        <p class="wr-hulp" id="hulp-rate">Het percentage dat de ontwikkelaar rekent. Staat in het artikel over rente of uitstel van betaling.</p>
+                    </div>
+                    <div class="wr-veld">
+                        <label for="input-grond">Grondkosten</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="input-grond" aria-describedby="fout-grond hulp-grond" value="100000" inputmode="numeric" autocomplete="off"></div>
+                        <span class="wr-veld__fout" id="fout-grond" role="alert"></span>
+                        <p class="wr-hulp" id="hulp-grond">Het deel van de koopsom dat voor de grond is. Vul nul in als je alleen over termijnen rente betaalt.</p>
+                    </div>
+                    <div class="wr-veld">
+                        <label for="input-months">Hoe lang loopt de rente over de grond?</label>
+                        <div class="wr-veld__in"><input type="text" id="input-months" aria-describedby="fout-months hulp-months" value="6" inputmode="numeric" autocomplete="off"><span aria-hidden="true">mnd</span></div>
+                        <span class="wr-veld__fout" id="fout-months" role="alert"></span>
+                        <input class="wr-schuif" type="range" id="range-months" min="1" max="36" step="1" value="6" aria-label="Maanden rente over de grond">
+                        <p class="wr-hulp" id="hulp-months">Van de datum die in je overeenkomst staat tot de dag bij de notaris. Tel de maanden.</p>
+                    </div>
+                    <div class="wr-veld">
+                        <label for="input-termijnen">Bouwtermijnen die al vervallen zijn</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="input-termijnen" aria-describedby="fout-termijnen hulp-termijnen" value="0" inputmode="numeric" autocomplete="off"></div>
+                        <span class="wr-veld__fout" id="fout-termijnen" role="alert"></span>
+                        <p class="wr-hulp" id="hulp-termijnen">De termijnen van de aanneemsom die bij de notaris al vervallen zijn, bij elkaar opgeteld. Vul nul in als de bouw nog niet begonnen is.</p>
+                    </div>
+                    <div class="wr-veld" id="veld-termijn-maanden" hidden>
+                        <label for="input-termijn-maanden">Hoe lang staan die termijnen gemiddeld open?</label>
+                        <div class="wr-veld__in"><input type="text" id="input-termijn-maanden" aria-describedby="fout-termijn-maanden hulp-termijn-maanden" value="3" inputmode="numeric" autocomplete="off"><span aria-hidden="true">mnd</span></div>
+                        <span class="wr-veld__fout" id="fout-termijn-maanden" role="alert"></span>
+                        <p class="wr-hulp" id="hulp-termijn-maanden">Elke termijn loopt vanaf zijn eigen vervaldatum. Een schatting van het gemiddelde is genoeg.</p>
+                    </div>
+                    <label class="wr-vink"><input type="checkbox" id="input-btw" aria-describedby="hulp-btw"><span>Er komt btw over de rente</span></label>
+                    <p class="wr-hulp" id="hulp-btw" style="margin-top:-0.75rem">Staat in je overeenkomst dat de rente wordt vermeerderd met omzetbelasting? Vink dit dan aan; er komt 21% bij.</p>
+                </fieldset>
+
+                <fieldset class="wr-groep">
+                    <legend>Je planning</legend>
+                    <div class="wr-veld">
+                        <label for="input-na-tekenen">Tussen tekenen en de notaris</label>
+                        <div class="wr-veld__in"><input type="text" id="input-na-tekenen" aria-describedby="fout-na-tekenen hulp-na-tekenen" value="2" inputmode="numeric" autocomplete="off"><span aria-hidden="true">mnd</span></div>
+                        <span class="wr-veld__fout" id="fout-na-tekenen" role="alert"></span>
+                        <p class="wr-hulp" id="hulp-na-tekenen">Hoeveel maanden er zitten tussen je handtekening onder de overeenkomst en het passeren. De rente over die maanden wordt fiscaal anders behandeld dan de rente van daarv&oacute;&oacute;r.</p>
+                    </div>
+                    <div class="wr-veld">
+                        <label for="input-financed">Hoe betaal je de bouwrente?</label>
+                        <div class="wr-veld__in"><select id="input-financed">
+                            <option value="nee" selected>Uit eigen geld, bij de notaris</option>
+                            <option value="ja">Ik financier het mee in de hypotheek</option>
+                        </select></div>
+                    </div>
+                    <div class="wr-veld" id="mortgage-wrapper" hidden>
+                        <label for="input-mortgage-rate">Hypotheekrente</label>
+                        <div class="wr-veld__in"><input type="text" id="input-mortgage-rate" aria-describedby="fout-mortgage-rate hulp-mortgage-rate" value="3,80" inputmode="decimal" autocomplete="off"><span aria-hidden="true">%</span></div>
+                        <span class="wr-veld__fout" id="fout-mortgage-rate" role="alert"></span>
+                        <p class="wr-hulp" id="hulp-mortgage-rate">Meefinancieren betekent dat je dertig jaar lang rente betaalt over de bouwrente. Gerekend als annu&iuml;teit.</p>
+                    </div>
+                </fieldset>
+            </form>
+
+            <section class="wr-paneel wr-verloop" id="verloop" aria-labelledby="verloop-kop">
+                <div class="wr-paneel__kop" style="margin-bottom:0">
+                    <h2 id="verloop-kop">Zo loopt de bouwrente op tot de notaris</h2>
+                    <p class="wr-micro">Opgeteld, per maand</p>
+                </div>
+                <p class="wr-samenvatting">Elke staaf is wat er aan het eind van die maand is opgelopen. Hoe later je passeert, hoe hoger de laatste staaf.</p>
+
+                <!-- Eigen SVG; dezelfde grafiek als op de nieuwbouwpagina. Hij tekent
+                     dezelfde maandregels als de tabel eronder. -->
+                <div class="wr-grafiek" id="verloop-grafiek"></div>
+                <ul class="wr-legenda">
+                    <li><i class="wr-legenda__oud"></i>Rente over de grond</li>
+                    <li id="legenda-termijnen" hidden><i class="wr-legenda__nieuw"></i>Rente over vervallen termijnen</li>
+                </ul>
+                <p class="wr-samenvatting" id="res-samenvatting"></p>
+
+                <details class="wr-uitklap">
+                    <summary><span>Tabel<small>Dezelfde cijfers als de grafiek, per maand</small></span></summary>
+                    <div class="wr-tabelrol" tabindex="0" role="region" aria-label="Opgelopen bouwrente per maand, als tabel">
+                        <table class="wr-tabel wr-tabel--smal">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Mnd</th>
+                                    <th scope="col">Over de grond</th>
+                                    <th scope="col">Over termijnen</th>
+                                    <th scope="col">Opgelopen</th>
+                                </tr>
+                            </thead>
+                            <tbody id="details-table-body"></tbody>
+                        </table>
+                    </div>
+                </details>
+
+                <div class="wr-knoppen">
+                    <button id="btn-download-bouwrente" class="wr-knop" type="button">Overzicht printen of opslaan</button>
+                </div>
+            </section>
+        </div>
+
+        <noscript><div class="wr-wrap"><p class="wr-melding">Deze rekentool heeft JavaScript nodig. De uitleg hieronder kun je zonder lezen.</p></div></noscript>
+
+        <section class="wr-wrap wr-sectie" aria-labelledby="aannames-kop">
+            <p class="ui-opschrift">Uitgangspunten</p>
+            <h2 id="aannames-kop">Waarmee deze berekening wel en niet rekent</h2>
+            <div class="wr-aannames">
                 <div>
-                    <article class="bs-blad">
-                        <div class="bs-blad__kop">
-                            <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
-                            <span class="bs-blad__stempel">Bouwrente</span>
-                        </div>
-
-                        <div class="bs-antwoord">
-                            <p class="bs-antwoord__label">Totale indicatieve bouwrente</p>
-                            <strong class="bs-antwoord__bedrag" id="res-base" data-bedrag>&euro; 0</strong>
-                            <p class="bs-antwoord__zin" id="res-bouwrente-conclusion">Vul uw gegevens in voor een indicatie.</p>
-                        </div>
-
-                        <dl class="bs-uitsplitsing">
-                            <div><dt>Gemiddeld per maand</dt><dd class="tnum" id="res-monthly" data-bedrag>&euro; 0</dd></div>
-                            <div><dt>Bouwrenteperiode</dt><dd class="tnum" id="res-period-months">0 maanden</dd></div>
-                            <div><dt>Financieringseffect (indicatief)</dt><dd class="tnum" id="res-financing" data-bedrag>&euro; 0</dd></div>
-                            <div><dt>Totaal incl. financieringseffect</dt><dd class="tnum" id="res-total" data-bedrag>&euro; 0</dd></div>
-                        </dl>
-
-                        <p class="bs-notitie" id="res-bouwrente-interpretation">De impact hangt af van bedrag en duur.</p>
-
-                        <p class="bs-blad__voet">Indicatief &middot; informatie, geen advies</p>
-                    </article>
-
-                        <details class="bs-uitklap bs-aannames">
-                            <summary><span><b>Uitgangspunten en aannames</b><small>Waarmee deze berekening wel en niet rekent</small></span></summary>
-                            <div class="bs-uitklap__body">
-                                <p class="bs-hulp" id="result-explain">Deze uitkomst is een indicatie op basis van een lineair jaarrentemodel over de gekozen maanden.</p>
-                                <p class="bs-hulp" id="res-bouwrente-cost-meaning">Neem deze kostenpost expliciet mee in uw reservering.</p>
-                                <dl class="bs-uitsplitsing">
-                                    <div><dt>Grondslag</dt><dd class="tnum" id="sum-bouwrente-amount">&mdash;</dd></div>
-                                    <div><dt>Bouwrentepercentage</dt><dd class="tnum" id="sum-bouwrente-rate">&mdash;</dd></div>
-                                    <div><dt>Periode</dt><dd class="tnum" id="sum-bouwrente-months">&mdash;</dd></div>
-                                    <div><dt>Meegefinancierd</dt><dd class="tnum" id="sum-bouwrente-financed">&mdash;</dd></div>
-                                    <div><dt>Hypotheekrente</dt><dd class="tnum" id="sum-bouwrente-mortgage-rate">&mdash;</dd></div>
-                                </dl>
-                                <p class="bs-hulp" id="report-bouwrente-generated-at">Berekening klaar voor uw oriëntatie.</p>
-                            </div>
-                        </details>
-
-                        </div>
-
-                <div class="bs-invoer">
-                    <div class="bs-chips" role="group" aria-label="Voorbeeldsituaties">
-                        <button type="button" class="bs-chip bouwrente-preset" data-amount="50000" data-months="3">&euro; 50.000 / 3 mnd</button>
-                        <button type="button" class="bs-chip bouwrente-preset" data-amount="100000" data-months="6">&euro; 100.000 / 6 mnd</button>
-                        <button type="button" class="bs-chip bouwrente-preset" data-amount="100000" data-months="12">&euro; 100.000 / 12 mnd</button>
-                        <button type="button" class="bs-chip bouwrente-preset" data-amount="250000" data-months="12">&euro; 250.000 / 12 mnd</button>
-                    </div>
-
-                    <div>
-                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-amount">Grondslag voor de bouwrente</label></div>
-                        <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-amount" aria-describedby="fout-amount" value="100000" inputmode="numeric"></div>
-                        <span class="bs-veld__fout" id="fout-amount" role="alert"></span>
-                        <p class="bs-hulp">Meestal de grondprijs plus de bouwtermijnen die al vervallen waren bij ondertekening.</p>
-                    </div>
-
-                    <div class="bs-veldrij">
-                        <div>
-                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-rate">Bouwrentepercentage</label></div>
-                            <div class="bs-omhulsel"><input type="text" id="input-rate" aria-describedby="fout-rate" value="4,00" inputmode="decimal"><span>%</span></div>
-                            <span class="bs-veld__fout" id="fout-rate" role="alert"></span>
-                            <p class="bs-hulp">Staat in uw koop-/aannemingsovereenkomst.</p>
-                        </div>
-                        <div>
-                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-months">Periode</label></div>
-                            <div class="bs-omhulsel">
-                                <span></span>
-                                <input type="text" id="input-months" aria-describedby="fout-months" value="6" inputmode="numeric">
-                                <span>mnd</span>
-                            </div>
-                            <span class="bs-veld__fout" id="fout-months" role="alert"></span>
-                            <input class="bs-schuif" type="range" id="range-months" min="1" max="36" step="1" value="6" aria-label="Periode in maanden">
-                            <p class="bs-hulp">Van start project tot het passeren van de akte.</p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-financed">Wordt de bouwrente meegefinancierd?</label></div>
-                        <select class="bs-select" id="input-financed">
-                            <option value="nee" selected>Nee, ik betaal uit eigen geld</option>
-                            <option value="ja">Ja, in de hypotheek</option>
-                        </select>
-                    </div>
-
-                    <div id="mortgage-wrapper" style="display:none;">
-                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-mortgage-rate">Hypotheekrente</label></div>
-                        <div class="bs-omhulsel"><input type="text" id="input-mortgage-rate" aria-describedby="fout-mortgage-rate" value="3,80" inputmode="decimal"><span>%</span></div>
-                        <span class="bs-veld__fout" id="fout-mortgage-rate" role="alert"></span>
-                        <p class="bs-hulp">Meefinancieren betekent dat u over de bouwrente zelf ook rente betaalt.</p>
-                    </div>
+                    <h3>Jouw invoer</h3>
+                    <dl class="wr-dl" id="res-aannames"></dl>
                 </div>
-
-                <div class="bs-reken__na no-print">
-                    <button id="btn-download-bouwrente" class="bs-knop bs-knop--licht" type="button">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
-                        Overzicht printen of opslaan
-                    </button>
-                <p class="bs-voorbehoud">Bouwrente is iets anders dan renteverlies op uw bouwdepot. Bouwrente speelt vóór de akte, depotrente erna.</p>
+                <div>
+                    <h3>Zo wordt er gerekend</h3>
+                    <ul class="wr-lijst">
+                        <li>Rente = bedrag &times; percentage &times; maanden &divide; 12. Enkelvoudig: geen rente op rente.</li>
+                        <li>De grond en de vervallen termijnen hebben elk hun eigen aantal maanden.</li>
+                        <li>Het deel na je handtekening is de rente over de laatste maanden v&oacute;&oacute;r de notaris.</li>
+                        <li>Bij meefinancieren los je het bedrag in dertig jaar annu&iuml;tair af, tegen je hypotheekrente.</li>
+                    </ul>
                 </div>
-            </div>
-            </div>
-        </section>
-
-        <section class="bs-sectie" id="bouwrente-uitleg">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Kort uitgelegd</p>
-                    <h2 class="bs-titel">Bouwrente is niet hetzelfde als hypotheekrente</h2>
-                <div class="bs-kolommen">
-                    <article>
-                        <h3>Wat het is</h3>
-                        <p>Bij nieuwbouw start een project vaak eerder dan uw koop. De ontwikkelaar rekent rente over de grond en over bouwtermijnen die al vervallen waren toen u tekende. Die post heet bouwrente en wordt bij het passeren van de akte afgerekend.</p>
-                    </article>
-                    <article>
-                        <h3>Wanneer het speelt</h3>
-                        <p>Bouwrente loopt tot de akte passeert. Daarna betaalt u hypotheekrente, en gaat het bouwdepot met zijn eventuele vergoeding lopen. De twee overlappen dus niet: bouwrente ervoor, depotrente erna.</p>
-                    </article>
-                    <article>
-                        <h3>Meefinancieren kost extra</h3>
-                        <p>Neemt u de bouwrente op in de hypotheek, dan betaalt u er jarenlang rente over. Dat is het financieringseffect in de berekening hierboven. Voor de fiscus geldt bovendien dat bouwrente van vóór de koopovereenkomst doorgaans niet aftrekbaar is; die van erna vaak wel.</p>
-                    </article>
-                    <article>
-                        <h3>Vraag het bedrag op tijd op</h3>
-                        <p>Het percentage staat in uw koop-/aannemingsovereenkomst, maar het uiteindelijke bedrag hangt af van de passeerdatum. Vraag uw notaris of ontwikkelaar om een actuele opgave voordat u uw eigen geld verdeelt.</p>
-                    </article>
+                <div>
+                    <h3>Dit zit er niet in</h3>
+                    <ul class="wr-lijst">
+                        <li>De exacte dagtelling en de vervaldatum per termijn. De afrekening van de notaris is leidend.</li>
+                        <li>Boeterente bij te laat betalen.</li>
+                        <li>Het belastingeffect. Zie de <a href="hypotheekrenteaftrek-gids.html">belastingcalculator</a>.</li>
+                        <li>De rente die je na de notaris betaalt. Die staat in de <a href="nieuwbouw.html">nieuwbouwplanning</a>.</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Verder rekenen</p>
-                    <h2 class="bs-titel">Andere vragen bij nieuwbouw</h2>
-                <div class="bs-rooster">
-                    <a class="bs-tool" href="depotplanner.html">
-                        <span class="bs-tool__naam">Uw termijnen op een rij</span>
-                        <span class="bs-tool__uitleg">Einddatum, verlengingsmoment en het moment waarop de vergoeding stopt, met de termijnen van uw eigen aanbieder.</span>
-                        <span class="bs-tool__meta">Naar de depotplanner &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="nieuwbouw.html">
-                        <span class="bs-tool__naam">Het hele bouwverloop</span>
-                        <span class="bs-tool__uitleg">Bouwtermijnen, depotvergoeding en de maand waarin het het zwaarst drukt.</span>
-                        <span class="bs-tool__meta">Nieuwbouwplanning &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="dubbele-lasten-nieuwbouw.html">
-                        <span class="bs-tool__naam">Dubbele lasten</span>
-                        <span class="bs-tool__uitleg">De periode waarin u zowel huur of oude hypotheek als de nieuwe last betaalt.</span>
-                        <span class="bs-tool__meta">Overlap berekenen &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="hypotheekrenteaftrek-gids.html">
-                        <span class="bs-tool__naam">Fiscaal effect</span>
-                        <span class="bs-tool__uitleg">Wat wel en niet aftrekbaar is, en wat dat met uw netto last doet.</span>
-                        <span class="bs-tool__meta">Belastingeffect berekenen &rarr;</span>
-                    </a>
-                </div>
+        <section class="wr-wrap wr-sectie" id="bouwrente-uitleg">
+            <p class="ui-opschrift">Kort uitgelegd</p>
+            <h2>Bouwrente is niet hetzelfde als hypotheekrente</h2>
+            <div class="wr-kolommen">
+                <article>
+                    <h3>Wat het is</h3>
+                    <p>Bij nieuwbouw start een project vaak eerder dan jouw koop. De ontwikkelaar rekent rente over de grond en over bouwtermijnen die al vervallen waren toen je tekende. Die post heet bouwrente en wordt bij het passeren van de akte afgerekend.</p>
+                </article>
+                <article>
+                    <h3>Wanneer het speelt</h3>
+                    <p>Bouwrente loopt tot de akte passeert. Daarna betaal je hypotheekrente, en gaat het bouwdepot met zijn eventuele vergoeding lopen. De twee overlappen dus niet: bouwrente ervoor, depotrente erna.</p>
+                </article>
+                <article>
+                    <h3>Voor en na je handtekening</h3>
+                    <p>De rente over de tijd v&oacute;&oacute;r het tekenen van de overeenkomst hoort fiscaal bij de koopsom van de woning en is zelf niet aftrekbaar. De rente over de tijd tussen tekenen en de notaris is dat onder voorwaarden wel. Daarom splitst de berekening het bedrag op dat moment.</p>
+                </article>
+                <article>
+                    <h3>Meefinancieren kost extra</h3>
+                    <p>Neem je de bouwrente op in de hypotheek, dan betaal je er jarenlang rente over. Bovendien kan meefinancieren gevolgen hebben voor de aftrek van de rente over dat deel van de lening. Laat dat nakijken voordat je kiest.</p>
+                </article>
+                <article>
+                    <h3>Vraag het bedrag op tijd op</h3>
+                    <p>Het percentage staat in je koop-/aannemingsovereenkomst, maar het uiteindelijke bedrag hangt af van de passeerdatum. Vraag je notaris of ontwikkelaar om een actuele opgave voordat je je eigen geld verdeelt.</p>
+                </article>
             </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <div class="bs-melding">
-                    <p><strong>Indicatief hulpmiddel.</strong> Deze berekening gebruikt een lineair jaarrentemodel over de door u gekozen periode. De werkelijke bouwrente volgt uit de afrekening van de ontwikkelaar en hangt af van de exacte passeerdatum en het termijnverloop.</p>
-                    <p>Lees de <a href="methodologie.html">rekenregels en bekende beperkingen</a>. Uw invoer blijft op dit apparaat.</p>
-                </div>
+        <section class="wr-wrap wr-sectie">
+            <p class="ui-opschrift">Verder rekenen</p>
+            <h2>Andere vragen bij nieuwbouw</h2>
+            <div class="wr-register">
+                <a href="depotplanner.html"><strong>Je termijnen op een rij</strong><span>Einddatum, verlengingsmoment en het moment waarop de vergoeding stopt, met de termijnen van je eigen aanbieder.</span></a>
+                <a href="nieuwbouw.html"><strong>Het hele bouwverloop</strong><span>Bouwtermijnen, depotvergoeding en de maand waarin het het zwaarst drukt.</span></a>
+                <a href="dubbele-lasten-nieuwbouw.html"><strong>Dubbele lasten</strong><span>De periode waarin je zowel huur of oude hypotheek als de nieuwe last betaalt.</span></a>
+                <a href="hypotheekrenteaftrek-gids.html"><strong>Fiscaal effect</strong><span>Wat wel en niet aftrekbaar is, en wat dat met je netto last doet.</span></a>
             </div>
         </section>
+
+        <div class="wr-wrap">
+            <div class="wr-melding">
+                <p><strong>Indicatief hulpmiddel.</strong> Deze berekening rekent met enkelvoudige rente over hele maanden. De werkelijke bouwrente volgt uit de afrekening van de ontwikkelaar en hangt af van de exacte passeerdatum en het termijnverloop.</p>
+                <p>Bron voor het onderscheid v&oacute;&oacute;r en na de overeenkomst: het <a href="https://zoek.officielebekendmakingen.nl/stcrt-2013-5951.html" target="_blank" rel="noopener noreferrer nofollow">besluit over bouwrente in de eigenwoningregeling</a> (Staatscourant 2013, 5951), geraadpleegd op 10 oktober 2026. Algemene informatie, geen fiscaal advies. Lees ook de <a href="methodologie.html">rekenregels en bekende beperkingen</a>. Je invoer blijft op dit apparaat.</p>
+            </div>
+        </div>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
+    <div class="wr-vast" id="wr-vast" role="status"><span>Bouwrente tot de notaris</span><strong class="tnum" id="wr-vast-bedrag"></strong></div>
 
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
 
     <script type="module" src="/src/js/reporting.js"></script>
-    <script type="module" src="/src/js/bouwrente.js"></script>
-    <script type="module" src="/src/js/stickybalk.js"></script>
+    <script type="module" src="/src/bouwrente/pagina.js"></script>
 
     <script type="application/ld+json">
     {
@@ -373,7 +397,7 @@
       "description": "Indicatieve bouwrente over grond en vervallen bouwtermijnen in de periode voor het passeren van de akte, inclusief het effect van meefinancieren.",
       "author": { "@type": "Person", "name": "Simeon", "url": "https://www.bouwdepotcalculator.nl/over-ons.html" },
       "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl/" },
-      "dateModified": "2026-08-14",
+      "dateModified": "2026-10-10",
       "isAccessibleForFree": true,
       "mainEntityOfPage": "https://www.bouwdepotcalculator.nl/bouwrente-nieuwbouw.html"
     }

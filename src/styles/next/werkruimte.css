@@ -655,3 +655,8 @@
     .wr-huis.is-3d .hp-tekening { opacity: 0; }
 }
 @media print { .wr-huis { display: none !important; } }
+
+/* Een tabel met weinig kolommen: past overal, hoeft niet te schuiven. */
+.wr-tabel--smal { min-width: 0; }
+.wr-tabel--smal th:nth-child(2), .wr-tabel--smal td:nth-child(2) { text-align: right; white-space: nowrap; min-width: 0; color: inherit; }
+@media (max-width: 699px) { .wr-tabel--smal { font-size: 0.8125rem; } .wr-tabel--smal :is(th, td) { padding: 0.5rem 0.3rem; } }
