@@ -669,3 +669,72 @@
     .wr-tabel--overlap :is(th, td):is(:nth-child(2), :nth-child(4)) { display: none; }
     .wr-tabel--overlap :is(th, td) { padding: 0.5rem 0.3rem; }
 }
+
+/* ==========================================================================
+   Depotplanner
+   Geen bedragen maar datums: een balk met de hele looptijd, de gebeurtenissen
+   onder elkaar, en de posten die nog uit het depot moeten.
+   ========================================================================== */
+
+/* Het hoofdantwoord is hier een aantal maanden of een woord, geen bedrag. */
+.wr-uitkomst__bedrag--tekst { font-size: clamp(2.25rem, 5.5vw, 4.25rem); letter-spacing: -0.04em; text-wrap: balance; }
+.wr-uitkomst__bedrag--tekst small { display: block; margin: 0.5rem 0 0; font-size: 0.9375rem; }
+.wr-uitkomst #dp-waarschuwing { padding: 0.85rem 1rem; border: 1px solid rgba(244, 217, 168, 0.5); border-radius: 0.625rem; }
+
+/* Een keuze uit twee boven een veld. */
+.wr-segment { display: inline-flex; flex-wrap: wrap; gap: 0.2rem; margin-bottom: 0.4rem; padding: 0.2rem; border: 1px solid #B8C2BD; border-radius: 0.625rem; }
+.wr-segment button { min-height: 2.5rem; padding: 0 0.75rem; border: 0; border-radius: 0.45rem; background: none; font-size: 0.875rem; cursor: pointer; }
+.wr-segment button[aria-pressed='true'] { background: var(--ui-forest); color: var(--ui-canvas); font-weight: 600; }
+
+/* Een post die nog uit het depot betaald moet worden. */
+.wr-planpost { display: grid; grid-template-columns: minmax(0, 1fr) 2.75rem; gap: 0.4rem; padding: 0.7rem 0; border-top: 1px dashed var(--ui-line); }
+.wr-planpost > input, .wr-planpost .wr-veld__in { grid-column: 1; }
+.wr-planpost > input { min-height: 2.75rem; min-width: 0; padding: 0 0.7rem; background: var(--ui-canvas); border: 1px solid #B8C2BD; border-radius: 0.625rem; font: inherit; font-size: 0.9375rem; color: inherit; }
+.wr-planpost .wr-veld__in { min-height: 2.75rem; }
+.wr-planpost .wr-termijn__weg { grid-column: 2; grid-row: 1; }
+
+.wr-knop--vol { background: var(--ui-forest); color: var(--ui-canvas); }
+.wr-knop--vol:hover { background: var(--ui-forest-diep); }
+.wr-knop:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* De balk: de hele looptijd op schaal. Het donkere deel is voorbij. */
+.wr-tijdbalk { padding-top: 2.5rem; }
+.wr-tijdbalk__spoor { position: relative; height: 0.9rem; background: var(--ui-sage-licht); border-radius: 999px; }
+.wr-tijdbalk__standaard, .wr-tijdbalk__voorbij { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; }
+.wr-tijdbalk__standaard { background: var(--ui-sage); }
+.wr-tijdbalk__voorbij { background: var(--ui-forest); }
+.wr-tijdbalk__merk { position: absolute; top: -0.35rem; bottom: -0.35rem; width: 2px; margin-left: -1px; background: var(--ui-ink); }
+.wr-tijdbalk__merk b { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); padding-bottom: 0.15rem; font-family: var(--ui-mono); font-size: 0.6875rem; font-weight: 400; font-style: normal; white-space: nowrap; color: var(--ui-ink); }
+.wr-tijdbalk__merk.is-vandaag { background: var(--ui-champagne); width: 3px; }
+.wr-tijdbalk__merk.is-vandaag b { bottom: auto; top: 100%; padding: 0.15rem 0 0; font-weight: 500; color: #7A5C2E; }
+.wr-tijdbalk__merk.is-einde b { transform: translateX(-90%); }
+.wr-tijdbalk__merk.is-hoog b { padding-bottom: 1.05rem; }
+.wr-tijdbalk__as { display: flex; justify-content: space-between; margin-top: 1.4rem; font-family: var(--ui-mono); font-size: 0.75rem; color: var(--ui-muted); }
+
+/* De gebeurtenissen, op datum. */
+.wr-stappen { border-bottom: 1px solid var(--ui-line); }
+.wr-stap { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 0.15rem 1.25rem; padding: 0.85rem 0; border-top: 1px solid var(--ui-line); }
+.wr-stap:first-child { border-top: 1.5px solid var(--ui-ink); }
+.wr-stap__datum { font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-ink); font-variant-numeric: tabular-nums; }
+.wr-stap__inhoud strong { display: block; font-weight: 600; }
+.wr-stap__inhoud span { display: block; margin-top: 0.15rem; font-size: 0.9375rem; line-height: 1.5; color: var(--ui-muted); }
+.wr-stap.is-geweest .wr-stap__datum, .wr-stap.is-geweest strong { color: var(--ui-muted); }
+.wr-stap.is-geweest strong { font-weight: 500; }
+.wr-stap.is-letop { border-left: 3px solid var(--ui-champagne); padding-left: 0.9rem; }
+.wr-stap.is-zonder-datum .wr-stap__datum { color: var(--ui-muted); font-style: italic; }
+@media (max-width: 560px) { .wr-stap { grid-template-columns: minmax(0, 1fr); } }
+
+.wr-tabel--plan { min-width: 0; }
+.wr-tabel--plan th:nth-child(2), .wr-tabel--plan td:nth-child(2) { text-align: right; white-space: nowrap; min-width: 0; color: inherit; }
+.wr-tabel--plan :is(th, td):nth-child(n+3) { text-align: left; white-space: normal; }
+.wr-tabel--plan td:last-child { font-weight: 400; }
+.wr-tabel--plan td:first-child { white-space: normal; }
+@media (max-width: 699px) { .wr-tabel--plan { font-size: 0.8125rem; } .wr-tabel--plan :is(th, td):nth-child(3) { display: none; } }
+.wr-plannoot { font-size: 0.9375rem; }
+.wr-plannoot[data-status='afwijkend'] { padding: 0.75rem 1rem; border-left: 3px solid var(--ui-champagne); background: var(--ui-canvas); }
+.wr-plannoot .wr-lijst { margin-top: 0.5rem; }
+
+@media print {
+    .wr-tijdbalk { display: none; }
+    .wr-stap.is-letop { border-left-color: #000; }
+}
