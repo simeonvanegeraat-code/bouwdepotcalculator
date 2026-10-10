@@ -16,6 +16,7 @@
 import fs from 'fs';
 import path from 'path';
 import { headerHtml } from './build-header.mjs';
+import { MODELLEN, geometrie, svgInhoud } from '../src/homepage/tekening.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const posten = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/verbouwposten.json'), 'utf8'));
@@ -126,6 +127,7 @@ const html = `<!DOCTYPE html>
     <link rel="stylesheet" href="/src/styles/next/tokens.css">
     <link rel="stylesheet" href="/src/styles/next/kop.css">
     <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/tekening.css">
 </head>
 <body class="ui wr">
     <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
@@ -172,6 +174,19 @@ ${headerHtml()}
                     <p class="wr-uitkomst__noot">Je leenruimte op basis van de woningwaarde: een waardetoets, geen inkomenstoets. De hoofdregel is dat de totale hypotheek niet boven 100% van de woningwaarde uitkomt; wat je werkelijk kunt lenen hangt ook af van je inkomen en de beoordeling van de geldverstrekker.</p>
                 </section>
 
+                <!-- Op een breed scherm is het formulier veel langer dan de uitkomst.
+                     In de ruimte die daaronder overblijft staat een huis dat laag
+                     voor laag wordt gebouwd terwijl je scrolt: het 3D-huis uit
+                     homepageconcept A. De lijntekening eronder is wat je ziet tot
+                     de scene geladen is, en blijft staan als 3D niet kan of mag.
+                     Zie src/verbouwen/huis.js. -->
+                <figure class="wr-huis" data-huis>
+                    <div class="wr-huis__beeld">
+                        <svg class="hp-tekening" viewBox="20 80 560 370" role="img" aria-label="Tekening van een huis dat wordt verbouwd">${svgInhoud(geometrie(MODELLEN.verbouw))}</svg>
+                        <canvas class="wr-huis__canvas" data-huis-canvas aria-hidden="true"></canvas>
+                    </div>
+                </figure>
+
                 <form class="wr-paneel wr-invoer" novalidate onsubmit="return false">
                     <div class="wr-paneel__kop">
                         <h2>Jouw gegevens</h2>
@@ -180,8 +195,11 @@ ${headerHtml()}
 
                     <fieldset class="wr-groep">
                         <legend>Je verbouwing</legend>
-${veld('lr-totaal', 'Wat kost je verbouwing ongeveer?', '75000', 'Een ruwe schatting is genoeg om te beginnen. Vul je hieronder een begroting in, dan nemen we dat totaal over.')}
-                        <label class="wr-vink" id="lr-volg-rij" hidden><input type="checkbox" id="lr-volg" checked> <span>Neem het totaal uit mijn begroting over</span></label>
+${veld('lr-totaal', 'Wat kost je verbouwing ongeveer?', '75000', 'Een ruwe schatting is genoeg om te beginnen.')}
+                        <!-- Zodra er een begroting is: waar het bedrag vandaan komt, en
+                             de weg terug als de bezoeker zelf iets anders heeft getypt.
+                             Het veld zelf blijft altijd invulbaar. -->
+                        <p class="wr-hulp wr-volgt" id="lr-volg-rij" aria-live="polite" hidden><span id="lr-volg-tekst"></span> <button class="wr-tekstknop" type="button" id="lr-volg-knop" hidden>Gebruik dat bedrag</button></p>
                     </fieldset>
 
                     <fieldset class="wr-groep">
@@ -345,6 +363,7 @@ ${categorieen}
     </footer>
 
     <script type="module" src="/src/verbouwen/pagina.js"></script>
+    <script type="module" src="/src/verbouwen/huis.js"></script>
 
     <script type="application/ld+json">
     ${JSON.stringify({

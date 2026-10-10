@@ -140,8 +140,14 @@ function initVerbouwen() {
         waarde: el('lr-waarde'), eigenGeld: el('lr-eigen-geld'),
     };
     const rente = el('input-interest');
-    const volg = el('lr-volg');
+    // Zolang de bezoeker het bedrag niet zelf heeft getypt, volgt het veld het
+    // totaal van de begroting. Het veld is nooit geblokkeerd: typen maakt het
+    // los, en een knop zet het terug. Er stond hier een vinkje dat het veld op
+    // slot zette; dat het vinkje de oorzaak was, zag je niet.
+    let volgt = true;
     const volgRij = el('lr-volg-rij');
+    const volgTekst = el('lr-volg-tekst');
+    const volgKnop = el('lr-volg-knop');
 
     function bewaar() {
         try {
@@ -151,7 +157,7 @@ function initVerbouwen() {
             }
             localStorage.setItem(SLEUTEL_BEGROTING, JSON.stringify(staat));
 
-            const check = { volg: volg.checked, aangeraakt: eigenCheck };
+            const check = { volg: volgt, aangeraakt: eigenCheck };
             for (const [naam, veld] of Object.entries(lr)) check[naam] = veld.value;
             localStorage.setItem(SLEUTEL_LEENRUIMTE, JSON.stringify(check));
         } catch (_) { /* opslag is een gemak, geen voorwaarde */ }
@@ -201,9 +207,9 @@ function initVerbouwen() {
                 veld.value = check[naam];
             }
             eigenCheck = check.aangeraakt ?? wijktAf;
-            if (check.volg === false) volg.checked = false;
+            if (check.volg === false) volgt = false;
         } catch (_) { /* een kapotte opslag mag de pagina niet omleggen */ }
-        if (uitUrl && Number(uitUrl) > 0) { lr.totaal.value = uitUrl; volg.checked = false; eigenCheck = true; }
+        if (uitUrl && Number(uitUrl) > 0) { lr.totaal.value = uitUrl; volgt = false; eigenCheck = true; }
     }
 
     /* ----------------------------------------------------------------- lezen */
@@ -296,13 +302,16 @@ function initVerbouwen() {
         uit.vastBedrag.textContent = b.aantal ? euro.format(b.totaal) : '';
 
         /* De financieringscheck neemt de begroting over zodra die er is. */
-        volgRij.hidden = b.aantal === 0;
-        const overnemen = b.aantal > 0 && volg.checked;
-        for (const [veld, waarde] of [[lr.totaal, b.totaal], [lr.buitenDepot, b.eigen]]) {
-            veld.readOnly = overnemen;
-            veld.closest('.wr-veld__in').classList.toggle('is-overgenomen', overnemen);
-            if (overnemen) veld.value = toonGetal(Math.round(waarde));
+        const overnemen = b.aantal > 0 && volgt;
+        if (overnemen) {
+            lr.totaal.value = toonGetal(Math.round(b.totaal));
+            lr.buitenDepot.value = toonGetal(Math.round(b.eigen));
         }
+        volgRij.hidden = b.aantal === 0;
+        volgKnop.hidden = overnemen;
+        volgTekst.textContent = overnemen
+            ? 'Dit is het totaal van je begroting hieronder. Typ een ander bedrag als je iets anders wilt doorrekenen.'
+            : `Je begroting hieronder telt op tot ${euro.format(b.totaal)}.`;
 
         el('lr-stempel').textContent = eigenCheck || overnemen ? 'Waardetoets' : 'Voorbeeld';
         const check = berekenCheck();
@@ -468,8 +477,15 @@ function initVerbouwen() {
     for (const v of bedragVelden) v.addEventListener('input', bereken);
     for (const v of wortel.querySelectorAll('[data-prioriteit]')) v.addEventListener('change', bereken);
     marge.addEventListener('input', bereken);
-    for (const v of [...Object.values(lr), rente]) v.addEventListener('input', () => { eigenCheck = true; bereken(); });
-    volg.addEventListener('change', bereken);
+    for (const v of [...Object.values(lr), rente]) {
+        v.addEventListener('input', () => {
+            eigenCheck = true;
+            // Wie het bedrag of de losse spullen zelf typt, maakt ze los van de begroting.
+            if (v === lr.totaal || v === lr.buitenDepot) volgt = false;
+            bereken();
+        });
+    }
+    volgKnop.addEventListener('click', () => { volgt = true; eigenCheck = true; bereken(); });
 
     el('begroting-wissen').addEventListener('click', () => {
         for (const v of bedragVelden) v.value = '';
@@ -483,7 +499,7 @@ function initVerbouwen() {
     el('begroting-printen').addEventListener('click', () => window.print());
 
     el('lr-praktijkcase').addEventListener('click', () => {
-        volg.checked = false;
+        volgt = false;
         eigenCheck = false;
         lr.totaal.value = toonGetal(75000);
         lr.hypotheek.value = toonGetal(300000);

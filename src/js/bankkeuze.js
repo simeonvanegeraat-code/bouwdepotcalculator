@@ -27,6 +27,10 @@ import { BANKEN } from './bankdata.generated.js';
 
 const SLEUTEL = 'bouwdepot-bank-v1';
 
+// De pagina's in de nieuwe vormgeving (body.ui) spreken de bezoeker aan met
+// "je", de overige nog met "u". De kiezer volgt de pagina waar hij op staat.
+const jij = typeof document !== 'undefined' && document.body?.classList.contains('ui');
+
 const lees = () => {
     try { return localStorage.getItem(SLEUTEL) || ''; } catch (_) { return ''; }
 };
@@ -131,7 +135,7 @@ function pasToe(bank) {
     }
 
     for (const el of document.querySelectorAll('[data-bank-naam]')) {
-        el.textContent = bank ? bank.naam : 'uw geldverstrekker';
+        el.textContent = bank ? bank.naam : `${jij ? 'je' : 'uw'} geldverstrekker`;
     }
 
     for (const el of document.querySelectorAll('[data-bank-toont]')) {
@@ -160,13 +164,13 @@ houders.forEach((houder, i) => {
     const id = `bankkeuze-${i}`;
     houder.classList.add('bs-bankkeuze');
     houder.innerHTML = `
-        <label class="bs-bankkeuze__label" for="${id}">Bij welke geldverstrekker loopt uw hypotheek?</label>
+        <label class="bs-bankkeuze__label" for="${id}">Bij welke geldverstrekker loopt ${jij ? 'je' : 'uw'} hypotheek?</label>
         <select class="bs-select bs-bankkeuze__kiezer" id="${id}">
             <option value="">Nog niet bekend of een andere aanbieder</option>
             ${BANKEN.map((b) => `<option value="${b.id}">${b.naam}</option>`).join('')}
         </select>
         <p class="bs-hulp bs-bankkeuze__uitleg">
-            Uw keuze blijft op dit apparaat en vult de voorwaarden van die aanbieder in op deze site.
+            ${jij ? 'Je' : 'Uw'} keuze blijft op dit apparaat en vult de voorwaarden van die aanbieder in op deze site.
             <a class="bs-bankkeuze__meer" data-bank-link href="#" hidden>Alle voorwaarden van <span data-bank-naam></span></a>
         </p>`;
     houder.querySelector('select').addEventListener('change', (e) => {

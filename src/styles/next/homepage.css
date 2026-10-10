@@ -83,40 +83,8 @@
 .hp-ga::after { content: ''; position: absolute; inset: 0; }
 .hp-kant:hover .hp-ga span { transform: translateX(5px); }
 
-/* --- Tekeningen: wat er staat is een lijn, wat gepland is een streeplijn --- */
-
-.hp-tekening { width: 100%; height: auto; max-height: 46vh; overflow: visible; }
-.hp-l, .hp-maat { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.hp-l--grond { stroke: var(--ui-sage); stroke-width: 1; }
-.hp-l--staat { stroke: var(--ui-ink); stroke-width: 1.5; }
-.hp-l--plan { stroke: var(--ui-muted); stroke-width: 1; stroke-dasharray: 4 5; opacity: 0.8; transition: opacity 0.4s ease; }
-.hp-l--bouw {
-    stroke: var(--ui-forest);
-    stroke-width: 1.75;
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    transition: stroke-dashoffset 0.55s ease;
-    transition-delay: 0s;
-}
-.hp-vlak { stroke: none; }
-.hp-vlak--staat { fill: var(--ui-surface); opacity: 0.85; }
-.hp-vlak--plan { fill: var(--ui-sage); opacity: 0; transition: opacity 0.5s ease; }
-.hp-maat { stroke: var(--ui-champagne); stroke-width: 1; }
-.hp-maattekst { font-family: var(--ui-mono); font-size: 11px; fill: #7A5C2E; }
-
-/* Aangewezen of voorbijgescrold: de streeplijnen worden gebouwd, van onder
-   naar boven. */
-.hp-kant.is-actief .hp-l--bouw { stroke-dashoffset: 0; transition-delay: var(--d, 0s); }
-.hp-kant.is-actief .hp-vlak--plan { opacity: 0.32; transition-delay: 0.35s; }
-.hp-kant.is-actief .hp-l--plan { opacity: 0; }
-
-/* Op een aanraakscherm hangt de bouw aan de scrollpositie: --p loopt van 0
-   (alleen de fundering) naar 1 (het huis staat). Elke lijn begint op zijn
-   eigen moment, de laagste eerst; --dn is dezelfde waarde als --d, zonder
-   eenheid. Geen overgangen: het script dempt de beweging zelf. */
-.hp-kant.is-scroll .hp-l--bouw { transition: none; stroke-dashoffset: clamp(0, calc(1 - (var(--p, 0) - var(--dn, 0) * 0.6) / 0.4), 1); }
-.hp-kant.is-scroll .hp-vlak--plan { transition: none; opacity: calc(clamp(0, (var(--p, 0) - 0.7) / 0.3, 1) * 0.32); }
-.hp-kant.is-scroll .hp-l--plan { transition: none; opacity: calc(0.8 - clamp(0, var(--p, 0) * 1.25, 1) * 0.8); }
+/* De stijlen van de tekeningen zelf staan in tekening.css; de verbouwpagina
+   gebruikt dezelfde tekening. */
 
 /* --- Het ene invoerveld --- */
 
