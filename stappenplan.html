@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,14 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/uitleg.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,124 +170,127 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Stappenplan</span>
-    </nav>
-
-
     <main>
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <p class="bs-micro">Zes fasen &middot; achttien controlepunten</p>
-                <h1 class="bs-reken__titel">Bouwdepot stappenplan</h1>
-                <p class="bs-reken__lead">Van begroting tot laatste declaratie. Vink af wat u geregeld heeft; uw voortgang blijft op dit apparaat bewaard.</p>
+        <section class="wr-wrap wr-kop ul-kop" id="inhoud">
+                <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Stappenplan</span></nav>
+                <h1>Bouwdepot stappenplan</h1>
+                <p class="wr-lead">Van begroting tot laatste declaratie. Vink af wat je geregeld hebt; je voortgang blijft op dit apparaat bewaard.</p>
+                <p class="ui-opschrift">Zes fasen &middot; achttien controlepunten</p>
 
-            <div class="bs-voortgang" role="progressbar" aria-labelledby="voortgang-stappenplan" data-checklist-voortgang="bouwdepot-stappenplan-v1" data-checklist-blok="bouwdepot-stappenplan-v1">
-                <div class="bs-voortgang__kop">
+            <div class="ul-voortgang" data-checklist-voortgang="bouwdepot-stappenplan-v1" data-checklist-blok="bouwdepot-stappenplan-v1">
+                <div class="ul-voortgang__kop">
                     <span id="voortgang-stappenplan" data-checklist-tekst>0 van 18 punten afgerond</span>
                     <strong class="tnum" data-checklist-percent>0%</strong>
                 </div>
-                <div class="bs-spoor" aria-valuemin="0" aria-valuenow="0" aria-valuemax="18">
-                    <div class="bs-spoor__vulling" data-checklist-balk></div>
+                <div class="ul-spoor" role="progressbar" aria-labelledby="voortgang-stappenplan" aria-valuemin="0" aria-valuenow="0" aria-valuemax="18">
+                    <div class="ul-spoor__vulling" data-checklist-balk></div>
                 </div>
-                <div class="bs-voortgang__acties no-print">
-                    <button class="bs-knop bs-knop--licht" type="button" data-checklist-print>Afdrukken</button>
-                    <button class="bs-knop bs-knop--licht" type="button" data-checklist-reset>Opnieuw beginnen</button>
+                <div class="ul-voortgang__acties wr-geen-print">
+                    <button class="wr-knop wr-knop--klein" type="button" data-checklist-print>Afdrukken</button>
+                    <button class="wr-knop wr-knop--klein" type="button" data-checklist-reset>Opnieuw beginnen</button>
                 </div>
             </div>
-            </div>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <div class="bs-fasen" data-checklist="bouwdepot-stappenplan-v1" data-checklist-blok="bouwdepot-stappenplan-v1">
+        <section class="wr-wrap wr-sectie wr-sectie--vervolg ul-bouw">
+            
+                <!-- Versiering: het huis wordt verder gebouwd met elk punt dat je afvinkt.
+                     Alleen op een breed scherm, en alleen als 3D kan en mag; zie
+                     src/uitleg/stappenhuis.js. De lijst zelf hangt er niet van af. -->
+                <figure class="ul-huis wr-geen-print" data-stappenhuis aria-hidden="true" hidden>
+                    <div class="ul-huis__beeld"><canvas data-stappenhuis-canvas></canvas></div>
+                    <figcaption>Elk punt dat je afvinkt bouwt verder.</figcaption>
+                </figure>
+            
+                <div class="ul-fasen" data-checklist="bouwdepot-stappenplan-v1" data-checklist-blok="bouwdepot-stappenplan-v1">
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Fase 1</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Fase 1</p>
                         <h2>Doel, budget en eigen geld</h2>
-                        <p class="bs-fase__intro">Zonder een sluitende scope kan niemand beoordelen of uw plan haalbaar is. Stel die samen met de <a href="verbouwbegroting.html">verbouwbegroting</a>, die per post aangeeft of het uit het depot mag.</p>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="scope"><span><strong>Werk per ruimte of bouwdeel beschreven</strong>Noteer aantallen, afmetingen, kwaliteit en wat u zelf uitvoert.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="budget"><span><strong>Begroting sluit op één totaal</strong>Offertes, materialen, advieskosten en eigen betalingen zijn apart herkenbaar.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="buffer"><span><strong>Reserve bewust gekozen</strong>Baseer de buffer op onzekerheden in ontwerp, ondergrond, levertijd en prijsafspraken; niet alleen op een standaardpercentage.</span></label>
+                        <p class="ul-fase__intro">Zonder een sluitende scope kan niemand beoordelen of je plan haalbaar is. Stel die samen met de <a href="verbouwbegroting.html">verbouwbegroting</a>, die per post aangeeft of het uit het depot mag.</p>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="scope"><span><strong>Werk per ruimte of bouwdeel beschreven</strong>Noteer aantallen, afmetingen, kwaliteit en wat je zelf uitvoert.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="budget"><span><strong>Begroting sluit op één totaal</strong>Offertes, materialen, advieskosten en eigen betalingen zijn apart herkenbaar.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="buffer"><span><strong>Reserve bewust gekozen</strong>Baseer de buffer op onzekerheden in ontwerp, ondergrond, levertijd en prijsafspraken; niet alleen op een standaardpercentage.</span></label>
                     </article>
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Fase 2</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Fase 2</p>
                         <h2>Vergunningcheck en vergelijkbare offertes</h2>
-                        <p class="bs-fase__intro">Offertes zijn pas vergelijkbaar als ze over exact dezelfde scope gaan.</p>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="permit"><span><strong>Vergunningcheck uitgevoerd</strong>Bewaar de uitkomst en noteer eventuele vervolgstappen of contact met de gemeente.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="quotes"><span><strong>Offertes op dezelfde scope vergeleken</strong>Controleer btw, stelposten, uitsluitingen, planning, betaalmomenten en geldigheidsduur.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="contract"><span><strong>Opdracht en wijzigingen schriftelijk vastgelegd</strong>Spreek af wie meerwerk mag goedkeuren en wanneer een termijn factureerbaar is.</span></label>
+                        <p class="ul-fase__intro">Offertes zijn pas vergelijkbaar als ze over exact dezelfde scope gaan.</p>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="permit"><span><strong>Vergunningcheck uitgevoerd</strong>Bewaar de uitkomst en noteer eventuele vervolgstappen of contact met de gemeente.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="quotes"><span><strong>Offertes op dezelfde scope vergeleken</strong>Controleer btw, stelposten, uitsluitingen, planning, betaalmomenten en geldigheidsduur.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="contract"><span><strong>Opdracht en wijzigingen schriftelijk vastgelegd</strong>Spreek af wie meerwerk mag goedkeuren en wanneer een termijn factureerbaar is.</span></label>
                     </article>
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Fase 3</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Fase 3</p>
                         <h2>Taxatie, waarderuimte en inkomenstoets</h2>
-                        <p class="bs-fase__intro">Een positieve waardetoets is nog geen goedkeuring; die twee worden vaak verward. Toets de waarderuimte alvast zelf met de <a href="verbouwbegroting.html#leenruimte">leenruimteberekening</a>.</p>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="valuation"><span><strong>Verbouwingsspecificatie klaar voor de taxateur</strong>Dezelfde scope en bedragen worden gebruikt in begroting, offerte en taxatie.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="value"><span><strong>Waarde vóór en na verbouwing gecontroleerd</strong>Vergelijk de verwachte waarde met de huidige hypotheek en het gewenste depot.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="income"><span><strong>Volledige inkomenstoets besproken</strong>Onze waardetoets is geen acceptatiebesluit; alleen de geldverstrekker beoordeelt uw dossier.</span></label>
+                        <p class="ul-fase__intro">Een positieve waardetoets is nog geen goedkeuring; die twee worden vaak verward. Toets de waarderuimte alvast zelf met de <a href="verbouwbegroting.html#leenruimte">leenruimteberekening</a>.</p>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="valuation"><span><strong>Verbouwingsspecificatie klaar voor de taxateur</strong>Dezelfde scope en bedragen worden gebruikt in begroting, offerte en taxatie.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="value"><span><strong>Waarde vóór en na verbouwing gecontroleerd</strong>Vergelijk de verwachte waarde met de huidige hypotheek en het gewenste depot.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="income"><span><strong>Volledige inkomenstoets besproken</strong>Onze waardetoets is geen acceptatiebesluit; alleen de geldverstrekker beoordeelt je dossier.</span></label>
                     </article>
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Fase 4</p>
-                        <h2>Lees hoe uw bank het depot uitvoert</h2>
-                        <p class="bs-fase__intro">Hier zitten de grootste verschillen tussen aanbieders. <a href="bouwdepot-voorwaarden-vergelijken.html">Vergelijk de voorwaarden</a>.</p>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="eligible"><span><strong>Twijfelposten vooraf schriftelijk voorgelegd</strong>Denk aan zelf gekochte materialen, apparatuur, advieskosten, gereedschap en werkzaamheden in eigen beheer.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="process"><span><strong>Declaratieproces getest op papier</strong>Weet wie indient, welke gegevens op een factuur moeten staan en of de bank rechtstreeks betaalt of vergoedt.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="terms"><span><strong>Rente, vergoeding, looptijd en restant gelezen</strong>Controleer ook verlengen, budget verschuiven en wat de bank bij sluiting met een ongebruikt saldo doet.</span></label>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Fase 4</p>
+                        <h2>Lees hoe je bank het depot uitvoert</h2>
+                        <p class="ul-fase__intro">Hier zitten de grootste verschillen tussen aanbieders. <a href="bouwdepot-voorwaarden-vergelijken.html">Vergelijk de voorwaarden</a>.</p>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="eligible"><span><strong>Twijfelposten vooraf schriftelijk voorgelegd</strong>Denk aan zelf gekochte materialen, apparatuur, advieskosten, gereedschap en werkzaamheden in eigen beheer.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="process"><span><strong>Declaratieproces getest op papier</strong>Weet wie indient, welke gegevens op een factuur moeten staan en of de bank rechtstreeks betaalt of vergoedt.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="terms"><span><strong>Rente, vergoeding, looptijd en restant gelezen</strong>Controleer ook verlengen, budget verschuiven en wat de bank bij sluiting met een ongebruikt saldo doet.</span></label>
                     </article>
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Fase 5</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Fase 5</p>
                         <h2>Declareer controleerbaar en bewaak de planning</h2>
-                        <p class="bs-fase__intro">Een afgewezen declaratie kost vooral tijd, en die heeft u binnen de depottermijn niet onbeperkt. De <a href="depotplanner.html">depotplanner</a> zet uw einddatum en verlengingsmoment op een rij.</p>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="invoice"><span><strong>Factuur inhoudelijk gecontroleerd</strong>Naam, adres, werkzaamheden, datum, bedrag, btw en betaaltermijn passen bij de opdracht.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="evidence"><span><strong>Factuur en bewijsstuk samen opgeslagen</strong>Gebruik één vaste bestandsnaam met datum, leverancier, onderdeel en bedrag.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="forecast"><span><strong>Depotstand en prognose bijgewerkt</strong>Neem goedgekeurd meerwerk en vertraging direct mee in resterend budget en maandlasten.</span></label>
+                        <p class="ul-fase__intro">Een afgewezen declaratie kost vooral tijd, en die heb je binnen de depottermijn niet onbeperkt. De <a href="depotplanner.html">depotplanner</a> zet je einddatum en verlengingsmoment op een rij.</p>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="invoice"><span><strong>Factuur inhoudelijk gecontroleerd</strong>Naam, adres, werkzaamheden, datum, bedrag, btw en betaaltermijn passen bij de opdracht.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="evidence"><span><strong>Factuur en bewijsstuk samen opgeslagen</strong>Gebruik één vaste bestandsnaam met datum, leverancier, onderdeel en bedrag.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="forecast"><span><strong>Depotstand en prognose bijgewerkt</strong>Neem goedgekeurd meerwerk en vertraging direct mee in resterend budget en maandlasten.</span></label>
                     </article>
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Fase 6</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Fase 6</p>
                         <h2>Laatste controle vóór het depot sluit</h2>
-                        <p class="bs-fase__intro">Wat na sluiting overblijft gaat meestal van de lening af, en is dan niet meer beschikbaar voor de verbouwing. Bereken in de <a href="depotplanner.html">depotplanner</a> hoeveel tijd u nog heeft.</p>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="delivery"><span><strong>Opleverpunten en laatste facturen in beeld</strong>Reserveer alleen voor concrete, nog openstaande werkzaamheden of herstelpunten.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="statement"><span><strong>Eindafschrift met eigen administratie vergeleken</strong>Controleer opnames, afgewezen posten, ontvangen vergoeding en resterend saldo.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="archive"><span><strong>Volledig dossier duurzaam gearchiveerd</strong>Bewaar rekeningen en bonnen waarmee u het gebruik van de lening voor de verbouwing kunt aantonen.</span></label>
+                        <p class="ul-fase__intro">Wat na sluiting overblijft gaat meestal van de lening af, en is dan niet meer beschikbaar voor de verbouwing. Bereken in de <a href="depotplanner.html">depotplanner</a> hoeveel tijd je nog hebt.</p>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="delivery"><span><strong>Opleverpunten en laatste facturen in beeld</strong>Reserveer alleen voor concrete, nog openstaande werkzaamheden of herstelpunten.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="statement"><span><strong>Eindafschrift met eigen administratie vergeleken</strong>Controleer opnames, afgewezen posten, ontvangen vergoeding en resterend saldo.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="archive"><span><strong>Volledig dossier duurzaam gearchiveerd</strong>Bewaar rekeningen en bonnen waarmee je het gebruik van de lening voor de verbouwing kunt aantonen.</span></label>
                     </article>
 
                 </div>
-            </div>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Dossier</p>
-                    <h2 class="bs-titel">Welke documenten bewaart u wanneer?</h2>
+        <section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Dossier</p>
+                    <h2>Welke documenten bewaar je wanneer?</h2>
 
-                <div class="bs-dossier">
-                    <article class="bs-dossier__moment">
+                <div class="ul-dossier">
+                    <article class="ul-dossier__moment">
                         <h3>Vóór de aanvraag</h3>
                         <dl>
                             <div><dt>Bewaren</dt><dd>Begroting, offertes, tekeningen, vergunningcheck en verbouwingsspecificatie.</dd></div>
                             <div><dt>Zelf controleren</dt><dd>Scope en bedragen zijn overal gelijk.</dd></div>
                         </dl>
                     </article>
-                    <article class="bs-dossier__moment">
+                    <article class="ul-dossier__moment">
                         <h3>Bij akkoord</h3>
                         <dl>
                             <div><dt>Bewaren</dt><dd>Hypotheekofferte, depotvoorwaarden, taxatierapport en schriftelijke antwoorden.</dd></div>
                             <div><dt>Zelf controleren</dt><dd>Looptijd, rente, acceptabele kosten en restant.</dd></div>
                         </dl>
                     </article>
-                    <article class="bs-dossier__moment">
+                    <article class="ul-dossier__moment">
                         <h3>Per declaratie</h3>
                         <dl>
                             <div><dt>Bewaren</dt><dd>Opdracht, factuur, betaalbewijs, foto en bankbevestiging.</dd></div>
                             <div><dt>Zelf controleren</dt><dd>Bedrag past bij begrotingspost en uitgevoerd werk.</dd></div>
                         </dl>
                     </article>
-                    <article class="bs-dossier__moment">
+                    <article class="ul-dossier__moment">
                         <h3>Bij afsluiting</h3>
                         <dl>
                             <div><dt>Bewaren</dt><dd>Eindafschrift, opleverlijst, garanties en compleet factuurarchief.</dd></div>
@@ -290,73 +298,73 @@
                         </dl>
                     </article>
                 </div>
-            </div>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Bouwdepot uitgelegd</p>
-                    <h2 class="bs-titel" id="wat-is-een-bouwdepot">Wat een bouwdepot precies is</h2>
+        <section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Bouwdepot uitgelegd</p>
+                    <h2 id="wat-is-een-bouwdepot">Wat een bouwdepot precies is</h2>
 
-                <div class="bs-proza">
-                    <p>Een bouwdepot is een gereserveerd deel van uw hypotheek dat de bank pas uitbetaalt als u facturen indient voor afgesproken werkzaamheden. Geen spaarpot, maar een budget met regels, termijnen en bewijsplicht.</p>
-                    <p>De bank controleert of uw kosten binnen de voorwaarden vallen voordat er geld overgaat. Wat aan het einde van de looptijd overblijft, wordt bij de meeste aanbieders gebruikt om uw lening te verlagen &mdash; het geld is dan niet weg, maar u kunt het niet meer voor de verbouwing gebruiken.</p>
-                    <p>Die voorwaarden verschillen sterk per geldverstrekker. Hoe lang u de tijd krijgt loopt uiteen van 24 tot 42 maanden, en of u rente ontvangt over het niet-opgenomen deel is evenmin vanzelfsprekend. Wij hebben ze <a href="bouwdepot-voorwaarden-vergelijken.html">van dertien aanbieders naast elkaar gezet</a>.</p>
+                <div class="wr-proza">
+                    <p>Een bouwdepot is een gereserveerd deel van je hypotheek dat de bank pas uitbetaalt als je facturen indient voor afgesproken werkzaamheden. Geen spaarpot, maar een budget met regels, termijnen en bewijsplicht.</p>
+                    <p>De bank controleert of je kosten binnen de voorwaarden vallen voordat er geld overgaat. Wat aan het einde van de looptijd overblijft, wordt bij de meeste aanbieders gebruikt om je lening te verlagen &mdash; het geld is dan niet weg, maar je kunt het niet meer voor de verbouwing gebruiken.</p>
+                    <p>Die voorwaarden verschillen sterk per geldverstrekker. Hoe lang je de tijd krijgt loopt uiteen van 24 tot 42 maanden, en of je rente ontvangt over het niet-opgenomen deel is evenmin vanzelfsprekend. Wij hebben ze <a href="bouwdepot-voorwaarden-vergelijken.html">van dertien aanbieders naast elkaar gezet</a>.</p>
                 </div>
-            </div>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Eerst dit</p>
-                    <h2 class="bs-titel">Vier vragen om te beantwoorden voordat u begint</h2>
+        <section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Eerst dit</p>
+                    <h2>Vier vragen om te beantwoorden voordat je begint</h2>
 
-                <div class="bs-vragen">
-                    <article class="bs-vraag">
-                        <h3>Wat wilt u precies verbeteren?</h3>
+                <div class="wr-kolommen">
+                    <article>
+                        <h3>Wat wil je precies verbeteren?</h3>
                         <p>Maak onderscheid tussen noodzakelijke werkzaamheden en wensen. Dat helpt bij prioriteren zodra budget of planning onder druk komt, en dat gebeurt vaker wel dan niet.</p>
                     </article>
-                    <article class="bs-vraag">
-                        <h3>Wat accepteert uw bank als declarabele kosten?</h3>
-                        <p>Controleer vooraf welke uitgaven wel en niet uit het depot betaald mogen worden, en of een kassabon volstaat of alleen een factuur op naam. Zo voorkomt u afwijzingen en vertraging.</p>
+                    <article>
+                        <h3>Wat accepteert je bank als declarabele kosten?</h3>
+                        <p>Controleer vooraf welke uitgaven wel en niet uit het depot betaald mogen worden, en of een kassabon volstaat of alleen een factuur op naam. Zo voorkom je afwijzingen en vertraging.</p>
                     </article>
-                    <article class="bs-vraag">
-                        <h3>Hoe ziet uw tijdlijn eruit?</h3>
-                        <p>Vertraging in levering of uitvoering komt veel voor. Zet een planning op met ruimte voor uitloop, en weet hoe lang uw depot geldig blijft. Verlenging is meestal eenmalig en moet vóór de einddatum worden aangevraagd.</p>
+                    <article>
+                        <h3>Hoe ziet je tijdlijn eruit?</h3>
+                        <p>Vertraging in levering of uitvoering komt veel voor. Zet een planning op met ruimte voor uitloop, en weet hoe lang je depot geldig blijft. Verlenging is meestal eenmalig en moet vóór de einddatum worden aangevraagd.</p>
                     </article>
-                    <article class="bs-vraag">
-                        <h3>Past dit bij uw comfortabele maandlast?</h3>
-                        <p>Kijk niet alleen naar de startsituatie. Vergelijk ook de last later in het traject, bijvoorbeeld wanneer de depotvergoeding stopt of het depot leeg is. <a href="bouwdepot-berekenen.html#tijdens-de-bouw">Bereken uw maandlast</a>.</p>
+                    <article>
+                        <h3>Past dit bij je comfortabele maandlast?</h3>
+                        <p>Kijk niet alleen naar de startsituatie. Vergelijk ook de last later in het traject, bijvoorbeeld wanneer de depotvergoeding stopt of het depot leeg is. <a href="bouwdepot-berekenen.html#tijdens-de-bouw">Bereken je maandlast</a>.</p>
                     </article>
                 </div>
-            </div>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Naar omvang</p>
-                    <h2 class="bs-titel">Wat past bij welk depotbedrag</h2>
-                    <p class="bs-reken__lead">De omvang bepaalt niet alleen het bedrag, maar ook hoeveel administratie en planning erbij komt kijken.</p>
+        <section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Naar omvang</p>
+                    <h2>Wat past bij welk depotbedrag</h2>
+                    <p class="wr-lead ul-lead">De omvang bepaalt niet alleen het bedrag, maar ook hoeveel administratie en planning erbij komt kijken.</p>
 
-                <div class="bs-scenarios">
-                    <article class="bs-scenario">
-                        <p class="bs-scenario__bedrag">&euro; 10.000 &ndash; 25.000</p>
+                <div class="ul-scenarios">
+                    <article class="ul-scenario">
+                        <p class="ul-scenario__bedrag">&euro; 10.000 &ndash; 25.000</p>
                         <dl>
                             <div><dt>Past vaak bij</dt><dd>Gerichte verbeteringen zoals isolatie, onderhoud of één grote post.</dd></div>
                             <div><dt>Sterk punt</dt><dd>Beperkte extra maandlast en een overzichtelijk traject.</dd></div>
                             <div><dt>Let hierop</dt><dd>Minder ruimte voor tegenvallers, dus een buffer is cruciaal.</dd></div>
                         </dl>
                     </article>
-                    <article class="bs-scenario">
-                        <p class="bs-scenario__bedrag">&euro; 25.000 &ndash; 60.000</p>
+                    <article class="ul-scenario">
+                        <p class="ul-scenario__bedrag">&euro; 25.000 &ndash; 60.000</p>
                         <dl>
                             <div><dt>Past vaak bij</dt><dd>Combinatie van keuken, badkamer en verduurzaming.</dd></div>
                             <div><dt>Sterk punt</dt><dd>Goede balans tussen woonkwaliteit en kosten.</dd></div>
                             <div><dt>Let hierop</dt><dd>Planning en offertes moeten goed op elkaar aansluiten.</dd></div>
                         </dl>
                     </article>
-                    <article class="bs-scenario">
-                        <p class="bs-scenario__bedrag">&euro; 60.000 en meer</p>
+                    <article class="ul-scenario">
+                        <p class="ul-scenario__bedrag">&euro; 60.000 en meer</p>
                         <dl>
                             <div><dt>Past vaak bij</dt><dd>Uitbouw, constructieve aanpassing of totaalrenovatie.</dd></div>
                             <div><dt>Sterk punt</dt><dd>Grote kwaliteits- en waardesprong op lange termijn.</dd></div>
@@ -364,309 +372,304 @@
                         </dl>
                     </article>
                 </div>
-            </div>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Wat er meestal misgaat</p>
-                    <h2 class="bs-titel" id="fouten">Zeven fouten die tijd of geld kosten</h2>
-                    <p class="bs-reken__lead">De meeste problemen met een bouwdepot ontstaan niet door een te klein budget, maar doordat begroting, planning en bankvoorwaarden pas op elkaar worden afgestemd als het geld al uitgegeven is.</p>
+        <section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Wat er meestal misgaat</p>
+                    <h2 id="fouten">Zeven fouten die tijd of geld kosten</h2>
+                    <p class="wr-lead ul-lead">De meeste problemen met een bouwdepot ontstaan niet door een te klein budget, maar doordat begroting, planning en bankvoorwaarden pas op elkaar worden afgestemd als het geld al uitgegeven is.</p>
 
-                <div class="bs-fouten">
+                <div class="ul-fouten">
 
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Fout 1</p>
+                    <article class="ul-fout">
+                        <p class="ul-fout__nummer">Fout 1</p>
                         <h3>De begroting heeft geen beslisruimte</h3>
                         <p>Een offertebedrag is nog geen compleet projectbudget. Sloopwerk kan verborgen gebreken blootleggen, materiaalkeuzes veranderen, en meerwerk komt er meestal bij zonder dat vooraf is bepaald wat er dan afgaat.</p>
-                        <div class="bs-fout__oplossing">
-                            <h4>Zo voorkomt u dit</h4>
+                        <div class="ul-fout__oplossing">
+                            <h4>Zo voorkom je dit</h4>
                             <p>Splits de begroting in noodzakelijk werk, gewenste afwerking en een aparte onzekerheidsreserve. Leg vóór de start vast welke wens als eerste vervalt als het budget onder druk komt.</p>
                         </div>
                     </article>
 
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Fout 2</p>
+                    <article class="ul-fout">
+                        <p class="ul-fout__nummer">Fout 2</p>
                         <h3>Aannemen dat iedere verbouwing volledig financierbaar is</h3>
-                        <p>De kosten van een verbouwing en de waardestijging van de woning zijn twee verschillende bedragen. De hypotheek wordt begrensd door zowel uw inkomen als de woningwaarde, en die twee grenzen laten zich niet optellen.</p>
-                        <div class="bs-fout__oplossing">
-                            <h4>Zo voorkomt u dit</h4>
+                        <p>De kosten van een verbouwing en de waardestijging van de woning zijn twee verschillende bedragen. De hypotheek wordt begrensd door zowel je inkomen als de woningwaarde, en die twee grenzen laten zich niet optellen.</p>
+                        <div class="ul-fout__oplossing">
+                            <h4>Zo voorkom je dit</h4>
                             <p>Laat in het advies drie bedragen apart benoemen: totale verbouwkosten, verwachte waarde na verbouwing, en het bedrag dat de geldverstrekker werkelijk wil financieren. Bekijk zelf alvast de <a href="verbouwbegroting.html#leenruimte">leenruimteberekening</a>.</p>
                         </div>
                     </article>
 
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Fout 3</p>
+                    <article class="ul-fout">
+                        <p class="ul-fout__nummer">Fout 3</p>
                         <h3>Pas bij declareren vragen wat uit het depot mag</h3>
                         <p>Een bouwdepot is geen vrij besteedbare rekening. Geldverstrekkers stellen eisen aan het verbouwingsplan, de factuur, de soort werkzaamheden en de manier van betalen. Die eisen verschillen bovendien sterk per aanbieder: de één accepteert een kassabon, de ander uitsluitend een factuur op naam met KvK- en btw-nummer.</p>
-                        <div class="bs-fout__oplossing">
-                            <h4>Zo voorkomt u dit</h4>
-                            <p>Vraag vóór bestelling schriftelijk welke categorieën zijn toegestaan en hoe twijfelgevallen worden beoordeeld. Noteer ook of u voorgeschoten bedragen kunt declareren. <a href="bouwdepot-voorwaarden-vergelijken.html">Vergelijk wat uw bank accepteert</a>.</p>
+                        <div class="ul-fout__oplossing">
+                            <h4>Zo voorkom je dit</h4>
+                            <p>Vraag vóór bestelling schriftelijk welke categorieën zijn toegestaan en hoe twijfelgevallen worden beoordeeld. Noteer ook of je voorgeschoten bedragen kunt declareren. <a href="bouwdepot-voorwaarden-vergelijken.html">Vergelijk wat je bank accepteert</a>.</p>
                         </div>
                     </article>
 
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Fout 4</p>
+                    <article class="ul-fout">
+                        <p class="ul-fout__nummer">Fout 4</p>
                         <h3>Facturen, betalingen en projectregels lopen door elkaar</h3>
-                        <p>Losse pdf's in een mailbox maken het onmogelijk om te zien welk bedrag al is betaald, gedeclareerd of vergoed. Bij een correctievraag moet u dan achteraf reconstrueren welke factuur waarbij hoorde.</p>
-                        <div class="bs-fout__oplossing">
-                            <h4>Zo voorkomt u dit</h4>
+                        <p>Losse pdf's in een mailbox maken het onmogelijk om te zien welk bedrag al is betaald, gedeclareerd of vergoed. Bij een correctievraag moet je dan achteraf reconstrueren welke factuur waarbij hoorde.</p>
+                        <div class="ul-fout__oplossing">
+                            <h4>Zo voorkom je dit</h4>
                             <p>Geef iedere begrotingsregel een eigen projectcode, bijvoorbeeld <strong>K01 keuken</strong>, en gebruik die in bestandsnamen, offertes en declaraties. Eén vaste bestandsnaam met datum, leverancier, onderdeel en bedrag scheelt later uren.</p>
                         </div>
                     </article>
 
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Fout 5</p>
+                    <article class="ul-fout">
+                        <p class="ul-fout__nummer">Fout 5</p>
                         <h3>Alleen naar het eindsaldo kijken, niet naar de kasstroom</h3>
-                        <p>Een project kan op papier binnen budget blijven en toch tijdelijk vastlopen. De aannemer verwacht betaling binnen zeven dagen, terwijl de bank een declaratie in vijf werkdagen verwerkt — of tien, als u per post indient.</p>
-                        <div class="bs-fout__oplossing">
-                            <h4>Zo voorkomt u dit</h4>
-                            <p>Maak per maand een eenvoudige kasstroom: beginsaldo, verwachte facturen, eigen betalingen, depotuitbetalingen en eindsaldo. Vraag uw geldverstrekker naar de normale verwerkingstijd. Bereken ook uw <a href="nieuwbouw.html">piekmaand</a>.</p>
+                        <p>Een project kan op papier binnen budget blijven en toch tijdelijk vastlopen. De aannemer verwacht betaling binnen zeven dagen, terwijl de bank een declaratie in vijf werkdagen verwerkt — of tien, als je per post indient.</p>
+                        <div class="ul-fout__oplossing">
+                            <h4>Zo voorkom je dit</h4>
+                            <p>Maak per maand een eenvoudige kasstroom: beginsaldo, verwachte facturen, eigen betalingen, depotuitbetalingen en eindsaldo. Vraag je geldverstrekker naar de normale verwerkingstijd. Bereken ook je <a href="nieuwbouw.html">piekmaand</a>.</p>
                         </div>
                     </article>
 
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Fout 6</p>
+                    <article class="ul-fout">
+                        <p class="ul-fout__nummer">Fout 6</p>
                         <h3>De einddatum van het depot verwarren met de bouwplanning</h3>
-                        <p>De contractuele depottermijn en de werkelijke opleverdatum lopen niet vanzelf gelijk. Die termijn verschilt bovendien sterk: van 24 tot 42 maanden inclusief verlenging, afhankelijk van uw aanbieder. Verlenging is meestal eenmalig en moet vóór de einddatum worden aangevraagd.</p>
-                        <div class="bs-fout__oplossing">
-                            <h4>Zo voorkomt u dit</h4>
-                            <p>Zet drie datums in uw agenda: zes maanden na opening, de contractuele einddatum, en vier maanden vóór die einddatum. Vraag tijdig wat verlenging kost en welke documenten nodig zijn. <a href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de looptijd per aanbieder</a>.</p>
+                        <p>De contractuele depottermijn en de werkelijke opleverdatum lopen niet vanzelf gelijk. Die termijn verschilt bovendien sterk: van 24 tot 42 maanden inclusief verlenging, afhankelijk van je aanbieder. Verlenging is meestal eenmalig en moet vóór de einddatum worden aangevraagd.</p>
+                        <div class="ul-fout__oplossing">
+                            <h4>Zo voorkom je dit</h4>
+                            <p>Zet drie datums in je agenda: zes maanden na opening, de contractuele einddatum, en vier maanden vóór die einddatum. Vraag tijdig wat verlenging kost en welke documenten nodig zijn. <a href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de looptijd per aanbieder</a>.</p>
                         </div>
                     </article>
 
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Fout 7</p>
+                    <article class="ul-fout">
+                        <p class="ul-fout__nummer">Fout 7</p>
                         <h3>Betaalde rente, ontvangen depotrente en aftrek door elkaar halen</h3>
-                        <p>De rente die u aan de geldverstrekker betaalt is niet hetzelfde als de vergoeding over het geld dat nog in depot staat, en geen van beide is hetzelfde als uw fiscale aftrek. Bij één aanbieder bestaat die vergoeding zelfs helemaal niet, omdat daar alleen rente wordt gerekend over wat al is opgenomen.</p>
-                        <div class="bs-fout__oplossing">
-                            <h4>Zo voorkomt u dit</h4>
+                        <p>De rente die je aan de geldverstrekker betaalt is niet hetzelfde als de vergoeding over het geld dat nog in depot staat, en geen van beide is hetzelfde als je fiscale aftrek. Bij één aanbieder bestaat die vergoeding zelfs helemaal niet, omdat daar alleen rente wordt gerekend over wat al is opgenomen.</p>
+                        <div class="ul-fout__oplossing">
+                            <h4>Zo voorkom je dit</h4>
                             <p>Bewaar de jaaropgave én de depotafschriften. Noteer de openingsdatum en behandel een netto maandlast uit een calculator nooit als aangifte-uitkomst. Lees de <a href="hypotheekrenteaftrek-gids.html">fiscale depotgids</a>.</p>
                         </div>
                     </article>
 
                 </div>
-            </div>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Alarmsignalen</p>
-                    <h2 class="bs-titel">Wanneer moet u direct bijsturen?</h2>
+        <section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Alarmsignalen</p>
+                    <h2>Wanneer moet je direct bijsturen?</h2>
 
-                <div class="bs-vragen">
-                    <article class="bs-vraag">
+                <div class="wr-kolommen">
+                    <article>
                         <h3>Begroting</h3>
                         <p>Meerwerk is toegezegd voordat duidelijk is welke post vervalt of wie het betaalt.</p>
                     </article>
-                    <article class="bs-vraag">
+                    <article>
                         <h3>Planning</h3>
                         <p>Een sleutelactiviteit schuift, maar betaalmomenten en depottermijn zijn nog niet opnieuw bekeken.</p>
                     </article>
-                    <article class="bs-vraag">
+                    <article>
                         <h3>Declaraties</h3>
                         <p>Een factuur blijft afgewezen, of de bank vraagt herhaaldelijk om dezelfde onderbouwing.</p>
                     </article>
-                    <article class="bs-vraag">
+                    <article>
                         <h3>Liquiditeit</h3>
-                        <p>U moet reguliere woonlasten of noodzakelijke uitgaven uit de noodbuffer betalen.</p>
+                        <p>Je moet reguliere woonlasten of noodzakelijke uitgaven uit de noodbuffer betalen.</p>
                     </article>
                 </div>
 
-                <p>Herkent u een van deze signalen, stop dan met nieuwe niet-noodzakelijke verplichtingen en maak één bijgewerkt overzicht van budget, planning en openstaande betalingen. Bespreek dat met de aannemer én de geldverstrekker.</p>
-            </div>
+                <p>Herken je een van deze signalen, stop dan met nieuwe niet-noodzakelijke verplichtingen en maak één bijgewerkt overzicht van budget, planning en openstaande betalingen. Bespreek dat met de aannemer én de geldverstrekker.</p>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Routine</p>
-                    <h2 class="bs-titel">Twintig minuten per week houdt het bestuurbaar</h2>
-                    <p class="bs-reken__lead">Niet omdat het leuk is, maar omdat reconstrueren achteraf veel meer tijd kost dan bijhouden.</p>
+        <section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Routine</p>
+                    <h2>Twintig minuten per week houdt het bestuurbaar</h2>
+                    <p class="wr-lead ul-lead">Niet omdat het leuk is, maar omdat reconstrueren achteraf veel meer tijd kost dan bijhouden.</p>
 
-                <ul class="bs-checklijst">
+                <ul class="wr-lijst wr-proza">
                     <li>Werk het factuur- en declaratieoverzicht bij.</li>
                     <li>Vergelijk het werkelijk bestede bedrag met de begrotingsregels.</li>
                     <li>Controleer de betalingen voor de komende vier weken.</li>
                     <li>Sla nieuwe facturen, foto's en bankberichten op in dezelfde projectmap.</li>
                     <li>Noteer één besluit bij ieder verschil in geld of planning, zodat zichtbaar blijft waarom het plan veranderde.</li>
                 </ul>
-            </div>
+            
         </section>
 
-<section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Zeven delen &middot; 45 punten</p>
-                    <h2 class="bs-titel" id="adviesgesprek">Checklist voor uw adviesgesprek</h2>
-                    <p class="bs-reken__lead">Welke stukken u meeneemt, welke vragen u stelt en wat u na afloop wilt hebben. Vink af of druk de lijst af; uw voortgang blijft op dit apparaat bewaard.</p>
+<section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Zeven delen &middot; 45 punten</p>
+                    <h2 id="adviesgesprek">Checklist voor je adviesgesprek</h2>
+                    <p class="wr-lead ul-lead">Welke stukken je meeneemt, welke vragen je stelt en wat je na afloop wilt hebben. Vink af of druk de lijst af; je voortgang blijft op dit apparaat bewaard.</p>
 
-            <div class="bs-voortgang" role="progressbar" aria-labelledby="voortgang-adviesgesprek" data-checklist-voortgang="bouwdepot-adviesgesprek-v1" data-checklist-blok="bouwdepot-adviesgesprek-v1">
-                <div class="bs-voortgang__kop">
+            <div class="ul-voortgang" data-checklist-voortgang="bouwdepot-adviesgesprek-v1" data-checklist-blok="bouwdepot-adviesgesprek-v1">
+                <div class="ul-voortgang__kop">
                     <span id="voortgang-adviesgesprek" data-checklist-tekst>0 van 45 punten afgerond</span>
                     <strong class="tnum" data-checklist-percent>0%</strong>
                 </div>
-                <div class="bs-spoor" aria-valuemin="0" aria-valuenow="0" aria-valuemax="45">
-                    <div class="bs-spoor__vulling" data-checklist-balk></div>
+                <div class="ul-spoor" role="progressbar" aria-labelledby="voortgang-adviesgesprek" aria-valuemin="0" aria-valuenow="0" aria-valuemax="45">
+                    <div class="ul-spoor__vulling" data-checklist-balk></div>
                 </div>
-                <div class="bs-voortgang__acties no-print">
-                    <button class="bs-knop bs-knop--licht" type="button" data-checklist-print>Afdrukken</button>
-                    <button class="bs-knop bs-knop--licht" type="button" data-checklist-reset>Opnieuw beginnen</button>
+                <div class="ul-voortgang__acties wr-geen-print">
+                    <button class="wr-knop wr-knop--klein" type="button" data-checklist-print>Afdrukken</button>
+                    <button class="wr-knop wr-knop--klein" type="button" data-checklist-reset>Opnieuw beginnen</button>
                 </div>
             </div>
 
-            <p class="bs-hulp">Deze lijst ordent feiten, vragen en keuzes. Hij vervangt geen passend hypotheekadvies en bepaalt niet of een geldverstrekker uw aanvraag accepteert.</p>
-            </div>
+            <p class="wr-voorbehoud">Deze lijst ordent feiten, vragen en keuzes. Hij vervangt geen passend hypotheekadvies en bepaalt niet of een geldverstrekker je aanvraag accepteert.</p>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <div class="bs-fasen" data-checklist="bouwdepot-adviesgesprek-v1" data-checklist-blok="bouwdepot-adviesgesprek-v1">
+        <section class="wr-wrap wr-sectie wr-sectie--vervolg">
+            
+                <div class="ul-fasen" data-checklist="bouwdepot-adviesgesprek-v1" data-checklist-blok="bouwdepot-adviesgesprek-v1">
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Deel 1 &middot; meenemen</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Deel 1 &middot; meenemen</p>
                         <h3>Documenten en uitgangspunten</h3>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="d1"><span><strong>Identiteits- en huishoudgegevens</strong>Zoals de adviseur die heeft opgevraagd.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="d2"><span><strong>Recente inkomensstukken</strong>Bij ondernemerschap de gevraagde jaarcijfers en prognose.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="d3"><span><strong>Overzicht bestaande hypotheekdelen</strong>Rentepercentages, rentevaste periodes en resterende looptijd.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="d4"><span><strong>Overzicht andere verplichtingen</strong>Studieschuld, private lease en kredieten.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="d5"><span><strong>Spaargeld en inzet</strong>Het bedrag dat u werkelijk voor dit project wilt gebruiken.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="d6"><span><strong>WOZ-beschikking en waardestukken</strong>Aankoopstukken en beschikbare taxatie of waardeverklaring.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="d1"><span><strong>Identiteits- en huishoudgegevens</strong>Zoals de adviseur die heeft opgevraagd.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="d2"><span><strong>Recente inkomensstukken</strong>Bij ondernemerschap de gevraagde jaarcijfers en prognose.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="d3"><span><strong>Overzicht bestaande hypotheekdelen</strong>Rentepercentages, rentevaste periodes en resterende looptijd.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="d4"><span><strong>Overzicht andere verplichtingen</strong>Studieschuld, private lease en kredieten.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="d5"><span><strong>Spaargeld en inzet</strong>Het bedrag dat je werkelijk voor dit project wilt gebruiken.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="d6"><span><strong>WOZ-beschikking en waardestukken</strong>Aankoopstukken en beschikbare taxatie of waardeverklaring.</span></label>
                     </article>
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Deel 2 &middot; meenemen</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Deel 2 &middot; meenemen</p>
                         <h3>Verbouwingsplan en begroting</h3>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="p1"><span><strong>Werkomschrijving per ruimte of bouwonderdeel</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="p2"><span><strong>Offertes</strong>Met btw, materiaal, arbeid, planning en geldigheidsduur.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="p3"><span><strong>Scheiding noodzakelijk en wenselijk</strong>Welke wensen kunnen eventueel vervallen?</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="p4"><span><strong>Onzekerheidsreserve onderbouwd</strong>Vanuit bouwjaar, opname en contractvorm.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="p5"><span><strong>Verwachte woningwaarde na verbouwing</strong>En wie die waarde vaststelt.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="p6"><span><strong>Planning</strong>Start, grote betaalmomenten, oplevering en mogelijke uitloop.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="p1"><span><strong>Werkomschrijving per ruimte of bouwonderdeel</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="p2"><span><strong>Offertes</strong>Met btw, materiaal, arbeid, planning en geldigheidsduur.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="p3"><span><strong>Scheiding noodzakelijk en wenselijk</strong>Welke wensen kunnen eventueel vervallen?</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="p4"><span><strong>Onzekerheidsreserve onderbouwd</strong>Vanuit bouwjaar, opname en contractvorm.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="p5"><span><strong>Verwachte woningwaarde na verbouwing</strong>En wie die waarde vaststelt.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="p6"><span><strong>Planning</strong>Start, grote betaalmomenten, oplevering en mogelijke uitloop.</span></label>
                     </article>
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Deel 3 &middot; vragen</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Deel 3 &middot; vragen</p>
                         <h3>Over de lening</h3>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="l1"><span><strong>Hoeveel is financierbaar op inkomen, en hoeveel op waarde na verbouwing?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="l2"><span><strong>Welke hypotheekvorm en looptijd gelden voor het nieuwe leningdeel?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="l3"><span><strong>Welke rente, opslag en rentevaste periode zijn gebruikt?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="l4"><span><strong>Wat zijn bruto lasten in jaar 1 en later?</strong>En welke fiscale aannames zitten achter het nettobedrag?</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="l5"><span><strong>Welke advies-, taxatie-, notaris-, NHG- en afsluitkosten betaal ik zelf?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="l6"><span><strong>Geldt extra leenruimte voor energiebesparende maatregelen?</strong>En onder welke voorwaarden?</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="l7"><span><strong>Wat als de waarde na verbouwing lager wordt getaxeerd?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="l1"><span><strong>Hoeveel is financierbaar op inkomen, en hoeveel op waarde na verbouwing?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="l2"><span><strong>Welke hypotheekvorm en looptijd gelden voor het nieuwe leningdeel?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="l3"><span><strong>Welke rente, opslag en rentevaste periode zijn gebruikt?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="l4"><span><strong>Wat zijn bruto lasten in jaar 1 en later?</strong>En welke fiscale aannames zitten achter het nettobedrag?</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="l5"><span><strong>Welke advies-, taxatie-, notaris-, NHG- en afsluitkosten betaal ik zelf?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="l6"><span><strong>Geldt extra leenruimte voor energiebesparende maatregelen?</strong>En onder welke voorwaarden?</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="l7"><span><strong>Wat als de waarde na verbouwing lager wordt getaxeerd?</strong></span></label>
                     </article>
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Deel 4 &middot; vragen</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Deel 4 &middot; vragen</p>
                         <h3>Over het depotproces</h3>
-                        <p class="bs-fase__intro">Hier zitten de grootste verschillen tussen aanbieders. <a href="bouwdepot-voorwaarden-vergelijken.html">Zoek vooraf op wat uw bank publiceert</a>, dan kunt u gericht doorvragen.</p>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="v1"><span><strong>Welke werkzaamheden en kosten accepteert deze geldverstrekker?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="v2"><span><strong>Welke gegevens moeten op een factuur staan?</strong>Volstaat een kassabon, en kan ik voorgeschoten bedragen declareren?</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="v3"><span><strong>Hoe dien ik in en wat is de verwerkingstijd?</strong>Reken op vijf werkdagen digitaal; per post vaak langer.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="v4"><span><strong>Krijg ik vergoeding over het niet-opgenomen saldo?</strong>Niet elke aanbieder betaalt die, en niet altijd de hele looptijd.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="v5"><span><strong>Wat is de contractuele einddatum van het depot?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="v6"><span><strong>Kan ik verlengen, wanneer moet dat en wat kost het?</strong>Verlenging is meestal eenmalig en vóór de einddatum aan te vragen.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="v7"><span><strong>Wat gebeurt er met ongebruikt depotgeld?</strong>En verandert dat mijn maandlast of mijn boetevrije ruimte?</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="v8"><span><strong>Moet eigen geld vóór depotgeld worden gebruikt?</strong>Of mag ik de volgorde zelf kiezen?</span></label>
+                        <p class="ul-fase__intro">Hier zitten de grootste verschillen tussen aanbieders. <a href="bouwdepot-voorwaarden-vergelijken.html">Zoek vooraf op wat je bank publiceert</a>, dan kun je gericht doorvragen.</p>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="v1"><span><strong>Welke werkzaamheden en kosten accepteert deze geldverstrekker?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="v2"><span><strong>Welke gegevens moeten op een factuur staan?</strong>Volstaat een kassabon, en kan ik voorgeschoten bedragen declareren?</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="v3"><span><strong>Hoe dien ik in en wat is de verwerkingstijd?</strong>Reken op vijf werkdagen digitaal; per post vaak langer.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="v4"><span><strong>Krijg ik vergoeding over het niet-opgenomen saldo?</strong>Niet elke aanbieder betaalt die, en niet altijd de hele looptijd.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="v5"><span><strong>Wat is de contractuele einddatum van het depot?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="v6"><span><strong>Kan ik verlengen, wanneer moet dat en wat kost het?</strong>Verlenging is meestal eenmalig en vóór de einddatum aan te vragen.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="v7"><span><strong>Wat gebeurt er met ongebruikt depotgeld?</strong>En verandert dat mijn maandlast of mijn boetevrije ruimte?</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="v8"><span><strong>Moet eigen geld vóór depotgeld worden gebruikt?</strong>Of mag ik de volgorde zelf kiezen?</span></label>
                     </article>
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Deel 5 &middot; vragen</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Deel 5 &middot; vragen</p>
                         <h3>Risico's en betaalbaarheid</h3>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="r1"><span><strong>Wat doet de maandlast bij hogere rente na de rentevaste periode?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="r2"><span><strong>Is de last draaglijk bij minder inkomen?</strong>Denk aan ziekte, werkloosheid of ouderschapsverlof.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="r3"><span><strong>Welke buffer blijft buiten de verbouwing beschikbaar?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="r4"><span><strong>Hoe betaal ik dubbele lasten of een tijdelijke huurperiode?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="r5"><span><strong>Welke verzekering of bestaande dekking is relevant?</strong>Tijdens én na de verbouwing.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="r6"><span><strong>Welke keuze raadt de adviseur af, en waarom?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="r1"><span><strong>Wat doet de maandlast bij hogere rente na de rentevaste periode?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="r2"><span><strong>Is de last draaglijk bij minder inkomen?</strong>Denk aan ziekte, werkloosheid of ouderschapsverlof.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="r3"><span><strong>Welke buffer blijft buiten de verbouwing beschikbaar?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="r4"><span><strong>Hoe betaal ik dubbele lasten of een tijdelijke huurperiode?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="r5"><span><strong>Welke verzekering of bestaande dekking is relevant?</strong>Tijdens én na de verbouwing.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="r6"><span><strong>Welke keuze raadt de adviseur af, en waarom?</strong></span></label>
                     </article>
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Deel 6 &middot; vragen</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Deel 6 &middot; vragen</p>
                         <h3>Fiscaliteit zonder schijnzekerheid</h3>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="f1"><span><strong>Welk deel van de lening geldt als eigenwoningschuld?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="f2"><span><strong>Zit inkomen en eigenwoningforfait in de netto maandlast?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="f3"><span><strong>Hoe worden betaalde rente en ontvangen depotrente verwerkt?</strong>Let op de zes- en vierentwintigmaandsmomenten.</span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="f4"><span><strong>Welke eenmalige financieringskosten zijn mogelijk aftrekbaar?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="f5"><span><strong>Moet mijn voorlopige aanslag worden aangepast?</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="f6"><span><strong>Welke vraag hoort bij een belastingadviseur?</strong>Omdat die buiten het hypotheekadvies valt.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="f1"><span><strong>Welk deel van de lening geldt als eigenwoningschuld?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="f2"><span><strong>Zit inkomen en eigenwoningforfait in de netto maandlast?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="f3"><span><strong>Hoe worden betaalde rente en ontvangen depotrente verwerkt?</strong>Let op de zes- en vierentwintigmaandsmomenten.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="f4"><span><strong>Welke eenmalige financieringskosten zijn mogelijk aftrekbaar?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="f5"><span><strong>Moet mijn voorlopige aanslag worden aangepast?</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="f6"><span><strong>Welke vraag hoort bij een belastingadviseur?</strong>Omdat die buiten het hypotheekadvies valt.</span></label>
                     </article>
 
-                    <article class="bs-fase">
-                        <p class="bs-fase__nr">Deel 7 &middot; achteraf</p>
+                    <article class="ul-fase">
+                        <p class="ul-fase__nr">Deel 7 &middot; achteraf</p>
                         <h3>Na het gesprek</h3>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="n1"><span><strong>Ik heb de belangrijkste aannames en bedragen schriftelijk.</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="n2"><span><strong>Ik kan uitleggen waarom de oplossing bij mijn situatie past.</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="n3"><span><strong>Open vragen hebben een eigenaar en een antwoorddatum.</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="n4"><span><strong>Ik weet welke bedragen indicatief, variabel of vast zijn.</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="n5"><span><strong>Ik heb productvoorwaarden en kostenoverzicht ontvangen.</strong></span></label>
-                        <label class="bs-punt"><input type="checkbox" data-plan-check="n6"><span><strong>Ik teken pas als verschillen zijn opgehelderd.</strong>Tussen offerte, advies en mijn eigen scenario.</span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="n1"><span><strong>Ik heb de belangrijkste aannames en bedragen schriftelijk.</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="n2"><span><strong>Ik kan uitleggen waarom de oplossing bij mijn situatie past.</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="n3"><span><strong>Open vragen hebben een eigenaar en een antwoorddatum.</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="n4"><span><strong>Ik weet welke bedragen indicatief, variabel of vast zijn.</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="n5"><span><strong>Ik heb productvoorwaarden en kostenoverzicht ontvangen.</strong></span></label>
+                        <label class="ul-punt"><input type="checkbox" data-plan-check="n6"><span><strong>Ik teken pas als verschillen zijn opgehelderd.</strong>Tussen offerte, advies en mijn eigen scenario.</span></label>
                     </article>
 
                 </div>
-            </div>
-            </div>
+            
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Invullen</p>
-                    <h2 class="bs-titel">Drie scenario's naast elkaar</h2>
-                    <p class="bs-reken__lead">Vul deze vóór het gesprek in met uw eigen cijfers, en vraag de adviseur dezelfde drie door te rekenen.</p>
+        <section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Invullen</p>
+                    <h2>Drie scenario's naast elkaar</h2>
+                    <p class="wr-lead ul-lead">Vul deze vóór het gesprek in met je eigen cijfers, en vraag de adviseur dezelfde drie door te rekenen.</p>
 
-                <div class="bs-vel">
-                    <div class="bs-vel__rij bs-vel__rij--kop">
+                <div class="ul-vel">
+                    <div class="ul-vel__rij ul-vel__rij--kop">
                         <span>Scenario</span><span>Projectkosten</span><span>Eigen geld</span><span>Depot</span><span>Bruto maandlast</span><span>Piekmaand</span>
                     </div>
-                    <div class="bs-vel__rij"><strong>Basis</strong><span class="bs-invul"></span><span class="bs-invul"></span><span class="bs-invul"></span><span class="bs-invul"></span><span class="bs-invul"></span></div>
-                    <div class="bs-vel__rij"><strong>Verwacht</strong><span class="bs-invul"></span><span class="bs-invul"></span><span class="bs-invul"></span><span class="bs-invul"></span><span class="bs-invul"></span></div>
-                    <div class="bs-vel__rij"><strong>Tegenvaller</strong><span class="bs-invul"></span><span class="bs-invul"></span><span class="bs-invul"></span><span class="bs-invul"></span><span class="bs-invul"></span></div>
+                    <div class="ul-vel__rij"><strong>Basis</strong><span class="ul-invul"></span><span class="ul-invul"></span><span class="ul-invul"></span><span class="ul-invul"></span><span class="ul-invul"></span></div>
+                    <div class="ul-vel__rij"><strong>Verwacht</strong><span class="ul-invul"></span><span class="ul-invul"></span><span class="ul-invul"></span><span class="ul-invul"></span><span class="ul-invul"></span></div>
+                    <div class="ul-vel__rij"><strong>Tegenvaller</strong><span class="ul-invul"></span><span class="ul-invul"></span><span class="ul-invul"></span><span class="ul-invul"></span><span class="ul-invul"></span></div>
                 </div>
 
-                <p class="bs-hulp no-print">De bedragen voor de eerste twee kolommen haalt u uit uw begroting; de maandlast en piekmaand berekent u met de <a href="bouwdepot-berekenen.html#tijdens-de-bouw">maandlastencalculator</a> en de <a href="nieuwbouw.html">nieuwbouwplanner</a>.</p>
-            </div>
+                <p class="wr-voorbehoud wr-geen-print">De bedragen voor de eerste twee kolommen haal je uit je begroting; de maandlast en piekmaand bereken je met de <a href="bouwdepot-berekenen.html#tijdens-de-bouw">maandlastencalculator</a> en de <a href="nieuwbouw.html">nieuwbouwplanner</a>.</p>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Ter voorbereiding</p>
-                    <h2 class="bs-titel">Handig om vooraf te doen</h2>
-                <div class="bs-rooster">
-                    <a class="bs-tool" href="verbouwbegroting.html#leenruimte">
-                        <span class="bs-tool__naam">Ken uw waarderuimte vooraf</span>
-                        <span class="bs-tool__uitleg">Weet voor het gesprek of uw plan binnen de woningwaarde past. Dan hoort u in het advies of dat klopt, in plaats van het voor het eerst.</span>
-                        <span class="bs-tool__meta">Leenruimte berekenen &rarr;</span>
+        <section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Ter voorbereiding</p>
+                    <h2>Handig om vooraf te doen</h2>
+                <div class="wr-register">
+                    <a href="verbouwbegroting.html#leenruimte">
+                        <strong>Ken je waarderuimte vooraf</strong>
+                        <span>Weet voor het gesprek of je plan binnen de woningwaarde past. Dan hoor je in het advies of dat klopt, in plaats van het voor het eerst.</span>
                     </a>
-                    <a class="bs-tool" href="verbouwbegroting.html">
-                        <span class="bs-tool__naam">Neem een specificatie mee</span>
-                        <span class="bs-tool__uitleg">De verbouwbegroting levert een printbaar overzicht per post, met de splitsing depot tegenover eigen geld. Precies wat uw adviseur wil zien.</span>
-                        <span class="bs-tool__meta">Begroting samenstellen &rarr;</span>
+                    <a href="verbouwbegroting.html">
+                        <strong>Neem een specificatie mee</strong>
+                        <span>De verbouwbegroting levert een printbaar overzicht per post, met de splitsing depot tegenover eigen geld. Precies wat je adviseur wil zien.</span>
                     </a>
-                    <a class="bs-tool" href="bouwdepot-voorwaarden-vergelijken.html">
-                        <span class="bs-tool__naam">Zoek de voorwaarden op</span>
-                        <span class="bs-tool__uitleg">Weet vooraf wat uw beoogde bank publiceert, dan kunt u in het gesprek doorvragen.</span>
-                        <span class="bs-tool__meta">Vergelijking bekijken &rarr;</span>
+                    <a href="bouwdepot-voorwaarden-vergelijken.html">
+                        <strong>Zoek de voorwaarden op</strong>
+                        <span>Weet vooraf wat je beoogde bank publiceert, dan kun je in het gesprek doorvragen.</span>
                     </a>
-                    <a class="bs-tool" href="bouwdepot-berekenen.html#tijdens-de-bouw">
-                        <span class="bs-tool__naam">Reken uw scenario's door</span>
-                        <span class="bs-tool__uitleg">Zodat u een eigen verwachting heeft om het advies mee te vergelijken.</span>
-                        <span class="bs-tool__meta">Maandlasten berekenen &rarr;</span>
+                    <a href="bouwdepot-berekenen.html#tijdens-de-bouw">
+                        <strong>Reken je scenario's door</strong>
+                        <span>Zodat je een eigen verwachting hebt om het advies mee te vergelijken.</span>
                     </a>
-                    <a class="bs-tool" href="stappenplan.html">
-                        <span class="bs-tool__naam">Loop het stappenplan door</span>
-                        <span class="bs-tool__uitleg">Achttien controlepunten voor het hele traject, van begroting tot archief.</span>
-                        <span class="bs-tool__meta">Naar het stappenplan &rarr;</span>
+                    <a href="stappenplan.html">
+                        <strong>Loop het stappenplan door</strong>
+                        <span>Achttien controlepunten voor het hele traject, van begroting tot archief.</span>
                     </a>
                 </div>
-            </div>
+            
         </section>
 
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Praktische keuzes</p>
-                    <h2 class="bs-titel">Vragen die tijdens het traject opkomen</h2>
+        <section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Praktische keuzes</p>
+                    <h2>Vragen die tijdens het traject opkomen</h2>
 
-                <div class="bs-proza">
+                <div class="wr-proza">
                     <h3>Mag alles wat vastzit aan de woning uit het depot?</h3>
                     <p>Nee, niet automatisch. Bankvoorwaarden verschillen, en de fiscale vraag kan anders liggen dan de declaratievraag van de bank. Leg twijfelposten vooraf schriftelijk voor.</p>
 
@@ -677,66 +680,55 @@
                     <p>Sommige banken vergoeden voorgeschoten kosten, andere stellen aanvullende eisen zoals een bankafschrift waarop naam, bedrag en IBAN overeenkomen met de factuur. Controleer vooraf de betaalroute en bewaar zowel factuur als betaalbewijs.</p>
 
                     <h3>Wat gebeurt er met geld dat overblijft?</h3>
-                    <p>Dat volgt uit de depot- en hypotheekvoorwaarden. Vaak wordt een restant gebruikt om de lening te verlagen, maar ga daar niet zonder schriftelijke bevestiging van uit. Bij één aanbieder telt dat bedrag niet mee voor uw boetevrije aflosruimte; bij een andere wordt de vastgestelde marktwaarde van de woning ermee verlaagd.</p>
+                    <p>Dat volgt uit de depot- en hypotheekvoorwaarden. Vaak wordt een restant gebruikt om de lening te verlagen, maar ga daar niet zonder schriftelijke bevestiging van uit. Bij één aanbieder telt dat bedrag niet mee voor je boetevrije aflosruimte; bij een andere wordt de vastgestelde marktwaarde van de woning ermee verlaagd.</p>
 
                     <h3>Hoe lang blijft een depot open?</h3>
-                    <p>De contractuele looptijd verschilt sterk: van 24 tot 42 maanden inclusief verlenging. De fiscale tweejaarsregeling is bovendien geen garantie dat uw bank het depot twee jaar openhoudt. <a href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de looptijd per aanbieder</a>.</p>
+                    <p>De contractuele looptijd verschilt sterk: van 24 tot 42 maanden inclusief verlenging. De fiscale tweejaarsregeling is bovendien geen garantie dat je bank het depot twee jaar openhoudt. <a href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de looptijd per aanbieder</a>.</p>
 
                     <h3>Zijn verbouwkosten zelf aftrekbaar?</h3>
-                    <p>Nee. De Belastingdienst maakt onderscheid tussen de verbouwkosten en de rente of financieringskosten van een kwalificerende eigenwoningschuld. Controleer de voorwaarden voor uw situatie.</p>
+                    <p>Nee. De Belastingdienst maakt onderscheid tussen de verbouwkosten en de rente of financieringskosten van een kwalificerende eigenwoningschuld. Controleer de voorwaarden voor je situatie.</p>
                 </div>
-            </div>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Verder</p>
-                    <h2 class="bs-titel">Wat u hierna kunt doen</h2>
-                <div class="bs-rooster">
-                    <a class="bs-tool" href="bouwdepot-voorwaarden-vergelijken.html">
-                        <span class="bs-tool__naam">Voorwaarden per bank</span>
-                        <span class="bs-tool__uitleg">Looptijd, vergoeding en bewijsstukken van dertien geldverstrekkers naast elkaar.</span>
-                        <span class="bs-tool__meta">Vergelijken &rarr;</span>
+        <section class="wr-wrap wr-sectie">
+            
+                    <p class="ui-opschrift">Verder</p>
+                    <h2>Wat je hierna kunt doen</h2>
+                <div class="wr-register">
+                    <a href="bouwdepot-voorwaarden-vergelijken.html">
+                        <strong>Voorwaarden per bank</strong>
+                        <span>Looptijd, vergoeding en bewijsstukken van dertien geldverstrekkers naast elkaar.</span>
                     </a>
-                    <a class="bs-tool" href="bouwdepot-declaratie-afgewezen.html">
-                        <span class="bs-tool__naam">Declaratie afgewezen</span>
-                        <span class="bs-tool__uitleg">De acht redenen waarop een declaratie stukloopt, en wat u dan doet.</span>
-                        <span class="bs-tool__meta">Naar de gids &rarr;</span>
+                    <a href="bouwdepot-declaratie-afgewezen.html">
+                        <strong>Declaratie afgewezen</strong>
+                        <span>De acht redenen waarop een declaratie stukloopt, en wat je dan doet.</span>
                     </a>
-                    <a class="bs-tool" href="bouwdepot-berekenen.html#tijdens-de-bouw">
-                        <span class="bs-tool__naam">Maandlast tijdens de bouw</span>
-                        <span class="bs-tool__uitleg">Wat u per maand kwijt bent zolang het depot nog niet leeg is.</span>
-                        <span class="bs-tool__meta">Maandlasten berekenen &rarr;</span>
+                    <a href="bouwdepot-berekenen.html#tijdens-de-bouw">
+                        <strong>Maandlast tijdens de bouw</strong>
+                        <span>Wat je per maand kwijt bent zolang het depot nog niet leeg is.</span>
                     </a>
                 </div>
-            </div>
+            
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <div class="bs-melding">
+        <section class="wr-wrap">
+            
+                <div class="wr-melding">
                     <p><strong>Controleer regels bij de bron.</strong> Dit stappenplan is algemene informatie en geen persoonlijk advies. Voorwaarden verschillen per geldverstrekker en fiscale regels per situatie.</p>
-                    <p>Bronnen: <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/koopwoning" target="_blank" rel="noopener noreferrer nofollow">Belastingdienst</a>, <a href="https://www.rijksoverheid.nl/onderwerpen/huis-kopen" target="_blank" rel="noopener noreferrer nofollow">Rijksoverheid</a> en <a href="https://www.nhg.nl/voorwaarden-en-normen/" target="_blank" rel="noopener noreferrer nofollow">NHG voorwaarden en normen</a>. Zie ook onze <a href="methodologie.html">methodologie</a>. Mist u een stap of klopt er iets niet? <a href="contact.html">Laat het weten</a>.</p>
+                    <p>Bronnen: <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/koopwoning" target="_blank" rel="noopener noreferrer nofollow">Belastingdienst</a>, <a href="https://www.rijksoverheid.nl/onderwerpen/huis-kopen" target="_blank" rel="noopener noreferrer nofollow">Rijksoverheid</a> en <a href="https://www.nhg.nl/voorwaarden-en-normen/" target="_blank" rel="noopener noreferrer nofollow">NHG voorwaarden en normen</a>. Zie ook onze <a href="methodologie.html">methodologie</a>. Mis je een stap of klopt er iets niet? <a href="contact.html">Laat het weten</a>.</p>
                 </div>
-            </div>
+            
         </section>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
-
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
 
     <script type="module" src="/src/js/checklist.js"></script>
+    <script type="module" src="/src/uitleg/stappenhuis.js"></script>
 
     <script type="application/ld+json">
     {
@@ -746,14 +738,14 @@
       "description": "Wat een bouwdepot is, het traject in zes fasen met achttien controlepunten, en de zeven fouten die tijd of geld kosten.",
       "author": { "@type": "Person", "name": "Simeon", "url": "https://www.bouwdepotcalculator.nl/over-ons.html" },
       "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl/" },
-      "dateModified": "2026-08-14",
+      "dateModified": "2026-10-10",
       "step": [
         {"@type": "HowToStep", "position": 1, "name": "Doel, budget en eigen geld", "text": "Beschrijf het werk per ruimte, laat de begroting op één totaal sluiten en kies bewust een reserve."},
         {"@type": "HowToStep", "position": 2, "name": "Vergunningcheck en vergelijkbare offertes", "text": "Voer de vergunningcheck uit, vergelijk offertes op dezelfde scope en leg opdracht en wijzigingen schriftelijk vast."},
         {"@type": "HowToStep", "position": 3, "name": "Taxatie, waarderuimte en inkomenstoets", "text": "Lever de verbouwingsspecificatie aan de taxateur, controleer de waarde voor en na, en bespreek de volledige inkomenstoets."},
-        {"@type": "HowToStep", "position": 4, "name": "Lees hoe uw bank het depot uitvoert", "text": "Leg twijfelposten schriftelijk voor, test het declaratieproces op papier en lees rente, vergoeding, looptijd en restant."},
+        {"@type": "HowToStep", "position": 4, "name": "Lees hoe je bank het depot uitvoert", "text": "Leg twijfelposten schriftelijk voor, test het declaratieproces op papier en lees rente, vergoeding, looptijd en restant."},
         {"@type": "HowToStep", "position": 5, "name": "Declareer controleerbaar en bewaak de planning", "text": "Controleer elke factuur inhoudelijk, sla factuur en bewijsstuk samen op en werk depotstand en prognose bij."},
-        {"@type": "HowToStep", "position": 6, "name": "Laatste controle voor het depot sluit", "text": "Breng opleverpunten en laatste facturen in beeld, vergelijk het eindafschrift met uw administratie en archiveer het dossier."}
+        {"@type": "HowToStep", "position": 6, "name": "Laatste controle voor het depot sluit", "text": "Breng opleverpunten en laatste facturen in beeld, vergelijk het eindafschrift met je administratie en archiveer het dossier."}
       ]
     }
     </script>

@@ -4,8 +4,8 @@
  * Een pagina kan meerdere lijsten dragen. Elke lijst noemt zijn eigen
  * opslagsleutel, en het voortgangsblok wijst met dezelfde sleutel terug:
  *
- *   <div class="bs-voortgang" data-checklist-voortgang="bouwdepot-stappenplan-v1"> ... </div>
- *   <div class="bs-fasen"     data-checklist="bouwdepot-stappenplan-v1">          ... </div>
+ *   <div class="ul-voortgang" data-checklist-voortgang="bouwdepot-stappenplan-v1"> ... </div>
+ *   <div class="ul-fasen"     data-checklist="bouwdepot-stappenplan-v1">          ... </div>
  *
  * Die koppeling per sleutel in plaats van per id, omdat de twee blokken niet
  * in elkaar staan: het voortgangsblok hoort bij de kop en de lijst staat een
@@ -25,7 +25,7 @@ for (const container of document.querySelectorAll('[data-checklist]')) {
     const tekst = voortgang?.querySelector('[data-checklist-tekst]');
     const percent = voortgang?.querySelector('[data-checklist-percent]');
     const balk = voortgang?.querySelector('[data-checklist-balk]');
-    const spoor = voortgang?.querySelector('.bs-spoor');
+    const spoor = voortgang?.querySelector('[role="progressbar"]');
 
     const bewaar = () => {
         try {
@@ -44,6 +44,8 @@ for (const container of document.querySelectorAll('[data-checklist]')) {
             spoor.setAttribute('aria-valuemax', String(checks.length));
             spoor.setAttribute('aria-valuenow', String(gedaan));
         }
+        // Voor wie de stand wil volgen, zoals het huis naast het stappenplan.
+        container.dispatchEvent(new CustomEvent('checklist:stand', { detail: { gedaan, totaal: checks.length } }));
     };
 
     try {
@@ -68,12 +70,12 @@ for (const container of document.querySelectorAll('[data-checklist]')) {
         const eigen = Array.from(blokken).filter((blok) => blok.dataset.checklistBlok === sleutel);
 
         if (blokken.length > eigen.length) {
-            document.body.classList.add('bs-print-selectie');
+            document.body.classList.add('is-print-selectie');
             eigen.forEach((blok) => blok.setAttribute('data-print-mee', ''));
         }
 
         const opruimen = () => {
-            document.body.classList.remove('bs-print-selectie');
+            document.body.classList.remove('is-print-selectie');
             eigen.forEach((blok) => blok.removeAttribute('data-print-mee'));
             window.removeEventListener('afterprint', opruimen);
         };
