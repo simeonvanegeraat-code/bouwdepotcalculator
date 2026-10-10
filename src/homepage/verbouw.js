@@ -60,6 +60,9 @@ if (wortel) {
     const fout = wortel.querySelector('[data-vb-fout]');
     const staven = [...wortel.querySelectorAll('[data-vb-staaf]')];
     const zet = (naam, tekst) => { for (const e of wortel.querySelectorAll(`[data-vb="${naam}"]`)) e.textContent = tekst; };
+    const lijst = wortel.querySelector('.hp-vb__staven');
+    const jaarregel = wortel.querySelector('[data-vb-jaar]');
+    let som = verbouwsom();
 
     function reken() {
         const bedrag = leesGetal(veldBedrag.value);
@@ -78,6 +81,7 @@ if (wortel) {
         if (bedragFout || renteFout) return;
 
         const s = verbouwsom({ bedrag, rentePercent: rentePct });
+        som = s;
         zet('bedrag', euro.format(bedrag));
         zet('rentepct', `${toonGetal(rentePct, 2)}%`);
         for (const naam of ['maand', 'rente', 'aflossing', 'renteLaat', 'aflossingLaat', 'totaalRente', 'totaal']) zet(naam, euro.format(s[naam]));
@@ -97,14 +101,53 @@ if (wortel) {
     }
     wortel.querySelector('form')?.addEventListener('submit', (e) => { e.preventDefault(); reken(); });
 
-    // De staven komen op als het blok in beeld is.
+    /* --- Een jaar aanwijzen: de staaf licht op, de bedragen staan eronder --- */
+
+    let loop = 0;
+    function wijsAan(index) {
+        staven.forEach((staaf, i) => staaf.classList.toggle('is-licht', i === index));
+        lijst.classList.toggle('is-aangewezen', index !== null);
+        jaarregel.classList.toggle('is-jaar', index !== null);
+        if (index === null) { jaarregel.textContent = 'jaar'; return; }
+        // Per maand in dat jaar; de aflossing is wat er van de termijn overblijft.
+        const rente = Math.round(som.jaren[index].rente / 12);
+        jaarregel.textContent = `jaar ${index + 1}: ${euro.format(rente)} rente, ${euro.format(Math.max(0, som.maand - rente))} aflossing`;
+    }
+    const stopLoop = () => { clearInterval(loop); loop = 0; };
+
+    /** Loopt een keer van jaar 1 naar jaar 30. */
+    function loopLangs() {
+        stopLoop();
+        let i = 0;
+        wijsAan(0);
+        loop = setInterval(() => {
+            i += 1;
+            if (i >= staven.length) { stopLoop(); wijsAan(null); return; }
+            wijsAan(i);
+        }, 120);
+    }
+
+    // Met de muis of een vinger neemt de bezoeker het over.
+    staven.forEach((staaf, i) => {
+        const li = staaf.parentElement;
+        li.addEventListener('pointerenter', () => { stopLoop(); wijsAan(i); });
+        li.addEventListener('click', () => { stopLoop(); wijsAan(i); });
+    });
+    lijst.addEventListener('pointerleave', () => { if (!loop) wijsAan(null); });
+
+    // De staven komen op als het blok in beeld is, en daarna lichten ze een
+    // voor een op. Dat herhaalt zich elke keer dat het blok opnieuw in beeld
+    // komt; wie een staaf aanwijst, of iets invult, onderbreekt het.
     if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
         wortel.classList.add('is-wachtend');
-        const kijker = new IntersectionObserver(([item]) => {
-            if (!item.isIntersecting) return;
-            kijker.disconnect();
+        let wacht = 0;
+        new IntersectionObserver(([item]) => {
+            clearTimeout(wacht);
+            if (!item.isIntersecting) { stopLoop(); wijsAan(null); return; }
+            const eerste = wortel.classList.contains('is-wachtend');
             wortel.classList.remove('is-wachtend');
-        }, { threshold: 0.35 });
-        kijker.observe(wortel.querySelector('.hp-vb__staven'));
+            wacht = setTimeout(loopLangs, eerste ? 1000 : 300);
+        }, { threshold: 0.6 }).observe(lijst);
+        for (const veld of [veldBedrag, veldRente]) veld.addEventListener('input', () => { stopLoop(); wijsAan(null); });
     }
 }

@@ -408,7 +408,14 @@
 .hp-vb__staaf { position: relative; display: block; background: var(--ui-forest); border-radius: 2px 2px 0 0; overflow: hidden; }
 .hp-vb__staaf i { position: absolute; left: 0; right: 0; top: 0; height: calc(var(--rente) * 1%); background: var(--ui-sage); transition: height 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .hp-verbouw.is-wachtend .hp-vb__staaf i { height: 100%; }
-.hp-vb__as { margin-top: 0.1rem; font-family: var(--ui-mono); font-size: 0.75rem; color: var(--ui-muted); text-align: center; }
+.hp-vb__as { margin-top: 0.1rem; min-height: 1.2rem; font-family: var(--ui-mono); font-size: 0.75rem; color: var(--ui-muted); text-align: center; font-variant-numeric: tabular-nums; }
+.hp-vb__as.is-jaar { color: var(--ui-ink); }
+/* Een staaf licht op: de rest zakt even terug en hij komt iets omhoog. Dat
+   gebeurt een voor een als het blok in beeld komt, en bij aanwijzen. */
+.hp-vb__staaf { transition: opacity 0.25s ease, transform 0.25s ease; }
+.hp-vb__staven.is-aangewezen .hp-vb__staaf { opacity: 0.45; }
+.hp-vb__staven.is-aangewezen .hp-vb__staaf.is-licht { opacity: 1; transform: translateY(-5px); }
+.hp-vb__staven li { cursor: default; }
 .hp-vb__som30 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1.5rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(24, 59, 53, 0.25); }
 .hp-vb__som30 dt { font-size: 0.875rem; color: var(--ui-ink); }
 .hp-vb__som30 dd { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.03em; }
@@ -428,7 +435,8 @@
     .hp-vb__paneel { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) {
-    .hp-vb__staaf i { transition: none; }
+    .hp-vb__staaf, .hp-vb__staaf i { transition: none; }
+    .hp-vb__staven.is-aangewezen .hp-vb__staaf.is-licht { transform: none; }
 }
 
 /* ==========================================================================
