@@ -344,6 +344,94 @@
 .hp-onder__ga a { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; font-weight: 600; color: var(--ui-forest); text-underline-offset: 0.35em; }
 
 /* ==========================================================================
+   De rekensom voor verbouwen
+   Het lichte tegenwicht van de donkere maandlijn: links de som, rechts wat je
+   per maand betaalt zolang er nog depot is.
+   ========================================================================== */
+
+.hp-verbouw { max-width: var(--ui-max); margin: 0 auto; padding: var(--hp-ruimte) var(--ui-rand) 0; }
+.hp-vb__kop { max-width: 46rem; }
+.hp-vb__kop .hp-tussenkop { margin-bottom: 0.75rem; }
+.hp-vb__lead { font-size: 1.125rem; max-width: 40rem; }
+.hp-vb__paneel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 1.75rem;
+    background: var(--ui-surface);
+    border: 1px solid var(--ui-line);
+    border-radius: 1.75rem;
+    overflow: hidden;
+}
+.hp-vb__som, .hp-vb__verloop { padding: clamp(1.25rem, 3vw, 2.5rem); min-width: 0; }
+.hp-vb__verloop { background: var(--ui-sage-licht); display: flex; flex-direction: column; }
+.hp-vb__stempel { font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); margin-bottom: 1rem; }
+
+.hp-vb__rij--invoer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem; }
+.hp-vb__rij--invoer label { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
+.hp-vb__veld {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 3rem;
+    padding: 0 0.85rem;
+    background: var(--ui-canvas);
+    border: 1px solid #B8C2BD;
+    border-radius: 0.625rem;
+    font-family: var(--ui-mono);
+    color: var(--ui-muted);
+}
+.hp-vb__veld:focus-within { outline: 2px solid var(--ui-forest); outline-offset: 2px; }
+.hp-vb__veld:has([aria-invalid='true']) { border-color: #A34242; }
+.hp-vb__veld input { width: 7.5rem; border: 0; background: none; outline: 0; font-family: var(--ui-sans); font-size: 1.25rem; font-weight: 600; color: var(--ui-ink); text-align: right; font-variant-numeric: tabular-nums; }
+.hp-vb__veld--kort input { width: 4rem; }
+.hp-vb__kies { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.35rem; margin-bottom: 0.9rem; }
+.hp-vb__kies button { min-height: 2.75rem; padding: 0 0.8rem; border: 1px solid #B8C2BD; border-radius: 999px; background: none; font-size: 0.875rem; font-variant-numeric: tabular-nums; cursor: pointer; transition: background 0.15s ease; }
+.hp-vb__kies button:hover { background: var(--ui-sage-licht); }
+.hp-vb__fout { font-size: 0.9375rem; color: #8A3A3A; }
+.hp-vb__fout:empty { display: none; }
+
+.hp-vb__regels { margin-top: 1.25rem; border-top: 1.5px solid var(--ui-ink); }
+.hp-vb__regels > div { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 0.7rem 0; border-bottom: 1px solid var(--ui-line); }
+.hp-vb__regels dt small { display: block; font-family: var(--ui-mono); font-size: 0.75rem; color: var(--ui-muted); }
+.hp-vb__regels dd { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; white-space: nowrap; }
+.hp-vb__regels .hp-vb__totaal { border-bottom: 0; padding-top: 1rem; }
+.hp-vb__totaal dt { font-weight: 600; }
+.hp-vb__totaal dd { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 500; letter-spacing: -0.05em; line-height: 1; color: var(--ui-forest); }
+.hp-verbouw.is-ongeldig :is(.hp-vb__regels, .hp-vb__verloop) { opacity: 0.35; }
+
+.hp-vb__zin { font-size: 1.0625rem; max-width: 30rem; }
+.hp-vb__staven { flex: 1 1 auto; display: grid; grid-template-columns: repeat(30, minmax(0, 1fr)); align-items: end; gap: clamp(1px, 0.35vw, 4px); min-height: 10rem; margin-top: 1.5rem; }
+.hp-vb__staven li { display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 0.4rem; height: 100%; text-align: center; }
+.hp-vb__staven b { height: 1rem; font-family: var(--ui-mono); font-size: 0.75rem; font-weight: 400; color: var(--ui-muted); white-space: nowrap; overflow: visible; }
+/* Elke staaf is de maandlast van dat jaar, en die is elk jaar even hoog. Het
+   lichte deel bovenin is rente, het donkere deel eronder aflossing. */
+.hp-vb__staaf { position: relative; display: block; background: var(--ui-forest); border-radius: 2px 2px 0 0; overflow: hidden; }
+.hp-vb__staaf i { position: absolute; left: 0; right: 0; top: 0; height: calc(var(--rente) * 1%); background: var(--ui-sage); transition: height 0.8s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.hp-verbouw.is-wachtend .hp-vb__staaf i { height: 100%; }
+.hp-vb__as { margin-top: 0.1rem; font-family: var(--ui-mono); font-size: 0.75rem; color: var(--ui-muted); text-align: center; }
+.hp-vb__som30 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem 1.5rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(24, 59, 53, 0.25); }
+.hp-vb__som30 dt { font-size: 0.875rem; color: var(--ui-ink); }
+.hp-vb__som30 dd { font-size: 1.5rem; font-weight: 600; letter-spacing: -0.03em; }
+.hp-vb__legenda { display: flex; flex-wrap: wrap; gap: 0.35rem 1.25rem; margin-top: 0.9rem; font-size: 0.8125rem; color: var(--ui-ink); }
+.hp-vb__legenda li { display: flex; align-items: center; gap: 0.45rem; }
+.hp-vb__legenda i { width: 0.75rem; height: 0.75rem; border-radius: 2px; }
+.hp-vb__zelf { background: var(--ui-forest); }
+.hp-vb__terug { background: var(--ui-sage); }
+
+.hp-vb__noot { margin-top: 1rem; max-width: 46rem; font-size: 0.875rem; color: var(--ui-muted); }
+.hp-vb__noot a { color: var(--ui-forest); text-underline-offset: 0.25em; }
+.hp-vb__ga { display: flex; flex-wrap: wrap; gap: 0 2rem; margin-top: 0.25rem; }
+.hp-vb__ga a { display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; font-weight: 600; color: var(--ui-forest); text-underline-offset: 0.35em; }
+.hp-vb__ga a + a { font-weight: 400; }
+
+@media (min-width: 900px) {
+    .hp-vb__paneel { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .hp-vb__staaf i { transition: none; }
+}
+
+/* ==========================================================================
    Routes en alle rekenhulpen
    ========================================================================== */
 

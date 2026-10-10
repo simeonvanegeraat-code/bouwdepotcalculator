@@ -10,3 +10,4 @@ import '../js/meting.js';
 
 import './woningen.js';
 import './maandlijn.js';
+import './verbouw.js';

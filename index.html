@@ -303,6 +303,98 @@
             <p class="hp-onder__ga"><a href="nieuwbouw.html">Reken dit door met je eigen cijfers <span aria-hidden="true">&rarr;</span></a></p>
         </section>
 
+        <!-- De tegenhanger van de maandlijn voor wie verbouwt: een kleine
+             rekensom. De bedragen staan in de HTML en komen uit
+             src/homepage/verbouw.js; tests/homepage-verbouw.test.mjs bewaakt dat
+             ze kloppen met de rekenkern. -->
+        <section class="hp-verbouw" data-verbouw aria-labelledby="hp-verbouw-kop">
+            <div class="hp-vb__kop">
+                <h2 class="hp-tussenkop" id="hp-verbouw-kop">En wat kost een verbouwing per maand?</h2>
+                <p class="hp-vb__lead">Leen je voor een verbouwing, dan komt dat bedrag in een bouwdepot en betaal je het in dertig jaar terug. Dit komt er per maand bij, in rente en aflossing.</p>
+            </div>
+
+            <div class="hp-vb__paneel">
+                <form class="hp-vb__som" novalidate>
+                    <p class="hp-vb__stempel">Rekensom &middot; pas het bedrag of de rente aan</p>
+                    <div class="hp-vb__rij hp-vb__rij--invoer">
+                        <label for="hp-vb-bedrag">Je leent</label>
+                        <span class="hp-vb__veld"><span aria-hidden="true">&euro;</span><input id="hp-vb-bedrag" data-vb-in="bedrag" type="text" inputmode="numeric" autocomplete="off" value="20.000" aria-describedby="hp-vb-fout"></span>
+                    </div>
+                    <div class="hp-vb__kies" role="group" aria-label="Veelgekozen bedragen">
+                        <button type="button" data-vb-kies="10000">10.000</button>
+                        <button type="button" data-vb-kies="20000">20.000</button>
+                        <button type="button" data-vb-kies="40000">40.000</button>
+                        <button type="button" data-vb-kies="75000">75.000</button>
+                    </div>
+                    <div class="hp-vb__rij hp-vb__rij--invoer">
+                        <label for="hp-vb-rente">tegen</label>
+                        <span class="hp-vb__veld hp-vb__veld--kort"><input id="hp-vb-rente" data-vb-in="rente" type="text" inputmode="decimal" autocomplete="off" value="3,80" aria-describedby="hp-vb-fout"><span aria-hidden="true">%</span></span>
+                    </div>
+                    <p class="hp-vb__fout" id="hp-vb-fout" data-vb-fout role="alert"></p>
+
+                    <dl class="hp-vb__regels">
+                        <div><dt>Rente, eerste maand <small><span data-vb="bedrag">&euro; 20.000</span> &times; <span data-vb="rentepct">3,80%</span> &divide; 12</small></dt><dd class="tnum" data-vb="rente">&euro; 63</dd></div>
+                        <div><dt>Aflossing, eerste maand <small>dertig jaar annu&iuml;tair</small></dt><dd class="tnum" data-vb="aflossing">&euro; 30</dd></div>
+                        <div class="hp-vb__totaal"><dt>Extra per maand, bruto</dt><dd class="tnum" data-vb="maand">&euro; 93</dd></div>
+                    </dl>
+                </form>
+
+                <div class="hp-vb__verloop">
+                    <p class="hp-vb__stempel">Dertig jaar lang</p>
+                    <p class="hp-vb__zin">Je betaalt elke maand hetzelfde bedrag. In het begin is dat vooral rente, <strong class="tnum" data-vb="rente">&euro; 63</strong> van de <span class="tnum" data-vb="maand">&euro; 93</span>; in het laatste jaar nog <strong class="tnum" data-vb="renteLaat">&euro; 2</strong>. De rest los je af.</p>
+                    <!-- Versiering bij de zin erboven: per jaar welk deel van de
+                         maandlast rente is en welk deel aflossing. -->
+                    <ol class="hp-vb__staven" aria-hidden="true">
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:67.4"><i></i></span><b>1</b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:66.1"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:64.8"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:63.5"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:62.1"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:60.6"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:59.1"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:57.5"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:55.8"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:54.1"><i></i></span><b>10</b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:52.4"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:50.5"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:48.6"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:46.6"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:44.5"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:42.4"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:40.2"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:37.9"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:35.5"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:33.0"><i></i></span><b>20</b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:30.4"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:27.7"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:24.9"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:22.0"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:19.0"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:15.8"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:12.6"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:9.2"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:5.7"><i></i></span><b></b></li>
+                        <li><span class="hp-vb__staaf" data-vb-staaf style="--rente:2.0"><i></i></span><b>30</b></li>
+                    </ol>
+                    <p class="hp-vb__as" aria-hidden="true">jaar</p>
+                    <ul class="hp-vb__legenda" aria-hidden="true">
+                        <li><i class="hp-vb__terug"></i>Rente</li>
+                        <li><i class="hp-vb__zelf"></i>Aflossing</li>
+                    </ul>
+                    <dl class="hp-vb__som30">
+                        <div><dt>Rente over dertig jaar</dt><dd class="tnum" data-vb="totaalRente">&euro; 13.549</dd></div>
+                        <div><dt>Samen terugbetaald</dt><dd class="tnum" data-vb="totaal">&euro; 33.549</dd></div>
+                    </dl>
+                </div>
+            </div>
+
+            <p class="hp-vb__noot">Voorbeeld: dertig jaar annu&iuml;tair met een vaste rente. Bruto: zonder hypotheekrenteaftrek. Tijdens de verbouwing zelf betaal je minder, omdat je <a href="bouwdepot-voorwaarden-vergelijken.html">vergoeding ontvangt</a> over wat nog in depot staat.</p>
+            <p class="hp-vb__ga">
+                <a href="verbouwbegroting.html">Reken je verbouwing door <span aria-hidden="true">&rarr;</span></a>
+                <a href="bouwdepot-berekenen.html?bedrag=20000" data-vb-link>Dit bedrag met je eigen looptijd, en wat je tijdens de verbouwing betaalt <span aria-hidden="true">&rarr;</span></a>
+            </p>
+        </section>
+
         <!-- Het anker #gereedschap wordt gebruikt door de kop op alle andere
              pagina's en door de redirect van /calculators.html in vercel.json. -->
         <section class="hp-index" id="gereedschap" aria-labelledby="hp-index-kop">
