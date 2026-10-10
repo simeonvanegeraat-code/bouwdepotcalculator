@@ -660,3 +660,12 @@
 .wr-tabel--smal { min-width: 0; }
 .wr-tabel--smal th:nth-child(2), .wr-tabel--smal td:nth-child(2) { text-align: right; white-space: nowrap; min-width: 0; color: inherit; }
 @media (max-width: 699px) { .wr-tabel--smal { font-size: 0.8125rem; } .wr-tabel--smal :is(th, td) { padding: 0.5rem 0.3rem; } }
+
+/* De maandtabel van de dubbele lasten: zes kolommen, op een telefoon vier. */
+.wr-tabel--overlap { min-width: 0; }
+.wr-tabel--overlap td:nth-child(2) { min-width: 0; white-space: nowrap; }
+@media (max-width: 699px) {
+    .wr-tabel--overlap { font-size: 0.8125rem; }
+    .wr-tabel--overlap :is(th, td):is(:nth-child(2), :nth-child(4)) { display: none; }
+    .wr-tabel--overlap :is(th, td) { padding: 0.5rem 0.3rem; }
+}

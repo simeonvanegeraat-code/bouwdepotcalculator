@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,13 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,231 +169,252 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Dubbele lasten</span>
-    </nav>
+    <main id="inhoud">
+        <div class="wr-wrap wr-kop">
+            <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="nieuwbouw.html">Nieuwbouw</a> <span aria-hidden="true">&middot;</span> <span>Dubbele lasten</span></nav>
+            <h1 id="reken-titel">Dubbele lasten bij nieuwbouw: wat kost de overlap?</h1>
+            <p class="wr-lead">Tussen het passeren van de akte en het moment dat je oude woning weg is, betaal je vaak zowel je huidige woonlast als de nieuwe hypotheek. Reken uit wat dat per maand is, wat het bij elkaar kost, en wat er gebeurt als het uitloopt.</p>
+        </div>
 
+        <!-- Volgorde in de HTML: uitkomst, invoer, verloop. Op een telefoon staat
+             het antwoord zo bovenaan; op een breed scherm zet het raster de
+             invoer links. Alle bedragen komen uit src/domain/dubbelelasten.js. -->
+        <div class="wr-wrap wr-werk" id="dubbele-lasten-calc" aria-labelledby="reken-titel">
 
-    <main>
-        <section class="bs-reken" aria-labelledby="reken-titel" id="dubbele-lasten-calc">
-            <div class="bs-wrap">
-                <h1 class="bs-reken__titel" id="reken-titel">Wat kost de periode waarin u alles dubbel betaalt?</h1>
-                <p class="bs-reken__lead">Tussen het passeren van de akte en de oplevering betaalt u vaak zowel uw huidige woonlast als de nieuwe hypotheek.</p>
+            <section class="wr-paneel wr-uitkomst" id="uitkomst" aria-live="polite">
+                <p class="wr-uitkomst__label"><span>Samen per maand tijdens de overlap</span> <span class="wr-stempel">Indicatie</span></p>
+                <strong class="wr-uitkomst__bedrag tnum" id="res-dubbel-monthly" data-bedrag>&ndash;<small>per maand</small></strong>
+                <p class="wr-uitkomst__zin"><span id="res-dubbel-conclusion">De berekening wordt geladen.</span> <span id="res-opbouw"></span></p>
 
+                <dl class="wr-cijfers">
+                    <div><dt>Bovenop je huidige woonlast</dt><dd class="tnum" id="res-bovenop">&ndash;<small>per maand: de nieuwe hypotheek en de extra lasten</small></dd></div>
+                    <div><dt>Wat de overlap je kost</dt><dd class="tnum" id="res-totaal-bovenop">&ndash;<small id="res-totaal-bovenop-noot"></small></dd></div>
+                    <div><dt>Samen betaald</dt><dd class="tnum" id="res-dubbel-total">&ndash;<small id="res-dubbel-total-noot"></small></dd></div>
+                    <div><dt>Daarna per maand</dt><dd class="tnum" id="res-daarna">&ndash;<small>alleen je nieuwe hypotheek</small></dd></div>
+                </dl>
 
-            <div class="bs-reken__grid">
+                <p class="wr-uitkomst__noot">Deze last is tijdelijk. Er wordt gerekend met de maandbedragen die je zelf invult; wil je de nieuwe last per bouwmaand laten uitrekenen, gebruik dan de <a href="nieuwbouw.html">nieuwbouwplanning</a>.</p>
+            </section>
+
+            <form class="wr-paneel wr-invoer" id="invoer" novalidate onsubmit="return false">
+                <div class="wr-paneel__kop">
+                    <h2>Jouw gegevens</h2>
+                    <p class="wr-micro">Blijft op dit apparaat</p>
+                </div>
+
                 <div>
-                    <article class="bs-blad">
-                        <div class="bs-blad__kop">
-                            <span class="bs-blad__merk">BouwdepotCalculator.nl</span>
-                            <span class="bs-blad__stempel">Overlap</span>
-                        </div>
-
-                        <div class="bs-antwoord">
-                            <p class="bs-antwoord__label">Totale maandlast tijdens de overlap</p>
-                            <strong class="bs-antwoord__bedrag" id="res-dubbel-monthly" data-bedrag>&euro; 0</strong>
-                            <p class="bs-antwoord__zin" id="res-dubbel-conclusion">Vul uw gegevens in voor een indicatie van de overlapperiode.</p>
-                        </div>
-
-                        <dl class="bs-uitsplitsing">
-                            <div><dt>Totale kosten over de periode</dt><dd class="tnum" id="res-dubbel-total" data-bedrag>&euro; 0</dd></div>
-                            <div><dt>Indicatieve piekbelasting per maand</dt><dd class="tnum" id="res-dubbel-peak" data-bedrag>&euro; 0</dd></div>
-                        </dl>
-
-                        <p class="bs-notitie" id="res-dubbel-interpretation">De uitkomst hangt vooral af van hoe lang de overlap duurt.</p>
-
-                        <p class="bs-blad__voet">Indicatief &middot; informatie, geen advies</p>
-                    </article>
-
-                        <details class="bs-uitklap bs-aannames">
-                            <summary><span><b>Waaruit dit bedrag is opgebouwd</b><small>De posten achter de uitkomst</small></span></summary>
-                            <div class="bs-uitklap__body">
-                                <dl class="bs-uitsplitsing">
-                                    <div><dt>Nieuwe hypotheeklast (bruto)</dt><dd class="tnum" id="res-dubbel-new-bruto">&euro; 0</dd></div>
-                                    <div id="row-dubbel-new-netto" style="display:none;"><dt>Nieuwe hypotheeklast (netto, ingevoerd)</dt><dd class="tnum" id="res-dubbel-new-netto">&euro; 0</dd></div>
-                                    <div><dt>Huidige woonlast</dt><dd class="tnum" id="res-dubbel-current">&euro; 0</dd></div>
-                                    <div><dt>Extra overlapkosten</dt><dd class="tnum" id="res-dubbel-extra">&euro; 0</dd></div>
-                                    <div id="row-dubbel-renteverlies" style="display:none;"><dt>Optioneel bouwdepot of renteverlies</dt><dd class="tnum" id="res-dubbel-renteverlies">&euro; 0</dd></div>
-                                </dl>
-                                <p class="bs-hulp" id="res-dubbel-budget-meaning">De verhouding tot uw budget verschijnt zodra u rekent.</p>
-                                <p class="bs-hulp" id="res-dubbel-method">Indicatieve berekening op basis van de door u ingevoerde bedragen en overlapduur.</p>
-                                <dl class="bs-uitsplitsing">
-                                    <div><dt>Situatie</dt><dd id="sum-dubbel-type">&mdash;</dd></div>
-                                    <div><dt>Gebruikte nieuwe last</dt><dd class="tnum" id="sum-dubbel-new-used">&mdash;</dd></div>
-                                    <div><dt>Huidige woonlast</dt><dd class="tnum" id="sum-dubbel-current">&mdash;</dd></div>
-                                    <div><dt>Extra kosten</dt><dd class="tnum" id="sum-dubbel-extra">&mdash;</dd></div>
-                                    <div><dt>Renteverlies</dt><dd class="tnum" id="sum-dubbel-renteverlies">&mdash;</dd></div>
-                                    <div><dt>Overlapduur</dt><dd class="tnum" id="sum-dubbel-months">&mdash;</dd></div>
-                                </dl>
-                                <p class="bs-hulp" id="report-dubbel-generated-at">Berekening klaar voor uw oriëntatie.</p>
-                            </div>
-                        </details>
-
-                </div>
-
-                <div class="bs-invoer">
-                    <div>
-                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-type">Uw situatie</label></div>
-                        <select class="bs-select" id="input-dubbel-type">
-                            <option value="huur">Huurwoning + nieuwbouw</option>
-                            <option value="koop">Bestaande koopwoning + nieuwbouw</option>
-                        </select>
-                        <p class="bs-hulp" id="dubbel-type-note">Bij een huurwoning stopt de last na de opzegtermijn; bij een koopwoning pas na de verkoop.</p>
-                    </div>
-
-                    <div class="bs-chips" role="group" aria-label="Voorbeeldscenario's">
-                        <button type="button" class="bs-chip scenario-btn dubbel-scenario" data-type="huur" data-new-bruto="1550" data-new-netto="0" data-current="1100" data-extra="100" data-renteverlies="0" data-months="6">Huur, 6 maanden</button>
-                        <button type="button" class="bs-chip scenario-btn dubbel-scenario" data-type="koop" data-new-bruto="1850" data-new-netto="0" data-current="1450" data-extra="150" data-renteverlies="100" data-months="12">Koopwoning, 12 maanden</button>
-                        <button type="button" class="bs-chip scenario-btn dubbel-scenario" data-type="huur" data-new-bruto="1700" data-new-netto="1350" data-current="1250" data-extra="250" data-renteverlies="80" data-months="12">Met nettovergelijking</button>
-                        <button type="button" class="bs-chip scenario-btn dubbel-scenario" data-type="koop" data-new-bruto="2100" data-new-netto="1650" data-current="1600" data-extra="300" data-renteverlies="150" data-months="9">Zwaardere overlap</button>
-                    </div>
-
-                    <div class="bs-veldrij">
-                        <div>
-                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-new-bruto">Nieuwe hypotheeklast (bruto)</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-new-bruto" aria-describedby="fout-dubbel-new-bruto" value="1550" inputmode="numeric"></div>
-                            <span class="bs-veld__fout" id="fout-dubbel-new-bruto" role="alert"></span>
-                        </div>
-                        <div>
-                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-new-netto">Netto, indien bekend</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-new-netto" aria-describedby="fout-dubbel-new-netto" value="0" inputmode="numeric"></div>
-                            <span class="bs-veld__fout" id="fout-dubbel-new-netto" role="alert"></span>
-                            <p class="bs-hulp">Laat op nul staan als u de bruto last wilt aanhouden.</p>
-                        </div>
-                        <div>
-                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-current">Huidige woonlast</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-current" aria-describedby="fout-dubbel-current" value="1100" inputmode="numeric"></div>
-                            <span class="bs-veld__fout" id="fout-dubbel-current" role="alert"></span>
-                        </div>
-                        <div>
-                            <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-extra">Extra vaste lasten</label></div>
-                            <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-extra" aria-describedby="fout-dubbel-extra" value="100" inputmode="numeric"></div>
-                            <span class="bs-veld__fout" id="fout-dubbel-extra" role="alert"></span>
-                            <p class="bs-hulp">Dubbele energie, opslag, verzekeringen of tijdelijke huur.</p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-renteverlies">Renteverlies bouwdepot</label></div>
-                        <div class="bs-omhulsel"><span>&euro;</span><input type="text" id="input-dubbel-renteverlies" aria-describedby="fout-dubbel-renteverlies" value="0" inputmode="numeric"></div>
-                        <span class="bs-veld__fout" id="fout-dubbel-renteverlies" role="alert"></span>
-                        <p class="bs-hulp">Per maand, indien van toepassing. <a href="renteverlies-bouwdepot.html">Bereken uw renteverlies</a>, of laat op nul als uw aanbieder geen depotvergoeding hanteert.</p>
-                    </div>
-
-                    <div>
-                        <div class="bs-veld__kop"><label class="bs-veld__naam" for="input-dubbel-months">Overlapduur</label></div>
-                        <div class="bs-omhulsel">
-                            <span></span>
-                            <input type="text" id="input-dubbel-months" aria-describedby="fout-dubbel-months" value="6" inputmode="numeric">
-                            <span>mnd</span>
-                        </div>
-                        <span class="bs-veld__fout" id="fout-dubbel-months" role="alert"></span>
-                        <input class="bs-schuif" type="range" id="range-dubbel-months" min="1" max="36" step="1" value="6" aria-label="Overlapduur in maanden">
+                    <p class="wr-veld__naam" id="voorbeelden-kop">Begin met een voorbeeld</p>
+                    <div class="wr-chips" role="group" aria-labelledby="voorbeelden-kop">
+                        <button type="button" class="wr-chip" data-voorbeeld data-soort="huur" data-huidig="1100" data-nieuw="1550" data-vergoeding="0" data-extra="100" data-maanden="6">Huur, 6 maanden</button>
+                        <button type="button" class="wr-chip" data-voorbeeld data-soort="koop" data-huidig="1450" data-nieuw="1850" data-vergoeding="300" data-extra="150" data-maanden="12">Koopwoning, 12 maanden</button>
+                        <button type="button" class="wr-chip" data-voorbeeld data-soort="koop" data-huidig="1600" data-nieuw="2100" data-vergoeding="0" data-extra="300" data-maanden="9">Zware overlap</button>
                     </div>
                 </div>
 
-                <div class="bs-reken__na no-print">
-                    <button id="btn-download-dubbel" class="bs-knop bs-knop--licht" type="button">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
-                        Overzicht printen of opslaan
-                    </button>
-                    <p class="bs-voorbehoud">Deze last is tijdelijk. Na de oplevering en verkoop of opzegging valt de huidige woonlast weg.</p>
-                </div>
-            </div>
-            </div>
-        </section>
+                <fieldset class="wr-groep">
+                    <legend>Je huidige woning</legend>
+                    <div class="wr-veld">
+                        <label for="input-dubbel-type">Je situatie</label>
+                        <div class="wr-veld__in"><select id="input-dubbel-type" aria-describedby="dubbel-type-note">
+                            <option value="huur">Ik huur nu</option>
+                            <option value="koop">Ik heb een koopwoning</option>
+                        </select></div>
+                        <p class="wr-hulp" id="dubbel-type-note"></p>
+                    </div>
+                    <div class="wr-veld">
+                        <label for="input-dubbel-current">Huidige woonlast</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="input-dubbel-current" aria-describedby="fout-dubbel-current hulp-dubbel-current" value="1100" inputmode="numeric" autocomplete="off"><span aria-hidden="true">/mnd</span></div>
+                        <span class="wr-veld__fout" id="fout-dubbel-current" role="alert"></span>
+                        <p class="wr-hulp" id="hulp-dubbel-current">Kale huur, of rente en aflossing van je huidige hypotheek.</p>
+                    </div>
+                </fieldset>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Kort uitgelegd</p>
-                    <h2 class="bs-titel">Waar de overlap vandaan komt</h2>
-                <div class="bs-kolommen">
-                    <article>
-                        <h3>De hypotheek start bij de notaris, niet bij de sleutel</h3>
-                        <p>Vanaf het passeren van de akte betaalt u hypotheekrente, ook al staat de woning er nog niet. Tegelijk loopt uw huur of oude hypotheek door tot u opzegt of verkoopt. Die twee perioden overlappen bijna altijd.</p>
-                    </article>
-                    <article>
-                        <h3>Huren is voorspelbaarder dan verkopen</h3>
-                        <p>Bij een huurwoning weet u wanneer de last stopt: na de opzegtermijn. Bij een bestaande koopwoning hangt het af van wanneer de verkoop rondkomt, en dat is niet volledig in uw hand. Reken die situatie daarom door met een langere overlap dan u verwacht.</p>
-                    </article>
-                    <article>
-                        <h3>Vergeet de kleine posten niet</h3>
-                        <p>Dubbele energiecontracten, gemeentelijke heffingen, opstalverzekering, opslag voor meubels en soms tijdelijke huur tellen op. Vaak enkele honderden euro's per maand bovenop de twee woonlasten.</p>
-                    </article>
-                    <article>
-                        <h3>Het depot kan de druk verzachten</h3>
-                        <p>Zolang er geld in het bouwdepot staat, ontvangt u bij de meeste aanbieders een vergoeding die uw last verlaagt. Niet bij allemaal: <a href="bouwdepot-voorwaarden-vergelijken.html">één van de dertien vergeleken geldverstrekkers</a> vergoedt niets, maar rekent dan ook geen rente over het niet-opgenomen deel.</p>
-                    </article>
-                </div>
-            </div>
-        </section>
+                <fieldset class="wr-groep">
+                    <legend>Je nieuwe woning</legend>
+                    <div class="wr-veld">
+                        <label for="input-dubbel-new-bruto">Nieuwe hypotheeklast</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="input-dubbel-new-bruto" aria-describedby="fout-dubbel-new-bruto hulp-dubbel-new-bruto" value="1550" inputmode="numeric" autocomplete="off"><span aria-hidden="true">/mnd</span></div>
+                        <span class="wr-veld__fout" id="fout-dubbel-new-bruto" role="alert"></span>
+                        <p class="wr-hulp" id="hulp-dubbel-new-bruto">Rente en aflossing over je hele nieuwe hypotheek, zoals in je offerte. Vul bruto in, of netto als je dat bedrag kent; er wordt niet aan gerekend.</p>
+                    </div>
+                    <div class="wr-veld">
+                        <label for="input-dubbel-months">Hoe lang duurt de overlap?</label>
+                        <div class="wr-veld__in"><input type="text" id="input-dubbel-months" aria-describedby="fout-dubbel-months hulp-dubbel-months" value="6" inputmode="numeric" autocomplete="off"><span aria-hidden="true">mnd</span></div>
+                        <span class="wr-veld__fout" id="fout-dubbel-months" role="alert"></span>
+                        <input class="wr-schuif" type="range" id="range-dubbel-months" min="1" max="36" step="1" value="6" aria-label="Overlap in maanden">
+                        <p class="wr-hulp" id="hulp-dubbel-months">Van de notaris tot je huidige woonlast stopt.</p>
+                    </div>
+                </fieldset>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Verder rekenen</p>
-                    <h2 class="bs-titel">Andere vragen bij nieuwbouw</h2>
-                <div class="bs-rooster">
-                    <a class="bs-tool" href="depotplanner.html">
-                        <span class="bs-tool__naam">Hoeveel tijd heeft u nog?</span>
-                        <span class="bs-tool__uitleg">De overlapperiode wordt duurder als het depot langer open blijft dan nodig. Bereken uw einddatum.</span>
-                        <span class="bs-tool__meta">Naar de depotplanner &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="nieuwbouw.html">
-                        <span class="bs-tool__naam">Het hele bouwverloop</span>
-                        <span class="bs-tool__uitleg">Bouwtermijnen, depotvergoeding en de maand waarin het het zwaarst drukt.</span>
-                        <span class="bs-tool__meta">Nieuwbouwplanning &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="renteverlies-bouwdepot.html">
-                        <span class="bs-tool__naam">Renteverlies berekenen</span>
-                        <span class="bs-tool__uitleg">Het bedrag dat u hierboven kunt invullen bij het depoteffect.</span>
-                        <span class="bs-tool__meta">Renteverlies berekenen &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="bouwrente-nieuwbouw.html">
-                        <span class="bs-tool__naam">Bouwrente bij nieuwbouw</span>
-                        <span class="bs-tool__uitleg">De rente die speelt vóór het passeren van de akte, over grond en termijnen.</span>
-                        <span class="bs-tool__meta">Bouwrente bekijken &rarr;</span>
-                    </a>
+                <details class="wr-uitklap">
+                    <summary><span>Meer instellingen<small>Extra vaste lasten en depotvergoeding</small></span></summary>
+                    <div class="wr-uitklap__body">
+                        <div class="wr-veld">
+                            <label for="input-dubbel-extra">Extra vaste lasten door de overlap</label>
+                            <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="input-dubbel-extra" aria-describedby="fout-dubbel-extra hulp-dubbel-extra" value="100" inputmode="numeric" autocomplete="off"><span aria-hidden="true">/mnd</span></div>
+                            <span class="wr-veld__fout" id="fout-dubbel-extra" role="alert"></span>
+                            <p class="wr-hulp" id="hulp-dubbel-extra">Dubbele energie, opstalverzekering, gemeentelijke heffingen of opslag. Vul nul in als je die niet hebt.</p>
+                        </div>
+                        <div class="wr-veld">
+                            <label for="input-dubbel-vergoeding">Depotvergoeding die je ontvangt</label>
+                            <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="input-dubbel-vergoeding" aria-describedby="fout-dubbel-vergoeding hulp-dubbel-vergoeding" value="0" inputmode="numeric" autocomplete="off"><span aria-hidden="true">/mnd</span></div>
+                            <span class="wr-veld__fout" id="fout-dubbel-vergoeding" role="alert"></span>
+                            <p class="wr-hulp" id="hulp-dubbel-vergoeding">Gemiddeld per maand, over de overlap. Die gaat van je nieuwe hypotheeklast af. Weet je het niet, laat dan nul staan of <a href="nieuwbouw.html">laat het uitrekenen</a>.</p>
+                        </div>
+                    </div>
+                </details>
+            </form>
+
+            <section class="wr-paneel wr-verloop" id="verloop" aria-labelledby="verloop-kop">
+                <div class="wr-paneel__kop" style="margin-bottom:0">
+                    <h2 id="verloop-kop">Je maandlast tijdens en na de overlap</h2>
+                    <p class="wr-micro">Met de bedragen die je invult</p>
+                </div>
+
+                <!-- Eigen SVG; dezelfde grafiek als op de nieuwbouwpagina. Hij tekent
+                     dezelfde maandregels als de tabel eronder. -->
+                <div class="wr-grafiek" id="verloop-grafiek"></div>
+                <ul class="wr-legenda">
+                    <li><i class="wr-legenda__oud"></i>Huidige woonlast en extra lasten</li>
+                    <li><i class="wr-legenda__nieuw"></i>Nieuwe hypotheek</li>
+                    <li id="legenda-basis" hidden><i class="wr-legenda__basis"></i>Zonder uitloop</li>
+                </ul>
+                <p class="wr-samenvatting" id="res-samenvatting"></p>
+
+                <div class="wr-scenario">
+                    <div class="wr-paneel__kop" style="margin-bottom:0">
+                        <h2 id="uitloop-kop">Wat als het langer duurt?</h2>
+                        <p class="wr-micro">Scenario</p>
+                    </div>
+                    <div class="wr-scenario__rij">
+                        <div class="wr-veld">
+                            <label for="input-dubbel-langer">Overlap duurt langer</label>
+                            <div class="wr-veld__in"><input type="text" id="input-dubbel-langer" aria-describedby="fout-dubbel-langer" value="0" inputmode="numeric" autocomplete="off"><span aria-hidden="true">mnd</span></div>
+                            <span class="wr-veld__fout" id="fout-dubbel-langer" role="alert"></span>
+                        </div>
+                        <input class="wr-schuif" type="range" id="range-dubbel-langer" min="0" max="12" step="1" value="0" aria-label="Overlap duurt langer, in maanden">
+                        <button class="wr-knop wr-knop--klein" id="reset-scenario-btn" type="button">Terug naar basis</button>
+                    </div>
+                    <p id="res-scenario" aria-live="polite"></p>
+                </div>
+
+                <details class="wr-uitklap">
+                    <summary><span>Tabel<small>Dezelfde cijfers als de grafiek, per maand</small></span></summary>
+                    <div class="wr-tabelrol" tabindex="0" role="region" aria-label="Maand voor maand, als tabel">
+                        <table class="wr-tabel wr-tabel--overlap">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Mnd</th>
+                                    <th scope="col">Fase</th>
+                                    <th scope="col">Huidige woonlast</th>
+                                    <th scope="col">Extra lasten</th>
+                                    <th scope="col">Nieuwe hypotheek</th>
+                                    <th scope="col">Samen</th>
+                                </tr>
+                            </thead>
+                            <tbody id="details-table-body"></tbody>
+                        </table>
+                    </div>
+                </details>
+
+                <div class="wr-knoppen">
+                    <button id="btn-download-dubbel" class="wr-knop" type="button">Overzicht printen of opslaan</button>
+                </div>
+            </section>
+        </div>
+
+        <noscript><div class="wr-wrap"><p class="wr-melding">Deze rekentool heeft JavaScript nodig. De uitleg hieronder kun je zonder lezen.</p></div></noscript>
+
+        <section class="wr-wrap wr-sectie" aria-labelledby="aannames-kop">
+            <p class="ui-opschrift">Uitgangspunten</p>
+            <h2 id="aannames-kop">Waarmee deze berekening wel en niet rekent</h2>
+            <div class="wr-aannames">
+                <div>
+                    <h3>Jouw invoer</h3>
+                    <dl class="wr-dl" id="res-aannames"></dl>
+                </div>
+                <div>
+                    <h3>Zo wordt er gerekend</h3>
+                    <ul class="wr-lijst">
+                        <li>Per maand in de overlap: je huidige woonlast, de extra lasten en je nieuwe hypotheek, min de depotvergoeding.</li>
+                        <li>Wat de overlap je kost is wat je bovenop je huidige woonlast betaalt.</li>
+                        <li>Na de overlap vallen je huidige woonlast, de extra lasten en de depotvergoeding weg.</li>
+                        <li>De bedragen zijn elke maand gelijk. Er wordt niet gerekend aan rente, aflossing of belasting.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Dit zit er niet in</h3>
+                    <ul class="wr-lijst">
+                        <li>Een nieuwe last die per bouwmaand oploopt. Zie de <a href="nieuwbouw.html">nieuwbouwplanning</a>.</li>
+                        <li>Eenmalige kosten zoals verhuizen en inrichten.</li>
+                        <li>De opbrengst of het verlies bij de verkoop van je huidige woning.</li>
+                        <li>Hypotheekrenteaftrek. Zie de <a href="hypotheekrenteaftrek-gids.html">belastingcalculator</a>.</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <div class="bs-melding">
-                    <p><strong>Indicatief hulpmiddel.</strong> Deze berekening gebruikt de bedragen die u zelf invult en een vaste overlapduur. Vertraging in de bouw of in de verkoop van uw huidige woning kan de periode aanzienlijk verlengen.</p>
-                    <p>Lees de <a href="methodologie.html">rekenregels en bekende beperkingen</a>. Uw invoer blijft op dit apparaat.</p>
-                </div>
+        <section class="wr-wrap wr-sectie">
+            <p class="ui-opschrift">Kort uitgelegd</p>
+            <h2>Waar de overlap vandaan komt</h2>
+            <div class="wr-kolommen">
+                <article>
+                    <h3>De hypotheek start bij de notaris, niet bij de sleutel</h3>
+                    <p>Vanaf het passeren van de akte betaal je hypotheekrente, ook al staat de woning er nog niet. Tegelijk loopt je huur of oude hypotheek door tot je opzegt of verkoopt. Die twee perioden overlappen bijna altijd.</p>
+                </article>
+                <article>
+                    <h3>Huren is voorspelbaarder dan verkopen</h3>
+                    <p>Bij een huurwoning weet je wanneer de last stopt: na de opzegtermijn. Bij een bestaande koopwoning hangt het af van wanneer de verkoop rondkomt, en dat is niet volledig in jouw hand. Reken die situatie daarom door met een langere overlap dan je verwacht.</p>
+                </article>
+                <article>
+                    <h3>Vergeet de kleine posten niet</h3>
+                    <p>Dubbele energiecontracten, gemeentelijke heffingen, opstalverzekering, opslag voor meubels en soms tijdelijke huur tellen op. Vaak enkele honderden euro&rsquo;s per maand bovenop de twee woonlasten.</p>
+                </article>
+                <article>
+                    <h3>Het depot kan de druk verzachten</h3>
+                    <p>Zolang er geld in het bouwdepot staat, ontvang je bij de meeste aanbieders een vergoeding die je last verlaagt. Niet bij allemaal: <a href="bouwdepot-voorwaarden-vergelijken.html">&eacute;&eacute;n van de dertien vergeleken geldverstrekkers</a> vergoedt niets, maar rekent dan ook geen rente over het niet-opgenomen deel.</p>
+                </article>
             </div>
         </section>
+
+        <section class="wr-wrap wr-sectie">
+            <p class="ui-opschrift">Verder rekenen</p>
+            <h2>Andere vragen bij nieuwbouw</h2>
+            <div class="wr-register">
+                <a href="depotplanner.html"><strong>Hoeveel tijd heb je nog?</strong><span>De overlap wordt duurder als het depot langer open blijft dan nodig. Bereken je einddatum.</span></a>
+                <a href="nieuwbouw.html"><strong>Het hele bouwverloop</strong><span>Bouwtermijnen, depotvergoeding en de maand waarin het het zwaarst drukt.</span></a>
+                <a href="renteverlies-bouwdepot.html"><strong>Renteverlies berekenen</strong><span>Wat het geld kost dat nog in je depot staat.</span></a>
+                <a href="bouwrente-nieuwbouw.html"><strong>Bouwrente bij nieuwbouw</strong><span>De rente die speelt v&oacute;&oacute;r het passeren van de akte, over grond en termijnen.</span></a>
+            </div>
+        </section>
+
+        <div class="wr-wrap">
+            <div class="wr-melding">
+                <p><strong>Indicatief hulpmiddel.</strong> Deze berekening gebruikt de bedragen die je zelf invult en een vaste overlapduur. Vertraging in de bouw of in de verkoop van je huidige woning kan de periode aanzienlijk verlengen.</p>
+                <p>Lees de <a href="methodologie.html">rekenregels en bekende beperkingen</a>. Je invoer blijft op dit apparaat.</p>
+            </div>
+        </div>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
+    <div class="wr-vast" id="wr-vast" role="status"><span>Per maand tijdens de overlap</span><strong class="tnum" id="wr-vast-bedrag"></strong></div>
 
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
 
     <script type="module" src="/src/js/reporting.js"></script>
-    <script type="module" src="/src/js/dubbelelasten.js"></script>
-    <script type="module" src="/src/js/stickybalk.js"></script>
+    <script type="module" src="/src/dubbel/pagina.js"></script>
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Article",
       "headline": "Dubbele lasten bij nieuwbouw berekenen",
-      "description": "Wat u per maand kwijt bent als u tijdelijk zowel uw huidige woonlast als de nieuwe hypotheek betaalt.",
+      "description": "Wat je per maand kwijt bent als je tijdelijk zowel je huidige woonlast als de nieuwe hypotheek betaalt, en wat uitloop kost.",
       "author": { "@type": "Person", "name": "Simeon", "url": "https://www.bouwdepotcalculator.nl/over-ons.html" },
       "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl/" },
-      "dateModified": "2026-08-14",
+      "dateModified": "2026-10-10",
       "isAccessibleForFree": true,
       "mainEntityOfPage": "https://www.bouwdepotcalculator.nl/dubbele-lasten-nieuwbouw.html"
     }

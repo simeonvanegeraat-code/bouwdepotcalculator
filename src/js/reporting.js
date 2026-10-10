@@ -54,7 +54,10 @@ import { drukAf } from './afdrukdocument.js';
         renteverliesMonthly: { label: 'Renteverlies per maand', type: 'currency' },
         overlapMonths: { label: 'Overlapperiode', type: 'months' },
         totalDoubleMonthlyBurden: { label: 'Totale dubbele maandlast', type: 'currency' },
-        totalOverlapCost: { label: 'Totale overlapkosten', type: 'currency' },
+        totalOverlapCost: { label: 'Samen betaald in de overlap', type: 'currency' },
+        overlapLonger: { label: 'Overlap duurt langer', type: 'months' },
+        extraOnTop: { label: 'Bovenop je huidige woonlast, per maand', type: 'currency' },
+        extraOnTopTotal: { label: 'Wat de overlap kost', type: 'currency' },
         dominantComponent: { label: 'Grootste kostencomponent', type: 'text' },
         overlapInterpretation: { label: 'Effectinschatting', type: 'interpretation' },
 
