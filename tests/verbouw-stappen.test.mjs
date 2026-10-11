@@ -74,6 +74,10 @@ test('de pagina houdt haar adres, kop en ingangen', () => {
     assert.match(html, /<h1 id="reken-titel">Wat gaat je verbouwing kosten\?<\/h1>/);
     assert.match(html, /<title>Verbouwbegroting maken \| Wat mag uit het bouwdepot\?<\/title>/);
     assert.ok(html.includes('id="leenruimte"'), 'het anker uit het menu');
+    // Het kruimelpad op de pagina en dat in de gestructureerde data noemen de pagina hetzelfde.
+    const zichtbaar = html.match(/aria-label="Kruimelpad">[\s\S]*?<span>([^<]+)<\/span><\/nav>/)[1];
+    const kruimels = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1])).find((j) => j['@type'] === 'BreadcrumbList');
+    assert.equal(kruimels.itemListElement.at(-1).name, zichtbaar);
     // Wie via het menu naar de leenruimte gaat, of een bedrag meekrijgt, slaat het startscherm over.
     assert.ok(html.includes("location.hash === '#leenruimte'") && html.includes(".has('bedrag')"));
     for (const haak of ['data-vb-samen', 'data-vb-lijst', 'data-vb-waardepunt', 'data-vb-bankpunt', 'id="invoer"', 'id="begroting-posten"', 'id="lr-volg-knop"', 'id="lr-praktijkcase"']) {

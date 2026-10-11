@@ -379,7 +379,8 @@ ${categorieen}
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'Verbouwbegroting' },
+        // Dezelfde naam als het kruimelpad op de pagina zelf (scripts/verbouw-stappen.mjs).
+        { '@type': 'ListItem', position: 2, name: 'Verbouwen' },
       ],
     }, null, 2).replace(/\n/g, '\n    ')}
     </script>
