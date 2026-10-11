@@ -118,7 +118,8 @@ De huidige applicatie is een **statische Vite multi-page site** met afzonderlijk
   - `src/<pagina>/pagina.js`: de schermcode per rekenpagina; `src/js/` bevat wat pagina's delen (invoer lezen, bankkeuze, rapport, gedeeld formuliergeheugen).
   - `src/styles/next/`: `tokens.css`, `kop.css`, `werkruimte.css` (rekenpagina's, `wr-*`), `uitleg.css` (tekstpagina's, `ul-*`), `homepage.css` (`hp-*`).
   - `data/bouwdepot-voorwaarden.json` is de bron voor de vergelijking, de aanbiederpagina's, de declaratiegids en `src/js/bankdata.generated.js`; de generatoren staan in `scripts/` en draaien mee in `npm run build`.
-  - De kop van de site komt uit `scripts/build-header.mjs` en is op elke pagina gelijk (`tests/header.test.mjs`).
+  - De kop van de site komt uit `data/navigatie.json` via `scripts/build-header.mjs` en is op elke pagina gelijk, op de markering van de huidige pagina na (`tests/header.test.mjs`).
+- **Het menu beweegt mee met de pagina's.** Verandert een pagina van functie, van adres of van titel, komt er een pagina bij of gaat er een weg, werk dan in dezelfde wijziging `data/navigatie.json` bij: het label, de uitleg eronder, de link en de groep waar de pagina in hoort. Loop daarbij ook de plekken na die hetzelfde zeggen: het overzicht op de homepage, kruimelpaden en vervolglinks onderaan pagina's. Meld in de oplevering wat je in het menu hebt aangepast, of waarom dat niet nodig was. Noem in het menu geen aantallen die uit de data komen.
 - Voeg dependencies alleen toe na uitleg van nut, bundle-impact, onderhoud en fallback.
 - Nieuwe 3D-code laad je alleen waar nodig, met een lichte statische fallback en `prefers-reduced-motion`.
 - Geen login, backend-gebruikersdatabase of betalingen toevoegen zonder apart productbesluit.

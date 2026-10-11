@@ -110,3 +110,33 @@ test('het paneel valt terug op een echte link zonder popover-ondersteuning', () 
     assert.match(css, /\.bs-paneel\s*\{[^}]*display:\s*none/,
         'het paneel staat niet standaard dicht; zonder popover zou het permanent openstaan');
 });
+
+test('elke link in het menu wijst naar een pagina en een anker die bestaan', () => {
+    // Een pagina die wordt hernoemd of verwijderd, of een kop die zijn id
+    // verliest, laat anders een dode link achter op alle pagina's tegelijk.
+    const links = [
+        { label: NAV.rekenhulpen.label, href: NAV.rekenhulpen.terugval },
+        ...NAV.hoofd,
+        ...NAV.rekenhulpen.groepen.flatMap((g) => g.items),
+    ];
+    for (const { label, href } of links) {
+        const [pad, anker] = href.split('#');
+        const bestand = pad === '/' || pad === '' ? 'index.html' : pad.replace(/^\//, '');
+        assert.ok(fs.existsSync(path.join(ROOT, bestand)), `"${label}" wijst naar ${bestand}, dat niet bestaat`);
+        if (anker) {
+            const html = fs.readFileSync(path.join(ROOT, bestand), 'utf8');
+            assert.ok(html.includes(`id="${anker}"`), `"${label}" wijst naar #${anker}, dat niet op ${bestand} staat`);
+        }
+    }
+});
+
+test('elke rekenpagina staat in het menu', () => {
+    // Een nieuwe rekentool die niet in data/navigatie.json komt, is alleen te
+    // vinden voor wie het adres al kent.
+    const inMenu = new Set(NAV.rekenhulpen.groepen.flatMap((g) => g.items.map((i) => i.href.split('#')[0])));
+    for (const p of paginas) {
+        const html = fs.readFileSync(path.join(ROOT, p), 'utf8');
+        if (!/class="[^"]*\bwr-invoer\b/.test(html)) continue;
+        assert.ok(inMenu.has(p), `${p} heeft een rekenformulier maar staat niet in het menu`);
+    }
+});
