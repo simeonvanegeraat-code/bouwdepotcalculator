@@ -10,6 +10,8 @@
  * doorsturen zonder dat er iets op een server staat.
  */
 
+import { controleerSchema } from '../domain/nieuwbouw.js';
+
 /** Onthoudt dat iemand de stappen al heeft doorlopen; die komt direct bij het overzicht. */
 export const SLEUTEL = 'bouwdepot-nieuwbouw-stappen-v1';
 
@@ -106,15 +108,131 @@ export function uitAdres(zoek) {
 /** Hoe lang de invoer op het apparaat blijft staan; gelijk aan de rest van de site. */
 export const BEWAARTERMIJN_MS = 90 * 24 * 60 * 60 * 1000;
 
-/** Wat er in de lokale opslag komt: de invoer als adres, en wanneer. */
-export const bewaarTekst = (w, nu) => JSON.stringify({ adres: naarAdres(w), op: nu });
+/* ------------------------------ het termijnschema ------------------------------ */
+
+export const MAX_TERMIJNEN = 30;
+
+/** Het totaal van wat er is ingevuld, en wat er nog ontbreekt (negatief: te veel). Lege regels tellen als nul. */
+export function schemaTotaal(rijen) {
+    const { totaal } = controleerSchema(rijen.map((r) => ({ ...r, percent: getal(r.percent) ? r.percent : 0 })), Infinity);
+    return { totaal, rest: Math.round((100 - totaal) * 10) / 10 };
+}
+
+/**
+ * Mag dit schema naar de rekentool? Eerst per termijn wat er ontbreekt, dan
+ * de regels van de rekenkern zelf (samen 100%, niets na de oplevering).
+ *
+ * @param {{naam: string, maand: number|null, percent: number|null}[]} rijen
+ * @param {number} bouwduur  in maanden
+ * @returns {string} lege tekst als het mag, anders wat er mis is
+ */
+export function controleerTermijnen(rijen, bouwduur) {
+    if (rijen.length === 0) return 'Voeg minstens één termijn toe.';
+    if (rijen.length > MAX_TERMIJNEN) return `Deze rekentool rekent met hooguit ${MAX_TERMIJNEN} termijnen.`;
+    for (const [i, r] of rijen.entries()) {
+        if (!getal(r.maand) || !Number.isInteger(r.maand) || r.maand < 0) return `Termijn ${i + 1}: vul de bouwmaand in, van 0 tot ${bouwduur}.`;
+        if (!getal(r.percent) || r.percent <= 0) return `Termijn ${i + 1}: vul in welk deel van de aanneemsom dit is.`;
+    }
+    return controleerSchema(rijen, bouwduur).klachten[0] ?? '';
+}
+
+const geld = (n) => `€ ${Math.round(n).toLocaleString('nl-NL')}`;
+
+/**
+ * Wat het schemascherm vraagt, omgezet naar de termijnen van de rekentool.
+ *
+ * Het scherm werkt zoals de aannemingsovereenkomst: percentages van de
+ * aanneemsom zonder meerwerk (`basis`). De rekentool kent één aanneemsom
+ * waar het meefinancierde meerwerk in zit, en een percentage per termijn
+ * daarvan. Loopt het meerwerk met de termijnen mee, dan zijn de percentages
+ * gelijk: 15% van de basis plus 15% van het meerwerk is 15% van het geheel.
+ * Wordt het apart betaald, dan krimpen de termijnen naar hun aandeel in het
+ * geheel en komt elk betaalmoment van het meerwerk er als eigen termijn bij.
+ *
+ * @param {object} m
+ * @param {{naam: string, maand: number|null, percent: number|null}[]} m.rijen   percent van de basis
+ * @param {boolean} m.apart                                                       meerwerk op eigen momenten
+ * @param {{naam: string, maand: number|null, bedrag: number|null}[]} m.meerwerkRijen
+ * @param {number} m.basis     aanneemsom zonder meerwerk, in euro
+ * @param {number} m.meerwerk  meefinancierd meerwerk, in euro
+ */
+export function naarTermijnen({ rijen, apart, meerwerkRijen, basis, meerwerk }) {
+    const los = apart && meerwerk > 0;
+    const geheel = basis + (meerwerk > 0 ? meerwerk : 0);
+    const aandeel = los && geheel > 0 ? basis / geheel : 1;
+    const uit = rijen.map((r, i) => ({ maand: r.maand, percent: getal(r.percent) ? r.percent * aandeel : null, naam: r.naam.trim() || `Termijn ${i + 1}` }));
+    if (los) {
+        for (const r of meerwerkRijen) {
+            uit.push({ maand: r.maand, percent: getal(r.bedrag) && geheel > 0 ? (r.bedrag / geheel) * 100 : null, naam: r.naam.trim() || 'Meerwerk', soort: 'meerwerk' });
+        }
+    }
+    return uit;
+}
+
+/** Het omgekeerde: de termijnen van de rekentool terug naar wat het scherm toont. */
+export function uitTermijnen(termijnen, basis, meerwerk) {
+    const gewoon = termijnen.filter((t) => t.soort !== 'meerwerk');
+    const los = termijnen.filter((t) => t.soort === 'meerwerk');
+    if (los.length === 0) {
+        return { apart: false, meerwerkRijen: [], rijen: gewoon.map((t) => ({ naam: t.naam ?? '', maand: t.maand, percent: t.percent })) };
+    }
+    // De gewone termijnen zijn samen de hele basis, ook als het meerwerk sindsdien is veranderd.
+    const som = gewoon.reduce((s, t) => s + t.percent, 0);
+    const geheel = basis + meerwerk;
+    return {
+        apart: meerwerk > 0,
+        rijen: gewoon.map((t) => ({ naam: t.naam ?? '', maand: t.maand, percent: som > 0 ? (t.percent / som) * 100 : t.percent })),
+        meerwerkRijen: meerwerk > 0 ? los.map((t) => ({ naam: t.naam === 'Meerwerk' ? '' : (t.naam ?? ''), maand: t.maand, bedrag: Math.round((t.percent / 100) * geheel) })) : [],
+    };
+}
+
+/**
+ * Mag wat er op het schemascherm staat naar de rekentool?
+ * @returns {string} lege tekst als het mag, anders wat er mis is
+ */
+export function controleerSchemaInvoer(m, bouwduur) {
+    const fout = controleerTermijnen(m.rijen, bouwduur);
+    if (fout) return fout;
+    if (!(m.apart && m.meerwerk > 0)) return '';
+    if (m.meerwerkRijen.length === 0) return 'Vul in wanneer je het meerwerk betaalt, of kies "Met de termijnen mee".';
+    if (m.rijen.length + m.meerwerkRijen.length > MAX_TERMIJNEN) return `Deze rekentool rekent met hooguit ${MAX_TERMIJNEN} termijnen.`;
+    for (const [i, r] of m.meerwerkRijen.entries()) {
+        if (!getal(r.maand) || !Number.isInteger(r.maand) || r.maand < 0 || r.maand > bouwduur) return `Meerwerk ${i + 1}: vul de bouwmaand in, van 0 tot ${bouwduur}.`;
+        if (!getal(r.bedrag) || r.bedrag <= 0) return `Meerwerk ${i + 1}: vul het bedrag in.`;
+    }
+    const som = m.meerwerkRijen.reduce((s, r) => s + r.bedrag, 0);
+    if (Math.abs(som - m.meerwerk) > 1) return `Het meerwerk telt op tot ${geld(som)}, terwijl je ${geld(m.meerwerk)} meefinanciert.`;
+    return '';
+}
+
+/** Een bewaard schema teruglezen; null als het geen bruikbaar schema is. */
+export function leesSchema(ruw) {
+    if (!Array.isArray(ruw) || ruw.length === 0 || ruw.length > MAX_TERMIJNEN) return null;
+    const schema = [];
+    for (const t of ruw) {
+        if (!t || typeof t !== 'object' || !getal(t.maand) || !Number.isInteger(t.maand) || t.maand < 0 || t.maand > 36) return null;
+        if (!getal(t.percent) || t.percent < 0 || t.percent > 100) return null;
+        schema.push({ maand: t.maand, percent: t.percent, naam: typeof t.naam === 'string' ? t.naam.slice(0, 60) : '', ...(t.soort === 'meerwerk' ? { soort: 'meerwerk' } : {}) });
+    }
+    return schema;
+}
+
+/**
+ * Wat er in de lokale opslag komt: de invoer als adres, wanneer, en het eigen
+ * termijnschema als dat er is. Het schema gaat niet mee in een gekopieerde link.
+ */
+export const bewaarTekst = (w, nu, schema = null) => JSON.stringify({ adres: naarAdres(w), op: nu, ...(schema ? { schema } : {}) });
 
 /** Leest de opslag terug; null als er niets bruikbaars staat of het te oud is. */
 export function leesBewaard(tekst, nu) {
     try {
-        const { adres, op } = JSON.parse(tekst);
+        const { adres, op, schema } = JSON.parse(tekst);
         if (typeof adres !== 'string' || typeof op !== 'number' || nu - op > BEWAARTERMIJN_MS || op > nu + 60000) return null;
-        return uitAdres(adres);
+        const w = uitAdres(adres);
+        const eigen = w ? leesSchema(schema) : null;
+        // Een schema dat niet meer bij de bouwduur past, of niet optelt, laten we vallen.
+        if (eigen && controleerTermijnen(eigen, w.maanden) === '') w.schema = eigen;
+        return w;
     } catch {
         return null;
     }

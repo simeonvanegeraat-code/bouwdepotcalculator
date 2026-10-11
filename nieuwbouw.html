@@ -280,6 +280,53 @@
                     <p class="nb-knoppen"><button class="nb-link" type="button" data-nb-naar="4">Terug</button><button class="wr-knop wr-knop--vol" type="submit">Toon mijn overzicht</button></p>
                 </form>
 
+                <!-- Het termijnschema van de bouwer: geen stap, maar een eigen scherm
+                     dat je vanaf het overzicht opent ("Nog te controleren"). De
+                     blokken per termijn tekent src/nieuwbouw/schemascherm.js. -->
+                <form class="nb-scherm nb-schema" data-scherm="schema" novalidate hidden>
+                    <p class="ui-opschrift">Termijnschema</p>
+                    <h2>Wanneer factureert je bouwer?</h2>
+                    <p class="nb-uitleg">Het schema staat in je aannemingsovereenkomst: per termijn wanneer hij vervalt en welk deel van de aanneemsom het is. Jouw aanneemsom is <strong class="tnum" data-sc-aanneemsom>&ndash;</strong>: de koopsom min de grond, zonder meerwerk. De bouw duurt <span data-sc-bouwduur>12</span> maanden.</p>
+                    <fieldset class="nb-keuze">
+                        <legend>In je overeenkomst staan</legend>
+                        <label><input type="radio" name="sc-soort" value="procent" checked><span><strong>Percentages</strong>10% bij de start</span></label>
+                        <label><input type="radio" name="sc-soort" value="bedrag"><span><strong>Bedragen</strong>&euro; 35.000 bij de start</span></label>
+                    </fieldset>
+                    <ol class="nb-termijnen" data-sc-lijst></ol>
+                    <p><button class="wr-knop wr-knop--klein" type="button" data-sc-erbij>+ Termijn toevoegen</button></p>
+                    <p class="nb-som" role="status" data-sc-totaal></p>
+
+                    <!-- Alleen als er meerwerk wordt meegefinancierd. De termijnen
+                         hierboven gaan over de aanneemsom zonder meerwerk. -->
+                    <div class="nb-meerwerk" data-sc-meerwerk hidden>
+                        <fieldset class="nb-keuze">
+                            <legend>Je meerwerk van <span class="tnum" data-sc-meerwerkbedrag></span>: wanneer betaal je dat?</legend>
+                            <label><input type="radio" name="sc-meerwerk" value="mee" checked><span><strong>Met de termijnen mee</strong>Elke termijn naar verhouding hoger</span></label>
+                            <label><input type="radio" name="sc-meerwerk" value="apart"><span><strong>Apart</strong>Op eigen momenten</span></label>
+                        </fieldset>
+                        <div class="nb-meerwerk__apart" data-sc-meerwerkapart hidden>
+                            <ol class="nb-termijnen" data-sc-meerwerklijst></ol>
+                            <p><button class="wr-knop wr-knop--klein" type="button" data-sc-meerwerkerbij>+ Betaalmoment toevoegen</button></p>
+                            <p class="nb-som" role="status" data-sc-meerwerktotaal></p>
+                        </div>
+                    </div>
+                    <p class="wr-hulp nb-som__hulp">Was een termijn bij de notaris al vervallen, zet hem dan op bouwmaand 0.</p>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-sc-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">Toon mijn overzicht</button></p>
+                    <p><button class="nb-link" type="button" data-sc-voorbeeld>Reken met het voorbeeldschema</button></p>
+
+                    <!-- Versiering die meekijkt: elke termijn is een laag van een
+                         muurtje, en bij een rond schema gaat het dak erop. -->
+                    <aside class="nb-stapel wr-geen-print" aria-hidden="true">
+                        <div class="nb-stapel__huis">
+                            <div class="nb-stapel__dak" data-sc-dak><i></i></div>
+                            <div class="nb-stapel__muur"><div class="nb-stapel__lagen" data-sc-stapel></div><i class="nb-stapel__deur"></i></div>
+                            <div class="nb-stapel__grond"></div>
+                        </div>
+                        <p data-sc-stapeltekst></p>
+                    </aside>
+                </form>
+
                 <ol class="nb-voortgang" aria-hidden="true"><li></li><li></li><li></li><li></li><li></li></ol>
             </div>
         </div>
@@ -450,12 +497,12 @@
                 <div class="nb-punt">
                     <h3>Rente over je bouwdepot</h3>
                     <p data-nb-depot></p>
-                    <p class="nb-punt__acties"><button class="nb-link" type="button" data-nb-aanpas="depot">Aanpassen</button><a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet jouw bank?</a></p>
+                    <p class="nb-punt__acties"><button class="wr-knop wr-knop--klein" type="button" data-nb-aanpas="depot">Rente aanpassen</button><a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet jouw bank?</a></p>
                 </div>
                 <div class="nb-punt">
                     <h3>Termijnen van je bouwer</h3>
                     <p data-nb-schema></p>
-                    <p class="nb-punt__acties"><button class="nb-link" type="button" data-nb-aanpas="schema">Eigen schema invullen</button></p>
+                    <p class="nb-punt__acties"><button class="wr-knop wr-knop--klein" type="button" data-nb-schemaknop>Eigen schema invullen</button></p>
                 </div>
             </section>
             </div>

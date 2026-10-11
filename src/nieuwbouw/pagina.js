@@ -205,6 +205,22 @@ function initNieuwbouw() {
         termijnen = gespreideTermijnen(bouwduurNu());
         tekenTermijnen(); reken();
     });
+    // Het scherm "Wanneer factureert je bouwer?" (src/nieuwbouw/schemascherm.js)
+    // levert hier een heel schema aan; null betekent terug naar het voorbeeld.
+    document.addEventListener('nieuwbouw:zet-schema', (e) => {
+        const nieuw = e.detail?.termijnen;
+        if (nieuw) {
+            zelfIngesteld = true;
+            // soort: 'meerwerk' markeert een betaalmoment van het meerwerk; de rekenkern
+            // behandelt het als elke andere termijn, het scherm herkent het eraan.
+            termijnen = nieuw.map((t) => ({ maand: t.maand, percent: t.percent, naam: t.naam, ...(t.soort ? { soort: t.soort } : {}) })).sort((a, b) => a.maand - b.maand);
+            tekenTermijnen();
+        } else {
+            zelfIngesteld = false;
+            volgBouwduur();
+        }
+        reken();
+    });
     el('standaard-schema-btn').addEventListener('click', () => {
         zelfIngesteld = false;
         volgBouwduur(); reken();
@@ -445,7 +461,7 @@ function initNieuwbouw() {
 
         // Voor wat meekijkt met de uitkomst: de stappen onthouden hierop de
         // invoer (src/nieuwbouw/stappen.js). Dezelfde tijdlijn als grafiek en tabel.
-        document.dispatchEvent(new CustomEvent('nieuwbouw:berekend', { detail: { tijdlijn: t, termijnen: termijnen.length, eigenSchema: zelfIngesteld } }));
+        document.dispatchEvent(new CustomEvent('nieuwbouw:berekend', { detail: { tijdlijn: t, termijnen: termijnen.length, eigenSchema: zelfIngesteld, schema: termijnen.map((x) => ({ ...x })) } }));
     }
 
     /* -------------------------------- binden -------------------------------- */

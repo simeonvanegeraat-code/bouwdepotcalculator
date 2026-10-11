@@ -12,6 +12,7 @@
  */
 
 import { koppelBedragveld, koppelPercentageveld, leesGetal, leesPercentage, toonGetal, euro } from '../js/getallen.js';
+import { maakSchemascherm } from './schemascherm.js';
 import { SLEUTEL, STANDAARD, STAPPEN, bewaarTekst, controleerStap, eersteOpenStap, leesBewaard, naarAdres, uitAdres } from './stappenlogica.js';
 
 // De bouwplaats telt van 0 (lege kavel) tot 5 (bewoond): elke stap zet er een deel bij.
@@ -117,7 +118,11 @@ function start() {
         meld(hoofd.maanden, 'input');   // zet ook de schuif en het termijnschema
         meld(hoofd.von, 'input');       // rekent de bedragen van het schema om
         if (eigenInvoer) { meld(hoofd.rente, 'change'); meld(hoofd.woonlast, 'change'); }
+        // Een bewaard eigen termijnschema gaat erachteraan; het voorbeeld rekent
+        // met het voorbeeldschema. Wie de stappen opnieuw doorloopt houdt zijn schema.
+        if (w.schema || !eigenInvoer) zetSchema(w.schema ?? null);
     }
+    const zetSchema = (termijnen) => document.dispatchEvent(new CustomEvent('nieuwbouw:zet-schema', { detail: { termijnen } }));
 
     /* ------------------------------ onthouden ------------------------------ */
 
@@ -132,9 +137,15 @@ function start() {
         if (voorbeeld || stand !== 'klaar') return;
         const w = leesHoofd();
         if (eersteOpenStap(w) !== 0) return;
-        try { localStorage.setItem(SLEUTEL, bewaarTekst(w, Date.now())); } catch { /* zonder opslag werkt alles, alleen niet bij terugkomst */ }
+        try { localStorage.setItem(SLEUTEL, bewaarTekst(w, Date.now(), laatste?.eigenSchema ? laatste.schema : null)); } catch { /* zonder opslag werkt alles, alleen niet bij terugkomst */ }
     }
-    document.addEventListener('nieuwbouw:berekend', (e) => { werkOverzichtBij(e.detail); if (e.detail.tijdlijn) bewaar(); });
+    // De laatste geslaagde berekening: daar komen het schema en de aanneemsom vandaan.
+    let laatste = null;
+    document.addEventListener('nieuwbouw:berekend', (e) => {
+        if (e.detail.tijdlijn) laatste = e.detail;
+        werkOverzichtBij(e.detail);
+        if (e.detail.tijdlijn) bewaar();
+    });
 
     const invoer = el('invoer');
     // Wie in het voorbeeld zelf een veld aanpast, is met zijn eigen cijfers bezig.
@@ -146,6 +157,7 @@ function start() {
     const puntDepot = document.querySelector('[data-nb-depot]');
     const puntSchema = document.querySelector('[data-nb-schema]');
     const knopAanpassen = document.querySelector('[data-nb-aanpas=""]');
+    const knopSchema = document.querySelector('[data-nb-schemaknop]');
     const procent = (n) => `${toonGetal(n, 2)}%`;
     const maanden = (n) => (n === 1 ? '1 maand' : `${n} maanden`);
 
@@ -181,6 +193,7 @@ function start() {
         puntDepot.innerHTML = w.depot === 'geen' ? 'Je hebt ingesteld: <strong>geen vergoeding</strong>.'
             : w.depot === 'lager' ? `Je hebt ingesteld: <strong>${procent(Math.max(0, w.rente - w.afslag))}</strong>, ${toonGetal(w.afslag, 2)} procentpunt onder je hypotheekrente.`
             : `Gerekend met een vergoeding <strong>gelijk aan je hypotheekrente</strong> (${procent(w.rente)}). Dat is bij de meeste aanbieders zo, niet bij alle.`;
+        knopSchema.textContent = eigenSchema ? 'Schema aanpassen' : 'Eigen schema invullen';
         puntSchema.innerHTML = eigenSchema ? `Je eigen schema: <strong>${termijnen} ${termijnen === 1 ? 'termijn' : 'termijnen'}</strong>.`
             : `Gerekend met een <strong>voorbeeld van ${termijnen} termijnen</strong>, verdeeld over ${maanden(t.invoer.bouwduurMaanden)}. Jouw schema staat in je aannemingsovereenkomst.`;
     }
@@ -192,10 +205,10 @@ function start() {
         if (!doel) { zetOpen(!lichaam.classList.contains('nb-open')); return; }
         // Vanuit "Nog te controleren": het formulier open, op de plek waar het om gaat.
         zetOpen(true);
-        const vak = el(doel === 'depot' ? 'meer-instellingen' : 'termijnschema');
+        const vak = el('meer-instellingen');
         vak.open = true;
         vak.scrollIntoView({ block: 'start', behavior: stil ? 'auto' : 'smooth' });
-        (doel === 'depot' ? hoofd.depot : vak.querySelector('button, input')).focus({ preventScroll: true });
+        hoofd.depot.focus({ preventScroll: true });
     });
 
     /* ------------------------------ de bouwplaats ------------------------------ */
@@ -235,7 +248,8 @@ function start() {
         const wissel = () => {
             lichaam.dataset.nb = stand;
             for (const f of wortel.querySelectorAll('form[data-scherm]')) f.hidden = f.dataset.scherm !== stand;
-            bouwplaats?.zetVoortgang(KRAANSTAND[stand], stil || direct);
+            // Het schemascherm heeft geen bouwplaats; die blijft staan waar hij stond.
+            if (stand in KRAANSTAND) bouwplaats?.zetVoortgang(KRAANSTAND[stand], stil || direct);
         };
         // De focus gaat mee: naar het eerste veld van de stap, of naar de kop.
         const focus = () => {
@@ -244,7 +258,7 @@ function start() {
             scrollTo({ top: 0, behavior: stil ? 'auto' : 'smooth' });
         };
         if (direct) { wissel(); return; }
-        if (stand !== 'klaar') laadBouwplaats();
+        if (stand in KRAANSTAND && stand !== 'klaar') laadBouwplaats();
         // Met een overgang wisselt de browser het scherm een beeld later; pas dan
         // staat het veld er om de focus te krijgen.
         if (document.startViewTransition && !stil) {
@@ -257,7 +271,7 @@ function start() {
         } else { wissel(); focus(); }
     }
 
-    for (const formulier of wortel.querySelectorAll('form[data-scherm]')) {
+    for (const formulier of wortel.querySelectorAll('form[data-scherm]:not([data-scherm="schema"])')) {
         formulier.addEventListener('submit', (e) => {
             e.preventDefault();
             const stap = Number(formulier.dataset.scherm);
@@ -301,6 +315,27 @@ function start() {
             schrijfHoofd(VOORBEELD, { eigenInvoer: false });
             toon('klaar');
         }
+    });
+
+    /* ------------------------------ het termijnschema ------------------------------ */
+
+    const schemascherm = maakSchemascherm(wortel.querySelector('form[data-scherm="schema"]'), {
+        bouwduur: () => Math.round(leesGetal(hoofd.maanden.value) ?? STANDAARD.maanden),
+        terug: () => toon('klaar'),
+        klaar: (termijnen) => {
+            // Wie een schema invult is met zijn eigen cijfers bezig, ook vanuit het voorbeeld.
+            if (termijnen) zetVoorbeeld(false);
+            zetSchema(termijnen);
+            toon('klaar');
+            bewaar();
+        },
+    });
+    knopSchema.addEventListener('click', () => {
+        if (!laatste) { zetOpen(true); return; }
+        // De overeenkomst rekent met de aanneemsom zonder meerwerk; het meerwerk gaat apart mee.
+        const meerwerk = leesGetal(hoofd.meerwerk.value) ?? 0;
+        schemascherm.open({ schema: laatste.schema, basis: laatste.tijdlijn.invoer.aanneemsom - meerwerk, meerwerk });
+        toon('schema');
     });
 
     /* ------------------------------ afgeleide bedragen in de stappen ------------------------------ */
