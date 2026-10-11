@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="/src/styles/next/kop.css">
     <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
     <link rel="stylesheet" href="/src/styles/next/tekening.css">
+    <link rel="stylesheet" href="/src/styles/next/nieuwbouw.css">
+    <link rel="stylesheet" href="/src/styles/next/verbouwen.css">
 </head>
 <body class="ui wr">
     <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
@@ -159,10 +161,396 @@
     </header>
 
     <main id="inhoud">
-        <div class="wr-wrap wr-kop wr-geen-print">
-            <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Verbouwen</span></nav>
-            <h1 id="reken-titel">Wat gaat je verbouwing kosten?</h1>
-            <p class="wr-lead">Begin met een bedrag en zie direct of het binnen de waarde van je woning past en wat het met je maandlast doet. Werk het daarna uit tot een verbouwbegroting per post, met wat uit het bouwdepot mag.</p>
+        <!-- Wie hier komt, begint bij het startscherm en vult stap voor stap in;
+             daarna komt het overzicht. Wie via het menu naar de leenruimte gaat
+             (#leenruimte) of een bedrag in het adres meekrijgt, komt direct bij
+             de rekentool. Dit regeltje beslist dat vóórdat de pagina getekend
+             wordt; de rest staat in src/verbouwen/stappen.js. Zonder
+             JavaScript staat de pagina er zoals altijd. -->
+        <script>
+            if ('noModule' in HTMLScriptElement.prototype) try {
+                document.body.dataset.nb = location.hash === '#leenruimte' || new URLSearchParams(location.search).has('bedrag') ? 'klaar' : 'start';
+            } catch (e) { document.body.dataset.nb = 'klaar'; }
+        </script>
+
+        <div class="wr-wrap nb wr-geen-print" data-stappen>
+            <figure class="nb-bouw vb-huis" aria-hidden="true">
+                <svg viewBox="0 0 420 400" focusable="false">
+                    <rect class="vb-h-gras" x="0" y="330" width="420" height="16" rx="8"/>
+                    <!-- buiten: boom, heg en pad -->
+                    <g class="vb-zone" data-zone="buiten">
+                        <rect class="vb-h-detail" x="34" y="262" width="6" height="68"/>
+                        <circle class="vb-h-detail vb-h-groen" cx="37" cy="246" r="26"/>
+                        <rect class="vb-h-detail vb-h-groen" x="2" y="312" width="66" height="18" rx="6"/>
+                    </g>
+                    <!-- verduurzaming: warmtepomp buiten, zonnepanelen op het dak -->
+                    <g class="vb-zone" data-zone="verduurzaming">
+                        <rect class="vb-h-detail vb-h-accent" x="72" y="302" width="22" height="28" rx="3"/>
+                        <circle class="vb-h-detail vb-h-wit" cx="83" cy="316" r="7"/>
+                        <polygon class="vb-h-detail vb-h-accent" points="236,96 286,134 268,134 222,100"/>
+                        <polygon class="vb-h-detail vb-h-accent" points="216,82 232,94 218,98 204,88"/>
+                    </g>
+                    <!-- afbouw: woonkamer en slaapkamer -->
+                    <g class="vb-zone" data-zone="afbouw">
+                        <rect class="vb-h-kamer" x="100" y="232" width="100" height="98"/>
+                        <rect class="vb-h-kamer" x="100" y="142" width="100" height="90"/>
+                        <rect class="vb-h-detail vb-h-accent" x="100" y="322" width="100" height="8"/>
+                        <rect class="vb-h-detail" x="116" y="296" width="52" height="22" rx="5"/>
+                        <line class="vb-h-detail vb-h-lijn" x1="150" y1="232" x2="150" y2="252"/>
+                        <circle class="vb-h-detail vb-h-accent" cx="150" cy="258" r="7"/>
+                        <rect class="vb-h-detail" x="112" y="206" width="60" height="18" rx="4"/>
+                        <rect class="vb-h-detail vb-h-wit" x="116" y="158" width="30" height="30"/>
+                    </g>
+                    <!-- keuken en badkamer -->
+                    <g class="vb-zone" data-zone="keuken-badkamer">
+                        <rect class="vb-h-kamer" x="200" y="232" width="100" height="98"/>
+                        <rect class="vb-h-kamer" x="200" y="142" width="100" height="90"/>
+                        <rect class="vb-h-detail" x="214" y="292" width="72" height="38"/>
+                        <rect class="vb-h-detail vb-h-accent" x="214" y="286" width="72" height="7"/>
+                        <rect class="vb-h-detail" x="232" y="244" width="36" height="14"/>
+                        <path class="vb-h-detail vb-h-wit" d="M214 198 h70 v10 a14 14 0 0 1 -14 14 h-42 a14 14 0 0 1 -14 -14 z"/>
+                        <line class="vb-h-detail vb-h-lijn" x1="280" y1="198" x2="280" y2="172"/>
+                    </g>
+                    <!-- ruwbouw: uitbouw en dakkapel -->
+                    <g class="vb-zone" data-zone="ruwbouw">
+                        <rect class="vb-h-kamer vb-h-nieuw" x="300" y="258" width="76" height="72"/>
+                        <rect class="vb-h-detail" x="296" y="250" width="86" height="9"/>
+                        <rect class="vb-h-detail vb-h-wit" x="318" y="278" width="40" height="52"/>
+                        <rect class="vb-h-kamer vb-h-nieuw" x="124" y="92" width="44" height="34"/>
+                        <rect class="vb-h-detail" x="120" y="86" width="52" height="7"/>
+                        <rect class="vb-h-detail vb-h-wit" x="132" y="100" width="28" height="20"/>
+                    </g>
+                    <!-- overig: het bouwbord voor de deur -->
+                    <g class="vb-zone" data-zone="overig">
+                        <rect class="vb-h-detail" x="392" y="296" width="4" height="34"/>
+                        <rect class="vb-h-detail vb-h-wit" x="378" y="276" width="34" height="24" rx="2"/>
+                        <line class="vb-h-detail vb-h-lijn" x1="384" y1="284" x2="406" y2="284"/>
+                        <line class="vb-h-detail vb-h-lijn" x1="384" y1="291" x2="400" y2="291"/>
+                    </g>
+                    <!-- het huis zelf: altijd te zien -->
+                    <polyline class="vb-h-muur" points="100,330 100,142 300,142 300,330"/>
+                    <line class="vb-h-muur" x1="100" y1="232" x2="300" y2="232"/>
+                    <line class="vb-h-muur vb-h-muur--dun" x1="200" y1="142" x2="200" y2="330"/>
+                    <polygon class="vb-h-dak" points="84,142 200,62 316,142"/>
+                    <line class="vb-h-muur" x1="0" y1="330" x2="420" y2="330"/>
+                </svg>
+            </figure>
+
+            <div class="nb-paneel">
+                <div class="wr-kop nb-scherm" data-scherm="start">
+                    <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Verbouwen</span></nav>
+                    <h1 id="reken-titel">Wat gaat je verbouwing kosten?</h1>
+                    <p class="wr-lead">Zet op een rij wat je gaat doen en wat het kost. Je ziet welk deel uit het bouwdepot mag, of het binnen de waarde van je woning past en wat het met je maandlast doet.</p>
+                    <div class="nb-start">
+                        <p class="nb-knoppen">
+                            <button class="wr-knop wr-knop--vol nb-groot" type="button" data-vb-naar="wat">Laten we beginnen</button>
+                            <button class="nb-link" type="button" data-vb-voorbeeld>of bekijk eerst een voorbeeld</button>
+                        </p>
+                        <p class="nb-klein">Een paar korte vragen, alleen over wat jij gaat doen. Je gegevens blijven op dit apparaat.</p>
+                        <p class="nb-verder" data-vb-verder hidden>Je hebt dit eerder ingevuld. <button class="nb-link" type="button" data-vb-overzicht>Ga verder met je overzicht</button></p>
+                    </div>
+                    <p class="nb-opnieuw"><button class="nb-link" type="button" data-vb-naar="wat">Stap voor stap invullen</button></p>
+                </div>
+
+                <form class="nb-scherm" data-scherm="wat" novalidate hidden>
+                    <p class="ui-opschrift">Je verbouwing</p>
+                    <h2>Wat ga je doen?</h2>
+                    <p class="nb-uitleg">Vink aan wat bij je verbouwing hoort. Daarna vragen we alleen daarvan de bedragen.</p>
+                    <fieldset class="nb-keuze vb-tegels">
+                        <legend>Onderdelen van je verbouwing</legend>
+                        <label><input type="checkbox" data-vb-cat="ruwbouw"><span><strong>Ruwbouw en constructie</strong>Uitbouw, dakkapel, draagmuur</span></label>
+                        <label><input type="checkbox" data-vb-cat="keuken-badkamer"><span><strong>Keuken en badkamer</strong>Keuken, badkamer, toilet</span></label>
+                        <label><input type="checkbox" data-vb-cat="afbouw"><span><strong>Afbouw en afwerking</strong>Vloeren, kozijnen, stuc- en schilderwerk</span></label>
+                        <label><input type="checkbox" data-vb-cat="verduurzaming"><span><strong>Verduurzaming</strong>Isolatie, glas, warmtepomp, zonnepanelen</span></label>
+                        <label><input type="checkbox" data-vb-cat="buiten"><span><strong>Buiten en terrein</strong>Tuin, zonwering, oprit</span></label>
+                        <label><input type="checkbox" data-vb-cat="overig"><span><strong>Overige kosten</strong>Vergunning, opslag, tijdelijke kosten</span></label>
+                    </fieldset>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-vb-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm vb-cat" data-scherm="cat-ruwbouw" data-vb-naam="Ruwbouw en constructie" novalidate hidden>
+                    <p class="ui-opschrift">Wat kost het?</p>
+                    <h2>Ruwbouw en constructie</h2>
+                    <p class="nb-uitleg">Vink aan wat je laat doen en vul het bedrag van je offerte in. Een schatting mag ook; je past het later aan.</p>
+                    <div class="vb-posten">
+                        <div class="vb-post" data-vb-post="uitbouw">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="uitbouw"><span>Uitbouw of aanbouw</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-uitbouw" data-vb-bedrag="uitbouw" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Uitbouw of aanbouw"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="dakkapel">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="dakkapel"><span>Dakkapel</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-dakkapel" data-vb-bedrag="dakkapel" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Dakkapel"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="constructie">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="constructie"><span>Constructieve aanpassing, muur doorbreken</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-constructie" data-vb-bedrag="constructie" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Constructieve aanpassing, muur doorbreken"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="aannemer">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="aannemer"><span>Aannemer, arbeidsloon</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-aannemer" data-vb-bedrag="aannemer" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Aannemer, arbeidsloon"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="architect">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="architect"><span>Architect of constructeur</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-architect" data-vb-bedrag="architect" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Architect of constructeur"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="bouwmaterialen">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="bouwmaterialen"><span>Bouwmaterialen</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-bouwmaterialen" data-vb-bedrag="bouwmaterialen" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Bouwmaterialen"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="asbest">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="asbest"><span>Asbestverwijdering bij verbouwing</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-asbest" data-vb-bedrag="asbest" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Asbestverwijdering bij verbouwing"></div></div>
+                        </div>
+                    </div>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-vb-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm vb-cat" data-scherm="cat-keuken-badkamer" data-vb-naam="Keuken en badkamer" novalidate hidden>
+                    <p class="ui-opschrift">Wat kost het?</p>
+                    <h2>Keuken en badkamer</h2>
+                    <p class="nb-uitleg">Vink aan wat je laat doen en vul het bedrag van je offerte in. Een schatting mag ook; je past het later aan.</p>
+                    <div class="vb-posten">
+                        <div class="vb-post" data-vb-post="keuken">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="keuken"><span>Keuken met inbouwapparatuur</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-keuken" data-vb-bedrag="keuken" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Keuken met inbouwapparatuur"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="keuken-los">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="keuken-los"><span>Losse apparatuur, niet ingebouwd</span></label>
+                            <span class="wr-merkje wr-merkje--eigen">eigen geld</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-keuken-los" data-vb-bedrag="keuken-los" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Losse apparatuur, niet ingebouwd"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="badkamer">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="badkamer"><span>Badkamer, vast sanitair en tegelwerk</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-badkamer" data-vb-bedrag="badkamer" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Badkamer, vast sanitair en tegelwerk"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="toilet">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="toilet"><span>Toilet vernieuwen</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-toilet" data-vb-bedrag="toilet" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Toilet vernieuwen"></div></div>
+                        </div>
+                    </div>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-vb-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm vb-cat" data-scherm="cat-afbouw" data-vb-naam="Afbouw en afwerking" novalidate hidden>
+                    <p class="ui-opschrift">Wat kost het?</p>
+                    <h2>Afbouw en afwerking</h2>
+                    <p class="nb-uitleg">Vink aan wat je laat doen en vul het bedrag van je offerte in. Een schatting mag ook; je past het later aan.</p>
+                    <div class="vb-posten">
+                        <div class="vb-post" data-vb-post="vloer-vast">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="vloer-vast"><span>Vloer die vastzit, zoals gelijmd parket of tegels</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-vloer-vast" data-vb-bedrag="vloer-vast" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Vloer die vastzit, zoals gelijmd parket of tegels"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="vloer-los">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="vloer-los"><span>Losliggende vloer of tapijt</span></label>
+                            <span class="wr-merkje wr-merkje--eigen">eigen geld</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-vloer-los" data-vb-bedrag="vloer-los" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Losliggende vloer of tapijt"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="kozijnen">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="kozijnen"><span>Kozijnen, ramen en deuren</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-kozijnen" data-vb-bedrag="kozijnen" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Kozijnen, ramen en deuren"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="stucwerk">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="stucwerk"><span>Stucwerk en binnenwanden</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-stucwerk" data-vb-bedrag="stucwerk" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Stucwerk en binnenwanden"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="schilderwerk">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="schilderwerk"><span>Onderhoudsschilderwerk</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-schilderwerk" data-vb-bedrag="schilderwerk" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Onderhoudsschilderwerk"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="verlichting-vast">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="verlichting-vast"><span>Ingebouwde verlichting, zoals inbouwspots</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-verlichting-vast" data-vb-bedrag="verlichting-vast" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Ingebouwde verlichting, zoals inbouwspots"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="verlichting-los">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="verlichting-los"><span>Losse verlichting, zoals een wandlamp</span></label>
+                            <span class="wr-merkje wr-merkje--eigen">eigen geld</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-verlichting-los" data-vb-bedrag="verlichting-los" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Losse verlichting, zoals een wandlamp"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="raamdecoratie">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="raamdecoratie"><span>Gordijnen, jaloezieën of shutters</span></label>
+                            <span class="wr-merkje wr-merkje--eigen">eigen geld</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-raamdecoratie" data-vb-bedrag="raamdecoratie" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Gordijnen, jaloezieën of shutters"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="meubels">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="meubels"><span>Meubels en inboedel</span></label>
+                            <span class="wr-merkje wr-merkje--eigen">eigen geld</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-meubels" data-vb-bedrag="meubels" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Meubels en inboedel"></div></div>
+                        </div>
+                    </div>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-vb-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm vb-cat" data-scherm="cat-verduurzaming" data-vb-naam="Verduurzaming" novalidate hidden>
+                    <p class="ui-opschrift">Wat kost het?</p>
+                    <h2>Verduurzaming</h2>
+                    <p class="nb-uitleg">Vink aan wat je laat doen en vul het bedrag van je offerte in. Een schatting mag ook; je past het later aan.</p>
+                    <div class="vb-posten">
+                        <div class="vb-post" data-vb-post="isolatie">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="isolatie"><span>Gevel-, dak-, vloer- of leidingisolatie</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-isolatie" data-vb-bedrag="isolatie" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Gevel-, dak-, vloer- of leidingisolatie"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="beglazing">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="beglazing"><span>Hoogrendementsbeglazing, minimaal HR++</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-beglazing" data-vb-bedrag="beglazing" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Hoogrendementsbeglazing, minimaal HR++"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="warmtepomp">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="warmtepomp"><span>Warmtepomp</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-warmtepomp" data-vb-bedrag="warmtepomp" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Warmtepomp"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="zonnepanelen">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="zonnepanelen"><span>Zonnepanelen</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-zonnepanelen" data-vb-bedrag="zonnepanelen" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Zonnepanelen"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="ventilatie">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="ventilatie"><span>Energiezuinig ventilatiesysteem</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-ventilatie" data-vb-bedrag="ventilatie" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Energiezuinig ventilatiesysteem"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="wtw-douche">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="wtw-douche"><span>Douche-warmteterugwinning</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-wtw-douche" data-vb-bedrag="wtw-douche" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Douche-warmteterugwinning"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="thuisbatterij">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="thuisbatterij"><span>Thuisbatterij</span></label>
+                            <span class="wr-merkje wr-merkje--eigen">eigen geld</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-thuisbatterij" data-vb-bedrag="thuisbatterij" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Thuisbatterij"></div></div>
+                        </div>
+                    </div>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-vb-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm vb-cat" data-scherm="cat-buiten" data-vb-naam="Buiten en terrein" novalidate hidden>
+                    <p class="ui-opschrift">Wat kost het?</p>
+                    <h2>Buiten en terrein</h2>
+                    <p class="nb-uitleg">Vink aan wat je laat doen en vul het bedrag van je offerte in. Een schatting mag ook; je past het later aan.</p>
+                    <div class="vb-posten">
+                        <div class="vb-post" data-vb-post="tuin">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="tuin"><span>Aanleg, onderhoud en inrichting van de tuin</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-tuin" data-vb-bedrag="tuin" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Aanleg, onderhoud en inrichting van de tuin"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="zonwering">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="zonwering"><span>Op maat gemaakte zonwering, vast bevestigd</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-zonwering" data-vb-bedrag="zonwering" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Op maat gemaakte zonwering, vast bevestigd"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="oprit">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="oprit"><span>Bestrating, oprit of terras</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-oprit" data-vb-bedrag="oprit" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Bestrating, oprit of terras"></div></div>
+                        </div>
+                    </div>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-vb-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm vb-cat" data-scherm="cat-overig" data-vb-naam="Overige kosten" novalidate hidden>
+                    <p class="ui-opschrift">Wat kost het?</p>
+                    <h2>Overige kosten</h2>
+                    <p class="nb-uitleg">Vink aan wat je laat doen en vul het bedrag van je offerte in. Een schatting mag ook; je past het later aan.</p>
+                    <div class="vb-posten">
+                        <div class="vb-post" data-vb-post="vergunning">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="vergunning"><span>Omgevingsvergunning en leges</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-vergunning" data-vb-bedrag="vergunning" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Omgevingsvergunning en leges"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="gereedschap">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="gereedschap"><span>Gereedschap, zoals een boor of zaagmachine</span></label>
+                            <span class="wr-merkje wr-merkje--eigen">eigen geld</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-gereedschap" data-vb-bedrag="gereedschap" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Gereedschap, zoals een boor of zaagmachine"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="opslag">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="opslag"><span>Tijdelijke opslag of huisvesting</span></label>
+                            <span class="wr-merkje wr-merkje--eigen">eigen geld</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-opslag" data-vb-bedrag="opslag" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Tijdelijke opslag of huisvesting"></div></div>
+                        </div>
+                        <div class="vb-post" data-vb-post="onvoorzien">
+                            <label class="vb-post__kies"><input type="checkbox" data-vb-kies="onvoorzien"><span>Onvoorzien en meerwerk</span></label>
+                            <span class="wr-merkje wr-merkje--depot">uit depot</span>
+                            <div class="vb-post__bedrag" hidden><div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-onvoorzien" data-vb-bedrag="onvoorzien" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Bedrag voor Onvoorzien en meerwerk"></div></div>
+                        </div>
+                    </div>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-vb-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm" data-scherm="reserve" novalidate hidden>
+                    <p class="ui-opschrift">Onvoorzien</p>
+                    <h2>Hoeveel reserve houd je aan?</h2>
+                    <p class="nb-uitleg">Sloopwerk legt vaak verborgen gebreken bloot. Tien procent is in de bouw de gangbare vuistregel; bij een oudere woning is vijftien tot twintig niet vreemd.</p>
+                    <div class="nb-veld">
+                        <label for="vb-reserve">Reserve voor onvoorzien</label>
+                        <div class="wr-veld__in"><input type="text" id="vb-reserve" inputmode="numeric" autocomplete="off" placeholder="10"><span aria-hidden="true">%</span></div>
+                        <p class="wr-hulp">Over het deel dat uit het bouwdepot komt.</p>
+                    </div>
+                    <p class="nb-som" role="status">Je verbouwing komt op <strong class="tnum" data-vb-totaal>&ndash;</strong><span data-vb-totaal-noot></span></p>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-vb-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm" data-scherm="geld" novalidate hidden>
+                    <p class="ui-opschrift">Financiering</p>
+                    <h2>Hoe financier je het?</h2>
+                    <p class="nb-uitleg">Hiermee zien we of je verbouwing binnen de waarde van je woning past.</p>
+                    <div class="nb-veld">
+                        <label for="vb-hypotheek">Huidige hypotheek</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-hypotheek" inputmode="numeric" autocomplete="off" placeholder="0"></div>
+                        <p class="wr-hulp">Wat er nu nog openstaat; staat op je jaaroverzicht. Geen hypotheek? Laat leeg.</p>
+                    </div>
+                    <div class="nb-veld">
+                        <label for="vb-waarde">Woningwaarde na verbouwing</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-waarde" inputmode="numeric" autocomplete="off" placeholder=""></div>
+                        <p class="wr-hulp">Uit een taxatierapport. Heb je dat nog niet, vul dan in wat je woning nu waard is: dan zie je wat er minimaal kan.</p>
+                    </div>
+                    <div class="nb-veld">
+                        <label for="vb-eigen">Eigen geld voor dit plan</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="vb-eigen" inputmode="numeric" autocomplete="off" placeholder="0"></div>
+                        <p class="wr-hulp">Wat je echt voor deze verbouwing opzij hebt staan. Leen je alles? Laat leeg.</p>
+                    </div>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-vb-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm" data-scherm="rente" novalidate hidden>
+                    <p class="ui-opschrift">Maandlast</p>
+                    <h2>Tegen welke rente leen je bij?</h2>
+                    <p class="nb-uitleg">De rente voor een nieuw leningdeel bij je geldverstrekker. Nog geen offerte? Vul in waar je mee rekent.</p>
+                    <div class="nb-veld">
+                        <label for="vb-rente">Hypotheekrente</label>
+                        <div class="wr-veld__in"><input type="text" id="vb-rente" inputmode="decimal" autocomplete="off" placeholder="3,80"><span aria-hidden="true">%</span></div>
+                        <p class="wr-hulp">Hiermee schatten we de extra maandlast, annu&iuml;tair over 30 jaar.</p>
+                    </div>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-vb-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">Toon mijn overzicht</button></p>
+                </form>
+
+                <div class="vb-voortgang" aria-hidden="true"><i data-vb-voortgang></i></div>
+            </div>
         </div>
 
         <!-- De pagina opent met de vraag die iedereen kan beantwoorden: ongeveer
@@ -211,7 +599,17 @@
                     </div>
                 </figure>
 
-                <form class="wr-paneel wr-invoer" novalidate onsubmit="return false">
+                <div class="nb-links">
+                <p class="wr-melding wr-melding--klein nb-voorbeeld" data-vb-voorbeeldmelding hidden><strong>Dit is een voorbeeld, niet jouw cijfers.</strong> <button class="nb-link" type="button" data-vb-naar="wat">Vul je eigen gegevens in</button></p>
+                <section class="wr-paneel nb-samen" aria-labelledby="nb-samen-kop">
+                    <div class="wr-paneel__kop">
+                        <h2 id="nb-samen-kop">Jouw gegevens</h2>
+                        <p class="wr-micro">Blijft op dit apparaat</p>
+                    </div>
+                    <dl class="wr-dl" data-vb-samen></dl>
+                    <p class="nb-samen__knoppen"><button class="wr-knop wr-knop--klein" type="button" data-vb-aanpas aria-expanded="false" aria-controls="invoer">Aanpassen</button></p>
+                </section>
+                <form class="wr-paneel wr-invoer" id="invoer" novalidate onsubmit="return false">
                     <div class="wr-paneel__kop">
                         <h2>Jouw gegevens</h2>
                         <p class="wr-micro">Blijft op dit apparaat</p>
@@ -275,6 +673,27 @@
                         <button class="wr-knop wr-knop--klein" id="lr-praktijkcase" type="button">Terug naar het voorbeeld</button>
                     </div>
                 </form>
+
+                <!-- De uitkomst leunt op twee dingen die de stappen niet kunnen weten:
+                     wat de woning na de verbouwing waard is, en wat de eigen bank
+                     uit het depot betaalt. -->
+                <section class="wr-paneel nb-controle" aria-labelledby="nb-controle-kop">
+                    <div class="wr-paneel__kop" style="margin-bottom:0">
+                        <h2 id="nb-controle-kop">Nog te controleren</h2>
+                    </div>
+                    <p class="wr-hulp">Twee dingen bepalen je uitkomst en liggen nog niet vast.</p>
+                    <div class="nb-punt">
+                        <h3>De waarde na verbouwing</h3>
+                        <p data-vb-waardepunt></p>
+                        <p class="nb-punt__acties"><button class="wr-knop wr-knop--klein" type="button" data-vb-aanpas="waarde">Waarde aanpassen</button></p>
+                    </div>
+                    <div class="nb-punt">
+                        <h3>Wat jouw bank uit het depot betaalt</h3>
+                        <p data-vb-bankpunt></p>
+                        <p class="nb-punt__acties"><button class="wr-knop wr-knop--klein" type="button" data-vb-aanpas="bank">Kies je geldverstrekker</button></p>
+                    </div>
+                </section>
+                </div>
             </div>
         </div>
 
@@ -282,18 +701,28 @@
              telefoon begin je zo bij de velden en houdt de balk onderaan het
              totaal in beeld; op een breed scherm staat het totaal rechts naast
              de posten. De optelling gebeurt in src/js/begrotingrekenen.js. -->
-        <div class="wr-wrap wr-sectie wr-sectie--strak wr-geen-print">
-            <p class="ui-opschrift">Stap twee, als je offertes hebt</p>
+        <div class="wr-wrap wr-sectie wr-sectie--strak wr-geen-print vb-begrotingkop">
+            <p class="ui-opschrift">Begroting per post</p>
             <h2>Maak er een begroting van</h2>
             <p class="wr-lead">Zet je offertes op een rij en zie welk deel uit het bouwdepot mag en welk deel je zelf betaalt. Het totaal gaat mee naar de berekening hierboven.</p>
         </div>
         <div class="wr-wrap wr-werk wr-werk--lang wr-geen-print" id="begroting">
 
-            <section class="wr-paneel wr-invoer" aria-labelledby="begroting-kop">
+            <section class="wr-paneel vb-lijst" aria-labelledby="vb-lijst-kop">
+                <div class="wr-paneel__kop">
+                    <h3 class="wr-paneel__titel" id="vb-lijst-kop">Je posten</h3>
+                    <p class="wr-micro" data-vb-lijst-aantal></p>
+                </div>
+                <dl class="wr-dl vb-lijst__posten" data-vb-lijst></dl>
+                <p class="nb-samen__knoppen"><button class="wr-knop wr-knop--klein" type="button" data-vb-posten aria-expanded="false" aria-controls="begroting-posten">Posten aanpassen of toevoegen</button></p>
+            </section>
+
+            <section class="wr-paneel wr-invoer" id="begroting-posten" aria-labelledby="begroting-kop">
                 <div class="wr-paneel__kop">
                     <h3 class="wr-paneel__titel" id="begroting-kop">Je posten</h3>
                     <p class="wr-micro">Blijft op dit apparaat</p>
                 </div>
+                <p class="vb-postendicht"><button class="wr-knop wr-knop--klein" type="button" data-vb-posten-dicht>Klaar met aanpassen</button></p>
 
                 <p class="wr-hulp wr-hulp--groot"><strong>We vullen bewust geen prijzen voor je in.</strong> Verbouwkosten verschillen te sterk per woning, regio en uitvoering om een bedrag te noemen dat we kunnen onderbouwen. Gebruik je eigen offertes; dat is ook wat je geldverstrekker wil zien. Wat we wel toevoegen: per post of die doorgaans uit het bouwdepot mag, afgeleid uit wat de 13 vergeleken geldverstrekkers zelf publiceren.</p>
 
@@ -1106,6 +1535,7 @@
     </footer>
 
     <script type="module" src="/src/verbouwen/pagina.js"></script>
+    <script type="module" src="/src/verbouwen/stappen.js"></script>
     <script type="module" src="/src/verbouwen/huis.js"></script>
 
     <script type="application/ld+json">

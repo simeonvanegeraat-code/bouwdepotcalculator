@@ -331,6 +331,11 @@ function initVerbouwen() {
 
         bouwSpecificatie(ingevuld, b, margePct, check);
         if (herstelGedaan) bewaar();
+        // Voor wat meekijkt met de uitkomst: de stappen vatten hiermee samen wat
+        // er is ingevuld (src/verbouwen/stappen.js). Dezelfde cijfers als het scherm.
+        document.dispatchEvent(new CustomEvent('verbouwen:berekend', {
+            detail: { begroting: b, posten: ingevuld.map(({ naam, bedrag, vast, cat }) => ({ naam, bedrag, vast, cat })), check, margePct },
+        }));
     }
 
     /** De waardetoets en de maandlast. Geeft null als de invoer niet klopt. */

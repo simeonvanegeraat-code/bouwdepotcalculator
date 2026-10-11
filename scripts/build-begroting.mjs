@@ -16,6 +16,7 @@
 import fs from 'fs';
 import path from 'path';
 import { headerHtml } from './build-header.mjs';
+import { stappenHtml, SAMENVATTING, CONTROLE, POSTENLIJST } from './verbouw-stappen.mjs';
 import { MODELLEN, geometrie, svgInhoud } from '../src/homepage/tekening.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -121,6 +122,8 @@ const html = `<!DOCTYPE html>
     <link rel="stylesheet" href="/src/styles/next/kop.css">
     <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
     <link rel="stylesheet" href="/src/styles/next/tekening.css">
+    <link rel="stylesheet" href="/src/styles/next/nieuwbouw.css">
+    <link rel="stylesheet" href="/src/styles/next/verbouwen.css">
 </head>
 <body class="ui wr">
     <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
@@ -128,12 +131,7 @@ const html = `<!DOCTYPE html>
 ${headerHtml('verbouwbegroting.html')}
 
     <main id="inhoud">
-        <div class="wr-wrap wr-kop wr-geen-print">
-            <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Verbouwen</span></nav>
-            <h1 id="reken-titel">Wat gaat je verbouwing kosten?</h1>
-            <p class="wr-lead">Begin met een bedrag en zie direct of het binnen de waarde van je woning past en wat het met je maandlast doet. Werk het daarna uit tot een verbouwbegroting per post, met wat uit het bouwdepot mag.</p>
-        </div>
-
+${stappenHtml(posten, { h1: 'Wat gaat je verbouwing kosten?', lead: 'Zet op een rij wat je gaat doen en wat het kost. Je ziet welk deel uit het bouwdepot mag, of het binnen de waarde van je woning past en wat het met je maandlast doet.' })}
         <!-- De pagina opent met de vraag die iedereen kan beantwoorden: ongeveer
              welk bedrag, en wat is de woning waard. Dat geeft meteen een
              uitkomst. De begroting per post staat eronder en neemt het bedrag
@@ -180,7 +178,7 @@ ${headerHtml('verbouwbegroting.html')}
                     </div>
                 </figure>
 
-                <form class="wr-paneel wr-invoer" novalidate onsubmit="return false">
+${SAMENVATTING}                <form class="wr-paneel wr-invoer" id="invoer" novalidate onsubmit="return false">
                     <div class="wr-paneel__kop">
                         <h2>Jouw gegevens</h2>
                         <p class="wr-micro">Blijft op dit apparaat</p>
@@ -214,25 +212,27 @@ ${veld('lr-buiten-depot', 'Waarvan losse spullen en inrichting', '0', 'Het deel 
                         <button class="wr-knop wr-knop--klein" id="lr-praktijkcase" type="button">Terug naar het voorbeeld</button>
                     </div>
                 </form>
-            </div>
+${CONTROLE}            </div>
         </div>
 
         <!-- De begroting per post. Volgorde in de HTML: posten, totaal. Op een
              telefoon begin je zo bij de velden en houdt de balk onderaan het
              totaal in beeld; op een breed scherm staat het totaal rechts naast
              de posten. De optelling gebeurt in src/js/begrotingrekenen.js. -->
-        <div class="wr-wrap wr-sectie wr-sectie--strak wr-geen-print">
-            <p class="ui-opschrift">Stap twee, als je offertes hebt</p>
+        <div class="wr-wrap wr-sectie wr-sectie--strak wr-geen-print vb-begrotingkop">
+            <p class="ui-opschrift">Begroting per post</p>
             <h2>Maak er een begroting van</h2>
             <p class="wr-lead">Zet je offertes op een rij en zie welk deel uit het bouwdepot mag en welk deel je zelf betaalt. Het totaal gaat mee naar de berekening hierboven.</p>
         </div>
         <div class="wr-wrap wr-werk wr-werk--lang wr-geen-print" id="begroting">
 
-            <section class="wr-paneel wr-invoer" aria-labelledby="begroting-kop">
+${POSTENLIJST}
+            <section class="wr-paneel wr-invoer" id="begroting-posten" aria-labelledby="begroting-kop">
                 <div class="wr-paneel__kop">
                     <h3 class="wr-paneel__titel" id="begroting-kop">Je posten</h3>
                     <p class="wr-micro">Blijft op dit apparaat</p>
                 </div>
+                <p class="vb-postendicht"><button class="wr-knop wr-knop--klein" type="button" data-vb-posten-dicht>Klaar met aanpassen</button></p>
 
                 <p class="wr-hulp wr-hulp--groot"><strong>We vullen bewust geen prijzen voor je in.</strong> Verbouwkosten verschillen te sterk per woning, regio en uitvoering om een bedrag te noemen dat we kunnen onderbouwen. Gebruik je eigen offertes; dat is ook wat je geldverstrekker wil zien. Wat we wel toevoegen: per post of die doorgaans uit het bouwdepot mag, afgeleid uit wat de ${banken.aanbieders.length} vergeleken geldverstrekkers zelf publiceren.</p>
 
@@ -356,6 +356,7 @@ ${categorieen}
     </footer>
 
     <script type="module" src="/src/verbouwen/pagina.js"></script>
+    <script type="module" src="/src/verbouwen/stappen.js"></script>
     <script type="module" src="/src/verbouwen/huis.js"></script>
 
     <script type="application/ld+json">

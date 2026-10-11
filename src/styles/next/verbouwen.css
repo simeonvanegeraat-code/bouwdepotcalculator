@@ -1,0 +1,73 @@
+/*
+ * De verbouwroute in stappen: wat erbij komt bovenop nieuwbouw.css, dat de
+ * schermen, velden en knoppen levert (de toestand staat ook hier op de body,
+ * in data-nb). Alles hier begint met vb-.
+ *
+ * Let op de volgorde: in de gebouwde site kan dit bestand vóór werkruimte.css
+ * en nieuwbouw.css staan. Een regel die een klasse uit die bestanden op
+ * hetzelfde element moet overstemmen, noemt die klasse of de body mee.
+ */
+
+/* Tijdens het invullen is de rekentool weg: één ding tegelijk. */
+body[data-nb]:not([data-nb="klaar"]) :is(#leenruimte, .vb-begrotingkop) { display: none; }
+
+/* --- De doorsnede van het huis naast de vragen --- */
+.nb-bouw.vb-huis svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.vb-h-gras { fill: var(--ui-sage-licht); }
+.vb-h-muur { fill: none; stroke: var(--ui-ink); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
+.vb-h-muur--dun { stroke-width: 1.5; }
+.vb-h-dak { fill: var(--ui-forest-diep); stroke: var(--ui-forest-diep); stroke-width: 3; stroke-linejoin: round; }
+/* Een kamer is leeg tot het onderdeel is aangevinkt; dan kleurt hij en komt de inrichting erin. */
+.vb-h-kamer { fill: var(--ui-surface); transition: fill 0.4s ease; }
+.vb-h-nieuw { opacity: 0; stroke: var(--ui-ink); stroke-width: 3; transition: opacity 0.4s ease, fill 0.4s ease; }
+.vb-h-detail { fill: var(--ui-forest); opacity: 0; transform: translateY(8px); transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.3, 1.4, 0.5, 1); }
+.vb-h-accent { fill: var(--ui-champagne); }
+.vb-h-groen { fill: var(--ui-sage); }
+.vb-h-wit { fill: var(--ui-surface); stroke: var(--ui-ink); stroke-width: 1.5; }
+.vb-h-lijn { fill: none; stroke: var(--ui-ink); stroke-width: 1.5; }
+.vb-zone { transition: opacity 0.35s ease; }
+.vb-zone.is-aan .vb-h-kamer { fill: #EEF3EF; }
+.vb-zone.is-aan .vb-h-nieuw { opacity: 1; fill: #F6EEDF; }
+.vb-zone.is-aan .vb-h-detail { opacity: 1; transform: none; }
+/* Op het startscherm staat alles er vaag: zo ziet het huis er niet leeg uit. */
+body[data-nb="start"] .vb-zone .vb-h-detail { opacity: 0.3; transform: none; }
+body[data-nb="start"] .vb-zone .vb-h-nieuw { opacity: 0.3; }
+/* Bij de bedragen van één onderdeel treedt de rest terug. */
+.vb-huis.heeft-nu .vb-zone.is-aan:not(.is-nu) { opacity: 0.4; }
+
+/* --- Wat ga je doen: tegels --- */
+.nb-keuze.vb-tegels { max-width: 36rem; gap: 0.6rem; }
+.vb-tegels legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.vb-tegels input:checked + span { background: #F4F8F5; }
+
+/* --- De bedragen per onderdeel: aanvinken, dan pas een veld --- */
+.vb-posten { display: grid; gap: 0.5rem; max-width: 36rem; }
+.vb-post { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0.5rem 0.75rem; padding: 0.55rem 0.9rem; background: var(--ui-surface); border: 1px solid var(--ui-line); border-radius: 0.6rem; }
+.vb-post.is-gekozen { border-color: var(--ui-forest); }
+.vb-post__kies { display: flex; align-items: center; gap: 0.7rem; min-height: 2.5rem; cursor: pointer; }
+.vb-post__kies input { width: 1.15rem; height: 1.15rem; flex: none; accent-color: var(--ui-forest); }
+.vb-post__bedrag { grid-column: 1 / -1; padding: 0 0 0.35rem 1.85rem; }
+.vb-post__bedrag[hidden] { display: none; }
+.vb-post__bedrag .wr-veld__in { max-width: 14rem; min-height: 2.75rem; }
+.vb-post__bedrag .wr-veld__in input { font-size: 1.125rem; }
+
+/* --- Voortgang: een balk, want het aantal schermen hangt af van wat je kiest --- */
+.vb-voortgang { display: none; height: 0.25rem; margin-top: 2rem; max-width: 16rem; border-radius: 1rem; background: var(--ui-line); overflow: hidden; }
+body[data-nb]:not([data-nb="start"]):not([data-nb="klaar"]) .vb-voortgang { display: block; }
+.vb-voortgang i { display: block; height: 100%; width: 0; border-radius: 1rem; background: var(--ui-forest); transition: width 0.4s ease; }
+
+/* --- Op het overzicht: de posten als lijst, de lange lijst op verzoek --- */
+.vb-lijst, .vb-postendicht { display: none; }
+body[data-nb="klaar"]:not(.vb-posten-open) .vb-lijst { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; align-content: start; align-self: start; }
+body[data-nb="klaar"]:not(.vb-posten-open) #begroting-posten { display: none; }
+body[data-nb="klaar"] .vb-postendicht { display: block; }
+@media (min-width: 960px) { body[data-nb="klaar"] .vb-lijst { grid-area: invoer; } }
+.vb-lijst .wr-paneel__kop { margin-bottom: 0; }
+.vb-lijst__posten { column-gap: 0; row-gap: 0.5rem; }
+.vb-lijst__posten dt { color: var(--ui-ink); }
+.vb-lijst__posten dd { font-weight: 500; padding-left: 1rem; }
+.vb-lijst__posten .wr-merkje { margin-left: 0.25rem; }
+
+@media (prefers-reduced-motion: reduce) {
+    .vb-h-kamer, .vb-h-nieuw, .vb-h-detail, .vb-zone, .vb-voortgang i { transition: none; }
+}

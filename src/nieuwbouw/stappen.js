@@ -12,6 +12,7 @@
  */
 
 import { koppelBedragveld, koppelPercentageveld, leesGetal, leesPercentage, toonGetal, euro } from '../js/getallen.js';
+import { maakSchermwissel } from '../js/schermwissel.js';
 import { maakSchemascherm } from './schemascherm.js';
 import { SLEUTEL, STANDAARD, STAPPEN, bewaarTekst, controleerStap, eersteOpenStap, leesBewaard, naarAdres, uitAdres } from './stappenlogica.js';
 
@@ -244,36 +245,16 @@ function start() {
 
     /* ------------------------------ de schermen ------------------------------ */
 
-    const kop = el('reken-titel');
-    kop.tabIndex = -1;
-
-    function toon(naar, { direct = false } = {}) {
-        stand = String(naar);
-        const wissel = () => {
-            lichaam.dataset.nb = stand;
-            for (const f of wortel.querySelectorAll('form[data-scherm]')) f.hidden = f.dataset.scherm !== stand;
-            // Het schemascherm heeft geen bouwplaats; die blijft staan waar hij stond.
-            if (stand in KRAANSTAND) bouwplaats?.zetVoortgang(KRAANSTAND[stand], stil || direct);
-        };
-        // De focus gaat mee: naar het eerste veld van de stap, of naar de kop.
-        const focus = () => {
-            const scherm = wortel.querySelector(`form[data-scherm="${stand}"]`);
-            (scherm?.querySelector('input:not([type=radio]):not([type=range])') ?? kop).focus({ preventScroll: true });
-            scrollTo({ top: 0, behavior: stil ? 'auto' : 'smooth' });
-        };
-        if (direct) { wissel(); return; }
-        if (stand in KRAANSTAND && stand !== 'klaar') laadBouwplaats();
-        // Met een overgang wisselt de browser het scherm een beeld later; pas dan
-        // staat het veld er om de focus te krijgen.
-        if (document.startViewTransition && !stil) {
-            const overgang = document.startViewTransition(wissel);
-            overgang.updateCallbackDone.then(focus, focus);
-            // Breekt de browser de overgang af (tabblad op de achtergrond, of een
-            // tweede klik), dan is het scherm toch gewisseld; geen fout om te melden.
-            overgang.ready.catch(() => {});
-            overgang.finished.catch(() => {});
-        } else { wissel(); focus(); }
-    }
+    // Het wisselen zelf is gedeeld met de verbouwroute (src/js/schermwissel.js);
+    // hier hangt alleen de bouwplaats eraan. Het schemascherm heeft er geen:
+    // daar blijft hij staan waar hij stond.
+    const { toon } = maakSchermwissel({
+        wortel,
+        kop: el('reken-titel'),
+        opStand: (s) => { stand = s; },
+        voorWissel: (s) => { if (s in KRAANSTAND && s !== 'klaar') laadBouwplaats(); },
+        inWissel: (s, zonderBeweging) => { if (s in KRAANSTAND) bouwplaats?.zetVoortgang(KRAANSTAND[s], zonderBeweging); },
+    });
 
     for (const formulier of wortel.querySelectorAll('form[data-scherm]:not([data-scherm="schema"])')) {
         formulier.addEventListener('submit', (e) => {
