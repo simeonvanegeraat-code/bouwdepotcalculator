@@ -1,9 +1,9 @@
 /*
  * Tokens en basis van de nieuwe vormgeving (namespace --ui-*).
  *
- * Staat los van broadsheet.css (--bs-*). Alleen pagina's die al zijn omgezet
- * laden dit bestand; op dit moment is dat de homepage. Een pagina laadt óf
- * broadsheet.css óf dit bestand, nooit allebei: beide zetten een eigen reset.
+ * Elke pagina laadt dit bestand als eerste; het zet de reset, de kleuren en de
+ * letters. De kop van de site houdt zijn bs-klassen (scripts/build-header.mjs)
+ * en wordt opgemaakt in kop.css.
  */
 
 :root {

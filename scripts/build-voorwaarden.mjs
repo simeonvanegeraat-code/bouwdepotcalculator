@@ -321,7 +321,6 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema, script 
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
     <link rel="stylesheet" href="/src/styles/next/tokens.css">
     <link rel="stylesheet" href="/src/styles/next/kop.css">
     <link rel="stylesheet" href="/src/styles/next/werkruimte.css">

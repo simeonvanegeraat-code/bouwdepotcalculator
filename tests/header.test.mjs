@@ -79,7 +79,7 @@ test('het paneel valt terug op een echte link zonder popover-ondersteuning', () 
     assert.ok(h.includes(`class="bs-kop__terugval" href="${NAV.rekenhulpen.terugval}"`),
         'de terugvallink ontbreekt; zonder popover is de navigatie dan weg');
 
-    const css = fs.readFileSync(path.join(ROOT, 'src/styles/broadsheet.css'), 'utf8');
+    const css = fs.readFileSync(path.join(ROOT, 'src/styles/next/kop.css'), 'utf8');
     assert.ok(css.includes('@supports selector(:popover-open)'),
         'de CSS schakelt de knop niet in achter een @supports-test');
     assert.match(css, /\.bs-paneel\s*\{[^}]*display:\s*none/,

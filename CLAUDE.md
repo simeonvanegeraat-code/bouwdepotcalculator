@@ -1,8 +1,8 @@
 # CLAUDE.md — BouwdepotCalculator.nl
 
-**Versie:** 2.0 — herontwikkelingsmodus  
-**Datum:** 9 oktober 2026  
-**Status:** Voorstel ter goedkeuring van de eigenaar.  
+**Versie:** 2.1 — na de herbouw  
+**Datum:** 11 oktober 2026  
+**Status:** Alle pagina's staan live in de nieuwe vormgeving. De werkafspraken hieronder blijven gelden; wat nog open staat, staat in sectie 4.  
 **Repository:** `simeonvanegeraat-code/bouwdepotcalculator`  
 **Productie:** https://www.bouwdepotcalculator.nl/
 
@@ -62,21 +62,22 @@ Lees bij aanvang de noodzakelijke documentatie in onderstaande volgorde:
 - Transparant onderscheid tussen bruto/netto, lasten/kosten, hypotheek/depot, aannames/feiten.
 - Geen visuele drukte, onnodige gamification of massaal herhaalde kaartjes.
 
-**De huidige `broadsheet.css` is een bestaande implementatie, géén ontwerpdoel.** Je mag nieuwe, herbruikbare tokens en componenten bouwen. Verwijder of vervang de oude stijl pas gecontroleerd, wanneer de nieuwe ervaring geaccepteerd is en kritieke pagina's correct blijven werken.
+**De oude broadsheet-stijl is weg.** `broadsheet.css` en de oude paginascripts zijn op 11 oktober 2026 verwijderd; alle pagina's gebruiken `src/styles/next/`. Bouw nieuwe onderdelen met de bestaande tokens en componenten, en voeg alleen een nieuwe toe als een bestaande niet past.
 
-## 4. Eerste opdracht: audit, niet implementeren
+## 4. Stand van zaken en wat nog open staat
 
-Begin met **mijlpaal 0 in `ROADMAP.md`**. Verander in deze fase geen gebruikersgerichte sitecode.
+De audit (mijlpaal 0), de homepage en de omzetting van alle pagina's zijn gedaan en staan live. Elke rekenpagina heeft een eigen rekenkern in `src/domain/` met handberekende tests.
 
-1. Inspecteer de Git-branch, de werkboom, package scripts en deploymentconfiguratie.
-2. Inventariseer alle HTML-routes, zoekkritieke pagina's, JavaScript-modules, rekencores, localStorage-gebruik, CSS, bronnen, scripts, generators en tests.
-3. Controleer welke documentatie en paden verouderd zijn; maak een lijst met concrete conflicten.
-4. Leg de huidige run/build/test-uitkomsten vast. Rapporteer mislukkingen zonder ze stil te repareren of te verbergen.
-5. Noteer ontbrekende metingen: Search Console-export, gebruikersgedrag, performance en AdSense-status. Verzin geen waarden.
-6. Maak een feature-gapmatrix: **bestaat en bruikbaar / bestaat maar herzien / ontbreekt**.
-7. Maak een voorstel voor een kleine, veilige pilot op een nieuwe ontwikkelbranch.
+Wat bij de omzetting is gemeld en nog niet is opgepakt:
 
-**Oplevering:** een beknopte audit met bestandspaden, risico's, uitgevoerde commando's, testresultaten, en een voorstel voor mijlpaal 1. **Stop daarna voor beoordeling.**
+1. **Niet getest:** afdrukken, toetsenbordbediening, Safari, een echte telefoon en 1440 px.
+2. **Samenhang:** voettekst, kruimelpaden en vervolglinks zijn per pagina gemaakt en nog niet gelijkgetrokken.
+3. **Privacy:** nagaan of de privacypagina alle lokale opslag noemt (bankkeuze, begroting, leenruimte, planner) en of de bewaartermijn klopt.
+4. **Aanspreekvorm in de data:** `data/bouwdepot-voorwaarden.json` zegt nog "u"; de generatoren zetten dat om met `scripts/aanspreekvorm.mjs`. Staat de dataset zelf op "je", dan kan die omzetting weg.
+5. **Bankdata:** de controledatums per aanbieder lopen af; zie de uitvoer van `scripts/build-voorwaarden.mjs`.
+6. **Meting:** niet nagegaan of Vercel Analytics live meet; Search Console- en AdSense-gegevens ontbreken.
+
+Verzin bij deze punten geen waarden en rapporteer mislukkingen zonder ze stil te repareren of te verbergen.
 
 ## 5. Grote mijlpalen: wat mag autonoom en wanneer stoppen?
 
@@ -112,7 +113,12 @@ De huidige applicatie is een **statische Vite multi-page site** met afzonderlijk
 - Scheid financiële rekenlogica, datalaag, grafieken en presentatielaag.
 - Hergebruik bestaande geteste functies waar ze correct zijn; verbeter isolatie voordat je grote veranderingen maakt.
 - Pas gegenereerde bestanden niet met de hand aan; inspecteer eerst het generatiescript en de inputbron.
-- Controleer bijvoorbeeld de bestaande `data/bouwdepot-voorwaarden.json`, de generatiepijplijn, `vite.config.js`, `src/styles/broadsheet.css`, `src/js/` en `tests/` — **werkelijke paden eerst verifiëren**.
+- Zo zit de code in elkaar — **werkelijke paden eerst verifiëren**:
+  - `src/domain/`: de rekenkernen, pure functies zonder DOM, elk met een test in `tests/domein-*.test.mjs`.
+  - `src/<pagina>/pagina.js`: de schermcode per rekenpagina; `src/js/` bevat wat pagina's delen (invoer lezen, bankkeuze, rapport, gedeeld formuliergeheugen).
+  - `src/styles/next/`: `tokens.css`, `kop.css`, `werkruimte.css` (rekenpagina's, `wr-*`), `uitleg.css` (tekstpagina's, `ul-*`), `homepage.css` (`hp-*`).
+  - `data/bouwdepot-voorwaarden.json` is de bron voor de vergelijking, de aanbiederpagina's, de declaratiegids en `src/js/bankdata.generated.js`; de generatoren staan in `scripts/` en draaien mee in `npm run build`.
+  - De kop van de site komt uit `scripts/build-header.mjs` en is op elke pagina gelijk (`tests/header.test.mjs`).
 - Voeg dependencies alleen toe na uitleg van nut, bundle-impact, onderhoud en fallback.
 - Nieuwe 3D-code laad je alleen waar nodig, met een lichte statische fallback en `prefers-reduced-motion`.
 - Geen login, backend-gebruikersdatabase of betalingen toevoegen zonder apart productbesluit.
@@ -162,7 +168,7 @@ Controleer ten minste:
 - Geen geknipte bedragen, horizontaal scrollende pagina of beweging die een actie blokkeert.
 - Performance via meetbare metrics in plaats van visueel gevoel; rapporteer meetomgeving en eventuele beperkingen.
 
-**Designreview:** een nieuw concept is niet klaar omdat de CSS anders is. Het moet aantoonbaar een andere hiërarchie, compositie, route-ervaring en productpresentatie geven dan de vorige broadsheet-website.
+**Designreview:** een nieuw concept is niet klaar omdat de CSS anders is. Het moet aantoonbaar een andere hiërarchie, compositie, route-ervaring en productpresentatie geven dan wat er al staat.
 
 ## 11. Tests en lokale commando's
 
@@ -199,10 +205,10 @@ Vermijd lange opsommingen van triviale wijzigingen. De review gaat over productk
 ## 13. Wat je niet meer moet doen
 
 - Niet op eigen initiatief de huidige homepage nogmaals minimaal restylen.
-- Niet blind oude broadsheet-regels volgen omdat ze in vorige plannen staan.
+- Niet blind regels uit oude plannen (`plannen/`, `review.md`, de historische roadmap) volgen; de oude broadsheet-stijl bestaat niet meer.
 - Niet de productvisie vernauwen tot een statische calculator met extra tekst.
 - Niet een grote refactor voorstellen zonder aantoonbaar bezoekers- of onderhoudsvoordeel.
-- Niet in één keer alle pagina's migreren voordat het nieuwe patroon is geaccepteerd.
+- Niet in één keer alle pagina's wijzigen voordat een nieuw patroon op één pagina is geaccepteerd.
 - Niet een luxe 3D-hero maken die mobiel trager of onbruikbaar wordt.
 - Niet alleen suggesties of wireframes leveren wanneer om een werkend prototype is gevraagd.
 - Niet ongevraagd verschillende financiële formules herschrijven om een grafiek te laten passen.
@@ -210,7 +216,7 @@ Vermijd lange opsommingen van triviale wijzigingen. De review gaat over productk
 
 ## 14. Startinstructie voor de eerstvolgende Claude Code-sessie
 
-> Lees `CLAUDE.md` en de zeven genoemde productdocumenten. Voer **uitsluitend mijlpaal 0 (audit en nulmeting)** uit volgens `ROADMAP.md`. Analyseer actuele code, bestaande rekenfuncties, tests, route- en SEO-risico's en verouderde documentatie. Voer passende bestaande tests en build uit als de omgeving dit toelaat. Lever een feature-gapmatrix en een voorstel voor drie **werkelijk verschillende** homepageconcepten om in mijlpaal 1 te ontwerpen. Wijzig geen gebruikersgerichte code, push niets en deploy niets. Stop na je audit voor mijn review.
+> Lees `CLAUDE.md`. Kijk met `git status` en `git log` waar het werk staat en draai `npm test`. Werk op `redesign/homepage-concepten` of een nieuwe branch, nooit direct op `main`. Pak op wat de eigenaar vraagt, of anders een punt uit sectie 4. Controleer wijzigingen in de browser op 375 px en rond 1100 px, rapporteer in het format van sectie 12 en vraag toestemming voordat je commit of live zet.
 
 ---
 
