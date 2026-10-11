@@ -157,6 +157,22 @@ De website informeert en rekent; hij geeft geen persoonlijke krediet- of product
 - Controleer toepasselijke Europese toestemmingsregels en Google's CMP-vereisten voordat advertenties operationeel worden ingezet.
 - Bezoekersgegevens worden niet zonder transparantie naar een eigen server gestuurd. Bekijk bestaand localStorage-gebruik voor je gedeelde state maakt.
 
+### Schrijfregels voor tekst op de site
+
+Bezoekers komen voor een rekentool en een overzicht dat ze kunnen bewaren, kopiëren of printen. Tekst is er om de uitkomst te begrijpen, niet om de pagina te vullen. Niet te veel en niet te weinig: elke alinea moet iets zeggen wat de bezoeker nodig heeft en nog niet wist.
+
+1. **Antwoord eerst, met een getal.** "Bij € 25.000 en 3,8% rente betaal je € 116 per maand", niet "de maandlast hangt af van rente en looptijd".
+2. **Eén keer zeggen.** Wat de berekening niet doet staat op één plek; het voorbehoud één keer per pagina.
+3. **Geen kop zonder nieuws.** Een sectie die het menu of een eerdere sectie herhaalt gaat weg.
+4. **Voorbeelden met bedragen uit de tool**, uitgerekend door de rekenkern en bewaakt door een test.
+5. **Kan de zin weg zonder dat de lezer iets mist? Dan gaat hij weg.**
+6. **Niet schrijven wat de bank of de Belastingdienst zelf beter uitlegt.** Verwijs ernaar.
+7. **Niet elke sectie dezelfde vorm.** Opschrift, kop, inleiding en drie blokken, pagina na pagina, leest als gegenereerd.
+8. **Vragen op de pagina zijn vragen waar mensen op zoeken** (zie `metingen/`), niet vragen die wij bedacht hebben.
+9. **Geen verzonnen ervaring of mening.** De site beschrijft en rekent.
+
+Wie een pagina aanraakt, telt de woorden voor en na. Langer worden mag alleen als er een rekenonderdeel of een antwoord bij komt.
+
 ## 10. Ontwerpkaders: visueel én meetbaar
 
 Bij UI-werk wordt **daadwerkelijk in de browser** gecontroleerd, mits browser-/previewmiddelen beschikbaar zijn. Als die niet beschikbaar zijn, rapporteer je dat en vraag je om een previewreview; claim geen uitgevoerde visuele controle.

@@ -467,6 +467,32 @@
             <p class="wr-voorbehoud">Bruto, zonder hypotheekrenteaftrek en zonder de kosten van je bestaande hypotheek. Wat je <a href="hypotheekrenteaftrek-gids.html">netto overhoudt</a> hangt af van je inkomen.</p>
         </section>
 
+        <!-- Deze vier vragen staan ook in de FAQPage-structured data onderaan, met
+             dezelfde tekst. De bedragen komen uit het standaardvoorbeeld van de
+             rekentool; tests/rekenpagina-tekst.test.mjs bewaakt beide. -->
+        <section class="wr-wrap wr-sectie" id="vragen" aria-labelledby="vragen-titel">
+            <p class="ui-opschrift">Kort antwoord</p>
+            <h2 id="vragen-titel">Vier vragen over de kosten</h2>
+            <div class="wr-kolommen wr-kolommen--twee">
+                <article>
+                    <h3>Wat kost een bouwdepot per maand?</h3>
+                    <p>Bij &euro;&nbsp;25.000 en 3,8% rente betaal je &euro;&nbsp;116 bruto per maand, dertig jaar lang. In totaal is dat &euro;&nbsp;16.936 aan rente. Voor andere bedragen en een andere rente kijk je in de <a href="#bedragen">tabel hierboven</a>.</p>
+                </article>
+                <article>
+                    <h3>Betaal je rente over geld dat nog in het depot staat?</h3>
+                    <p>Ja, vanaf de dag bij de notaris, over de hele lening. De meeste banken geven je een vergoeding terug over wat je nog niet hebt opgenomen. In het voorbeeld betaal je daardoor in de eerste maand van de verbouwing &euro;&nbsp;44 in plaats van &euro;&nbsp;116. Dat loopt op naarmate je meer opneemt, tot &euro;&nbsp;110 in de laatste maand.</p>
+                </article>
+                <article>
+                    <h3>Is een bouwdepot een extra lening?</h3>
+                    <p>Nee. Het is het deel van je hypotheek dat nog niet is uitbetaald. Wat aan het eind overblijft gaat bij de meeste banken van je lening af; je kunt het dan niet meer voor de verbouwing gebruiken.</p>
+                </article>
+                <article>
+                    <h3>Hoe lang is een bouwdepot geldig?</h3>
+                    <p>Bij een verbouwing 24 tot 42 maanden inclusief verlenging, afhankelijk van de geldverstrekker. Bij nieuwbouw is de termijn doorgaans langer. De <a href="depotplanner.html">depotplanner</a> rekent uit wanneer het jouwe afloopt.</p>
+                </article>
+            </div>
+        </section>
+
         <section class="wr-wrap wr-sectie" aria-labelledby="aannames-kop">
             <p class="ui-opschrift">Uitgangspunten</p>
             <h2 id="aannames-kop">Waarmee deze berekening wel en niet rekent</h2>
@@ -489,55 +515,13 @@
                 <div>
                     <h3>Dit zit er niet in</h3>
                     <ul class="wr-lijst">
-                        <li>Hypotheekrenteaftrek: die hangt van je inkomen af. Zie de <a href="hypotheekrenteaftrek-gids.html">belastingcalculator</a>.</li>
+                        <li>Hypotheekrenteaftrek. Alle bedragen zijn bruto; wat je netto betaalt hangt van je inkomen af.</li>
                         <li>Een hypotheek die al loopt. Die betaal je gewoon door; het depot komt erbovenop.</li>
                         <li>Het moment waarop jouw aanbieder stopt met vergoeden, of het depot sluit.</li>
-                        <li>Of je het bedrag kunt lenen: deze berekening kent je inkomen, verplichtingen en taxatie niet. Zie <a href="verbouwbegroting.html#leenruimte">leenruimte</a>.</li>
+                        <li>Of je het bedrag kunt lenen. De berekening kent je inkomen en de taxatie niet.</li>
                         <li>Meerdere leningdelen, renteherziening en extra aflossingen.</li>
                     </ul>
                 </div>
-            </div>
-        </section>
-
-        <section class="wr-wrap wr-sectie" id="uitleg">
-            <p class="ui-opschrift">Kort uitgelegd</p>
-            <h2>Hoe deze berekening werkt</h2>
-            <div class="wr-kolommen">
-                <article>
-                    <h3>Bruto en netto</h3>
-                    <p>Bruto is je maandlast zonder fiscaal voordeel. Netto is wat je overhoudt nadat mogelijk belastingvoordeel op de rente is verrekend. Dat hangt af van je inkomen en je WOZ-waarde; daarvoor gebruik je de <a href="hypotheekrenteaftrek-gids.html">belastingcalculator</a>.</p>
-                </article>
-                <article>
-                    <h3>Annu&iuml;teiten of lineair</h3>
-                    <p>Bij annu&iuml;teiten blijft de maandlast gelijk en verschuift alleen de verhouding tussen rente en aflossing. Bij lineair los je elke maand hetzelfde bedrag af, waardoor de eerste maand het hoogst is en de last daarna daalt.</p>
-                </article>
-                <article>
-                    <h3>Wat hier niet in zit</h3>
-                    <p>Deze berekening kent je inkomen, verplichtingen en taxatie niet, en zegt dus niets over acceptatie. Gebruik de uitkomst als voorbereiding op een gesprek, niet als toezegging. Lees de <a href="methodologie.html">methodologie en beperkingen</a>.</p>
-                </article>
-            </div>
-        </section>
-
-        <section class="wr-wrap wr-sectie" id="depotfase">
-            <p class="ui-opschrift">Tijdens de bouw</p>
-            <h2>Waarom deze maandlast anders is dan je definitieve last</h2>
-            <div class="wr-kolommen">
-                <article>
-                    <h3>Je betaalt over alles, je ontvangt over een deel</h3>
-                    <p>Vanaf het passeren van de akte betaal je hypotheekrente over de volledige lening, ook over het deel dat nog in het depot staat. Daar staat bij de meeste aanbieders een vergoeding tegenover over het saldo dat je nog niet hebt opgenomen. Het verschil is wat je werkelijk kwijt bent.</p>
-                </article>
-                <article>
-                    <h3>Het opnamepatroon bepaalt de uitkomst</h3>
-                    <p>Hoe sneller je opneemt, hoe sneller het vergoede saldo daalt en hoe hoger je last. Vroege betalingen zijn soms onvermijdelijk; het doel van deze berekening is inzicht, niet zo lang mogelijk wachten met betalen.</p>
-                </article>
-                <article>
-                    <h3>Niet elke aanbieder vergoedt rente</h3>
-                    <p>E&eacute;n van de dertien vergeleken geldverstrekkers betaalt geen depotvergoeding, maar rekent ook geen hypotheekrente over wat nog in depot staat. Per saldo komt dat op hetzelfde neer als een vergoeding gelijk aan je hypotheekrente. Zie de <a href="bouwdepot-voorwaarden-vergelijken.html">voorwaardenvergelijking</a>.</p>
-                </article>
-                <article>
-                    <h3>Dit is geen netto bedrag</h3>
-                    <p>De uitkomst is je last n&aacute; depotvergoeding, maar v&oacute;&oacute;r belasting. Er is geen hypotheekrenteaftrek in verwerkt, omdat die van je inkomen en fiscale situatie afhangt. Gebruik daarvoor de <a href="hypotheekrenteaftrek-gids.html">belastingcalculator</a>.</p>
-                </article>
             </div>
         </section>
 
@@ -547,7 +531,7 @@
         <section class="wr-wrap wr-sectie">
             <p class="ui-opschrift">Eigen onderzoek</p>
             <h2>Wat je bank vergoedt, verschilt sterk</h2>
-            <p class="wr-lead" style="margin-bottom:1.75rem">De depotvergoeding waarmee je hierboven rekent is geen vast gegeven. Wij zochten de voorwaarden van dertien geldverstrekkers op bij de bron.</p>
+            <p class="wr-lead" style="margin-bottom:1.75rem">De depotvergoeding waarmee je hierboven rekent verschilt per bank. De voorwaarden van dertien geldverstrekkers zijn opgezocht bij de bron.</p>
             <div class="wr-kern">
                 <div>
                     <p class="wr-kern__cijfer tnum">12<span class="kern__van">/13</span></p>
@@ -567,71 +551,25 @@
             </div>
             <p class="wr-knoppen" style="margin-top:1.75rem">
                 <a class="wr-knop" href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de vergelijking</a>
-                <a class="wr-knop" href="methodologie.html">Onze werkwijze</a>
+                <a class="wr-knop" href="methodologie.html">De werkwijze</a>
             </p>
-        </section>
-
-        <!-- Deze drie vragen staan ook in de FAQPage-structured data onderaan.
-             Tekst en markup horen gelijk te blijven; wijzig je hier iets, wijzig
-             het dan ook daar. Markup zonder zichtbare tegenhanger merkt Google
-             als misleidend aan. -->
-        <section class="wr-wrap wr-sectie" id="vragen" aria-labelledby="vragen-titel">
-            <p class="ui-opschrift">Veelgesteld</p>
-            <h2 id="vragen-titel">Vragen over het bouwdepot</h2>
-            <div class="wr-kolommen">
-                <article>
-                    <h3>Wat kun je betalen uit een bouwdepot?</h3>
-                    <p>Doorgaans alleen kosten voor verbetering en onderhoud van de eigen woning, zoals vaste bouwkundige onderdelen. Wat precies is toegestaan verschilt per geldverstrekker. Bekijk de <a href="bouwdepot-voorwaarden-vergelijken.html">voorwaarden per bank</a>.</p>
-                </article>
-                <article>
-                    <h3>Hoe lang is een bouwdepot geldig?</h3>
-                    <p>Bij een verbouwing loopt dat van 24 tot 42 maanden inclusief verlenging, afhankelijk van de geldverstrekker. Bij nieuwbouw is de termijn doorgaans langer. Met de <a href="depotplanner.html">depotplanner</a> zie je wanneer het jouwe afloopt.</p>
-                </article>
-                <article>
-                    <h3>Wat bepaalt de netto maandlast?</h3>
-                    <p>De netto maandlast hangt af van rente, looptijd, hypotheekvorm en het fiscale voordeel in je persoonlijke situatie.</p>
-                </article>
-            </div>
         </section>
 
         <section class="wr-wrap wr-sectie">
             <p class="ui-opschrift">Verder rekenen</p>
-            <h2>Voor elke vraag een eigen berekening</h2>
+            <h2>Wat je hierna kunt uitrekenen</h2>
             <div class="wr-register">
-                <a href="verbouwbegroting.html"><strong>Verbouwbegroting</strong><span>Post voor post wat je verbouwing kost, en welk deel daarvan uit het depot mag.</span></a>
-                <a href="verbouwbegroting.html#leenruimte"><strong>Leenruimte</strong><span>Je waarderuimte en eigen geld getoetst tegen de woningwaarde na verbouwing.</span></a>
-                <a href="bouwdepot-berekenen.html#tijdens-de-bouw"><strong>Maandlasten in de depotfase</strong><span>Rente over de hele lening, min de vergoeding over het deel dat nog in depot staat.</span></a>
-                <a href="nieuwbouw.html"><strong>Nieuwbouwplanning</strong><span>Bouwtermijnen, dubbele lasten en de maand waarin het het zwaarst drukt.</span></a>
-                <a href="depotplanner.html"><strong>Depotplanner</strong><span>Houd bij wat er nog in het depot zit en wanneer de vergoeding stopt.</span></a>
-                <a href="renteverlies-bouwdepot.html"><strong>Renteverlies</strong><span>Wat het kost als de vergoeding lager is dan je rente, of eerder stopt dan je depot.</span></a>
-                <a href="hypotheekrenteaftrek-gids.html"><strong>Belastingvoordeel</strong><span>Wat de hypotheekrenteaftrek doet met je netto last, met de regels van 2026.</span></a>
-                <a href="stappenplan.html"><strong>Naar de uitleg</strong><span>Van plan naar declaratie: welke stukken je nodig hebt en in welke volgorde.</span></a>
-            </div>
-        </section>
-
-        <section class="wr-wrap wr-sectie">
-            <p class="ui-opschrift">Onafhankelijk</p>
-            <h2>Wij verkopen niets en sturen je nergens heen</h2>
-            <div class="wr-kolommen">
-                <article>
-                    <h3>Geen doorverwijzing</h3>
-                    <p>Geen leadformulier, geen samenwerking met geldverstrekkers en geen gegevens die ergens heen gaan. Wij geven informatie, geen advies.</p>
-                </article>
-                <article>
-                    <h3>Elk cijfer heeft een bron</h3>
-                    <p>Elke voorwaarde komt van de offici&euml;le pagina van de aanbieder, met controledatum. Zie <a href="methodologie.html">onze werkwijze</a>. Klopt een gegeven niet meer? <a href="contact.html">Laat het weten</a>.</p>
-                </article>
-                <article>
-                    <h3>Rekenregels gecontroleerd</h3>
-                    <p>Bronnen: <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/tariefsaanpassing-eigen-woning" target="_blank" rel="noopener noreferrer nofollow">Belastingdienst</a> en <a href="https://www.rijksoverheid.nl/vraag-en-antwoord/huis-kopen/maximaal-bedrag-lenen-koopwoning" target="_blank" rel="noopener noreferrer nofollow">Rijksoverheid</a>. Rekenregels gecontroleerd op 21 juli 2026.</p>
-                </article>
+                <a href="hypotheekrenteaftrek-gids.html"><strong>Netto maandlast</strong><span>Wat de hypotheekrenteaftrek met deze bruto last doet, met je eigen inkomen.</span></a>
+                <a href="verbouwbegroting.html#leenruimte"><strong>Leenruimte</strong><span>Past het bedrag binnen de waarde van je woning na verbouwing?</span></a>
+                <a href="nieuwbouw.html"><strong>Nieuwbouw berekenen</strong><span>Je maandlast per maand over de hele bouw, met bouwtermijnen en dubbele lasten.</span></a>
+                <a href="renteverlies-bouwdepot.html"><strong>Renteverlies</strong><span>Wat het kost als je bank minder vergoedt dan je betaalt, of eerder stopt.</span></a>
             </div>
         </section>
 
         <div class="wr-wrap">
             <div class="wr-melding">
-                <p><strong>Indicatief hulpmiddel.</strong> Je werkelijke last hangt af van acceptatie, productvoorwaarden en je fiscale situatie. Deze berekening gebruikt een vaste rente en een gekozen opnamepatroon; werkelijke opnames, declaraties en bankvoorwaarden kunnen afwijken.</p>
-                <p>Lees de <a href="methodologie.html">methodologie en beperkingen</a>. Je invoer blijft op dit apparaat.</p>
+                <p><strong>Een indicatie, geen toezegging.</strong> De berekening rekent met een vaste rente en een gekozen opnamepatroon; je werkelijke last hangt af van je offerte, je bank en je belastingsituatie. Hoe er gerekend wordt staat in de <a href="methodologie.html">methodologie</a>.</p>
+                <p>Deze site verkoopt niets: geen leadformulier, geen samenwerking met geldverstrekkers, en je invoer blijft op dit apparaat. Rekenregels gecontroleerd op 21 juli 2026 bij de <a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/content/tariefsaanpassing-eigen-woning" target="_blank" rel="noopener noreferrer nofollow">Belastingdienst</a> en de <a href="https://www.rijksoverheid.nl/vraag-en-antwoord/huis-kopen/maximaal-bedrag-lenen-koopwoning" target="_blank" rel="noopener noreferrer nofollow">Rijksoverheid</a>. Klopt er iets niet? <a href="contact.html">Laat het weten</a>.</p>
             </div>
         </div>
     </main>
@@ -650,18 +588,35 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Wat kun je betalen uit een bouwdepot?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Doorgaans alleen kosten voor verbetering en onderhoud van de eigen woning, zoals vaste bouwkundige onderdelen. Wat precies is toegestaan verschilt per geldverstrekker." }
+          "name": "Wat kost een bouwdepot per maand?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Bij € 25.000 en 3,8% rente betaal je € 116 bruto per maand, dertig jaar lang. In totaal is dat € 16.936 aan rente. Voor andere bedragen en een andere rente kijk je in de tabel hierboven."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Betaal je rente over geld dat nog in het depot staat?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ja, vanaf de dag bij de notaris, over de hele lening. De meeste banken geven je een vergoeding terug over wat je nog niet hebt opgenomen. In het voorbeeld betaal je daardoor in de eerste maand van de verbouwing € 44 in plaats van € 116. Dat loopt op naarmate je meer opneemt, tot € 110 in de laatste maand."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is een bouwdepot een extra lening?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nee. Het is het deel van je hypotheek dat nog niet is uitbetaald. Wat aan het eind overblijft gaat bij de meeste banken van je lening af; je kunt het dan niet meer voor de verbouwing gebruiken."
+          }
         },
         {
           "@type": "Question",
           "name": "Hoe lang is een bouwdepot geldig?",
-          "acceptedAnswer": { "@type": "Answer", "text": "Bij een verbouwing loopt dat van 24 tot 42 maanden inclusief verlenging, afhankelijk van de geldverstrekker. Bij nieuwbouw is de termijn doorgaans langer." }
-        },
-        {
-          "@type": "Question",
-          "name": "Wat bepaalt de netto maandlast?",
-          "acceptedAnswer": { "@type": "Answer", "text": "De netto maandlast hangt af van rente, looptijd, hypotheekvorm en het fiscale voordeel in je persoonlijke situatie." }
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Bij een verbouwing 24 tot 42 maanden inclusief verlenging, afhankelijk van de geldverstrekker. Bij nieuwbouw is de termijn doorgaans langer. De depotplanner rekent uit wanneer het jouwe afloopt."
+          }
         }
       ]
     }

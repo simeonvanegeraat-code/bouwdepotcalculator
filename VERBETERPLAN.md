@@ -6,6 +6,21 @@
 
 Dit plan vervangt de volgorde in `ROADMAP.md` niet vanzelf. Die roadmap ging over de herbouw; dit plan gaat over wat daarna komt. Keurt de eigenaar dit plan goed, dan hoort de roadmap ernaar te verwijzen of te worden bijgewerkt, zodat er geen twee plannen naast elkaar bestaan.
 
+## Stand op 11 oktober 2026
+
+| Onderdeel | Stand |
+|---|---|
+| Fase 0: meten en beschermen | Gedaan. Nulmeting in `metingen/`, analytics uit, 404-pagina en aanbiederpagina's live. Loopt nog: de positie van de homepage volgen tot 25 oktober (0.3) |
+| 1.1 Homepage tegenover rekenpagina | Gedaan. De homepage scoort door domeinnaam en titel; die zijn gelijk gebleven |
+| 1.2 Eén pagina kiezen | Vervallen. Een voorstel om de rekensom hoger op de homepage te zetten is door de eigenaar afgewezen; de homepage blijft zoals hij is. Het voorstel blijft het noodplan als de positie zakt |
+| 1.3 Bedragentabel | Live, met renteschuif, keuze annuïtair of lineair en een knop voor de lasten tijdens de verbouwing |
+| 1.4 Antwoorden op gezochte vragen | Live. De tekst onder de rekentool is herschreven en korter (1.796 naar 1.472 woorden), met vier vragen waar mensen op zoeken |
+| 1.5 Oude maandlastenpagina | Onderzocht, geen actie. De pagina leverde vijf klikken in drie maanden |
+| Printoverzicht | Hersteld: het was op zes rekentools kapot sinds de ombouw |
+| Schrijfregels | Vastgelegd in `CLAUDE.md`, sectie 9 |
+
+**Nog niet begonnen:** fase 2 (nieuwbouw), fase 3 (leenruimte), fase 5 (bankdata), fase 6 (testen) en fase 7 (AdSense). Los daarvan: het overzicht kunnen bewaren en kopiëren naast printen, en de schrijfregels toepassen op de andere rekenpagina's.
+
 ## 1. Waar we staan
 
 | Gegeven | Stand |

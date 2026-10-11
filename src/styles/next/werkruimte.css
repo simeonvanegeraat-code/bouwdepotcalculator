@@ -330,6 +330,8 @@
     text-wrap: balance;
 }
 .wr-kolommen { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.5rem clamp(1.5rem, 4vw, 4rem); border-top: 1.5px solid var(--ui-ink); padding-top: 1.5rem; }
+/* Vier blokken: twee aan twee in plaats van drie en een. */
+@media (min-width: 760px) { .wr-kolommen--twee { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .wr-kolommen h3 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.35rem; }
 .wr-kolommen p { font-size: 0.9375rem; }
 .wr-kolommen a, .wr-lijst a, .wr-melding a { color: var(--ui-forest); text-underline-offset: 0.25em; }
