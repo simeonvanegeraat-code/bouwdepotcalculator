@@ -16,6 +16,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import { jij } from '../scripts/aanspreekvorm.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/bouwdepot-voorwaarden.json'), 'utf8'));
@@ -23,9 +24,13 @@ const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/bouwdepot-voorwaar
 const HUB = 'bouwdepot-voorwaarden-vergelijken.html';
 const lees = (bestand) => fs.readFileSync(path.join(ROOT, bestand), 'utf8');
 
-/** Zoals de generator escapet, zodat de vergelijking klopt. */
+/**
+ * Zoals de generator de tekst neerzet, zodat de vergelijking klopt: de dataset
+ * zegt "u", de pagina zegt "je" (scripts/aanspreekvorm.mjs), en daarna wordt er
+ * ge-escapet.
+ */
 const esc = (s) =>
-    String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    jij(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 /** Velden die op de vergelijkingspagina worden getoond. */
 const GETOOND_OP_HUB = ['rentevergoeding', 'maxPerOpname', 'restant'];

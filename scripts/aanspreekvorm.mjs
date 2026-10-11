@@ -20,6 +20,9 @@ const VAST = {
   heeft: 'heb', moet: 'moet', schiet: 'schiet', laat: 'laat', zet: 'zet', weet: 'weet',
   sluit: 'sluit', let: 'let', wacht: 'wacht', mag: 'mag', kan: 'kan', zal: 'zal', bent: 'ben',
   gaat: 'ga', staat: 'sta', doet: 'doe',
+  // Hier is "u" geen onderwerp maar lijdend voorwerp ("dat helpt u niet"), en
+  // houdt het werkwoord dus zijn t.
+  helpt: 'helpt',
 };
 
 const hoofdletter = (woord, zoals) => (zoals[0] === zoals[0].toUpperCase() ? woord[0].toUpperCase() + woord.slice(1) : woord);

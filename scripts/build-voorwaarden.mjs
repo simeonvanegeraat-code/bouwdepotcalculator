@@ -12,12 +12,20 @@
  * er te zien is, niet met een inleiding. Looptijden staan als balken op één
  * schaal, zodat je verschillen ziet in plaats van leest.
  *
+ * Vormgeving: de pagina's gebruiken de nieuwe stijl (src/styles/next) en zeggen
+ * "je". De teksten in de dataset en in dit script zijn met "u" geschreven; de
+ * functie pagina() haalt alle zichtbare tekst door jij() (scripts/aanspreekvorm.mjs).
+ * Nieuwe tekst in dit script mag dus in beide vormen staan, de uitvoer zegt "je".
+ * Elke aanbieder draagt data-bank, zodat src/uitleg/declaratie.js de gekozen
+ * geldverstrekker kan uitlichten.
+ *
  *   node scripts/build-voorwaarden.mjs
  */
 
 import fs from 'fs';
 import path from 'path';
 import { headerHtml } from './build-header.mjs';
+import { jij } from './aanspreekvorm.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/bouwdepot-voorwaarden.json'), 'utf8'));
@@ -33,8 +41,8 @@ const esc = (s) =>
 const NL_DATUM = new Intl.DateTimeFormat('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 const datum = (iso) => NL_DATUM.format(new Date(iso + 'T00:00:00Z'));
 
-const LEEG = '<span class="bs-leeg">niet gepubliceerd</span>';
-const NVT = '<span class="bs-leeg">niet van toepassing</span>';
+const LEEG = '<span class="ul-leeg">niet gepubliceerd</span>';
+const NVT = '<span class="ul-leeg">niet van toepassing</span>';
 
 /**
  * Een cel waarvan de waarde niet publiek is blijft expliciet leeg. Nooit schatten.
@@ -81,7 +89,7 @@ function isVerlopen(a) {
 
 function controle(a) {
   const v = isVerlopen(a);
-  return `<span class="bs-controle${v ? ' bs-controle--verlopen' : ''}">${
+  return `<span class="ul-controle${v ? ' ul-controle--verlopen' : ''}">${
     v ? 'controle openstaand &middot; ' : ''}gecontroleerd ${datum(a.gecontroleerd)}</span>`;
 }
 
@@ -214,8 +222,8 @@ function feit(label, veld, opties = {}) {
   const heeftWaarde = veld && (veld.waarde != null || veld.bedrag != null || veld.status);
   const inhoud = heeftWaarde ? waarde(veld) : LEEG;
   const detail = veld?.detail ? `<small>${esc(veld.detail)}</small>` : '';
-  return `                        <div class="bs-feit${opties.proza ? ' bs-feit--proza' : ''}"><dt>${esc(label)}</dt><dd${
-    opties.gedempt ? ' class="bs-leeg"' : ''
+  return `                        <div class="ul-feit${opties.proza ? ' ul-feit--proza' : ''}"><dt>${esc(label)}</dt><dd${
+    opties.gedempt ? ' class="ul-leeg"' : ''
   }>${inhoud}${detail}</dd></div>`;
 }
 
@@ -239,7 +247,7 @@ const SCHAAL = Math.max(
  */
 function balk(label, basis, extra, duurOnbekend = false) {
   if (typeof basis !== 'number') {
-    return `<div class="bs-balk"><span class="bs-balk__label">${label}</span><span class="bs-balk__spoor"></span><span class="bs-balk__waarde">${LEEG}</span></div>`;
+    return `<div class="ul-balk"><span class="ul-balk__label">${label}</span><span class="ul-balk__spoor"></span><span class="ul-balk__waarde">${LEEG}</span></div>`;
   }
 
   const heeftVerlenging = typeof extra === 'number' && extra > 0;
@@ -247,28 +255,35 @@ function balk(label, basis, extra, duurOnbekend = false) {
   const pctBasis = (basis / SCHAAL) * 100;
   const pctExtra = heeftVerlenging ? (extra / SCHAAL) * 100 : 0;
 
-  let segmenten = `<span class="bs-balk__vul" style="width:${pctBasis.toFixed(1)}%"></span>`;
+  let segmenten = `<span class="ul-balk__vul" style="width:${pctBasis.toFixed(1)}%"></span>`;
   if (heeftVerlenging) {
-    segmenten += `<span class="bs-balk__vul bs-balk__vul--verlenging" style="width:${pctExtra.toFixed(1)}%"></span>`;
+    segmenten += `<span class="ul-balk__vul ul-balk__vul--verlenging" style="width:${pctExtra.toFixed(1)}%"></span>`;
   } else if (duurOnbekend) {
     // Vaste, korte breedte: de duur is onbekend, dus de balk mag geen lengte suggereren.
-    segmenten += `<span class="bs-balk__vul bs-balk__vul--open" aria-hidden="true"></span>`;
+    segmenten += `<span class="ul-balk__vul ul-balk__vul--open" aria-hidden="true"></span>`;
   }
 
   const waarde = heeftVerlenging || !duurOnbekend
     ? `${som} mnd`
-    : `${basis} mnd <span class="bs-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span>`;
+    : `${basis} mnd <span class="ul-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span>`;
 
-  return `<div class="bs-balk">
-                            <span class="bs-balk__label">${label}</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel">${segmenten}</span></span>
-                            <span class="bs-balk__waarde">${waarde}</span>
+  return `<div class="ul-balk">
+                            <span class="ul-balk__label">${label}</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel">${segmenten}</span></span>
+                            <span class="ul-balk__waarde">${waarde}</span>
                         </div>`;
 }
 
 // ---------------------------------------------------------------- shell
 
-function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
+/** De zichtbare tekst tussen de tags naar "je"; de tags zelf blijven zoals ze zijn. */
+const jijTekst = (html) => html.replace(/>([^<]+)</g, (_, tekst) => `>${jij(tekst)}<`);
+
+const kruimelHtml = (kruimel) => `<nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a>${kruimel.map((k) => (k.href
+  ? ` <span aria-hidden="true">&middot;</span> <a href="${k.href}">${esc(k.naam)}</a>`
+  : ` <span aria-hidden="true">&middot;</span> <span>${esc(k.naam)}</span>`)).join('')}</nav>`;
+
+function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema, script }) {
   return `<!DOCTYPE html>
 <html lang="nl">
 <head>
@@ -295,7 +310,7 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -306,42 +321,31 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema }) {
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/uitleg.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
 ${headerHtml()}
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a>
-${kruimel.map((k) => (k.href
-    ? `        <span aria-hidden="true">&middot;</span> <a href="${k.href}">${esc(k.naam)}</a>`
-    : `        <span aria-hidden="true">&middot;</span> <span>${esc(k.naam)}</span>`)).join('\n')}
-    </nav>
+${jijTekst(inhoud.replace('%KRUIMEL%', kruimelHtml(kruimel)))}
 
-${inhoud}
-
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
-
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
-${schema}
+${script ? `\n    <script type="module" src="${script}"></script>\n` : ''}${schema}
 </body>
 </html>
 `;
 }
 
 /** Verplichte onafhankelijkheidsverklaring. Staat op elke gegenereerde pagina. */
-const DISCLAIMER = `                <aside class="bs-melding">
+const DISCLAIMER = `                <aside class="wr-melding">
                     <p><strong>Onafhankelijk en zonder samenwerking.</strong> Wij zijn niet verbonden aan, en werken niet samen met, de genoemde geldverstrekkers. Deze pagina vergelijkt gepubliceerde voorwaarden en bevat geen aanbeveling, rangorde of persoonlijk advies.</p>
                     <p>Voorwaarden verschillen per hypotheekvorm en kunnen in uw offerte afwijken. Elke aanbieder vermeldt de bron en de controledatum.</p>
                 </aside>`;
@@ -356,18 +360,18 @@ function bouwHub() {
   const items = data.aanbieders.map((a) => {
     const v = a.verlengingMaanden || {};
     const geenRente = /^geen/i.test(a.rentevergoeding?.waarde || '');
-    return `                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="${bestandsnaam(a)}">${esc(a.naam)}</a></h3>
+    return `                <article class="ul-vgl__item" id="${a.id}" data-bank="${a.id}">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="${bestandsnaam(a)}">${esc(a.naam)}</a></h3>
                         ${controle(a)}
                     </div>
 
-                    <div class="bs-balken">
+                    <div class="ul-balken">
 ${balk('Verbouwing', a.looptijdVerbouwMaanden, v.verbouw, v.mogelijkMaarDuurOnbekend)}
 ${balk('Nieuwbouw', a.looptijdNieuwbouwMaanden, v.nieuwbouw, v.mogelijkMaarDuurOnbekend)}
                     </div>
 
-                    <dl class="bs-feiten">
+                    <dl class="ul-feiten">
 ${feit('Vergoeding over depot', a.rentevergoeding, { gedempt: geenRente })}
 ${feit('Hoogte van die vergoeding', tariefVeld(a))}
 ${feit('Vergoeding loopt', vergoedingsduurVeld(a))}
@@ -380,56 +384,67 @@ ${feit('Verlengen regelen', verlengVeld(a))}
 ${feit('Grens per opname', a.maxPerOpname)}
 ${feit('Restant bij beëindiging', a.restant)}
                     </dl>
+                    <p class="ul-vgl__meer"><a href="${bestandsnaam(a)}">Alle voorwaarden van ${esc(a.naam)}<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>`;
   }).join('\n');
 
-  const inhoud = `    <main>
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <p class="bs-micro">Eigen onderzoek &middot; ${data.aanbieders.length} geldverstrekkers</p>
-                <h1 class="bs-reken__titel">Bouwdepot voorwaarden vergelijken</h1>
-                <p class="bs-reken__lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Hoe lang u de tijd krijgt, of u rente ontvangt en wat als bewijsstuk telt, verschilt per bank.</p>
+  const sprong = data.aanbieders
+    .map((a) => `                    <li><a href="#${a.id}">${esc(a.naam)}</a></li>`).join('\n');
 
-${bouwKerncijfers()}
-            </div>
+  const inhoud = `    <main>
+        <section class="wr-wrap wr-kop ul-kop" id="inhoud">
+            %KRUIMEL%
+            <h1>Bouwdepot voorwaarden vergelijken</h1>
+            <p class="wr-lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Hoe lang u de tijd krijgt, of u rente ontvangt en wat als bewijsstuk telt, verschilt per bank.</p>
+            <p class="ui-opschrift">Eigen onderzoek &middot; ${data.aanbieders.length} geldverstrekkers</p>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <h2 class="bs-titel">Alle aanbieders naast elkaar</h2>
-                    <p class="bs-reken__lead">De balken tonen de maximale looptijd inclusief verlenging, op dezelfde schaal. Het gearceerde deel is de verlenging.</p>
+        <section class="wr-wrap wr-sectie wr-sectie--vervolg">
+${bouwKerncijfers()}
+        </section>
 
-                <div class="bs-schaal" aria-hidden="true">
+        <section class="wr-wrap wr-sectie" id="aanbieders">
+                    <p class="ui-opschrift">De vergelijking</p>
+                    <h2>Alle aanbieders naast elkaar</h2>
+                    <p class="wr-lead ul-lead">De balken tonen de maximale looptijd inclusief verlenging, op dezelfde schaal. Het gearceerde deel is de verlenging.</p>
+
+                <!-- Wie zijn geldverstrekker kiest, ziet die bovenaan de lijst staan.
+                     Zonder keuze, of zonder JavaScript, staat alles er gewoon. -->
+                <div class="ul-kiezer ul-kiezer--los wr-geen-print" data-bankkeuze></div>
+
+                <nav class="ul-sprong wr-geen-print" aria-label="Direct naar een aanbieder">
+                    <ul>
+${sprong}
+                    </ul>
+                </nav>
+
+                <div class="ul-schaal" aria-hidden="true">
                     <span></span>
-                    <span class="bs-schaal__as"><span>0</span><span>${Math.round(SCHAAL / 2)} mnd</span><span>${SCHAAL} mnd</span></span>
+                    <span class="ul-schaal__as"><span>0</span><span>${Math.round(SCHAAL / 2)} mnd</span><span>${SCHAAL} mnd</span></span>
                 </div>
 
-                <div class="bs-legenda">
-                    <span class="bs-legenda__item"><span class="bs-legenda__staal bs-legenda__staal--basis"></span>Standaardlooptijd</span>
-                    <span class="bs-legenda__item"><span class="bs-legenda__staal bs-legenda__staal--verlenging"></span>Verlenging</span>
-                    <span class="bs-legenda__item"><span class="bs-legenda__staal bs-legenda__staal--open"></span>Verlenging mogelijk, duur niet gepubliceerd</span>
+                <div class="ul-legenda">
+                    <span><i class="ul-staal ul-staal--basis"></i>Standaardlooptijd</span>
+                    <span><i class="ul-staal ul-staal--verlenging"></i>Verlenging</span>
+                    <span><i class="ul-staal ul-staal--open"></i>Verlenging mogelijk, duur niet gepubliceerd</span>
                 </div>
 
-                <div class="bs-vgl">
+                <div class="ul-vgl" data-perbank>
 ${items}
                 </div>
 
-                <p class="bs-hulp">Klopt een gegeven niet meer? <a href="contact.html">Laat het weten</a> met een link naar de actuele voorwaarden.</p>
-            </div>
+                <p class="wr-voorbehoud">Klopt een gegeven niet meer? <a href="contact.html">Laat het weten</a> met een link naar de actuele voorwaarden.</p>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
+        <section class="wr-wrap">
 ${DISCLAIMER}
-            </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Waarom dit ertoe doet</p>
-                    <h2 class="bs-titel">Drie voorwaarden die uw verbouwing kunnen bepalen</h2>
+        <section class="wr-wrap wr-sectie ul-sectie--na-melding">
+                    <p class="ui-opschrift">Waarom dit ertoe doet</p>
+                    <h2>Drie voorwaarden die uw verbouwing kunnen bepalen</h2>
 
-                <div class="bs-kolommen">
+                <div class="wr-kolommen">
                     <article>
                         <h3>De looptijd is een harde grens</h3>
                         <p>Loopt uw verbouwing uit voorbij de depottermijn, dan wordt het restant meestal afgelost op uw hypotheek. Het geld is niet weg, maar u kunt het niet meer voor de verbouwing gebruiken zonder nieuwe financiering. Verlenging is bij de meeste aanbieders eenmalig en moet vóór de einddatum worden aangevraagd. De <a href="depotplanner.html">depotplanner</a> rekent die datums voor u uit vanaf uw passeerdatum.</p>
@@ -443,15 +458,13 @@ ${DISCLAIMER}
                         <p>Sommige aanbieders accepteren een kassabon, andere uitsluitend een factuur op naam met KvK- en btw-nummer. Offertes en pro-formafacturen worden vrijwel nergens geaccepteerd. Dat verschil bepaalt hoe u uw inkopen organiseert. Bekijk ook de <a href="stappenplan.html#fouten">veelgemaakte fouten bij declaraties</a>.</p>
                     </article>
                 </div>
-            </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Twee bewuste keuzes</p>
-                    <h2 class="bs-titel">Wat u hier niet vindt, en waarom</h2>
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Twee bewuste keuzes</p>
+                    <h2>Wat u hier niet vindt, en waarom</h2>
 
-                <div class="bs-kolommen">
+                <div class="wr-kolommen ul-kolommen--breed">
                     <article>
                         <h3>Geen rentepercentages, wel de rekenregel</h3>
                         <p>Wij publiceren geen hypotheekrentes. Een rente hangt af van de rentevastperiode, van de verhouding tussen uw lening en de woningwaarde en soms van het energielabel. Dat zijn tientallen waarden per aanbieder die wekelijks wijzigen, en een rente van twee dagen oud is simpelweg onjuist.</p>
@@ -463,19 +476,16 @@ ${DISCLAIMER}
                         <p>Wij vullen die gaten niet met een aanname. Ze staan hierboven als &quot;niet gepubliceerd&quot;, en dat is zelf het antwoord: <strong>u moet dit schriftelijk navragen en het antwoord bewaren</strong>. Een mondelinge toezegging helpt u niet als een declaratie later wordt afgewezen. De <a href="stappenplan.html#adviesgesprek">advieschecklist</a> heeft hier vragen voor staan.</p>
                     </article>
                 </div>
-            </div>
         </section>
 
-        <section class="bs-donker">
-            <div class="bs-wrap">
-                <p class="bs-micro">Verantwoording</p>
-                <h2 class="bs-titel">Hoe deze pagina tot stand komt</h2>
-                <div class="bs-proza">
+        <section class="wr-wrap wr-sectie ul-slot">
+                <p class="ui-opschrift">Verantwoording</p>
+                <h2>Hoe deze pagina tot stand komt</h2>
+                <div class="wr-proza">
                 <p>Elk gegeven komt uit de officiële, publiek toegankelijke voorwaarden van de betreffende aanbieder. De bron staat bij iedere aanbieder vermeld met de datum waarop die is geraadpleegd.</p>
                 <p>Waar een aanbieder iets niet publiceert, staat <em>niet gepubliceerd</em>. Er wordt niets geschat of afgeleid. Dat een aanbieder geen minimum declaratiebedrag noemt, is zelf bruikbare informatie.</p>
                 <p>Voorwaarden wijzigen. Deze pagina claimt daarom geen permanente actualiteit, maar vermeldt per aanbieder wanneer de gegevens voor het laatst zijn gecontroleerd. Lees ook de <a href="methodologie.html">volledige methodologie</a>.</p>
                 </div>
-            </div>
         </section>
     </main>`;
 
@@ -508,6 +518,7 @@ ${DISCLAIMER}
     kruimel: [{ naam: 'Voorwaarden vergelijken' }],
     inhoud,
     schema,
+    script: '/src/uitleg/declaratie.js',
   });
 }
 
@@ -549,11 +560,11 @@ function bouwKerncijfers() {
     });
   }
 
-  return `            <div class="bs-kern">
-${kaarten.map((k) => `                <div class="bs-kern__item">
-                    <p class="bs-kern__cijfer tnum">${k.cijfer}</p>
-                    <p class="bs-kern__eenheid">${k.eenheid}</p>
-                    <p class="bs-kern__tekst">${k.tekst}</p>
+  return `            <div class="wr-kern">
+${kaarten.map((k) => `                <div>
+                    <p class="wr-kern__cijfer tnum">${k.cijfer}</p>
+                    <p class="wr-kern__eenheid">${k.eenheid}</p>
+                    <p class="wr-kern__tekst">${k.tekst}</p>
                 </div>`).join('\n')}
             </div>`;
 }
@@ -621,63 +632,80 @@ function bouwAanbieder(a) {
   ].filter(Boolean).join('\n');
 
   const inhoud = `    <main>
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <p class="bs-micro">Gepubliceerde voorwaarden &middot; ${controle(a)}</p>
-                <h1 class="bs-reken__titel">Bouwdepot bij ${esc(a.naam)}</h1>
-                <p class="bs-reken__lead">Looptijd, verlenging, depotvergoeding, bewijsstukken en uitbetaling zoals ${esc(a.naam)} die zelf publiceert.</p>
+        <section class="wr-wrap wr-kop ul-kop" id="inhoud">
+            %KRUIMEL%
+            <h1>Bouwdepot bij ${esc(a.naam)}</h1>
+            <p class="wr-lead">Looptijd, verlenging, depotvergoeding, bewijsstukken en uitbetaling zoals ${esc(a.naam)} die zelf publiceert.</p>
+            <p class="ui-opschrift">Gepubliceerde voorwaarden &middot; ${controle(a)}</p>
+        </section>
 
-            <div class="bs-kern bs-kern--twee">
-                <div class="bs-kern__item">
-                    <p class="bs-kern__cijfer tnum">${tv ? tv.totaal : '&mdash;'}</p>
-                    <p class="bs-kern__eenheid">maanden voor een verbouwing</p>
-                    <p class="bs-kern__tekst">${tv && tv.zeker ? `${a.looptijdVerbouwMaanden} maanden standaard, plus ${v.verbouw} maanden verlenging.` : 'Verlenging niet gepubliceerd.'}</p>
+        <section class="wr-wrap wr-sectie wr-sectie--vervolg">
+            <div class="wr-kern ul-kern--twee">
+                <div>
+                    <p class="wr-kern__cijfer tnum">${tv ? tv.totaal : '&mdash;'}</p>
+                    <p class="wr-kern__eenheid">maanden voor een verbouwing</p>
+                    <p class="wr-kern__tekst">${tv && tv.zeker ? `${a.looptijdVerbouwMaanden} maanden standaard, plus ${v.verbouw} maanden verlenging.` : 'Verlenging niet gepubliceerd.'}</p>
                 </div>
-                <div class="bs-kern__item">
-                    <p class="bs-kern__cijfer tnum">${tn ? tn.totaal : '&mdash;'}</p>
-                    <p class="bs-kern__eenheid">maanden voor nieuwbouw</p>
-                    <p class="bs-kern__tekst">${tn && tn.zeker ? `${a.looptijdNieuwbouwMaanden} maanden standaard, plus ${v.nieuwbouw} maanden verlenging.` : 'Verlenging niet gepubliceerd.'}</p>
+                <div>
+                    <p class="wr-kern__cijfer tnum">${tn ? tn.totaal : '&mdash;'}</p>
+                    <p class="wr-kern__eenheid">maanden voor nieuwbouw</p>
+                    <p class="wr-kern__tekst">${tn && tn.zeker ? `${a.looptijdNieuwbouwMaanden} maanden standaard, plus ${v.nieuwbouw} maanden verlenging.` : 'Verlenging niet gepubliceerd.'}</p>
                 </div>
-            </div>
             </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <h2 class="bs-titel">Alle gepubliceerde voorwaarden</h2>
-                <dl class="bs-detail">
+        <section class="wr-wrap wr-sectie">
+                <p class="ui-opschrift">Per onderwerp</p>
+                <h2>Alle gepubliceerde voorwaarden</h2>
+                <dl class="ul-detail">
 ${rijen}
                 </dl>
-            </div>
         </section>
 ${vergelijkendeContext(a)}${
   a.bijzonderheden?.length
     ? `
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <h2 class="bs-titel">Bijzonderheden</h2>
-                <ul class="bs-punten">
+        <section class="wr-wrap wr-sectie">
+                <p class="ui-opschrift">Goed om te weten</p>
+                <h2>Bijzonderheden</h2>
+                <ul class="wr-lijst wr-proza">
 ${a.bijzonderheden.map((b) => `                    <li>${esc(b)}</li>`).join('\n')}
                 </ul>
-            </div>
         </section>`
     : ''
 }
-        <section class="bs-sectie">
-            <div class="bs-wrap">
+        <section class="wr-wrap wr-sectie">
+                <p class="ui-opschrift">Verantwoording</p>
+                <h2>Bron en controle</h2>
+                <div class="wr-proza">
+                    <p>De gegevens op deze pagina komen uit de publieke informatie van ${esc(a.naam)}, geraadpleegd op ${datum(a.gecontroleerd)}:</p>
+                    <ul class="ul-bronnen">
+${bronnen.map((b) => `                        <li><a href="${esc(b)}" target="_blank" rel="noopener noreferrer nofollow">${esc(b)}</a></li>`).join('\n')}
+                    </ul>
+                    <p class="wr-voorbehoud">Voorwaarden wijzigen en kunnen per hypotheekvorm verschillen. Ziet u een afwijking? <a href="contact.html">Laat het weten</a>.</p>
+                </div>
+        </section>
+
+        <section class="wr-wrap wr-sectie">
+                <p class="ui-opschrift">Verder</p>
+                <h2>Rekenen met deze voorwaarden</h2>
+                <div class="wr-register">
+                    <a href="${HUB}">
+                        <strong>Alle aanbieders vergelijken</strong>
+                        <span>Looptijd, vergoeding en bewijsstukken van ${data.aanbieders.length} geldverstrekkers naast elkaar.</span>
+                    </a>
+                    <a href="depotplanner.html">
+                        <strong>Depotplanner</strong>
+                        <span>Wanneer het depot afloopt en wanneer verlengen geregeld moet zijn, vanaf uw passeerdatum.</span>
+                    </a>
+                    <a href="bouwdepot-declaratie-afgewezen.html">
+                        <strong>Declaratie afgewezen</strong>
+                        <span>De redenen waarop een declaratie stukloopt, met de eisen per aanbieder.</span>
+                    </a>
+                </div>
+        </section>
+
+        <section class="wr-wrap">
 ${DISCLAIMER}
-
-                <h2 class="bs-titel">Bron en controle</h2>
-                <p>De gegevens op deze pagina komen uit de publieke informatie van ${esc(a.naam)}, geraadpleegd op ${datum(a.gecontroleerd)}:</p>
-                <ul class="bs-bronnen">
-${bronnen.map((b) => `                    <li><a href="${esc(b)}" target="_blank" rel="noopener noreferrer nofollow">${esc(b)}</a></li>`).join('\n')}
-                </ul>
-                <p class="bs-hulp">Voorwaarden wijzigen en kunnen per hypotheekvorm verschillen. Ziet u een afwijking? <a href="contact.html">Laat het weten</a>.</p>
-
-                <p class="bs-acties">
-                    <a class="bs-knop" href="${HUB}">Alle aanbieders vergelijken</a>
-                </p>
-            </div>
         </section>
     </main>`;
 
@@ -770,15 +798,13 @@ function vergelijkendeContext(a) {
   if (!punten.length) return '';
 
   return `
-        <section class="bs-donker">
-            <div class="bs-wrap">
-                <p class="bs-micro">In verhouding</p>
-                <h2 class="bs-titel">Hoe dit zich verhoudt tot de andere aanbieders</h2>
-                <ul class="bs-punten">
+        <section class="wr-wrap wr-sectie">
+                <p class="ui-opschrift">In verhouding</p>
+                <h2>Hoe dit zich verhoudt tot de andere aanbieders</h2>
+                <ul class="wr-lijst wr-proza">
 ${punten.map((p) => `                    <li>${p}</li>`).join('\n')}
                 </ul>
-                <p class="bs-hulp">Beschrijft uitsluitend gepubliceerde voorwaarden; geen oordeel over welke aanbieder beter past. Zie <a href="${HUB}">de volledige vergelijking</a>.</p>
-            </div>
+                <p class="wr-voorbehoud ul-na-lijst">Beschrijft uitsluitend gepubliceerde voorwaarden; geen oordeel over welke aanbieder beter past. Zie <a href="${HUB}">de volledige vergelijking</a>.</p>
         </section>
 `;
 }

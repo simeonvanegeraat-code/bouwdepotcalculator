@@ -143,3 +143,73 @@
     .ul-perbank > div { break-inside: avoid; }
     .ul-perbank > .is-mijn, .ul-mijn { background: none; border-left-color: #000; }
 }
+
+/* --- Voorwaarden per bank: de vergelijking en de pagina per aanbieder --- */
+
+.ul-kiezer--los { margin: 0 0 1.5rem; }
+.ul-sprong { margin-bottom: 2rem; }
+.ul-sprong ul { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.ul-sprong a { display: inline-flex; align-items: center; min-height: 2.5rem; padding: 0 0.8rem; border: 1px solid var(--ui-line); border-radius: 2rem; background: var(--ui-surface); font-size: 0.875rem; text-decoration: none; color: var(--ui-forest); }
+.ul-sprong a:hover { border-color: var(--ui-forest); }
+
+.ul-controle { font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
+.ul-controle--verlopen { color: #8c5410; font-weight: 500; }
+
+/* Looptijdbalken: alle balken delen één schaal. */
+.ul-balken { display: grid; gap: 0.6rem; }
+.ul-balk, .ul-schaal { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) 4.5rem; align-items: center; gap: 0.75rem; max-width: 48rem; }
+.ul-balk__label { font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
+.ul-balk__spoor { position: relative; height: 0.5rem; background: var(--ui-line); border-radius: 1rem; overflow: hidden; }
+.ul-balk__stapel { display: flex; height: 100%; }
+.ul-balk__vul { height: 100%; background: var(--ui-forest); }
+.ul-balk__vul--verlenging, .ul-staal--verlenging { background: repeating-linear-gradient(135deg, var(--ui-sage) 0 4px, var(--ui-sage-licht) 4px 8px); }
+.ul-balk__vul--open, .ul-staal--open { background: linear-gradient(90deg, var(--ui-sage), transparent); }
+.ul-balk__vul--open { flex: none; width: 5%; }
+.ul-balk__waarde { font-size: 0.9375rem; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ul-balk__open-teken { color: var(--ui-muted); margin-left: 0.1rem; }
+.ul-schaal { margin-bottom: 0.75rem; font-family: var(--ui-mono); font-size: 0.75rem; color: var(--ui-muted); }
+.ul-schaal__as { display: flex; justify-content: space-between; border-top: 1px solid var(--ui-line); padding-top: 0.25rem; }
+.ul-legenda { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; margin-bottom: 2rem; font-size: 0.8125rem; color: var(--ui-muted); }
+.ul-legenda span { display: inline-flex; align-items: center; gap: 0.5rem; }
+.ul-staal { flex: none; width: 1.4rem; height: 0.5rem; border-radius: 1rem; }
+.ul-staal--basis { background: var(--ui-forest); }
+
+.ul-vgl { display: grid; gap: clamp(2.25rem, 4vw, 3.5rem); }
+.ul-vgl__item { padding-top: 1.25rem; border-top: 1.5px solid var(--ui-ink); scroll-margin-top: 1rem; min-width: 0; }
+.ul-vgl__kop { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.25rem 1.5rem; margin-bottom: 1.1rem; }
+.ul-vgl__kop h3 { font-size: clamp(1.375rem, 2.2vw, 1.75rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.15; }
+.ul-vgl__kop h3 a { color: var(--ui-forest); text-decoration: none; }
+.ul-vgl__kop h3 a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+.ul-feiten { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1.1rem 2rem; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--ui-line); }
+.ul-feit dt, .ul-detail dt { font-family: var(--ui-mono); font-size: 0.75rem; letter-spacing: 0.03em; text-transform: uppercase; color: var(--ui-muted); margin-bottom: 0.2rem; }
+.ul-feit dd { margin: 0; font-size: 0.9375rem; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+.ul-feit dd small, .ul-detail dd small { display: block; margin-top: 0.2rem; font-size: 0.875rem; font-weight: 400; line-height: 1.45; color: var(--ui-muted); }
+.ul-feit--proza { grid-column: 1 / -1; max-width: 46rem; }
+.ul-feit--proza dd { font-weight: 400; }
+.ul-feit dd.ul-leeg, .ul-feit dd .ul-leeg, .ul-detail .ul-leeg { font-weight: 400; }
+.ul-vgl__meer { margin-top: 1.1rem; font-size: 0.9375rem; font-weight: 600; }
+.ul-vgl__meer a { display: inline-flex; align-items: center; min-height: 2.75rem; color: var(--ui-forest); text-underline-offset: 0.25em; }
+.ul-vgl + .wr-voorbehoud, .ul-na-lijst { margin-top: 1.5rem; }
+/* De gekozen geldverstrekker bovenaan de vergelijking. */
+.ul-vgl > .is-mijn { order: -1; padding: 1.25rem; border: 0; border-left: 3px solid var(--ui-champagne); background: var(--ui-surface); }
+
+.ul-sectie--na-melding { padding-top: 0; }
+.ul-kolommen--breed { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+.ul-kolommen--breed p + p { margin-top: 0.75rem; }
+.ul-slot { padding-bottom: clamp(2.5rem, 6vw, 5rem); }
+.ul-kern--twee { max-width: 52rem; }
+
+/* De pagina per aanbieder: één rij per onderwerp. */
+.ul-detail { display: grid; margin: 0; border-top: 1.5px solid var(--ui-ink); }
+.ul-detail > div { display: grid; gap: 0.15rem 2rem; padding: 0.9rem 0; border-bottom: 1px solid var(--ui-line); }
+.ul-detail dd { margin: 0; font-size: 0.9375rem; line-height: 1.5; max-width: 44rem; overflow-wrap: anywhere; }
+@media (min-width: 700px) { .ul-detail > div { grid-template-columns: 16rem minmax(0, 1fr); align-items: baseline; } .ul-detail dt { margin: 0; } }
+.ul-bronnen { display: grid; gap: 0.35rem; font-size: 0.9375rem; }
+.ul-bronnen a { display: inline-block; padding: 0.2rem 0; color: var(--ui-forest); text-underline-offset: 0.25em; overflow-wrap: anywhere; }
+
+@media (max-width: 480px) { .ul-balk, .ul-schaal { grid-template-columns: 5rem minmax(0, 1fr) 4.25rem; gap: 0.5rem; } }
+@media print {
+    .ul-vgl__item, .ul-detail > div { break-inside: avoid; }
+    .ul-vgl > .is-mijn { background: none; border-left-color: #000; }
+    .ul-balk__vul, .ul-staal { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+}

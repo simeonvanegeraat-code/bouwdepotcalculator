@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,14 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/uitleg.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,567 +170,582 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a>
-        <span aria-hidden="true">&middot;</span> <span>Voorwaarden vergelijken</span>
-    </nav>
-
     <main>
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <p class="bs-micro">Eigen onderzoek &middot; 13 geldverstrekkers</p>
-                <h1 class="bs-reken__titel">Bouwdepot voorwaarden vergelijken</h1>
-                <p class="bs-reken__lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Hoe lang u de tijd krijgt, of u rente ontvangt en wat als bewijsstuk telt, verschilt per bank.</p>
+        <section class="wr-wrap wr-kop ul-kop" id="inhoud">
+            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Voorwaarden vergelijken</span></nav>
+            <h1>Bouwdepot voorwaarden vergelijken</h1>
+            <p class="wr-lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Hoe lang je de tijd krijgt, of je rente ontvangt en wat als bewijsstuk telt, verschilt per bank.</p>
+            <p class="ui-opschrift">Eigen onderzoek &middot; 13 geldverstrekkers</p>
+        </section>
 
-            <div class="bs-kern">
-                <div class="bs-kern__item">
-                    <p class="bs-kern__cijfer tnum">24&ndash;42</p>
-                    <p class="bs-kern__eenheid">maanden</p>
-                    <p class="bs-kern__tekst">Zoveel tijd krijgt u voor een verbouwing, inclusief verlenging. Een verschil van 18 maanden tussen de ruimste en de krapste aanbieder.</p>
+        <section class="wr-wrap wr-sectie wr-sectie--vervolg">
+            <div class="wr-kern">
+                <div>
+                    <p class="wr-kern__cijfer tnum">24&ndash;42</p>
+                    <p class="wr-kern__eenheid">maanden</p>
+                    <p class="wr-kern__tekst">Zoveel tijd krijg je voor een verbouwing, inclusief verlenging. Een verschil van 18 maanden tussen de ruimste en de krapste aanbieder.</p>
                 </div>
-                <div class="bs-kern__item">
-                    <p class="bs-kern__cijfer tnum">12<span class="kern__van">/13</span></p>
-                    <p class="bs-kern__eenheid">betaalt depotrente</p>
-                    <p class="bs-kern__tekst">Eén aanbieder vergoedt niets over het depotsaldo, maar rekent daar ook geen rente over.</p>
+                <div>
+                    <p class="wr-kern__cijfer tnum">12<span class="kern__van">/13</span></p>
+                    <p class="wr-kern__eenheid">betaalt depotrente</p>
+                    <p class="wr-kern__tekst">Eén aanbieder vergoedt niets over het depotsaldo, maar rekent daar ook geen rente over.</p>
                 </div>
-                <div class="bs-kern__item">
-                    <p class="bs-kern__cijfer tnum">37</p>
-                    <p class="bs-kern__eenheid">niet gepubliceerd</p>
-                    <p class="bs-kern__tekst">Zoveel gegevens maken de aanbieders niet openbaar, vooral bedragen per declaratie en de regels rond eigen arbeid. Vraag die na vóór u tekent.</p>
+                <div>
+                    <p class="wr-kern__cijfer tnum">37</p>
+                    <p class="wr-kern__eenheid">niet gepubliceerd</p>
+                    <p class="wr-kern__tekst">Zoveel gegevens maken de aanbieders niet openbaar, vooral bedragen per declaratie en de regels rond eigen arbeid. Vraag die na vóór je tekent.</p>
                 </div>
-            </div>
             </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <h2 class="bs-titel">Alle aanbieders naast elkaar</h2>
-                    <p class="bs-reken__lead">De balken tonen de maximale looptijd inclusief verlenging, op dezelfde schaal. Het gearceerde deel is de verlenging.</p>
+        <section class="wr-wrap wr-sectie" id="aanbieders">
+                    <p class="ui-opschrift">De vergelijking</p>
+                    <h2>Alle aanbieders naast elkaar</h2>
+                    <p class="wr-lead ul-lead">De balken tonen de maximale looptijd inclusief verlenging, op dezelfde schaal. Het gearceerde deel is de verlenging.</p>
 
-                <div class="bs-schaal" aria-hidden="true">
+                <!-- Wie zijn geldverstrekker kiest, ziet die bovenaan de lijst staan.
+                     Zonder keuze, of zonder JavaScript, staat alles er gewoon. -->
+                <div class="ul-kiezer ul-kiezer--los wr-geen-print" data-bankkeuze></div>
+
+                <nav class="ul-sprong wr-geen-print" aria-label="Direct naar een aanbieder">
+                    <ul>
+                    <li><a href="#abn-amro">ABN AMRO</a></li>
+                    <li><a href="#rabobank">Rabobank</a></li>
+                    <li><a href="#ing">ING</a></li>
+                    <li><a href="#munt">MUNT Hypotheken</a></li>
+                    <li><a href="#florius">Florius</a></li>
+                    <li><a href="#nn">Nationale-Nederlanden</a></li>
+                    <li><a href="#obvion">Obvion</a></li>
+                    <li><a href="#sns">SNS</a></li>
+                    <li><a href="#asr">a.s.r.</a></li>
+                    <li><a href="#asn">ASN Bank</a></li>
+                    <li><a href="#argenta">Argenta</a></li>
+                    <li><a href="#centraal-beheer">Centraal Beheer</a></li>
+                    <li><a href="#allianz">Allianz</a></li>
+                    </ul>
+                </nav>
+
+                <div class="ul-schaal" aria-hidden="true">
                     <span></span>
-                    <span class="bs-schaal__as"><span>0</span><span>21 mnd</span><span>42 mnd</span></span>
+                    <span class="ul-schaal__as"><span>0</span><span>21 mnd</span><span>42 mnd</span></span>
                 </div>
 
-                <div class="bs-legenda">
-                    <span class="bs-legenda__item"><span class="bs-legenda__staal bs-legenda__staal--basis"></span>Standaardlooptijd</span>
-                    <span class="bs-legenda__item"><span class="bs-legenda__staal bs-legenda__staal--verlenging"></span>Verlenging</span>
-                    <span class="bs-legenda__item"><span class="bs-legenda__staal bs-legenda__staal--open"></span>Verlenging mogelijk, duur niet gepubliceerd</span>
+                <div class="ul-legenda">
+                    <span><i class="ul-staal ul-staal--basis"></i>Standaardlooptijd</span>
+                    <span><i class="ul-staal ul-staal--verlenging"></i>Verlenging</span>
+                    <span><i class="ul-staal ul-staal--open"></i>Verlenging mogelijk, duur niet gepubliceerd</span>
                 </div>
 
-                <div class="bs-vgl">
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-abn-amro.html">ABN AMRO</a></h3>
-                        <span class="bs-controle">gecontroleerd 18 augustus 2026</span>
+                <div class="ul-vgl" data-perbank>
+                <article class="ul-vgl__item" id="abn-amro" data-bank="abn-amro">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-abn-amro.html">ABN AMRO</a></h3>
+                        <span class="ul-controle">gecontroleerd 18 augustus 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:42.9%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:14.3%"></span></span></span>
-                            <span class="bs-balk__waarde">24 mnd</span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:42.9%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:14.3%"></span></span></span>
+                            <span class="ul-balk__waarde">24 mnd</span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd</span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd</span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, maar niet de hele verlenging<small>Tijdens de standaardlooptijd ontvangt u vergoeding. Verlengt u, dan krijgt u over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd><span class="bs-leeg">niet gepubliceerd</span><small>Deze aanbieder publiceert wel dat u vergoeding krijgt, maar niet hoe hoog die is ten opzichte van uw hypotheekrente. Vraag dat na in uw offerte.</small></dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>18 maanden bij verbouwing, 30 bij nieuwbouw<small>Het depot kan bij verbouwing tot 24 maanden lopen. Over de laatste 6 maanden betaalt u wel rente maar ontvangt u geen vergoeding meer.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Nieuwbouw: alleen bedragen uit de koop-/aannemingsovereenkomst en meerwerklijst. Verbouwing: alleen bedragen uit het verbouwingsplan. Alleen verbeteringen die vast aan de woning zitten, zoals gelijmd parket en inbouwapparatuur.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur<small>Alleen bedragen uit het verbouwingsplan of de koop-/aannemingsovereenkomst, die onderdeel zijn van uw hypotheekofferte.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd>Meestal binnen 5 werkdagen<small>Meestal binnen 10 werkdagen</small></dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd>Bij verbouwing schiet u voor, bij nieuwbouw niet altijd<small>Bij een verbouwing of energiebesparende voorzieningen betaalt ABN AMRO de declaratie aan u en betaalt u zelf de aannemer of leverancier. Bij nieuwbouw kunnen termijn- en meerwerkrekeningen rechtstreeks aan de aannemer worden betaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd>U krijgt 3 maanden voor de einddatum bericht<small>Drie maanden voor de einddatum ontvangt u een brief over verlengen of beeindigen. Regelen kan via Internet Bankieren of met een formulier per post.</small></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd>&euro;&nbsp;250.000<small>Meerdere declaraties achter elkaar mogelijk.</small></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Gaat van de lening af<small>Telt niet mee voor het bedrag dat je jaarlijks zonder extra kosten mag terugbetalen. Bij meerdere leningdelen bepaalt de bank de volgorde en kan die volgorde wijzigen.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, maar niet de hele verlenging<small>Tijdens de standaardlooptijd ontvang je vergoeding. Verleng je, dan krijg je over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd><span class="ul-leeg">niet gepubliceerd</span><small>Deze aanbieder publiceert wel dat je vergoeding krijgt, maar niet hoe hoog die is ten opzichte van je hypotheekrente. Vraag dat na in je offerte.</small></dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>18 maanden bij verbouwing, 30 bij nieuwbouw<small>Het depot kan bij verbouwing tot 24 maanden lopen. Over de laatste 6 maanden betaal je wel rente maar ontvang je geen vergoeding meer.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Nieuwbouw: alleen bedragen uit de koop-/aannemingsovereenkomst en meerwerklijst. Verbouwing: alleen bedragen uit het verbouwingsplan. Alleen verbeteringen die vast aan de woning zitten, zoals gelijmd parket en inbouwapparatuur.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur<small>Alleen bedragen uit het verbouwingsplan of de koop-/aannemingsovereenkomst, die onderdeel zijn van je hypotheekofferte.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd>Meestal binnen 5 werkdagen<small>Meestal binnen 10 werkdagen</small></dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd>Bij verbouwing schiet je voor, bij nieuwbouw niet altijd<small>Bij een verbouwing of energiebesparende voorzieningen betaalt ABN AMRO de declaratie aan je en betaal je zelf de aannemer of leverancier. Bij nieuwbouw kunnen termijn- en meerwerkrekeningen rechtstreeks aan de aannemer worden betaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd>Je krijgt 3 maanden voor de einddatum bericht<small>Drie maanden voor de einddatum ontvang je een brief over verlengen of beeindigen. Regelen kan via Internet Bankieren of met een formulier per post.</small></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd>&euro;&nbsp;250.000<small>Meerdere declaraties achter elkaar mogelijk.</small></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Gaat van de lening af<small>Telt niet mee voor het bedrag dat je jaarlijks zonder extra kosten mag terugbetalen. Bij meerdere leningdelen bepaalt de bank de volgorde en kan die volgorde wijzigen.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-abn-amro.html">Alle voorwaarden van ABN AMRO<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-rabobank.html">Rabobank</a></h3>
-                        <span class="bs-controle">gecontroleerd 30 september 2026</span>
+                <article class="ul-vgl__item" id="rabobank" data-bank="rabobank">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-rabobank.html">Rabobank</a></h3>
+                        <span class="ul-controle">gecontroleerd 30 september 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--open" aria-hidden="true"></span></span></span>
-                            <span class="bs-balk__waarde">24 mnd <span class="bs-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span></span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--open" aria-hidden="true"></span></span></span>
+                            <span class="ul-balk__waarde">24 mnd <span class="ul-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span></span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--open" aria-hidden="true"></span></span></span>
-                            <span class="bs-balk__waarde">24 mnd <span class="bs-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span></span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--open" aria-hidden="true"></span></span></span>
+                            <span class="ul-balk__waarde">24 mnd <span class="ul-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span></span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan je hypotheekrente bij aanvang<small>De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. De vergoeding loopt over de hele looptijd van 2 jaar, maar stopt zodra het depot daarna wordt verlengd.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan uw hypotheekrente</dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>24 maanden<small>De vergoeding loopt door tot het einde van de looptijd.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Alle kosten die nodig zijn voor bouw, verbouwing of verduurzaming: aannemer, architect, bouwmaterialen, keuken, badkamer. Niet: inboedel en spullen die je bij een verhuizing meeneemt, zoals gordijnen en meubels.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Vooraf geen<small>U betaalt zelf vanuit het depot en hoeft facturen niet vooraf in te dienen. Rabobank kan achteraf wel om onderbouwing vragen, dus bewaar alles.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U betaalt zelf vanuit het depot<small>Geen goedkeuring vooraf per betaling; de aanbieder kan achteraf controleren.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd>Direct - je betaalt zelf vanuit het depot via Online Bankieren of de Rabo App<small>Overboekingsformulieren mogelijk</small></dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd>Niet nodig<small>U betaalt rekeningen rechtstreeks vanuit het depot, dus voorschieten is niet aan de orde. Betaalt u toch eerst zelf, vraag dan vooraf na of terugbetaling mogelijk is.</small></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet van toepassing</span><small>Er is geen declaratieproces met een maximumbedrag: u betaalt zelf vanuit het depot. In de praktijk geldt de overboeklimiet van uw eigen rekening, en die stelt u zelf in.</small></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Wordt standaard afgelost op de lening<small>Wil je het bedrag op je betaalrekening laten storten, dan is eerst een nieuwe inkomenstoets nodig via je adviseur.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan je hypotheekrente bij aanvang<small>De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. De vergoeding loopt over de hele looptijd van 2 jaar, maar stopt zodra het depot daarna wordt verlengd.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan je hypotheekrente</dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>24 maanden<small>De vergoeding loopt door tot het einde van de looptijd.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Alle kosten die nodig zijn voor bouw, verbouwing of verduurzaming: aannemer, architect, bouwmaterialen, keuken, badkamer. Niet: inboedel en spullen die je bij een verhuizing meeneemt, zoals gordijnen en meubels.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Vooraf geen<small>Je betaalt zelf vanuit het depot en hoeft facturen niet vooraf in te dienen. Rabobank kan achteraf wel om onderbouwing vragen, dus bewaar alles.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je betaalt zelf vanuit het depot<small>Geen goedkeuring vooraf per betaling; de aanbieder kan achteraf controleren.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd>Direct - je betaalt zelf vanuit het depot via Online Bankieren of de Rabo App<small>Overboekingsformulieren mogelijk</small></dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd>Niet nodig<small>Je betaalt rekeningen rechtstreeks vanuit het depot, dus voorschieten is niet aan de orde. Betaal je toch eerst zelf, vraag dan vooraf na of terugbetaling mogelijk is.</small></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet van toepassing</span><small>Er is geen declaratieproces met een maximumbedrag: je betaalt zelf vanuit het depot. In de praktijk geldt de overboeklimiet van je eigen rekening, en die stel je zelf in.</small></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Wordt standaard afgelost op de lening<small>Wil je het bedrag op je betaalrekening laten storten, dan is eerst een nieuwe inkomenstoets nodig via je adviseur.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-rabobank.html">Alle voorwaarden van Rabobank<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-ing.html">ING</a></h3>
-                        <span class="bs-controle">gecontroleerd 30 september 2026</span>
+                <article class="ul-vgl__item" id="ing" data-bank="ing">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-ing.html">ING</a></h3>
+                        <span class="ul-controle">gecontroleerd 30 september 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd</span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd</span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd</span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd</span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd class="bs-leeg">Geen<small>ING hanteert een afwijkend model: je betaalt alleen rente over het bedrag dat je al hebt opgenomen. Over het saldo dat nog in het depot staat betaal je geen rente en ontvang je ook geen rente. Voor de belastingaangifte vul je EUR 0,00 aan ontvangen rente in.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd>Geen vergoeding over het depotsaldo</dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>Niet van toepassing<small>Deze aanbieder vergoedt niets over het depotsaldo, maar rekent er ook geen rente over.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Verbouwing van de woning zoals uitbouw of dakkapel, aanleg en inrichting van de tuin, vervanging van kozijnen, ramen en deuren, vloeren die onlosmakelijk met het huis verbonden zijn, ingebouwde verlichting, onderhoudsschilderwerk, op maat gemaakt zonnescherm, badkamer en keuken, asbestverwijdering en zonnepanelen. Voorwaarde bij verbouwing: de woning verbetert in kwaliteit en wordt meer waard, en de verbetering zit vast aan de woning. Niet: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur of kassabon<small>Een offerte, orderbevestiging, koopovereenkomst of pro-formafactuur wordt niet geaccepteerd.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd>Binnen vijf werkdagen bij een digitale declaratie die aan de voorwaarden voldoet</dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd>Ja, met bankafschrift<small>Heeft u de leverancier al betaald, dan stuurt u een bankafschrift mee. Daarop moeten rekeninghouder, leveranciersnaam, bedrag en IBAN overeenkomen met de factuur. Heeft u nog niet betaald, geef dan aan dat ING rechtstreeks aan de leverancier moet overmaken.</small></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd>Vanaf 4 maanden voor de einddatum aan te vragen<small>Aanvragen kan vanaf vier maanden voor de einddatum. Het verzoek wordt binnen vijf werkdagen afgehandeld.</small></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Wordt afgelost op de hypotheek<small>Is het restant hoger dan EUR 2.500, dan verlaagt ING de bij het afsluiten vastgestelde marktwaarde van de woning met dat bedrag. Ben je het daar niet mee eens, dan moet je een hogere waarde aantonen met een recent taxatierapport (waardepeildatum niet ouder dan zes maanden), een Calcasa Desktoptaxatie of een WOZ-beschikking.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd class="ul-leeg">Geen<small>ING hanteert een afwijkend model: je betaalt alleen rente over het bedrag dat je al hebt opgenomen. Over het saldo dat nog in het depot staat betaal je geen rente en ontvang je ook geen rente. Voor de belastingaangifte vul je EUR 0,00 aan ontvangen rente in.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd>Geen vergoeding over het depotsaldo</dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>Niet van toepassing<small>Deze aanbieder vergoedt niets over het depotsaldo, maar rekent er ook geen rente over.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Verbouwing van de woning zoals uitbouw of dakkapel, aanleg en inrichting van de tuin, vervanging van kozijnen, ramen en deuren, vloeren die onlosmakelijk met het huis verbonden zijn, ingebouwde verlichting, onderhoudsschilderwerk, op maat gemaakt zonnescherm, badkamer en keuken, asbestverwijdering en zonnepanelen. Voorwaarde bij verbouwing: de woning verbetert in kwaliteit en wordt meer waard, en de verbetering zit vast aan de woning. Niet: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur of kassabon<small>Een offerte, orderbevestiging, koopovereenkomst of pro-formafactuur wordt niet geaccepteerd.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd>Binnen vijf werkdagen bij een digitale declaratie die aan de voorwaarden voldoet</dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd>Ja, met bankafschrift<small>Heb je de leverancier al betaald, dan stuur je een bankafschrift mee. Daarop moeten rekeninghouder, leveranciersnaam, bedrag en IBAN overeenkomen met de factuur. Heb je nog niet betaald, geef dan aan dat ING rechtstreeks aan de leverancier moet overmaken.</small></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd>Vanaf 4 maanden voor de einddatum aan te vragen<small>Aanvragen kan vanaf vier maanden voor de einddatum. Het verzoek wordt binnen vijf werkdagen afgehandeld.</small></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Wordt afgelost op de hypotheek<small>Is het restant hoger dan EUR 2.500, dan verlaagt ING de bij het afsluiten vastgestelde marktwaarde van de woning met dat bedrag. Ben je het daar niet mee eens, dan moet je een hogere waarde aantonen met een recent taxatierapport (waardepeildatum niet ouder dan zes maanden), een Calcasa Desktoptaxatie of een WOZ-beschikking.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-ing.html">Alle voorwaarden van ING<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-munt.html">MUNT Hypotheken</a></h3>
-                        <span class="bs-controle">gecontroleerd 18 augustus 2026</span>
+                <article class="ul-vgl__item" id="munt" data-bank="munt">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-munt.html">MUNT Hypotheken</a></h3>
+                        <span class="ul-controle">gecontroleerd 18 augustus 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:42.9%"></span></span></span>
-                            <span class="bs-balk__waarde">42 mnd</span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:42.9%"></span></span></span>
+                            <span class="ul-balk__waarde">42 mnd</span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:42.9%"></span></span></span>
-                            <span class="bs-balk__waarde">42 mnd</span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:42.9%"></span></span></span>
+                            <span class="ul-balk__waarde">42 mnd</span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, maar beperkt in duur<small>Bij bestaande bouw over de eerste 12 maanden. Bij nieuwbouw en energiebesparende maatregelen over de eerste 24 maanden.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd><span class="bs-leeg">niet gepubliceerd</span><small>Deze aanbieder publiceert wel dat u vergoeding krijgt, maar niet hoe hoog die is ten opzichte van uw hypotheekrente. Vraag dat na in uw offerte.</small></dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>12 maanden bij verbouwing, 24 bij nieuwbouw<small>Het depot kan bij verbouwing tot 42 maanden lopen. Over de laatste 30 maanden betaalt u wel rente maar ontvangt u geen vergoeding meer.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Een offerte volstaat niet: op basis daarvan wordt niet uitbetaald. De factuur moet duidelijk tonen welk werk is uitgevoerd of welke zaken zijn gekocht.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur<small>Op basis van een offerte wordt niet uitbetaald. De factuur moet duidelijk tonen welk werk is uitgevoerd of welke zaken zijn gekocht.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd>Goedgekeurde nota's worden binnen vijf werkdagen na ontvangst uitbetaald<small>Declaratie per e-mail of post duurt langer dan via MijnHypotheekOnline</small></dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd><span class="bs-leeg">niet gepubliceerd</span><small>Aanvragen via MijnHypotheekOnline voordat de lopende termijn afloopt; een aantal maanden wordt niet genoemd.</small></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Onder EUR 1.000 uitbetaald, daarboven afgelost<small>Een restantbedrag lager dan EUR 1.000 wordt bij beeindiging uitgekeerd op uw bankrekening. Is het hoger, dan gebruikt MUNT het volledige bedrag voor aflossing op de hypotheek.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, maar beperkt in duur<small>Bij bestaande bouw over de eerste 12 maanden. Bij nieuwbouw en energiebesparende maatregelen over de eerste 24 maanden.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd><span class="ul-leeg">niet gepubliceerd</span><small>Deze aanbieder publiceert wel dat je vergoeding krijgt, maar niet hoe hoog die is ten opzichte van je hypotheekrente. Vraag dat na in je offerte.</small></dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>12 maanden bij verbouwing, 24 bij nieuwbouw<small>Het depot kan bij verbouwing tot 42 maanden lopen. Over de laatste 30 maanden betaal je wel rente maar ontvang je geen vergoeding meer.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Een offerte volstaat niet: op basis daarvan wordt niet uitbetaald. De factuur moet duidelijk tonen welk werk is uitgevoerd of welke zaken zijn gekocht.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur<small>Op basis van een offerte wordt niet uitbetaald. De factuur moet duidelijk tonen welk werk is uitgevoerd of welke zaken zijn gekocht.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd>Goedgekeurde nota's worden binnen vijf werkdagen na ontvangst uitbetaald<small>Declaratie per e-mail of post duurt langer dan via MijnHypotheekOnline</small></dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd><span class="ul-leeg">niet gepubliceerd</span><small>Aanvragen via MijnHypotheekOnline voordat de lopende termijn afloopt; een aantal maanden wordt niet genoemd.</small></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Onder EUR 1.000 uitbetaald, daarboven afgelost<small>Een restantbedrag lager dan EUR 1.000 wordt bij beeindiging uitgekeerd op je bankrekening. Is het hoger, dan gebruikt MUNT het volledige bedrag voor aflossing op de hypotheek.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-munt.html">Alle voorwaarden van MUNT Hypotheken<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-florius.html">Florius</a></h3>
-                        <span class="bs-controle">gecontroleerd 18 augustus 2026</span>
+                <article class="ul-vgl__item" id="florius" data-bank="florius">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-florius.html">Florius</a></h3>
+                        <span class="ul-controle">gecontroleerd 18 augustus 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:42.9%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:14.3%"></span></span></span>
-                            <span class="bs-balk__waarde">24 mnd</span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:42.9%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:14.3%"></span></span></span>
+                            <span class="ul-balk__waarde">24 mnd</span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd</span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd</span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan je hypotheekrente<small>Bij meerdere leningdelen met verschillende rentes ontvang je een gewogen gemiddelde van die rentes. De vergoeding stopt na 18 maanden bij verbouwing van een bestaande woning en na 30 maanden bij nieuwbouw.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan uw hypotheekrente</dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>18 maanden bij verbouwing, 30 bij nieuwbouw<small>Het depot kan bij verbouwing tot 24 maanden lopen. Over de laatste 6 maanden betaalt u wel rente maar ontvangt u geen vergoeding meer.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Bouwmaterialen, arbeidskosten, binnenhuisinrichting zoals keukenapparatuur en badkamerinrichting, tuinaanleg en energiebesparende maatregelen. Niet: meubilair en accessoires, zoals een bankstel, niet-ingebouwde verlichting en raamdecoratie.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Volledige factuur of ordernota<small>U uploadt een foto of scan via mijnFlorius. Afgekeurd worden: offertes, handgeschreven bonnen, een onvolledige factuur, en een nota die alleen naar een offerte verwijst zonder eigen specificatie.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd>Binnen 2 werkdagen beoordeeld, bij akkoord direct uitbetaald<small>Per post of e-mail binnen 4 werkdagen na ontvangst beoordeeld</small></dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd><span class="bs-leeg">niet gepubliceerd</span><small>Een keer aan te vragen via mijnFlorius; een termijn wordt niet genoemd.</small></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Tot EUR 7.500 naar uw eigen rekening<small>Florius maakt het restbedrag over naar uw bankrekening. Twee uitzonderingen: met NHG wordt het altijd afgelost op de lening, en blijft er meer dan EUR 7.500 over dan wordt het afgelost ongeacht NHG. Voor energiebesparende maatregelen en de Florius Verduurzaam Hypotheek kunnen andere regels gelden.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan je hypotheekrente<small>Bij meerdere leningdelen met verschillende rentes ontvang je een gewogen gemiddelde van die rentes. De vergoeding stopt na 18 maanden bij verbouwing van een bestaande woning en na 30 maanden bij nieuwbouw.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan je hypotheekrente</dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>18 maanden bij verbouwing, 30 bij nieuwbouw<small>Het depot kan bij verbouwing tot 24 maanden lopen. Over de laatste 6 maanden betaal je wel rente maar ontvang je geen vergoeding meer.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Bouwmaterialen, arbeidskosten, binnenhuisinrichting zoals keukenapparatuur en badkamerinrichting, tuinaanleg en energiebesparende maatregelen. Niet: meubilair en accessoires, zoals een bankstel, niet-ingebouwde verlichting en raamdecoratie.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Volledige factuur of ordernota<small>Je uploadt een foto of scan via mijnFlorius. Afgekeurd worden: offertes, handgeschreven bonnen, een onvolledige factuur, en een nota die alleen naar een offerte verwijst zonder eigen specificatie.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd>Binnen 2 werkdagen beoordeeld, bij akkoord direct uitbetaald<small>Per post of e-mail binnen 4 werkdagen na ontvangst beoordeeld</small></dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd><span class="ul-leeg">niet gepubliceerd</span><small>Een keer aan te vragen via mijnFlorius; een termijn wordt niet genoemd.</small></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Tot EUR 7.500 naar je eigen rekening<small>Florius maakt het restbedrag over naar je bankrekening. Twee uitzonderingen: met NHG wordt het altijd afgelost op de lening, en blijft er meer dan EUR 7.500 over dan wordt het afgelost ongeacht NHG. Voor energiebesparende maatregelen en de Florius Verduurzaam Hypotheek kunnen andere regels gelden.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-florius.html">Alle voorwaarden van Florius<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-nn.html">Nationale-Nederlanden</a></h3>
-                        <span class="bs-controle">gecontroleerd 18 augustus 2026</span>
+                <article class="ul-vgl__item" id="nn" data-bank="nn">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-nn.html">Nationale-Nederlanden</a></h3>
+                        <span class="ul-controle">gecontroleerd 18 augustus 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:28.6%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">24 mnd</span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:28.6%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">24 mnd</span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd</span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd</span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, maar verschilt per depotsoort<small>Bij het nieuwbouwdepot is de vergoeding gelijk aan de gemiddelde rente die je over je hypotheek betaalt. Bij het verbouwdepot ligt de vergoeding 1% lager dan die gemiddelde hypotheekrente. De vergoeding loopt 24 maanden bij nieuwbouw en 12 maanden bij verbouwing, en wordt automatisch verrekend met je maandbedrag.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd>Uw hypotheekrente min 1 procentpunt<small>Bij nieuwbouw geldt een andere regel: gelijk aan uw hypotheekrente.</small></dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>12 maanden bij verbouwing, 24 bij nieuwbouw<small>Het depot kan bij verbouwing tot 24 maanden lopen. Over de laatste 12 maanden betaalt u wel rente maar ontvangt u geen vergoeding meer.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Losse spullen zoals meubilair of apparaten vallen er niet onder.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur of kassabon<small>Een offerte, opdrachtbevestiging of koopovereenkomst wordt niet geaccepteerd.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd>Verwerking duurt maximaal drie werkdagen; na goedkeuring wordt direct uitbetaald<small>Declaraties per post of e-mail worden niet geaccepteerd; alleen via mijn.nn of de NN App</small></dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd>Ja, met betaalbewijs<small>Heeft u zelf betaald, dan uploadt u de factuur of kassabon waarop staat dat u betaald heeft. Het bedrag wordt teruggestort op de rekening waarmee u uw hypotheeklasten betaalt.</small></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Wordt gebruikt om de hypotheek af te lossen<small>Aan die aflossing zijn geen kosten verbonden. Heeft u meerdere bouwdepots, dan worden die tegelijk gesloten; afzonderlijk sluiten kan niet. Beeindigen regelt u zelf via mijn.nn of de NN App.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, maar verschilt per depotsoort<small>Bij het nieuwbouwdepot is de vergoeding gelijk aan de gemiddelde rente die je over je hypotheek betaalt. Bij het verbouwdepot ligt de vergoeding 1% lager dan die gemiddelde hypotheekrente. De vergoeding loopt 24 maanden bij nieuwbouw en 12 maanden bij verbouwing, en wordt automatisch verrekend met je maandbedrag.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd>Je hypotheekrente min 1 procentpunt<small>Bij nieuwbouw geldt een andere regel: gelijk aan je hypotheekrente.</small></dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>12 maanden bij verbouwing, 24 bij nieuwbouw<small>Het depot kan bij verbouwing tot 24 maanden lopen. Over de laatste 12 maanden betaal je wel rente maar ontvang je geen vergoeding meer.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Losse spullen zoals meubilair of apparaten vallen er niet onder.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur of kassabon<small>Een offerte, opdrachtbevestiging of koopovereenkomst wordt niet geaccepteerd.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd>Verwerking duurt maximaal drie werkdagen; na goedkeuring wordt direct uitbetaald<small>Declaraties per post of e-mail worden niet geaccepteerd; alleen via mijn.nn of de NN App</small></dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd>Ja, met betaalbewijs<small>Heb je zelf betaald, dan upload je de factuur of kassabon waarop staat dat je betaald hebt. Het bedrag wordt teruggestort op de rekening waarmee je je hypotheeklasten betaalt.</small></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Wordt gebruikt om de hypotheek af te lossen<small>Aan die aflossing zijn geen kosten verbonden. Heb je meerdere bouwdepots, dan worden die tegelijk gesloten; afzonderlijk sluiten kan niet. Beeindigen regel je zelf via mijn.nn of de NN App.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-nn.html">Alle voorwaarden van Nationale-Nederlanden<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-obvion.html">Obvion</a></h3>
-                        <span class="bs-controle">gecontroleerd 30 september 2026</span>
+                <article class="ul-vgl__item" id="obvion" data-bank="obvion">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-obvion.html">Obvion</a></h3>
+                        <span class="ul-controle">gecontroleerd 30 september 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--open" aria-hidden="true"></span></span></span>
-                            <span class="bs-balk__waarde">24 mnd <span class="bs-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span></span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--open" aria-hidden="true"></span></span></span>
+                            <span class="ul-balk__waarde">24 mnd <span class="ul-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span></span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:85.7%"></span><span class="bs-balk__vul bs-balk__vul--open" aria-hidden="true"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd <span class="bs-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span></span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:85.7%"></span><span class="ul-balk__vul ul-balk__vul--open" aria-hidden="true"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd <span class="ul-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span></span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, maar hoogte en duur verschillen per hypotheekvorm<small>Bij de Woon Hypotheek is de vergoeding gelijk aan uw hypotheekrente en loopt die 12 maanden bij bestaande bouw. Bij nieuwbouw is dat 24 maanden voor hypotheekaanvragen vanaf 16 september 2024; voor aanvragen van daarvóór blijft het 12 maanden. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>12 maanden bij verbouwing, 24 bij nieuwbouw<small>Het depot kan bij verbouwing tot 24 maanden lopen. Over de laatste 12 maanden betaalt u wel rente maar ontvangt u geen vergoeding meer.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Kosten voor zaken die aan de woning vastzitten, zoals een keuken, badkamer of nieuwe vloer. De facturen moeten overeenkomen met de verbouwingsspecificatie en waardevermeerderend zijn.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Kopiefactuur, getekend voor akkoord<small>U tekent de kopie van de factuur voor akkoord met betaling en uploadt die via MijnObvion.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Tot EUR 2.500 naar uw eigen rekening<small>Blijft er minder dan EUR 2.500 over, dan betaalt Obvion dat aan u uit. Is het meer, dan wordt het verwerkt als extra vergoedingsvrije terugbetaling op uw lening.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, maar hoogte en duur verschillen per hypotheekvorm<small>Bij de Woon Hypotheek is de vergoeding gelijk aan je hypotheekrente en loopt die 12 maanden bij bestaande bouw. Bij nieuwbouw is dat 24 maanden voor hypotheekaanvragen vanaf 16 september 2024; voor aanvragen van daarvóór blijft het 12 maanden. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>12 maanden bij verbouwing, 24 bij nieuwbouw<small>Het depot kan bij verbouwing tot 24 maanden lopen. Over de laatste 12 maanden betaal je wel rente maar ontvang je geen vergoeding meer.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Kosten voor zaken die aan de woning vastzitten, zoals een keuken, badkamer of nieuwe vloer. De facturen moeten overeenkomen met de verbouwingsspecificatie en waardevermeerderend zijn.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Kopiefactuur, getekend voor akkoord<small>Je tekent de kopie van de factuur voor akkoord met betaling en uploadt die via MijnObvion.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Tot EUR 2.500 naar je eigen rekening<small>Blijft er minder dan EUR 2.500 over, dan betaalt Obvion dat aan je uit. Is het meer, dan wordt het verwerkt als extra vergoedingsvrije terugbetaling op je lening.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-obvion.html">Alle voorwaarden van Obvion<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-sns.html">SNS</a></h3>
-                        <span class="bs-controle">gecontroleerd 18 augustus 2026</span>
+                <article class="ul-vgl__item" id="sns" data-bank="sns">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-sns.html">SNS</a></h3>
+                        <span class="ul-controle">gecontroleerd 18 augustus 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd</span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd</span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd</span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd</span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan je hypotheekrente<small>De vergoeding loopt over de hele looptijd, dus ook over een verlenging en daarmee tot 36 maanden. Daardoor betaalt u per saldo alleen hypotheekrente over het geld dat al aan de bouw of verbouwing is uitgegeven. Bij de SNS Bespaarhypotheek wordt de depotrente maandelijks opnieuw bepaald op het gewogen gemiddelde van uw hypotheekrentes.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan uw hypotheekrente</dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>36 maanden<small>De vergoeding loopt door tot het einde van de looptijd.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Arbeidsuren en materialen die zijn besteed aan de bouw, verbouwing of verbetering van de woning. De materialen moeten aan de woning vastzitten en mogen niet roerend zijn.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur of kassabon<small>Heeft u zelf voorgeschoten, dan hoort daar een betaalbewijs bij: een kopie bankafschrift of de bon van de pinbetaling. Ongespecificeerde facturen voor diensten worden afgekeurd.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd>Ja, met een betaalbewijs<small>Stuurt u een kopie van de factuur of kassabon mee met een betaalbewijs, dan betaalt SNS het bedrag uit op de incassorekening van uw hypotheek.</small></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Wordt afgelost op de hypotheek<small>Zit er bij beeindiging nog geld in het depot, dan gebruikt SNS dat om een deel van de hypotheek mee af te lossen.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan je hypotheekrente<small>De vergoeding loopt over de hele looptijd, dus ook over een verlenging en daarmee tot 36 maanden. Daardoor betaal je per saldo alleen hypotheekrente over het geld dat al aan de bouw of verbouwing is uitgegeven. Bij de SNS Bespaarhypotheek wordt de depotrente maandelijks opnieuw bepaald op het gewogen gemiddelde van je hypotheekrentes.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan je hypotheekrente</dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>36 maanden<small>De vergoeding loopt door tot het einde van de looptijd.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Arbeidsuren en materialen die zijn besteed aan de bouw, verbouwing of verbetering van de woning. De materialen moeten aan de woning vastzitten en mogen niet roerend zijn.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur of kassabon<small>Heb je zelf voorgeschoten, dan hoort daar een betaalbewijs bij: een kopie bankafschrift of de bon van de pinbetaling. Ongespecificeerde facturen voor diensten worden afgekeurd.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd>Ja, met een betaalbewijs<small>Stuur je een kopie van de factuur of kassabon mee met een betaalbewijs, dan betaalt SNS het bedrag uit op de incassorekening van je hypotheek.</small></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Wordt afgelost op de hypotheek<small>Zit er bij beeindiging nog geld in het depot, dan gebruikt SNS dat om een deel van de hypotheek mee af te lossen.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-sns.html">Alle voorwaarden van SNS<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-asr.html">a.s.r.</a></h3>
-                        <span class="bs-controle">gecontroleerd 2 oktober 2026</span>
+                <article class="ul-vgl__item" id="asr" data-bank="asr">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-asr.html">a.s.r.</a></h3>
+                        <span class="ul-controle">gecontroleerd 2 oktober 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:28.6%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">24 mnd</span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:28.6%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">24 mnd</span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:14.3%"></span></span></span>
-                            <span class="bs-balk__waarde">30 mnd</span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:14.3%"></span></span></span>
+                            <span class="ul-balk__waarde">30 mnd</span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan de gemiddelde rente over uw lening<small>De vergoeding is even hoog als de rente die u gemiddeld over uw lening betaalt. Zij loopt over de standaardlooptijd; verlengt u het depot, dan vervalt de vergoeding over die verlenging.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan uw hypotheekrente</dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>12 maanden bij verbouwing, 24 bij nieuwbouw<small>Het depot kan bij verbouwing tot 24 maanden lopen. Over de laatste 12 maanden betaalt u wel rente maar ontvangt u geen vergoeding meer.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Rekeningen van aannemers en leveranciers, voor zover zij horen bij het project waarvoor het depot is geopend. a.s.r. kijkt bij elke rekening of die leesbaar is, binnen het doel van het depot valt, uit het resterende saldo betaald kan worden en of uw maandbedrag niet achterloopt.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Rekening of kassabon<small>Een offerte, orderbevestiging of koopovereenkomst wordt niet geaccepteerd. De rekening moet goed leesbaar zijn.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd>Binnen maximaal 5 werkdagen aan u of de aannemer<small>Na goedkeuring staat het geld uiterlijk de volgende werkdag op de rekening</small></dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd>U krijgt 2 maanden voor de einddatum bericht<small>Ongeveer twee maanden voor de einddatum krijgt u bericht van a.s.r.; u vraagt de verlenging daarna zelf aan.</small></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Wordt afgelost op de lening, zonder kosten<small>Het overgebleven bedrag gaat als terugbetaling op de lening. Daarvoor betaalt u geen kosten, en het telt niet mee voor het percentage dat u elk jaar boetevrij mag aflossen.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan de gemiddelde rente over je lening<small>De vergoeding is even hoog als de rente die je gemiddeld over je lening betaalt. Zij loopt over de standaardlooptijd; verleng je het depot, dan vervalt de vergoeding over die verlenging.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan je hypotheekrente</dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>12 maanden bij verbouwing, 24 bij nieuwbouw<small>Het depot kan bij verbouwing tot 24 maanden lopen. Over de laatste 12 maanden betaal je wel rente maar ontvang je geen vergoeding meer.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Rekeningen van aannemers en leveranciers, voor zover zij horen bij het project waarvoor het depot is geopend. a.s.r. kijkt bij elke rekening of die leesbaar is, binnen het doel van het depot valt, uit het resterende saldo betaald kan worden en of je maandbedrag niet achterloopt.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Rekening of kassabon<small>Een offerte, orderbevestiging of koopovereenkomst wordt niet geaccepteerd. De rekening moet goed leesbaar zijn.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd>Binnen maximaal 5 werkdagen aan je of de aannemer<small>Na goedkeuring staat het geld uiterlijk de volgende werkdag op de rekening</small></dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd>Je krijgt 2 maanden voor de einddatum bericht<small>Ongeveer twee maanden voor de einddatum krijg je bericht van a.s.r.; je vraagt de verlenging daarna zelf aan.</small></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Wordt afgelost op de lening, zonder kosten<small>Het overgebleven bedrag gaat als terugbetaling op de lening. Daarvoor betaal je geen kosten, en het telt niet mee voor het percentage dat je elk jaar boetevrij mag aflossen.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-asr.html">Alle voorwaarden van a.s.r.<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-asn.html">ASN Bank</a></h3>
-                        <span class="bs-controle">gecontroleerd 2 oktober 2026</span>
+                <article class="ul-vgl__item" id="asn" data-bank="asn">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-asn.html">ASN Bank</a></h3>
+                        <span class="ul-controle">gecontroleerd 2 oktober 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd</span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd</span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd</span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd</span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan uw hypotheekrente<small>De vergoeding is gelijk aan uw hypotheekrente en wordt verrekend met de rente die u betaalt; u betaalt dus alleen rente over wat al is opgenomen. Het percentage wordt vastgezet als de akte passeert en tijdens de looptijd niet aangepast. ASN noemt geen moment waarop de vergoeding binnen de standaardlooptijd van 24 maanden stopt, en publiceert ook niet wat er met de vergoeding gebeurt als u verlengt. Uitzondering: bij de Bespaarhypotheek wordt het percentage elke maand opnieuw vastgesteld op het gewogen gemiddelde van uw hypotheek.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan uw hypotheekrente</dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>24 maanden<small>Het depot kan bij verbouwing tot 36 maanden lopen. Over de laatste 12 maanden publiceert deze aanbieder niet of de vergoeding doorloopt; vraag dat na voordat u verlengt.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Werk en materiaal dat na afloop vast aan de woning zit. Daaronder vallen onder meer sanitair en tegelwerk, inbouwapparatuur en vaste keukenkasten, bestrating en beplanting, riolering en leidingwerk, een uitbouw of dakkapel, de cv-installatie en een vloer die vastligt zoals parket of gietvloer. Ook het plaatsen zelf telt mee: installatie, puinafvoer, de huur van gereedschap, containers en steigers, en het inschakelen van vakmensen. Losse of meeneembare zaken vallen erbuiten; ASN noemt zwevend laminaat, gordijnen, decoratie en tuinverlichting als voorbeelden die niet mogen.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur, ingediend via de app of online bankieren<small>Betaalt u er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van, dan moet dat duidelijk op de rekening staan. ASN belt als iets onduidelijk is of als u iets declareert wat niet mag.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd>Ja, aan uzelf uitbetaald<small>U mag het bedrag rechtstreeks aan bijvoorbeeld de aannemer laten uitbetalen, of aan uzelf als u de rekening heeft voorgeschoten.</small></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Wordt kosteloos afgelost op de hypotheek<small>Eerst op het leningdeel dat voor verduurzaming bestemd is, daarna op de rest van de hypotheek. U betaalt geen vergoeding voor die extra aflossing.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan je hypotheekrente<small>De vergoeding is gelijk aan je hypotheekrente en wordt verrekend met de rente die je betaalt; je betaalt dus alleen rente over wat al is opgenomen. Het percentage wordt vastgezet als de akte passeert en tijdens de looptijd niet aangepast. ASN noemt geen moment waarop de vergoeding binnen de standaardlooptijd van 24 maanden stopt, en publiceert ook niet wat er met de vergoeding gebeurt als je verlengt. Uitzondering: bij de Bespaarhypotheek wordt het percentage elke maand opnieuw vastgesteld op het gewogen gemiddelde van je hypotheek.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan je hypotheekrente</dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>24 maanden<small>Het depot kan bij verbouwing tot 36 maanden lopen. Over de laatste 12 maanden publiceert deze aanbieder niet of de vergoeding doorloopt; vraag dat na voordat je verlengt.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Werk en materiaal dat na afloop vast aan de woning zit. Daaronder vallen onder meer sanitair en tegelwerk, inbouwapparatuur en vaste keukenkasten, bestrating en beplanting, riolering en leidingwerk, een uitbouw of dakkapel, de cv-installatie en een vloer die vastligt zoals parket of gietvloer. Ook het plaatsen zelf telt mee: installatie, puinafvoer, de huur van gereedschap, containers en steigers, en het inschakelen van vakmensen. Losse of meeneembare zaken vallen erbuiten; ASN noemt zwevend laminaat, gordijnen, decoratie en tuinverlichting als voorbeelden die niet mogen.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur, ingediend via de app of online bankieren<small>Betaal je er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van, dan moet dat duidelijk op de rekening staan. ASN belt als iets onduidelijk is of als je iets declareert wat niet mag.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd>Ja, aan jezelf uitbetaald<small>Je mag het bedrag rechtstreeks aan bijvoorbeeld de aannemer laten uitbetalen, of aan jezelf als je de rekening hebt voorgeschoten.</small></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Wordt kosteloos afgelost op de hypotheek<small>Eerst op het leningdeel dat voor verduurzaming bestemd is, daarna op de rest van de hypotheek. Je betaalt geen vergoeding voor die extra aflossing.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-asn.html">Alle voorwaarden van ASN Bank<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-argenta.html">Argenta</a></h3>
-                        <span class="bs-controle">gecontroleerd 2 oktober 2026</span>
+                <article class="ul-vgl__item" id="argenta" data-bank="argenta">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-argenta.html">Argenta</a></h3>
+                        <span class="ul-controle">gecontroleerd 2 oktober 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd</span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd</span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span><span class="bs-balk__vul bs-balk__vul--verlenging" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">36 mnd</span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span><span class="ul-balk__vul ul-balk__vul--verlenging" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">36 mnd</span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan uw hypotheekrente<small>Het rentetarief van het bouwdepot is gelijk aan het tarief dat u voor de hypotheek betaalt. Argenta vermeldt uitdrukkelijk dat de vergoeding na verlenging vervalt.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan uw hypotheekrente</dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>24 maanden<small>Het depot kan bij verbouwing tot 36 maanden lopen. Over de laatste 12 maanden betaalt u wel rente maar ontvangt u geen vergoeding meer.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Kosten die binnen uw verbouwplan vallen en nog niet zijn voldaan: bedragen uit de verbouwingsspecificatie, uit de koop- of aannemingsovereenkomst, en het meerwerk met de kosten die daarbij horen. Past een rekening qua bedrag of werkzaamheden niet in dat plan, dan wordt zij niet betaald.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur of kassabon<small>U uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan u of aan uw leverancier.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd>Ja, u kiest de bestemming per declaratie<small>U kiest zelf of het bedrag rechtstreeks naar de leverancier gaat of naar uw eigen bankrekening.</small></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Geldt als extra aflossing<small>Blijft er na de verbouwing saldo in het depot staan, dan wordt dat als extra aflossing op de lening verwerkt.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan je hypotheekrente<small>Het rentetarief van het bouwdepot is gelijk aan het tarief dat je voor de hypotheek betaalt. Argenta vermeldt uitdrukkelijk dat de vergoeding na verlenging vervalt.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan je hypotheekrente</dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>24 maanden<small>Het depot kan bij verbouwing tot 36 maanden lopen. Over de laatste 12 maanden betaal je wel rente maar ontvang je geen vergoeding meer.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Kosten die binnen je verbouwplan vallen en nog niet zijn voldaan: bedragen uit de verbouwingsspecificatie, uit de koop- of aannemingsovereenkomst, en het meerwerk met de kosten die daarbij horen. Past een rekening qua bedrag of werkzaamheden niet in dat plan, dan wordt zij niet betaald.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur of kassabon<small>Je uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan je of aan je leverancier.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd>Ja, je kiest de bestemming per declaratie<small>Je kiest zelf of het bedrag rechtstreeks naar de leverancier gaat of naar je eigen bankrekening.</small></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Geldt als extra aflossing<small>Blijft er na de verbouwing saldo in het depot staan, dan wordt dat als extra aflossing op de lening verwerkt.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-argenta.html">Alle voorwaarden van Argenta<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-centraal-beheer.html">Centraal Beheer</a></h3>
-                        <span class="bs-controle">gecontroleerd 2 oktober 2026</span>
+                <article class="ul-vgl__item" id="centraal-beheer" data-bank="centraal-beheer">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-centraal-beheer.html">Centraal Beheer</a></h3>
+                        <span class="ul-controle">gecontroleerd 2 oktober 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span></span></span>
-                            <span class="bs-balk__waarde">24 mnd</span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span></span></span>
+                            <span class="ul-balk__waarde">24 mnd</span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span></span></span>
-                            <span class="bs-balk__waarde">24 mnd</span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span></span></span>
+                            <span class="ul-balk__waarde">24 mnd</span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan uw hypotheekrente<small>U betaalt hypotheekrente over het hele depot en ontvangt vergoeding over wat er nog in staat, tegen hetzelfde percentage. Neemt u geld op, dan daalt de vergoeding en stijgt uw maandlast.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan uw hypotheekrente</dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>24 maanden<small>De vergoeding loopt door tot het einde van de looptijd.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Wat na de verbouwing vast aan de woning zit, en alleen voor zover het in uw verbouwplan of koop-aanneemovereenkomst staat. Verplaatsbare inrichting valt erbuiten.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur of kassabon<small>Een offerte wordt niet geaccepteerd: uit het stuk moet blijken dat er een aankoop is geweest of werkzaamheden zijn gedaan.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd>Binnen 6 werkdagen als de declaratie aan de spelregels voldoet</dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Wordt afgelost op de lening<small>Na de standaardlooptijd van twee jaar beeindigt Centraal Beheer het depot en lost het resterende bedrag af op de lening. Eerder beeindigen kan per e-mail.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan je hypotheekrente<small>Je betaalt hypotheekrente over het hele depot en ontvangt vergoeding over wat er nog in staat, tegen hetzelfde percentage. Neem je geld op, dan daalt de vergoeding en stijgt je maandlast.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan je hypotheekrente</dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>24 maanden<small>De vergoeding loopt door tot het einde van de looptijd.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Wat na de verbouwing vast aan de woning zit, en alleen voor zover het in je verbouwplan of koop-aanneemovereenkomst staat. Verplaatsbare inrichting valt erbuiten.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Factuur of kassabon<small>Een offerte wordt niet geaccepteerd: uit het stuk moet blijken dat er een aankoop is geweest of werkzaamheden zijn gedaan.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd>Binnen 6 werkdagen als de declaratie aan de spelregels voldoet</dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Wordt afgelost op de lening<small>Na de standaardlooptijd van twee jaar beeindigt Centraal Beheer het depot en lost het resterende bedrag af op de lening. Eerder beeindigen kan per e-mail.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-centraal-beheer.html">Alle voorwaarden van Centraal Beheer<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
-                <article class="bs-vgl__item">
-                    <div class="bs-vgl__kop">
-                        <h3 class="bs-vgl__naam"><a href="bouwdepot-allianz.html">Allianz</a></h3>
-                        <span class="bs-controle">gecontroleerd 2 oktober 2026</span>
+                <article class="ul-vgl__item" id="allianz" data-bank="allianz">
+                    <div class="ul-vgl__kop">
+                        <h3><a href="bouwdepot-allianz.html">Allianz</a></h3>
+                        <span class="ul-controle">gecontroleerd 2 oktober 2026</span>
                     </div>
 
-                    <div class="bs-balken">
-<div class="bs-balk">
-                            <span class="bs-balk__label">Verbouwing</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:28.6%"></span></span></span>
-                            <span class="bs-balk__waarde">12 mnd</span>
+                    <div class="ul-balken">
+<div class="ul-balk">
+                            <span class="ul-balk__label">Verbouwing</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:28.6%"></span></span></span>
+                            <span class="ul-balk__waarde">12 mnd</span>
                         </div>
-<div class="bs-balk">
-                            <span class="bs-balk__label">Nieuwbouw</span>
-                            <span class="bs-balk__spoor"><span class="bs-balk__stapel"><span class="bs-balk__vul" style="width:57.1%"></span></span></span>
-                            <span class="bs-balk__waarde">24 mnd</span>
+<div class="ul-balk">
+                            <span class="ul-balk__label">Nieuwbouw</span>
+                            <span class="ul-balk__spoor"><span class="ul-balk__stapel"><span class="ul-balk__vul" style="width:57.1%"></span></span></span>
+                            <span class="ul-balk__waarde">24 mnd</span>
                         </div>
                     </div>
 
-                    <dl class="bs-feiten">
-                        <div class="bs-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan uw hypotheekrente<small>U ontvangt dezelfde vergoeding als de rente die u over de lening betaalt. Zodra u facturen indient gaat u over dat bedrag hypotheekrente betalen, dus uw maandlast stijgt naarmate de verbouwing vordert.</small></dd></div>
-                        <div class="bs-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan uw hypotheekrente</dd></div>
-                        <div class="bs-feit"><dt>Vergoeding loopt</dt><dd>12 maanden bij verbouwing, 24 bij nieuwbouw<small>De vergoeding loopt door tot het einde van de looptijd.</small></dd></div>
-                        <div class="bs-feit bs-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Werk aan de woning zelf, zoals een keuken, badkamer of vloer, en de materialen die daarbij horen. Allianz noemt onder meer gehuurd gereedschap, verf en gipsplaten. U kunt alleen declareren wat in uw verbouwplan staat.</dd></div>
-                        <div class="bs-feit"><dt>Bewijsstuk bij declareren</dt><dd>Kopie van een factuur, rekening of kassabon<small>Een bestelbon of offerte wordt niet uitbetaald. Daarop bestaat een uitzondering: een bestelbon van IKEA voor zaken die vast aan de woning komen te zitten.</small></dd></div>
-                        <div class="bs-feit"><dt>Manier van opnemen</dt><dd>U declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
-                        <div class="bs-feit"><dt>Uitbetaling</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Zelf voorschieten</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Verlengen regelen</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Grens per opname</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div class="bs-feit"><dt>Restant bij beëindiging</dt><dd>Wordt afgelost op de hypotheek<small>Geeft u aan dat de verbouwing klaar is en staat er nog geld in het depot, dan lost Allianz dat af op uw hypotheek.</small></dd></div>
+                    <dl class="ul-feiten">
+                        <div class="ul-feit"><dt>Vergoeding over depot</dt><dd>Ja, gelijk aan je hypotheekrente<small>Je ontvangt dezelfde vergoeding als de rente die je over de lening betaalt. Zodra je facturen indient ga je over dat bedrag hypotheekrente betalen, dus je maandlast stijgt naarmate de verbouwing vordert.</small></dd></div>
+                        <div class="ul-feit"><dt>Hoogte van die vergoeding</dt><dd>Gelijk aan je hypotheekrente</dd></div>
+                        <div class="ul-feit"><dt>Vergoeding loopt</dt><dd>12 maanden bij verbouwing, 24 bij nieuwbouw<small>De vergoeding loopt door tot het einde van de looptijd.</small></dd></div>
+                        <div class="ul-feit ul-feit--proza"><dt>Wat mag eruit betaald worden</dt><dd>Werk aan de woning zelf, zoals een keuken, badkamer of vloer, en de materialen die daarbij horen. Allianz noemt onder meer gehuurd gereedschap, verf en gipsplaten. Je kunt alleen declareren wat in je verbouwplan staat.</dd></div>
+                        <div class="ul-feit"><dt>Bewijsstuk bij declareren</dt><dd>Kopie van een factuur, rekening of kassabon<small>Een bestelbon of offerte wordt niet uitbetaald. Daarop bestaat een uitzondering: een bestelbon van IKEA voor zaken die vast aan de woning komen te zitten.</small></dd></div>
+                        <div class="ul-feit"><dt>Manier van opnemen</dt><dd>Je declareert met een bewijsstuk<small>De aanbieder beoordeelt elke declaratie voordat er wordt uitbetaald.</small></dd></div>
+                        <div class="ul-feit"><dt>Uitbetaling</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Zelf voorschieten</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Verlengen regelen</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Grens per opname</dt><dd><span class="ul-leeg">niet gepubliceerd</span></dd></div>
+                        <div class="ul-feit"><dt>Restant bij beëindiging</dt><dd>Wordt afgelost op de hypotheek<small>Geef je aan dat de verbouwing klaar is en staat er nog geld in het depot, dan lost Allianz dat af op je hypotheek.</small></dd></div>
                     </dl>
+                    <p class="ul-vgl__meer"><a href="bouwdepot-allianz.html">Alle voorwaarden van Allianz<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>
                 </div>
 
-                <p class="bs-hulp">Klopt een gegeven niet meer? <a href="contact.html">Laat het weten</a> met een link naar de actuele voorwaarden.</p>
-            </div>
+                <p class="wr-voorbehoud">Klopt een gegeven niet meer? <a href="contact.html">Laat het weten</a> met een link naar de actuele voorwaarden.</p>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <aside class="bs-melding">
+        <section class="wr-wrap">
+                <aside class="wr-melding">
                     <p><strong>Onafhankelijk en zonder samenwerking.</strong> Wij zijn niet verbonden aan, en werken niet samen met, de genoemde geldverstrekkers. Deze pagina vergelijkt gepubliceerde voorwaarden en bevat geen aanbeveling, rangorde of persoonlijk advies.</p>
-                    <p>Voorwaarden verschillen per hypotheekvorm en kunnen in uw offerte afwijken. Elke aanbieder vermeldt de bron en de controledatum.</p>
+                    <p>Voorwaarden verschillen per hypotheekvorm en kunnen in je offerte afwijken. Elke aanbieder vermeldt de bron en de controledatum.</p>
                 </aside>
-            </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Waarom dit ertoe doet</p>
-                    <h2 class="bs-titel">Drie voorwaarden die uw verbouwing kunnen bepalen</h2>
+        <section class="wr-wrap wr-sectie ul-sectie--na-melding">
+                    <p class="ui-opschrift">Waarom dit ertoe doet</p>
+                    <h2>Drie voorwaarden die je verbouwing kunnen bepalen</h2>
 
-                <div class="bs-kolommen">
+                <div class="wr-kolommen">
                     <article>
                         <h3>De looptijd is een harde grens</h3>
-                        <p>Loopt uw verbouwing uit voorbij de depottermijn, dan wordt het restant meestal afgelost op uw hypotheek. Het geld is niet weg, maar u kunt het niet meer voor de verbouwing gebruiken zonder nieuwe financiering. Verlenging is bij de meeste aanbieders eenmalig en moet vóór de einddatum worden aangevraagd. De <a href="depotplanner.html">depotplanner</a> rekent die datums voor u uit vanaf uw passeerdatum.</p>
+                        <p>Loopt je verbouwing uit voorbij de depottermijn, dan wordt het restant meestal afgelost op je hypotheek. Het geld is niet weg, maar je kunt het niet meer voor de verbouwing gebruiken zonder nieuwe financiering. Verlenging is bij de meeste aanbieders eenmalig en moet vóór de einddatum worden aangevraagd. De <a href="depotplanner.html">depotplanner</a> rekent die datums voor je uit vanaf je passeerdatum.</p>
                     </article>
                     <article>
-                        <h3>Niet iedereen betaalt rente over uw depot</h3>
-                        <p>De meeste aanbieders vergoeden rente over het bedrag dat nog in het depot staat, vaak gelijk aan uw hypotheekrente. Maar niet allemaal, en niet altijd de hele looptijd. Er bestaat ook een model waarbij u alleen rente betaalt over wat u al hebt opgenomen; dan is er geen vergoeding, maar ook geen renteverlies. Zie de <a href="renteverlies-bouwdepot.html">renteverliesberekening</a>.</p>
+                        <h3>Niet iedereen betaalt rente over je depot</h3>
+                        <p>De meeste aanbieders vergoeden rente over het bedrag dat nog in het depot staat, vaak gelijk aan je hypotheekrente. Maar niet allemaal, en niet altijd de hele looptijd. Er bestaat ook een model waarbij je alleen rente betaalt over wat je al hebt opgenomen; dan is er geen vergoeding, maar ook geen renteverlies. Zie de <a href="renteverlies-bouwdepot.html">renteverliesberekening</a>.</p>
                     </article>
                     <article>
                         <h3>Een bon is niet overal een factuur</h3>
-                        <p>Sommige aanbieders accepteren een kassabon, andere uitsluitend een factuur op naam met KvK- en btw-nummer. Offertes en pro-formafacturen worden vrijwel nergens geaccepteerd. Dat verschil bepaalt hoe u uw inkopen organiseert. Bekijk ook de <a href="stappenplan.html#fouten">veelgemaakte fouten bij declaraties</a>.</p>
+                        <p>Sommige aanbieders accepteren een kassabon, andere uitsluitend een factuur op naam met KvK- en btw-nummer. Offertes en pro-formafacturen worden vrijwel nergens geaccepteerd. Dat verschil bepaalt hoe je je inkopen organiseert. Bekijk ook de <a href="stappenplan.html#fouten">veelgemaakte fouten bij declaraties</a>.</p>
                     </article>
                 </div>
-            </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Twee bewuste keuzes</p>
-                    <h2 class="bs-titel">Wat u hier niet vindt, en waarom</h2>
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Twee bewuste keuzes</p>
+                    <h2>Wat je hier niet vindt, en waarom</h2>
 
-                <div class="bs-kolommen">
+                <div class="wr-kolommen ul-kolommen--breed">
                     <article>
                         <h3>Geen rentepercentages, wel de rekenregel</h3>
-                        <p>Wij publiceren geen hypotheekrentes. Een rente hangt af van de rentevastperiode, van de verhouding tussen uw lening en de woningwaarde en soms van het energielabel. Dat zijn tientallen waarden per aanbieder die wekelijks wijzigen, en een rente van twee dagen oud is simpelweg onjuist.</p>
-                        <p>Wat wel stabiel is, is de <strong>regel</strong> waarmee een aanbieder de depotvergoeding aan uw eigen hypotheekrente koppelt. Die staat hierboven per aanbieder: gelijk aan uw rente, een procentpunt lager, of geen vergoeding. Bij 9 van de 13 aanbieders is de vergoeding daarmee uit te rekenen zodra u uw eigen rente invult, en dat doen de <a href="bouwdepot-berekenen.html#tijdens-de-bouw">maandlastberekening</a> en de <a href="renteverlies-bouwdepot.html">renteverliesberekening</a> ook. Die uitkomst gaat over uw eigen offerte in plaats van over een marktgemiddelde, en veroudert niet.</p>
+                        <p>Wij publiceren geen hypotheekrentes. Een rente hangt af van de rentevastperiode, van de verhouding tussen je lening en de woningwaarde en soms van het energielabel. Dat zijn tientallen waarden per aanbieder die wekelijks wijzigen, en een rente van twee dagen oud is simpelweg onjuist.</p>
+                        <p>Wat wel stabiel is, is de <strong>regel</strong> waarmee een aanbieder de depotvergoeding aan je eigen hypotheekrente koppelt. Die staat hierboven per aanbieder: gelijk aan je rente, een procentpunt lager, of geen vergoeding. Bij 9 van de 13 aanbieders is de vergoeding daarmee uit te rekenen zodra je je eigen rente invult, en dat doen de <a href="bouwdepot-berekenen.html#tijdens-de-bouw">maandlastberekening</a> en de <a href="renteverlies-bouwdepot.html">renteverliesberekening</a> ook. Die uitkomst gaat over je eigen offerte in plaats van over een marktgemiddelde, en veroudert niet.</p>
                     </article>
                     <article>
                         <h3>Wat geen enkele aanbieder publiceert</h3>
                         <p>Drie gegevens ontbreken bij alle 13: het <strong>minimumbedrag per opname</strong>, de <strong>grens per opname</strong> bij aanbieders zonder declaratieproces, en of <strong>eigen arbeid</strong> declarabel is. Dat laatste is de meest gestelde vraag van wie zelf klust, en niemand geeft er publiek antwoord op.</p>
-                        <p>Wij vullen die gaten niet met een aanname. Ze staan hierboven als &quot;niet gepubliceerd&quot;, en dat is zelf het antwoord: <strong>u moet dit schriftelijk navragen en het antwoord bewaren</strong>. Een mondelinge toezegging helpt u niet als een declaratie later wordt afgewezen. De <a href="stappenplan.html#adviesgesprek">advieschecklist</a> heeft hier vragen voor staan.</p>
+                        <p>Wij vullen die gaten niet met een aanname. Ze staan hierboven als &quot;niet gepubliceerd&quot;, en dat is zelf het antwoord: <strong>je moet dit schriftelijk navragen en het antwoord bewaren</strong>. Een mondelinge toezegging helpt je niet als een declaratie later wordt afgewezen. De <a href="stappenplan.html#adviesgesprek">advieschecklist</a> heeft hier vragen voor staan.</p>
                     </article>
                 </div>
-            </div>
         </section>
 
-        <section class="bs-donker">
-            <div class="bs-wrap">
-                <p class="bs-micro">Verantwoording</p>
-                <h2 class="bs-titel">Hoe deze pagina tot stand komt</h2>
-                <div class="bs-proza">
+        <section class="wr-wrap wr-sectie ul-slot">
+                <p class="ui-opschrift">Verantwoording</p>
+                <h2>Hoe deze pagina tot stand komt</h2>
+                <div class="wr-proza">
                 <p>Elk gegeven komt uit de officiële, publiek toegankelijke voorwaarden van de betreffende aanbieder. De bron staat bij iedere aanbieder vermeld met de datum waarop die is geraadpleegd.</p>
                 <p>Waar een aanbieder iets niet publiceert, staat <em>niet gepubliceerd</em>. Er wordt niets geschat of afgeleid. Dat een aanbieder geen minimum declaratiebedrag noemt, is zelf bruikbare informatie.</p>
                 <p>Voorwaarden wijzigen. Deze pagina claimt daarom geen permanente actualiteit, maar vermeldt per aanbieder wanneer de gegevens voor het laatst zijn gecontroleerd. Lees ook de <a href="methodologie.html">volledige methodologie</a>.</p>
                 </div>
-            </div>
         </section>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
-
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
+
+    <script type="module" src="/src/uitleg/declaratie.js"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",

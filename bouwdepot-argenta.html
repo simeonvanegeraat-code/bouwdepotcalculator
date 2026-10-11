@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,14 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/uitleg.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,38 +170,33 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a>
-        <span aria-hidden="true">&middot;</span> <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden vergelijken</a>
-        <span aria-hidden="true">&middot;</span> <span>Argenta</span>
-    </nav>
-
     <main>
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <p class="bs-micro">Gepubliceerde voorwaarden &middot; <span class="bs-controle">gecontroleerd 2 oktober 2026</span></p>
-                <h1 class="bs-reken__titel">Bouwdepot bij Argenta</h1>
-                <p class="bs-reken__lead">Looptijd, verlenging, depotvergoeding, bewijsstukken en uitbetaling zoals Argenta die zelf publiceert.</p>
+        <section class="wr-wrap wr-kop ul-kop" id="inhoud">
+            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden vergelijken</a> <span aria-hidden="true">&middot;</span> <span>Argenta</span></nav>
+            <h1>Bouwdepot bij Argenta</h1>
+            <p class="wr-lead">Looptijd, verlenging, depotvergoeding, bewijsstukken en uitbetaling zoals Argenta die zelf publiceert.</p>
+            <p class="ui-opschrift">Gepubliceerde voorwaarden &middot; <span class="ul-controle">gecontroleerd 2 oktober 2026</span></p>
+        </section>
 
-            <div class="bs-kern bs-kern--twee">
-                <div class="bs-kern__item">
-                    <p class="bs-kern__cijfer tnum">36</p>
-                    <p class="bs-kern__eenheid">maanden voor een verbouwing</p>
-                    <p class="bs-kern__tekst">24 maanden standaard, plus 12 maanden verlenging.</p>
+        <section class="wr-wrap wr-sectie wr-sectie--vervolg">
+            <div class="wr-kern ul-kern--twee">
+                <div>
+                    <p class="wr-kern__cijfer tnum">36</p>
+                    <p class="wr-kern__eenheid">maanden voor een verbouwing</p>
+                    <p class="wr-kern__tekst">24 maanden standaard, plus 12 maanden verlenging.</p>
                 </div>
-                <div class="bs-kern__item">
-                    <p class="bs-kern__cijfer tnum">36</p>
-                    <p class="bs-kern__eenheid">maanden voor nieuwbouw</p>
-                    <p class="bs-kern__tekst">24 maanden standaard, plus 12 maanden verlenging.</p>
+                <div>
+                    <p class="wr-kern__cijfer tnum">36</p>
+                    <p class="wr-kern__eenheid">maanden voor nieuwbouw</p>
+                    <p class="wr-kern__tekst">24 maanden standaard, plus 12 maanden verlenging.</p>
                 </div>
-            </div>
             </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <h2 class="bs-titel">Alle gepubliceerde voorwaarden</h2>
-                <dl class="bs-detail">
+        <section class="wr-wrap wr-sectie">
+                <p class="ui-opschrift">Per onderwerp</p>
+                <h2>Alle gepubliceerde voorwaarden</h2>
+                <dl class="ul-detail">
                     <div>
                         <dt>Looptijd verbouwing</dt>
                         <dd>24 maanden</dd>
@@ -207,11 +207,11 @@
                     </div>
                     <div>
                         <dt>Verlenging</dt>
-                        <dd>12 maanden<small>Maximaal twee keer zes maanden, afhankelijk van de voorwaarden van uw lening. Na verlenging wordt er geen depotvergoeding meer verrekend.</small></dd>
+                        <dd>12 maanden<small>Maximaal twee keer zes maanden, afhankelijk van de voorwaarden van je lening. Na verlenging wordt er geen depotvergoeding meer verrekend.</small></dd>
                     </div>
                     <div>
                         <dt>Vergoeding over depotsaldo</dt>
-                        <dd>Ja, gelijk aan uw hypotheekrente<small>Het rentetarief van het bouwdepot is gelijk aan het tarief dat u voor de hypotheek betaalt. Argenta vermeldt uitdrukkelijk dat de vergoeding na verlenging vervalt.</small></dd>
+                        <dd>Ja, gelijk aan je hypotheekrente<small>Het rentetarief van het bouwdepot is gelijk aan het tarief dat je voor de hypotheek betaalt. Argenta vermeldt uitdrukkelijk dat de vergoeding na verlenging vervalt.</small></dd>
                     </div>
                     <div>
                         <dt>Vergoeding loopt</dt>
@@ -219,7 +219,7 @@
                     </div>
                     <div>
                         <dt>Verlenging regelen</dt>
-                        <dd><span class="bs-leeg">niet gepubliceerd</span></dd>
+                        <dd><span class="ul-leeg">niet gepubliceerd</span></dd>
                     </div>
                     <div>
                         <dt>Manier van opnemen</dt>
@@ -227,94 +227,99 @@
                     </div>
                     <div>
                         <dt>Maximum per declaratie</dt>
-                        <dd><span class="bs-leeg">niet gepubliceerd</span></dd>
+                        <dd><span class="ul-leeg">niet gepubliceerd</span></dd>
                     </div>
                     <div>
                         <dt>Doorlooptijd uitbetaling</dt>
-                        <dd><span class="bs-leeg">niet gepubliceerd</span></dd>
+                        <dd><span class="ul-leeg">niet gepubliceerd</span></dd>
                     </div>
                     <div>
                         <dt>Zelf voorschieten en terugvragen</dt>
-                        <dd>Ja, u kiest de bestemming per declaratie<small>U kiest zelf of het bedrag rechtstreeks naar de leverancier gaat of naar uw eigen bankrekening.</small></dd>
+                        <dd>Ja, je kiest de bestemming per declaratie<small>Je kiest zelf of het bedrag rechtstreeks naar de leverancier gaat of naar je eigen bankrekening.</small></dd>
                     </div>
                     <div>
                         <dt>Vereist bewijsstuk</dt>
-                        <dd>Factuur of kassabon<small>U uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan u of aan uw leverancier.</small></dd>
+                        <dd>Factuur of kassabon<small>Je uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan je of aan je leverancier.</small></dd>
                     </div>
                     <div>
                         <dt>Ouderdom van de factuur</dt>
-                        <dd><span class="bs-leeg">niet gepubliceerd</span></dd>
+                        <dd><span class="ul-leeg">niet gepubliceerd</span></dd>
                     </div>
                     <div>
-                        <dt>Wat u mag declareren</dt>
-                        <dd>Kosten die binnen uw verbouwplan vallen en nog niet zijn voldaan: bedragen uit de verbouwingsspecificatie, uit de koop- of aannemingsovereenkomst, en het meerwerk met de kosten die daarbij horen. Past een rekening qua bedrag of werkzaamheden niet in dat plan, dan wordt zij niet betaald.</dd>
+                        <dt>Wat je mag declareren</dt>
+                        <dd>Kosten die binnen je verbouwplan vallen en nog niet zijn voldaan: bedragen uit de verbouwingsspecificatie, uit de koop- of aannemingsovereenkomst, en het meerwerk met de kosten die daarbij horen. Past een rekening qua bedrag of werkzaamheden niet in dat plan, dan wordt zij niet betaald.</dd>
                     </div>
                     <div>
                         <dt>Restant bij beëindiging</dt>
                         <dd>Geldt als extra aflossing<small>Blijft er na de verbouwing saldo in het depot staan, dan wordt dat als extra aflossing op de lening verwerkt.</small></dd>
                     </div>
                 </dl>
-            </div>
         </section>
 
-        <section class="bs-donker">
-            <div class="bs-wrap">
-                <p class="bs-micro">In verhouding</p>
-                <h2 class="bs-titel">Hoe dit zich verhoudt tot de andere aanbieders</h2>
-                <ul class="bs-punten">
+        <section class="wr-wrap wr-sectie">
+                <p class="ui-opschrift">In verhouding</p>
+                <h2>Hoe dit zich verhoudt tot de andere aanbieders</h2>
+                <ul class="wr-lijst wr-proza">
                     <li>Voor een verbouwing van een bestaande woning ligt de maximale termijn van 36 maanden tussen de kortste (24) en de langste (42) in deze vergelijking.</li>
                     <li>Voor nieuwbouw ligt de maximale termijn van 36 maanden tussen de kortste (30) en de langste (42) in deze vergelijking.</li>
                     <li>Er wordt hier wel een vergoeding over het depotsaldo betaald. Dat is niet vanzelfsprekend: niet elke aanbieder in deze vergelijking doet dat.</li>
-                    <li>Van deze aanbieder zijn 3 gegevens niet publiek terug te vinden. Vraag die punten expliciet na bij uw adviseur voordat u tekent.</li>
+                    <li>Van deze aanbieder zijn 3 gegevens niet publiek terug te vinden. Vraag die punten expliciet na bij je adviseur voordat je tekent.</li>
                 </ul>
-                <p class="bs-hulp">Beschrijft uitsluitend gepubliceerde voorwaarden; geen oordeel over welke aanbieder beter past. Zie <a href="bouwdepot-voorwaarden-vergelijken.html">de volledige vergelijking</a>.</p>
-            </div>
+                <p class="wr-voorbehoud ul-na-lijst">Beschrijft uitsluitend gepubliceerde voorwaarden; geen oordeel over welke aanbieder beter past. Zie <a href="bouwdepot-voorwaarden-vergelijken.html">de volledige vergelijking</a>.</p>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <h2 class="bs-titel">Bijzonderheden</h2>
-                <ul class="bs-punten">
-                    <li>Onder EUR 25.000 verbouwkosten is een bouwdepot niet verplicht; het bedrag wordt dan bij de notaris aan u uitbetaald. Gaat het om noodzakelijk herstel, dan komt het wel in een depot.</li>
-                    <li>Argenta werkt met een verbouwplan: een optelsom van rubrieken uit het taxatierapport. U kunt alleen declareren wat daarin past, en het plan wijzigen kan alleen met toestemming.</li>
-                    <li>Leent u op basis van de marktwaarde na verbouwing, dan komt het volledige bedrag in het depot, ook onder EUR 25.000.</li>
+        <section class="wr-wrap wr-sectie">
+                <p class="ui-opschrift">Goed om te weten</p>
+                <h2>Bijzonderheden</h2>
+                <ul class="wr-lijst wr-proza">
+                    <li>Onder EUR 25.000 verbouwkosten is een bouwdepot niet verplicht; het bedrag wordt dan bij de notaris aan je uitbetaald. Gaat het om noodzakelijk herstel, dan komt het wel in een depot.</li>
+                    <li>Argenta werkt met een verbouwplan: een optelsom van rubrieken uit het taxatierapport. Je kunt alleen declareren wat daarin past, en het plan wijzigen kan alleen met toestemming.</li>
+                    <li>Leen je op basis van de marktwaarde na verbouwing, dan komt het volledige bedrag in het depot, ook onder EUR 25.000.</li>
                 </ul>
-            </div>
         </section>
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <aside class="bs-melding">
+        <section class="wr-wrap wr-sectie">
+                <p class="ui-opschrift">Verantwoording</p>
+                <h2>Bron en controle</h2>
+                <div class="wr-proza">
+                    <p>De gegevens op deze pagina komen uit de publieke informatie van Argenta, geraadpleegd op 2 oktober 2026:</p>
+                    <ul class="ul-bronnen">
+                        <li><a href="https://www.argenta.nl/wonen/veelgestelde-vragen/bouwdepot" target="_blank" rel="noopener noreferrer nofollow">https://www.argenta.nl/wonen/veelgestelde-vragen/bouwdepot</a></li>
+                        <li><a href="https://www.argenta.nl/hypotheekadvies/wat-is-een-bouwdepot" target="_blank" rel="noopener noreferrer nofollow">https://www.argenta.nl/hypotheekadvies/wat-is-een-bouwdepot</a></li>
+                    </ul>
+                    <p class="wr-voorbehoud">Voorwaarden wijzigen en kunnen per hypotheekvorm verschillen. Zie je een afwijking? <a href="contact.html">Laat het weten</a>.</p>
+                </div>
+        </section>
+
+        <section class="wr-wrap wr-sectie">
+                <p class="ui-opschrift">Verder</p>
+                <h2>Rekenen met deze voorwaarden</h2>
+                <div class="wr-register">
+                    <a href="bouwdepot-voorwaarden-vergelijken.html">
+                        <strong>Alle aanbieders vergelijken</strong>
+                        <span>Looptijd, vergoeding en bewijsstukken van 13 geldverstrekkers naast elkaar.</span>
+                    </a>
+                    <a href="depotplanner.html">
+                        <strong>Depotplanner</strong>
+                        <span>Wanneer het depot afloopt en wanneer verlengen geregeld moet zijn, vanaf je passeerdatum.</span>
+                    </a>
+                    <a href="bouwdepot-declaratie-afgewezen.html">
+                        <strong>Declaratie afgewezen</strong>
+                        <span>De redenen waarop een declaratie stukloopt, met de eisen per aanbieder.</span>
+                    </a>
+                </div>
+        </section>
+
+        <section class="wr-wrap">
+                <aside class="wr-melding">
                     <p><strong>Onafhankelijk en zonder samenwerking.</strong> Wij zijn niet verbonden aan, en werken niet samen met, de genoemde geldverstrekkers. Deze pagina vergelijkt gepubliceerde voorwaarden en bevat geen aanbeveling, rangorde of persoonlijk advies.</p>
-                    <p>Voorwaarden verschillen per hypotheekvorm en kunnen in uw offerte afwijken. Elke aanbieder vermeldt de bron en de controledatum.</p>
+                    <p>Voorwaarden verschillen per hypotheekvorm en kunnen in je offerte afwijken. Elke aanbieder vermeldt de bron en de controledatum.</p>
                 </aside>
-
-                <h2 class="bs-titel">Bron en controle</h2>
-                <p>De gegevens op deze pagina komen uit de publieke informatie van Argenta, geraadpleegd op 2 oktober 2026:</p>
-                <ul class="bs-bronnen">
-                    <li><a href="https://www.argenta.nl/wonen/veelgestelde-vragen/bouwdepot" target="_blank" rel="noopener noreferrer nofollow">https://www.argenta.nl/wonen/veelgestelde-vragen/bouwdepot</a></li>
-                    <li><a href="https://www.argenta.nl/hypotheekadvies/wat-is-een-bouwdepot" target="_blank" rel="noopener noreferrer nofollow">https://www.argenta.nl/hypotheekadvies/wat-is-een-bouwdepot</a></li>
-                </ul>
-                <p class="bs-hulp">Voorwaarden wijzigen en kunnen per hypotheekvorm verschillen. Ziet u een afwijking? <a href="contact.html">Laat het weten</a>.</p>
-
-                <p class="bs-acties">
-                    <a class="bs-knop" href="bouwdepot-voorwaarden-vergelijken.html">Alle aanbieders vergelijken</a>
-                </p>
-            </div>
         </section>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
-
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
     <script type="application/ld+json">
     {

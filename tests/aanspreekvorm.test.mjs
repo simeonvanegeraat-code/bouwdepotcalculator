@@ -21,6 +21,8 @@ test('de persoonsvorm voor "u" verliest zijn t, behalve waar de stam op t eindig
     assert.equal(jij('Bij verbouwing schiet u voor'), 'Bij verbouwing schiet je voor');
     assert.equal(jij('gaat u rente betalen'), 'ga je rente betalen');
     assert.equal(jij('Bent u nog niet klaar'), 'Ben je nog niet klaar');
+    // "u" als lijdend voorwerp: het werkwoord houdt zijn t.
+    assert.equal(jij('Een mondelinge toezegging helpt u niet'), 'Een mondelinge toezegging helpt je niet');
 });
 
 test('"heeft" verderop in de bijzin wordt "hebt"', () => {
@@ -60,5 +62,15 @@ test('de declaratiegids zegt nergens meer "u" en houdt per reden de rijen uit de
         if (!aantal) continue;
         const blok = html.slice(html.indexOf(`id="${soort}"`)).split('</article>')[0];
         assert.equal((blok.match(/data-bank="/g) || []).length, aantal, soort);
+    }
+});
+
+test('de vergelijking en de pagina per aanbieder zeggen nergens meer "u"', () => {
+    const paginas = ['bouwdepot-voorwaarden-vergelijken.html', ...data.aanbieders.map((a) => `bouwdepot-${a.id}.html`)];
+    for (const bestand of paginas) {
+        const html = fs.readFileSync(path.join(ROOT, bestand), 'utf8');
+        const inhoud = html.slice(html.indexOf('<main'), html.indexOf('</main>')).replace(/<[^>]+>/g, ' ');
+        assert.doesNotMatch(inhoud, /\b(u|uw|U|Uw|uzelf)\b/, bestand);
+        assert.doesNotMatch(inhoud, /\bje heeft\b|\bheeft je\b|\bhelp je niet\b/, bestand);
     }
 });
