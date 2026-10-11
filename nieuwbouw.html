@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="/src/styles/next/tokens.css">
     <link rel="stylesheet" href="/src/styles/next/kop.css">
     <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/nieuwbouw.css">
 </head>
 <body class="ui wr">
     <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
@@ -157,16 +158,141 @@
     </header>
 
     <main id="inhoud">
-        <div class="wr-wrap wr-kop">
-            <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Nieuwbouw</span></nav>
-            <h1 id="reken-titel">Wat wordt je zwaarste maand?</h1>
-            <p class="wr-lead">Bij nieuwbouw betaal je al terwijl het huis er nog niet staat, en je maandlast loopt op naarmate er meer bouwtermijnen uit het bouwdepot zijn betaald. Zie per maand wat je betaalt, en wanneer het piekt.</p>
+        <!-- Wie hier komt, begint bij het startscherm en vult zijn gegevens stap
+             voor stap in; daarna komt het overzicht. Alleen wie een bewaarde
+             link opent, komt direct bij het overzicht. Dit regeltje beslist dat
+             vóórdat de pagina getekend wordt, zodat er niets verspringt; de
+             rest staat in src/nieuwbouw/stappen.js. Zonder JavaScript, of in
+             een browser die de modules niet kent, staat de pagina er zoals
+             altijd. -->
+        <script>
+            if ('noModule' in HTMLScriptElement.prototype) try {
+                document.body.dataset.nb = new URLSearchParams(location.search).has('von') ? 'klaar' : 'start';
+            } catch (e) { document.body.dataset.nb = 'klaar'; }
+        </script>
+
+        <div class="wr-wrap nb" data-stappen>
+            <!-- Versiering bij het invullen: een bouwplaats die meegroeit. Alleen
+                 op een breed scherm, en niet op het overzicht. -->
+            <figure class="nb-bouw wr-geen-print" aria-hidden="true"><canvas data-bouwplaats></canvas></figure>
+
+            <div class="nb-paneel">
+                <div class="wr-kop nb-scherm" data-scherm="start">
+                    <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Nieuwbouw</span></nav>
+                    <h1 id="reken-titel">Wat wordt je zwaarste maand?</h1>
+                    <p class="wr-lead">Bij nieuwbouw betaal je al terwijl het huis er nog niet staat, en je maandlast loopt op naarmate er meer bouwtermijnen uit het bouwdepot zijn betaald. Zie per maand wat je betaalt, en wanneer het piekt.</p>
+                    <div class="nb-start wr-geen-print">
+                        <p class="nb-knoppen">
+                            <button class="wr-knop wr-knop--vol nb-groot" type="button" data-nb-naar="1">Laten we beginnen</button>
+                            <button class="nb-link" type="button" data-nb-voorbeeld>of bekijk eerst een voorbeeld</button>
+                        </p>
+                        <p class="nb-klein">Vijf korte vragen, ongeveer twee minuten. Je gegevens blijven op dit apparaat.</p>
+                        <p class="nb-verder" data-nb-verder hidden>Je hebt dit eerder ingevuld. <button class="nb-link" type="button" data-nb-overzicht>Ga verder met je overzicht</button></p>
+                    </div>
+                    <p class="nb-opnieuw wr-geen-print"><button class="nb-link" type="button" data-nb-naar="1">Stap voor stap invullen</button></p>
+                </div>
+
+                <form class="nb-scherm" data-scherm="1" novalidate hidden>
+                    <p class="ui-opschrift">Stap 1 van 5</p>
+                    <h2>Wat koop je?</h2>
+                    <p class="nb-uitleg">Beide bedragen staan in je koop- en aannemingsovereenkomst.</p>
+                    <div class="nb-veld">
+                        <label for="st-von">Koopsom v.o.n.</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="st-von" inputmode="numeric" autocomplete="off" placeholder="500.000"></div>
+                        <p class="wr-hulp">De prijs van grond en woning samen, zonder meerwerk.</p>
+                    </div>
+                    <div class="nb-veld">
+                        <label for="st-grond">Waarvan grond</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="st-grond" inputmode="numeric" autocomplete="off" placeholder="150.000"></div>
+                        <p class="wr-hulp">Die betaal je bij de notaris. De rest is de aanneemsom: <strong class="tnum" data-st-aanneemsom>&ndash;</strong>.</p>
+                    </div>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-nb-naar="start">Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm" data-scherm="2" novalidate hidden>
+                    <p class="ui-opschrift">Stap 2 van 5</p>
+                    <h2>Hoeveel leen je?</h2>
+                    <p class="nb-uitleg">Je hypotheek is de koopsom, plus wat je extra meefinanciert, min wat je zelf inbrengt.</p>
+                    <div class="nb-veld">
+                        <label for="st-meerwerk">Meerwerk en extra's die je meefinanciert</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="st-meerwerk" inputmode="numeric" autocomplete="off" placeholder="0"></div>
+                        <p class="wr-hulp">Bijvoorbeeld een uitbouw, keuken, badkamer of vloeren. Komt bovenop de koopsom in je hypotheek en je bouwdepot.</p>
+                    </div>
+                    <div class="nb-veld">
+                        <label for="st-eigen">Eigen geld</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="st-eigen" inputmode="numeric" autocomplete="off" placeholder="0"></div>
+                        <p class="wr-hulp">Overwaarde of spaargeld dat je inbrengt.</p>
+                    </div>
+                    <label class="nb-vink"><input type="checkbox" id="st-mee"><span>Ik financier de rente tijdens de bouw mee in de hypotheek</span></label>
+                    <p class="nb-som">Je hypotheek wordt dan <strong class="tnum" data-st-lening>&ndash;</strong><span data-st-lening-noot></span></p>
+                    <p class="wr-hulp nb-som__hulp">Leg dit naast je offerte. Staat daar een hoger bedrag, dan zit er meestal meerwerk in of de rente tijdens de bouw.</p>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-nb-naar="1">Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm" data-scherm="3" novalidate hidden>
+                    <p class="ui-opschrift">Stap 3 van 5</p>
+                    <h2>Wat voor hypotheek neem je?</h2>
+                    <p class="nb-uitleg">Staat in je hypotheekofferte. Nog geen offerte? Vul in waar je mee rekent.</p>
+                    <div class="nb-veld">
+                        <label for="st-rente">Hypotheekrente</label>
+                        <div class="wr-veld__in"><input type="text" id="st-rente" inputmode="decimal" autocomplete="off" placeholder="3,80"><span aria-hidden="true">%</span></div>
+                    </div>
+                    <fieldset class="nb-keuze">
+                        <legend>Hypotheekvorm</legend>
+                        <label><input type="radio" name="st-vorm" value="annuiteit" checked><span><strong>Annu&iuml;tair</strong>Elke maand hetzelfde</span></label>
+                        <label><input type="radio" name="st-vorm" value="lineair"><span><strong>Lineair</strong>Begint hoger, daalt elke maand</span></label>
+                    </fieldset>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-nb-naar="2">Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm" data-scherm="4" novalidate hidden>
+                    <p class="ui-opschrift">Stap 4 van 5</p>
+                    <h2>Hoe lang duurt de bouw?</h2>
+                    <p class="nb-uitleg">Van de notaris tot de sleutel, volgens de prognose van je bouwer.</p>
+                    <div class="nb-veld">
+                        <label for="st-maanden">Bouwduur</label>
+                        <div class="wr-veld__in"><input type="text" id="st-maanden" inputmode="numeric" autocomplete="off" value="12"><span aria-hidden="true">maanden</span></div>
+                        <input class="wr-schuif" type="range" id="st-maanden-schuif" min="1" max="36" step="1" value="12" aria-label="Bouwduur in maanden">
+                        <p class="wr-hulp">De aanneemsom wordt in vijf termijnen gefactureerd, verdeeld over deze periode. Dat schema pas je op het overzicht aan.</p>
+                    </div>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-nb-naar="3">Terug</button><button class="wr-knop wr-knop--vol" type="submit">Volgende</button></p>
+                </form>
+
+                <form class="nb-scherm" data-scherm="5" novalidate hidden>
+                    <p class="ui-opschrift">Stap 5 van 5</p>
+                    <h2>Wat betaal je nu voor wonen?</h2>
+                    <p class="nb-uitleg">Tijdens de bouw betaal je je huidige woning gewoon door. Dat is de dubbele last.</p>
+                    <div class="nb-veld">
+                        <label for="st-woonlast">Huidige woonlast, per maand</label>
+                        <div class="wr-veld__in"><span aria-hidden="true">&euro;</span><input type="text" id="st-woonlast" inputmode="numeric" autocomplete="off" placeholder="1.200"></div>
+                        <p class="wr-hulp">Kale huur, of rente en aflossing van je huidige hypotheek. Betaal je niets, vul dan 0 in.</p>
+                    </div>
+                    <div class="nb-veld">
+                        <label for="st-overlap">Loopt door na de oplevering</label>
+                        <div class="wr-veld__in"><input type="text" id="st-overlap" inputmode="numeric" autocomplete="off" value="2"><span aria-hidden="true">maanden</span></div>
+                        <p class="wr-hulp">Voor verhuizen, een opzegtermijn of de verkoop van je huidige huis.</p>
+                    </div>
+                    <p class="nb-fout" role="alert" data-st-fout></p>
+                    <p class="nb-knoppen"><button class="nb-link" type="button" data-nb-naar="4">Terug</button><button class="wr-knop wr-knop--vol" type="submit">Toon mijn overzicht</button></p>
+                </form>
+
+                <ol class="nb-voortgang" aria-hidden="true"><li></li><li></li><li></li><li></li><li></li></ol>
+            </div>
         </div>
 
         <!-- Volgorde in de HTML: uitkomst, invoer, verloop. Op een telefoon staat
              het antwoord zo bovenaan; op een breed scherm zet het raster de
-             invoer links. Alle bedragen komen uit src/domain/nieuwbouw.js. -->
+             invoer links. Alle bedragen komen uit src/domain/nieuwbouw.js.
+             Na de stappen staat links geen formulier maar een samenvatting van
+             wat je hebt ingevuld, met eronder wat je nog moet nalopen; het
+             formulier klapt open met "Aanpassen" (src/nieuwbouw/stappen.js). -->
         <div class="wr-wrap wr-werk" aria-labelledby="reken-titel">
+
+            <p class="wr-melding wr-melding--klein nb-voorbeeld wr-geen-print" data-nb-voorbeeldmelding hidden><strong>Dit is een voorbeeld, niet jouw cijfers.</strong> <button class="nb-link" type="button" data-nb-naar="1">Vul je eigen gegevens in</button></p>
 
             <section class="wr-paneel wr-uitkomst" id="uitkomst" aria-live="polite">
                 <p class="wr-uitkomst__label"><span>Zwaarste maandlast tijdens de bouw</span> <span class="wr-stempel">Indicatie</span></p>
@@ -181,20 +307,20 @@
                 </dl>
             </section>
 
+            <div class="nb-links">
+            <section class="wr-paneel nb-samen wr-geen-print" aria-labelledby="nb-samen-kop">
+                <div class="wr-paneel__kop">
+                    <h2 id="nb-samen-kop">Jouw gegevens</h2>
+                    <p class="wr-micro">Blijft op dit apparaat</p>
+                </div>
+                <dl class="wr-dl" data-nb-samen></dl>
+                <p class="nb-samen__knoppen"><button class="wr-knop wr-knop--klein" type="button" data-nb-aanpas aria-expanded="false" aria-controls="invoer">Aanpassen</button></p>
+            </section>
+
             <form class="wr-paneel wr-invoer" id="invoer" novalidate onsubmit="return false">
                 <div class="wr-paneel__kop">
                     <h2>Jouw gegevens</h2>
                     <p class="wr-micro">Blijft op dit apparaat</p>
-                </div>
-
-                <div>
-                    <p class="wr-veld__naam" id="voorbeelden-kop">Begin met een voorbeeld</p>
-                    <div class="wr-chips" role="group" aria-labelledby="voorbeelden-kop">
-                        <button type="button" class="wr-chip" data-voorbeeld data-von="500000" data-grond="150000" data-rente="3.8" data-maanden="12" data-woonlast="1200" data-afslag="0">Gemiddelde nieuwbouw</button>
-                        <button type="button" class="wr-chip" data-voorbeeld data-von="700000" data-grond="200000" data-rente="4.1" data-maanden="16" data-woonlast="1500" data-afslag="0.5">Hoge koopsom</button>
-                        <button type="button" class="wr-chip" data-voorbeeld data-von="500000" data-grond="150000" data-rente="3.9" data-maanden="24" data-woonlast="1200" data-afslag="0.5">Lange bouwduur</button>
-                        <button type="button" class="wr-chip" data-voorbeeld data-von="450000" data-grond="130000" data-rente="3.7" data-maanden="12" data-woonlast="1350" data-afslag="0">Huur + nieuwbouw</button>
-                    </div>
                 </div>
 
                 <!-- Acht velden die bijna iedereen bij de hand heeft, per document
@@ -264,7 +390,7 @@
                     </div>
                 </fieldset>
 
-                <details class="wr-uitklap">
+                <details class="wr-uitklap" id="meer-instellingen">
                     <summary><span>Meer instellingen<small>Depotrente, overlap na oplevering en hypotheekvorm</small></span></summary>
                     <div class="wr-uitklap__body">
                         <div class="wr-veld">
@@ -296,7 +422,7 @@
                     </div>
                 </details>
 
-                <details class="wr-uitklap">
+                <details class="wr-uitklap" id="termijnschema">
                     <summary><span>Termijnschema<small>Alleen nodig als je al weet wanneer de termijnen vallen</small></span></summary>
                     <div class="wr-uitklap__body">
                         <p class="wr-hulp">Zonder eigen schema rekenen we met een voorbeeld van vijf bouwfasen, verdeeld over je bouwduur. Elk contract heeft zijn eigen schema: het staat in je aannemingsovereenkomst. Vul per termijn de bouwmaand en het bedrag of percentage in. Was een termijn bij de notaris al vervallen, zet hem dan op maand 0.</p>
@@ -313,6 +439,26 @@
                     </div>
                 </details>
             </form>
+
+            <!-- De stappen vragen niet naar de depotrente en het termijnschema.
+                 De uitkomst rekent daarvoor met een aanname; hier staat welke. -->
+            <section class="wr-paneel nb-controle wr-geen-print" aria-labelledby="nb-controle-kop">
+                <div class="wr-paneel__kop" style="margin-bottom:0">
+                    <h2 id="nb-controle-kop">Nog te controleren</h2>
+                </div>
+                <p class="wr-hulp">Twee dingen zijn je niet gevraagd. Ze verschillen per bank en per bouwer, en ze veranderen je uitkomst.</p>
+                <div class="nb-punt">
+                    <h3>Rente over je bouwdepot</h3>
+                    <p data-nb-depot></p>
+                    <p class="nb-punt__acties"><button class="nb-link" type="button" data-nb-aanpas="depot">Aanpassen</button><a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet jouw bank?</a></p>
+                </div>
+                <div class="nb-punt">
+                    <h3>Termijnen van je bouwer</h3>
+                    <p data-nb-schema></p>
+                    <p class="nb-punt__acties"><button class="nb-link" type="button" data-nb-aanpas="schema">Eigen schema invullen</button></p>
+                </div>
+            </section>
+            </div>
 
             <section class="wr-paneel wr-verloop" aria-labelledby="verloop-kop">
                 <div class="wr-paneel__kop" style="margin-bottom:0">
@@ -389,7 +535,9 @@
 
                 <div class="wr-knoppen">
                     <button id="btn-download" class="wr-knop" type="button">Overzicht printen of opslaan</button>
+                    <button class="wr-knop" type="button" data-nb-kopieer>Link kopi&euml;ren</button>
                 </div>
+                <p class="wr-hulp" data-nb-kopieermelding role="status"></p>
             </section>
         </div>
 
@@ -399,7 +547,7 @@
             <p class="ui-opschrift">Uitgangspunten</p>
             <h2 id="aannames-kop">Waarmee deze berekening wel en niet rekent</h2>
             <div class="wr-aannames">
-                <div>
+                <div class="nb-na-invoer">
                     <h3>Jouw invoer</h3>
                     <dl class="wr-dl" id="res-aannames"></dl>
                 </div>
@@ -510,6 +658,7 @@
 
     <script type="module" src="/src/js/reporting.js"></script>
     <script type="module" src="/src/nieuwbouw/pagina.js"></script>
+    <script type="module" src="/src/nieuwbouw/stappen.js"></script>
 
     <script type="application/ld+json">
     {

@@ -1,0 +1,122 @@
+/*
+ * De nieuwbouwpagina: stap voor stap invullen met een bouwplaats ernaast. Bouwt op tokens.css en
+ * werkruimte.css; alles hier begint met nb-.
+ *
+ * De toestand staat op de body: data-nb is "start", "1" tot "4" of "klaar".
+ * Zonder dat attribuut (geen JavaScript) staat de pagina er zoals altijd: de
+ * kop en het overzicht, zonder stappen.
+ */
+
+/* --- Wat alleen bij de stappen hoort, is zonder de stappen onzichtbaar --- */
+.nb-bouw, .nb-start, .nb-opnieuw, .nb-voortgang { display: none; }
+body[data-nb="start"] .nb-start { display: grid; gap: 0.75rem; margin-top: 1.5rem; }
+body[data-nb="klaar"] .nb-opnieuw { display: block; margin-top: 0.25rem; }
+
+/* Tijdens het invullen is het overzicht weg: één ding tegelijk. */
+body[data-nb]:not([data-nb="klaar"]) :is(.wr-werk, .wr-vast) { display: none !important; }
+body[data-nb]:not([data-nb="klaar"]):not([data-nb="start"]) [data-scherm="start"] { display: none; }
+/* Ook de lijst "Jouw invoer" verderop: die toont nog niets van jou. */
+body[data-nb]:not([data-nb="klaar"]) .nb-na-invoer { display: none; }
+
+/* --- Het toneel: links de bouwplaats, rechts de vraag --- */
+body[data-nb]:not([data-nb="klaar"]) .nb { display: grid; gap: 2rem; align-items: center; padding-top: clamp(0.5rem, 3vh, 2rem); padding-bottom: clamp(2rem, 6vh, 4rem); }
+body[data-nb]:not([data-nb="klaar"]) .nb-paneel { min-width: 0; max-width: 34rem; }
+@media (min-width: 960px) {
+    body[data-nb]:not([data-nb="klaar"]) .nb { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(1.5rem, 3vw, 4rem); min-height: calc(100vh - var(--ui-kop) - 2rem); }
+    body[data-nb]:not([data-nb="klaar"]) .nb-bouw { display: block; margin: 0; position: relative; aspect-ratio: 1 / 1; max-height: 82vh; }
+}
+/* Het doek is ruimer dan het vak: de kraan steekt erboven uit en het gras loopt
+   door tot voorbij de rand. Het vangt geen klikken af. */
+.nb-bouw canvas { position: absolute; left: -9%; top: -20%; width: 118%; max-width: none; height: 124%; pointer-events: none; opacity: 0; transition: opacity 0.8s ease; }
+.nb-bouw.is-geladen canvas { opacity: 1; }
+
+/* --- De schermen --- */
+.nb-scherm { view-transition-name: nb-scherm; }
+form.nb-scherm { display: grid; gap: 1.1rem; }
+form.nb-scherm[hidden] { display: none; }
+form.nb-scherm h2 { font-weight: 500; font-size: clamp(1.875rem, 3.6vw, 3rem); line-height: 1.05; letter-spacing: -0.04em; color: var(--ui-forest); text-wrap: balance; }
+body[data-nb="start"] .nb-scherm.wr-kop { padding-bottom: 0; }
+body[data-nb="start"] .nb-scherm.wr-kop h1 { font-size: clamp(2.5rem, 5.4vw, 4.75rem); line-height: 0.98; }
+/* De kop krijgt de focus als het overzicht verschijnt; dat is voor het toetsenbord, niet om te zien. */
+#reken-titel:focus { outline: none; }
+.nb-uitleg { color: var(--ui-muted); max-width: 30rem; }
+.nb-klein { font-size: 0.8125rem; color: var(--ui-muted); }
+
+.nb-veld { display: grid; gap: 0.3rem; }
+.nb-veld > label, .nb-keuze legend { font-weight: 600; }
+.nb-veld .wr-veld__in, .nb-veld .wr-schuif { max-width: 18rem; }
+.nb-veld .wr-veld__in input { font-size: 1.25rem; }
+.nb-verder { font-size: 0.9375rem; padding-top: 0.75rem; border-top: 1px solid var(--ui-line); }
+.nb-verder .nb-link { padding: 0; min-height: 0; }
+.nb-verder[hidden] { display: none; }
+/* Het hypotheekbedrag dat uit de antwoorden volgt: om naast je offerte te leggen. */
+.nb-som { padding: 0.8rem 1rem; background: var(--ui-surface); border: 1px solid var(--ui-line); border-radius: 0.6rem; max-width: 26rem; }
+.nb-som strong { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; color: var(--ui-forest); margin-left: 0.25rem; }
+.nb-som span { color: var(--ui-muted); font-size: 0.875rem; }
+.nb-som__hulp { margin-top: -0.6rem; max-width: 30rem; }
+.nb-vink { display: flex; gap: 0.6rem; align-items: flex-start; min-height: 2.75rem; cursor: pointer; max-width: 28rem; }
+.nb-vink input { width: 1.15rem; height: 1.15rem; margin-top: 0.2rem; accent-color: var(--ui-forest); flex: none; }
+.nb-fout { min-height: 1.25rem; font-size: 0.875rem; color: #8A3A3A; }
+
+.nb-keuze { border: 0; padding: 0; margin: 0; display: grid; gap: 0.5rem; grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 26rem; }
+.nb-keuze legend { margin-bottom: 0.4rem; padding: 0; }
+.nb-keuze label { display: block; position: relative; cursor: pointer; }
+.nb-keuze input { position: absolute; opacity: 0; }
+.nb-keuze span { display: block; height: 100%; padding: 0.7rem 0.9rem; border: 1px solid var(--ui-line); border-radius: 0.6rem; background: var(--ui-surface); font-size: 0.875rem; color: var(--ui-muted); }
+.nb-keuze strong { display: block; font-size: 1rem; color: var(--ui-ink); }
+.nb-keuze input:checked + span { border-color: var(--ui-forest); box-shadow: inset 0 0 0 1px var(--ui-forest); }
+.nb-keuze input:focus-visible + span { outline: 2px solid var(--ui-forest); outline-offset: 2px; }
+
+.nb-knoppen { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
+.nb-knoppen .wr-knop { min-width: 9rem; justify-content: center; }
+.nb-groot { min-height: 3.5rem; padding: 0 1.75rem; font-size: 1.125rem; }
+.nb-link { background: none; border: 0; padding: 0.6rem 0; min-height: 2.75rem; font: inherit; color: var(--ui-forest); text-decoration: underline; text-underline-offset: 0.3em; cursor: pointer; }
+
+/* Voortgang: een streepje per vraag, alleen tijdens de vragen. */
+body[data-nb]:not([data-nb="start"]):not([data-nb="klaar"]) .nb-voortgang { display: flex; gap: 0.4rem; margin-top: 2rem; max-width: 16rem; }
+.nb-voortgang li { flex: 1; height: 0.25rem; border-radius: 1rem; background: var(--ui-line); transition: background 0.3s ease; }
+body[data-nb="1"] .nb-voortgang li:nth-child(-n+1),
+body[data-nb="2"] .nb-voortgang li:nth-child(-n+2),
+body[data-nb="3"] .nb-voortgang li:nth-child(-n+3),
+body[data-nb="4"] .nb-voortgang li:nth-child(-n+4),
+body[data-nb="5"] .nb-voortgang li:nth-child(-n+5) { background: var(--ui-forest); }
+
+/* De overgang tussen schermen; browsers zonder view transitions wisselen gewoon. */
+::view-transition-old(nb-scherm) { animation: nb-uit 0.18s ease both; }
+::view-transition-new(nb-scherm) { animation: nb-in 0.32s ease 0.1s both; }
+@keyframes nb-uit { to { opacity: 0; transform: translateX(-1.25rem); } }
+@keyframes nb-in { from { opacity: 0; transform: translateX(1.25rem); } }
+
+/* --- Op het overzicht --- */
+
+/* Links staat na de stappen een samenvatting met eronder wat nog na te lopen
+   is; het formulier zelf klapt open met "Aanpassen" (body.nb-open). Zonder de
+   stappen bestaat deze kolom niet en staat het formulier er zoals altijd. */
+.nb-links { display: contents; }
+.nb-samen, .nb-controle { display: none; }
+body[data-nb="klaar"] .nb-links { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; align-content: start; min-width: 0; }
+@media (min-width: 960px) { body[data-nb="klaar"] .nb-links { grid-area: invoer; gap: 1.25rem; } }
+body[data-nb="klaar"] :is(.nb-samen, .nb-controle) { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; align-content: start; }
+body[data-nb="klaar"] #invoer { grid-area: auto; }
+body[data-nb="klaar"] #invoer > .wr-paneel__kop { display: none; }
+body[data-nb="klaar"]:not(.nb-open) #invoer { display: none; }
+body[data-nb="klaar"].nb-open .nb-samen .wr-dl { display: none; }
+.nb-samen .wr-paneel__kop { margin-bottom: 0; }
+.nb-samen .wr-dl { column-gap: 0; }
+.nb-samen .wr-dl dd { font-weight: 500; padding-left: 1rem; }
+.nb-samen .wr-dl .is-som { padding-top: 0.5rem; margin-top: 0.2rem; border-top: 1px solid var(--ui-line); color: var(--ui-ink); font-weight: 600; }
+.nb-punt { display: grid; gap: 0.35rem; padding-top: 0.9rem; border-top: 1px solid var(--ui-line); }
+.nb-punt h3 { font-size: 1rem; font-weight: 600; }
+.nb-punt p { font-size: 0.9375rem; color: var(--ui-muted); }
+.nb-punt p strong { color: var(--ui-ink); font-weight: 600; }
+.nb-punt__acties { display: flex; flex-wrap: wrap; gap: 0 1.25rem; align-items: center; }
+.nb-punt__acties .nb-link { font-size: 0.9375rem; }
+.nb-punt__acties a { color: var(--ui-forest); text-underline-offset: 0.3em; }
+.nb-voorbeeld { grid-column: 1 / -1; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 1rem; }
+.nb-voorbeeld .nb-link { padding: 0; min-height: 0; }
+
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(nb-scherm), ::view-transition-new(nb-scherm) { animation: none; }
+    .nb-bouw canvas { transition: none; }
+}

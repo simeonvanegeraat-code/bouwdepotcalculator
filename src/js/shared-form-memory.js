@@ -197,7 +197,10 @@ function persistFieldValue(input) {
 
     const state = pruneExpiredEntries(parseStoredState());
     state[sharedKey] = {
-        value: SHARED_FIELD_CONFIG[sharedKey].type === 'number' ? Number(normalized) : normalized,
+        // Met de lezer van het veld, niet met Number(): een percentage staat hier
+        // met een komma, en Number('4,1') is NaN. Dat werd als null bewaard,
+        // waardoor een rente met decimalen nooit meereisde.
+        value: SHARED_FIELD_CONFIG[sharedKey].type === 'number' ? (SHARED_FIELD_CONFIG[sharedKey].lezer ?? Number)(normalized) : normalized,
         updatedAt: new Date().toISOString()
     };
 

@@ -241,6 +241,7 @@ function initNieuwbouw() {
         uit.vast.classList.remove('is-zichtbaar');
         laatsteGrafiek = null;
         delete printknop.dataset.report;
+        document.dispatchEvent(new CustomEvent('nieuwbouw:berekend', { detail: { tijdlijn: null } }));
     }
 
     function faseTekst(t, r) {
@@ -441,6 +442,10 @@ function initNieuwbouw() {
             }],
             assumptions: 'Indicatieve planning, bruto en zonder hypotheekrenteaftrek. Vaste rente, 30 jaar, de ingevoerde termijnen en een vergoeding over het depot zolang er saldo is. Werkelijke timing, declaraties en bankvoorwaarden kunnen afwijken.',
         });
+
+        // Voor wat meekijkt met de uitkomst: de stappen onthouden hierop de
+        // invoer (src/nieuwbouw/stappen.js). Dezelfde tijdlijn als grafiek en tabel.
+        document.dispatchEvent(new CustomEvent('nieuwbouw:berekend', { detail: { tijdlijn: t, termijnen: termijnen.length, eigenSchema: zelfIngesteld } }));
     }
 
     /* -------------------------------- binden -------------------------------- */
@@ -464,26 +469,6 @@ function initNieuwbouw() {
     koppelSchuif(veld.vertraging, schuifVertraging, () => {});
     el('reset-scenario-btn').addEventListener('click', () => { veld.vertraging.value = '0'; schuifVertraging.value = 0; reken(); });
 
-    for (const knop of document.querySelectorAll('[data-voorbeeld]')) {
-        knop.addEventListener('click', () => {
-            const d = knop.dataset;
-            veld.von.value = toonGetal(Number(d.von));
-            veld.grond.value = toonGetal(Number(d.grond));
-            veld.meerwerk.value = '0';
-            veld.meefinancieren.value = 'zelf';
-            veld.eigenGeld.value = '0';
-            veld.rente.value = procent(Number(d.rente)).replace('%', '');
-            veld.depotSoort.value = Number(d.afslag) > 0 ? 'lager' : 'gelijk';
-            if (Number(d.afslag) > 0) veld.afslag.value = procent(Number(d.afslag)).replace('%', '');
-            toonAfslag();
-            veld.bouwduur.value = d.maanden;
-            schuifBouwduur.value = d.maanden;
-            veld.woonlast.value = toonGetal(Number(d.woonlast));
-            zelfIngesteld = false;
-            volgBouwduur();
-            reken();
-        });
-    }
 
     // Op een telefoon is de tabel compact; deze knop zet alle kolommen terug,
     // en dan schuift de tabel opzij.
