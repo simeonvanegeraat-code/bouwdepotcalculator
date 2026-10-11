@@ -548,11 +548,24 @@
 .wr-spec__voet h3 { margin: 0.9rem 0 0.25rem; font-size: 0.8125rem; font-weight: 600; }
 .wr-spec__voet ul { list-style: disc; padding-left: 1.1rem; }
 
+.wr-spec__merk { font-family: var(--ui-mono); font-size: 0.75rem; }
+.wr-afdruk h3 { margin: 1.25rem 0 0.35rem; font-size: 0.875rem; font-weight: 600; }
+.wr-afdruk .wr-spec__tabel thead th { border-bottom: 1px solid #000; font-size: 0.75rem; font-weight: 600; }
 @media print {
     .wr-geen-print { display: none !important; }
     .wr-alleen-print { display: block; padding: 0; }
     .wr-spec__groep { break-inside: avoid; }
     body { background: #fff; }
+    /* De knop "Overzicht printen" (src/js/afdrukdocument.js) zet is-afdrukken op
+       de body: dan gaat alleen het overzicht naar de printer, niet de pagina.
+       Wie zelf Ctrl+P drukt krijgt de pagina. */
+    body.is-afdrukken > :not(#afdrukdocument) { display: none !important; }
+    .wr-afdruk { color: #000; font-size: 0.8125rem; line-height: 1.45; }
+    .wr-afdruk .wr-spec__tabel { margin-bottom: 0.5rem; }
+    .wr-afdruk .wr-spec__tabel thead { display: table-header-group; }
+    .wr-afdruk .wr-spec__tabel tr { break-inside: avoid; }
+    .wr-afdruk .wr-spec__voet p { max-width: none; }
+    @page { margin: 16mm 15mm; }
 }
 
 /* ==========================================================================

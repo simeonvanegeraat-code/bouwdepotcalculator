@@ -13,8 +13,13 @@
  * bezoeker staat te wachten, houdt de tekst selecteerbaar en voorleesbaar, en
  * laat nog maar één manier over waarop een overzicht ontstaat.
  *
- * De klassenamen komen uit de bestaande specificatie van de begroting, zodat
- * beide documenten er hetzelfde uitzien en er geen tweede stijl bij komt.
+ * De klassenamen (wr-spec__*) zijn die van de specificatie op de
+ * verbouwbegroting, zodat beide documenten er hetzelfde uitzien. De stijlen
+ * staan in src/styles/next/werkruimte.css; tests/afdrukdocument.test.mjs faalt
+ * als dit document een klasse gebruikt die daar niet bestaat. Dat ging in
+ * oktober 2026 mis: de klassen heetten nog bs-spec__* en hoorden bij een
+ * stylesheet die de pagina's niet meer laadden. Het document stond toen
+ * onopgemaakt onderaan de pagina, ook op het scherm.
  */
 
 const esc = (waarde) => String(waarde ?? '')
@@ -30,22 +35,22 @@ const datumTekst = (iso) => {
 /** Een blok regels onder een eigen kopregel. */
 const groep = (titel, regels) => {
     if (!regels?.length) return '';
-    return `<tbody class="bs-spec__groep">
-        <tr class="bs-spec__kopregel"><th colspan="2">${esc(titel)}</th></tr>
+    return `<tbody class="wr-spec__groep">
+        <tr class="wr-spec__kopregel"><th colspan="2">${esc(titel)}</th></tr>
         ${regels.map((r) => `<tr>
             <td>${esc(r.label)}</td>
-            <td class="bs-spec__bedrag">${esc(r.value)}</td>
+            <td class="wr-spec__bedrag">${esc(r.value)}</td>
         </tr>`).join('')}
     </tbody>`;
 };
 
 /** Een meegestuurde tabel, zoals het maandverloop van de nieuwbouwplanning. */
 const tabel = (t) => `<h3>${esc(t.title)}</h3>
-    <table class="bs-spec__tabel">
+    <table class="wr-spec__tabel">
         <thead><tr>${t.columns.map((k) =>
-            `<th${k.align === 'right' ? ' class="bs-spec__bedrag"' : ''}>${esc(k.label)}</th>`).join('')}</tr></thead>
+            `<th${k.align === 'right' ? ' class="wr-spec__bedrag"' : ''}>${esc(k.label)}</th>`).join('')}</tr></thead>
         <tbody>${t.rows.map((rij) => `<tr>${rij.map((cel, i) =>
-            `<td${t.columns[i]?.align === 'right' ? ' class="bs-spec__bedrag"' : ''}>${esc(cel)}</td>`).join('')}</tr>`).join('')}
+            `<td${t.columns[i]?.align === 'right' ? ' class="wr-spec__bedrag"' : ''}>${esc(cel)}</td>`).join('')}</tr>`).join('')}
         </tbody>
     </table>`;
 
@@ -63,19 +68,20 @@ export function bouwAfdrukdocument(rapport) {
         : '';
 
     return `
-        <header class="bs-spec__kop">
+        <header class="wr-spec__kop">
+            <p class="wr-spec__merk">BouwdepotCalculator.nl</p>
             <h2>${esc(titel)}</h2>
-            <p>Opgesteld op ${datumTekst(rapport.generatedAt)} &middot; bouwdepotcalculator.nl</p>
+            <p>Opgesteld op ${datumTekst(rapport.generatedAt)}${rapport.url ? ` &middot; zelf narekenen: ${esc(rapport.url)}` : ''}</p>
         </header>
 
-        <table class="bs-spec__tabel">
+        <table class="wr-spec__tabel">
             ${groep('Je invoer', rapport.inputs)}
             ${groep('Uitkomst', rapport.results)}
         </table>
 
         ${(rapport.tables || []).map(tabel).join('')}
 
-        <div class="bs-spec__voet">
+        <div class="wr-spec__voet">
             ${alinea('Conclusie', rapport.conclusion)}
             ${alinea('Interpretatie', rapport.interpretation)}
             ${alinea('Aannames', rapport.assumptions)}
@@ -99,20 +105,22 @@ export function drukAf(rapport, bestandsnaam) {
     if (!vlak) {
         vlak = document.createElement('div');
         vlak.id = 'afdrukdocument';
-        vlak.className = 'bs-alleen-print';
+        vlak.className = 'wr-alleen-print wr-afdruk';
         document.body.append(vlak);
     }
-    vlak.innerHTML = bouwAfdrukdocument(rapport);
+    // Het adres zonder de ingevulde waarden: dit papier gaat naar een adviseur.
+    const url = `${location.host.replace(/^www\./, '')}${location.pathname}`;
+    vlak.innerHTML = bouwAfdrukdocument({ ...rapport, url });
 
     // De klasse verbergt de pagina zelf tijdens het printen. Alleen tijdens:
     // wie later Ctrl+P drukt zonder op de knop te klikken hoort gewoon het
     // scherm te krijgen, niet een oud document dat nog in de body hangt.
     const oudeTitel = document.title;
-    document.body.classList.add('bs-afdrukken');
+    document.body.classList.add('is-afdrukken');
     if (bestandsnaam) document.title = bestandsnaam;
 
     const opruimen = () => {
-        document.body.classList.remove('bs-afdrukken');
+        document.body.classList.remove('is-afdrukken');
         document.title = oudeTitel;
         window.removeEventListener('afterprint', opruimen);
     };
