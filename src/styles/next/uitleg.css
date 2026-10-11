@@ -213,3 +213,51 @@
     .ul-vgl > .is-mijn { background: none; border-left-color: #000; }
     .ul-balk__vul, .ul-staal { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
 }
+
+/* --- Tekstpagina's: methodologie, over ons, contact en de beleidspagina's --- */
+
+.ul-inleiding--blok { display: grid; gap: 0.9rem; margin-top: 1.25rem; }
+.ul-inleiding--blok a, .ul-beleid a, .ul-wijzigingen a, .wr-sectie > p:not([class]) a { color: var(--ui-forest); text-underline-offset: 0.25em; }
+.wr-kolommen .ui-opschrift { margin-bottom: 0.2rem; }
+.wr-kolommen + .wr-voorbehoud, .wr-proza + .ul-bronnen, .ul-bronnen + .wr-voorbehoud, .wr-lijst + .wr-voorbehoud { margin-top: 1.25rem; }
+
+.ul-contactkaart { max-width: 40rem; margin-top: 2rem; padding-top: 1.25rem; border-top: 1.5px solid var(--ui-ink); }
+.ul-contactkaart__label { font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
+.ul-contactkaart__adres { margin: 0.2rem 0 0.75rem; font-size: clamp(1.375rem, 3.4vw, 2.25rem); font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; overflow-wrap: anywhere; }
+.ul-contactkaart__adres a { color: var(--ui-forest); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+
+.ul-welniet { display: grid; gap: 1.75rem clamp(1.5rem, 4vw, 4rem); margin-bottom: 1.75rem; }
+@media (min-width: 700px) { .ul-welniet { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ul-welniet__blok { padding-top: 1rem; border-top: 1.5px solid var(--ui-ink); }
+.ul-welniet__blok h3 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.015em; margin-bottom: 0.6rem; }
+.ul-welniet__blok ul { display: grid; gap: 0.5rem; font-size: 0.9375rem; }
+.ul-welniet__blok li { position: relative; padding-left: 1.4rem; }
+.ul-welniet__blok li::before { position: absolute; left: 0; font-family: var(--ui-mono); font-weight: 500; }
+.ul-welniet__blok--wel li::before { content: '+'; color: var(--ui-forest); }
+.ul-welniet__blok--niet li::before { content: '\2212'; color: #8c5410; }
+
+.ul-wijzigingen { display: grid; gap: 1.75rem; max-width: 46rem; border-top: 1.5px solid var(--ui-ink); padding-top: 1.5rem; }
+.ul-wijzigingen li { padding-left: 1.25rem; border-left: 1px solid var(--ui-line); }
+.ul-wijzigingen time { display: block; font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
+.ul-wijzigingen h3 { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.01em; margin: 0.15rem 0 0.3rem; }
+.ul-wijzigingen p { font-size: 0.9375rem; }
+
+/* Beleidstekst: genummerde artikelen in één leeskolom. */
+.ul-beleid { counter-reset: artikel; display: grid; gap: clamp(2rem, 4vw, 3rem); max-width: 46rem; }
+.ul-beleid > section { counter-increment: artikel; padding-top: 1rem; border-top: 1px solid var(--ui-line); display: grid; gap: 0.75rem; }
+.ul-beleid > section:first-child { border-top: 1.5px solid var(--ui-ink); }
+.ul-beleid h2 { font-size: clamp(1.375rem, 2.4vw, 1.75rem); font-weight: 600; letter-spacing: -0.025em; line-height: 1.2; scroll-margin-top: 1rem; }
+.ul-beleid h2::before { content: counter(artikel) '.'; margin-right: 0.6rem; font-family: var(--ui-mono); font-size: 0.8em; font-weight: 400; color: var(--ui-muted); }
+.ul-beleid h3 { font-size: 1.0625rem; font-weight: 600; margin-top: 0.5rem; }
+.ul-beleidrijen { display: grid; margin: 0; }
+.ul-beleidrijen > div { display: grid; gap: 0.2rem 2rem; padding: 0.9rem 0; border-bottom: 1px solid var(--ui-line); }
+.ul-beleidrijen > div:last-child { border-bottom: 0; }
+@media (min-width: 700px) { .ul-beleidrijen > div { grid-template-columns: 10rem minmax(0, 1fr); } .ul-beleidrijen dd { grid-column: 2; } }
+.ul-beleidrijen dt { font-family: var(--ui-mono); font-size: 0.75rem; letter-spacing: 0.03em; text-transform: uppercase; color: var(--ui-muted); }
+.ul-beleidrijen dd { margin: 0; font-size: 0.9375rem; line-height: 1.5; }
+.ul-beleidrijen dd + dd { color: var(--ui-muted); }
+.ul-wissen { margin-top: 0.5rem; padding: 1.1rem 1.25rem; background: var(--ui-surface); border: 1px solid var(--ui-line); border-radius: 0.75rem; display: grid; gap: 0.75rem; justify-items: start; }
+.wr-knop--waarschuwing { border-color: #8c5410; color: #8c5410; }
+.wr-knop--waarschuwing:hover { background: #8c5410; color: var(--ui-canvas); }
+.ul-kop + .wr-sectie:has(> .ul-beleid) { padding-top: clamp(1rem, 2vw, 1.5rem); }
+main > section:last-child:not(:has(> .wr-melding)) { padding-bottom: clamp(2.5rem, 6vw, 5rem); }

@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,14 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/uitleg.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,99 +170,75 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Contact</span>
-    </nav>
-
-
     <main>
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <p class="bs-micro">Contact</p>
-                <h1 class="bs-reken__titel">Iets gevonden dat niet klopt?</h1>
-                <p class="bs-reken__lead">Dan hoor ik dat graag. Meldingen over onjuiste gegevens hebben voorrang boven al het andere werk aan de site.</p>
+        <section class="wr-wrap wr-kop ul-kop" id="inhoud">
+            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Contact</span></nav>
+            <h1>Iets gevonden dat niet klopt?</h1>
+            <p class="wr-lead">Dan hoor ik dat graag. Meldingen over onjuiste gegevens hebben voorrang boven al het andere werk aan de site.</p>
+            <p class="ui-opschrift">Contact</p>
 
-            <div class="bs-contactkaart">
-                <p class="bs-contactkaart__label">E-mail</p>
-                <p class="bs-contactkaart__adres"><a href="mailto:firenature23@gmail.com">firenature23@gmail.com</a></p>
-                <p class="bs-hulp">Inhoudelijke en technische berichten beantwoord ik doorgaans binnen twee werkdagen. De site wordt beheerd door Simeon, gevestigd in Breda.</p>
-            </div>
+            <div class="ul-contactkaart">
+                <p class="ul-contactkaart__label">E-mail</p>
+                <p class="ul-contactkaart__adres"><a href="mailto:firenature23@gmail.com">firenature23@gmail.com</a></p>
+                <p class="wr-voorbehoud">Inhoudelijke en technische berichten beantwoord ik doorgaans binnen twee werkdagen. De site wordt beheerd door Simeon, gevestigd in Breda.</p>
             </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Wat helpt</p>
-                    <h2 class="bs-titel">Wat u het beste kunt meesturen</h2>
-                    <p class="bs-reken__lead">Hoe concreter de melding, hoe sneller ik hem kan controleren en aanpassen.</p>
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Wat helpt</p>
+                    <h2>Wat je het beste kunt meesturen</h2>
+                    <p class="wr-lead ul-lead">Hoe concreter de melding, hoe sneller ik hem kan controleren en aanpassen.</p>
 
-                <div class="bs-vragen">
-                    <article class="bs-vraag">
+                <div class="wr-kolommen">
+                    <article>
                         <h3>Een bankvoorwaarde klopt niet meer</h3>
-                        <p>Noem de aanbieder en het gegeven, en stuur zo mogelijk een link naar de actuele voorwaarden. Elke regel in de vergelijking heeft een bron en een controledatum; met uw link kan ik die bijwerken.</p>
+                        <p>Noem de aanbieder en het gegeven, en stuur zo mogelijk een link naar de actuele voorwaarden. Elke regel in de vergelijking heeft een bron en een controledatum; met je link kan ik die bijwerken.</p>
                     </article>
-                    <article class="bs-vraag">
+                    <article>
                         <h3>Een berekening lijkt onjuist</h3>
-                        <p>Stuur de gebruikte invoerwaarden en de getoonde uitkomst, plus waarom u een ander bedrag verwacht. Gebruik daarvoor geen persoonlijke gegevens; ronde voorbeeldbedragen volstaan.</p>
+                        <p>Stuur de gebruikte invoerwaarden en de getoonde uitkomst, plus waarom je een ander bedrag verwacht. Gebruik daarvoor geen persoonlijke gegevens; ronde voorbeeldbedragen volstaan.</p>
                     </article>
-                    <article class="bs-vraag">
+                    <article>
                         <h3>Er gaat technisch iets mis</h3>
-                        <p>De pagina, uw apparaat of browser, en wat er precies gebeurde. Een schermafbeelding helpt vaak meer dan een omschrijving.</p>
+                        <p>De pagina, je apparaat of browser, en wat er precies gebeurde. Een schermafbeelding helpt vaak meer dan een omschrijving.</p>
                     </article>
-                    <article class="bs-vraag">
-                        <h3>U mist uitleg of een aanbieder</h3>
-                        <p>Welke vraag u had die de site niet beantwoordde. Ontbrekende geldverstrekkers voeg ik graag toe, mits hun voorwaarden publiek te controleren zijn.</p>
+                    <article>
+                        <h3>Je mist uitleg of een aanbieder</h3>
+                        <p>Welke vraag je had die de site niet beantwoordde. Ontbrekende geldverstrekkers voeg ik graag toe, mits hun voorwaarden publiek te controleren zijn.</p>
                     </article>
                 </div>
-            </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <div class="bs-melding bs-melding--let-op">
+        <section class="wr-wrap">
+                <div class="wr-melding">
                     <p><strong>Stuur geen persoonlijke of financiële documenten.</strong> Deel geen burgerservicenummer, bankafschriften, volledige hypotheekoffertes of andere gevoelige stukken. Ik heb ze niet nodig, en e-mail is er niet geschikt voor.</p>
                     <p>Ik kan uitleggen hoe een calculator rekent en wat een aanbieder publiceert, maar geef geen persoonlijk hypotheek-, belasting- of juridisch advies. Zie <a href="over-ons.html">wat de site wel en niet doet</a>.</p>
                 </div>
-            </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Misschien staat het antwoord er al</p>
-                    <h2 class="bs-titel">Voordat u mailt</h2>
-                <div class="bs-rooster">
-                    <a class="bs-tool" href="methodologie.html">
-                        <span class="bs-tool__naam">Hoe wordt er gerekend?</span>
-                        <span class="bs-tool__uitleg">De formules, aannames en bekende beperkingen per calculator.</span>
-                        <span class="bs-tool__meta">Naar de methodologie &rarr;</span>
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Misschien staat het antwoord er al</p>
+                    <h2>Voordat je mailt</h2>
+                <div class="wr-register">
+                    <a href="methodologie.html">
+                        <strong>Hoe wordt er gerekend?</strong>
+                        <span>De formules, aannames en bekende beperkingen per calculator.</span>
                     </a>
-                    <a class="bs-tool" href="bouwdepot-voorwaarden-vergelijken.html">
-                        <span class="bs-tool__naam">Wat doet mijn bank?</span>
-                        <span class="bs-tool__uitleg">Looptijd, vergoeding en bewijsstukken van dertien geldverstrekkers.</span>
-                        <span class="bs-tool__meta">Vergelijking bekijken &rarr;</span>
+                    <a href="bouwdepot-voorwaarden-vergelijken.html">
+                        <strong>Wat doet mijn bank?</strong>
+                        <span>Looptijd, vergoeding en bewijsstukken van dertien geldverstrekkers.</span>
                     </a>
-                    <a class="bs-tool" href="stappenplan.html">
-                        <span class="bs-tool__naam">Hoe werkt een bouwdepot?</span>
-                        <span class="bs-tool__uitleg">Wat het is, wat eruit mag en waar u op moet letten.</span>
-                        <span class="bs-tool__meta">Naar de uitleg &rarr;</span>
+                    <a href="stappenplan.html">
+                        <strong>Hoe werkt een bouwdepot?</strong>
+                        <span>Wat het is, wat eruit mag en waar je op moet letten.</span>
                     </a>
                 </div>
-            </div>
         </section>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
-
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a><a href="voorwaarden.html">Voorwaarden</a></nav>
     </footer>
 
     <script type="application/ld+json">

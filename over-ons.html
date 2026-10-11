@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,14 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/uitleg.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,33 +170,24 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Over ons</span>
-    </nav>
-
-
     <main>
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <p class="bs-micro">Over deze site</p>
-                <h1 class="bs-reken__titel">Wie dit maakt, en waarom</h1>
-
-            <p class="bs-kernzin">Ik ben Simeon en ik maak BouwdepotCalculator.nl vanuit Breda. De site bestaat omdat de informatie die je nodig hebt bij een bouwdepot versnipperd is: elke bank beschrijft zijn eigen voorwaarden ergens diep in de site, en niemand zet ze naast elkaar.</p>
-
-            <div class="bs-proza">
+        <section class="wr-wrap wr-kop ul-kop" id="inhoud">
+            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Over ons</span></nav>
+            <h1>Wie dit maakt, en waarom</h1>
+            <p class="wr-lead">Ik ben Simeon en ik maak BouwdepotCalculator.nl vanuit Breda. De site bestaat omdat de informatie die je nodig hebt bij een bouwdepot versnipperd is: elke bank beschrijft zijn eigen voorwaarden ergens diep in de site, en niemand zet ze naast elkaar.</p>
+            <p class="ui-opschrift">Over deze site</p>
+            <div class="ul-inleiding ul-inleiding--blok">
                 <p>Dat laatste heb ik daarom zelf gedaan. De <a href="bouwdepot-voorwaarden-vergelijken.html">voorwaardenvergelijking</a> is opgezocht bij de bron, per aanbieder, met een controledatum bij elk gegeven. Daarbij bleek hoe groot de verschillen zijn: de looptijd voor een verbouwing loopt van 24 tot 42 maanden, één aanbieder betaalt helemaal geen depotvergoeding, en waar de één een kassabon accepteert eist de ander een factuur met KvK- en btw-nummer.</p>
                 <p>Die verschillen bepalen wat een bouwdepot je werkelijk kost en hoeveel ruimte je hebt als de verbouwing uitloopt. Ze stonden nergens bij elkaar. Dat is waar deze site voor is.</p>
             </div>
-            </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Doel en grens</p>
-                    <h2 class="bs-titel">Wat de site wel en niet doet</h2>
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Doel en grens</p>
+                    <h2>Wat de site wel en niet doet</h2>
 
-                <div class="bs-welniet">
-                    <div class="bs-welniet__blok bs-welniet__blok--wel">
+                <div class="ul-welniet">
+                    <div class="ul-welniet__blok ul-welniet__blok--wel">
                         <h3>Wel</h3>
                         <ul>
                             <li>Scenario's doorrekenen en de rekenstappen uitleggen</li>
@@ -200,10 +196,10 @@
                             <li>Doorverwijzen naar primaire bronnen</li>
                         </ul>
                     </div>
-                    <div class="bs-welniet__blok bs-welniet__blok--niet">
+                    <div class="ul-welniet__blok ul-welniet__blok--niet">
                         <h3>Niet</h3>
                         <ul>
-                            <li>Uw maximale hypotheek vaststellen</li>
+                            <li>Je maximale hypotheek vaststellen</li>
                             <li>Een belastingaangifte voorspellen</li>
                             <li>Persoonlijk financieel, fiscaal of juridisch advies geven</li>
                             <li>Een product of aanbieder aanbevelen</li>
@@ -211,72 +207,53 @@
                     </div>
                 </div>
 
-                <p>Ik ben geen hypotheekadviseur of fiscalist en heb geen AFM-vergunning. Deze site <strong>informeert</strong>: hij geeft feiten, formules en bronnen, maar doet geen aanbeveling voor een specifiek product of een specifieke aanbieder. Voor advies over uw situatie heeft u een erkend adviseur nodig, en alleen de geldverstrekker beslist over acceptatie.</p>
-            </div>
+                <p>Ik ben geen hypotheekadviseur of fiscalist en heb geen AFM-vergunning. Deze site <strong>informeert</strong>: hij geeft feiten, formules en bronnen, maar doet geen aanbeveling voor een specifiek product of een specifieke aanbieder. Voor advies over je situatie heb je een erkend adviseur nodig, en alleen de geldverstrekker beslist over acceptatie.</p>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Werkwijze</p>
-                    <h2 class="bs-titel">Hoe de informatie tot stand komt</h2>
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Werkwijze</p>
+                    <h2>Hoe de informatie tot stand komt</h2>
 
-                <div class="bs-proza">
-                    <p>Elke financiële claim wordt gecontroleerd tegen een primaire bron en voorzien van een controledatum: de Belastingdienst, de Rijksoverheid, NHG, Nibud of de officiële voorwaarden van de betreffende geldverstrekker. Staat een gegeven daar niet in, dan komt het niet op de site — ook niet als schatting. In de vergelijking ziet u daarom regelmatig <em>niet gepubliceerd</em> staan; dat is een bewuste keuze.</p>
+                <div class="wr-proza">
+                    <p>Elke financiële claim wordt gecontroleerd tegen een primaire bron en voorzien van een controledatum: de Belastingdienst, de Rijksoverheid, NHG, Nibud of de officiële voorwaarden van de betreffende geldverstrekker. Staat een gegeven daar niet in, dan komt het niet op de site — ook niet als schatting. In de vergelijking zie je daarom regelmatig <em>niet gepubliceerd</em> staan; dat is een bewuste keuze.</p>
                     <p>Bij het schrijven en programmeren gebruik ik softwarehulpmiddelen, waaronder AI. Dat verandert die eis niet: een gegenereerde tekst is nooit zelf een bron voor een financiële regel, en publicatie gebeurt pas na controle tegen het origineel.</p>
                     <p>Rekenfuncties krijgen testgevallen met normale en extreme waarden. Relevante wijzigingen komen met datum in het <a href="methodologie.html#wijzigingen">wijzigingenoverzicht</a>.</p>
                 </div>
-            </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Onafhankelijkheid</p>
-                    <h2 class="bs-titel">Geen samenwerking met geldverstrekkers</h2>
-                <div class="bs-proza">
-                    <p>Deze site is niet verbonden aan een bank, hypotheekverstrekker of advieskantoor, werkt daar niet mee samen, en ontvangt geen vergoeding voor doorverwijzing. Er is geen aanvraagformulier en er worden geen bezoekersgegevens naar geldverstrekkers gestuurd. Uw invoer in de calculators blijft op uw eigen apparaat.</p>
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Onafhankelijkheid</p>
+                    <h2>Geen samenwerking met geldverstrekkers</h2>
+                <div class="wr-proza">
+                    <p>Deze site is niet verbonden aan een bank, hypotheekverstrekker of advieskantoor, werkt daar niet mee samen, en ontvangt geen vergoeding voor doorverwijzing. Er is geen aanvraagformulier en er worden geen bezoekersgegevens naar geldverstrekkers gestuurd. Je invoer in de calculators blijft op je eigen apparaat.</p>
                     <p>Advertenties kunnen helpen om hosting en verdere ontwikkeling te betalen. Een adverteerder krijgt geen invloed op formules, uitkomsten of redactionele keuzes, en geen enkele aanbieder in de vergelijking kan zijn positie of vermelding beïnvloeden.</p>
                     <p>Een aantoonbare fout corrigeer ik zo snel mogelijk, en bij relevante rekenwijzigingen komt dat in het wijzigingenoverzicht te staan.</p>
                 </div>
-            </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Verder</p>
-                    <h2 class="bs-titel">Meer weten of iets melden</h2>
-                <div class="bs-rooster">
-                    <a class="bs-tool" href="methodologie.html">
-                        <span class="bs-tool__naam">Methodologie</span>
-                        <span class="bs-tool__uitleg">Welke rekenregels en aannames worden gebruikt, en wat de calculators níet weten.</span>
-                        <span class="bs-tool__meta">Rekenverantwoording &rarr;</span>
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Verder</p>
+                    <h2>Meer weten of iets melden</h2>
+                <div class="wr-register">
+                    <a href="methodologie.html">
+                        <strong>Methodologie</strong>
+                        <span>Welke rekenregels en aannames worden gebruikt, en wat de calculators níet weten.</span>
                     </a>
-                    <a class="bs-tool" href="bouwdepot-voorwaarden-vergelijken.html">
-                        <span class="bs-tool__naam">Voorwaardenvergelijking</span>
-                        <span class="bs-tool__uitleg">Zes geldverstrekkers naast elkaar, met bron en controledatum per gegeven.</span>
-                        <span class="bs-tool__meta">Vergelijking bekijken &rarr;</span>
+                    <a href="bouwdepot-voorwaarden-vergelijken.html">
+                        <strong>Voorwaardenvergelijking</strong>
+                        <span>Dertien geldverstrekkers naast elkaar, met bron en controledatum per gegeven.</span>
                     </a>
-                    <a class="bs-tool" href="contact.html">
-                        <span class="bs-tool__naam">Contact</span>
-                        <span class="bs-tool__uitleg">Een fout gevonden, een gegeven dat niet meer klopt, of een idee? Laat het weten.</span>
-                        <span class="bs-tool__meta">Naar contact &rarr;</span>
+                    <a href="contact.html">
+                        <strong>Contact</strong>
+                        <span>Een fout gevonden, een gegeven dat niet meer klopt, of een idee? Laat het weten.</span>
                     </a>
                 </div>
-            </div>
         </section>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
-
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a><a href="voorwaarden.html">Voorwaarden</a></nav>
     </footer>
 
     <script type="application/ld+json">

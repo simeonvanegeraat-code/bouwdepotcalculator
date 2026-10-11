@@ -43,19 +43,19 @@ if (houder) {
     const herstel = () => {
         bevestigd = false;
         knop.textContent = 'Opgeslagen gegevens wissen';
-        knop.classList.remove('bs-knop--waarschuwing');
+        knop.classList.remove('wr-knop--waarschuwing');
     };
 
     if (!opslagWerkt()) {
         knop.disabled = true;
-        meld('Uw browser staat lokale opslag niet toe, bijvoorbeeld in een privévenster. Er is dan ook niets van deze site op dit apparaat bewaard.');
+        meld('Je browser staat lokale opslag niet toe, bijvoorbeeld in een privévenster. Er is dan ook niets van deze site op dit apparaat bewaard.');
     } else {
         knop.addEventListener('click', () => {
             if (!bevestigd) {
                 bevestigd = true;
                 knop.textContent = 'Ja, definitief wissen';
-                knop.classList.add('bs-knop--waarschuwing');
-                meld('Hiermee verdwijnen uw ingevulde bedragen, uw bankkeuze en de punten die u hebt afgevinkt. Dit kan niet ongedaan worden gemaakt.');
+                knop.classList.add('wr-knop--waarschuwing');
+                meld('Hiermee verdwijnen je ingevulde bedragen, je bankkeuze en de punten die je hebt afgevinkt. Dit kan niet ongedaan worden gemaakt.');
                 return;
             }
 
@@ -64,7 +64,7 @@ if (houder) {
                 aantal = window.localStorage.length;
                 window.localStorage.clear();
             } catch (_) {
-                meld('Het wissen lukte niet. Wist u de opslag van deze site via uw browserinstellingen.');
+                meld('Het wissen lukte niet. Wis de opslag van deze site via je browserinstellingen.');
                 herstel();
                 return;
             }

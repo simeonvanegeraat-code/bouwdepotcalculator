@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,14 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/uitleg.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,116 +170,104 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Methodologie</span>
-    </nav>
-
-
     <main>
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <p class="bs-micro">Rekenversie 2026.3 &middot; bijgewerkt 16 augustus 2026</p>
-                <h1 class="bs-reken__titel">Methodologie en verantwoording</h1>
-
-            <p class="bs-kernzin">De tools rekenen met de waarden die u invult en met expliciete vereenvoudigingen. Ze laten zien hoe een bedrag verandert als rente, looptijd of planning verandert — ze kunnen niet bepalen of een geldverstrekker uw aanvraag accepteert.</p>
-
-            <div class="bs-proza">
-                <p>Daarvoor zijn onder meer inkomen, verplichtingen, taxatie, productvoorwaarden en uw persoonlijke fiscale positie nodig. Die gegevens kent deze site niet en vraagt hij ook niet op.</p>
-            </div>
+        <section class="wr-wrap wr-kop ul-kop" id="inhoud">
+            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Methodologie</span></nav>
+            <h1>Methodologie en verantwoording</h1>
+            <p class="wr-lead">De tools rekenen met de waarden die je invult en met expliciete vereenvoudigingen. Ze laten zien hoe een bedrag verandert als rente, looptijd of planning verandert — ze kunnen niet bepalen of een geldverstrekker je aanvraag accepteert.</p>
+            <p class="ui-opschrift">Rekenversie 2026.4 &middot; bijgewerkt 11 oktober 2026</p>
+            <div class="ul-inleiding ul-inleiding--blok">
+                <p>Daarvoor zijn onder meer inkomen, verplichtingen, taxatie, productvoorwaarden en je persoonlijke fiscale positie nodig. Die gegevens kent deze site niet en vraagt hij ook niet op.</p>
             </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Betrouwbaarheid</p>
-                    <h2 class="bs-titel">Hoe hard is een getal?</h2>
-                    <p class="bs-reken__lead">Niet elk cijfer op deze site heeft dezelfde status. Deze drie soorten komen voor.</p>
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Betrouwbaarheid</p>
+                    <h2>Hoe hard is een getal?</h2>
+                    <p class="wr-lead ul-lead">Niet elk cijfer op deze site heeft dezelfde status. Deze drie soorten komen voor.</p>
 
-                <div class="bs-fasenrij">
-                    <article class="bs-faseblok">
-                        <p class="bs-faseblok__periode">Rekenkundig</p>
+                <div class="wr-kolommen">
+                    <article>
+                        <p class="ui-opschrift">Rekenkundig</p>
                         <h3>Hypotheekformule</h3>
                         <p>Een annuïteit of de eerste lineaire maand is exact te berekenen binnen de gekozen invoer. De uitkomst blijft afhankelijk van juiste invoer en productdetails.</p>
                     </article>
-                    <article class="bs-faseblok">
-                        <p class="bs-faseblok__periode">Scenario</p>
+                    <article>
+                        <p class="ui-opschrift">Scenario</p>
                         <h3>Depot- en bouwverloop</h3>
                         <p>Opnamemomenten en bouwtermijnen zijn aannames. De tool vergelijkt mogelijke verlopen, niet de toekomstige bankboekingen.</p>
                     </article>
-                    <article class="bs-faseblok">
-                        <p class="bs-faseblok__periode">Extra voorzichtig</p>
+                    <article>
+                        <p class="ui-opschrift">Extra voorzichtig</p>
                         <h3>Fiscaal effect</h3>
                         <p>Belastinguitkomsten hangen sterk af van inkomen, eigenwoningregeling, depotgebruik en aangifte. Uitsluitend als oriëntatie te gebruiken.</p>
                     </article>
                 </div>
 
-                <p class="bs-hulp">Daarnaast staan er <strong>feitelijke gegevens</strong> op de site die niet worden berekend maar opgezocht: de <a href="bouwdepot-voorwaarden-vergelijken.html">voorwaarden per geldverstrekker</a>. Die hebben elk een bronlink en een controledatum, en waar een aanbieder iets niet publiceert staat dat er expliciet bij.</p>
-            </div>
+                <p class="wr-voorbehoud">Daarnaast staan er <strong>feitelijke gegevens</strong> op de site die niet worden berekend maar opgezocht: de <a href="bouwdepot-voorwaarden-vergelijken.html">voorwaarden per geldverstrekker</a>. Die hebben elk een bronlink en een controledatum, en waar een aanbieder iets niet publiceert staat dat er expliciet bij.</p>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Bronbeleid</p>
-                    <h2 class="bs-titel">Welke bronnen hebben voorrang?</h2>
-                <div class="bs-proza">
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Bronbeleid</p>
+                    <h2>Welke bronnen hebben voorrang?</h2>
+                <div class="wr-proza">
                     <p>Voor regels en jaarlijkse bedragen gebruik ik primaire, publiek toegankelijke bronnen. Een blog of commerciële vergelijker kan aanleiding zijn om iets te controleren, maar is nooit de eindbron voor een financiële claim.</p>
                 </div>
-                <ul class="bs-bronnen">
+                <ul class="ul-bronnen">
                     <li><a href="https://www.belastingdienst.nl/wps/wcm/connect/nl/koopwoning/koopwoning" target="_blank" rel="noopener noreferrer nofollow">Belastingdienst — eigen woning</a></li>
                     <li><a href="https://www.rijksoverheid.nl/onderwerpen/huis-kopen" target="_blank" rel="noopener noreferrer nofollow">Rijksoverheid — huis kopen en hypotheek</a></li>
                     <li><a href="https://www.nhg.nl/voorwaarden-en-normen/" target="_blank" rel="noopener noreferrer nofollow">NHG — voorwaarden en normen</a></li>
                     <li><a href="https://www.nibud.nl/onderwerpen/rondkomen/wonen/" target="_blank" rel="noopener noreferrer nofollow">Nibud — wonen en woonlasten</a></li>
                 </ul>
-                <p class="bs-hulp">Voor voorwaarden die per bank verschillen geldt de officiële productinformatie van die geldverstrekker als bron, met vermelding van de controledatum.</p>
-            </div>
+                <p class="wr-voorbehoud">Voor voorwaarden die per bank verschillen geldt de officiële productinformatie van die geldverstrekker als bron, met vermelding van de controledatum.</p>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Bekende beperkingen</p>
-                    <h2 class="bs-titel">Wat de calculators niet weten</h2>
-                <div class="bs-vragen">
-                    <article class="bs-vraag">
-                        <h3>Uw volledige dossier</h3>
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Bekende beperkingen</p>
+                    <h2>Wat de calculators niet weten</h2>
+                <div class="wr-kolommen">
+                    <article>
+                        <h3>Je volledige dossier</h3>
                         <p>Inkomen, leningen, rentecontract, fiscale partner en uitzonderingen worden niet volledig meegenomen.</p>
                     </article>
-                    <article class="bs-vraag">
+                    <article>
                         <h3>Acceptatie door de bank</h3>
                         <p>Een indicatieve financieringsruimte is nooit een goedkeuring of een bindend aanbod.</p>
                     </article>
-                    <article class="bs-vraag">
+                    <article>
                         <h3>De echte bouwplanning</h3>
                         <p>Termijnen, vertraging en meerwerk kunnen anders verlopen dan het ingevoerde scenario.</p>
                     </article>
-                    <article class="bs-vraag">
+                    <article>
                         <h3>Toekomstige regels</h3>
                         <p>Jaarbedragen en wetgeving veranderen. Controleer daarom altijd de datum en de gekoppelde bron.</p>
                     </article>
                 </div>
-            </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Kwaliteitscontrole</p>
-                    <h2 class="bs-titel">Van wijziging tot publicatie</h2>
-                <ul class="bs-checklijst">
+        <section class="wr-wrap wr-sectie">
+                    <p class="ui-opschrift">Kwaliteitscontrole</p>
+                    <h2>Van wijziging tot publicatie</h2>
+                <ul class="wr-lijst wr-proza">
                     <li>De vraag en de bedoelde gebruiker worden beschreven.</li>
                     <li>Regels en bedragen worden tegen primaire bronnen gecontroleerd.</li>
                     <li>Rekenfuncties krijgen testgevallen met normale en extreme waarden.</li>
                     <li>Tekst, formulieren, links, contrast en mobiele weergave worden gecontroleerd.</li>
                     <li>Een relevante wijziging krijgt een datum in het overzicht hieronder.</li>
                 </ul>
-                <p class="bs-hulp">Bij het schrijven en programmeren gebruik ik softwarehulpmiddelen, waaronder AI. Een gegenereerde tekst geldt nooit als bron voor een financiële regel; publicatie volgt pas na controle tegen het origineel.</p>
-            </div>
+                <p class="wr-voorbehoud">Bij het schrijven en programmeren gebruik ik softwarehulpmiddelen, waaronder AI. Een gegenereerde tekst geldt nooit als bron voor een financiële regel; publicatie volgt pas na controle tegen het origineel.</p>
         </section>
 
-        <section class="bs-sectie" id="wijzigingen">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Transparantie</p>
-                    <h2 class="bs-titel">Wijzigingenoverzicht</h2>
+        <section class="wr-wrap wr-sectie" id="wijzigingen">
+                    <p class="ui-opschrift">Transparantie</p>
+                    <h2>Wijzigingenoverzicht</h2>
 
-                <ol class="bs-wijzigingen">
+                <ol class="ul-wijzigingen">
+            <li>
+                <time datetime="2026-10-11">11 oktober 2026</time>
+                <h3>Nieuwe vormgeving, en vier rekenregels aangescherpt</h3>
+                <p>Alle pagina's zijn omgezet naar een nieuwe vormgeving en spreken je aan met &quot;je&quot;. Bij het ombouwen is elke rekentool opnieuw nagerekend. De hypotheekrenteaftrek rekent nu met de algemene heffingskorting, laat je de verdeling tussen fiscale partners kiezen en trekt het eigenwoningforfait in de hoogste schijf tegen het volle tarief af; de oude tool overschatte daar het voordeel. Bij bouwrente wordt meefinancieren als annu&iuml;teit over dertig jaar gerekend. Bij dubbele lasten telde het depot twee keer mee; dat is hersteld. En de vergelijking is uitgebreid naar dertien aanbieders.</p>
+            </li>
                     <li>
                         <time datetime="2026-10-02">2 oktober 2026</time>
                         <h3>De vergelijking uitgebreid, en een telling gecorrigeerd</h3>
@@ -283,7 +276,7 @@
                     <li>
                         <time datetime="2026-09-30">30 september 2026</time>
                         <h3>Drie beweringen rechtgezet die niet meer bij de bron klopten</h3>
-                        <p>Obvion noemt sinds kort een datumvoorwaarde bij de vergoedingsduur bij nieuwbouw; die stond er niet bij. Onze tekst bij Rabobank zei dat het depot na twee jaar automatisch stopt, terwijl de bron verlenging juist noemt. En op de homepage stond dat u bij de uitzonderingsaanbieder wel rente betaalt zonder iets terug te krijgen; die rekent juist geen rente over het deel dat nog in depot staat.</p>
+                        <p>Obvion noemt sinds kort een datumvoorwaarde bij de vergoedingsduur bij nieuwbouw; die stond er niet bij. Onze tekst bij Rabobank zei dat het depot na twee jaar automatisch stopt, terwijl de bron verlenging juist noemt. En op de homepage stond dat je bij de uitzonderingsaanbieder wel rente betaalt zonder iets terug te krijgen; die rekent juist geen rente over het deel dat nog in depot staat.</p>
                     </li>
                     <li>
                         <time datetime="2026-09-30">30 september 2026</time>
@@ -336,31 +329,19 @@
                         <p>Aftrektarief, eigenwoningforfait, Hillen-afbouw en NHG-percentage zijn tegen de bron gecontroleerd en voorzien van geautomatiseerde tests.</p>
                     </li>
                 </ol>
-            </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <div class="bs-melding">
-                    <p><strong>Fout of onduidelijke aanname gevonden?</strong> Stuur de gebruikte invoer, de getoonde uitkomst en waarom u iets anders verwacht naar <a href="contact.html">contact</a>. Meldingen over onjuiste gegevens krijgen voorrang.</p>
+        <section class="wr-wrap">
+                <div class="wr-melding">
+                    <p><strong>Fout of onduidelijke aanname gevonden?</strong> Stuur de gebruikte invoer, de getoonde uitkomst en waarom je iets anders verwacht naar <a href="contact.html">contact</a>. Meldingen over onjuiste gegevens krijgen voorrang.</p>
                     <p>Lees ook <a href="over-ons.html">wie de site maakt en hoe onafhankelijkheid is geregeld</a>.</p>
                 </div>
-            </div>
         </section>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
-
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a><a href="voorwaarden.html">Voorwaarden</a></nav>
     </footer>
 
     <script type="application/ld+json">
@@ -371,7 +352,7 @@
       "description": "Welke rekenregels en aannames de calculators gebruiken, welke bronnen voorrang hebben en wat de tools niet weten.",
       "author": { "@type": "Person", "name": "Simeon", "url": "https://www.bouwdepotcalculator.nl/over-ons.html" },
       "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl/" },
-      "dateModified": "2026-08-16",
+      "dateModified": "2026-10-11",
       "isAccessibleForFree": true,
       "mainEntityOfPage": "https://www.bouwdepotcalculator.nl/methodologie.html"
     }

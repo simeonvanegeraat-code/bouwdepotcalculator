@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,14 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/uitleg.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,49 +170,41 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Voorwaarden</span>
-    </nav>
-
-
     <main>
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <p class="bs-micro">Laatst bijgewerkt 16 augustus 2026</p>
-                <h1 class="bs-reken__titel">Gebruiksvoorwaarden en disclaimer</h1>
-
-            <p class="bs-kernzin">BouwdepotCalculator.nl is een informatieve site met rekenhulpmiddelen. De uitkomsten zijn indicatief en bedoeld voor oriëntatie. Ze zijn geen financieel advies, geen offerte en geen toezegging over wat een geldverstrekker zal accepteren.</p>
-            </div>
+        <section class="wr-wrap wr-kop ul-kop" id="inhoud">
+            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Voorwaarden</span></nav>
+            <h1>Gebruiksvoorwaarden en disclaimer</h1>
+            <p class="wr-lead">BouwdepotCalculator.nl is een informatieve site met rekenhulpmiddelen. De uitkomsten zijn indicatief en bedoeld voor oriëntatie. Ze zijn geen financieel advies, geen offerte en geen toezegging over wat een geldverstrekker zal accepteren.</p>
+            <p class="ui-opschrift">Laatst bijgewerkt 16 augustus 2026</p>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <div class="bs-beleid">
+        <section class="wr-wrap wr-sectie">
+                <div class="ul-beleid">
 
                     <section>
                         <h2>Gebruik van de site</h2>
-                        <p>Door deze site te gebruiken gaat u akkoord met deze voorwaarden. Gebruikt u de site namens iemand anders, dan verklaart u daartoe bevoegd te zijn.</p>
-                        <p>U mag de site vrij raadplegen voor eigen gebruik. Niet toegestaan is het geautomatiseerd grootschalig opvragen van pagina's op een manier die de beschikbaarheid voor anderen belemmert, of het gebruiken van de site voor onrechtmatige doeleinden.</p>
+                        <p>Door deze site te gebruiken ga je akkoord met deze voorwaarden. Gebruik je de site namens iemand anders, dan verklaar je daartoe bevoegd te zijn.</p>
+                        <p>Je mag de site vrij raadplegen voor eigen gebruik. Niet toegestaan is het geautomatiseerd grootschalig opvragen van pagina's op een manier die de beschikbaarheid voor anderen belemmert, of het gebruiken van de site voor onrechtmatige doeleinden.</p>
                     </section>
 
                     <section>
                         <h2>Geen financieel advies</h2>
-                        <p>De berekeningen zijn indicatiemiddelen op basis van de gegevens die u zelf invult en van expliciet benoemde vereenvoudigingen. Zij houden geen rekening met uw volledige inkomens- en vermogenspositie, verplichtingen, taxatie, productvoorwaarden of persoonlijke fiscale situatie.</p>
+                        <p>De berekeningen zijn indicatiemiddelen op basis van de gegevens die je zelf invult en van expliciet benoemde vereenvoudigingen. Zij houden geen rekening met je volledige inkomens- en vermogenspositie, verplichtingen, taxatie, productvoorwaarden of persoonlijke fiscale situatie.</p>
                         <p>BouwdepotCalculator.nl beschikt niet over een vergunning van de Autoriteit Financiële Markten en verricht geen advies- of bemiddelingsactiviteiten in de zin van de Wet op het financieel toezicht. Er wordt geen aanbeveling gedaan voor een specifiek product of een specifieke aanbieder.</p>
-                        <p>Raadpleeg voor uw persoonlijke situatie een erkend hypotheekadviseur, en voor fiscale vragen een belastingadviseur. Alleen de geldverstrekker beslist over acceptatie van een aanvraag.</p>
+                        <p>Raadpleeg voor je persoonlijke situatie een erkend hypotheekadviseur, en voor fiscale vragen een belastingadviseur. Alleen de geldverstrekker beslist over acceptatie van een aanvraag.</p>
                     </section>
 
                     <section>
                         <h2>Voorwaarden van geldverstrekkers</h2>
                         <p>De vergelijking van bouwdepotvoorwaarden geeft gegevens weer die de betreffende aanbieders zelf publiceren, met vermelding van de bron en de datum waarop die is geraadpleegd. Voorwaarden kunnen wijzigen en kunnen per hypotheekvorm of per offerte afwijken.</p>
-                        <p>Aan die weergave kunnen geen rechten worden ontleend tegenover de betreffende geldverstrekker. Wij zijn niet verbonden aan de genoemde aanbieders en werken daar niet mee samen. Constateert u een afwijking, dan stellen wij een melding via <a href="contact.html">de contactpagina</a> op prijs.</p>
+                        <p>Aan die weergave kunnen geen rechten worden ontleend tegenover de betreffende geldverstrekker. Wij zijn niet verbonden aan de genoemde aanbieders en werken daar niet mee samen. Constateer je een afwijking, dan stellen wij een melding via <a href="contact.html">de contactpagina</a> op prijs.</p>
                     </section>
 
                     <section>
                         <h2>Aansprakelijkheid</h2>
                         <p>De informatie wordt met zorg samengesteld en tegen primaire bronnen gecontroleerd, maar volledigheid en juistheid kunnen niet worden gegarandeerd. Gebruik van de site en van de uitkomsten is voor eigen rekening en risico.</p>
                         <p>Aansprakelijkheid voor directe of indirecte schade die voortvloeit uit het gebruik van de berekeningen of de informatie op deze site wordt uitgesloten, voor zover dat wettelijk is toegestaan. Deze uitsluiting geldt niet bij opzet of bewuste roekeloosheid.</p>
-                        <p>Beslissingen die u neemt op basis van deze site blijven uw eigen verantwoordelijkheid.</p>
+                        <p>Beslissingen die je neemt op basis van deze site blijven je eigen verantwoordelijkheid.</p>
                     </section>
 
                     <section>
@@ -229,7 +226,7 @@
 
                     <section>
                         <h2>Advertenties</h2>
-                        <p>De site kan advertenties tonen om hosting en ontwikkeling te bekostigen. Adverteerders hebben geen invloed op formules, uitkomsten of redactionele keuzes, en geen enkele aanbieder kan zijn positie of vermelding in de vergelijking beïnvloeden. Zie het <a href="cookies.html">cookiebeleid</a> voor hoe daarbij met uw toestemming wordt omgegaan.</p>
+                        <p>De site kan advertenties tonen om hosting en ontwikkeling te bekostigen. Adverteerders hebben geen invloed op formules, uitkomsten of redactionele keuzes, en geen enkele aanbieder kan zijn positie of vermelding in de vergelijking beïnvloeden. Zie het <a href="cookies.html">cookiebeleid</a> voor hoe daarbij met je toestemming wordt omgegaan.</p>
                     </section>
 
                     <section>
@@ -244,22 +241,12 @@
                     </section>
 
                 </div>
-            </div>
         </section>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
-
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a><a href="voorwaarden.html">Voorwaarden</a></nav>
     </footer>
 
     <script type="application/ld+json">

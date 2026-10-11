@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,14 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/uitleg.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,72 +170,64 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Cookies</span>
-    </nav>
-
-
     <main>
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <p class="bs-micro">Laatst bijgewerkt 22 augustus 2026</p>
-                <h1 class="bs-reken__titel">Cookiebeleid</h1>
-
-            <p class="bs-kernzin">De site zelf plaatst geen trackingcookies. Wat wij opslaan blijft in uw browser en dient alleen om uw ingevulde waarden en aangevinkte punten te onthouden. Advertentiecookies komen van Google en worden pas geplaatst volgens uw keuze in de toestemmingsdialoog.</p>
-            </div>
+        <section class="wr-wrap wr-kop ul-kop" id="inhoud">
+            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <span>Cookies</span></nav>
+            <h1>Cookiebeleid</h1>
+            <p class="wr-lead">De site zelf plaatst geen trackingcookies. Wat wij opslaan blijft in je browser en dient alleen om je ingevulde waarden en aangevinkte punten te onthouden. Advertentiecookies komen van Google en worden pas geplaatst volgens je keuze in de toestemmingsdialoog.</p>
+            <p class="ui-opschrift">Laatst bijgewerkt 22 augustus 2026</p>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <div class="bs-beleid">
+        <section class="wr-wrap wr-sectie">
+                <div class="ul-beleid">
 
                     <section>
                         <h2>Wat zijn cookies en lokale opslag?</h2>
-                        <p>Een cookie is een klein bestand dat een website in uw browser plaatst. Lokale opslag werkt vergelijkbaar, maar wordt niet bij elk verzoek naar een server meegestuurd: die gegevens blijven op uw apparaat totdat u ze wist.</p>
+                        <p>Een cookie is een klein bestand dat een website in je browser plaatst. Lokale opslag werkt vergelijkbaar, maar wordt niet bij elk verzoek naar een server meegestuurd: die gegevens blijven op je apparaat totdat je ze wist.</p>
                         <p>Deze site gebruikt lokale opslag voor gebruiksgemak, telt paginaweergaven zonder cookies, en laat via Google advertenties toe waarvoor cookies nodig kunnen zijn.</p>
                     </section>
 
                     <section>
                         <h2>Opslag die deze site zelf gebruikt</h2>
-                        <dl class="bs-beleidrijen">
+                        <dl class="ul-beleidrijen">
                             <div>
                                 <dt>Calculatorwaarden</dt>
-                                <dd>Lokale opslag met uw ingevulde rente, depotbedrag, hypotheekvorm en woonlast.</dd>
-                                <dd>Zodat u niet bij elke pagina opnieuw hoeft in te vullen. Waarden verlopen na maximaal 90 dagen.</dd>
+                                <dd>Lokale opslag met je ingevulde rente, depotbedrag, hypotheekvorm en woonlast.</dd>
+                                <dd>Zodat je niet bij elke pagina opnieuw hoeft in te vullen. Waarden verlopen na maximaal 90 dagen.</dd>
                             </div>
                             <div>
                                 <dt>Checklistvoortgang</dt>
-                                <dd>Lokale opslag met de punten die u hebt aangevinkt op het stappenplan of de advieschecklist.</dd>
-                                <dd>Blijft staan tot u "Opnieuw beginnen" gebruikt of uw browsergegevens wist. Beide lijsten hebben een eigen sleutel.</dd>
+                                <dd>Lokale opslag met de punten die je hebt aangevinkt op het stappenplan of de advieschecklist.</dd>
+                                <dd>Blijft staan tot je "Opnieuw beginnen" gebruikt of je browsergegevens wist. Beide lijsten hebben een eigen sleutel.</dd>
                             </div>
                             <div>
                                 <dt>Toestemmingsrecord</dt>
                                 <dd>Cookie en/of lokale opslag van de toestemmingsdialoog.</dd>
-                                <dd>Onthoudt uw privacy- en advertentiekeuzes, zodat de dialoog niet bij ieder bezoek terugkomt.</dd>
+                                <dd>Onthoudt je privacy- en advertentiekeuzes, zodat de dialoog niet bij ieder bezoek terugkomt.</dd>
                             </div>
                         </dl>
-                        <p>Geen van deze opslag wordt gebruikt om u te volgen over andere websites, en wij hebben er zelf geen kopie van.</p>
+                        <p>Geen van deze opslag wordt gebruikt om je te volgen over andere websites, en wij hebben er zelf geen kopie van.</p>
 
-                        <p>Paginaweergaven worden geteld met Vercel Web Analytics. Daarvoor wordt niets op uw apparaat opgeslagen: geen cookie en geen lokale opslag. Uw bezoek wordt herkend aan een niet-herleidbare afdruk (hash) van het verzoek die na 24 uur vervalt, en er wordt geen IP-adres bewaard. Wat er per weergave wordt vastgelegd staat in het <a href="privacy.html">privacybeleid</a>.</p>
+                        <p>Paginaweergaven worden geteld met Vercel Web Analytics. Daarvoor wordt niets op je apparaat opgeslagen: geen cookie en geen lokale opslag. Je bezoek wordt herkend aan een niet-herleidbare afdruk (hash) van het verzoek die na 24 uur vervalt, en er wordt geen IP-adres bewaard. Wat er per weergave wordt vastgelegd staat in het <a href="privacy.html">privacybeleid</a>.</p>
                     </section>
 
                     <section>
                         <h2>Advertentiecookies en andere leveranciers</h2>
-                        <p>Voor advertenties gebruikt de site Google AdSense. Afhankelijk van uw keuze kunnen Google en de in de dialoog genoemde leveranciers cookies of vergelijkbare technieken gebruiken om advertenties te leveren, fraude tegen te gaan en prestaties te meten.</p>
+                        <p>Voor advertenties gebruikt de site Google AdSense. Afhankelijk van je keuze kunnen Google en de in de dialoog genoemde leveranciers cookies of vergelijkbare technieken gebruiken om advertenties te leveren, fraude tegen te gaan en prestaties te meten.</p>
                         <p>De leverancierslijst en doeleinden kunnen veranderen. De actuele lijst staat daarom in de toestemmingsdialoog onder "Opties beheren" en wordt hier niet als statische kopie bijgehouden. Google beschrijft het eigen gebruik op <a href="https://policies.google.com/technologies/partner-sites?hl=nl" target="_blank" rel="noopener noreferrer nofollow">Hoe Google gegevens gebruikt van partnersites</a>.</p>
                     </section>
 
                     <section>
-                        <h2>Uw keuze aanpassen of intrekken</h2>
-                        <p>U kunt de toestemmingsdialoog opnieuw openen om toestemming te geven, te weigeren, per doel te beheren en waar aangeboden bezwaar te maken tegen een gerechtvaardigd belang. De knop daarvoor verschijnt wanneer de dialoog voor uw regio is geladen.</p>
-                        <p>Daarnaast kunt u cookies en lokale opslag via uw browser verwijderen of blokkeren. Opgeslagen calculatorwaarden, checklistvoortgang en uw toestemmingskeuze verdwijnen dan. De calculators blijven gewoon bruikbaar; alleen het onthouden vervalt en de toestemmingsvraag kan opnieuw verschijnen.</p>
+                        <h2>Je keuze aanpassen of intrekken</h2>
+                        <p>Je kunt de toestemmingsdialoog opnieuw openen om toestemming te geven, te weigeren, per doel te beheren en waar aangeboden bezwaar te maken tegen een gerechtvaardigd belang. De knop daarvoor verschijnt wanneer de dialoog voor je regio is geladen.</p>
+                        <p>Daarnaast kun je cookies en lokale opslag via je browser verwijderen of blokkeren. Opgeslagen calculatorwaarden, checklistvoortgang en je toestemmingskeuze verdwijnen dan. De calculators blijven gewoon bruikbaar; alleen het onthouden vervalt en de toestemmingsvraag kan opnieuw verschijnen.</p>
                     </section>
 
                     <section>
                         <h2>Waarom een gecertificeerde toestemmingsdialoog?</h2>
                         <p>Google vereist voor gepersonaliseerde advertenties aan bezoekers in de EER, het Verenigd Koninkrijk en Zwitserland een door Google gecertificeerd Consent Management Platform dat aansluit op het IAB Transparency &amp; Consent Framework. Deze site gebruikt de dialoog van Google Privacy &amp; messaging.</p>
                         <p>Google benadrukt daarbij dat de uitgever zelf verantwoordelijk blijft voor de juiste inrichting en naleving.</p>
-                        <ul class="bs-bronnen">
+                        <ul class="ul-bronnen">
                             <li><a href="https://support.google.com/adsense/answer/13554020?hl=nl" target="_blank" rel="noopener noreferrer nofollow">Google AdSense — CMP-vereisten voor EER, VK en Zwitserland</a></li>
                             <li><a href="https://support.google.com/adsense/answer/10959060?hl=nl" target="_blank" rel="noopener noreferrer nofollow">Google AdSense — toestemming intrekken en instellingen opnieuw tonen</a></li>
                         </ul>
@@ -238,27 +235,17 @@
 
                     <section>
                         <h2>Wijzigingen en contact</h2>
-                        <p>Verandert de inrichting van de site, dan wordt dit beleid bijgewerkt met een nieuwe datum bovenaan. Vragen of onduidelijkheden kunt u melden via <a href="contact.html">de contactpagina</a>.</p>
+                        <p>Verandert de inrichting van de site, dan wordt dit beleid bijgewerkt met een nieuwe datum bovenaan. Vragen of onduidelijkheden kun je melden via <a href="contact.html">de contactpagina</a>.</p>
                         <p>Zie ook het <a href="privacy.html">privacybeleid</a> voor welke gegevens worden verwerkt en op welke grondslag.</p>
                     </section>
 
                 </div>
-            </div>
         </section>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
-
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a><a href="voorwaarden.html">Voorwaarden</a></nav>
     </footer>
 
     <script type="application/ld+json">
