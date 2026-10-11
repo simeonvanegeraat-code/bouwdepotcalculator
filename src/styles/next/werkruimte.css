@@ -751,3 +751,33 @@
     .wr-tijdbalk { display: none; }
     .wr-stap.is-letop { border-left-color: #000; }
 }
+
+/* ==========================================================================
+   Bedragentabel op bouwdepot-berekenen.html: links de rente, rechts de tabel.
+   ========================================================================== */
+
+.wr-bedragen { display: grid; gap: 1.5rem clamp(2rem, 4vw, 4rem); border-top: 1.5px solid var(--ui-ink); padding-top: 1.5rem; }
+.wr-bedragen__rente { display: grid; gap: 0.35rem; align-content: start; max-width: 22rem; }
+.wr-bedragen__label { display: block; margin-top: 1rem; font-size: 0.9375rem; font-weight: 600; }
+.wr-bedragen__rente .wr-knop { margin-top: 0.9rem; justify-self: start; height: auto; padding-block: 0.6rem; white-space: normal; text-align: left; }
+.wr-bedragen__tabel { min-width: 0; overflow-x: auto; }
+.wr-tabel--bedragen { min-width: 0; }
+.wr-tabel--bedragen caption { caption-side: top; text-align: left; padding-bottom: 0.5rem; }
+.wr-tabel--bedragen :is(th, td) { text-align: right; }
+.wr-tabel--bedragen :is(th, td):first-child { text-align: left; }
+.wr-tabel--bedragen tbody th { font-weight: 600; white-space: nowrap; }
+.wr-tabel--bedragen tbody th a { display: inline-block; padding: 0.15rem 0; color: var(--ui-forest); text-underline-offset: 0.25em; }
+.wr-tabel--bedragen td:nth-child(2) { min-width: 0; white-space: nowrap; color: var(--ui-ink); font-weight: 600; font-size: 1rem; }
+.wr-tabel--bedragen td:last-child { font-weight: 400; }
+.wr-tabel--bedragen [data-bt-kolom="bouw"] { display: none; }
+.wr-tabel--bedragen[data-bt-met-bouw] [data-bt-kolom="bouw"] { display: table-cell; }
+.wr-bedragen__tabel .wr-voorbehoud { margin-top: 0.9rem; }
+.wr-bedragen__zinnen { margin-top: 1.75rem; }
+.wr-bedragen__zinnen + .wr-voorbehoud { margin-top: 1rem; }
+@media (min-width: 900px) { .wr-bedragen { grid-template-columns: minmax(15rem, 20rem) minmax(0, 1fr); } }
+@media (max-width: 699px) {
+    .wr-tabel--bedragen { font-size: 0.8125rem; }
+    .wr-tabel--bedragen :is(th, td) { padding: 0.5rem 0.3rem; }
+    .wr-tabel--bedragen[data-bt-met-bouw] :is(th, td):nth-child(3) { display: none; }
+}
+@media print { .wr-bedragen__rente .wr-schuif { display: none; } }

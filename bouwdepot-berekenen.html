@@ -338,6 +338,135 @@
 
         <noscript><div class="wr-wrap"><p class="wr-melding">Deze rekentool heeft JavaScript nodig. De uitleg hieronder kun je zonder lezen.</p></div></noscript>
 
+        <!-- De bedragentabel. De rijen en de zinnen staan uitgerekend in de HTML bij
+             3,80% rente; src/depot/bedragen.js rekent ze opnieuw uit als de
+             bezoeker een andere rente kiest. tests/bedragentabel.test.mjs bewaakt
+             dat wat hier staat klopt met src/domain/bedragentabel.js. -->
+        <section class="wr-wrap wr-sectie" id="bedragen" data-bedragen aria-labelledby="bedragen-kop">
+            <p class="ui-opschrift">Per bedrag</p>
+            <h2 id="bedragen-kop">Wat kost een bouwdepot van &euro;&nbsp;10.000 tot &euro;&nbsp;150.000 per maand?</h2>
+            <p class="wr-lead ul-lead">De bruto maandlast na de verbouwing, bij de rente en de hypotheekvorm die je zelf kiest. Looptijd 30 jaar. Klik op een bedrag om het hierboven door te rekenen met je eigen looptijd en bank.</p>
+
+            <div class="wr-bedragen">
+                <div class="wr-veld wr-bedragen__rente">
+                    <label for="bt-rente">Hypotheekrente</label>
+                    <div class="wr-veld__in"><input type="text" id="bt-rente" value="3,80" inputmode="decimal" autocomplete="off" aria-describedby="fout-bt-rente"><span aria-hidden="true">%</span></div>
+                    <span class="wr-veld__fout" id="fout-bt-rente" role="alert"></span>
+                    <input class="wr-schuif" type="range" id="bt-schuif" min="1" max="8" step="0.1" value="3.8" aria-label="Hypotheekrente in procenten">
+                    <label for="bt-vorm" class="wr-bedragen__label">Hypotheekvorm</label>
+                    <div class="wr-veld__in"><select id="bt-vorm" aria-describedby="hulp-bt-vorm">
+                        <option value="annuiteit" selected>Annu&iuml;tair</option>
+                        <option value="lineair">Lineair</option>
+                    </select></div>
+                    <p class="wr-hulp" id="hulp-bt-vorm">Annu&iuml;tair: elke maand hetzelfde bedrag. Lineair: begint hoger en daalt elke maand. Met deze twee vormen geeft een nieuwe lening recht op hypotheekrenteaftrek.</p>
+                    <button class="wr-knop wr-knop--klein wr-geen-print" type="button" data-bt-bouw aria-pressed="false">Toon ook de lasten tijdens de verbouwing</button>
+                </div>
+
+                <div class="wr-bedragen__tabel">
+                    <table class="wr-tabel wr-tabel--bedragen is-volledig" aria-live="polite">
+                        <caption class="wr-hulp">Bruto per maand bij <span data-bt-rentetekst>3,80%</span> rente &middot; <span data-bt-vormtekst>Annu&iuml;tair</span></caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Bouwdepot</th>
+                                <th scope="col" data-bt-koplast>Per maand, na de verbouwing</th>
+                                <th scope="col">Rente over 30 jaar</th>
+                                <th scope="col" data-bt-kolom="bouw">Eerste maand van de verbouwing</th>
+                                <th scope="col" data-bt-kolom="bouw">Hoogste maand tijdens de verbouwing</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bt-rijen>
+                            <tr>
+                                <th scope="row"><a href="bouwdepot-berekenen.html?bedrag=10000" data-bt-bedrag="10000">&euro;&nbsp;10.000</a></th>
+                                <td>&euro;&nbsp;47</td>
+                                <td>&euro;&nbsp;6.774</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;18</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;44</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><a href="bouwdepot-berekenen.html?bedrag=20000" data-bt-bedrag="20000">&euro;&nbsp;20.000</a></th>
+                                <td>&euro;&nbsp;93</td>
+                                <td>&euro;&nbsp;13.549</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;35</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;88</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><a href="bouwdepot-berekenen.html?bedrag=25000" data-bt-bedrag="25000">&euro;&nbsp;25.000</a></th>
+                                <td>&euro;&nbsp;116</td>
+                                <td>&euro;&nbsp;16.936</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;44</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;110</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><a href="bouwdepot-berekenen.html?bedrag=30000" data-bt-bedrag="30000">&euro;&nbsp;30.000</a></th>
+                                <td>&euro;&nbsp;140</td>
+                                <td>&euro;&nbsp;20.323</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;53</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;132</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><a href="bouwdepot-berekenen.html?bedrag=40000" data-bt-bedrag="40000">&euro;&nbsp;40.000</a></th>
+                                <td>&euro;&nbsp;186</td>
+                                <td>&euro;&nbsp;27.098</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;70</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;176</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><a href="bouwdepot-berekenen.html?bedrag=50000" data-bt-bedrag="50000">&euro;&nbsp;50.000</a></th>
+                                <td>&euro;&nbsp;233</td>
+                                <td>&euro;&nbsp;33.872</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;88</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;220</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><a href="bouwdepot-berekenen.html?bedrag=60000" data-bt-bedrag="60000">&euro;&nbsp;60.000</a></th>
+                                <td>&euro;&nbsp;280</td>
+                                <td>&euro;&nbsp;40.647</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;105</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;264</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><a href="bouwdepot-berekenen.html?bedrag=75000" data-bt-bedrag="75000">&euro;&nbsp;75.000</a></th>
+                                <td>&euro;&nbsp;349</td>
+                                <td>&euro;&nbsp;50.808</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;132</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;330</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><a href="bouwdepot-berekenen.html?bedrag=100000" data-bt-bedrag="100000">&euro;&nbsp;100.000</a></th>
+                                <td>&euro;&nbsp;466</td>
+                                <td>&euro;&nbsp;67.745</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;176</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;440</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><a href="bouwdepot-berekenen.html?bedrag=125000" data-bt-bedrag="125000">&euro;&nbsp;125.000</a></th>
+                                <td>&euro;&nbsp;582</td>
+                                <td>&euro;&nbsp;84.681</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;220</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;549</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><a href="bouwdepot-berekenen.html?bedrag=150000" data-bt-bedrag="150000">&euro;&nbsp;150.000</a></th>
+                                <td>&euro;&nbsp;699</td>
+                                <td>&euro;&nbsp;101.617</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;264</td>
+                                <td data-bt-kolom="bouw">&euro;&nbsp;659</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="wr-voorbehoud" data-bt-vormnoot hidden>Bij lineair los je elke maand hetzelfde bedrag af en betaal je rente over wat nog openstaat. De eerste maand is daardoor de hoogste; daarna daalt je maandlast elke maand een beetje. Over de hele looptijd betaal je minder rente dan bij annu&iuml;tair.</p>
+                    <p class="wr-voorbehoud" data-bt-bouwnoot hidden>Tijdens de verbouwing betaal je minder, omdat je een vergoeding krijgt over wat nog in depot staat. Hier gerekend met zes maanden verbouwen, elke maand evenveel opnemen en een vergoeding gelijk aan je hypotheekrente. Duurt je verbouwing langer of vergoedt je bank minder, dan wordt dit anders; reken het hierboven na.</p>
+                </div>
+            </div>
+
+            <ul class="wr-lijst wr-proza wr-bedragen__zinnen" data-bt-zinnen>
+                    <li>Een bouwdepot van <strong>&euro;&nbsp;30.000</strong> kost bij 3,80% rente <strong>&euro;&nbsp;140 bruto per maand</strong>. Over 30 jaar betaal je &euro;&nbsp;20.323 aan rente.</li>
+                    <li>Een bouwdepot van <strong>&euro;&nbsp;50.000</strong> kost bij 3,80% rente <strong>&euro;&nbsp;233 bruto per maand</strong>. Over 30 jaar betaal je &euro;&nbsp;33.872 aan rente.</li>
+                    <li>Een bouwdepot van <strong>&euro;&nbsp;100.000</strong> kost bij 3,80% rente <strong>&euro;&nbsp;466 bruto per maand</strong>. Over 30 jaar betaal je &euro;&nbsp;67.745 aan rente.</li>
+            </ul>
+            <p class="wr-voorbehoud">Bruto, zonder hypotheekrenteaftrek en zonder de kosten van je bestaande hypotheek. Wat je <a href="hypotheekrenteaftrek-gids.html">netto overhoudt</a> hangt af van je inkomen.</p>
+        </section>
+
         <section class="wr-wrap wr-sectie" aria-labelledby="aannames-kop">
             <p class="ui-opschrift">Uitgangspunten</p>
             <h2 id="aannames-kop">Waarmee deze berekening wel en niet rekent</h2>
@@ -540,5 +669,6 @@
 
     <script type="module" src="/src/js/reporting.js"></script>
     <script type="module" src="/src/depot/pagina.js"></script>
+    <script type="module" src="/src/depot/bedragen.js"></script>
 </body>
 </html>
