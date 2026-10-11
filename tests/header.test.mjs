@@ -30,11 +30,36 @@ function kop(bestand) {
     return html.slice(start, eind).replace(/\r\n/g, '\n');
 }
 
+/** De header zonder de markering van de huidige pagina; die verschilt per pagina. */
+const zonderMarkering = (h) => h.replaceAll(' aria-current="page"', '');
+
 test('elke pagina heeft precies dezelfde header', () => {
-    const eerste = kop(paginas[0]);
+    const eerste = zonderMarkering(kop(paginas[0]));
     for (const p of paginas) {
-        assert.equal(kop(p), eerste,
+        assert.equal(zonderMarkering(kop(p)), eerste,
             `${p} heeft een andere header dan ${paginas[0]}; draai npm run build:header`);
+    }
+});
+
+test('de header markeert de pagina waar je bent, en alleen die', () => {
+    const inMenu = new Set([
+        ...NAV.hoofd.map((i) => i.href),
+        ...NAV.rekenhulpen.groepen.flatMap((g) => g.items.map((i) => i.href)),
+    ]);
+    for (const p of paginas) {
+        const gemarkeerd = [...kop(p).matchAll(/href="([^"]+)" aria-current="page"/g)].map((m) => m[1]);
+        // Een hoofditem staat in de kop en nog een keer in het paneel voor de telefoon.
+        const verwacht = inMenu.has(p) ? [p] : [];
+        assert.deepEqual([...new Set(gemarkeerd)], verwacht, `${p} markeert ${gemarkeerd.join(', ') || 'niets'}`);
+    }
+});
+
+test('het menu noemt geen aantallen die uit de data komen', () => {
+    // "De acht redenen" stond er nog toen de declaratiegids er zeven telde.
+    for (const g of NAV.rekenhulpen.groepen) {
+        for (const i of g.items) {
+            assert.doesNotMatch(i.uitleg || '', /\b(twee|drie|vier|vijf|zes|zeven|acht|negen|tien|elf|twaalf|dertien|\d+)\b/i, i.label);
+        }
     }
 });
 

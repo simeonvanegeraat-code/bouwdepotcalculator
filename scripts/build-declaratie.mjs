@@ -168,11 +168,11 @@ const html = `<!DOCTYPE html>
 <body class="ui wr">
     <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
-${headerHtml()}
+${headerHtml(BESTAND)}
 
     <main>
         <section class="wr-wrap wr-kop ul-kop" id="inhoud">
-            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="stappenplan.html">Uitleg</a> <span aria-hidden="true">&middot;</span> <span>Declaratie afgewezen</span></nav>
+            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="stappenplan.html">Stappenplan</a> <span aria-hidden="true">&middot;</span> <span>Declaratie afgewezen</span></nav>
             <h1>Declaratie afgewezen: waarom, en wat nu?</h1>
             <p class="wr-lead">Een afwijzing kost meestal geen geld maar wel weken. De redenen zijn opvallend voorspelbaar: bijna altijd gaat het om het soort bewijsstuk, om iets dat niet vast aan de woning zit, of om ontbrekende gegevens op de factuur.</p>
             <p class="ul-inleiding">Hieronder staan de eisen die de ${N} vergeleken geldverstrekkers zelf publiceren, gegroepeerd per soort. Zo zie je niet alleen wát er misgaat, maar ook of je bank daar streng in is. Waar een aanbieder niets publiceert, staat dat er expliciet bij.</p>
@@ -278,7 +278,7 @@ ${uitbetaaltijden}
       '@type': 'BreadcrumbList',
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: 'Uitleg', item: `${SITE}/stappenplan.html` },
+        { '@type': 'ListItem', position: 2, name: 'Stappenplan', item: `${SITE}/stappenplan.html` },
         { '@type': 'ListItem', position: 3, name: 'Declaratie afgewezen' },
       ],
     }, null, 2).replace(/\n/g, '\n    ')}

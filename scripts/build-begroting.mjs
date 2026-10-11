@@ -131,7 +131,7 @@ const html = `<!DOCTYPE html>
 <body class="ui wr">
     <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
-${headerHtml()}
+${headerHtml('verbouwbegroting.html')}
 
     <main id="inhoud">
         <div class="wr-wrap wr-kop wr-geen-print">

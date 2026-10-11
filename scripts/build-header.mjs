@@ -15,6 +15,10 @@
  * JavaScript. De CSS schakelt de knop pas in achter
  * `@supports selector(:popover-open)`, zodat browsers zonder ondersteuning de
  * gewone link houden in plaats van een paneel dat permanent openstaat.
+ *
+ * De header is op elke pagina dezelfde, op één ding na: de link naar de pagina
+ * zelf krijgt aria-current="page", zodat je ziet waar je bent. Dat gebeurt hier
+ * en niet met JavaScript, zodat het er ook staat als scripts niet laden.
  */
 
 import fs from 'node:fs';
@@ -27,10 +31,19 @@ const NAV = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/navigatie.json'), '
 const esc = (s) => String(s)
     .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-/** De header als één blok, met het paneel erin. */
-export function headerHtml() {
+/**
+ * De header als één blok, met het paneel erin.
+ *
+ * @param {string} [huidig] de bestandsnaam van de pagina, bijvoorbeeld
+ *   "depotplanner.html". Alleen een link naar precies die pagina wordt
+ *   gemarkeerd; een link naar een anker op die pagina niet, anders lichten er
+ *   twee regels tegelijk op.
+ */
+export function headerHtml(huidig = '') {
+    const hier = (href) => (huidig && href === huidig ? ' aria-current="page"' : '');
+
     const hoofd = NAV.hoofd
-        .map((i) => `                <a href="${esc(i.href)}">${esc(i.label)}</a>`)
+        .map((i) => `                <a href="${esc(i.href)}"${hier(i.href)}>${esc(i.label)}</a>`)
         .join('\n');
 
     const groep = (vraag, items, extra = '') => `                    <div class="bs-paneel__groep${extra}">
@@ -41,7 +54,7 @@ ${items}
                     </div>`;
 
     const regel = (i) => `                        <li>
-                            <a href="${esc(i.href)}">
+                            <a href="${esc(i.href)}"${hier(i.href)}>
                                 <strong>${esc(i.label)}</strong>${i.uitleg ? `
                                 <span>${esc(i.uitleg)}</span>` : ''}
                             </a>
@@ -52,16 +65,17 @@ ${items}
         .join('\n');
 
     // Op een telefoon past naast het woordmerk maar één knop. De hoofditems
-    // staan daarom ook in het paneel; boven 760px verbergt de CSS die groep,
-    // want daar staan ze gewoon in de kop.
-    const ookInPaneel = groep('Verder op de site', NAV.hoofd.map(regel).join('\n'), ' bs-paneel__groep--ook');
+    // staan daarom ook in het paneel, bovenaan: het zijn de twee meest
+    // gebruikte pagina's. Boven 760px verbergt de CSS die groep, want daar
+    // staan ze gewoon in de kop.
+    const ookInPaneel = groep('Opzoeken en uitleg', NAV.hoofd.map(regel).join('\n'), ' bs-paneel__groep--ook');
 
     return `    <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
             <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
             <nav class="bs-kop__nav" aria-label="Hoofdnavigatie">
                 <button class="bs-kop__knop" type="button" popovertarget="rekenhulpen">
-                    ${esc(NAV.rekenhulpen.label)}
+                    <span class="bs-kop__breed">${esc(NAV.rekenhulpen.label)}</span><span class="bs-kop__smal">${esc(NAV.rekenhulpen.labelSmal)}</span>
                     <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
                 </button>
                 <a class="bs-kop__terugval" href="${esc(NAV.rekenhulpen.terugval)}">${esc(NAV.rekenhulpen.label)}</a>
@@ -71,8 +85,8 @@ ${hoofd}
 
         <div class="bs-paneel" id="rekenhulpen" popover>
             <div class="bs-wrap bs-paneel__inner">
-${groepen}
 ${ookInPaneel}
+${groepen}
             </div>
         </div>
     </header>`;
@@ -81,7 +95,6 @@ ${ookInPaneel}
 // Alleen uitvoeren als dit bestand zelf wordt gestart; de generatoren
 // importeren headerHtml() en schrijven hun eigen pagina.
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-    const blok = headerHtml();
     const pagina = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
     let geschreven = 0;
 
@@ -98,7 +111,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
         const nl = html.includes('\r\n') ? '\r\n' : '\n';
         const regelStart = html.lastIndexOf('\n', start) + 1;
         const nieuw = html.slice(0, regelStart)
-            + blok.split('\n').join(nl)
+            + headerHtml(bestand).split('\n').join(nl)
             + html.slice(eind + '</header>'.length);
 
         if (nieuw !== html) { fs.writeFileSync(pad, nieuw); geschreven++; }

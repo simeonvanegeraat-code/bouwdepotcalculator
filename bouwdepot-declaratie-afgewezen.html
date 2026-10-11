@@ -48,17 +48,32 @@
             <a class="bs-merk" href="/">Bouwdepot<span>Calculator</span><b>.nl</b></a>
             <nav class="bs-kop__nav" aria-label="Hoofdnavigatie">
                 <button class="bs-kop__knop" type="button" popovertarget="rekenhulpen">
-                    Rekenhulpen
+                    <span class="bs-kop__breed">Rekenhulpen</span><span class="bs-kop__smal">Menu</span>
                     <span class="bs-staafjes" aria-hidden="true"><i></i><i></i><i></i></span>
                 </button>
                 <a class="bs-kop__terugval" href="/#gereedschap">Rekenhulpen</a>
                 <a href="bouwdepot-voorwaarden-vergelijken.html">Voorwaarden per bank</a>
-                <a href="stappenplan.html">Uitleg</a>
+                <a href="stappenplan.html">Stappenplan</a>
             </nav>
         </div>
 
         <div class="bs-paneel" id="rekenhulpen" popover>
             <div class="bs-wrap bs-paneel__inner">
+                    <div class="bs-paneel__groep bs-paneel__groep--ook">
+                        <p class="bs-paneel__vraag">Opzoeken en uitleg</p>
+                        <ul class="bs-paneel__lijst">
+                        <li>
+                            <a href="bouwdepot-voorwaarden-vergelijken.html">
+                                <strong>Voorwaarden per bank</strong>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="stappenplan.html">
+                                <strong>Stappenplan</strong>
+                            </a>
+                        </li>
+                        </ul>
+                    </div>
                     <div class="bs-paneel__groep">
                         <p class="bs-paneel__vraag">Wat kost het per maand?</p>
                         <ul class="bs-paneel__lijst">
@@ -74,10 +89,22 @@
                                 <span>Rente over de hele lening, min de vergoeding over wat nog in depot staat.</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="renteverlies-bouwdepot.html">
+                                <strong>Renteverlies</strong>
+                                <span>Wat stilstaand depotgeld kost: betaalde rente min ontvangen vergoeding.</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="hypotheekrenteaftrek-gids.html">
+                                <strong>Hypotheekrenteaftrek</strong>
+                                <span>Wat je terugkrijgt en wat je netto maandlast wordt.</span>
+                            </a>
+                        </li>
                         </ul>
                     </div>
                     <div class="bs-paneel__groep">
-                        <p class="bs-paneel__vraag">Wat kost de verbouwing, en kan ik dat lenen?</p>
+                        <p class="bs-paneel__vraag">Ik ga verbouwen</p>
                         <ul class="bs-paneel__lijst">
                         <li>
                             <a href="verbouwbegroting.html">
@@ -94,12 +121,12 @@
                         </ul>
                     </div>
                     <div class="bs-paneel__groep">
-                        <p class="bs-paneel__vraag">Nieuwbouw</p>
+                        <p class="bs-paneel__vraag">Ik koop nieuwbouw</p>
                         <ul class="bs-paneel__lijst">
                         <li>
                             <a href="nieuwbouw.html">
-                                <strong>Je zwaarste maand</strong>
-                                <span>Bouwtermijnen en depotvergoeding over de hele bouwperiode.</span>
+                                <strong>Nieuwbouw berekenen</strong>
+                                <span>Je maandlast per maand over de hele bouw, en je zwaarste maand.</span>
                             </a>
                         </li>
                         <li>
@@ -114,16 +141,10 @@
                                 <span>De periode waarin je oude en nieuwe woonlasten tegelijk draagt.</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="renteverlies-bouwdepot.html">
-                                <strong>Renteverlies</strong>
-                                <span>Betaalde hypotheekrente min ontvangen depotvergoeding.</span>
-                            </a>
-                        </li>
                         </ul>
                     </div>
                     <div class="bs-paneel__groep">
-                        <p class="bs-paneel__vraag">Ik heb al een bouwdepot</p>
+                        <p class="bs-paneel__vraag">Mijn bouwdepot loopt al</p>
                         <ul class="bs-paneel__lijst">
                         <li>
                             <a href="depotplanner.html">
@@ -132,35 +153,9 @@
                             </a>
                         </li>
                         <li>
-                            <a href="bouwdepot-declaratie-afgewezen.html">
+                            <a href="bouwdepot-declaratie-afgewezen.html" aria-current="page">
                                 <strong>Declaratie afgewezen</strong>
-                                <span>De acht redenen waarop het stukloopt, en wat je dan doet.</span>
-                            </a>
-                        </li>
-                        </ul>
-                    </div>
-                    <div class="bs-paneel__groep">
-                        <p class="bs-paneel__vraag">Belasting</p>
-                        <ul class="bs-paneel__lijst">
-                        <li>
-                            <a href="hypotheekrenteaftrek-gids.html">
-                                <strong>Hypotheekrenteaftrek</strong>
-                                <span>Je netto maandlast, plus de termijnen die bij een depot gelden.</span>
-                            </a>
-                        </li>
-                        </ul>
-                    </div>
-                    <div class="bs-paneel__groep bs-paneel__groep--ook">
-                        <p class="bs-paneel__vraag">Verder op de site</p>
-                        <ul class="bs-paneel__lijst">
-                        <li>
-                            <a href="bouwdepot-voorwaarden-vergelijken.html">
-                                <strong>Voorwaarden per bank</strong>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="stappenplan.html">
-                                <strong>Uitleg</strong>
+                                <span>De redenen waarop het stukloopt, en wat je dan doet.</span>
                             </a>
                         </li>
                         </ul>
@@ -171,7 +166,7 @@
 
     <main>
         <section class="wr-wrap wr-kop ul-kop" id="inhoud">
-            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="stappenplan.html">Uitleg</a> <span aria-hidden="true">&middot;</span> <span>Declaratie afgewezen</span></nav>
+            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="stappenplan.html">Stappenplan</a> <span aria-hidden="true">&middot;</span> <span>Declaratie afgewezen</span></nav>
             <h1>Declaratie afgewezen: waarom, en wat nu?</h1>
             <p class="wr-lead">Een afwijzing kost meestal geen geld maar wel weken. De redenen zijn opvallend voorspelbaar: bijna altijd gaat het om het soort bewijsstuk, om iets dat niet vast aan de woning zit, of om ontbrekende gegevens op de factuur.</p>
             <p class="ul-inleiding">Hieronder staan de eisen die de 13 vergeleken geldverstrekkers zelf publiceren, gegroepeerd per soort. Zo zie je niet alleen wát er misgaat, maar ook of je bank daar streng in is. Waar een aanbieder niets publiceert, staat dat er expliciet bij.</p>
@@ -556,7 +551,7 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Uitleg",
+          "name": "Stappenplan",
           "item": "https://www.bouwdepotcalculator.nl/stappenplan.html"
         },
         {

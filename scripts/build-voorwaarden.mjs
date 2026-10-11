@@ -329,7 +329,7 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema, script 
 <body class="ui wr">
     <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
-${headerHtml()}
+${headerHtml(bestand)}
 
 ${jijTekst(inhoud.replace('%KRUIMEL%', kruimelHtml(kruimel)))}
 

@@ -1,13 +1,14 @@
 {
-  "_toelichting": "De bron van de header. scripts/build-header.mjs schrijft hem in alle HTML-pagina's; de drie datageneratoren lezen dezelfde lijst. Een navigatiewijziging hoort hier te gebeuren en nergens anders. De groepen dragen de vraag van de bezoeker, niet onze bestandsnamen.",
+  "_toelichting": "De bron van de header. scripts/build-header.mjs schrijft hem in alle HTML-pagina's; de drie datageneratoren lezen dezelfde lijst. Een navigatiewijziging hoort hier te gebeuren en nergens anders. De groepen volgen de vier ingangen van de homepage: wat kost het, verbouwen, nieuwbouw, en een depot dat al loopt. Noem in een uitleg geen aantallen die uit de data komen; die verouderen hier ongemerkt.",
 
   "hoofd": [
     { "label": "Voorwaarden per bank", "href": "bouwdepot-voorwaarden-vergelijken.html" },
-    { "label": "Uitleg", "href": "stappenplan.html" }
+    { "label": "Stappenplan", "href": "stappenplan.html" }
   ],
 
   "rekenhulpen": {
     "label": "Rekenhulpen",
+    "labelSmal": "Menu",
     "terugval": "/#gereedschap",
     "groepen": [
       {
@@ -22,11 +23,21 @@
             "label": "Maandlast tijdens de bouw",
             "href": "bouwdepot-berekenen.html#tijdens-de-bouw",
             "uitleg": "Rente over de hele lening, min de vergoeding over wat nog in depot staat."
+          },
+          {
+            "label": "Renteverlies",
+            "href": "renteverlies-bouwdepot.html",
+            "uitleg": "Wat stilstaand depotgeld kost: betaalde rente min ontvangen vergoeding."
+          },
+          {
+            "label": "Hypotheekrenteaftrek",
+            "href": "hypotheekrenteaftrek-gids.html",
+            "uitleg": "Wat je terugkrijgt en wat je netto maandlast wordt."
           }
         ]
       },
       {
-        "vraag": "Wat kost de verbouwing, en kan ik dat lenen?",
+        "vraag": "Ik ga verbouwen",
         "items": [
           {
             "label": "Verbouwbegroting",
@@ -41,12 +52,12 @@
         ]
       },
       {
-        "vraag": "Nieuwbouw",
+        "vraag": "Ik koop nieuwbouw",
         "items": [
           {
-            "label": "Je zwaarste maand",
+            "label": "Nieuwbouw berekenen",
             "href": "nieuwbouw.html",
-            "uitleg": "Bouwtermijnen en depotvergoeding over de hele bouwperiode."
+            "uitleg": "Je maandlast per maand over de hele bouw, en je zwaarste maand."
           },
           {
             "label": "Bouwrente",
@@ -57,16 +68,11 @@
             "label": "Dubbele lasten",
             "href": "dubbele-lasten-nieuwbouw.html",
             "uitleg": "De periode waarin je oude en nieuwe woonlasten tegelijk draagt."
-          },
-          {
-            "label": "Renteverlies",
-            "href": "renteverlies-bouwdepot.html",
-            "uitleg": "Betaalde hypotheekrente min ontvangen depotvergoeding."
           }
         ]
       },
       {
-        "vraag": "Ik heb al een bouwdepot",
+        "vraag": "Mijn bouwdepot loopt al",
         "items": [
           {
             "label": "Depotplanner",
@@ -76,17 +82,7 @@
           {
             "label": "Declaratie afgewezen",
             "href": "bouwdepot-declaratie-afgewezen.html",
-            "uitleg": "De acht redenen waarop het stukloopt, en wat je dan doet."
-          }
-        ]
-      },
-      {
-        "vraag": "Belasting",
-        "items": [
-          {
-            "label": "Hypotheekrenteaftrek",
-            "href": "hypotheekrenteaftrek-gids.html",
-            "uitleg": "Je netto maandlast, plus de termijnen die bij een depot gelden."
+            "uitleg": "De redenen waarop het stukloopt, en wat je dan doet."
           }
         ]
       }

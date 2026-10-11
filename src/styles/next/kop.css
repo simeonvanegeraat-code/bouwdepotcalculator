@@ -93,12 +93,29 @@
 .ui .bs-paneel__lijst strong { font-weight: 600; color: var(--ui-forest); }
 .ui .bs-paneel__lijst span { font-size: 0.875rem; line-height: 1.4; color: var(--ui-muted); }
 
+/* Waar je bent: de link naar deze pagina, in de kop en in het paneel. */
+.ui .bs-kop__nav a[aria-current="page"] { color: var(--ui-forest); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 0.4em; }
+.ui .bs-paneel__lijst a[aria-current="page"] { background: var(--ui-surface); box-shadow: inset 3px 0 0 var(--ui-champagne); }
+
+/* Op een breed scherm heet de knop naar wat erin zit; op een telefoon zit het
+   hele menu erin en heet hij dus "Menu". */
+.ui .bs-kop__smal { display: none; }
+
 @media (min-width: 760px) {
-    .ui .bs-paneel__inner { grid-template-columns: repeat(3, 1fr); }
+    .ui .bs-paneel__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .ui .bs-paneel__groep--ook { display: none; }
+}
+@media (min-width: 1000px) {
+    .ui .bs-paneel__inner { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (max-width: 759.98px) {
     .ui .bs-kop__nav > a:not(.bs-kop__terugval) { display: none; }
+    .ui .bs-kop__breed { display: none; }
+    .ui .bs-kop__smal { display: inline; }
+    /* De twee hoofdlinks staan bovenaan het paneel, als knoppen naast elkaar. */
+    .ui .bs-paneel__groep--ook { padding-bottom: 1.25rem; border-bottom: 1px solid var(--ui-line); }
+    .ui .bs-paneel__groep--ook .bs-paneel__lijst { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+    .ui .bs-paneel__groep--ook .bs-paneel__lijst a { height: 100%; margin: 0; align-items: center; text-align: center; border: 1px solid var(--ui-line); background: var(--ui-surface); }
 }
 
 .ui-voet {
