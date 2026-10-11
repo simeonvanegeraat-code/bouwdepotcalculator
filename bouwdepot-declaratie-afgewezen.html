@@ -24,7 +24,7 @@
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
@@ -35,9 +35,14 @@
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <link rel="stylesheet" href="/src/styles/broadsheet.css">
+    <!-- Deze pagina gebruikt de nieuwe vormgeving en laadt broadsheet.css niet. -->
+    <link rel="stylesheet" href="/src/styles/next/tokens.css">
+    <link rel="stylesheet" href="/src/styles/next/kop.css">
+    <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/uitleg.css">
 </head>
-<body class="bs">
+<body class="ui wr">
+    <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
 
     <header class="bs-kop">
         <div class="bs-wrap bs-kop__inner">
@@ -165,299 +170,364 @@
         </div>
     </header>
 
-    <nav class="bs-wrap bs-kruimel no-print" aria-label="Kruimelpad">
-        <a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="stappenplan.html">Uitleg</a> <span aria-hidden="true">&middot;</span> <span>Declaratie afgewezen</span>
-    </nav>
-
-
     <main>
-        <section class="bs-reken">
-            <div class="bs-wrap">
-                <p class="bs-micro">Uw depot gebruiken</p>
-                <h1 class="bs-reken__titel">Declaratie afgewezen: waarom, en wat nu?</h1>
+        <section class="wr-wrap wr-kop ul-kop" id="inhoud">
+            <nav class="wr-kruimel wr-geen-print" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="stappenplan.html">Uitleg</a> <span aria-hidden="true">&middot;</span> <span>Declaratie afgewezen</span></nav>
+            <h1>Declaratie afgewezen: waarom, en wat nu?</h1>
+            <p class="wr-lead">Een afwijzing kost meestal geen geld maar wel weken. De redenen zijn opvallend voorspelbaar: bijna altijd gaat het om het soort bewijsstuk, om iets dat niet vast aan de woning zit, of om ontbrekende gegevens op de factuur.</p>
+            <p class="ul-inleiding">Hieronder staan de eisen die de 13 vergeleken geldverstrekkers zelf publiceren, gegroepeerd per soort. Zo zie je niet alleen wát er misgaat, maar ook of je bank daar streng in is. Waar een aanbieder niets publiceert, staat dat er expliciet bij.</p>
 
-            <p class="bs-kernzin">Een afwijzing kost meestal geen geld maar wel weken. De redenen zijn opvallend voorspelbaar: bijna altijd gaat het om het soort bewijsstuk, om iets dat niet vast aan de woning zit, of om ontbrekende gegevens op de factuur.</p>
-
-            <div class="bs-proza">
-                <p>Hieronder staan de eisen die de 13 vergeleken geldverstrekkers zelf publiceren, gegroepeerd per soort. Zo ziet u niet alleen wát er misgaat, maar ook of uw bank daar streng in is. Waar een aanbieder niets publiceert, staat dat er expliciet bij.</p>
-            </div>
-            </div>
+            <!-- Wie zijn geldverstrekker kiest, ziet die bij elke reden bovenaan
+                 staan. Zonder keuze, of zonder JavaScript, staat alles er gewoon. -->
+            <div class="ul-kiezer wr-geen-print" data-bankkeuze></div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">De redenen op een rij</p>
-                    <h2 class="bs-titel">Waar het meestal op stukloopt</h2>
+        <section class="wr-wrap wr-sectie">
+            <p class="ui-opschrift">De redenen op een rij</p>
+            <h2>Waar het meestal op stukloopt</h2>
+            <ol class="ul-inhoud wr-geen-print">
+                    <li><a href="#soort-bewijs">Je stuurde een offerte in plaats van een factuur</a></li>
+                    <li><a href="#vast-aan-woning">De aankoop zit niet vast aan de woning</a></li>
+                    <li><a href="#factuurgegevens">Er ontbreken verplichte gegevens op de factuur</a></li>
+                    <li><a href="#ouderdom">Het bewijsstuk is te oud</a></li>
+                    <li><a href="#factuurdatum">De factuurdatum ligt vóór je hypotheekofferte</a></li>
+                    <li><a href="#taal-en-valuta">De factuur is niet in een geaccepteerde taal of valuta</a></li>
+                    <li><a href="#bestandsformaat">De foto of scan is niet goed leesbaar</a></li>
+            </ol>
 
-                <div class="bs-fouten bs-fouten--een">
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Reden 1</p>
-                        <h3>U stuurde een offerte in plaats van een factuur</h3>
-                        <p>Dit is de meest voorkomende reden. Een offerte, orderbevestiging, pro-formafactuur of koopovereenkomst bewijst niet dat het werk is uitgevoerd of dat de spullen zijn geleverd. Vrijwel geen enkele geldverstrekker betaalt daarop uit.</p>
-                        <dl class="bs-perbank">
-                            <div>
+            <div class="ul-redenen">
+                    <article class="ul-reden" id="soort-bewijs">
+                        <div class="ul-reden__tekst">
+                            <p class="ul-fout__nummer">Reden 1</p>
+                            <h3>Je stuurde een offerte in plaats van een factuur</h3>
+                            <p>Dit is de meest voorkomende reden. Een offerte, orderbevestiging, pro-formafactuur of koopovereenkomst bewijst niet dat het werk is uitgevoerd of dat de spullen zijn geleverd. Vrijwel geen enkele geldverstrekker betaalt daarop uit.</p>
+                            <p class="wr-voorbehoud">Alle vergeleken aanbieders stellen hier een eis.</p>
+                            <p class="ul-mijn" data-mijn hidden></p>
+                        </div>
+                        <dl class="ul-perbank" data-perbank>
+                            <div data-bank="abn-amro">
                                 <dt><a href="bouwdepot-abn-amro.html">ABN AMRO</a></dt>
-                                <dd><strong>Factuur</strong><small>Alleen bedragen uit het verbouwingsplan of de koop-/aannemingsovereenkomst, die onderdeel zijn van uw hypotheekofferte.</small></dd>
+                                <dd><strong>Factuur</strong><small>Alleen bedragen uit het verbouwingsplan of de koop-/aannemingsovereenkomst, die onderdeel zijn van je hypotheekofferte.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="rabobank">
                                 <dt><a href="bouwdepot-rabobank.html">Rabobank</a></dt>
-                                <dd><strong>Vooraf geen</strong><small>U betaalt zelf vanuit het depot en hoeft facturen niet vooraf in te dienen. Rabobank kan achteraf wel om onderbouwing vragen, dus bewaar alles.</small></dd>
+                                <dd><strong>Vooraf geen</strong><small>Je betaalt zelf vanuit het depot en hoeft facturen niet vooraf in te dienen. Rabobank kan achteraf wel om onderbouwing vragen, dus bewaar alles.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="ing">
                                 <dt><a href="bouwdepot-ing.html">ING</a></dt>
                                 <dd><strong>Factuur of kassabon</strong><small>Een offerte, orderbevestiging, koopovereenkomst of pro-formafactuur wordt niet geaccepteerd.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="munt">
                                 <dt><a href="bouwdepot-munt.html">MUNT Hypotheken</a></dt>
                                 <dd><strong>Factuur</strong><small>Op basis van een offerte wordt niet uitbetaald. De factuur moet duidelijk tonen welk werk is uitgevoerd of welke zaken zijn gekocht.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="florius">
                                 <dt><a href="bouwdepot-florius.html">Florius</a></dt>
-                                <dd><strong>Volledige factuur of ordernota</strong><small>U uploadt een foto of scan via mijnFlorius. Afgekeurd worden: offertes, handgeschreven bonnen, een onvolledige factuur, en een nota die alleen naar een offerte verwijst zonder eigen specificatie.</small></dd>
+                                <dd><strong>Volledige factuur of ordernota</strong><small>Je uploadt een foto of scan via mijnFlorius. Afgekeurd worden: offertes, handgeschreven bonnen, een onvolledige factuur, en een nota die alleen naar een offerte verwijst zonder eigen specificatie.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="nn">
                                 <dt><a href="bouwdepot-nn.html">Nationale-Nederlanden</a></dt>
                                 <dd><strong>Factuur of kassabon</strong><small>Een offerte, opdrachtbevestiging of koopovereenkomst wordt niet geaccepteerd.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="obvion">
                                 <dt><a href="bouwdepot-obvion.html">Obvion</a></dt>
-                                <dd><strong>Kopiefactuur, getekend voor akkoord</strong><small>U tekent de kopie van de factuur voor akkoord met betaling en uploadt die via MijnObvion.</small></dd>
+                                <dd><strong>Kopiefactuur, getekend voor akkoord</strong><small>Je tekent de kopie van de factuur voor akkoord met betaling en uploadt die via MijnObvion.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="sns">
                                 <dt><a href="bouwdepot-sns.html">SNS</a></dt>
-                                <dd><strong>Factuur of kassabon</strong><small>Heeft u zelf voorgeschoten, dan hoort daar een betaalbewijs bij: een kopie bankafschrift of de bon van de pinbetaling. Ongespecificeerde facturen voor diensten worden afgekeurd.</small></dd>
+                                <dd><strong>Factuur of kassabon</strong><small>Heb je zelf voorgeschoten, dan hoort daar een betaalbewijs bij: een kopie bankafschrift of de bon van de pinbetaling. Ongespecificeerde facturen voor diensten worden afgekeurd.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="asr">
                                 <dt><a href="bouwdepot-asr.html">a.s.r.</a></dt>
                                 <dd><strong>Rekening of kassabon</strong><small>Een offerte, orderbevestiging of koopovereenkomst wordt niet geaccepteerd. De rekening moet goed leesbaar zijn.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="asn">
                                 <dt><a href="bouwdepot-asn.html">ASN Bank</a></dt>
-                                <dd><strong>Factuur, ingediend via de app of online bankieren</strong><small>Betaalt u er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van, dan moet dat duidelijk op de rekening staan. ASN belt als iets onduidelijk is of als u iets declareert wat niet mag.</small></dd>
+                                <dd><strong>Factuur, ingediend via de app of online bankieren</strong><small>Betaal je er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van, dan moet dat duidelijk op de rekening staan. ASN belt als iets onduidelijk is of als je iets declareert wat niet mag.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="argenta">
                                 <dt><a href="bouwdepot-argenta.html">Argenta</a></dt>
-                                <dd><strong>Factuur of kassabon</strong><small>U uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan u of aan uw leverancier.</small></dd>
+                                <dd><strong>Factuur of kassabon</strong><small>Je uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan je of aan je leverancier.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="centraal-beheer">
                                 <dt><a href="bouwdepot-centraal-beheer.html">Centraal Beheer</a></dt>
                                 <dd><strong>Factuur of kassabon</strong><small>Een offerte wordt niet geaccepteerd: uit het stuk moet blijken dat er een aankoop is geweest of werkzaamheden zijn gedaan.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="allianz">
                                 <dt><a href="bouwdepot-allianz.html">Allianz</a></dt>
                                 <dd><strong>Kopie van een factuur, rekening of kassabon</strong><small>Een bestelbon of offerte wordt niet uitbetaald. Daarop bestaat een uitzondering: een bestelbon van IKEA voor zaken die vast aan de woning komen te zitten.</small></dd>
                             </div>
                         </dl>
-                        <p class="bs-hulp">Alle vergeleken aanbieders stellen hier een eis.</p>
                     </article>
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Reden 2</p>
-                        <h3>De aankoop zit niet vast aan de woning</h3>
-                        <p>Een bouwdepot is bedoeld voor kwaliteitsverbetering van de woning. Wat u bij een verhuizing kunt meenemen valt daar niet onder. Twijfelgevallen zitten vaak bij verlichting, raamdecoratie en losse apparatuur.</p>
-                        <dl class="bs-perbank">
-                            <div>
+                    <article class="ul-reden" id="vast-aan-woning">
+                        <div class="ul-reden__tekst">
+                            <p class="ul-fout__nummer">Reden 2</p>
+                            <h3>De aankoop zit niet vast aan de woning</h3>
+                            <p>Een bouwdepot is bedoeld voor kwaliteitsverbetering van de woning. Wat je bij een verhuizing kunt meenemen valt daar niet onder. Twijfelgevallen zitten vaak bij verlichting, raamdecoratie en losse apparatuur.</p>
+                            <p class="wr-voorbehoud">Gepubliceerd door 7 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
+                            <p class="ul-mijn" data-mijn hidden></p>
+                        </div>
+                        <dl class="ul-perbank" data-perbank>
+                            <div data-bank="abn-amro">
                                 <dt><a href="bouwdepot-abn-amro.html">ABN AMRO</a></dt>
                                 <dd><strong>Verplicht</strong><small>Alleen verbeteringen die vast aan de woning zitten, zoals gelijmd parket en inbouwapparatuur.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="rabobank">
                                 <dt><a href="bouwdepot-rabobank.html">Rabobank</a></dt>
-                                <dd><strong>Verplicht</strong><small>Niet toegestaan: inboedel en spullen die u bij een verhuizing meeneemt, zoals gordijnen en meubels.</small></dd>
+                                <dd><strong>Verplicht</strong><small>Niet toegestaan: inboedel en spullen die je bij een verhuizing meeneemt, zoals gordijnen en meubels.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="ing">
                                 <dt><a href="bouwdepot-ing.html">ING</a></dt>
                                 <dd><strong>Verplicht</strong><small>De woning moet in kwaliteit verbeteren en de verbetering moet vastzitten. Niet toegestaan: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="florius">
                                 <dt><a href="bouwdepot-florius.html">Florius</a></dt>
                                 <dd><strong>Verplicht</strong><small>Twee eisen: het gaat om kwaliteitsverbetering waardoor de woning in waarde stijgt, en de verbetering zit vast aan de woning en is bij verkoop niet te verwijderen.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="nn">
                                 <dt><a href="bouwdepot-nn.html">Nationale-Nederlanden</a></dt>
                                 <dd><strong>Verplicht</strong><small>Losse spullen zoals meubilair of apparaten vallen er niet onder.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="obvion">
                                 <dt><a href="bouwdepot-obvion.html">Obvion</a></dt>
                                 <dd><strong>Verplicht</strong><small>Het moet gaan om zaken die aan de woning vastzitten en die de waarde verhogen, conform de verbouwingsspecificatie.</small></dd>
                             </div>
-                            <div>
+                            <div data-bank="sns">
                                 <dt><a href="bouwdepot-sns.html">SNS</a></dt>
                                 <dd><strong>Verplicht</strong><small>De materialen moeten aan de woning vastzitten en mogen niet roerend zijn.</small></dd>
                             </div>
                         </dl>
-                        <p class="bs-hulp">Gepubliceerd door 7 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
                     </article>
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Reden 3</p>
-                        <h3>Er ontbreken verplichte gegevens op de factuur</h3>
-                        <p>Een handgeschreven bonnetje of een kassabon zonder bedrijfsgegevens wordt afgewezen. Vraag bij grotere inkopen altijd om een volledige factuur op naam.</p>
-                        <dl class="bs-perbank">
-                            <div>
+                    <article class="ul-reden" id="factuurgegevens">
+                        <div class="ul-reden__tekst">
+                            <p class="ul-fout__nummer">Reden 3</p>
+                            <h3>Er ontbreken verplichte gegevens op de factuur</h3>
+                            <p>Een handgeschreven bonnetje of een kassabon zonder bedrijfsgegevens wordt afgewezen. Vraag bij grotere inkopen altijd om een volledige factuur op naam.</p>
+                            <p class="wr-voorbehoud">Gepubliceerd door 1 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
+                            <p class="ul-mijn" data-mijn hidden></p>
+                        </div>
+                        <dl class="ul-perbank" data-perbank>
+                            <div data-bank="nn">
                                 <dt><a href="bouwdepot-nn.html">Nationale-Nederlanden</a></dt>
                                 <dd><strong>KvK, btw en IBAN verplicht</strong><small>Een factuur moet naam en adres van de verkoper, KvK-nummer, btw-nummer, IBAN, gegevens van de koper, factuurnummer, datum, omschrijving, totaalbedrag en btw vermelden.</small></dd>
                             </div>
                         </dl>
-                        <p class="bs-hulp">Gepubliceerd door 1 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
                     </article>
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Reden 4</p>
-                        <h3>Het bewijsstuk is te oud</h3>
-                        <p>Sommige aanbieders accepteren geen factuur of bon die ouder is dan een bepaalde termijn. Wie inkopen vooruit doet en pas later declareert, loopt hier tegenaan.</p>
-                        <dl class="bs-perbank">
-                            <div>
+                    <article class="ul-reden" id="ouderdom">
+                        <div class="ul-reden__tekst">
+                            <p class="ul-fout__nummer">Reden 4</p>
+                            <h3>Het bewijsstuk is te oud</h3>
+                            <p>Sommige aanbieders accepteren geen factuur of bon die ouder is dan een bepaalde termijn. Wie inkopen vooruit doet en pas later declareert, loopt hier tegenaan.</p>
+                            <p class="wr-voorbehoud">Gepubliceerd door 1 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
+                            <p class="ul-mijn" data-mijn hidden></p>
+                        </div>
+                        <dl class="ul-perbank" data-perbank>
+                            <div data-bank="nn">
                                 <dt><a href="bouwdepot-nn.html">Nationale-Nederlanden</a></dt>
                                 <dd><strong>Maximaal 6 maanden oud</strong><small>Het bewijsstuk mag bij declaratie niet ouder zijn dan zes maanden.</small></dd>
                             </div>
                         </dl>
-                        <p class="bs-hulp">Gepubliceerd door 1 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
                     </article>
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Reden 5</p>
-                        <h3>De factuurdatum ligt vóór uw hypotheekofferte</h3>
-                        <p>Kosten die u maakte voordat de financiering rond was, horen formeel niet bij de lening. Bewaar daarom de offertedatum en plan grote inkopen daarna.</p>
-                        <dl class="bs-perbank">
-                            <div>
+                    <article class="ul-reden" id="factuurdatum">
+                        <div class="ul-reden__tekst">
+                            <p class="ul-fout__nummer">Reden 5</p>
+                            <h3>De factuurdatum ligt vóór je hypotheekofferte</h3>
+                            <p>Kosten die je maakte voordat de financiering rond was, horen formeel niet bij de lening. Bewaar daarom de offertedatum en plan grote inkopen daarna.</p>
+                            <p class="wr-voorbehoud">Gepubliceerd door 1 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
+                            <p class="ul-mijn" data-mijn hidden></p>
+                        </div>
+                        <dl class="ul-perbank" data-perbank>
+                            <div data-bank="ing">
                                 <dt><a href="bouwdepot-ing.html">ING</a></dt>
-                                <dd><strong>Na de offertedatum</strong><small>Alleen facturen met een datum na de datum van uw hypotheekofferte worden in behandeling genomen.</small></dd>
+                                <dd><strong>Na de offertedatum</strong><small>Alleen facturen met een datum na de datum van je hypotheekofferte worden in behandeling genomen.</small></dd>
                             </div>
                         </dl>
-                        <p class="bs-hulp">Gepubliceerd door 1 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
                     </article>
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Reden 6</p>
-                        <h3>De factuur is niet in een geaccepteerde taal of valuta</h3>
-                        <p>Koopt u materiaal in het buitenland, let dan op de taal van de factuur en de munteenheid. Een factuur in een andere valuta wordt niet zomaar omgerekend.</p>
-                        <dl class="bs-perbank">
-                            <div>
+                    <article class="ul-reden" id="taal-en-valuta">
+                        <div class="ul-reden__tekst">
+                            <p class="ul-fout__nummer">Reden 6</p>
+                            <h3>De factuur is niet in een geaccepteerde taal of valuta</h3>
+                            <p>Koop je materiaal in het buitenland, let dan op de taal van de factuur en de munteenheid. Een factuur in een andere valuta wordt niet zomaar omgerekend.</p>
+                            <p class="wr-voorbehoud">Gepubliceerd door 1 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
+                            <p class="ul-mijn" data-mijn hidden></p>
+                        </div>
+                        <dl class="ul-perbank" data-perbank>
+                            <div data-bank="ing">
                                 <dt><a href="bouwdepot-ing.html">ING</a></dt>
                                 <dd><strong>NL, EN, FR of DU en euro's</strong><small>Facturen en kassabonnen moeten in het Nederlands, Engels, Frans of Duits zijn, met bedragen in euro's.</small></dd>
                             </div>
                         </dl>
-                        <p class="bs-hulp">Gepubliceerd door 1 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
                     </article>
-                    <article class="bs-fout">
-                        <p class="bs-fout__nummer">Reden 7</p>
-                        <h3>De foto of scan is niet goed leesbaar</h3>
-                        <p>Een schuine foto met schaduw of weerspiegeling kost een afwijzing en dus weken vertraging. Fotografeer recht van boven, op een egale ondergrond, bij daglicht.</p>
-                        <dl class="bs-perbank">
-                            <div>
+                    <article class="ul-reden" id="bestandsformaat">
+                        <div class="ul-reden__tekst">
+                            <p class="ul-fout__nummer">Reden 7</p>
+                            <h3>De foto of scan is niet goed leesbaar</h3>
+                            <p>Een schuine foto met schaduw of weerspiegeling kost een afwijzing en dus weken vertraging. Fotografeer recht van boven, op een egale ondergrond, bij daglicht.</p>
+                            <p class="wr-voorbehoud">Gepubliceerd door 1 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
+                            <p class="ul-mijn" data-mijn hidden></p>
+                        </div>
+                        <dl class="ul-perbank" data-perbank>
+                            <div data-bank="nn">
                                 <dt><a href="bouwdepot-nn.html">Nationale-Nederlanden</a></dt>
                                 <dd><strong>JPG, PNG of PDF</strong><small>Goed leesbaar, zonder schaduw of weerspiegeling.</small></dd>
                             </div>
                         </dl>
-                        <p class="bs-hulp">Gepubliceerd door 1 van de 13 vergeleken aanbieders. Bij de overige staat hierover niets; vraag het dan na.</p>
                     </article>
-                </div>
             </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Mag dat eigenlijk</p>
-                    <h2 class="bs-titel">Zelf betalen en later terugvragen</h2>
-                    <p class="bs-reken__lead">Veel mensen schieten een rekening voor omdat de leverancier snel betaald wil worden. Of dat mag, en wat u dan moet aanleveren, verschilt.</p>
-                <dl class="bs-perbank">
-                        <div><dt>ABN AMRO</dt><dd><strong>Bij verbouwing schiet u voor, bij nieuwbouw niet altijd</strong><small>Bij een verbouwing of energiebesparende voorzieningen betaalt ABN AMRO de declaratie aan u en betaalt u zelf de aannemer of leverancier. Bij nieuwbouw kunnen termijn- en meerwerkrekeningen rechtstreeks aan de aannemer worden betaald.</small></dd></div>
-                        <div><dt>Rabobank</dt><dd><strong>Niet nodig</strong><small>U betaalt rekeningen rechtstreeks vanuit het depot, dus voorschieten is niet aan de orde. Betaalt u toch eerst zelf, vraag dan vooraf na of terugbetaling mogelijk is.</small></dd></div>
-                        <div><dt>ING</dt><dd><strong>Ja, met bankafschrift</strong><small>Heeft u de leverancier al betaald, dan stuurt u een bankafschrift mee. Daarop moeten rekeninghouder, leveranciersnaam, bedrag en IBAN overeenkomen met de factuur. Heeft u nog niet betaald, geef dan aan dat ING rechtstreeks aan de leverancier moet overmaken.</small></dd></div>
-                        <div><dt>MUNT Hypotheken</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div><dt>Florius</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div><dt>Nationale-Nederlanden</dt><dd><strong>Ja, met betaalbewijs</strong><small>Heeft u zelf betaald, dan uploadt u de factuur of kassabon waarop staat dat u betaald heeft. Het bedrag wordt teruggestort op de rekening waarmee u uw hypotheeklasten betaalt.</small></dd></div>
-                        <div><dt>Obvion</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div><dt>SNS</dt><dd><strong>Ja, met een betaalbewijs</strong><small>Stuurt u een kopie van de factuur of kassabon mee met een betaalbewijs, dan betaalt SNS het bedrag uit op de incassorekening van uw hypotheek.</small></dd></div>
-                        <div><dt>a.s.r.</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div><dt>ASN Bank</dt><dd><strong>Ja, aan uzelf uitbetaald</strong><small>U mag het bedrag rechtstreeks aan bijvoorbeeld de aannemer laten uitbetalen, of aan uzelf als u de rekening heeft voorgeschoten.</small></dd></div>
-                        <div><dt>Argenta</dt><dd><strong>Ja, u kiest de bestemming per declaratie</strong><small>U kiest zelf of het bedrag rechtstreeks naar de leverancier gaat of naar uw eigen bankrekening.</small></dd></div>
-                        <div><dt>Centraal Beheer</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                        <div><dt>Allianz</dt><dd><span class="bs-leeg">niet gepubliceerd</span></dd></div>
-                </dl>
+        <section class="wr-wrap wr-sectie" id="voorschieten">
+            <p class="ui-opschrift">Mag dat eigenlijk</p>
+            <h2>Zelf betalen en later terugvragen</h2>
+            <p class="wr-lead ul-lead">Veel mensen schieten een rekening voor omdat de leverancier snel betaald wil worden. Of dat mag, en wat je dan moet aanleveren, verschilt.</p>
+            <dl class="ul-perbank ul-perbank--breed" data-perbank>
+                            <div data-bank="abn-amro">
+                                <dt>ABN AMRO</dt>
+                                <dd><strong>Bij verbouwing schiet je voor, bij nieuwbouw niet altijd</strong><small>Bij een verbouwing of energiebesparende voorzieningen betaalt ABN AMRO de declaratie aan je en betaal je zelf de aannemer of leverancier. Bij nieuwbouw kunnen termijn- en meerwerkrekeningen rechtstreeks aan de aannemer worden betaald.</small></dd>
+                            </div>
+                            <div data-bank="rabobank">
+                                <dt>Rabobank</dt>
+                                <dd><strong>Niet nodig</strong><small>Je betaalt rekeningen rechtstreeks vanuit het depot, dus voorschieten is niet aan de orde. Betaal je toch eerst zelf, vraag dan vooraf na of terugbetaling mogelijk is.</small></dd>
+                            </div>
+                            <div data-bank="ing">
+                                <dt>ING</dt>
+                                <dd><strong>Ja, met bankafschrift</strong><small>Heb je de leverancier al betaald, dan stuur je een bankafschrift mee. Daarop moeten rekeninghouder, leveranciersnaam, bedrag en IBAN overeenkomen met de factuur. Heb je nog niet betaald, geef dan aan dat ING rechtstreeks aan de leverancier moet overmaken.</small></dd>
+                            </div>
+                            <div data-bank="munt">
+                                <dt>MUNT Hypotheken</dt>
+                                <dd><span class="ul-leeg">niet gepubliceerd</span></dd>
+                            </div>
+                            <div data-bank="florius">
+                                <dt>Florius</dt>
+                                <dd><span class="ul-leeg">niet gepubliceerd</span></dd>
+                            </div>
+                            <div data-bank="nn">
+                                <dt>Nationale-Nederlanden</dt>
+                                <dd><strong>Ja, met betaalbewijs</strong><small>Heb je zelf betaald, dan upload je de factuur of kassabon waarop staat dat je betaald hebt. Het bedrag wordt teruggestort op de rekening waarmee je je hypotheeklasten betaalt.</small></dd>
+                            </div>
+                            <div data-bank="obvion">
+                                <dt>Obvion</dt>
+                                <dd><span class="ul-leeg">niet gepubliceerd</span></dd>
+                            </div>
+                            <div data-bank="sns">
+                                <dt>SNS</dt>
+                                <dd><strong>Ja, met een betaalbewijs</strong><small>Stuur je een kopie van de factuur of kassabon mee met een betaalbewijs, dan betaalt SNS het bedrag uit op de incassorekening van je hypotheek.</small></dd>
+                            </div>
+                            <div data-bank="asr">
+                                <dt>a.s.r.</dt>
+                                <dd><span class="ul-leeg">niet gepubliceerd</span></dd>
+                            </div>
+                            <div data-bank="asn">
+                                <dt>ASN Bank</dt>
+                                <dd><strong>Ja, aan jezelf uitbetaald</strong><small>Je mag het bedrag rechtstreeks aan bijvoorbeeld de aannemer laten uitbetalen, of aan jezelf als je de rekening hebt voorgeschoten.</small></dd>
+                            </div>
+                            <div data-bank="argenta">
+                                <dt>Argenta</dt>
+                                <dd><strong>Ja, je kiest de bestemming per declaratie</strong><small>Je kiest zelf of het bedrag rechtstreeks naar de leverancier gaat of naar je eigen bankrekening.</small></dd>
+                            </div>
+                            <div data-bank="centraal-beheer">
+                                <dt>Centraal Beheer</dt>
+                                <dd><span class="ul-leeg">niet gepubliceerd</span></dd>
+                            </div>
+                            <div data-bank="allianz">
+                                <dt>Allianz</dt>
+                                <dd><span class="ul-leeg">niet gepubliceerd</span></dd>
+                            </div>
+            </dl>
+        </section>
+
+        <section class="wr-wrap wr-sectie" id="verwerkingstijd">
+            <p class="ui-opschrift">Hoe lang duurt het</p>
+            <h2>Verwerkingstijd per geldverstrekker</h2>
+            <p class="wr-lead ul-lead">Plan hiermee je eigen betaalafspraken. Een aannemer die binnen zeven dagen betaald wil worden, past niet altijd bij de doorlooptijd van je bank.</p>
+            <p class="ul-mijn" data-mijn hidden></p>
+            <dl class="ul-perbank ul-perbank--breed" data-perbank>
+                            <div data-bank="abn-amro">
+                                <dt>ABN AMRO</dt>
+                                <dd>Meestal binnen 5 werkdagen</dd>
+                            </div>
+                            <div data-bank="rabobank">
+                                <dt>Rabobank</dt>
+                                <dd>Direct - je betaalt zelf vanuit het depot via Online Bankieren of de Rabo App</dd>
+                            </div>
+                            <div data-bank="ing">
+                                <dt>ING</dt>
+                                <dd>Binnen vijf werkdagen bij een digitale declaratie die aan de voorwaarden voldoet</dd>
+                            </div>
+                            <div data-bank="munt">
+                                <dt>MUNT Hypotheken</dt>
+                                <dd>Goedgekeurde nota's worden binnen vijf werkdagen na ontvangst uitbetaald</dd>
+                            </div>
+                            <div data-bank="florius">
+                                <dt>Florius</dt>
+                                <dd>Binnen 2 werkdagen beoordeeld, bij akkoord direct uitbetaald</dd>
+                            </div>
+                            <div data-bank="nn">
+                                <dt>Nationale-Nederlanden</dt>
+                                <dd>Verwerking duurt maximaal drie werkdagen; na goedkeuring wordt direct uitbetaald</dd>
+                            </div>
+                            <div data-bank="asr">
+                                <dt>a.s.r.</dt>
+                                <dd>Binnen maximaal 5 werkdagen aan je of de aannemer</dd>
+                            </div>
+                            <div data-bank="centraal-beheer">
+                                <dt>Centraal Beheer</dt>
+                                <dd>Binnen 6 werkdagen als de declaratie aan de spelregels voldoet</dd>
+                            </div>
+            </dl>
+        </section>
+
+        <section class="wr-wrap wr-sectie" id="wat-nu">
+            <p class="ui-opschrift">Na een afwijzing</p>
+            <h2>Wat je dan doet</h2>
+            <ul class="wr-lijst wr-proza">
+                <li>Zoek de reden op in je online omgeving. Banken zetten die in het berichtenoverzicht van het portaal, niet altijd in een e-mail.</li>
+                <li>Herstel wat er mis is en dien een <strong>nieuwe</strong> declaratie in. Een afgewezen aanvraag aanpassen kan meestal niet.</li>
+                <li>Staat er op één factuur zowel toegestaan als niet-toegestaan spul, splits dat dan: streep de niet-toegestane regels door en declareer alleen het resterende bedrag.</li>
+                <li>Twijfel je vooraf over een post, vraag het dan schriftelijk na en bewaar het antwoord. Dat scheelt discussie achteraf.</li>
+                <li>Houd de einddatum van je depot in de gaten. Een afwijzing plus een nieuwe ronde kost al snel enkele weken. De <a href="depotplanner.html">depotplanner</a> zet die datum voor je op een rij.</li>
+            </ul>
+        </section>
+
+        <section class="wr-wrap wr-sectie">
+            <p class="ui-opschrift">Verder</p>
+            <h2>Wat je hierna kunt bekijken</h2>
+            <div class="wr-register">
+                <a href="bouwdepot-voorwaarden-vergelijken.html">
+                    <strong>Voorwaarden per bank</strong>
+                    <span>Looptijd, vergoeding en bewijsstukken van 13 geldverstrekkers naast elkaar.</span>
+                </a>
+                <a href="stappenplan.html#fouten">
+                    <strong>Zeven fouten voorkomen</strong>
+                    <span>Begroting, declaraties, kasstroom en depottermijn: waar het vaker misgaat.</span>
+                </a>
+                <a href="stappenplan.html">
+                    <strong>Stappenplan</strong>
+                    <span>Van begroting en taxatie tot de laatste declaratie, in volgorde.</span>
+                </a>
             </div>
         </section>
 
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Hoe lang duurt het</p>
-                    <h2 class="bs-titel">Verwerkingstijd per geldverstrekker</h2>
-                    <p class="bs-reken__lead">Plan hiermee uw eigen betaalafspraken. Een aannemer die binnen zeven dagen betaald wil worden, past niet altijd bij de doorlooptijd van uw bank.</p>
-                <dl class="bs-perbank">
-                        <div><dt>ABN AMRO</dt><dd>Meestal binnen 5 werkdagen</dd></div>
-                        <div><dt>Rabobank</dt><dd>Direct - je betaalt zelf vanuit het depot via Online Bankieren of de Rabo App</dd></div>
-                        <div><dt>ING</dt><dd>Binnen vijf werkdagen bij een digitale declaratie die aan de voorwaarden voldoet</dd></div>
-                        <div><dt>MUNT Hypotheken</dt><dd>Goedgekeurde nota's worden binnen vijf werkdagen na ontvangst uitbetaald</dd></div>
-                        <div><dt>Florius</dt><dd>Binnen 2 werkdagen beoordeeld, bij akkoord direct uitbetaald</dd></div>
-                        <div><dt>Nationale-Nederlanden</dt><dd>Verwerking duurt maximaal drie werkdagen; na goedkeuring wordt direct uitbetaald</dd></div>
-                        <div><dt>a.s.r.</dt><dd>Binnen maximaal 5 werkdagen aan u of de aannemer</dd></div>
-                        <div><dt>Centraal Beheer</dt><dd>Binnen 6 werkdagen als de declaratie aan de spelregels voldoet</dd></div>
-                </dl>
-            </div>
-        </section>
-
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Na een afwijzing</p>
-                    <h2 class="bs-titel">Wat u dan doet</h2>
-                <ul class="bs-checklijst">
-                    <li>Zoek de reden op in uw online omgeving. Banken zetten die in het berichtenoverzicht van het portaal, niet altijd in een e-mail.</li>
-                    <li>Herstel wat er mis is en dien een <strong>nieuwe</strong> declaratie in. Een afgewezen aanvraag aanpassen kan meestal niet.</li>
-                    <li>Staat er op één factuur zowel toegestaan als niet-toegestaan spul, splits dat dan: streep de niet-toegestane regels door en declareer alleen het resterende bedrag.</li>
-                    <li>Twijfelt u vooraf over een post, vraag het dan schriftelijk na en bewaar het antwoord. Dat scheelt discussie achteraf.</li>
-                    <li>Houd de einddatum van uw depot in de gaten. Een afwijzing plus een nieuwe ronde kost al snel enkele weken.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                    <p class="bs-micro">Verder</p>
-                    <h2 class="bs-titel">Wat u hierna kunt bekijken</h2>
-                <div class="bs-rooster">
-                    <a class="bs-tool" href="bouwdepot-voorwaarden-vergelijken.html">
-                        <span class="bs-tool__naam">Voorwaarden per bank</span>
-                        <span class="bs-tool__uitleg">Looptijd, vergoeding en bewijsstukken van 13 geldverstrekkers naast elkaar.</span>
-                        <span class="bs-tool__meta">Vergelijking bekijken &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="stappenplan.html#fouten">
-                        <span class="bs-tool__naam">Zeven fouten voorkomen</span>
-                        <span class="bs-tool__uitleg">Begroting, declaraties, kasstroom en depottermijn: waar het vaker misgaat.</span>
-                        <span class="bs-tool__meta">Fouten bekijken &rarr;</span>
-                    </a>
-                    <a class="bs-tool" href="stappenplan.html">
-                        <span class="bs-tool__naam">Stappenplan</span>
-                        <span class="bs-tool__uitleg">Van begroting en taxatie tot de laatste declaratie, in volgorde.</span>
-                        <span class="bs-tool__meta">Naar het stappenplan &rarr;</span>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="bs-sectie">
-            <div class="bs-wrap">
-                <div class="bs-melding">
-                    <p><strong>Wat hier staat komt van de aanbieders zelf.</strong> Elke eis is overgenomen uit de publieke informatie van de betreffende geldverstrekker, met een controledatum per aanbieder in de <a href="bouwdepot-voorwaarden-vergelijken.html">vergelijking</a>. Waar een aanbieder iets niet publiceert, staat dat er expliciet bij in plaats van een aanname.</p>
-                    <p>Uw eigen voorwaarden kunnen afwijken van de algemene productinformatie. Bij twijfel geldt wat in uw offerte en voorwaarden staat. Ziet u een afwijking? <a href="contact.html">Laat het weten</a>.</p>
-                </div>
+        <section class="wr-wrap">
+            <div class="wr-melding">
+                <p><strong>Wat hier staat komt van de aanbieders zelf.</strong> Elke eis is overgenomen uit de publieke informatie van de betreffende geldverstrekker, met een controledatum per aanbieder in de <a href="bouwdepot-voorwaarden-vergelijken.html">vergelijking</a>. Waar een aanbieder iets niet publiceert, staat dat er expliciet bij in plaats van een aanname.</p>
+                <p>Je eigen voorwaarden kunnen afwijken van de algemene productinformatie. Bij twijfel geldt wat in je offerte en voorwaarden staat. Zie je een afwijking? <a href="contact.html">Laat het weten</a>.</p>
             </div>
         </section>
     </main>
 
-    <div class="bs-band no-print" aria-hidden="true">
-        <div class="bs-band__spoor">
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-            <span>Maandlasten &middot; Verbouwbegroting &middot; Leenruimte &middot; Nieuwbouwplanning &middot; Depotplanner &middot; Belastingvoordeel &middot; Voorwaarden per bank &middot;</span>
-        </div>
-    </div>
-
-    <footer class="bs-voet no-print">
-        <div class="bs-wrap bs-voet__inner">
-            <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-            <span><a href="methodologie.html">Methodologie</a> &nbsp;&middot;&nbsp; <a href="privacy.html">Privacy</a> &nbsp;&middot;&nbsp; <a href="cookies.html">Cookies</a> &nbsp;&middot;&nbsp; <a href="over-ons.html">Over ons</a> &nbsp;&middot;&nbsp; <a href="contact.html">Contact</a></span>
-        </div>
+    <footer class="ui-voet">
+        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
+
+    <script type="module" src="/src/uitleg/declaratie.js"></script>
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Article",
-      "headline": "Declaratie bouwdepot afgewezen: de redenen en wat u dan doet",
+      "headline": "Declaratie bouwdepot afgewezen: de redenen en wat je dan doet",
       "description": "De eisen die 13 Nederlandse geldverstrekkers stellen aan een bouwdepot-declaratie, gegroepeerd per afwijzingsreden.",
       "url": "https://www.bouwdepotcalculator.nl/bouwdepot-declaratie-afgewezen.html",
       "dateModified": "2026-08-19",

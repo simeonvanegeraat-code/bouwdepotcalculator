@@ -94,3 +94,52 @@
     .ul-vel__rij { min-width: 0; grid-template-columns: 5rem repeat(5, minmax(0, 1fr)); }
     .ul-fout__oplossing { background: none; border-left-color: #000; }
 }
+
+/* --- Declaratiegids: per reden de eisen van elke aanbieder --- */
+
+.ul-inleiding { max-width: 44rem; margin-top: 0.9rem; }
+.ul-kiezer { max-width: 26rem; margin-top: 1.5rem; }
+.ul-inhoud { max-width: 44rem; margin: 0 0 2rem; padding-left: 1.4rem; list-style: decimal; display: grid; gap: 0.1rem; font-size: 0.9375rem; }
+.ul-inhoud a { display: inline-block; padding: 0.3rem 0; color: var(--ui-forest); text-underline-offset: 0.25em; }
+
+.ul-reden { display: grid; gap: 1rem; padding: 1.75rem 0; border-top: 1px solid var(--ui-line); scroll-margin-top: 1rem; }
+.ul-reden:first-child { border-top: 1.5px solid var(--ui-ink); }
+.ul-reden__tekst { display: grid; gap: 0.4rem; align-content: start; }
+.ul-reden h3 { font-size: 1.375rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; text-wrap: balance; }
+.ul-reden__tekst > p:not([class]) { font-size: 0.9375rem; }
+@media (min-width: 900px) {
+    .ul-reden { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); column-gap: clamp(2rem, 4vw, 4rem); }
+    .ul-reden__tekst { position: sticky; top: 1.5rem; }
+}
+
+.ul-perbank { display: grid; margin: 0; }
+.ul-perbank > div { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.1rem 1.25rem; padding: 0.75rem 0; border-top: 1px solid var(--ui-line); }
+.ul-perbank > div:first-child { border-top: 0; padding-top: 0; }
+.ul-perbank dt { font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-muted); }
+.ul-perbank dt a { display: inline-block; padding: 0.15rem 0; color: inherit; text-underline-offset: 0.3em; }
+.ul-perbank dt a:hover { color: var(--ui-forest); }
+.ul-perbank dd { margin: 0; font-size: 0.9375rem; line-height: 1.45; }
+.ul-perbank dd strong { display: block; font-weight: 600; }
+.ul-perbank dd small { display: block; font-size: 0.875rem; color: var(--ui-muted); }
+.ul-leeg { font-style: italic; color: var(--ui-muted); }
+@media (min-width: 560px) { .ul-perbank > div { grid-template-columns: 9.5rem minmax(0, 1fr); } }
+
+.ul-perbank--breed { border-top: 1.5px solid var(--ui-ink); padding-top: 1rem; }
+@media (min-width: 1000px) {
+    .ul-perbank--breed { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2rem, 4vw, 4rem); }
+    .ul-perbank--breed > div:nth-child(2) { border-top: 0; padding-top: 0; }
+}
+
+/* De gekozen geldverstrekker staat bovenaan; zie src/uitleg/declaratie.js. */
+.ul-perbank > .is-mijn { order: -1; margin-bottom: 0.75rem; padding: 0.85rem 1rem; border: 0; border-left: 3px solid var(--ui-champagne); background: var(--ui-surface); }
+.ul-perbank > .is-mijn dt { color: var(--ui-forest); font-weight: 500; }
+.ul-perbank--breed > .is-mijn { grid-column: 1 / -1; }
+.ul-mijn { padding: 0.75rem 1rem; border-left: 3px solid var(--ui-champagne); background: var(--ui-surface); font-size: 0.9375rem; max-width: 44rem; }
+.wr-sectie > .ul-mijn { margin-bottom: 1.25rem; }
+
+@media print {
+    .ul-reden { display: block; break-inside: auto; }
+    .ul-reden__tekst { position: static; margin-bottom: 0.75rem; }
+    .ul-perbank > div { break-inside: avoid; }
+    .ul-perbank > .is-mijn, .ul-mijn { background: none; border-left-color: #000; }
+}
