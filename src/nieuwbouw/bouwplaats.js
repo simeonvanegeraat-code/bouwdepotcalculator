@@ -133,6 +133,10 @@ export function maakBouwplaats(canvas) {
 
     /* --- de stand toepassen --- */
     let s = 0, doel = 0, zonFractie = 0.35, loopt = false, vorige = 0;
+    // Op het startscherm, als er nog niets gebouwd is, draait de kavel langzaam
+    // rond. `rondje` is de hoek die daardoor bij de vaste kijkhoek komt.
+    let draait = false, rondje = 0;
+    const RONDJE = Math.PI * 2;
 
     function pasToe(tijd) {
         piketten.visible = s < 1.3;
@@ -184,9 +188,11 @@ export function maakBouwplaats(canvas) {
         zon.intensity = 2.1 - aan * 1.1;
 
         // De camera draait een kwart rond terwijl het huis groeit.
-        const az = 0.62 + s * 0.16, afstand = 30;
+        const az = 0.62 + s * 0.16 + rondje, afstand = 30;
         camera.position.set(Math.sin(az) * afstand, 19, Math.cos(az) * afstand);
-        camera.lookAt(-0.9, 3.5, 0);
+        // Bij het ronddraaien op het startscherm kijkt de camera naar het midden van
+        // de kavel, anders zwaait het gras heen en weer; daarna schuift hij op voor de kraan.
+        camera.lookAt(-0.9 * fase(s, 0.2, 1.0), 3.5, 0);
     }
 
     function teken(tijd) {
@@ -195,10 +201,17 @@ export function maakBouwplaats(canvas) {
         // Rustig naar het doel: ongeveer één eenheid per seconde, zodat elk deel te volgen is.
         const verschil = doel - s;
         s = Math.abs(verschil) < 0.002 ? doel : s + Math.sign(verschil) * Math.min(Math.abs(verschil), dt * 0.85);
+        if (draait && !stil) {
+            rondje = (rondje + dt * 0.14) % RONDJE;   // een rondje in driekwart minuut
+        } else if (rondje !== 0) {
+            // Zodra het bouwen begint: langs de kortste kant terug naar de vaste hoek.
+            const naar = rondje > Math.PI ? RONDJE : 0;
+            rondje = Math.abs(naar - rondje) < 0.004 ? 0 : rondje + (naar - rondje) * Math.min(1, dt * 3.5);
+        }
         pasToe(tijd);
         renderer.render(scene, camera);
         // Doortekenen zolang er iets beweegt, of zolang de kraan er staat en zacht meedeint.
-        if (s !== doel || (kraan.visible && !stil)) requestAnimationFrame(teken);
+        if (s !== doel || rondje !== 0 || ((kraan.visible || draait) && !stil)) requestAnimationFrame(teken);
         else loopt = false;
     }
     const stil = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -223,7 +236,7 @@ export function maakBouwplaats(canvas) {
 
     return {
         /** @param {number} waarde 0 (lege kavel) tot 5 (bewoond)  @param {boolean} [direct] zonder beweging */
-        zetVoortgang(waarde, direct = false) { doel = waarde; if (direct || stil) s = waarde; wek(); },
+        zetVoortgang(waarde, direct = false) { doel = waarde; draait = waarde < 0.5; if (direct || stil) s = waarde; wek(); },
         /** De stand van de zon, 0 (ochtend) tot 1 (avond). */
         zetZon(fractie) { zonFractie = klem(fractie); wek(); },
     };
