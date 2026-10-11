@@ -26,6 +26,10 @@ function meld(naam, extra) {
     if (gemeld.has(naam)) return;
     gemeld.add(naam);
     try {
+        // Zonder Vercel Web Analytics bestaat window.va niet en gebeurt hier niets.
+        // Het script is op 11 oktober 2026 van de pagina's gehaald omdat de dienst
+        // niet aanstaat; zet het terug in de <head> als dat verandert, en werk dan
+        // ook privacy.html en cookies.html bij.
         window.va?.('event', { name: naam, data: { tool: TOOL, ...extra } });
     } catch (_) {
         // Analytics mag nooit een rekenpagina omleggen.

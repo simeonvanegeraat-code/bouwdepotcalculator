@@ -48,11 +48,15 @@ test('de hub toont evenveel feiten als de aanbiederpagina', () => {
     // dan is de vergelijking geen vergelijking meer.
     const detail = fs.readFileSync(path.join(ROOT, `bouwdepot-${data.aanbieders[0].id}.html`), 'utf8');
     const tel = (html) => (html.match(/<dt>/g) || []).length;
+    // Op de detailpagina telt alleen de tabel met voorwaarden. De secties eronder
+    // (maand voor maand, rekenvoorbeeld, declaratie-eisen) zijn dezelfde gegevens
+    // in een andere vorm; de eisen staan naast elkaar in de declaratiegids.
+    const tabel = (html) => html.split('<h2>Alle gepubliceerde voorwaarden</h2>')[1].split('</section>')[0];
     const BALKEN = 3;   // looptijd verbouw, looptijd nieuwbouw en verlenging staan als balk
     const perAanbiederOpHub = tel(hub) / data.aanbieders.length + BALKEN;
     assert.ok(
-        perAanbiederOpHub >= tel(detail),
-        `de hub toont ${perAanbiederOpHub} feiten per aanbieder tegenover ${tel(detail)} op de detailpagina`,
+        perAanbiederOpHub >= tel(tabel(detail)),
+        `de hub toont ${perAanbiederOpHub} feiten per aanbieder tegenover ${tel(tabel(detail))} op de detailpagina`,
     );
 });
 

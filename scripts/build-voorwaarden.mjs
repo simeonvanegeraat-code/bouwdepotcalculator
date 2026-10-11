@@ -26,6 +26,11 @@ import fs from 'fs';
 import path from 'path';
 import { headerHtml } from './build-header.mjs';
 import { jij } from './aanspreekvorm.mjs';
+import { verdieping } from './aanbieder-verdieping.mjs';
+// Dezelfde termijnregels als de depotplanner. build-bankdata.mjs draait in
+// npm run build:voorwaarden vóór dit script en schrijft bankdata.generated.js.
+import { gebeurtenissen } from '../src/domain/depotplanning.js';
+import { BANKEN } from '../src/js/bankdata.generated.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/bouwdepot-voorwaarden.json'), 'utf8'));
@@ -314,12 +319,6 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema, script 
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9252617114074571"
       crossorigin="anonymous"></script>
-
-    <!-- Vercel Web Analytics: cookieloos. Geen cookie en geen localStorage; de
-         bezoeker wordt herkend aan een hash van het verzoek die na 24 uur
-         vervalt. Wat er wel wordt vastgelegd staat in privacy.html. -->
-    <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
-    <script defer src="/_vercel/insights/script.js"></script>
 
     <link rel="stylesheet" href="/src/styles/next/tokens.css">
     <link rel="stylesheet" href="/src/styles/next/kop.css">
@@ -625,10 +624,14 @@ function bouwAanbieder(a) {
     // nergens werd gevuld; daardoor stond deze rij op alle aanbiederpagina's leeg
     // terwijl het antwoord in declaratieEisen staat.
     rij('Vereist bewijsstuk', waarde(bewijsVeld(a)), bewijsVeld(a).detail),
-    rij('Ouderdom van de factuur', waarde(eisVeld(a, 'factuurouderdom')), eisVeld(a, 'factuurouderdom').detail),
+    rij('Ouderdom van de factuur', waarde(eisVeld(a, 'ouderdom')), eisVeld(a, 'ouderdom').detail),
     rij('Wat u mag declareren', a.declarabel ? esc(a.declarabel) : LEEG),
     rij('Restant bij beëindiging', waarde(a.restant), a.restant?.detail),
   ].filter(Boolean).join('\n');
+
+  const bank = BANKEN.find((b) => b.id === a.id);
+  if (!bank) throw new Error(`${a.id} ontbreekt in bankdata.generated.js; draai eerst scripts/build-bankdata.mjs`);
+  const diep = verdieping(a, bank, gebeurtenissen, { esc });
 
   const inhoud = `    <main>
         <section class="wr-wrap wr-kop ul-kop" id="inhoud">
@@ -660,7 +663,10 @@ function bouwAanbieder(a) {
 ${rijen}
                 </dl>
         </section>
-${vergelijkendeContext(a)}${
+${diep.tijdlijn}
+${diep.kosten}
+${diep.declareren}
+${vergelijkendeContext(a)}${diep.navragen}${
   a.bijzonderheden?.length
     ? `
         <section class="wr-wrap wr-sectie">

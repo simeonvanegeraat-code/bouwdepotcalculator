@@ -18,7 +18,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const paginas = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
+// De foutpagina wordt niet gedeeld en niet geïndexeerd; die heeft geen deelkaart.
+const paginas = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html') && f !== '404.html');
 
 const haal = (html, patroon) => (html.match(patroon) || [])[1] ?? null;
 

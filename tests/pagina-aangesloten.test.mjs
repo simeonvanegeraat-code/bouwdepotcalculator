@@ -28,8 +28,9 @@ test('elke pagina heeft een ingang in vite.config.js', () => {
 
 test('elke pagina staat in de sitemap', () => {
     // De homepage staat als "/" in de sitemap, niet als index.html.
+    // De foutpagina hoort er juist niet in: die moet onvindbaar blijven.
     const ontbreekt = paginas
-        .filter((p) => p !== 'index.html')
+        .filter((p) => p !== 'index.html' && p !== '404.html')
         .filter((p) => !sitemap.includes(`/${p}</loc>`));
     assert.deepEqual(ontbreekt, [],
         `deze pagina's staan niet in de sitemap: ${ontbreekt.join(', ')}`);

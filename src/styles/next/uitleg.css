@@ -261,3 +261,18 @@
 .wr-knop--waarschuwing:hover { background: #8c5410; color: var(--ui-canvas); }
 .ul-kop + .wr-sectie:has(> .ul-beleid) { padding-top: clamp(1rem, 2vw, 1.5rem); }
 main > section:last-child:not(:has(> .wr-melding)) { padding-bottom: clamp(2.5rem, 6vw, 5rem); }
+
+/* --- Aanbiederpagina: maand voor maand, rekenvoorbeeld, twee soorten depot naast elkaar --- */
+
+.ul-tussenkop { font-size: 1.125rem; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 0.75rem; }
+.ul-tweeluik { display: grid; gap: 2rem clamp(2rem, 4vw, 4rem); }
+@media (min-width: 900px) { .ul-tweeluik { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ul-tweeluik .ul-detail > div { grid-template-columns: 9rem minmax(0, 1fr); } }
+.ul-maanden { display: grid; border-top: 1.5px solid var(--ui-ink); max-width: 46rem; }
+.ul-maanden li { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.15rem 1.25rem; padding: 0.8rem 0; border-bottom: 1px solid var(--ui-line); }
+.ul-maanden li > span { font-family: var(--ui-mono); font-size: 0.8125rem; color: var(--ui-forest); padding-top: 0.15rem; }
+.ul-maanden li.is-zonder > span { color: var(--ui-muted); font-style: italic; }
+.ul-maanden strong { font-weight: 600; }
+.ul-maanden p { font-size: 0.875rem; line-height: 1.45; color: var(--ui-muted); }
+.ul-detail small a { color: var(--ui-forest); text-underline-offset: 0.25em; }
+@media (max-width: 480px) { .ul-maanden li { grid-template-columns: minmax(0, 1fr); } }
+@media print { .ul-maanden li { break-inside: avoid; } }
