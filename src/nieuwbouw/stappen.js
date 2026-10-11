@@ -158,6 +158,8 @@ function start() {
     const puntSchema = document.querySelector('[data-nb-schema]');
     const knopAanpassen = document.querySelector('[data-nb-aanpas=""]');
     const knopSchema = document.querySelector('[data-nb-schemaknop]');
+    // Het schema waar de rekentool nu mee rekent, ook als dat geen uitkomst geeft.
+    let schemaNu = null;
     const procent = (n) => `${toonGetal(n, 2)}%`;
     const maanden = (n) => (n === 1 ? '1 maand' : `${n} maanden`);
 
@@ -168,11 +170,14 @@ function start() {
     }
 
     /** Na elke berekening: wat je hebt ingevuld, en waar de uitkomst een aanname voor gebruikt. */
-    function werkOverzichtBij({ tijdlijn: t, termijnen = 0, eigenSchema = false }) {
+    function werkOverzichtBij({ tijdlijn: t, termijnen = 0, eigenSchema = false, schema = null }) {
         const w = leesHoofd();
+        if (schema) schemaNu = schema;
+        knopSchema.textContent = eigenSchema ? 'Schema aanpassen' : 'Eigen schema invullen';
         if (!t) {
             // Zonder uitkomst valt er niets samen te vatten; dan moet het formulier in beeld.
             samen.innerHTML = '';
+            puntSchema.innerHTML = eigenSchema ? `Je eigen schema: <strong>${termijnen} ${termijnen === 1 ? 'termijn' : 'termijnen'}</strong>. Past het nog bij je bouwduur?` : '';
             if (stand === 'klaar') zetOpen(true);
             return;
         }
@@ -193,7 +198,6 @@ function start() {
         puntDepot.innerHTML = w.depot === 'geen' ? 'Je hebt ingesteld: <strong>geen vergoeding</strong>.'
             : w.depot === 'lager' ? `Je hebt ingesteld: <strong>${procent(Math.max(0, w.rente - w.afslag))}</strong>, ${toonGetal(w.afslag, 2)} procentpunt onder je hypotheekrente.`
             : `Gerekend met een vergoeding <strong>gelijk aan je hypotheekrente</strong> (${procent(w.rente)}). Dat is bij de meeste aanbieders zo, niet bij alle.`;
-        knopSchema.textContent = eigenSchema ? 'Schema aanpassen' : 'Eigen schema invullen';
         puntSchema.innerHTML = eigenSchema ? `Je eigen schema: <strong>${termijnen} ${termijnen === 1 ? 'termijn' : 'termijnen'}</strong>.`
             : `Gerekend met een <strong>voorbeeld van ${termijnen} termijnen</strong>, verdeeld over ${maanden(t.invoer.bouwduurMaanden)}. Jouw schema staat in je aannemingsovereenkomst.`;
     }
@@ -331,10 +335,10 @@ function start() {
         },
     });
     knopSchema.addEventListener('click', () => {
-        if (!laatste) { zetOpen(true); return; }
-        // De overeenkomst rekent met de aanneemsom zonder meerwerk; het meerwerk gaat apart mee.
-        const meerwerk = leesGetal(hoofd.meerwerk.value) ?? 0;
-        schemascherm.open({ schema: laatste.schema, basis: laatste.tijdlijn.invoer.aanneemsom - meerwerk, meerwerk });
+        // De overeenkomst rekent met de aanneemsom zonder meerwerk: koopsom min grond.
+        const von = leesGetal(hoofd.von.value), grond = leesGetal(hoofd.grond.value);
+        if (!schemaNu || von === null || grond === null || grond >= von) { zetOpen(true); return; }
+        schemascherm.open({ schema: schemaNu, basis: von - grond, meerwerk: Math.max(0, leesGetal(hoofd.meerwerk.value) ?? 0) });
         toon('schema');
     });
 

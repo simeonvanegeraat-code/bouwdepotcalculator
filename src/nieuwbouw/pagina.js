@@ -4,7 +4,7 @@
  * Hier staat geen rekenregel. Alle bedragen komen uit src/domain/nieuwbouw.js;
  * de uitkomst, de grafiek, de tabel en het afdrukoverzicht lezen dezelfde
  * maandregels. Wat dit bestand wel doet: velden controleren, het termijnschema
- * bewerkbaar maken, en zeggen wat er mis is in plaats van een nul te tonen.
+ * bijhouden, en zeggen wat er mis is in plaats van een nul te tonen.
  *
  * De veld-id's zijn die van de vorige versie van de pagina. Het gedeelde
  * formuliergeheugen (src/js/shared-form-memory.js) herkent velden daaraan, dus
@@ -13,11 +13,11 @@
 
 import { bindReportButton, startRekenpagina } from '../js/rekenpagina.js';
 import {
-    leesGetal, leesPercentage, toonGetal, euro, maakVeldlezer, koppelBedragveld, koppelPercentageveld,
+    leesGetal, leesPercentage, euro, maakVeldlezer, koppelBedragveld, koppelPercentageveld,
 } from '../js/getallen.js';
 import { HYPOTHEEKVORMEN } from '../domain/hypotheek.js';
 import {
-    berekenTijdlijn, controleerSchema, gespreideTermijnen, standaardTermijnen, vergelijk,
+    berekenTijdlijn, controleerSchema, standaardTermijnen, vergelijk,
 } from '../domain/nieuwbouw.js';
 import { BANKEN } from '../js/bankdata.generated.js';
 import { tekenTijdlijn } from './grafiek.js';
@@ -106,9 +106,6 @@ function initNieuwbouw() {
     bindReportButton(printknop);
 
     for (const v of [veld.von, veld.grond, veld.meerwerk, veld.eigenGeld, veld.woonlast]) koppelBedragveld(v);
-    // De aanneemsom vraagt de pagina niet: het is de koopsom min de grond, plus
-    // het meerwerk dat wordt meegefinancierd.
-    const aanneemsomNu = () => Math.max(0, (leesGetal(veld.von.value) ?? 0) - (leesGetal(veld.grond.value) ?? 0) + (leesGetal(veld.meerwerk.value) ?? 0));
     const veldAfslag = el('veld-depot-discount');
     const toonAfslag = () => { veldAfslag.hidden = veld.depotSoort.value !== 'lager'; };
     for (const v of [veld.rente, veld.afslag]) koppelPercentageveld(v);
@@ -121,90 +118,16 @@ function initNieuwbouw() {
         return n >= 1 && n <= 36 ? n : 12;
     };
     let termijnen = standaardTermijnen(bouwduurNu());
-    // Zodra de bezoeker het schema zelf aanpast, laten we het met rust. Zijn
-    // eigen termijnen overschrijven omdat hij de bouwduur bijstelt is erger dan
-    // een schema dat niet meer bij die duur past; dat laatste wordt gemeld.
+    // Zonder eigen schema volgt het voorbeeld de bouwduur. Een eigen schema
+    // laten we met rust: het overschrijven omdat de bouwduur verandert is erger
+    // dan een schema dat niet meer bij die duur past; dat laatste wordt gemeld.
     let zelfIngesteld = false;
-    const lijst = el('terms-container');
-    const totaalEl = el('total-percent');
-
-    function werkTotaalBij() {
-        const { totaal } = controleerSchema(termijnen, bouwduurNu());
-        const wijktAf = Math.abs(totaal - 100) > 0.1;
-        totaalEl.dataset.status = wijktAf ? 'afwijkend' : 'goed';
-        totaalEl.textContent = wijktAf ? `${toonGetal(totaal, totaal % 1 === 0 ? 0 : 1)}% (moet 100% zijn)` : '100% toegewezen';
-    }
-
-    function tekenTermijnen() {
-        const aanneemsom = aanneemsomNu();
-        lijst.innerHTML = '';
-        termijnen.forEach((t, i) => {
-            const nr = i + 1;
-            const rij = document.createElement('div');
-            rij.className = 'wr-termijn';
-            rij.innerHTML = `
-                <div class="wr-termijn__maand"><input type="text" inputmode="numeric" data-rol="maand" aria-label="Termijn ${nr}: in welke bouwmaand"></div>
-                <div><input type="text" data-rol="naam" aria-label="Termijn ${nr}: omschrijving"></div>
-                <button type="button" class="wr-termijn__weg" data-rol="weg" aria-label="Termijn ${nr} verwijderen" title="Termijn ${nr} verwijderen">×</button>
-                <div class="wr-termijn__geld">
-                    <label><span aria-hidden="true">€</span><input type="text" inputmode="decimal" data-rol="bedrag" aria-label="Termijn ${nr}: bedrag in euro"></label>
-                    <label><input type="text" inputmode="decimal" data-rol="percent" aria-label="Termijn ${nr}: deel van de aanneemsom in procent"><span aria-hidden="true">%</span></label>
-                </div>`;
-            const in_ = (rol) => rij.querySelector(`[data-rol="${rol}"]`);
-            in_('maand').value = t.maand;
-            in_('naam').value = t.naam;
-            in_('bedrag').value = toonGetal(Math.round((t.percent / 100) * aanneemsom));
-            in_('percent').value = toonGetal(Math.round(t.percent * 10) / 10, t.percent % 1 === 0 ? 0 : 1);
-
-            in_('maand').addEventListener('change', (e) => {
-                zelfIngesteld = true;
-                // Maand 0 mag: dat is een termijn die bij de notaris al vervallen was.
-                t.maand = Math.max(0, Math.round(leesGetal(e.target.value) ?? 1));
-                termijnen.sort((a, b) => a.maand - b.maand);
-                tekenTermijnen(); reken();
-            });
-            in_('naam').addEventListener('input', (e) => { t.naam = e.target.value; });
-            in_('naam').addEventListener('change', reken);
-            in_('weg').addEventListener('click', () => { zelfIngesteld = true; termijnen.splice(i, 1); tekenTermijnen(); reken(); });
-
-            // Bedrag en percentage zijn twee vensters op dezelfde waarde.
-            // Tijdens het typen werken we alleen het model en het andere
-            // venster bij; opnieuw tekenen zou de cursor laten wegspringen.
-            in_('bedrag').addEventListener('input', (e) => {
-                zelfIngesteld = true;
-                t.percent = ((leesGetal(e.target.value) ?? 0) / (aanneemsomNu() || 1)) * 100;
-                in_('percent').value = toonGetal(Math.round(t.percent * 10) / 10, 1);
-                werkTotaalBij(); reken();
-            });
-            in_('percent').addEventListener('input', (e) => {
-                zelfIngesteld = true;
-                // Een percentage, dus de punt is hier een decimaalteken.
-                t.percent = leesPercentage(e.target.value) ?? 0;
-                in_('bedrag').value = toonGetal(Math.round((t.percent / 100) * aanneemsomNu()));
-                werkTotaalBij(); reken();
-            });
-            for (const rol of ['bedrag', 'percent']) in_(rol).addEventListener('change', tekenTermijnen);
-            lijst.append(rij);
-        });
-        werkTotaalBij();
-    }
 
     function volgBouwduur() {
         if (zelfIngesteld) return;
         termijnen = standaardTermijnen(bouwduurNu());
-        tekenTermijnen();
     }
 
-    el('add-term-btn').addEventListener('click', () => {
-        zelfIngesteld = true;
-        termijnen.push({ maand: Math.min(bouwduurNu(), (termijnen.at(-1)?.maand ?? 0) + 1), percent: 0, naam: 'Nieuwe termijn' });
-        tekenTermijnen(); reken();
-    });
-    el('auto-spread-btn').addEventListener('click', () => {
-        zelfIngesteld = true;
-        termijnen = gespreideTermijnen(bouwduurNu());
-        tekenTermijnen(); reken();
-    });
     // Het scherm "Wanneer factureert je bouwer?" (src/nieuwbouw/schemascherm.js)
     // levert hier een heel schema aan; null betekent terug naar het voorbeeld.
     document.addEventListener('nieuwbouw:zet-schema', (e) => {
@@ -214,16 +137,11 @@ function initNieuwbouw() {
             // soort: 'meerwerk' markeert een betaalmoment van het meerwerk; de rekenkern
             // behandelt het als elke andere termijn, het scherm herkent het eraan.
             termijnen = nieuw.map((t) => ({ maand: t.maand, percent: t.percent, naam: t.naam, ...(t.soort ? { soort: t.soort } : {}) })).sort((a, b) => a.maand - b.maand);
-            tekenTermijnen();
         } else {
             zelfIngesteld = false;
             volgBouwduur();
         }
         reken();
-    });
-    el('standaard-schema-btn').addEventListener('click', () => {
-        zelfIngesteld = false;
-        volgBouwduur(); reken();
     });
 
     /* ------------------------------- uitkomst ------------------------------- */
@@ -257,7 +175,7 @@ function initNieuwbouw() {
         uit.vast.classList.remove('is-zichtbaar');
         laatsteGrafiek = null;
         delete printknop.dataset.report;
-        document.dispatchEvent(new CustomEvent('nieuwbouw:berekend', { detail: { tijdlijn: null } }));
+        document.dispatchEvent(new CustomEvent('nieuwbouw:berekend', { detail: { tijdlijn: null, termijnen: termijnen.length, eigenSchema: zelfIngesteld, schema: termijnen.map((x) => ({ ...x })) } }));
     }
 
     function faseTekst(t, r) {
@@ -467,8 +385,7 @@ function initNieuwbouw() {
     /* -------------------------------- binden -------------------------------- */
 
     for (const v of [veld.eigenGeld, veld.rente, veld.afslag, veld.woonlast, veld.overlap]) v.addEventListener('input', reken);
-    // Deze drie bepalen samen de aanneemsom, en daarmee de bedragen in het schema.
-    for (const v of [veld.von, veld.grond, veld.meerwerk]) v.addEventListener('input', () => { tekenTermijnen(); reken(); });
+    for (const v of [veld.von, veld.grond, veld.meerwerk]) v.addEventListener('input', reken);
     veld.meefinancieren.addEventListener('change', reken);
     veld.vorm.addEventListener('change', reken);
     veld.depotSoort.addEventListener('change', () => { toonAfslag(); reken(); });
@@ -517,7 +434,6 @@ function initNieuwbouw() {
     }
 
     toonAfslag();
-    tekenTermijnen();
     reken();
 }
 

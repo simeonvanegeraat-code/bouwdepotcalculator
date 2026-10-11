@@ -469,26 +469,12 @@
                     </div>
                 </details>
 
-                <details class="wr-uitklap" id="termijnschema">
-                    <summary><span>Termijnschema<small>Alleen nodig als je al weet wanneer de termijnen vallen</small></span></summary>
-                    <div class="wr-uitklap__body">
-                        <p class="wr-hulp">Zonder eigen schema rekenen we met een voorbeeld van vijf bouwfasen, verdeeld over je bouwduur. Elk contract heeft zijn eigen schema: het staat in je aannemingsovereenkomst. Vul per termijn de bouwmaand en het bedrag of percentage in. Was een termijn bij de notaris al vervallen, zet hem dan op maand 0.</p>
-                        <div class="wr-termijnkop">
-                            <span class="wr-knoppen">
-                                <button class="wr-knop wr-knop--klein" id="add-term-btn" type="button">+ Termijn</button>
-                                <button class="wr-knop wr-knop--klein" id="auto-spread-btn" type="button">Gelijk spreiden</button>
-                                <button class="wr-knop wr-knop--klein" id="standaard-schema-btn" type="button">Voorbeeld</button>
-                            </span>
-                            <span class="wr-termijntotaal" id="total-percent" role="status">100% toegewezen</span>
-                        </div>
-                        <div class="wr-termijnlabels" aria-hidden="true"><span>Maand</span><span>Onderdeel, bedrag en deel</span><span></span></div>
-                        <div id="terms-container"></div>
-                    </div>
-                </details>
             </form>
 
             <!-- De stappen vragen niet naar de depotrente en het termijnschema.
-                 De uitkomst rekent daarvoor met een aanname; hier staat welke. -->
+                 De uitkomst rekent daarvoor met een aanname; hier staat welke.
+                 Het termijnschema vul je alleen hier in, op het eigen scherm
+                 (data-scherm="schema"); in het formulier staat het niet meer. -->
             <section class="wr-paneel nb-controle wr-geen-print" aria-labelledby="nb-controle-kop">
                 <div class="wr-paneel__kop" style="margin-bottom:0">
                     <h2 id="nb-controle-kop">Nog te controleren</h2>

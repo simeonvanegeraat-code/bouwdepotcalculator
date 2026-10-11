@@ -204,9 +204,11 @@ test('de pagina heeft de stappen, en werkt ook zonder', () => {
     // Op het overzicht: geen voorbeeldknoppen die je eigen cijfers vervangen, wel
     // de twee aannames waar de stappen niet naar vragen.
     assert.ok(!html.includes('data-voorbeeld '), 'geen voorbeeldknoppen in het formulier');
-    for (const haak of ['data-nb-samen', 'data-nb-depot', 'data-nb-schema', 'data-nb-aanpas="depot"', 'data-nb-schemaknop', 'data-scherm="schema"', 'data-sc-lijst', 'data-sc-totaal', 'data-sc-meerwerklijst', 'data-sc-stapel', 'id="meer-instellingen"', 'id="termijnschema"']) {
+    for (const haak of ['data-nb-samen', 'data-nb-depot', 'data-nb-schema', 'data-nb-aanpas="depot"', 'data-nb-schemaknop', 'data-scherm="schema"', 'data-sc-lijst', 'data-sc-totaal', 'data-sc-meerwerklijst', 'data-sc-stapel', 'id="meer-instellingen"']) {
         assert.ok(html.includes(haak), haak);
     }
+    // Eén ingang voor het termijnschema: het eigen scherm, niet ook nog een lijst in het formulier.
+    for (const oud of ['terms-container', 'id="termijnschema"', 'add-term-btn']) assert.ok(!html.includes(oud), oud);
     // Elk scherm van de logica staat in de pagina, met een streepje in de voortgang.
     for (const stap of STAPPEN) assert.ok(html.includes(`data-scherm="${stap}"`) && html.includes(`Stap ${stap} van ${STAPPEN.length}`), `stap ${stap}`);
     assert.equal((html.match(/<ol class="nb-voortgang"[^>]*>(.*?)<\/ol>/)[1].match(/<li>/g) ?? []).length, STAPPEN.length);
