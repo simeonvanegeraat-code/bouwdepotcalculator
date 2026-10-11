@@ -16,7 +16,7 @@
           {
             "label": "Bouwdepot berekenen",
             "href": "bouwdepot-berekenen.html",
-            "uitleg": "Uw depotbedrag omgerekend naar een bruto maandlast."
+            "uitleg": "Je depotbedrag omgerekend naar een bruto maandlast."
           },
           {
             "label": "Maandlast tijdens de bouw",
@@ -36,7 +36,7 @@
           {
             "label": "Leenruimte",
             "href": "verbouwbegroting.html#leenruimte",
-            "uitleg": "Past het bedrag binnen de waarde van uw woning na verbouwing?"
+            "uitleg": "Past het bedrag binnen de waarde van je woning na verbouwing?"
           }
         ]
       },
@@ -44,19 +44,19 @@
         "vraag": "Nieuwbouw",
         "items": [
           {
-            "label": "Uw zwaarste maand",
+            "label": "Je zwaarste maand",
             "href": "nieuwbouw.html",
             "uitleg": "Bouwtermijnen en depotvergoeding over de hele bouwperiode."
           },
           {
             "label": "Bouwrente",
             "href": "bouwrente-nieuwbouw.html",
-            "uitleg": "Wat u betaalt over de grond en de termijnen vóór de hypotheek loopt."
+            "uitleg": "Wat je betaalt over de grond en de termijnen vóór de hypotheek loopt."
           },
           {
             "label": "Dubbele lasten",
             "href": "dubbele-lasten-nieuwbouw.html",
-            "uitleg": "De periode waarin u oude en nieuwe woonlasten tegelijk draagt."
+            "uitleg": "De periode waarin je oude en nieuwe woonlasten tegelijk draagt."
           },
           {
             "label": "Renteverlies",
@@ -76,7 +76,7 @@
           {
             "label": "Declaratie afgewezen",
             "href": "bouwdepot-declaratie-afgewezen.html",
-            "uitleg": "De acht redenen waarop het stukloopt, en wat u dan doet."
+            "uitleg": "De acht redenen waarop het stukloopt, en wat je dan doet."
           }
         ]
       },
@@ -86,7 +86,7 @@
           {
             "label": "Hypotheekrenteaftrek",
             "href": "hypotheekrenteaftrek-gids.html",
-            "uitleg": "Uw netto maandlast, plus de termijnen die bij een depot gelden."
+            "uitleg": "Je netto maandlast, plus de termijnen die bij een depot gelden."
           }
         ]
       }

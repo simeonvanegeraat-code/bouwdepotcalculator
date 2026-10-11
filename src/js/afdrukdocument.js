@@ -69,7 +69,7 @@ export function bouwAfdrukdocument(rapport) {
         </header>
 
         <table class="bs-spec__tabel">
-            ${groep('Uw invoer', rapport.inputs)}
+            ${groep('Je invoer', rapport.inputs)}
             ${groep('Uitkomst', rapport.results)}
         </table>
 
@@ -81,8 +81,8 @@ export function bouwAfdrukdocument(rapport) {
             ${alinea('Aannames', rapport.assumptions)}
             <p>Bedragen zijn door de opsteller zelf ingevuld en niet door
             BouwdepotCalculator.nl geschat of gecontroleerd. Dit is een indicatie
-            op basis van publieke productinformatie en geen toezegging; uw
-            geldverstrekker beoordeelt uw eigen situatie.</p>
+            op basis van publieke productinformatie en geen toezegging; je
+            geldverstrekker beoordeelt je eigen situatie.</p>
         </div>`;
 }
 

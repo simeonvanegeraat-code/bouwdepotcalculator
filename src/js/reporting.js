@@ -169,17 +169,17 @@ import { drukAf } from './afdrukdocument.js';
     };
 
     const normalizeInterpretationText = (value) => {
-        if (value === null || value === undefined || value === '') return 'Indicatieve interpretatie op basis van uw invoer.';
+        if (value === null || value === undefined || value === '') return 'Indicatieve interpretatie op basis van je invoer.';
 
         const raw = String(value).trim();
         const normalized = raw.toLowerCase();
 
         if (INTERPRETATION_LABELS[normalized]) {
-            return `De effectinschatting is ${INTERPRETATION_LABELS[normalized]}. Deze beoordeling is indicatief op basis van uw invoer.`;
+            return `De effectinschatting is ${INTERPRETATION_LABELS[normalized]}. Deze beoordeling is indicatief op basis van je invoer.`;
         }
 
         if (!/[.!?]$/.test(raw) && raw.split(' ').length <= 3) {
-            return `De effectinschatting is ${raw.toLowerCase()}. Deze beoordeling is indicatief op basis van uw invoer.`;
+            return `De effectinschatting is ${raw.toLowerCase()}. Deze beoordeling is indicatief op basis van je invoer.`;
         }
 
         return sentenceCase(raw);
@@ -341,7 +341,7 @@ import { drukAf } from './afdrukdocument.js';
             // gemaakt. Stond hij ook nog tussen de resultaten, dan las je dezelfde
             // zin twee keer in hetzelfde overzicht.
             results: toRows(zonderInterpretatievelden(rawReport.results), options.resultLabels),
-            conclusion: rawReport.conclusion || options.conclusion || 'Indicatieve uitkomst op basis van uw invoer.',
+            conclusion: rawReport.conclusion || options.conclusion || 'Indicatieve uitkomst op basis van je invoer.',
             interpretation,
             tables: normalizeTables(rawReport.tables),
             assumptions: rawReport.assumptions || options.assumptions || 'Indicatieve berekening; laat persoonlijke details toetsen door een adviseur.',

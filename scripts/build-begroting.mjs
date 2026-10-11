@@ -92,7 +92,7 @@ const html = `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verbouwbegroting maken | Wat mag uit het bouwdepot?</title>
-    <meta name="description" content="Stel uw verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel u zelf betaalt. Met een specificatie voor uw adviseur.">
+    <meta name="description" content="Stel je verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel je zelf betaalt. Met een specificatie voor je adviseur.">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="author" content="Simeon">
     <link rel="canonical" href="${SITE}/${BESTAND}">
@@ -103,11 +103,11 @@ const html = `<!DOCTYPE html>
     <meta property="og:site_name" content="BouwdepotCalculator.nl">
     <meta property="og:locale" content="nl_NL">
     <meta property="og:title" content="Verbouwbegroting maken | Wat mag uit het bouwdepot?">
-    <meta property="og:description" content="Stel uw verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel u zelf betaalt. Met een specificatie voor uw adviseur.">
+    <meta property="og:description" content="Stel je verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel je zelf betaalt. Met een specificatie voor je adviseur.">
     <meta property="og:url" content="${SITE}/${BESTAND}">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Verbouwbegroting maken | Wat mag uit het bouwdepot?">
-    <meta name="twitter:description" content="Stel uw verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel u zelf betaalt. Met een specificatie voor uw adviseur.">
+    <meta name="twitter:description" content="Stel je verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel je zelf betaalt. Met een specificatie voor je adviseur.">
 
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">

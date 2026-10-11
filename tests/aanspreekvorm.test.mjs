@@ -74,3 +74,25 @@ test('de vergelijking en de pagina per aanbieder zeggen nergens meer "u"', () =>
         assert.doesNotMatch(inhoud, /\bje heeft\b|\bheeft je\b|\bhelp je niet\b/, bestand);
     }
 });
+
+test('geen enkele pagina zegt nog "u": niet in de titel, de omschrijving, de tekst of de structured data', () => {
+    const paginas = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
+    assert.ok(paginas.length >= 30);
+    for (const bestand of paginas) {
+        const html = fs.readFileSync(path.join(ROOT, bestand), 'utf8');
+        const kop = [
+            html.match(/<title>([^<]*)<\/title>/)?.[1] ?? '',
+            ...[...html.matchAll(/<meta (?:name|property)="[^"]+" content="([^"]*)"/g)].map((m) => m[1]),
+        ].join(' | ');
+        assert.doesNotMatch(kop, /\b(u|uw|U|Uw)\b/, `${bestand}: titel of omschrijving`);
+
+        const data = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => m[1]).join(' ');
+        assert.doesNotMatch(data, /[ "](u|uw|U|Uw)[ ,.?"]/, `${bestand}: structured data`);
+
+        // Scripts, stijlen en commentaar zijn geen tekst voor de bezoeker.
+        const tekst = html.slice(html.indexOf('<body'))
+            .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<!--[\s\S]*?-->/g, ' ')
+            .replace(/<[^>]+>/g, ' ');
+        assert.doesNotMatch(tekst, /\b(u|uw|Uw)\b/, `${bestand}: zichtbare tekst`);
+    }
+});

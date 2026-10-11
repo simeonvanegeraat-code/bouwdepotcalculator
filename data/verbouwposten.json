@@ -3,7 +3,7 @@
   "_versie": "1.0",
   "_laatstBijgewerkt": "2026-08-16",
   "_uitleg": {
-    "vastAanWoning": "true = zit vast aan de woning en komt doorgaans in aanmerking; false = neemt u mee bij verhuizing en wordt doorgaans afgewezen",
+    "vastAanWoning": "true = zit vast aan de woning en komt doorgaans in aanmerking; false = neem je mee bij verhuizing en wordt doorgaans afgewezen",
     "let_op": "Waarschuwing die bij deze post hoort, bijvoorbeeld omdat aanbieders er verschillend mee omgaan",
     "genoemdDoor": "Aanbieders die deze post expliciet noemen in hun publieke voorwaarden"
   },
@@ -28,7 +28,7 @@
       "toelichting": "De meest voorkomende verbouwposten. Let op het onderscheid tussen vast ingebouwd en los meubilair of apparatuur.",
       "posten": [
         { "id": "keuken", "naam": "Keuken met inbouwapparatuur", "vastAanWoning": true, "genoemdDoor": ["abn-amro", "rabobank", "ing"] },
-        { "id": "keuken-los", "naam": "Losse apparatuur, niet ingebouwd", "vastAanWoning": false, "let_op": "Een vrijstaande koelkast of losse magnetron neemt u mee bij verhuizing en wordt doorgaans afgewezen." },
+        { "id": "keuken-los", "naam": "Losse apparatuur, niet ingebouwd", "vastAanWoning": false, "let_op": "Een vrijstaande koelkast of losse magnetron neem je mee bij verhuizing en wordt doorgaans afgewezen." },
         { "id": "badkamer", "naam": "Badkamer, vast sanitair en tegelwerk", "vastAanWoning": true, "genoemdDoor": ["rabobank", "ing"] },
         { "id": "toilet", "naam": "Toilet vernieuwen", "vastAanWoning": true }
       ]
@@ -46,7 +46,7 @@
         { "id": "verlichting-vast", "naam": "Ingebouwde verlichting, zoals inbouwspots", "vastAanWoning": true, "genoemdDoor": ["ing"] },
         { "id": "verlichting-los", "naam": "Losse verlichting, zoals een wandlamp", "vastAanWoning": false, "let_op": "ING noemt losse verlichting expliciet als niet-declarabel." },
         { "id": "raamdecoratie", "naam": "Gordijnen, jaloezieën of shutters", "vastAanWoning": false, "let_op": "ING en Rabobank noemen raamdecoratie expliciet als niet-declarabel." },
-        { "id": "meubels", "naam": "Meubels en inboedel", "vastAanWoning": false, "let_op": "Rabobank noemt spullen die u bij verhuizing meeneemt expliciet als niet-declarabel." }
+        { "id": "meubels", "naam": "Meubels en inboedel", "vastAanWoning": false, "let_op": "Rabobank noemt spullen die je bij verhuizing meeneemt expliciet als niet-declarabel." }
       ]
     },
     {
@@ -66,9 +66,9 @@
     {
       "id": "buiten",
       "naam": "Buiten en terrein",
-      "toelichting": "Hier lopen de voorwaarden het meest uiteen. Vraag dit vooraf na bij uw eigen geldverstrekker.",
+      "toelichting": "Hier lopen de voorwaarden het meest uiteen. Vraag dit vooraf na bij je eigen geldverstrekker.",
       "posten": [
-        { "id": "tuin", "naam": "Aanleg, onderhoud en inrichting van de tuin", "vastAanWoning": true, "genoemdDoor": ["ing"], "let_op": "ING noemt de tuin expliciet als declarabel. Niet elke aanbieder doet dat; controleer uw eigen voorwaarden." },
+        { "id": "tuin", "naam": "Aanleg, onderhoud en inrichting van de tuin", "vastAanWoning": true, "genoemdDoor": ["ing"], "let_op": "ING noemt de tuin expliciet als declarabel. Niet elke aanbieder doet dat; controleer je eigen voorwaarden." },
         { "id": "zonwering", "naam": "Op maat gemaakte zonwering, vast bevestigd", "vastAanWoning": true, "genoemdDoor": ["ing"] },
         { "id": "oprit", "naam": "Bestrating, oprit of terras", "vastAanWoning": true }
       ]
@@ -76,7 +76,7 @@
     {
       "id": "overig",
       "naam": "Overige kosten",
-      "toelichting": "Posten die vaak vergeten worden in de begroting maar wel geld kosten. Let op: sommige mogen niet uit het depot en moet u uit eigen geld betalen.",
+      "toelichting": "Posten die vaak vergeten worden in de begroting maar wel geld kosten. Let op: sommige mogen niet uit het depot en moet je uit eigen geld betalen.",
       "posten": [
         { "id": "vergunning", "naam": "Omgevingsvergunning en leges", "vastAanWoning": true },
         { "id": "gereedschap", "naam": "Gereedschap, zoals een boor of zaagmachine", "vastAanWoning": false, "let_op": "ING noemt gereedschap expliciet als niet-declarabel." },

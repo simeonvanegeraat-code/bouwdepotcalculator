@@ -14,7 +14,7 @@
     "doorlooptijdUitbetaling": "Hoe lang de aanbieder over een declaratie doet. werkdagenDigitaal is het aantal werkdagen uit dezelfde bron, rekenbaar gemaakt om de uiterste declaratiedatum te bepalen. Null betekent niet-gepubliceerd; dan tonen we geen datum.",
     "restant": "Wat er gebeurt met het bedrag dat overblijft",
     "eigenArbeid": "Of eigen arbeid gedeclareerd mag worden",
-    "voorschieten": "Of u een rekening eerst zelf mag betalen en het bedrag daarna kunt terugvragen",
+    "voorschieten": "Of je een rekening eerst zelf mag betalen en het bedrag daarna kunt terugvragen",
     "declaratieEisen": "Eisen waaraan een declaratie moet voldoen, gestructureerd zodat ze per aanbieder vergelijkbaar zijn",
     "automatischTeControleren": "False wanneer scripts/check-voorwaarden.mjs deze bron niet kan bewaken, met de reden in handcontroleReden. Zonder automatisch vangnet geldt een kortere controletermijn: die aanbieders vragen elke drie maanden een blik in plaats van elke zes."
   },
@@ -33,7 +33,7 @@
       },
       "rentevergoeding": {
         "waarde": "Ja, maar niet de hele verlenging",
-        "detail": "Tijdens de standaardlooptijd ontvangt u vergoeding. Verlengt u, dan krijgt u over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen.",
+        "detail": "Tijdens de standaardlooptijd ontvang je vergoeding. Verleng je, dan krijg je over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": {
           "verbouw": 18,
@@ -47,7 +47,7 @@
       "verlengingAanvragen": {
         "maandenVoorEinde": 3,
         "soort": "bericht-van-bank",
-        "detail": "Drie maanden voor de einddatum ontvangt u een brief over verlengen of beeindigen. Regelen kan via Internet Bankieren of met een formulier per post."
+        "detail": "Drie maanden voor de einddatum ontvang je een brief over verlengen of beeindigen. Regelen kan via Internet Bankieren of met een formulier per post."
       },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
@@ -77,20 +77,20 @@
         "Drie maanden voor de einddatum ontvang je een brief over verlengen of beeindigen.",
         "Verlengen of beeindigen kan via Internet Bankieren of met een formulier per post naar Amersfoort.",
         "Voor hypotheken aangevraagd voor 28 januari 2019 geldt het beleid bij 'Verbouw van een bestaande woning'.",
-        "ABN AMRO betaalt een declaratie niet uit zolang u achterloopt met uw maandelijkse hypotheekbedrag.",
+        "ABN AMRO betaalt een declaratie niet uit zolang je achterloopt met je maandelijkse hypotheekbedrag.",
         "Het depot wordt binnen 5 werkdagen actief na ontvangst van de getekende hypotheekakte van de notaris.",
-        "Is uw laatste declaratie hoger dan het resterende saldo, dan betaalt u het verschil zelf.",
-        "Verlengt u voorbij twee jaar, dan gelden andere fiscale regels voor de renteaftrek; laat u daarover adviseren."
+        "Is je laatste declaratie hoger dan het resterende saldo, dan betaal je het verschil zelf.",
+        "Verleng je voorbij twee jaar, dan gelden andere fiscale regels voor de renteaftrek; laat je daarover adviseren."
       ],
       "voorschieten": {
-        "waarde": "Bij verbouwing schiet u voor, bij nieuwbouw niet altijd",
-        "detail": "Bij een verbouwing of energiebesparende voorzieningen betaalt ABN AMRO de declaratie aan u en betaalt u zelf de aannemer of leverancier. Bij nieuwbouw kunnen termijn- en meerwerkrekeningen rechtstreeks aan de aannemer worden betaald."
+        "waarde": "Bij verbouwing schiet je voor, bij nieuwbouw niet altijd",
+        "detail": "Bij een verbouwing of energiebesparende voorzieningen betaalt ABN AMRO de declaratie aan je en betaal je zelf de aannemer of leverancier. Bij nieuwbouw kunnen termijn- en meerwerkrekeningen rechtstreeks aan de aannemer worden betaald."
       },
       "declaratieEisen": [
         {
           "eis": "soort-bewijs",
           "waarde": "Factuur",
-          "detail": "Alleen bedragen uit het verbouwingsplan of de koop-/aannemingsovereenkomst, die onderdeel zijn van uw hypotheekofferte."
+          "detail": "Alleen bedragen uit het verbouwingsplan of de koop-/aannemingsovereenkomst, die onderdeel zijn van je hypotheekofferte."
         },
         {
           "eis": "vast-aan-woning",
@@ -111,7 +111,7 @@
       "verlengingMaanden": {
         "verbouw": null,
         "nieuwbouw": null,
-        "detail": "Rabobank publiceert geen verlengingsduur, maar noemt verlenging na 2 jaar wel: over die verlenging krijgt u geen depotvergoeding meer. Vraag bij uw adviseur na wat in uw situatie mogelijk is.",
+        "detail": "Rabobank publiceert geen verlengingsduur, maar noemt verlenging na 2 jaar wel: over die verlenging krijg je geen depotvergoeding meer. Vraag bij je adviseur na wat in je situatie mogelijk is.",
         "mogelijkMaarDuurOnbekend": true
       },
       "rentevergoeding": {
@@ -135,7 +135,7 @@
       "maxPerOpname": {
         "bedrag": null,
         "status": "niet-van-toepassing",
-        "detail": "Er is geen declaratieproces met een maximumbedrag: u betaalt zelf vanuit het depot. In de praktijk geldt de overboeklimiet van uw eigen rekening, en die stelt u zelf in."
+        "detail": "Er is geen declaratieproces met een maximumbedrag: je betaalt zelf vanuit het depot. In de praktijk geldt de overboeklimiet van je eigen rekening, en die stel je zelf in."
       },
       "minPerOpname": {
         "bedrag": null,
@@ -160,23 +160,23 @@
         "Het depot wordt direct geopend bij het passeren; later openen of tussentijds verhogen is niet mogelijk.",
         "Het depot stopt automatisch als het saldo onder EUR 2.500 komt, als de (ver)bouw af is, of als de bouw anders verloopt dan afgesproken.",
         "Facturen hoef je niet vooraf in te dienen, maar Rabobank kan achteraf controleren.",
-        "Overboeken gaat via uw eigen overboeklimiet in Online Bankieren of de app. Die limiet is een instelling van uw rekening en geen depotvoorwaarde: u kunt hem zelf tijdelijk of blijvend verhogen, waarna een wachttijd geldt voordat de nieuwe limiet ingaat.",
+        "Overboeken gaat via je eigen overboeklimiet in Online Bankieren of de app. Die limiet is een instelling van je rekening en geen depotvoorwaarde: je kunt hem zelf tijdelijk of blijvend verhogen, waarna een wachttijd geldt voordat de nieuwe limiet ingaat.",
         "Mogelijk met zowel Basis- als Plusvoorwaarden en met alle rentevaste periodes."
       ],
       "voorschieten": {
         "waarde": "Niet nodig",
-        "detail": "U betaalt rekeningen rechtstreeks vanuit het depot, dus voorschieten is niet aan de orde. Betaalt u toch eerst zelf, vraag dan vooraf na of terugbetaling mogelijk is."
+        "detail": "Je betaalt rekeningen rechtstreeks vanuit het depot, dus voorschieten is niet aan de orde. Betaal je toch eerst zelf, vraag dan vooraf na of terugbetaling mogelijk is."
       },
       "declaratieEisen": [
         {
           "eis": "soort-bewijs",
           "waarde": "Vooraf geen",
-          "detail": "U betaalt zelf vanuit het depot en hoeft facturen niet vooraf in te dienen. Rabobank kan achteraf wel om onderbouwing vragen, dus bewaar alles."
+          "detail": "Je betaalt zelf vanuit het depot en hoeft facturen niet vooraf in te dienen. Rabobank kan achteraf wel om onderbouwing vragen, dus bewaar alles."
         },
         {
           "eis": "vast-aan-woning",
           "waarde": "Verplicht",
-          "detail": "Niet toegestaan: inboedel en spullen die u bij een verhuizing meeneemt, zoals gordijnen en meubels."
+          "detail": "Niet toegestaan: inboedel en spullen die je bij een verhuizing meeneemt, zoals gordijnen en meubels."
         }
       ]
     },
@@ -252,7 +252,7 @@
       ],
       "voorschieten": {
         "waarde": "Ja, met bankafschrift",
-        "detail": "Heeft u de leverancier al betaald, dan stuurt u een bankafschrift mee. Daarop moeten rekeninghouder, leveranciersnaam, bedrag en IBAN overeenkomen met de factuur. Heeft u nog niet betaald, geef dan aan dat ING rechtstreeks aan de leverancier moet overmaken."
+        "detail": "Heb je de leverancier al betaald, dan stuur je een bankafschrift mee. Daarop moeten rekeninghouder, leveranciersnaam, bedrag en IBAN overeenkomen met de factuur. Heb je nog niet betaald, geef dan aan dat ING rechtstreeks aan de leverancier moet overmaken."
       },
       "declaratieEisen": [
         {
@@ -268,7 +268,7 @@
         {
           "eis": "factuurdatum",
           "waarde": "Na de offertedatum",
-          "detail": "Alleen facturen met een datum na de datum van uw hypotheekofferte worden in behandeling genomen."
+          "detail": "Alleen facturen met een datum na de datum van je hypotheekofferte worden in behandeling genomen."
         },
         {
           "eis": "vast-aan-woning",
@@ -332,7 +332,7 @@
       "declarabel": "Kosten voor bouw of verbouwing, zoals facturen van aannemer of architect en bouwmaterialen. Een offerte volstaat niet: op basis daarvan wordt niet uitbetaald. De factuur moet duidelijk tonen welk werk is uitgevoerd of welke zaken zijn gekocht.",
       "restant": {
         "waarde": "Onder EUR 1.000 uitbetaald, daarboven afgelost",
-        "detail": "Een restantbedrag lager dan EUR 1.000 wordt bij beeindiging uitgekeerd op uw bankrekening. Is het hoger, dan gebruikt MUNT het volledige bedrag voor aflossing op de hypotheek."
+        "detail": "Een restantbedrag lager dan EUR 1.000 wordt bij beeindiging uitgekeerd op je bankrekening. Is het hoger, dan gebruikt MUNT het volledige bedrag voor aflossing op de hypotheek."
       },
       "eigenArbeid": {
         "waarde": null,
@@ -403,8 +403,8 @@
       },
       "declarabel": "Bouwmaterialen, arbeidskosten, binnenhuisinrichting zoals keukenapparatuur en badkamerinrichting, tuinaanleg en energiebesparende maatregelen. Niet: meubilair en accessoires, zoals een bankstel, niet-ingebouwde verlichting en raamdecoratie.",
       "restant": {
-        "waarde": "Tot EUR 7.500 naar uw eigen rekening",
-        "detail": "Florius maakt het restbedrag over naar uw bankrekening. Twee uitzonderingen: met NHG wordt het altijd afgelost op de lening, en blijft er meer dan EUR 7.500 over dan wordt het afgelost ongeacht NHG. Voor energiebesparende maatregelen en de Florius Verduurzaam Hypotheek kunnen andere regels gelden."
+        "waarde": "Tot EUR 7.500 naar je eigen rekening",
+        "detail": "Florius maakt het restbedrag over naar je bankrekening. Twee uitzonderingen: met NHG wordt het altijd afgelost op de lening, en blijft er meer dan EUR 7.500 over dan wordt het afgelost ongeacht NHG. Voor energiebesparende maatregelen en de Florius Verduurzaam Hypotheek kunnen andere regels gelden."
       },
       "eigenArbeid": {
         "waarde": null,
@@ -424,7 +424,7 @@
         {
           "eis": "soort-bewijs",
           "waarde": "Volledige factuur of ordernota",
-          "detail": "U uploadt een foto of scan via mijnFlorius. Afgekeurd worden: offertes, handgeschreven bonnen, een onvolledige factuur, en een nota die alleen naar een offerte verwijst zonder eigen specificatie."
+          "detail": "Je uploadt een foto of scan via mijnFlorius. Afgekeurd worden: offertes, handgeschreven bonnen, een onvolledige factuur, en een nota die alleen naar een offerte verwijst zonder eigen specificatie."
         },
         {
           "eis": "factuurouderdom",
@@ -491,7 +491,7 @@
       "bewijsstuk": "Factuur of kassabon, in een gangbaar formaat zoals JPG, PNG of PDF, goed leesbaar zonder schaduw of weerspiegeling. Een offerte, opdrachtbevestiging of koopovereenkomst wordt niet geaccepteerd. Het bewijsstuk mag bij declaratie niet ouder zijn dan zes maanden. Een factuur moet naam en adres van de verkoper, KvK-nummer, btw-nummer, IBAN, gegevens van de koper, factuurnummer, datum, omschrijving, totaalbedrag en btw vermelden.",
       "restant": {
         "waarde": "Wordt gebruikt om de hypotheek af te lossen",
-        "detail": "Aan die aflossing zijn geen kosten verbonden. Heeft u meerdere bouwdepots, dan worden die tegelijk gesloten; afzonderlijk sluiten kan niet. Beeindigen regelt u zelf via mijn.nn of de NN App."
+        "detail": "Aan die aflossing zijn geen kosten verbonden. Heb je meerdere bouwdepots, dan worden die tegelijk gesloten; afzonderlijk sluiten kan niet. Beeindigen regel je zelf via mijn.nn of de NN App."
       },
       "eigenArbeid": {
         "waarde": null,
@@ -506,7 +506,7 @@
       ],
       "voorschieten": {
         "waarde": "Ja, met betaalbewijs",
-        "detail": "Heeft u zelf betaald, dan uploadt u de factuur of kassabon waarop staat dat u betaald heeft. Het bedrag wordt teruggestort op de rekening waarmee u uw hypotheeklasten betaalt."
+        "detail": "Heb je zelf betaald, dan upload je de factuur of kassabon waarop staat dat je betaald hebt. Het bedrag wordt teruggestort op de rekening waarmee je je hypotheeklasten betaalt."
       },
       "declaratieEisen": [
         {
@@ -547,11 +547,11 @@
         "verbouw": null,
         "nieuwbouw": null,
         "mogelijkMaarDuurOnbekend": true,
-        "detail": "Obvion schrijft dat een langere looptijd soms wordt toegestaan, maar publiceert niet met hoeveel maanden. U vraagt het aan met een digitaal formulier en beantwoordt daarbij enkele vragen zodat Obvion de aanvraag kan beoordelen."
+        "detail": "Obvion schrijft dat een langere looptijd soms wordt toegestaan, maar publiceert niet met hoeveel maanden. Je vraagt het aan met een digitaal formulier en beantwoordt daarbij enkele vragen zodat Obvion de aanvraag kan beoordelen."
       },
       "rentevergoeding": {
         "waarde": "Ja, maar hoogte en duur verschillen per hypotheekvorm",
-        "detail": "Bij de Woon Hypotheek is de vergoeding gelijk aan uw hypotheekrente en loopt die 12 maanden bij bestaande bouw. Bij nieuwbouw is dat 24 maanden voor hypotheekaanvragen vanaf 16 september 2024; voor aanvragen van daarvóór blijft het 12 maanden. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.",
+        "detail": "Bij de Woon Hypotheek is de vergoeding gelijk aan je hypotheekrente en loopt die 12 maanden bij bestaande bouw. Bij nieuwbouw is dat 24 maanden voor hypotheekaanvragen vanaf 16 september 2024; voor aanvragen van daarvóór blijft het 12 maanden. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": {
           "verbouw": 12,
@@ -583,16 +583,16 @@
       },
       "declarabel": "Kosten voor zaken die aan de woning vastzitten, zoals een keuken, badkamer of nieuwe vloer. De facturen moeten overeenkomen met de verbouwingsspecificatie en waardevermeerderend zijn.",
       "restant": {
-        "waarde": "Tot EUR 2.500 naar uw eigen rekening",
-        "detail": "Blijft er minder dan EUR 2.500 over, dan betaalt Obvion dat aan u uit. Is het meer, dan wordt het verwerkt als extra vergoedingsvrije terugbetaling op uw lening."
+        "waarde": "Tot EUR 2.500 naar je eigen rekening",
+        "detail": "Blijft er minder dan EUR 2.500 over, dan betaalt Obvion dat aan je uit. Is het meer, dan wordt het verwerkt als extra vergoedingsvrije terugbetaling op je lening."
       },
       "eigenArbeid": {
         "waarde": null,
         "status": "niet-gepubliceerd"
       },
       "bijzonderheden": [
-        "De betaling van facturen regelt u zelf online via MijnObvion; u uploadt daar de kopiefactuur.",
-        "In MijnObvion ziet u de status van ingediende facturen en de bijgeschreven rentevergoeding.",
+        "De betaling van facturen regel je zelf online via MijnObvion; je uploadt daar de kopiefactuur.",
+        "In MijnObvion zie je de status van ingediende facturen en de bijgeschreven rentevergoeding.",
         "Obvion publiceert geen vaste verwerkingstermijn maar verwijst naar een actueel overzicht van doorlooptijden."
       ],
       "voorschieten": {
@@ -603,7 +603,7 @@
         {
           "eis": "soort-bewijs",
           "waarde": "Kopiefactuur, getekend voor akkoord",
-          "detail": "U tekent de kopie van de factuur voor akkoord met betaling en uploadt die via MijnObvion."
+          "detail": "Je tekent de kopie van de factuur voor akkoord met betaling en uploadt die via MijnObvion."
         },
         {
           "eis": "vast-aan-woning",
@@ -626,11 +626,11 @@
         "verbouw": 12,
         "nieuwbouw": 12,
         "eenmalig": true,
-        "detail": "De reguliere looptijd is 1 jaar en wordt automatisch met een jaar verlengd zolang er geld in het depot zit. Die eerste twee jaar kosten dus geen actie. Bent u daarna nog niet klaar, dan kan het depot onder voorwaarden nog eens met maximaal 12 maanden worden verlengd."
+        "detail": "De reguliere looptijd is 1 jaar en wordt automatisch met een jaar verlengd zolang er geld in het depot zit. Die eerste twee jaar kosten dus geen actie. Ben je daarna nog niet klaar, dan kan het depot onder voorwaarden nog eens met maximaal 12 maanden worden verlengd."
       },
       "rentevergoeding": {
         "waarde": "Ja, gelijk aan je hypotheekrente",
-        "detail": "De vergoeding loopt over de hele looptijd, dus ook over een verlenging en daarmee tot 36 maanden. Daardoor betaalt u per saldo alleen hypotheekrente over het geld dat al aan de bouw of verbouwing is uitgegeven. Bij de SNS Bespaarhypotheek wordt de depotrente maandelijks opnieuw bepaald op het gewogen gemiddelde van uw hypotheekrentes.",
+        "detail": "De vergoeding loopt over de hele looptijd, dus ook over een verlenging en daarmee tot 36 maanden. Daardoor betaal je per saldo alleen hypotheekrente over het geld dat al aan de bouw of verbouwing is uitgegeven. Bij de SNS Bespaarhypotheek wordt de depotrente maandelijks opnieuw bepaald op het gewogen gemiddelde van je hypotheekrentes.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": {
           "verbouw": 36,
@@ -670,19 +670,19 @@
         "status": "niet-gepubliceerd"
       },
       "bijzonderheden": [
-        "SNS betaalt de factuur rechtstreeks aan uw leverancier, op het rekeningnummer dat op de factuur staat. Heeft u zelf al betaald, stuur dan ook een betaalbewijs mee; dan gaat het bedrag naar de incassorekening van uw hypotheek.",
+        "SNS betaalt de factuur rechtstreeks aan je leverancier, op het rekeningnummer dat op de factuur staat. Heb je zelf al betaald, stuur dan ook een betaalbewijs mee; dan gaat het bedrag naar de incassorekening van je hypotheek.",
         "Vooruitbetalen mag tot EUR 5.000. Bij keukens en badkamers geldt maximaal 15% van het aankoopbedrag, eveneens tot EUR 5.000.",
         "Facturen in een andere taal dan Nederlands, Engels of Duits worden niet geaccepteerd."
       ],
       "voorschieten": {
         "waarde": "Ja, met een betaalbewijs",
-        "detail": "Stuurt u een kopie van de factuur of kassabon mee met een betaalbewijs, dan betaalt SNS het bedrag uit op de incassorekening van uw hypotheek."
+        "detail": "Stuur je een kopie van de factuur of kassabon mee met een betaalbewijs, dan betaalt SNS het bedrag uit op de incassorekening van je hypotheek."
       },
       "declaratieEisen": [
         {
           "eis": "soort-bewijs",
           "waarde": "Factuur of kassabon",
-          "detail": "Heeft u zelf voorgeschoten, dan hoort daar een betaalbewijs bij: een kopie bankafschrift of de bon van de pinbetaling. Ongespecificeerde facturen voor diensten worden afgekeurd."
+          "detail": "Heb je zelf voorgeschoten, dan hoort daar een betaalbewijs bij: een kopie bankafschrift of de bon van de pinbetaling. Ongespecificeerde facturen voor diensten worden afgekeurd."
         },
         {
           "eis": "factuurouderdom",
@@ -707,11 +707,11 @@
         "verbouw": 12,
         "nieuwbouw": 6,
         "eenmalig": true,
-        "detail": "Eenmalig: bij een verbouwing 12 maanden, bij nieuwbouw 6 maanden. Over die verlenging krijgt u geen rentevergoeding meer. Een duurzaamheidsdepot kan niet worden verlengd."
+        "detail": "Eenmalig: bij een verbouwing 12 maanden, bij nieuwbouw 6 maanden. Over die verlenging krijg je geen rentevergoeding meer. Een duurzaamheidsdepot kan niet worden verlengd."
       },
       "rentevergoeding": {
-        "waarde": "Ja, gelijk aan de gemiddelde rente over uw lening",
-        "detail": "De vergoeding is even hoog als de rente die u gemiddeld over uw lening betaalt. Zij loopt over de standaardlooptijd; verlengt u het depot, dan vervalt de vergoeding over die verlenging.",
+        "waarde": "Ja, gelijk aan de gemiddelde rente over je lening",
+        "detail": "De vergoeding is even hoog als de rente die je gemiddeld over je lening betaalt. Zij loopt over de standaardlooptijd; verleng je het depot, dan vervalt de vergoeding over die verlenging.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": {
           "verbouw": 12,
@@ -725,7 +725,7 @@
       "verlengingAanvragen": {
         "maandenVoorEinde": 2,
         "soort": "bericht-van-bank",
-        "detail": "Ongeveer twee maanden voor de einddatum krijgt u bericht van a.s.r.; u vraagt de verlenging daarna zelf aan."
+        "detail": "Ongeveer twee maanden voor de einddatum krijg je bericht van a.s.r.; je vraagt de verlenging daarna zelf aan."
       },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
@@ -737,15 +737,15 @@
         "status": "niet-gepubliceerd"
       },
       "doorlooptijdUitbetaling": {
-        "digitaal": "Binnen maximaal 5 werkdagen aan u of de aannemer",
+        "digitaal": "Binnen maximaal 5 werkdagen aan je of de aannemer",
         "post": "Na goedkeuring staat het geld uiterlijk de volgende werkdag op de rekening",
         "werkdagenDigitaal": 5,
         "status": "gepubliceerd"
       },
-      "declarabel": "Rekeningen van aannemers en leveranciers, voor zover zij horen bij het project waarvoor het depot is geopend. a.s.r. kijkt bij elke rekening of die leesbaar is, binnen het doel van het depot valt, uit het resterende saldo betaald kan worden en of uw maandbedrag niet achterloopt.",
+      "declarabel": "Rekeningen van aannemers en leveranciers, voor zover zij horen bij het project waarvoor het depot is geopend. a.s.r. kijkt bij elke rekening of die leesbaar is, binnen het doel van het depot valt, uit het resterende saldo betaald kan worden en of je maandbedrag niet achterloopt.",
       "restant": {
         "waarde": "Wordt afgelost op de lening, zonder kosten",
-        "detail": "Het overgebleven bedrag gaat als terugbetaling op de lening. Daarvoor betaalt u geen kosten, en het telt niet mee voor het percentage dat u elk jaar boetevrij mag aflossen."
+        "detail": "Het overgebleven bedrag gaat als terugbetaling op de lening. Daarvoor betaal je geen kosten, en het telt niet mee voor het percentage dat je elk jaar boetevrij mag aflossen."
       },
       "eigenArbeid": {
         "waarde": null,
@@ -764,12 +764,12 @@
         {
           "eis": "factuurouderdom",
           "waarde": "Maximaal 6 maanden voor de aanvraagdatum",
-          "detail": "De factuurdatum mag niet meer dan zes maanden liggen voor de aanvraagdatum op het renteaanbod van uw lening."
+          "detail": "De factuurdatum mag niet meer dan zes maanden liggen voor de aanvraagdatum op het renteaanbod van je lening."
         }
       ],
       "bijzonderheden": [
-        "Bij nieuwbouw kiest u zelf of a.s.r. aan u of rechtstreeks aan de aannemer betaalt; bij een verbouwing gaat het bedrag altijd naar u.",
-        "a.s.r. betaalt uitsluitend op een Nederlands IBAN. Bij een buitenlands rekeningnummer ontvangt u het bedrag zelf en betaalt u de rekening door.",
+        "Bij nieuwbouw kies je zelf of a.s.r. aan je of rechtstreeks aan de aannemer betaalt; bij een verbouwing gaat het bedrag altijd naar je.",
+        "a.s.r. betaalt uitsluitend op een Nederlands IBAN. Bij een buitenlands rekeningnummer ontvang je het bedrag zelf en betaal je de rekening door.",
         "Voor energiebesparende maatregelen geldt een apart duurzaamheidsdepot van 24 maanden, dat niet verlengd kan worden."
       ]
     },
@@ -787,8 +787,8 @@
         "detail": "Na twee jaar onder voorwaarden nog een jaar te verlengen. ASN noemt die voorwaarden niet, maar wijst er wel op dat verlenging fiscale gevolgen heeft."
       },
       "rentevergoeding": {
-        "waarde": "Ja, gelijk aan uw hypotheekrente",
-        "detail": "De vergoeding is gelijk aan uw hypotheekrente en wordt verrekend met de rente die u betaalt; u betaalt dus alleen rente over wat al is opgenomen. Het percentage wordt vastgezet als de akte passeert en tijdens de looptijd niet aangepast. ASN noemt geen moment waarop de vergoeding binnen de standaardlooptijd van 24 maanden stopt, en publiceert ook niet wat er met de vergoeding gebeurt als u verlengt. Uitzondering: bij de Bespaarhypotheek wordt het percentage elke maand opnieuw vastgesteld op het gewogen gemiddelde van uw hypotheek.",
+        "waarde": "Ja, gelijk aan je hypotheekrente",
+        "detail": "De vergoeding is gelijk aan je hypotheekrente en wordt verrekend met de rente die je betaalt; je betaalt dus alleen rente over wat al is opgenomen. Het percentage wordt vastgezet als de akte passeert en tijdens de looptijd niet aangepast. ASN noemt geen moment waarop de vergoeding binnen de standaardlooptijd van 24 maanden stopt, en publiceert ook niet wat er met de vergoeding gebeurt als je verlengt. Uitzondering: bij de Bespaarhypotheek wordt het percentage elke maand opnieuw vastgesteld op het gewogen gemiddelde van je hypotheek.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": {
           "verbouw": 24,
@@ -822,26 +822,26 @@
       "declarabel": "Werk en materiaal dat na afloop vast aan de woning zit. Daaronder vallen onder meer sanitair en tegelwerk, inbouwapparatuur en vaste keukenkasten, bestrating en beplanting, riolering en leidingwerk, een uitbouw of dakkapel, de cv-installatie en een vloer die vastligt zoals parket of gietvloer. Ook het plaatsen zelf telt mee: installatie, puinafvoer, de huur van gereedschap, containers en steigers, en het inschakelen van vakmensen. Losse of meeneembare zaken vallen erbuiten; ASN noemt zwevend laminaat, gordijnen, decoratie en tuinverlichting als voorbeelden die niet mogen.",
       "restant": {
         "waarde": "Wordt kosteloos afgelost op de hypotheek",
-        "detail": "Eerst op het leningdeel dat voor verduurzaming bestemd is, daarna op de rest van de hypotheek. U betaalt geen vergoeding voor die extra aflossing."
+        "detail": "Eerst op het leningdeel dat voor verduurzaming bestemd is, daarna op de rest van de hypotheek. Je betaalt geen vergoeding voor die extra aflossing."
       },
       "eigenArbeid": {
         "waarde": null,
         "status": "niet-gepubliceerd"
       },
       "voorschieten": {
-        "waarde": "Ja, aan uzelf uitbetaald",
-        "detail": "U mag het bedrag rechtstreeks aan bijvoorbeeld de aannemer laten uitbetalen, of aan uzelf als u de rekening heeft voorgeschoten."
+        "waarde": "Ja, aan jezelf uitbetaald",
+        "detail": "Je mag het bedrag rechtstreeks aan bijvoorbeeld de aannemer laten uitbetalen, of aan jezelf als je de rekening hebt voorgeschoten."
       },
       "declaratieEisen": [
         {
           "eis": "soort-bewijs",
           "waarde": "Factuur, ingediend via de app of online bankieren",
-          "detail": "Betaalt u er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van, dan moet dat duidelijk op de rekening staan. ASN belt als iets onduidelijk is of als u iets declareert wat niet mag."
+          "detail": "Betaal je er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van, dan moet dat duidelijk op de rekening staan. ASN belt als iets onduidelijk is of als je iets declareert wat niet mag."
         }
       ],
       "bijzonderheden": [
-        "Zijn niet alle werkzaamheden uitgevoerd, dan kan ASN de marktwaarde van de woning aanpassen. Dat kan gevolgen hebben voor de tariefgroep van uw hypotheekrente.",
-        "U kunt het bouwdepot zelf eerder sluiten via de app of online bankieren.",
+        "Zijn niet alle werkzaamheden uitgevoerd, dan kan ASN de marktwaarde van de woning aanpassen. Dat kan gevolgen hebben voor de tariefgroep van je hypotheekrente.",
+        "Je kunt het bouwdepot zelf eerder sluiten via de app of online bankieren.",
         "Airconditioning geldt bij ASN niet als energiebesparende voorziening."
       ]
     },
@@ -859,11 +859,11 @@
         "verbouw": 12,
         "nieuwbouw": 12,
         "eenmalig": false,
-        "detail": "Maximaal twee keer zes maanden, afhankelijk van de voorwaarden van uw lening. Na verlenging wordt er geen depotvergoeding meer verrekend."
+        "detail": "Maximaal twee keer zes maanden, afhankelijk van de voorwaarden van je lening. Na verlenging wordt er geen depotvergoeding meer verrekend."
       },
       "rentevergoeding": {
-        "waarde": "Ja, gelijk aan uw hypotheekrente",
-        "detail": "Het rentetarief van het bouwdepot is gelijk aan het tarief dat u voor de hypotheek betaalt. Argenta vermeldt uitdrukkelijk dat de vergoeding na verlenging vervalt.",
+        "waarde": "Ja, gelijk aan je hypotheekrente",
+        "detail": "Het rentetarief van het bouwdepot is gelijk aan het tarief dat je voor de hypotheek betaalt. Argenta vermeldt uitdrukkelijk dat de vergoeding na verlenging vervalt.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": {
           "verbouw": 24,
@@ -893,7 +893,7 @@
         "werkdagenDigitaal": null,
         "status": "niet-gepubliceerd"
       },
-      "declarabel": "Kosten die binnen uw verbouwplan vallen en nog niet zijn voldaan: bedragen uit de verbouwingsspecificatie, uit de koop- of aannemingsovereenkomst, en het meerwerk met de kosten die daarbij horen. Past een rekening qua bedrag of werkzaamheden niet in dat plan, dan wordt zij niet betaald.",
+      "declarabel": "Kosten die binnen je verbouwplan vallen en nog niet zijn voldaan: bedragen uit de verbouwingsspecificatie, uit de koop- of aannemingsovereenkomst, en het meerwerk met de kosten die daarbij horen. Past een rekening qua bedrag of werkzaamheden niet in dat plan, dan wordt zij niet betaald.",
       "restant": {
         "waarde": "Geldt als extra aflossing",
         "detail": "Blijft er na de verbouwing saldo in het depot staan, dan wordt dat als extra aflossing op de lening verwerkt."
@@ -903,20 +903,20 @@
         "status": "niet-gepubliceerd"
       },
       "voorschieten": {
-        "waarde": "Ja, u kiest de bestemming per declaratie",
-        "detail": "U kiest zelf of het bedrag rechtstreeks naar de leverancier gaat of naar uw eigen bankrekening."
+        "waarde": "Ja, je kiest de bestemming per declaratie",
+        "detail": "Je kiest zelf of het bedrag rechtstreeks naar de leverancier gaat of naar je eigen bankrekening."
       },
       "declaratieEisen": [
         {
           "eis": "soort-bewijs",
           "waarde": "Factuur of kassabon",
-          "detail": "U uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan u of aan uw leverancier."
+          "detail": "Je uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan je of aan je leverancier."
         }
       ],
       "bijzonderheden": [
-        "Onder EUR 25.000 verbouwkosten is een bouwdepot niet verplicht; het bedrag wordt dan bij de notaris aan u uitbetaald. Gaat het om noodzakelijk herstel, dan komt het wel in een depot.",
-        "Argenta werkt met een verbouwplan: een optelsom van rubrieken uit het taxatierapport. U kunt alleen declareren wat daarin past, en het plan wijzigen kan alleen met toestemming.",
-        "Leent u op basis van de marktwaarde na verbouwing, dan komt het volledige bedrag in het depot, ook onder EUR 25.000."
+        "Onder EUR 25.000 verbouwkosten is een bouwdepot niet verplicht; het bedrag wordt dan bij de notaris aan je uitbetaald. Gaat het om noodzakelijk herstel, dan komt het wel in een depot.",
+        "Argenta werkt met een verbouwplan: een optelsom van rubrieken uit het taxatierapport. Je kunt alleen declareren wat daarin past, en het plan wijzigen kan alleen met toestemming.",
+        "Leen je op basis van de marktwaarde na verbouwing, dan komt het volledige bedrag in het depot, ook onder EUR 25.000."
       ]
     },
     {
@@ -930,11 +930,11 @@
         "verbouw": null,
         "nieuwbouw": null,
         "geenVerlengingGepubliceerd": true,
-        "detail": "Centraal Beheer schrijft dat het depot een standaardlooptijd van twee jaar heeft en daarna wordt beeindigd. Over verlenging publiceert het niets; vraag bij uw adviseur na of er in uw situatie iets mogelijk is."
+        "detail": "Centraal Beheer schrijft dat het depot een standaardlooptijd van twee jaar heeft en daarna wordt beeindigd. Over verlenging publiceert het niets; vraag bij je adviseur na of er in je situatie iets mogelijk is."
       },
       "rentevergoeding": {
-        "waarde": "Ja, gelijk aan uw hypotheekrente",
-        "detail": "U betaalt hypotheekrente over het hele depot en ontvangt vergoeding over wat er nog in staat, tegen hetzelfde percentage. Neemt u geld op, dan daalt de vergoeding en stijgt uw maandlast.",
+        "waarde": "Ja, gelijk aan je hypotheekrente",
+        "detail": "Je betaalt hypotheekrente over het hele depot en ontvangt vergoeding over wat er nog in staat, tegen hetzelfde percentage. Neem je geld op, dan daalt de vergoeding en stijgt je maandlast.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": {
           "verbouw": 24,
@@ -964,7 +964,7 @@
         "werkdagenDigitaal": 6,
         "status": "gepubliceerd"
       },
-      "declarabel": "Wat na de verbouwing vast aan de woning zit, en alleen voor zover het in uw verbouwplan of koop-aanneemovereenkomst staat. Verplaatsbare inrichting valt erbuiten.",
+      "declarabel": "Wat na de verbouwing vast aan de woning zit, en alleen voor zover het in je verbouwplan of koop-aanneemovereenkomst staat. Verplaatsbare inrichting valt erbuiten.",
       "restant": {
         "waarde": "Wordt afgelost op de lening",
         "detail": "Na de standaardlooptijd van twee jaar beeindigt Centraal Beheer het depot en lost het resterende bedrag af op de lening. Eerder beeindigen kan per e-mail."
@@ -990,9 +990,9 @@
         }
       ],
       "bijzonderheden": [
-        "Het adres op de factuur moet kloppen met uw situatie: bij een bestaande woning het adres van het onderpand, bij nieuwbouw het adres waar u nu woont.",
-        "Het depot werkt met rubrieken uit uw verbouwplan. Schuiven tussen rubrieken vraagt u online aan en kan een nieuw taxatierapport vergen; geld dat over is uit de rubrieken voor energiebesparende maatregelen mag niet naar overig werk.",
-        "Staan er meerdere rubrieken op een factuur, dan stuurt u diezelfde factuur meerdere keren in, per rubriek met het bijbehorende bedrag.",
+        "Het adres op de factuur moet kloppen met je situatie: bij een bestaande woning het adres van het onderpand, bij nieuwbouw het adres waar je nu woont.",
+        "Het depot werkt met rubrieken uit je verbouwplan. Schuiven tussen rubrieken vraag je online aan en kan een nieuw taxatierapport vergen; geld dat over is uit de rubrieken voor energiebesparende maatregelen mag niet naar overig werk.",
+        "Staan er meerdere rubrieken op een factuur, dan stuur je diezelfde factuur meerdere keren in, per rubriek met het bijbehorende bedrag.",
         "Het depot is meestal ongeveer acht werkdagen na het passeren bij de notaris bruikbaar."
       ]
     },
@@ -1012,11 +1012,11 @@
         "verbouw": null,
         "nieuwbouw": null,
         "geenVerlengingGepubliceerd": true,
-        "detail": "Allianz noemt in zijn bouwdepotinformatie geen mogelijkheid tot verlenging en geen voorwaarden daarvoor. Vraag bij uw adviseur na of er in uw situatie iets mogelijk is."
+        "detail": "Allianz noemt in zijn bouwdepotinformatie geen mogelijkheid tot verlenging en geen voorwaarden daarvoor. Vraag bij je adviseur na of er in je situatie iets mogelijk is."
       },
       "rentevergoeding": {
-        "waarde": "Ja, gelijk aan uw hypotheekrente",
-        "detail": "U ontvangt dezelfde vergoeding als de rente die u over de lening betaalt. Zodra u facturen indient gaat u over dat bedrag hypotheekrente betalen, dus uw maandlast stijgt naarmate de verbouwing vordert.",
+        "waarde": "Ja, gelijk aan je hypotheekrente",
+        "detail": "Je ontvangt dezelfde vergoeding als de rente die je over de lening betaalt. Zodra je facturen indient ga je over dat bedrag hypotheekrente betalen, dus je maandlast stijgt naarmate de verbouwing vordert.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": {
           "verbouw": 12,
@@ -1046,10 +1046,10 @@
         "werkdagenDigitaal": null,
         "status": "niet-gepubliceerd"
       },
-      "declarabel": "Werk aan de woning zelf, zoals een keuken, badkamer of vloer, en de materialen die daarbij horen. Allianz noemt onder meer gehuurd gereedschap, verf en gipsplaten. U kunt alleen declareren wat in uw verbouwplan staat.",
+      "declarabel": "Werk aan de woning zelf, zoals een keuken, badkamer of vloer, en de materialen die daarbij horen. Allianz noemt onder meer gehuurd gereedschap, verf en gipsplaten. Je kunt alleen declareren wat in je verbouwplan staat.",
       "restant": {
         "waarde": "Wordt afgelost op de hypotheek",
-        "detail": "Geeft u aan dat de verbouwing klaar is en staat er nog geld in het depot, dan lost Allianz dat af op uw hypotheek."
+        "detail": "Geef je aan dat de verbouwing klaar is en staat er nog geld in het depot, dan lost Allianz dat af op je hypotheek."
       },
       "eigenArbeid": {
         "waarde": null,
@@ -1074,7 +1074,7 @@
       "bijzonderheden": [
         "Het afleveradres op de rekening moet het adres van het onderpand zijn.",
         "Op de rekening moeten bedrijfsnaam, adres, plaatsnaam, telefoonnummer, bankrekeningnummer en KvK-nummer staan, plus een omschrijving van wat er is gekocht of gedaan. Die omschrijving gebruikt Allianz om te bepalen of het werk de woningwaarde verhoogt.",
-        "Uw verbouwplan wijzigen kan via het online portaal, maar Allianz vraagt dan een nieuwe waardebepaling. Bij een hypotheek met NHG is een gewijzigd taxatierapport verplicht.",
+        "Je verbouwplan wijzigen kan via het online portaal, maar Allianz vraagt dan een nieuwe waardebepaling. Bij een hypotheek met NHG is een gewijzigd taxatierapport verplicht.",
         "Allianz wijst erop dat de hypotheek verhogen tijdens de verbouwing vaak niet mogelijk is."
       ]
     }

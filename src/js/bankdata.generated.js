@@ -28,7 +28,7 @@ export const BANKEN = [
     },
     "vergoeding": {
       "samenvatting": "Ja, maar niet de hele verlenging",
-      "detail": "Tijdens de standaardlooptijd ontvangt u vergoeding. Verlengt u, dan krijgt u over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen.",
+      "detail": "Tijdens de standaardlooptijd ontvang je vergoeding. Verleng je, dan krijg je over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen.",
       "model": "beperkt-in-duur",
       "maanden": {
         "verbouw": 18,
@@ -42,12 +42,12 @@ export const BANKEN = [
     "verlengingAanvragen": {
       "maandenVoorEinde": 3,
       "soort": "bericht-van-bank",
-      "detail": "Drie maanden voor de einddatum ontvangt u een brief over verlengen of beeindigen. Regelen kan via Internet Bankieren of met een formulier per post."
+      "detail": "Drie maanden voor de einddatum ontvang je een brief over verlengen of beeindigen. Regelen kan via Internet Bankieren of met een formulier per post."
     },
     "opnamemethode": "declaratie",
     "uitbetaling": "Meestal binnen 5 werkdagen",
     "uitbetalingWerkdagen": 5,
-    "voorschieten": "Bij verbouwing schiet u voor, bij nieuwbouw niet altijd",
+    "voorschieten": "Bij verbouwing schiet je voor, bij nieuwbouw niet altijd",
     "restant": {
       "waarde": "Gaat van de lening af",
       "detail": "Telt niet mee voor het bedrag dat je jaarlijks zonder extra kosten mag terugbetalen. Bij meerdere leningdelen bepaalt de bank de volgorde en kan die volgorde wijzigen."
@@ -57,7 +57,7 @@ export const BANKEN = [
       {
         "eis": "soort-bewijs",
         "waarde": "Factuur",
-        "detail": "Alleen bedragen uit het verbouwingsplan of de koop-/aannemingsovereenkomst, die onderdeel zijn van uw hypotheekofferte."
+        "detail": "Alleen bedragen uit het verbouwingsplan of de koop-/aannemingsovereenkomst, die onderdeel zijn van je hypotheekofferte."
       },
       {
         "eis": "vast-aan-woning",
@@ -117,12 +117,12 @@ export const BANKEN = [
       {
         "eis": "soort-bewijs",
         "waarde": "Vooraf geen",
-        "detail": "U betaalt zelf vanuit het depot en hoeft facturen niet vooraf in te dienen. Rabobank kan achteraf wel om onderbouwing vragen, dus bewaar alles."
+        "detail": "Je betaalt zelf vanuit het depot en hoeft facturen niet vooraf in te dienen. Rabobank kan achteraf wel om onderbouwing vragen, dus bewaar alles."
       },
       {
         "eis": "vast-aan-woning",
         "waarde": "Verplicht",
-        "detail": "Niet toegestaan: inboedel en spullen die u bij een verhuizing meeneemt, zoals gordijnen en meubels."
+        "detail": "Niet toegestaan: inboedel en spullen die je bij een verhuizing meeneemt, zoals gordijnen en meubels."
       }
     ],
     "declarabel": "Alle kosten die nodig zijn voor bouw, verbouwing of verduurzaming: aannemer, architect, bouwmaterialen, keuken, badkamer. Niet: inboedel en spullen die je bij een verhuizing meeneemt, zoals gordijnen en meubels."
@@ -187,7 +187,7 @@ export const BANKEN = [
       {
         "eis": "factuurdatum",
         "waarde": "Na de offertedatum",
-        "detail": "Alleen facturen met een datum na de datum van uw hypotheekofferte worden in behandeling genomen."
+        "detail": "Alleen facturen met een datum na de datum van je hypotheekofferte worden in behandeling genomen."
       },
       {
         "eis": "vast-aan-woning",
@@ -240,7 +240,7 @@ export const BANKEN = [
     "voorschieten": null,
     "restant": {
       "waarde": "Onder EUR 1.000 uitbetaald, daarboven afgelost",
-      "detail": "Een restantbedrag lager dan EUR 1.000 wordt bij beeindiging uitgekeerd op uw bankrekening. Is het hoger, dan gebruikt MUNT het volledige bedrag voor aflossing op de hypotheek."
+      "detail": "Een restantbedrag lager dan EUR 1.000 wordt bij beeindiging uitgekeerd op je bankrekening. Is het hoger, dan gebruikt MUNT het volledige bedrag voor aflossing op de hypotheek."
     },
     "eigenArbeid": null,
     "eisen": [
@@ -294,15 +294,15 @@ export const BANKEN = [
     "uitbetalingWerkdagen": 2,
     "voorschieten": null,
     "restant": {
-      "waarde": "Tot EUR 7.500 naar uw eigen rekening",
-      "detail": "Florius maakt het restbedrag over naar uw bankrekening. Twee uitzonderingen: met NHG wordt het altijd afgelost op de lening, en blijft er meer dan EUR 7.500 over dan wordt het afgelost ongeacht NHG. Voor energiebesparende maatregelen en de Florius Verduurzaam Hypotheek kunnen andere regels gelden."
+      "waarde": "Tot EUR 7.500 naar je eigen rekening",
+      "detail": "Florius maakt het restbedrag over naar je bankrekening. Twee uitzonderingen: met NHG wordt het altijd afgelost op de lening, en blijft er meer dan EUR 7.500 over dan wordt het afgelost ongeacht NHG. Voor energiebesparende maatregelen en de Florius Verduurzaam Hypotheek kunnen andere regels gelden."
     },
     "eigenArbeid": null,
     "eisen": [
       {
         "eis": "soort-bewijs",
         "waarde": "Volledige factuur of ordernota",
-        "detail": "U uploadt een foto of scan via mijnFlorius. Afgekeurd worden: offertes, handgeschreven bonnen, een onvolledige factuur, en een nota die alleen naar een offerte verwijst zonder eigen specificatie."
+        "detail": "Je uploadt een foto of scan via mijnFlorius. Afgekeurd worden: offertes, handgeschreven bonnen, een onvolledige factuur, en een nota die alleen naar een offerte verwijst zonder eigen specificatie."
       },
       {
         "eis": "factuurouderdom",
@@ -360,7 +360,7 @@ export const BANKEN = [
     "voorschieten": "Ja, met betaalbewijs",
     "restant": {
       "waarde": "Wordt gebruikt om de hypotheek af te lossen",
-      "detail": "Aan die aflossing zijn geen kosten verbonden. Heeft u meerdere bouwdepots, dan worden die tegelijk gesloten; afzonderlijk sluiten kan niet. Beeindigen regelt u zelf via mijn.nn of de NN App."
+      "detail": "Aan die aflossing zijn geen kosten verbonden. Heb je meerdere bouwdepots, dan worden die tegelijk gesloten; afzonderlijk sluiten kan niet. Beeindigen regel je zelf via mijn.nn of de NN App."
     },
     "eigenArbeid": null,
     "eisen": [
@@ -413,7 +413,7 @@ export const BANKEN = [
     },
     "vergoeding": {
       "samenvatting": "Ja, maar hoogte en duur verschillen per hypotheekvorm",
-      "detail": "Bij de Woon Hypotheek is de vergoeding gelijk aan uw hypotheekrente en loopt die 12 maanden bij bestaande bouw. Bij nieuwbouw is dat 24 maanden voor hypotheekaanvragen vanaf 16 september 2024; voor aanvragen van daarvóór blijft het 12 maanden. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.",
+      "detail": "Bij de Woon Hypotheek is de vergoeding gelijk aan je hypotheekrente en loopt die 12 maanden bij bestaande bouw. Bij nieuwbouw is dat 24 maanden voor hypotheekaanvragen vanaf 16 september 2024; voor aanvragen van daarvóór blijft het 12 maanden. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.",
       "model": "beperkt-in-duur",
       "maanden": {
         "verbouw": 12,
@@ -434,15 +434,15 @@ export const BANKEN = [
     "uitbetalingWerkdagen": null,
     "voorschieten": null,
     "restant": {
-      "waarde": "Tot EUR 2.500 naar uw eigen rekening",
-      "detail": "Blijft er minder dan EUR 2.500 over, dan betaalt Obvion dat aan u uit. Is het meer, dan wordt het verwerkt als extra vergoedingsvrije terugbetaling op uw lening."
+      "waarde": "Tot EUR 2.500 naar je eigen rekening",
+      "detail": "Blijft er minder dan EUR 2.500 over, dan betaalt Obvion dat aan je uit. Is het meer, dan wordt het verwerkt als extra vergoedingsvrije terugbetaling op je lening."
     },
     "eigenArbeid": null,
     "eisen": [
       {
         "eis": "soort-bewijs",
         "waarde": "Kopiefactuur, getekend voor akkoord",
-        "detail": "U tekent de kopie van de factuur voor akkoord met betaling en uploadt die via MijnObvion."
+        "detail": "Je tekent de kopie van de factuur voor akkoord met betaling en uploadt die via MijnObvion."
       },
       {
         "eis": "vast-aan-woning",
@@ -473,7 +473,7 @@ export const BANKEN = [
     },
     "vergoeding": {
       "samenvatting": "Ja, gelijk aan je hypotheekrente",
-      "detail": "De vergoeding loopt over de hele looptijd, dus ook over een verlenging en daarmee tot 36 maanden. Daardoor betaalt u per saldo alleen hypotheekrente over het geld dat al aan de bouw of verbouwing is uitgegeven. Bij de SNS Bespaarhypotheek wordt de depotrente maandelijks opnieuw bepaald op het gewogen gemiddelde van uw hypotheekrentes.",
+      "detail": "De vergoeding loopt over de hele looptijd, dus ook over een verlenging en daarmee tot 36 maanden. Daardoor betaal je per saldo alleen hypotheekrente over het geld dat al aan de bouw of verbouwing is uitgegeven. Bij de SNS Bespaarhypotheek wordt de depotrente maandelijks opnieuw bepaald op het gewogen gemiddelde van je hypotheekrentes.",
       "model": "beperkt-in-duur",
       "maanden": {
         "verbouw": 36,
@@ -502,7 +502,7 @@ export const BANKEN = [
       {
         "eis": "soort-bewijs",
         "waarde": "Factuur of kassabon",
-        "detail": "Heeft u zelf voorgeschoten, dan hoort daar een betaalbewijs bij: een kopie bankafschrift of de bon van de pinbetaling. Ongespecificeerde facturen voor diensten worden afgekeurd."
+        "detail": "Heb je zelf voorgeschoten, dan hoort daar een betaalbewijs bij: een kopie bankafschrift of de bon van de pinbetaling. Ongespecificeerde facturen voor diensten worden afgekeurd."
       },
       {
         "eis": "factuurouderdom",
@@ -537,8 +537,8 @@ export const BANKEN = [
       "nieuwbouw": 30
     },
     "vergoeding": {
-      "samenvatting": "Ja, gelijk aan de gemiddelde rente over uw lening",
-      "detail": "De vergoeding is even hoog als de rente die u gemiddeld over uw lening betaalt. Zij loopt over de standaardlooptijd; verlengt u het depot, dan vervalt de vergoeding over die verlenging.",
+      "samenvatting": "Ja, gelijk aan de gemiddelde rente over je lening",
+      "detail": "De vergoeding is even hoog als de rente die je gemiddeld over je lening betaalt. Zij loopt over de standaardlooptijd; verleng je het depot, dan vervalt de vergoeding over die verlenging.",
       "model": "beperkt-in-duur",
       "maanden": {
         "verbouw": 12,
@@ -552,15 +552,15 @@ export const BANKEN = [
     "verlengingAanvragen": {
       "maandenVoorEinde": 2,
       "soort": "bericht-van-bank",
-      "detail": "Ongeveer twee maanden voor de einddatum krijgt u bericht van a.s.r.; u vraagt de verlenging daarna zelf aan."
+      "detail": "Ongeveer twee maanden voor de einddatum krijg je bericht van a.s.r.; je vraagt de verlenging daarna zelf aan."
     },
     "opnamemethode": "declaratie",
-    "uitbetaling": "Binnen maximaal 5 werkdagen aan u of de aannemer",
+    "uitbetaling": "Binnen maximaal 5 werkdagen aan je of de aannemer",
     "uitbetalingWerkdagen": 5,
     "voorschieten": null,
     "restant": {
       "waarde": "Wordt afgelost op de lening, zonder kosten",
-      "detail": "Het overgebleven bedrag gaat als terugbetaling op de lening. Daarvoor betaalt u geen kosten, en het telt niet mee voor het percentage dat u elk jaar boetevrij mag aflossen."
+      "detail": "Het overgebleven bedrag gaat als terugbetaling op de lening. Daarvoor betaal je geen kosten, en het telt niet mee voor het percentage dat je elk jaar boetevrij mag aflossen."
     },
     "eigenArbeid": null,
     "eisen": [
@@ -572,10 +572,10 @@ export const BANKEN = [
       {
         "eis": "factuurouderdom",
         "waarde": "Maximaal 6 maanden voor de aanvraagdatum",
-        "detail": "De factuurdatum mag niet meer dan zes maanden liggen voor de aanvraagdatum op het renteaanbod van uw lening."
+        "detail": "De factuurdatum mag niet meer dan zes maanden liggen voor de aanvraagdatum op het renteaanbod van je lening."
       }
     ],
-    "declarabel": "Rekeningen van aannemers en leveranciers, voor zover zij horen bij het project waarvoor het depot is geopend. a.s.r. kijkt bij elke rekening of die leesbaar is, binnen het doel van het depot valt, uit het resterende saldo betaald kan worden en of uw maandbedrag niet achterloopt."
+    "declarabel": "Rekeningen van aannemers en leveranciers, voor zover zij horen bij het project waarvoor het depot is geopend. a.s.r. kijkt bij elke rekening of die leesbaar is, binnen het doel van het depot valt, uit het resterende saldo betaald kan worden en of je maandbedrag niet achterloopt."
   },
   {
     "id": "asn",
@@ -597,8 +597,8 @@ export const BANKEN = [
       "nieuwbouw": 36
     },
     "vergoeding": {
-      "samenvatting": "Ja, gelijk aan uw hypotheekrente",
-      "detail": "De vergoeding is gelijk aan uw hypotheekrente en wordt verrekend met de rente die u betaalt; u betaalt dus alleen rente over wat al is opgenomen. Het percentage wordt vastgezet als de akte passeert en tijdens de looptijd niet aangepast. ASN noemt geen moment waarop de vergoeding binnen de standaardlooptijd van 24 maanden stopt, en publiceert ook niet wat er met de vergoeding gebeurt als u verlengt. Uitzondering: bij de Bespaarhypotheek wordt het percentage elke maand opnieuw vastgesteld op het gewogen gemiddelde van uw hypotheek.",
+      "samenvatting": "Ja, gelijk aan je hypotheekrente",
+      "detail": "De vergoeding is gelijk aan je hypotheekrente en wordt verrekend met de rente die je betaalt; je betaalt dus alleen rente over wat al is opgenomen. Het percentage wordt vastgezet als de akte passeert en tijdens de looptijd niet aangepast. ASN noemt geen moment waarop de vergoeding binnen de standaardlooptijd van 24 maanden stopt, en publiceert ook niet wat er met de vergoeding gebeurt als je verlengt. Uitzondering: bij de Bespaarhypotheek wordt het percentage elke maand opnieuw vastgesteld op het gewogen gemiddelde van je hypotheek.",
       "model": "beperkt-in-duur",
       "maanden": {
         "verbouw": 24,
@@ -617,17 +617,17 @@ export const BANKEN = [
     "opnamemethode": "declaratie",
     "uitbetaling": null,
     "uitbetalingWerkdagen": null,
-    "voorschieten": "Ja, aan uzelf uitbetaald",
+    "voorschieten": "Ja, aan jezelf uitbetaald",
     "restant": {
       "waarde": "Wordt kosteloos afgelost op de hypotheek",
-      "detail": "Eerst op het leningdeel dat voor verduurzaming bestemd is, daarna op de rest van de hypotheek. U betaalt geen vergoeding voor die extra aflossing."
+      "detail": "Eerst op het leningdeel dat voor verduurzaming bestemd is, daarna op de rest van de hypotheek. Je betaalt geen vergoeding voor die extra aflossing."
     },
     "eigenArbeid": null,
     "eisen": [
       {
         "eis": "soort-bewijs",
         "waarde": "Factuur, ingediend via de app of online bankieren",
-        "detail": "Betaalt u er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van, dan moet dat duidelijk op de rekening staan. ASN belt als iets onduidelijk is of als u iets declareert wat niet mag."
+        "detail": "Betaal je er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van, dan moet dat duidelijk op de rekening staan. ASN belt als iets onduidelijk is of als je iets declareert wat niet mag."
       }
     ],
     "declarabel": "Werk en materiaal dat na afloop vast aan de woning zit. Daaronder vallen onder meer sanitair en tegelwerk, inbouwapparatuur en vaste keukenkasten, bestrating en beplanting, riolering en leidingwerk, een uitbouw of dakkapel, de cv-installatie en een vloer die vastligt zoals parket of gietvloer. Ook het plaatsen zelf telt mee: installatie, puinafvoer, de huur van gereedschap, containers en steigers, en het inschakelen van vakmensen. Losse of meeneembare zaken vallen erbuiten; ASN noemt zwevend laminaat, gordijnen, decoratie en tuinverlichting als voorbeelden die niet mogen."
@@ -652,8 +652,8 @@ export const BANKEN = [
       "nieuwbouw": 36
     },
     "vergoeding": {
-      "samenvatting": "Ja, gelijk aan uw hypotheekrente",
-      "detail": "Het rentetarief van het bouwdepot is gelijk aan het tarief dat u voor de hypotheek betaalt. Argenta vermeldt uitdrukkelijk dat de vergoeding na verlenging vervalt.",
+      "samenvatting": "Ja, gelijk aan je hypotheekrente",
+      "detail": "Het rentetarief van het bouwdepot is gelijk aan het tarief dat je voor de hypotheek betaalt. Argenta vermeldt uitdrukkelijk dat de vergoeding na verlenging vervalt.",
       "model": "beperkt-in-duur",
       "maanden": {
         "verbouw": 24,
@@ -672,7 +672,7 @@ export const BANKEN = [
     "opnamemethode": "declaratie",
     "uitbetaling": null,
     "uitbetalingWerkdagen": null,
-    "voorschieten": "Ja, u kiest de bestemming per declaratie",
+    "voorschieten": "Ja, je kiest de bestemming per declaratie",
     "restant": {
       "waarde": "Geldt als extra aflossing",
       "detail": "Blijft er na de verbouwing saldo in het depot staan, dan wordt dat als extra aflossing op de lening verwerkt."
@@ -682,10 +682,10 @@ export const BANKEN = [
       {
         "eis": "soort-bewijs",
         "waarde": "Factuur of kassabon",
-        "detail": "U uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan u of aan uw leverancier."
+        "detail": "Je uploadt de stukken in Mijn Leninginzicht. Argenta controleert ze en betaalt na goedkeuring uit aan je of aan je leverancier."
       }
     ],
-    "declarabel": "Kosten die binnen uw verbouwplan vallen en nog niet zijn voldaan: bedragen uit de verbouwingsspecificatie, uit de koop- of aannemingsovereenkomst, en het meerwerk met de kosten die daarbij horen. Past een rekening qua bedrag of werkzaamheden niet in dat plan, dan wordt zij niet betaald."
+    "declarabel": "Kosten die binnen je verbouwplan vallen en nog niet zijn voldaan: bedragen uit de verbouwingsspecificatie, uit de koop- of aannemingsovereenkomst, en het meerwerk met de kosten die daarbij horen. Past een rekening qua bedrag of werkzaamheden niet in dat plan, dan wordt zij niet betaald."
   },
   {
     "id": "centraal-beheer",
@@ -707,8 +707,8 @@ export const BANKEN = [
       "nieuwbouw": 24
     },
     "vergoeding": {
-      "samenvatting": "Ja, gelijk aan uw hypotheekrente",
-      "detail": "U betaalt hypotheekrente over het hele depot en ontvangt vergoeding over wat er nog in staat, tegen hetzelfde percentage. Neemt u geld op, dan daalt de vergoeding en stijgt uw maandlast.",
+      "samenvatting": "Ja, gelijk aan je hypotheekrente",
+      "detail": "Je betaalt hypotheekrente over het hele depot en ontvangt vergoeding over wat er nog in staat, tegen hetzelfde percentage. Neem je geld op, dan daalt de vergoeding en stijgt je maandlast.",
       "model": "beperkt-in-duur",
       "maanden": {
         "verbouw": 24,
@@ -745,7 +745,7 @@ export const BANKEN = [
         "detail": "De factuur of kassabon mag niet ouder zijn dan zes maanden voor de startdatum van de hypotheek."
       }
     ],
-    "declarabel": "Wat na de verbouwing vast aan de woning zit, en alleen voor zover het in uw verbouwplan of koop-aanneemovereenkomst staat. Verplaatsbare inrichting valt erbuiten."
+    "declarabel": "Wat na de verbouwing vast aan de woning zit, en alleen voor zover het in je verbouwplan of koop-aanneemovereenkomst staat. Verplaatsbare inrichting valt erbuiten."
   },
   {
     "id": "allianz",
@@ -767,8 +767,8 @@ export const BANKEN = [
       "nieuwbouw": 24
     },
     "vergoeding": {
-      "samenvatting": "Ja, gelijk aan uw hypotheekrente",
-      "detail": "U ontvangt dezelfde vergoeding als de rente die u over de lening betaalt. Zodra u facturen indient gaat u over dat bedrag hypotheekrente betalen, dus uw maandlast stijgt naarmate de verbouwing vordert.",
+      "samenvatting": "Ja, gelijk aan je hypotheekrente",
+      "detail": "Je ontvangt dezelfde vergoeding als de rente die je over de lening betaalt. Zodra je facturen indient ga je over dat bedrag hypotheekrente betalen, dus je maandlast stijgt naarmate de verbouwing vordert.",
       "model": "beperkt-in-duur",
       "maanden": {
         "verbouw": 12,
@@ -790,7 +790,7 @@ export const BANKEN = [
     "voorschieten": null,
     "restant": {
       "waarde": "Wordt afgelost op de hypotheek",
-      "detail": "Geeft u aan dat de verbouwing klaar is en staat er nog geld in het depot, dan lost Allianz dat af op uw hypotheek."
+      "detail": "Geef je aan dat de verbouwing klaar is en staat er nog geld in het depot, dan lost Allianz dat af op je hypotheek."
     },
     "eigenArbeid": null,
     "eisen": [
@@ -805,7 +805,7 @@ export const BANKEN = [
         "detail": "Ligt de datum op de factuur, rekening of kassabon voor de aanvraagdatum van de hypotheek, dan kan Allianz niet uitbetalen."
       }
     ],
-    "declarabel": "Werk aan de woning zelf, zoals een keuken, badkamer of vloer, en de materialen die daarbij horen. Allianz noemt onder meer gehuurd gereedschap, verf en gipsplaten. U kunt alleen declareren wat in uw verbouwplan staat."
+    "declarabel": "Werk aan de woning zelf, zoals een keuken, badkamer of vloer, en de materialen die daarbij horen. Allianz noemt onder meer gehuurd gereedschap, verf en gipsplaten. Je kunt alleen declareren wat in je verbouwplan staat."
   }
 ];
 
