@@ -25,8 +25,11 @@ const klem = (x) => Math.min(1, Math.max(0, x));
 const fase = (s, a, b) => { const k = klem((s - a) / (b - a)); return k * k * (3 - 2 * k); };
 
 export function maakBouwplaats(canvas) {
+    // Op een telefoon is het beeld klein en telt de batterij: minder pixels en
+    // een kleinere schaduwkaart, daar zie je het verschil niet.
+    const klein = matchMedia('(max-width: 959px)').matches;
     const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(devicePixelRatio, klein ? 1.5 : 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = PCFSoftShadowMap;
 
@@ -37,7 +40,7 @@ export function maakBouwplaats(canvas) {
     scene.add(new HemisphereLight(0xffffff, 0xe9e2d2, 2.2));
     const zon = new DirectionalLight(0xfff1d6, 2.1);
     zon.castShadow = true;
-    zon.shadow.mapSize.set(2048, 2048);
+    zon.shadow.mapSize.set(klein ? 1024 : 2048, klein ? 1024 : 2048);
     Object.assign(zon.shadow.camera, { left: -14, right: 14, top: 14, bottom: -14, near: 1, far: 60 });
     zon.shadow.bias = -0.0005;
     scene.add(zon);
@@ -193,9 +196,14 @@ export function maakBouwplaats(canvas) {
         // Bij het ronddraaien op het startscherm kijkt de camera naar het midden van
         // de kavel, anders zwaait het gras heen en weer; daarna schuift hij op voor de kraan.
         camera.lookAt(-0.9 * fase(s, 0.2, 1.0), 3.5, 0);
+        // Op een telefoon is het beeld een lage band. Zolang de kraan er niet staat
+        // hoeft die er niet in te passen en mag de kavel groter in beeld.
+        if (klein) { camera.zoom = 1 + 0.35 * (1 - fase(s, 0.2, 0.95)); camera.updateProjectionMatrix(); }
     }
 
     function teken(tijd) {
+        // Buiten beeld (weggescrold, of het toetsenbord staat ervoor) tekenen we niet.
+        if (!inBeeld) { loopt = false; return; }
         const dt = Math.min(0.05, (tijd - vorige) / 1000 || 0.016);
         vorige = tijd;
         // Rustig naar het doel: ongeveer één eenheid per seconde, zodat elk deel te volgen is.
@@ -215,7 +223,8 @@ export function maakBouwplaats(canvas) {
         else loopt = false;
     }
     const stil = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const wek = () => { if (!loopt) { loopt = true; vorige = performance.now(); requestAnimationFrame(teken); } };
+    let inBeeld = true;
+    const wek = () => { if (!loopt && inBeeld) { loopt = true; vorige = performance.now(); requestAnimationFrame(teken); } };
 
     function pasMaat() {
         // De schaal volgt het vak eromheen; het doek zelf mag groter zijn dan dat
@@ -225,13 +234,17 @@ export function maakBouwplaats(canvas) {
         const { clientWidth: db, clientHeight: dh } = canvas;
         if (!b || !h || !db || !dh) return;
         renderer.setSize(db, dh, false);
-        const perPixel = Math.max(ZICHT / h, 15.5 / b);
+        // De breedte van het gras moet passen, en in de hoogte de kraan (19 eenheden).
+        const perPixel = Math.max(ZICHT / h, 15.5 / b, 19 / dh);
         camera.top = (dh * perPixel) / 2; camera.bottom = -camera.top;
         camera.right = (db * perPixel) / 2; camera.left = -camera.right;
         camera.updateProjectionMatrix();
         wek();
     }
     new ResizeObserver(pasMaat).observe(canvas.parentElement);
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(([item]) => { inBeeld = item.isIntersecting; if (inBeeld) wek(); }).observe(canvas.parentElement);
+    }
     pasMaat();
 
     return {

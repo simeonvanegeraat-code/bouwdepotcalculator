@@ -31,6 +31,13 @@ body[data-nb]:not([data-nb="klaar"]) .nb-paneel { min-width: 0; max-width: 34rem
 }
 /* Het doek is ruimer dan het vak: de kraan steekt erboven uit en het gras loopt
    door tot voorbij de rand. Het vangt geen klikken af. */
+/* Op een smal scherm staat het beeld als band boven de vraag, zonder uitloop:
+   die zou de pagina zijwaarts laten schuiven. */
+@media (max-width: 959px) {
+    body[data-nb]:not([data-nb="klaar"]):not([data-nb="schema"]) .nb { gap: 0.75rem; padding-top: 0; }
+    body[data-nb]:not([data-nb="klaar"]):not([data-nb="schema"]) .nb-bouw { display: block; position: relative; margin: 0; height: clamp(9.5rem, 27vh, 15rem); }
+    body[data-nb] .nb-bouw canvas { left: 0; top: 0; width: 100%; height: 100%; }
+}
 .nb-bouw canvas { position: absolute; left: -9%; top: -20%; width: 118%; max-width: none; height: 124%; pointer-events: none; opacity: 0; transition: opacity 0.8s ease; }
 .nb-bouw.is-geladen canvas { opacity: 1; }
 

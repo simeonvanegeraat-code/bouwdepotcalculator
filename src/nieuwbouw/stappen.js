@@ -223,9 +223,9 @@ function start() {
 
     async function laadBouwplaats() {
         if (bouwplaats || bezigMetLaden || stand === 'klaar') return;
-        // Alleen waar hij te zien is en de verbinding het toelaat: op een telefoon
-        // staan de vragen er zonder beeld.
-        if (!matchMedia('(min-width: 960px)').matches || navigator.connection?.saveData) return;
+        // Niet als de bezoeker data spaart of het apparaat weinig geheugen heeft:
+        // dan staan de vragen er zonder beeld.
+        if (navigator.connection?.saveData || (navigator.deviceMemory && navigator.deviceMemory <= 2)) return;
         bezigMetLaden = true;
         try {
             const proef = document.createElement('canvas');
