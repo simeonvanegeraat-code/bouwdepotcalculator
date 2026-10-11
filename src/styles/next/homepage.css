@@ -447,28 +447,33 @@
 /* Een echte tussenkop. Als klein opschrift viel hij op een telefoon weg en las
    de pagina als één doorlopende tekst. */
 .hp-tussenkop { margin-bottom: 1.5rem; font-weight: 500; font-size: clamp(1.75rem, 3.4vw, 3rem); letter-spacing: -0.035em; line-height: 1.05; color: var(--ui-ink); text-wrap: balance; }
+/* Vier ingangen, alle vier even groot: het zijn vier gelijkwaardige manieren om
+   te beginnen. De scheidslijnen zijn recht en even breed als de lijn erboven;
+   het vlak dat bij aanwijzen oplicht valt daar precies tussen. */
 .hp-index ol { border-top: 1.5px solid var(--ui-forest); }
+.hp-index ol li { border-bottom: 1px solid var(--ui-line); }
 .hp-index ol a {
     display: grid;
-    grid-template-columns: 4rem minmax(0, 1fr) minmax(0, 20rem) 3rem;
+    grid-template-columns: 3rem minmax(0, 1fr) minmax(0, 20rem) 2.5rem;
     align-items: baseline;
-    gap: 1rem;
-    padding: clamp(1rem, 2.4vw, 2rem) 1rem;
-    margin: 0 -1rem;
-    border-bottom: 1px solid var(--ui-line);
-    border-radius: 0.75rem;
+    gap: 0.5rem 1rem;
+    padding: clamp(1.1rem, 2.2vw, 1.75rem) 1rem;
     text-decoration: none;
-    transition: background 0.25s ease, color 0.25s ease;
+    transition: background 0.15s ease;
 }
-.hp-index__nr { font-family: var(--ui-mono); font-size: 0.875rem; color: var(--ui-muted); transition: color 0.25s ease; }
-.hp-index__naam { font-size: clamp(1.75rem, 4.4vw, 4rem); font-weight: 500; letter-spacing: -0.045em; line-height: 1.02; color: var(--ui-forest); transition: color 0.25s ease; }
-.hp-index__wat { font-size: 0.9375rem; color: var(--ui-muted); transition: color 0.25s ease; }
-.hp-index__pijl { font-size: 1.5rem; text-align: right; transition: transform 0.25s ease; }
-.hp-index ol a:hover, .hp-index ol a:focus-visible { background: var(--ui-forest); border-bottom-color: transparent; }
-.hp-index ol a:hover span, .hp-index ol a:focus-visible span { color: var(--ui-canvas); }
-.hp-index ol a:focus-visible { outline-offset: 4px; }
-.hp-index ol a:hover .hp-index__pijl { transform: translateX(6px); }
-.hp-index__klein .hp-index__naam { font-size: clamp(1.25rem, 2.2vw, 1.75rem); letter-spacing: -0.03em; }
+.hp-index__nr { font-family: var(--ui-mono); font-size: 0.875rem; color: var(--ui-muted); }
+.hp-index__naam { font-size: clamp(1.625rem, 3.6vw, 3.25rem); font-weight: 500; letter-spacing: -0.04em; line-height: 1.05; color: var(--ui-forest); text-wrap: balance; }
+.hp-index__wat { font-size: 0.9375rem; color: var(--ui-muted); }
+.hp-index__pijl { font-size: 1.5rem; text-align: right; color: var(--ui-forest); transition: transform 0.2s ease; }
+.hp-index ol a:focus-visible { outline-offset: -3px; }
+/* Alleen waar echt aangewezen kan worden; op een aanraakscherm blijft zo'n
+   vlak anders hangen na het tikken. */
+@media (hover: hover) {
+    .hp-index ol a:hover { background: var(--ui-forest); }
+    .hp-index ol a:hover span { color: var(--ui-canvas); }
+    .hp-index ol a:hover .hp-index__pijl { transform: translateX(5px); }
+}
+.hp-index ol a:active { background: var(--ui-sage-licht); }
 
 /* Alle rekenhulpen: geen kaarten, een register. */
 .hp-register { max-width: var(--ui-max); margin: 0 auto; padding: var(--hp-ruimte) var(--ui-rand) 0; }
@@ -525,7 +530,7 @@
     .hp-snel label, .hp-snel__ga { grid-column: 1 / -1; }
     .hp-snel__uit { text-align: right; font-size: 1.125rem; }
 
-    .hp-index ol a { grid-template-columns: 2.25rem minmax(0, 1fr) 2rem; }
+    .hp-index ol a { grid-template-columns: 2.25rem minmax(0, 1fr) 2rem; padding-inline: 0.75rem; }
     .hp-index__wat { grid-column: 2; grid-row: 2; }
     .hp-index__pijl { grid-row: 1; grid-column: 3; }
     .hp-register ul { grid-template-columns: 1fr 1fr; }
