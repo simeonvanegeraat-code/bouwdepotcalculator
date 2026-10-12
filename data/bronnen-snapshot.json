@@ -1,10 +1,12 @@
 {
-  "bijgewerkt": "2026-10-05",
+  "bijgewerkt": "2026-10-12",
   "bronnen": {
     "https://www.abnamro.nl/nl/prive/hypotheken/hypotheek-afsluiten/bouwdepot/voorwaarden-bouwdepot.html": {
-      "hash": "ce9f20fcd3cdf2bd",
-      "aantal": 15,
+      "hash": "4474246d415ac96a",
+      "aantal": 17,
       "zinnen": [
+        "Bekijk de actie Bankrekening openen Inclusief betaalpas en online bankieren voor € 4,30 per maand.",
+        "Bekijk hoe je met slim sparen een hogere rente verdient Bekijk onze spaarrekeningen Een woonverzekering afsluiten Sluit vóór 12 oktober een woonverzekering af en ontvang het eerste jaar 20% korting op je premie Bereken direct je premie Geef je pensioen een vliegende start Open een pensioenrekening, doe dit jaar nog een eerste inleg en ontvang € 100 tot € 1.000 bonus.",
         "Bij verlenging krijg je de laatste 6 maanden geen rente over het bouwdepot.",
         "Bouwdepot bij verbouw van een bestaande woning Looptijd is 18 maanden, met eenmalige verlenging van 6 maanden.",
         "Dan activeren we het bouwdepot binnen 5 werkdagen na ontvangst van de getekende hypotheekofferte.",
@@ -177,10 +179,9 @@
       ]
     },
     "https://www.asnbank.nl/hypotheek/mijn-asn-hypotheek/bouwdepot.html": {
-      "hash": "0fdec997a9c82049",
-      "aantal": 16,
+      "hash": "123703b6a398d2d3",
+      "aantal": 15,
       "zinnen": [
-        "ASN Gespreid Beleggen ASN Themabeleggen Beleggingsfondsen Koersen Je werkelijke rendement doorgeven Hypotheek Hypotheek Je eerste huis kopen Afspraak maken Hypotheekrentes Maximale hypotheek berekenen Krijg 3 extra's om je huis te verduurzamen Bij een hypotheek van ASN Bank.",
         "Aanvragen bouwdepotdeclaratie ASN Hypotheek (pdf) 198,71 KB Voorwaarden declaraties bouwdepot Betaal je er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van?",
         "Bij een verbouwing en verduurzaming mag je de eerste 6 maanden de betaalde rente en kosten aftrekken in box 1 zonder deze te verrekenen met de rente die je hebt gekregen.",
         "Bij nieuwbouw mag je alleen het verschil tussen de betaalde rente en kosten en de ontvangen rente aftrekken in box 1.",
@@ -194,7 +195,7 @@
         "Klik hier voor het overzicht van de vergoedingen van het bouwdepot: Overzicht vergoedingen bouwdepot (pdf) 59,04 KB Energiebesparende maatregelen declareren Heb je een leningdeel speciaal voor het verduurzamen van je huis?",
         "Na een half jaar trek je in box 1 de ontvangen rente af van de betaalde rente.",
         "Onder voorwaarden is het bouwdepot daarna nog met 1 jaar te verlengen.",
-        "Open je ASN Bankrekening Sparen Sparen ASN Sparen ASN Jeugdsparen ASN Depositosparen Spaarrente Welke spaarrekening past bij jou Sparen met een vaste rente Profiteer van 2,60% rente op jaarbasis op een 1-jaarsdeposito bij ASN Bank.",
+        "Open je ASN Bankrekening Sparen Sparen ASN Sparen ASN Jeugdsparen ASN Depositosparen Spaarrente Welke spaarrekening past bij jou Sparen met een vaste rente Profiteer van 2,85% rente op jaarbasis op een 1-jaarsdeposito bij ASN Bank.",
         "Sinds 1 januari 2013 heb je alleen recht op renteaftrek als je bouwdepot aan een lineaire of annuïteitenhypotheek is gekoppeld die je in 30 jaar volledig aflost."
       ]
     },
@@ -220,11 +221,11 @@
       ]
     },
     "https://www.centraalbeheer.nl/hypotheek/klant/bouwdepot": {
-      "hash": "f7516cab8f740158",
+      "hash": "e3e82124b2373d2b",
       "aantal": 11,
       "zinnen": [
         "'&q=' : '#q=') + document.getElementsByClassName('js-site-header__search__input')[0].value; return false;\" cb-search=\"\" data-click-event-level=\"zoeken\"> Home Hypotheek Klant Mijn bouwdepot Mijn bouwdepot Regel het hier Met je bouwdepot betaal je de (ver)bouw of verduurzaming van jouw huis.",
-        "(055) 579 8100 Tot 18.00 uur 3 tips voor een snelle betaling Wil je een factuur of kassabon uit je bouwdepot betalen?",
+        "(055) 579 8100 Vanaf morgen weer van 8.00 uur tot 18.00 uur 3 tips voor een snelle betaling Wil je een factuur of kassabon uit je bouwdepot betalen?",
         "3 dingen die je moet weten over je bouwdepot: Het bouwdepot is bedoeld voor alles dat aan jouw huis vastzit.",
         "Als je alles volgens de spelregels instuurt, betalen wij binnen 6 werkdagen.",
         "Binnen je bouwdepot heb je 1 of meer rubrieken .",
