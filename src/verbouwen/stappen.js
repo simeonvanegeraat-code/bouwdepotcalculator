@@ -76,7 +76,8 @@ function start() {
             r.kies.addEventListener('change', () => {
                 r.vak.hidden = !r.kies.checked;
                 r.rij.classList.toggle('is-gekozen', r.kies.checked);
-                if (r.kies.checked) r.bedrag.focus();
+                // Op een aanraakscherm opent focus het toetsenbord; daar tik je het veld zelf aan.
+                if (r.kies.checked && !matchMedia('(pointer: coarse)').matches) r.bedrag.focus();
             });
         }
     }

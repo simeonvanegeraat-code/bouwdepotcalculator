@@ -49,7 +49,7 @@ form.nb-scherm h2 { font-weight: 500; font-size: clamp(1.875rem, 3.6vw, 3rem); l
 body[data-nb="start"] .nb-scherm.wr-kop { padding-bottom: 0; }
 body[data-nb="start"] .nb-scherm.wr-kop h1 { font-size: clamp(2.5rem, 5.4vw, 4.75rem); line-height: 0.98; }
 /* De kop krijgt de focus als het overzicht verschijnt; dat is voor het toetsenbord, niet om te zien. */
-#reken-titel:focus { outline: none; }
+#reken-titel:focus, .nb-scherm h2:focus { outline: none; }
 .nb-uitleg { color: var(--ui-muted); max-width: 30rem; }
 .nb-klein { font-size: 0.8125rem; color: var(--ui-muted); }
 

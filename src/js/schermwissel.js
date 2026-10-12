@@ -6,6 +6,12 @@
  * <form data-scherm="…">; "start" en "klaar" zijn geen formulier. De wissel
  * loopt via een view transition waar de browser die kent, en de focus gaat mee
  * naar het eerste veld van het nieuwe scherm, of naar de kop van de pagina.
+ *
+ * Op een aanraakscherm gaat de focus naar de kop van het scherm en niet naar
+ * het veld: een veld met focus opent daar het toetsenbord, en dat schuift over
+ * de vraag heen voordat je hem hebt gelezen. Het toetsenbord komt als je zelf
+ * een veld aantikt. Binnen een scherm brengt Enter je naar het volgende veld;
+ * pas in het laatste veld gaat het scherm door.
  */
 
 /**
@@ -20,6 +26,31 @@ export function maakSchermwissel({ wortel, kop, opStand = () => {}, voorWissel =
     const lichaam = document.body;
     const stil = matchMedia('(prefers-reduced-motion: reduce)').matches;
     kop.tabIndex = -1;
+    const aanraak = matchMedia('(pointer: coarse)').matches;
+    const tekstvelden = (formulier) => [...formulier.querySelectorAll('input[type="text"]')].filter((v) => v.offsetParent !== null);
+
+    // Het toetsenbord van een telefoon toont wat Enter doet: verder naar het
+    // volgende veld, of klaar met dit scherm.
+    for (const formulier of wortel.querySelectorAll('form[data-scherm]')) {
+        const velden = [...formulier.querySelectorAll('input[type="text"]')];
+        velden.forEach((v, i) => { v.enterKeyHint = i === velden.length - 1 ? 'done' : 'next'; });
+    }
+    // Velden die pas later verschijnen of verdwijnen (een aangevinkte post): bij focus opnieuw.
+    wortel.addEventListener('focusin', (e) => {
+        const formulier = e.target.closest?.('form[data-scherm]');
+        if (!formulier || !e.target.matches('input[type="text"]')) return;
+        e.target.enterKeyHint = tekstvelden(formulier).at(-1) === e.target ? 'done' : 'next';
+    });
+    wortel.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' || !e.target.matches?.('input[type="text"]')) return;
+        const formulier = e.target.closest('form[data-scherm]');
+        if (!formulier) return;
+        const velden = tekstvelden(formulier);
+        const volgende = velden[velden.indexOf(e.target) + 1];
+        if (!volgende) return;   // het laatste veld: Enter verstuurt het scherm
+        e.preventDefault();
+        volgende.focus();
+    });
 
     function toon(naar, { direct = false } = {}) {
         const stand = String(naar);
@@ -31,7 +62,10 @@ export function maakSchermwissel({ wortel, kop, opStand = () => {}, voorWissel =
         };
         const focus = () => {
             const scherm = wortel.querySelector(`form[data-scherm="${stand}"]`);
-            (scherm?.querySelector('input:not([type=radio]):not([type=range]):not([type=checkbox])') ?? scherm?.querySelector('input') ?? kop).focus({ preventScroll: true });
+            const titel = scherm?.querySelector('h2');
+            if (titel) titel.tabIndex = -1;
+            const veld = scherm?.querySelector('input:not([type=radio]):not([type=range]):not([type=checkbox])') ?? scherm?.querySelector('input');
+            ((aanraak ? titel : veld) ?? titel ?? kop).focus({ preventScroll: true });
             scrollTo({ top: 0, behavior: stil ? 'auto' : 'smooth' });
         };
         if (direct) { wissel(); return; }
