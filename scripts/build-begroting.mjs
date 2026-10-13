@@ -108,7 +108,12 @@ const html = `<!DOCTYPE html>
     <meta property="og:title" content="Verbouwbegroting maken | Wat mag uit het bouwdepot?">
     <meta property="og:description" content="Stel je verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel je zelf betaalt. Met een specificatie voor je adviseur.">
     <meta property="og:url" content="${SITE}/${BESTAND}">
-    <meta name="twitter:card" content="summary">
+    <meta property="og:image" content="https://www.bouwdepotcalculator.nl/og-1200x630.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="BouwdepotCalculator.nl: reken je bouwdepot door, voor nieuwbouw en verbouwen">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://www.bouwdepotcalculator.nl/og-1200x630.png">
     <meta name="twitter:title" content="Verbouwbegroting maken | Wat mag uit het bouwdepot?">
     <meta name="twitter:description" content="Stel je verbouwbegroting samen en zie welk deel uit het bouwdepot mag en welk deel je zelf betaalt. Met een specificatie voor je adviseur.">
 

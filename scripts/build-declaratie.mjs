@@ -142,7 +142,12 @@ const html = `<!DOCTYPE html>
     <meta property="og:title" content="${TITEL}">
     <meta property="og:description" content="${OMSCHRIJVING}">
     <meta property="og:url" content="${SITE}/${BESTAND}">
-    <meta name="twitter:card" content="summary">
+    <meta property="og:image" content="https://www.bouwdepotcalculator.nl/og-1200x630.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="BouwdepotCalculator.nl: reken je bouwdepot door, voor nieuwbouw en verbouwen">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://www.bouwdepotcalculator.nl/og-1200x630.png">
     <meta name="twitter:title" content="${TITEL}">
     <meta name="twitter:description" content="${OMSCHRIJVING}">
 

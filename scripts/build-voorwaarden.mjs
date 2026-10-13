@@ -308,7 +308,12 @@ function pagina({ bestand, titel, omschrijving, kruimel, inhoud, schema, script 
     <meta property="og:title" content="${esc(titel)}">
     <meta property="og:description" content="${esc(omschrijving)}">
     <meta property="og:url" content="${SITE}/${bestand}">
-    <meta name="twitter:card" content="summary">
+    <meta property="og:image" content="https://www.bouwdepotcalculator.nl/og-1200x630.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="BouwdepotCalculator.nl: reken je bouwdepot door, voor nieuwbouw en verbouwen">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://www.bouwdepotcalculator.nl/og-1200x630.png">
     <meta name="twitter:title" content="${esc(titel)}">
     <meta name="twitter:description" content="${esc(omschrijving)}">
 

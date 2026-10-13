@@ -88,3 +88,28 @@ test('geen twee pagina\'s delen een titel of omschrijving', () => {
     }
     assert.deepEqual(botsingen, [], `Google ziet deze pagina's als dubbel:\n    ${botsingen.join('\n    ')}`);
 });
+
+/**
+ * De afbeelding op de kaart. Zonder afbeelding toont een gedeelde link alleen
+ * tekst; met een afbeelding die niet bestaat of leeg is toont hij een grijs
+ * vlak. Het bestand stond hier een tijd als leeg bestand van nul bytes, zonder
+ * dat een pagina ernaar verwees. Vandaar: elke pagina verwijst ernaar, en het
+ * is echt een PNG van 1200 bij 630.
+ */
+test('elke pagina deelt met dezelfde afbeelding, en die bestaat', () => {
+    const BEELD = 'https://www.bouwdepotcalculator.nl/og-1200x630.png';
+    const mist = [];
+    for (const bestand of paginas) {
+        const html = fs.readFileSync(path.join(ROOT, bestand), 'utf8');
+        if (haal(html, /<meta property="og:image" content="([^"]*)">/) !== BEELD) mist.push(`${bestand}: og:image`);
+        if (haal(html, /<meta name="twitter:image" content="([^"]*)">/) !== BEELD) mist.push(`${bestand}: twitter:image`);
+        if (haal(html, /<meta name="twitter:card" content="([^"]*)">/) !== 'summary_large_image') mist.push(`${bestand}: twitter:card`);
+        if (!haal(html, /<meta property="og:image:alt" content="([^"]+)">/)) mist.push(`${bestand}: og:image:alt`);
+    }
+    assert.deepEqual(mist, [], `zonder afbeelding:\n    ${mist.join('\n    ')}`);
+
+    const png = fs.readFileSync(path.join(ROOT, 'public/og-1200x630.png'));
+    assert.equal(png.readUInt32BE(0), 0x89504E47, 'een PNG');
+    assert.deepEqual([png.readUInt32BE(16), png.readUInt32BE(20)], [1200, 630], 'de maat die de naam belooft');
+    assert.ok(png.length > 20000 && png.length < 400000, `een redelijke bestandsgrootte, nu ${png.length} bytes`);
+});
