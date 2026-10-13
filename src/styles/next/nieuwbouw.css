@@ -168,6 +168,13 @@ body[data-nb="klaar"] #invoer { grid-area: auto; }
 body[data-nb="klaar"] #invoer > .wr-paneel__kop { display: none; }
 body[data-nb="klaar"]:not(.nb-open) #invoer { display: none; }
 body[data-nb="klaar"].nb-open .nb-samen .wr-dl { display: none; }
+/* Op een smal scherm staat "Nog te controleren" ver onder het grote bedrag;
+   daar wijst één regel in de uitkomst ernaar. */
+.nb-aannamehint { display: none; }
+@media (max-width: 959px) {
+    body[data-nb="klaar"] .wr-uitkomst .nb-aannamehint { display: block; margin-top: 1rem; font-size: 0.9375rem; }
+    .wr-uitkomst .nb-aannamehint a { color: inherit; text-underline-offset: 0.3em; }
+}
 .nb-samen .wr-paneel__kop { margin-bottom: 0; }
 .nb-samen .wr-dl { column-gap: 0; }
 .nb-samen .wr-dl dd { font-weight: 500; padding-left: 1rem; }

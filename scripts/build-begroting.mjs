@@ -17,6 +17,8 @@ import fs from 'fs';
 import path from 'path';
 import { headerHtml } from './build-header.mjs';
 import { stappenHtml, SAMENVATTING, CONTROLE, POSTENLIJST } from './verbouw-stappen.mjs';
+import { maakXlsx } from '../src/js/xlsx.js';
+import { begrotingsblad } from '../src/verbouwen/begrotingsblad.js';
 import { MODELLEN, geometrie, svgInhoud } from '../src/homepage/tekening.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
@@ -163,6 +165,7 @@ ${stappenHtml(posten, { h1: 'Wat gaat je verbouwing kosten?', lead: 'Zet op een 
                         <div><dt>Ruimte in je woning</dt><dd class="tnum" id="lr-res-ruimte">&ndash;<small>woningwaarde min huidige hypotheek</small></dd></div>
                     </dl>
                     <p class="wr-uitkomst__noot">Je leenruimte op basis van de woningwaarde: een waardetoets, geen inkomenstoets. De hoofdregel is dat de totale hypotheek niet boven 100% van de woningwaarde uitkomt; wat je werkelijk kunt lenen hangt ook af van je inkomen en de beoordeling van de geldverstrekker.</p>
+                    <p class="nb-aannamehint wr-geen-print"><a href="#nb-controle-kop">Deze uitkomst rekent met twee aannames. Bekijk ze</a></p>
                 </section>
 
                 <!-- Op een breed scherm is het formulier veel langer dan de uitkomst.
@@ -285,6 +288,7 @@ ${categorieen}
                 <div class="wr-knoppen">
                     <a class="wr-knop wr-knop--licht" href="#leenruimte">Naar de berekening</a>
                     <button id="begroting-printen" class="wr-knop wr-knop--licht" type="button">Specificatie printen</button>
+                    <button id="begroting-excel" class="wr-knop wr-knop--licht" type="button">Download als Excel</button>
                     <button id="begroting-wissen" class="wr-knop wr-knop--licht" type="button">Wissen</button>
                 </div>
             </section>
@@ -302,6 +306,7 @@ ${categorieen}
                 <p>Een bouwdepot is bedoeld voor kwaliteitsverbetering van de woning. De praktische toets die vrijwel elke geldverstrekker hanteert: <strong>kun je het meenemen bij een verhuizing, dan hoort het er niet in</strong>. Een ingebouwde oven wel, een vrijstaande koelkast niet. Gelijmd parket wel, een losliggende vloer niet.</p>
                 <p>Van de ${totaalPosten} posten hierboven vallen er ${nietVast} doorgaans buiten het depot. Die staan gemarkeerd, zodat je er eigen geld voor kunt reserveren in plaats van er tijdens de verbouwing achter te komen.</p>
                 <p>Twijfel je over een post, vraag het dan schriftelijk na bij je geldverstrekker en bewaar het antwoord. Zie ook <a href="bouwdepot-declaratie-afgewezen.html">waarom declaraties worden afgewezen</a>.</p>
+                <p>Liever in Excel? Download het <a href="/downloads/verbouwbegroting-template.xlsx" download>lege begrotingstemplate</a>: dezelfde ${totaalPosten} posten met erbij of ze uit het depot mogen, en totalen die meerekenen. Heb je de stappen hierboven ingevuld, dan geeft "Download als Excel" bij je begroting hetzelfde blad met jouw bedragen erin.</p>
             </div>
         </section>
 
@@ -389,6 +394,12 @@ ${categorieen}
 `;
 
 fs.writeFileSync(path.join(ROOT, BESTAND), html);
+
+// Het lege template voor Excel: dezelfde posten, zonder bedragen. Zelfde
+// opbouw als het bestand dat de pagina maakt van een ingevulde begroting.
+const TEMPLATE = 'public/downloads/verbouwbegroting-template.xlsx';
+fs.mkdirSync(path.join(ROOT, path.dirname(TEMPLATE)), { recursive: true });
+fs.writeFileSync(path.join(ROOT, TEMPLATE), maakXlsx(begrotingsblad(posten.categorieen)));
 console.log(`${BESTAND} gegenereerd`);
 console.log(`  ${posten.categorieen.length} categorieen, ${totaalPosten} posten`);
 console.log(`  ${nietVast} posten gemarkeerd als eigen geld`);

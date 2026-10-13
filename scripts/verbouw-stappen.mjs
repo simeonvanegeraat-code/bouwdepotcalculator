@@ -13,6 +13,8 @@
  * src/styles/next/verbouwen.css.
  */
 
+import { huisSvg } from './verbouw-huis.mjs';
+
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 // Wat er op een tegel onder de naam van de categorie staat. Een categorie die
@@ -26,70 +28,6 @@ const KORT = {
   overig: 'Vergunning, opslag, tijdelijke kosten',
 };
 
-/**
- * De doorsnede van een huis naast de vragen. Elke categorie heeft er een eigen
- * plek in (data-zone); wat de bezoeker aanvinkt, licht op. Puur versiering:
- * aria-hidden, en op een smal scherm staat hij er niet.
- */
-const HUIS = `<svg viewBox="0 0 420 400" focusable="false">
-                    <rect class="vb-h-gras" x="0" y="330" width="420" height="16" rx="8"/>
-                    <!-- buiten: boom, heg en pad -->
-                    <g class="vb-zone" data-zone="buiten">
-                        <rect class="vb-h-detail" x="34" y="262" width="6" height="68"/>
-                        <circle class="vb-h-detail vb-h-groen" cx="37" cy="246" r="26"/>
-                        <rect class="vb-h-detail vb-h-groen" x="2" y="312" width="66" height="18" rx="6"/>
-                    </g>
-                    <!-- verduurzaming: warmtepomp buiten, zonnepanelen op het dak -->
-                    <g class="vb-zone" data-zone="verduurzaming">
-                        <rect class="vb-h-detail vb-h-accent" x="72" y="302" width="22" height="28" rx="3"/>
-                        <circle class="vb-h-detail vb-h-wit" cx="83" cy="316" r="7"/>
-                        <polygon class="vb-h-detail vb-h-accent" points="236,96 286,134 268,134 222,100"/>
-                        <polygon class="vb-h-detail vb-h-accent" points="216,82 232,94 218,98 204,88"/>
-                    </g>
-                    <!-- afbouw: woonkamer en slaapkamer -->
-                    <g class="vb-zone" data-zone="afbouw">
-                        <rect class="vb-h-kamer" x="100" y="232" width="100" height="98"/>
-                        <rect class="vb-h-kamer" x="100" y="142" width="100" height="90"/>
-                        <rect class="vb-h-detail vb-h-accent" x="100" y="322" width="100" height="8"/>
-                        <rect class="vb-h-detail" x="116" y="296" width="52" height="22" rx="5"/>
-                        <line class="vb-h-detail vb-h-lijn" x1="150" y1="232" x2="150" y2="252"/>
-                        <circle class="vb-h-detail vb-h-accent" cx="150" cy="258" r="7"/>
-                        <rect class="vb-h-detail" x="112" y="206" width="60" height="18" rx="4"/>
-                        <rect class="vb-h-detail vb-h-wit" x="116" y="158" width="30" height="30"/>
-                    </g>
-                    <!-- keuken en badkamer -->
-                    <g class="vb-zone" data-zone="keuken-badkamer">
-                        <rect class="vb-h-kamer" x="200" y="232" width="100" height="98"/>
-                        <rect class="vb-h-kamer" x="200" y="142" width="100" height="90"/>
-                        <rect class="vb-h-detail" x="214" y="292" width="72" height="38"/>
-                        <rect class="vb-h-detail vb-h-accent" x="214" y="286" width="72" height="7"/>
-                        <rect class="vb-h-detail" x="232" y="244" width="36" height="14"/>
-                        <path class="vb-h-detail vb-h-wit" d="M214 198 h70 v10 a14 14 0 0 1 -14 14 h-42 a14 14 0 0 1 -14 -14 z"/>
-                        <line class="vb-h-detail vb-h-lijn" x1="280" y1="198" x2="280" y2="172"/>
-                    </g>
-                    <!-- ruwbouw: uitbouw en dakkapel -->
-                    <g class="vb-zone" data-zone="ruwbouw">
-                        <rect class="vb-h-kamer vb-h-nieuw" x="300" y="258" width="76" height="72"/>
-                        <rect class="vb-h-detail" x="296" y="250" width="86" height="9"/>
-                        <rect class="vb-h-detail vb-h-wit" x="318" y="278" width="40" height="52"/>
-                        <rect class="vb-h-kamer vb-h-nieuw" x="124" y="92" width="44" height="34"/>
-                        <rect class="vb-h-detail" x="120" y="86" width="52" height="7"/>
-                        <rect class="vb-h-detail vb-h-wit" x="132" y="100" width="28" height="20"/>
-                    </g>
-                    <!-- overig: het bouwbord voor de deur -->
-                    <g class="vb-zone" data-zone="overig">
-                        <rect class="vb-h-detail" x="392" y="296" width="4" height="34"/>
-                        <rect class="vb-h-detail vb-h-wit" x="378" y="276" width="34" height="24" rx="2"/>
-                        <line class="vb-h-detail vb-h-lijn" x1="384" y1="284" x2="406" y2="284"/>
-                        <line class="vb-h-detail vb-h-lijn" x1="384" y1="291" x2="400" y2="291"/>
-                    </g>
-                    <!-- het huis zelf: altijd te zien -->
-                    <polyline class="vb-h-muur" points="100,330 100,142 300,142 300,330"/>
-                    <line class="vb-h-muur" x1="100" y1="232" x2="300" y2="232"/>
-                    <line class="vb-h-muur vb-h-muur--dun" x1="200" y1="142" x2="200" y2="330"/>
-                    <polygon class="vb-h-dak" points="84,142 200,62 316,142"/>
-                    <line class="vb-h-muur" x1="0" y1="330" x2="420" y2="330"/>
-                </svg>`;
 
 const knoppen = (laatste = false) => `<p class="nb-fout" role="alert" data-st-fout></p>
                     <p class="nb-knoppen"><button class="nb-link" type="button" data-vb-terug>Terug</button><button class="wr-knop wr-knop--vol" type="submit">${laatste ? 'Toon mijn overzicht' : 'Volgende'}</button></p>`;
@@ -132,7 +70,7 @@ ${c.posten.map((p) => `                        <div class="vb-post" data-vb-post
 
         <div class="wr-wrap nb wr-geen-print" data-stappen>
             <figure class="nb-bouw vb-huis" aria-hidden="true">
-                ${HUIS}
+                ${huisSvg(posten.categorieen.map((c) => c.id))}
             </figure>
 
             <div class="nb-paneel">

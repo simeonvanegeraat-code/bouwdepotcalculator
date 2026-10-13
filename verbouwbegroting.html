@@ -175,64 +175,30 @@
 
         <div class="wr-wrap nb wr-geen-print" data-stappen>
             <figure class="nb-bouw vb-huis" aria-hidden="true">
-                <svg viewBox="0 0 420 400" focusable="false">
-                    <rect class="vb-h-gras" x="0" y="330" width="420" height="16" rx="8"/>
-                    <!-- buiten: boom, heg en pad -->
-                    <g class="vb-zone" data-zone="buiten">
-                        <rect class="vb-h-detail" x="34" y="262" width="6" height="68"/>
-                        <circle class="vb-h-detail vb-h-groen" cx="37" cy="246" r="26"/>
-                        <rect class="vb-h-detail vb-h-groen" x="2" y="312" width="66" height="18" rx="6"/>
+                <svg viewBox="-4 30 448 330" focusable="false">
+                    <circle class="vb-h-zon" cx="384" cy="74" r="20"/>
+                    <rect class="vb-h-gras" x="-4" y="332" width="448" height="18" rx="9"/>
+                    <!-- wat er nu staat, vaag: zo is het huis niet leeg voor je iets aanvinkt -->
+                    <g class="vb-h-basis">
+                        <rect x="118" y="302" width="64" height="20" rx="6"/><rect x="118" y="214" width="70" height="18" rx="3"/>
+                        <rect x="220" y="300" width="82" height="32"/><path d="M220 206 h74 v8 a14 14 0 0 1 -14 14 h-46 a14 14 0 0 1 -14 -14 z"/>
                     </g>
-                    <!-- verduurzaming: warmtepomp buiten, zonnepanelen op het dak -->
-                    <g class="vb-zone" data-zone="verduurzaming">
-                        <rect class="vb-h-detail vb-h-accent" x="72" y="302" width="22" height="28" rx="3"/>
-                        <circle class="vb-h-detail vb-h-wit" cx="83" cy="316" r="7"/>
-                        <polygon class="vb-h-detail vb-h-accent" points="236,96 286,134 268,134 222,100"/>
-                        <polygon class="vb-h-detail vb-h-accent" points="216,82 232,94 218,98 204,88"/>
-                    </g>
-                    <!-- afbouw: woonkamer en slaapkamer -->
-                    <g class="vb-zone" data-zone="afbouw">
-                        <rect class="vb-h-kamer" x="100" y="232" width="100" height="98"/>
-                        <rect class="vb-h-kamer" x="100" y="142" width="100" height="90"/>
-                        <rect class="vb-h-detail vb-h-accent" x="100" y="322" width="100" height="8"/>
-                        <rect class="vb-h-detail" x="116" y="296" width="52" height="22" rx="5"/>
-                        <line class="vb-h-detail vb-h-lijn" x1="150" y1="232" x2="150" y2="252"/>
-                        <circle class="vb-h-detail vb-h-accent" cx="150" cy="258" r="7"/>
-                        <rect class="vb-h-detail" x="112" y="206" width="60" height="18" rx="4"/>
-                        <rect class="vb-h-detail vb-h-wit" x="116" y="158" width="30" height="30"/>
-                    </g>
-                    <!-- keuken en badkamer -->
-                    <g class="vb-zone" data-zone="keuken-badkamer">
-                        <rect class="vb-h-kamer" x="200" y="232" width="100" height="98"/>
-                        <rect class="vb-h-kamer" x="200" y="142" width="100" height="90"/>
-                        <rect class="vb-h-detail" x="214" y="292" width="72" height="38"/>
-                        <rect class="vb-h-detail vb-h-accent" x="214" y="286" width="72" height="7"/>
-                        <rect class="vb-h-detail" x="232" y="244" width="36" height="14"/>
-                        <path class="vb-h-detail vb-h-wit" d="M214 198 h70 v10 a14 14 0 0 1 -14 14 h-42 a14 14 0 0 1 -14 -14 z"/>
-                        <line class="vb-h-detail vb-h-lijn" x1="280" y1="198" x2="280" y2="172"/>
-                    </g>
-                    <!-- ruwbouw: uitbouw en dakkapel -->
-                    <g class="vb-zone" data-zone="ruwbouw">
-                        <rect class="vb-h-kamer vb-h-nieuw" x="300" y="258" width="76" height="72"/>
-                        <rect class="vb-h-detail" x="296" y="250" width="86" height="9"/>
-                        <rect class="vb-h-detail vb-h-wit" x="318" y="278" width="40" height="52"/>
-                        <rect class="vb-h-kamer vb-h-nieuw" x="124" y="92" width="44" height="34"/>
-                        <rect class="vb-h-detail" x="120" y="86" width="52" height="7"/>
-                        <rect class="vb-h-detail vb-h-wit" x="132" y="100" width="28" height="20"/>
-                    </g>
-                    <!-- overig: het bouwbord voor de deur -->
-                    <g class="vb-zone" data-zone="overig">
-                        <rect class="vb-h-detail" x="392" y="296" width="4" height="34"/>
-                        <rect class="vb-h-detail vb-h-wit" x="378" y="276" width="34" height="24" rx="2"/>
-                        <line class="vb-h-detail vb-h-lijn" x1="384" y1="284" x2="406" y2="284"/>
-                        <line class="vb-h-detail vb-h-lijn" x1="384" y1="291" x2="400" y2="291"/>
-                    </g>
-                    <!-- het huis zelf: altijd te zien -->
-                    <polyline class="vb-h-muur" points="100,330 100,142 300,142 300,330"/>
-                    <line class="vb-h-muur" x1="100" y1="232" x2="300" y2="232"/>
-                    <line class="vb-h-muur vb-h-muur--dun" x1="200" y1="142" x2="200" y2="330"/>
-                    <polygon class="vb-h-dak" points="84,142 200,62 316,142"/>
-                    <line class="vb-h-muur" x1="0" y1="330" x2="420" y2="330"/>
+                    <!-- de schoorsteen rookt een beetje -->
+                    <polygon class="vb-h-schoorsteen" points="226,54 240,54 240,88 226,78"/>
+                    <circle class="vb-h-rook" cx="233" cy="46" r="5" style="--r:0"/><circle class="vb-h-rook" cx="233" cy="46" r="5" style="--r:1"/><circle class="vb-h-rook" cx="233" cy="46" r="5" style="--r:2"/>
+                    <g class="vb-zone" data-zone="ruwbouw" style="--z:0"><rect class="vb-h-kamer vb-h-nieuw" x="312" y="262" width="74" height="70"/><rect class="vb-h-detail vb-h-donker" style="--i:0" x="306" y="254" width="86" height="9" rx="1"/><rect class="vb-h-detail vb-h-wit" style="--i:1" x="326" y="280" width="46" height="52"/><line class="vb-h-detail vb-h-lijn" style="--i:2" x1="349" y1="280" x2="349" y2="332"/><rect class="vb-h-detail vb-h-accent" style="--i:3" x="340" y="250" width="22" height="5" rx="1"/><rect class="vb-h-kamer vb-h-nieuw" x="138" y="104" width="46" height="38"/><rect class="vb-h-detail vb-h-donker" style="--i:1" x="133" y="98" width="56" height="7" rx="1"/><rect class="vb-h-detail vb-h-wit" style="--i:2" x="146" y="112" width="30" height="22"/><line class="vb-h-detail vb-h-lijn" style="--i:3" x1="161" y1="112" x2="161" y2="134"/></g>
+                    <g class="vb-zone" data-zone="keuken-badkamer" style="--z:1"><rect class="vb-h-kamer" x="212" y="242" width="96" height="90"/><rect class="vb-h-kamer vb-h-kamer--tegels" x="212" y="152" width="96" height="88"/><rect class="vb-h-detail" style="--i:0" x="220" y="300" width="82" height="32"/><rect class="vb-h-detail vb-h-accent" style="--i:1" x="218" y="294" width="86" height="7" rx="1"/><line class="vb-h-detail vb-h-lijn vb-h-lijn--licht" style="--i:2" x1="247" y1="304" x2="247" y2="330"/><line class="vb-h-detail vb-h-lijn vb-h-lijn--licht" style="--i:2" x1="274" y1="304" x2="274" y2="330"/><rect class="vb-h-detail vb-h-licht" style="--i:3" x="220" y="252" width="50" height="20" rx="1"/><polygon class="vb-h-detail vb-h-donker" style="--i:4" points="276,252 302,252 297,268 281,268"/><path class="vb-h-detail vb-h-lijn" style="--i:5" d="M258 294 v-10 q0 -5 6 -5"/><path class="vb-h-detail vb-h-wit" style="--i:0" d="M220 206 h74 v8 a14 14 0 0 1 -14 14 h-46 a14 14 0 0 1 -14 -14 z"/><path class="vb-h-detail vb-h-lijn" style="--i:1" d="M298 206 v-40 h-12"/><rect class="vb-h-detail vb-h-accent" style="--i:2" x="278" y="164" width="12" height="5" rx="2"/><g class="vb-h-detail vb-h-druppels" style="--i:3"><line class="vb-h-lijn vb-h-lijn--water" x1="281" y1="174" x2="281" y2="200"/><line class="vb-h-lijn vb-h-lijn--water" x1="287" y1="174" x2="287" y2="200"/></g><rect class="vb-h-detail vb-h-wit" style="--i:3" x="224" y="162" width="22" height="28" rx="11"/><rect class="vb-h-detail vb-h-accent" style="--i:4" x="222" y="194" width="26" height="6" rx="2"/></g>
+                    <g class="vb-zone" data-zone="afbouw" style="--z:2"><rect class="vb-h-kamer" x="112" y="242" width="96" height="90"/><rect class="vb-h-kamer" x="112" y="152" width="96" height="88"/><rect class="vb-h-detail vb-h-accent" style="--i:0" x="112" y="324" width="96" height="8"/><rect class="vb-h-detail vb-h-accent" style="--i:0" x="112" y="234" width="96" height="6"/><rect class="vb-h-detail vb-h-licht" style="--i:1" x="120" y="290" width="60" height="16" rx="6"/><rect class="vb-h-detail" style="--i:2" x="118" y="302" width="64" height="20" rx="6"/><rect class="vb-h-detail vb-h-wit" style="--i:3" x="128" y="256" width="28" height="20" rx="1"/><circle class="vb-h-detail vb-h-accent" style="--i:3" cx="142" cy="266" r="5"/><line class="vb-h-detail vb-h-lijn" style="--i:4" x1="194" y1="322" x2="194" y2="274"/><polygon class="vb-h-detail vb-h-accent" style="--i:5" points="185,276 203,276 199,262 189,262"/><rect class="vb-h-detail" style="--i:1" x="118" y="214" width="70" height="18" rx="3"/><rect class="vb-h-detail vb-h-wit" style="--i:2" x="122" y="206" width="20" height="11" rx="3"/><rect class="vb-h-detail vb-h-groen" style="--i:3" x="146" y="210" width="42" height="10" rx="2"/><rect class="vb-h-detail vb-h-wit" style="--i:4" x="126" y="164" width="36" height="30"/><line class="vb-h-detail vb-h-lijn" style="--i:5" x1="144" y1="164" x2="144" y2="194"/><rect class="vb-h-detail vb-h-accent" style="--i:5" x="122" y="160" width="8" height="38" rx="2"/><rect class="vb-h-detail vb-h-accent" style="--i:5" x="158" y="160" width="8" height="38" rx="2"/><line class="vb-h-detail vb-h-lijn" style="--i:6" x1="192" y1="152" x2="192" y2="166"/><circle class="vb-h-detail vb-h-accent" style="--i:6" cx="192" cy="171" r="5"/></g>
+                    <g class="vb-zone" data-zone="verduurzaming" style="--z:3"><rect class="vb-h-detail vb-h-wit" style="--i:0" x="56" y="300" width="30" height="32" rx="3"/><g class="vb-h-detail" style="--i:1"><circle class="vb-h-lijn" cx="71" cy="316" r="9"/><g class="vb-h-draai"><line class="vb-h-lijn" x1="71" y1="308" x2="71" y2="324"/><line class="vb-h-lijn" x1="63" y1="316" x2="79" y2="316"/></g></g><line class="vb-h-detail vb-h-lijn" style="--i:2" x1="86" y1="322" x2="110" y2="322"/><polyline class="vb-h-detail vb-h-lijn vb-h-lijn--accent" style="--i:3" points="118,146 126,138 134,146 142,138 150,146 158,138 166,146 174,138 182,146 190,138 198,146 206,138 214,146 222,138 230,146 238,138 246,146 254,138 262,146 270,138 278,146 286,138 294,146 302,138"/><g transform="translate(210 64) rotate(36.1)"><rect class="vb-h-detail vb-h-accent" style="--i:4" x="60" y="-11" width="40" height="7" rx="1"/><rect class="vb-h-detail vb-h-accent" style="--i:5" x="104" y="-11" width="40" height="7" rx="1"/><line class="vb-h-detail vb-h-lijn" style="--i:6" x1="80" y1="-11" x2="80" y2="-4"/><line class="vb-h-detail vb-h-lijn" style="--i:6" x1="124" y1="-11" x2="124" y2="-4"/></g></g>
+                    <g class="vb-zone" data-zone="buiten" style="--z:4"><rect class="vb-h-detail vb-h-hout" style="--i:0" x="21" y="268" width="7" height="64"/><circle class="vb-h-detail vb-h-groen" style="--i:1" cx="25" cy="248" r="24"/><circle class="vb-h-detail vb-h-groen" style="--i:2" cx="11" cy="262" r="13"/><circle class="vb-h-detail vb-h-groen" style="--i:2" cx="40" cy="264" r="13"/><rect class="vb-h-detail vb-h-groen" style="--i:3" x="2" y="314" width="46" height="18" rx="7"/><rect class="vb-h-detail vb-h-accent" style="--i:4" x="388" y="327" width="50" height="5" rx="1"/><line class="vb-h-detail vb-h-lijn" style="--i:5" x1="414" y1="327" x2="414" y2="288"/><path class="vb-h-detail vb-h-accent" style="--i:6" d="M392 290 q22 -26 44 0 z"/></g>
+                    <g class="vb-zone" data-zone="overig" style="--z:5"><line class="vb-h-detail vb-h-lijn" style="--i:0" x1="94" y1="332" x2="94" y2="158"/><line class="vb-h-detail vb-h-lijn" style="--i:0" x1="106" y1="332" x2="106" y2="158"/><rect class="vb-h-detail vb-h-hout" style="--i:1" x="90" y="238" width="20" height="4"/><rect class="vb-h-detail vb-h-hout" style="--i:2" x="90" y="190" width="20" height="4"/><line class="vb-h-detail vb-h-lijn" style="--i:3" x1="94" y1="332" x2="106" y2="242"/><line class="vb-h-detail vb-h-lijn" style="--i:3" x1="94" y1="238" x2="106" y2="194"/><rect class="vb-h-detail vb-h-wit" style="--i:4" x="92" y="262" width="16" height="20" rx="1.5"/><line class="vb-h-detail vb-h-lijn" style="--i:5" x1="95" y1="268" x2="105" y2="268"/><line class="vb-h-detail vb-h-lijn" style="--i:5" x1="95" y1="273" x2="102" y2="273"/></g>
+                    <!-- het huis zelf: altijd te zien, bovenop de kamers -->
+                    <rect class="vb-h-muur" x="110" y="150" width="200" height="182"/>
+                    <line class="vb-h-muur" x1="110" y1="240" x2="310" y2="240"/>
+                    <line class="vb-h-muur vb-h-muur--dun" x1="210" y1="150" x2="210" y2="332"/>
+                    <polygon class="vb-h-dak" points="90,150 210,62 330,150 318,150 210,76 102,150"/>
+                    <circle class="vb-h-wit" cx="210" cy="118" r="9"/>
+                    <line class="vb-h-muur" x1="-4" y1="332" x2="444" y2="332"/>
                 </svg>
             </figure>
 
@@ -584,6 +550,7 @@
                         <div><dt>Ruimte in je woning</dt><dd class="tnum" id="lr-res-ruimte">&ndash;<small>woningwaarde min huidige hypotheek</small></dd></div>
                     </dl>
                     <p class="wr-uitkomst__noot">Je leenruimte op basis van de woningwaarde: een waardetoets, geen inkomenstoets. De hoofdregel is dat de totale hypotheek niet boven 100% van de woningwaarde uitkomt; wat je werkelijk kunt lenen hangt ook af van je inkomen en de beoordeling van de geldverstrekker.</p>
+                    <p class="nb-aannamehint wr-geen-print"><a href="#nb-controle-kop">Deze uitkomst rekent met twee aannames. Bekijk ze</a></p>
                 </section>
 
                 <!-- Op een breed scherm is het formulier veel langer dan de uitkomst.
@@ -1464,6 +1431,7 @@
                 <div class="wr-knoppen">
                     <a class="wr-knop wr-knop--licht" href="#leenruimte">Naar de berekening</a>
                     <button id="begroting-printen" class="wr-knop wr-knop--licht" type="button">Specificatie printen</button>
+                    <button id="begroting-excel" class="wr-knop wr-knop--licht" type="button">Download als Excel</button>
                     <button id="begroting-wissen" class="wr-knop wr-knop--licht" type="button">Wissen</button>
                 </div>
             </section>
@@ -1481,6 +1449,7 @@
                 <p>Een bouwdepot is bedoeld voor kwaliteitsverbetering van de woning. De praktische toets die vrijwel elke geldverstrekker hanteert: <strong>kun je het meenemen bij een verhuizing, dan hoort het er niet in</strong>. Een ingebouwde oven wel, een vrijstaande koelkast niet. Gelijmd parket wel, een losliggende vloer niet.</p>
                 <p>Van de 34 posten hierboven vallen er 8 doorgaans buiten het depot. Die staan gemarkeerd, zodat je er eigen geld voor kunt reserveren in plaats van er tijdens de verbouwing achter te komen.</p>
                 <p>Twijfel je over een post, vraag het dan schriftelijk na bij je geldverstrekker en bewaar het antwoord. Zie ook <a href="bouwdepot-declaratie-afgewezen.html">waarom declaraties worden afgewezen</a>.</p>
+                <p>Liever in Excel? Download het <a href="/downloads/verbouwbegroting-template.xlsx" download>lege begrotingstemplate</a>: dezelfde 34 posten met erbij of ze uit het depot mogen, en totalen die meerekenen. Heb je de stappen hierboven ingevuld, dan geeft "Download als Excel" bij je begroting hetzelfde blad met jouw bedragen erin.</p>
             </div>
         </section>
 

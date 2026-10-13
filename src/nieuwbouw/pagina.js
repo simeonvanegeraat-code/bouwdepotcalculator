@@ -403,6 +403,23 @@ function initNieuwbouw() {
     el('reset-scenario-btn').addEventListener('click', () => { veld.vertraging.value = '0'; schuifVertraging.value = 0; reken(); });
 
 
+    // De maandtabel als werkblad voor Excel: hetzelfde rapport als de afdruk,
+    // dus dezelfde maandregels. De code wordt pas opgehaald als iemand erom vraagt.
+    el('btn-excel').addEventListener('click', async () => {
+        if (!printknop.dataset.report) return;
+        const rapport = JSON.parse(printknop.dataset.report);
+        const [{ maandblad }, { maakXlsx }] = await Promise.all([import('./maandblad.js'), import('../js/xlsx.js')]);
+        const invoer = [...uit.aannames.querySelectorAll('dt')].map((dt) => [dt.textContent, dt.nextElementSibling.textContent]);
+        const bestand = maakXlsx(maandblad({ tabel: rapport.tables[0], toelichting: rapport.assumptions }, invoer));
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(new Blob([bestand], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+        link.download = 'nieuwbouwplanning.xlsx';
+        document.body.append(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(link.href), 10000);
+    });
+
     // Op een telefoon is de tabel compact; deze knop zet alle kolommen terug,
     // en dan schuift de tabel opzij.
     const kolomknop = el('tabel-kolommen');

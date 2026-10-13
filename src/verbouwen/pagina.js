@@ -503,6 +503,35 @@ function initVerbouwen() {
     });
     el('begroting-printen').addEventListener('click', () => window.print());
 
+    // De begroting als werkblad voor Excel, met de bedragen van nu erin. De
+    // code daarvoor wordt pas opgehaald als iemand erom vraagt. De posten komen
+    // uit het formulier zelf, dus het blad heeft altijd dezelfde regels.
+    el('begroting-excel').addEventListener('click', async () => {
+        const [{ begrotingsblad }, { maakXlsx }] = await Promise.all([import('./begrotingsblad.js'), import('../js/xlsx.js')]);
+        const categorieen = [...wortel.querySelectorAll('.wr-cat:not([data-cat="eigen"])')].map((cat) => ({
+            naam: cat.querySelector('h3').textContent,
+            posten: [...cat.querySelectorAll('[data-post]')].map((veld) => ({
+                id: veld.dataset.post, naam: veld.closest('.wr-post').querySelector('label').textContent, vastAanWoning: veld.dataset.vast === 'true',
+            })),
+        }));
+        const posten = {};
+        for (const veld of bedragVelden) {
+            const bedrag = leesGetal(veld.value);
+            if (bedrag > 0 && bedrag <= MAX_PER_POST) posten[veld.dataset.post] = { bedrag, prioriteit: prioriteitVan(veld.dataset.post)?.value };
+        }
+        const eigen = eigenPosten
+            .map((p, i) => ({ naam: p.naam.trim() || `Eigen post ${i + 1}`, bedrag: leesGetal(p.bedrag) ?? 0, vast: p.vast, prioriteit: p.prioriteit }))
+            .filter((p) => p.bedrag > 0 && p.bedrag <= MAX_PER_POST);
+        const bestand = maakXlsx(begrotingsblad(categorieen, { posten, eigen, reservePct: leesVeld(marge) ?? 10 }));
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(new Blob([bestand], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+        link.download = 'verbouwbegroting.xlsx';
+        document.body.append(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(link.href), 10000);
+    });
+
     el('lr-praktijkcase').addEventListener('click', () => {
         volgt = false;
         eigenCheck = false;

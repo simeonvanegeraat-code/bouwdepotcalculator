@@ -11,27 +11,48 @@
 /* Tijdens het invullen is de rekentool weg: één ding tegelijk. */
 body[data-nb]:not([data-nb="klaar"]) :is(#leenruimte, .vb-begrotingkop) { display: none; }
 
-/* --- De doorsnede van het huis naast de vragen --- */
+/* --- De doorsnede van het huis naast de vragen (scripts/verbouw-huis.mjs) --- */
 .nb-bouw.vb-huis svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .vb-h-gras { fill: var(--ui-sage-licht); }
-.vb-h-muur { fill: none; stroke: var(--ui-ink); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
-.vb-h-muur--dun { stroke-width: 1.5; }
-.vb-h-dak { fill: var(--ui-forest-diep); stroke: var(--ui-forest-diep); stroke-width: 3; stroke-linejoin: round; }
+.vb-h-zon { fill: var(--ui-champagne); opacity: 0.35; }
+.vb-h-muur { fill: none; stroke: var(--ui-ink); stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+.vb-h-muur--dun { stroke-width: 1.75; }
+.vb-h-dak, .vb-h-schoorsteen { fill: var(--ui-forest-diep); stroke: var(--ui-forest-diep); stroke-width: 2; stroke-linejoin: round; }
+/* Wat er nu staat: dunne contouren, die wijken zodra de kamer wordt aangepakt. */
+.vb-h-basis * { fill: none; stroke: var(--ui-ink); stroke-width: 1.25; stroke-dasharray: 3 3; opacity: 0.28; }
+/* Rook uit de schoorsteen: drie wolkjes na elkaar. */
+.vb-h-rook { fill: var(--ui-line); opacity: 0; animation: vb-rook 6s linear infinite; animation-delay: calc(var(--r) * 2s); }
+@keyframes vb-rook { 0% { opacity: 0; transform: translate(0, 0) scale(0.6); } 15% { opacity: 0.9; } 100% { opacity: 0; transform: translate(14px, -34px) scale(1.7); } }
+
 /* Een kamer is leeg tot het onderdeel is aangevinkt; dan kleurt hij en komt de inrichting erin. */
 .vb-h-kamer { fill: var(--ui-surface); transition: fill 0.4s ease; }
-.vb-h-nieuw { opacity: 0; stroke: var(--ui-ink); stroke-width: 3; transition: opacity 0.4s ease, fill 0.4s ease; }
-.vb-h-detail { fill: var(--ui-forest); opacity: 0; transform: translateY(8px); transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.3, 1.4, 0.5, 1); }
+.vb-h-nieuw { opacity: 0; stroke: var(--ui-ink); stroke-width: 3.5; stroke-linejoin: round; transition: opacity 0.4s ease, fill 0.4s ease; }
+.vb-h-detail { fill: var(--ui-forest); opacity: 0; transform: translateY(9px); transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.3, 1.5, 0.5, 1); }
 .vb-h-accent { fill: var(--ui-champagne); }
 .vb-h-groen { fill: var(--ui-sage); }
+.vb-h-licht { fill: #2F5F54; }
+.vb-h-donker { fill: var(--ui-forest-diep); }
+.vb-h-hout { fill: #A8855A; }
 .vb-h-wit { fill: var(--ui-surface); stroke: var(--ui-ink); stroke-width: 1.5; }
-.vb-h-lijn { fill: none; stroke: var(--ui-ink); stroke-width: 1.5; }
+.vb-h-lijn { fill: none; stroke: var(--ui-ink); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.vb-h-lijn--accent { stroke: var(--ui-champagne); stroke-width: 2.5; }
+.vb-h-lijn--licht { stroke: var(--ui-canvas); stroke-width: 1.25; }
+.vb-h-lijn--water { stroke: var(--ui-sage); stroke-dasharray: 3 5; animation: vb-water 0.9s linear infinite; }
+@keyframes vb-water { to { stroke-dashoffset: -16; } }
+/* De ventilator van de warmtepomp. */
+.vb-h-draai { transform-box: fill-box; transform-origin: center; animation: vb-draai 2.4s linear infinite; }
+@keyframes vb-draai { to { transform: rotate(360deg); } }
+
 .vb-zone { transition: opacity 0.35s ease; }
 .vb-zone.is-aan .vb-h-kamer { fill: #EEF3EF; }
+.vb-zone.is-aan .vb-h-kamer--tegels { fill: #E9F0F1; }
 .vb-zone.is-aan .vb-h-nieuw { opacity: 1; fill: #F6EEDF; }
-.vb-zone.is-aan .vb-h-detail { opacity: 1; transform: none; }
-/* Op het startscherm staat alles er vaag: zo ziet het huis er niet leeg uit. */
-body[data-nb="start"] .vb-zone .vb-h-detail { opacity: 0.3; transform: none; }
-body[data-nb="start"] .vb-zone .vb-h-nieuw { opacity: 0.3; }
+/* De onderdelen van een kamer komen na elkaar binnen. */
+.vb-zone.is-aan .vb-h-detail { opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * 70ms); }
+/* Op het startscherm gloeit om de beurt één onderdeel op: zo zie je wat er kan. */
+body[data-nb="start"] .vb-zone .vb-h-detail { opacity: 0.22; transform: none; animation: vb-gloei 9s ease-in-out infinite; animation-delay: calc(var(--z, 0) * 1.5s); }
+body[data-nb="start"] .vb-zone .vb-h-nieuw { opacity: 0.22; }
+@keyframes vb-gloei { 0%, 22%, 100% { opacity: 0.22; } 8%, 14% { opacity: 1; } }
 /* Bij de bedragen van één onderdeel treedt de rest terug. */
 .vb-huis.heeft-nu .vb-zone.is-aan:not(.is-nu) { opacity: 0.4; }
 
@@ -70,4 +91,5 @@ body[data-nb="klaar"] .vb-postendicht { display: block; }
 
 @media (prefers-reduced-motion: reduce) {
     .vb-h-kamer, .vb-h-nieuw, .vb-h-detail, .vb-zone, .vb-voortgang i { transition: none; }
+    .vb-h-rook, .vb-h-draai, .vb-h-lijn--water, body[data-nb="start"] .vb-zone .vb-h-detail { animation: none; }
 }
