@@ -1,25 +1,52 @@
 # Verbeterplan BouwdepotCalculator.nl
 
-**Datum:** 11 oktober 2026
-**Status:** goedgekeurd door de eigenaar op 11 oktober 2026; fase 0 en 1 lopen
+**Datum:** 11 oktober 2026, stand bijgewerkt op 13 oktober 2026
+**Status:** goedgekeurd door de eigenaar op 11 oktober 2026
 **Basis:** audit van de site, concurrentie-onderzoek, wijzigingsgeschiedenis van de bankdata en Search Console (9 juli t/m 8 oktober 2026)
 
 Dit plan vervangt de volgorde in `ROADMAP.md` niet vanzelf. Die roadmap ging over de herbouw; dit plan gaat over wat daarna komt. Keurt de eigenaar dit plan goed, dan hoort de roadmap ernaar te verwijzen of te worden bijgewerkt, zodat er geen twee plannen naast elkaar bestaan.
 
-## Stand op 11 oktober 2026
+**De volgorde ligt niet vast.** De fasen hieronder zijn een voorkeursvolgorde, geen afspraak. De eigenaar kiest per keer wat er gebouwd wordt, ook als dat buiten de volgorde of buiten het plan valt; dat is tot nu toe ook zo gegaan. Wat wel vaststaat: na elk stuk werk wordt de tabel hieronder bijgewerkt, zodat dit document blijft kloppen met de site. Werk dat niet in een fase past, komt onder "Buiten de fasen gebouwd".
+
+## Stand op 13 oktober 2026
+
+| Fase | Stand | Wat er nog ligt |
+|---|---|---|
+| 0. Meten en beschermen | Grotendeels klaar | De positie van de homepage op "bouwdepot berekenen" volgen tot 25 oktober (0.3) en de vier pagina's "gevonden, niet geïndexeerd" opzoeken (0.5). Beide bij de eigenaar |
+| 1. "Bouwdepot berekenen" winnen | Klaar | Niets. 1.2 is vervallen: de homepage blijft zoals hij is; het voorstel blijft het noodplan als de positie zakt |
+| 2. Nieuwbouw naar de eerste pagina | Grotendeels klaar | 2.1 is live als route in stappen (zie hieronder). Open: een uitgewerkt voorbeeld met bedragen (2.2) en de pagina's bouwrente en dubbele lasten laten doorverwijzen naar het hele plan (2.3). 2.4, het eigen verhaal, is door de eigenaar afgewezen |
+| 3. "Hoeveel bouwdepot kan ik krijgen" | Open | Alles. Begint met de keuze van 3.2: eigen pagina of een sterker deel van de verbouwbegroting. `/leenruimte.html` komt nu direct bij de rekentool uit, zonder startscherm |
+| 4. Vertrouwen | Deels | 4.3 is gedaan: de privacy- en cookiepagina noemen alle lokale opslag. Open: "Over ons" (4.1), de juridische vraag over naam en adres (4.2) en de voettekst (4.4) |
+| 5. Bankdata beheersbaar houden | Open | Alles. De data is laatst met de hand gecontroleerd op 19 augustus 2026. De wekelijkse bronbewaking draait en commit zelf naar `main` |
+| 6. Kwaliteit | Open | Alles. 6.1 en 6.5 wegen zwaarder dan toen het plan werd geschreven: de 3D-bouwplaats laadt nu ook op de telefoon (138 kB gezipt, na het tonen van de pagina) |
+| 7. AdSense | Wacht | Pas opnieuw aanvragen als fase 1 en 2 geïndexeerd zijn en de klikken per dag aantoonbaar gestegen zijn |
+
+### Wat er in fase 1 en 2 live staat
+
+- **Rekenpagina:** bedragentabel met renteschuif en keuze annuïtair of lineair (1.3); de tekst onder de tool herschreven met vier gezochte vragen (1.4).
+- **Nieuwbouw in stappen (2.1):** startscherm, vijf vragen, dan het overzicht. Meerwerk en meegefinancierde rente zitten in de stappen. Op het overzicht een samenvatting in plaats van het formulier, en "Nog te controleren" voor de depotrente en het termijnschema. Het termijnschema heeft een eigen scherm met percentages over de aanneemsom zonder meerwerk. Invoer blijft 90 dagen op het apparaat en kan als link worden gekopieerd.
+- **Bouwplaats:** een 3D-scene die per stap meegroeit, ook op de telefoon.
+
+### Buiten de fasen gebouwd
 
 | Onderdeel | Stand |
 |---|---|
-| Fase 0: meten en beschermen | Gedaan. Nulmeting in `metingen/`, analytics uit, 404-pagina en aanbiederpagina's live. Loopt nog: de positie van de homepage volgen tot 25 oktober (0.3) |
-| 1.1 Homepage tegenover rekenpagina | Gedaan. De homepage scoort door domeinnaam en titel; die zijn gelijk gebleven |
-| 1.2 Eén pagina kiezen | Vervallen. Een voorstel om de rekensom hoger op de homepage te zetten is door de eigenaar afgewezen; de homepage blijft zoals hij is. Het voorstel blijft het noodplan als de positie zakt |
-| 1.3 Bedragentabel | Live, met renteschuif, keuze annuïtair of lineair en een knop voor de lasten tijdens de verbouwing |
-| 1.4 Antwoorden op gezochte vragen | Live. De tekst onder de rekentool is herschreven en korter (1.796 naar 1.472 woorden), met vier vragen waar mensen op zoeken |
-| 1.5 Oude maandlastenpagina | Onderzocht, geen actie. De pagina leverde vijf klikken in drie maanden |
+| Verbouwroute in stappen | Live. Aanvinken wat je gaat doen, dan alleen daarvan de bedragen; daarna reserve, financiering en rente. De schermen komen uit `data/verbouwposten.json`. Met een getekende doorsnede van een huis |
+| Excel-download | Live. Leeg begrotingstemplate, de ingevulde begroting en de maandtabel van nieuwbouw, gemaakt op het apparaat van de bezoeker (`src/js/xlsx.js`, zonder bibliotheek). In Excel nagerekend |
+| Deelafbeelding | Live. Elke pagina deelt met `og-1200x630.png`; het vorige bestand was leeg |
+| Toetsenbord op de telefoon | Live. Na een schermwissel opent het toetsenbord niet vanzelf; Enter gaat naar het volgende veld |
+| Controle van de rekentools | Gedaan op 14 oktober: één situatie door alle rekenkernen. Ze spreken elkaar niet tegen; vastgelegd in `tests/consistentie.test.mjs`. Besluit: bouwrente en dubbele lasten blijven als losse ingang, renteverlies gaat later op in bouwdepot berekenen |
+| Bouwdepot berekenen | Klaar om live te gaan: een instelling voor een vergoeding die na een vast aantal maanden stopt (in de gedeelde rekenkern, dus ook beschikbaar voor nieuwbouw), "Nog te controleren", Excel en link kopiëren. Geen startscherm: wie via Google komt wil direct rekenen |
 | Printoverzicht | Hersteld: het was op zes rekentools kapot sinds de ombouw |
-| Schrijfregels | Vastgelegd in `CLAUDE.md`, sectie 9 |
+| Schrijfregels | Vastgelegd in `CLAUDE.md`, sectie 9. Nog niet toegepast op de andere rekenpagina's |
 
-**Nog niet begonnen:** fase 2 (nieuwbouw), fase 3 (leenruimte), fase 5 (bankdata), fase 6 (testen) en fase 7 (AdSense). Los daarvan: het overzicht kunnen bewaren en kopiëren naast printen, en de schrijfregels toepassen op de andere rekenpagina's.
+### Geparkeerd
+
+Op 13 oktober besproken en door de eigenaar geparkeerd tot de site zelf staat zoals gewenst: meer downloadbare templates. Voorkeur van Claude: een declaratielogboek voor de periode dat het depot loopt (per factuur ingediend en uitbetaald, restsaldo, eisen van de gekozen bank), daarna een meerwerklijst voor nieuwbouw, offertes vergelijken voor een verbouwing, en voorbeeldbrieven aan de bank. Gegenereerd bij de build met `src/js/xlsx.js`, zonder aparte pagina per template en zonder e-mailadres te vragen.
+
+### Wat niet gecontroleerd is
+
+Dit kon niet vanuit de ontwikkelomgeving en ligt bij de eigenaar: hoe de animaties bewegen (bouwplaats, huis, dak op het termijnschema), of de bouwplaats op een echte telefoon soepel loopt, of het toetsenbord daar dicht blijft, de kaart van een gedeelde link in WhatsApp en LinkedIn, en alles uit 6.2. Google ziet bij het renderen van nieuwbouw en verbouwen nu eerst het startscherm; beide pagina's trokken nauwelijks zoekverkeer, maar de positie is het volgen waard.
 
 ## 1. Waar we staan
 

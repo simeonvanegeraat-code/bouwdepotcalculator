@@ -14,11 +14,12 @@ import { STIJL, kolom } from '../js/xlsx.js';
  * @param {{columns: {key: string, label: string, type: string}[], rows: object[]}} rapport.tabel
  * @param {string} rapport.toelichting
  * @param {[string, string][]} invoer  de regels van "Jouw invoer": naam en waarde als tekst
+ * @param {object} [kop]               titel en bronpagina; standaard die van nieuwbouw
  */
-export function maandblad({ tabel, toelichting }, invoer) {
+export function maandblad({ tabel, toelichting }, invoer, { titel = 'Nieuwbouw: je maandlast, maand voor maand', pagina = 'nieuwbouw.html', blad = 'Nieuwbouwplanning' } = {}) {
     const rijen = [
-        [{ w: 'Nieuwbouw: je maandlast, maand voor maand', s: STIJL.titel }],
-        [{ w: 'Bruto, zonder hypotheekrenteaftrek. Gemaakt met bouwdepotcalculator.nl/nieuwbouw.html', s: STIJL.zacht }],
+        [{ w: titel, s: STIJL.titel }],
+        [{ w: `Bruto, zonder hypotheekrenteaftrek. Gemaakt met bouwdepotcalculator.nl/${pagina}`, s: STIJL.zacht }],
         [],
         [{ w: 'Jouw invoer', s: STIJL.kop }, { w: '', s: STIJL.kop }],
         ...invoer.map(([naam, waarde]) => [naam, waarde]),
@@ -37,5 +38,5 @@ export function maandblad({ tabel, toelichting }, invoer) {
         return { f: `SUM(${kolom(i)}${eerste}:${kolom(i)}${laatste})`, s: STIJL.euroVet };
     }));
     rijen.push([], [{ w: toelichting, s: STIJL.zacht }]);
-    return { naam: 'Nieuwbouwplanning', breedtes: [34, ...tabel.columns.slice(1).map(() => 20)], rijen, vast: 0, eersteMaandrij: eerste, laatsteMaandrij: laatste };
+    return { naam: blad, breedtes: [34, ...tabel.columns.slice(1).map(() => 20)], rijen, vast: 0, eersteMaandrij: eerste, laatsteMaandrij: laatste };
 }

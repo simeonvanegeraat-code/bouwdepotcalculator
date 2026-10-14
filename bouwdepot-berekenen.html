@@ -36,6 +36,7 @@
     <link rel="stylesheet" href="/src/styles/next/tokens.css">
     <link rel="stylesheet" href="/src/styles/next/kop.css">
     <link rel="stylesheet" href="/src/styles/next/werkruimte.css">
+    <link rel="stylesheet" href="/src/styles/next/depot.css">
 </head>
 <body class="ui wr">
     <a class="ui-skip" href="#inhoud">Direct naar de inhoud</a>
@@ -192,6 +193,9 @@
                 </p>
             </section>
 
+            <!-- Links het formulier en daaronder wat er nog te controleren valt:
+                 de twee aannames over de depotvergoeding die per bank verschillen. -->
+            <div class="dp-links">
             <form class="wr-paneel wr-invoer" id="invoer" novalidate onsubmit="return false">
                 <div class="wr-paneel__kop">
                     <h2>Jouw gegevens</h2>
@@ -228,7 +232,7 @@
                     <p class="wr-hulp" id="hulp-depot-months">Van de eerste tot de laatste rekening uit het depot. In die maanden ontvang je vergoeding over wat er nog in staat.</p>
                 </div>
 
-                <details class="wr-uitklap">
+                <details class="wr-uitklap" id="depot-meer">
                     <summary><span>Meer instellingen<small>Looptijd, hypotheekvorm, depotrente en opnames</small></span></summary>
                     <div class="wr-uitklap__body">
                         <div class="wr-veld">
@@ -257,6 +261,12 @@
                             <span class="wr-veld__fout" id="fout-depot-discount" role="alert"></span>
                             <p class="wr-hulp" id="hulp-depot-discount">In procentpunten. Is je hypotheekrente 3,80% en krijg je 2,80% over je depot, vul dan 1 in.</p>
                         </div>
+                        <div class="wr-veld" id="veld-depot-stopt">
+                            <label for="input-depot-stopt">Na hoeveel maanden stopt de vergoeding?</label>
+                            <div class="wr-veld__in"><input type="text" id="input-depot-stopt" aria-describedby="fout-depot-stopt hulp-depot-stopt" value="" placeholder="loopt door" inputmode="numeric" autocomplete="off"><span aria-hidden="true">mnd</span></div>
+                            <span class="wr-veld__fout" id="fout-depot-stopt" role="alert"></span>
+                            <p class="wr-hulp" id="hulp-depot-stopt">Laat leeg als je bank vergoedt zolang er geld in het depot staat. Bij een aantal aanbieders stopt de vergoeding na een vaste termijn; dat staat in de voorwaarden. <a href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de termijn per bank</a>.</p>
+                        </div>
                         <div class="wr-veld">
                             <label for="input-opnamepattern">Wanneer neem je op?</label>
                             <div class="wr-veld__in"><select id="input-opnamepattern" aria-describedby="res-patroon"></select></div>
@@ -284,6 +294,22 @@
                     </div>
                 </details>
             </form>
+
+            <section class="wr-paneel dp-controle wr-geen-print" aria-labelledby="dp-controle-kop">
+                <h2 id="dp-controle-kop">Nog te controleren</h2>
+                <p class="wr-hulp">Twee dingen over de vergoeding verschillen per bank en veranderen je uitkomst.</p>
+                <div class="dp-punt">
+                    <h3>Hoeveel vergoeding je krijgt</h3>
+                    <p data-dp-punt="rente"></p>
+                    <p class="dp-punt__acties"><button class="wr-knop wr-knop--klein" type="button" data-dp-aanpas="input-depot-soort">Aanpassen</button></p>
+                </div>
+                <div class="dp-punt">
+                    <h3>Hoe lang de vergoeding loopt</h3>
+                    <p data-dp-punt="duur"></p>
+                    <p class="dp-punt__acties"><button class="wr-knop wr-knop--klein" type="button" data-dp-aanpas="input-depot-stopt">Instellen</button><a href="bouwdepot-voorwaarden-vergelijken.html">Wat doet jouw bank?</a></p>
+                </div>
+            </section>
+            </div>
 
             <section class="wr-paneel wr-verloop" id="tijdens-de-bouw" aria-labelledby="verloop-kop">
                 <div class="wr-paneel__kop" style="margin-bottom:0">
@@ -336,8 +362,11 @@
 
                 <div class="wr-knoppen">
                     <button id="btn-download" class="wr-knop" type="button">Overzicht printen of opslaan</button>
+                    <button id="btn-excel" class="wr-knop" type="button">Download als Excel</button>
+                    <button id="btn-kopieer" class="wr-knop" type="button">Link kopi&euml;ren</button>
                 </div>
-                <p class="wr-voorbehoud">Dit is de last <em>tijdens</em> de verbouwing. Zodra het depot leeg is, betaal je de volledige maandlast zonder vergoeding. Aangenomen is dat de vergoeding doorloopt zolang er saldo is; bij een aantal aanbieders stopt hij eerder. <a href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de termijnen per bank</a>.</p>
+                <p class="wr-hulp" id="kopieer-melding" role="status"></p>
+                <p class="wr-voorbehoud">Dit is de last <em>tijdens</em> de verbouwing. Zodra het depot leeg is, betaal je de volledige maandlast zonder vergoeding. Stopt de vergoeding bij jouw bank na een vaste termijn, vul dat dan in onder &lsquo;Meer instellingen&rsquo;. <a href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de termijnen per bank</a>.</p>
             </section>
         </div>
 

@@ -28,6 +28,8 @@ import { HYPOTHEEKVORMEN } from '../domain/hypotheek.js';
 import { berekenDepot, OPNAMEPATRONEN } from '../domain/bouwdepot.js';
 import { BANKEN } from '../js/bankdata.generated.js';
 import { tekenTijdlijn } from '../nieuwbouw/grafiek.js';
+import { naarAdres, uitAdres } from './adres.js';
+import { geefDownload, XLSX_TYPE } from '../js/download.js';
 
 const GRENZEN = {
     'input-amount': {
@@ -90,7 +92,7 @@ function initDepot() {
         bedrag: el('input-amount'), rente: el('input-interest'), duur: el('input-depot-months'),
         looptijd: el('input-duration'), vorm: el('input-vorm'), depotSoort: el('input-depot-soort'),
         afslag: el('input-depot-discount'), patroon: el('input-opnamepattern'),
-        woning: el('input-woning'), woonlast: el('input-woonlast-door'),
+        woning: el('input-woning'), woonlast: el('input-woonlast-door'), stopt: el('input-depot-stopt'),
     };
     const schuifDuur = el('range-depot-months');
     const schuifLooptijd = el('range-duration');
@@ -98,13 +100,26 @@ function initDepot() {
     const printknop = el('btn-download');
     bindReportButton(printknop);
 
-    // De verbouwbegroting linkt hierheen met het te lenen bedrag in de URL.
+    // Een bewaarde link: de invoer staat in het adres. De verbouwbegroting linkt
+    // hierheen met alleen het te lenen bedrag (?bedrag=); dat werkt ook zo.
     const params = new URLSearchParams(window.location.search);
-    const bedragUitUrl = Number(params.get('bedrag') || params.get('amount'));
-    if (Number.isFinite(bedragUitUrl) && bedragUitUrl > 0) {
-        veld.bedrag.value = String(Math.round(bedragUitUrl));
-        // Voorkomt dat de onthouden invoer het meegegeven bedrag overschrijft.
+    const uitLink = uitAdres(window.location.search);
+    if (uitLink) {
+        const zet = (v, k, opmaak) => { if (k in uitLink) v.value = opmaak(uitLink[k]); };
+        zet(veld.bedrag, 'bedrag', (n) => toonGetal(Math.round(n)));
+        zet(veld.rente, 'rente', (n) => toonGetal(n, 2));
+        zet(veld.duur, 'maanden', String);
+        zet(schuifDuur, 'maanden', String);
+        zet(veld.looptijd, 'looptijd', String);
+        zet(schuifLooptijd, 'looptijd', String);
+        zet(veld.afslag, 'afslag', (n) => toonGetal(n, 2));
+        zet(veld.stopt, 'stopt', String);
+        zet(veld.woning, 'woning', (n) => toonGetal(Math.round(n)));
+        zet(veld.woonlast, 'woonlast', (n) => toonGetal(Math.round(n)));
+        if (uitLink.soort) veld.depotSoort.value = uitLink.soort;
+        // Voorkomt dat de onthouden invoer de meegegeven bedragen overschrijft.
         setMemoryLockById('input-amount');
+        if ('rente' in uitLink) setMemoryLockById('input-interest');
     }
     // Oude links naar de haalbaarheidscheck, die nu op de verbouwpagina staat.
     // In productie vangt vercel.json dit af; dit is er voor de ontwikkelserver.
@@ -117,8 +132,14 @@ function initDepot() {
     for (const v of [veld.rente, veld.afslag]) koppelPercentageveld(v);
     for (const [sleutel, naam] of Object.entries(HYPOTHEEKVORMEN)) veld.vorm.add(new Option(naam, sleutel));
     for (const [sleutel, naam] of Object.entries(OPNAMEPATRONEN)) veld.patroon.add(new Option(naam, sleutel));
+    if (uitLink?.vorm) veld.vorm.value = uitLink.vorm;
+    if (uitLink?.patroon) veld.patroon.value = uitLink.patroon;
     const veldAfslag = el('veld-depot-discount');
-    const toonAfslag = () => { veldAfslag.hidden = veld.depotSoort.value !== 'lager'; };
+    const veldStopt = el('veld-depot-stopt');
+    // Zonder vergoeding valt er niets te stoppen.
+    const toonAfslag = () => { veldAfslag.hidden = veld.depotSoort.value !== 'lager'; veldStopt.hidden = veld.depotSoort.value === 'geen'; };
+    const punt = { rente: document.querySelector('[data-dp-punt="rente"]'), duur: document.querySelector('[data-dp-punt="duur"]') };
+    let laatsteInvoer = null;
 
     const uit = {
         label: el('res-label'), bedrag: el('res-maandlast'), zin: el('res-zin'), verloop: el('res-verloop'),
@@ -150,7 +171,10 @@ function initDepot() {
         uit.vast.classList.remove('is-zichtbaar');
         uit.naarAftrek.href = 'hypotheekrenteaftrek-gids.html';
         laatsteGrafiek = null;
+        laatsteInvoer = null;
         delete printknop.dataset.report;
+        punt.rente.textContent = '';
+        punt.duur.textContent = '';
     }
 
     function reken() {
@@ -168,6 +192,21 @@ function initDepot() {
         };
         if (Object.values(gelezen).some((w) => w === null)) { toonGeenUitkomst(); return; }
 
+        // Leeg betekent: de vergoeding loopt zolang er geld in het depot staat.
+        const foutStopt = el('fout-depot-stopt');
+        foutStopt.textContent = '';
+        veld.stopt.removeAttribute('aria-invalid');
+        let stopt = null;
+        if (soort !== 'geen' && veld.stopt.value.trim() !== '') {
+            stopt = leesGetal(veld.stopt.value);
+            if (stopt === null || !Number.isInteger(stopt) || stopt < 1 || stopt > 36) {
+                foutStopt.textContent = 'Vul een heel aantal maanden in, van 1 tot 36, of laat het veld leeg.';
+                veld.stopt.setAttribute('aria-invalid', 'true');
+                toonGeenUitkomst();
+                return;
+            }
+        }
+
         const invoer = {
             ...gelezen,
             duurMaanden: Math.round(gelezen.duurMaanden),
@@ -176,8 +215,10 @@ function initDepot() {
             kortingDepotPercent: Math.min(gelezen.kortingDepotPercent, gelezen.rentePercent),
             vorm: veld.vorm.value,
             patroon: veld.patroon.value,
+            vergoedingMaanden: stopt,
         };
         const t = berekenDepot(invoer);
+        laatsteInvoer = { ...invoer, soort };
         const { eerste, hoogsteTijdens, daarna, sommen } = t;
         const n = t.klaarMaand;
         const metWoning = invoer.woning > 0;
@@ -231,9 +272,27 @@ function initDepot() {
             const duur = b.vergoeding?.maanden?.verbouw;
             return typeof duur === 'number' && duur > 0 && duur < n;
         }).length : 0;
-        uit.termijnmelding.hidden = gestopt === 0;
-        if (gestopt > 0) {
-            uit.termijnmelding.innerHTML = `Je verbouwing duurt ${n} maanden. Bij ${gestopt} van de ${BANKEN.length} aanbieders in onze vergelijking is de depotvergoeding dan al gestopt, terwijl deze berekening hem laat doorlopen. Je werkelijke last ligt in de laatste maanden dan hoger. <a href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de termijn van jouw bank</a>.`;
+        // Wie zelf heeft ingesteld wanneer de vergoeding stopt, heeft deze melding niet meer nodig.
+        uit.termijnmelding.hidden = gestopt === 0 || stopt !== null;
+        if (!uit.termijnmelding.hidden) {
+            uit.termijnmelding.innerHTML = `Je verbouwing duurt ${n} maanden. Bij ${gestopt} van de ${BANKEN.length} aanbieders in onze vergelijking is de depotvergoeding dan al gestopt, terwijl deze berekening hem laat doorlopen. Je werkelijke last ligt in de laatste maanden dan hoger. Vul onder &lsquo;Meer instellingen&rsquo; in wanneer hij bij jouw bank stopt. <a href="bouwdepot-voorwaarden-vergelijken.html">Bekijk de termijn van jouw bank</a>.`;
+        }
+
+        /* Nog te controleren: wat de uitkomst over de vergoeding aanneemt. */
+        punt.rente.innerHTML = soort === 'geen' ? 'Je hebt ingesteld: <strong>geen vergoeding</strong>.'
+            : soort === 'lager' ? `Je hebt ingesteld: <strong>${procent(depotrente)}</strong>, ${toonGetal(invoer.kortingDepotPercent, 2)} procentpunt onder je hypotheekrente.`
+            : `Gerekend met een vergoeding <strong>gelijk aan je hypotheekrente</strong> (${procent(invoer.rentePercent)}). Bij de meeste aanbieders is dat zo, niet bij alle.`;
+        if (soort === 'geen') {
+            punt.duur.textContent = 'Zonder vergoeding speelt dit niet.';
+        } else if (stopt === null) {
+            punt.duur.innerHTML = `Gerekend alsof de vergoeding <strong>de hele verbouwing doorloopt</strong>.${gestopt > 0 ? ` Bij ${gestopt} van de ${BANKEN.length} aanbieders in onze vergelijking stopt hij eerder dan na ${maanden(n)}.` : ''}`;
+        } else if (stopt >= n) {
+            punt.duur.innerHTML = `Je hebt ingesteld: de vergoeding stopt na <strong>${maanden(stopt)}</strong>. Je verbouwing is dan klaar, dus dat kost niets extra.`;
+        } else {
+            // Wat het stoppen kost: dezelfde berekening met een vergoeding die doorloopt.
+            const doorlopend = berekenDepot({ ...invoer, vergoedingMaanden: null });
+            const extra = sommen.renteNaVergoeding - doorlopend.sommen.renteNaVergoeding;
+            punt.duur.innerHTML = `Je hebt ingesteld: de vergoeding stopt na <strong>${maanden(stopt)}</strong>. Dat kost je <strong>${euro.format(extra)}</strong> meer dan een vergoeding die de hele verbouwing doorloopt.`;
         }
 
         /* Grafiek en de zin eronder. */
@@ -275,6 +334,7 @@ function initDepot() {
             ...(metWoning ? [['Hypotheek voor de woning zelf', euro.format(invoer.woning)], ['Samen geleend', euro.format(t.lening)]] : []),
             ['Hypotheekrente', procent(invoer.rentePercent)],
             ['Rente over het depot', depotrente > 0 ? procent(depotrente) : 'geen vergoeding'],
+            ...(depotrente > 0 ? [['Vergoeding loopt', stopt === null ? 'zolang er geld in het depot staat' : maanden(stopt)]] : []),
             ['Hypotheekvorm', `${HYPOTHEEKVORMEN[invoer.vorm]}, ${invoer.looptijdJaren} jaar`],
             ['Duur van de verbouwing', maanden(n)],
             ['Opnemen', OPNAMEPATRONEN[invoer.patroon].toLowerCase()],
@@ -327,7 +387,7 @@ function initDepot() {
                 ],
                 rows: t.regels.map(({ maand, opname, depot, rente, aflossing, vergoeding, hypotheek, woonlast, totaal }) => ({ maand, opname, depot, rente, aflossing, vergoeding, hypotheek, woonlast, totaal })),
             }],
-            assumptions: 'Indicatieve berekening, bruto en zonder hypotheekrenteaftrek. Vaste rente, één leningdeel, het gekozen opnamepatroon en een vergoeding over het depot zolang er saldo is. Werkelijke opnames, declaraties en bankvoorwaarden kunnen afwijken.',
+            assumptions: `Indicatieve berekening, bruto en zonder hypotheekrenteaftrek. Vaste rente, één leningdeel, het gekozen opnamepatroon en een vergoeding over het depot ${stopt === null ? 'zolang er saldo is' : `gedurende de eerste ${maanden(stopt)}`}. Werkelijke opnames, declaraties en bankvoorwaarden kunnen afwijken.`,
         });
     }
 
@@ -336,6 +396,48 @@ function initDepot() {
     for (const v of [veld.bedrag, veld.rente, veld.afslag, veld.woning, veld.woonlast]) v.addEventListener('input', reken);
     for (const v of [veld.vorm, veld.patroon]) v.addEventListener('change', reken);
     veld.depotSoort.addEventListener('change', () => { toonAfslag(); reken(); });
+    veld.stopt.addEventListener('input', reken);
+
+    /* -------------------------- bewaren en controleren -------------------------- */
+
+    // "Aanpassen" en "Instellen" bij Nog te controleren: open de instellingen op het juiste veld.
+    for (const knop of document.querySelectorAll('[data-dp-aanpas]')) {
+        knop.addEventListener('click', () => {
+            el('depot-meer').open = true;
+            const doel = el(knop.dataset.dpAanpas);
+            doel.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+            doel.focus({ preventScroll: true });
+        });
+    }
+
+    // De maandtabel als werkblad voor Excel; hetzelfde rapport als de afdruk.
+    el('btn-excel').addEventListener('click', async () => {
+        if (!printknop.dataset.report) return;
+        const rapport = JSON.parse(printknop.dataset.report);
+        const [{ maandblad }, { maakXlsx }] = await Promise.all([import('../nieuwbouw/maandblad.js'), import('../js/xlsx.js')]);
+        const invoer = [...uit.aannames.querySelectorAll('dt')].map((dt) => [dt.textContent, dt.nextElementSibling.textContent]);
+        const blad = maandblad({ tabel: rapport.tables[0], toelichting: rapport.assumptions }, invoer, { titel: 'Bouwdepot: je maandlast, maand voor maand', pagina: 'bouwdepot-berekenen.html', blad: 'Bouwdepot' });
+        geefDownload(maakXlsx(blad), 'bouwdepot-maandlast.xlsx', XLSX_TYPE);
+    });
+
+    // Een link met de invoer erin, om te bewaren of door te sturen.
+    const kopieermelding = el('kopieer-melding');
+    el('btn-kopieer').addEventListener('click', async () => {
+        if (!laatsteInvoer) { kopieermelding.textContent = 'Vul eerst de gemarkeerde velden in; dan maken we de link.'; return; }
+        const i = laatsteInvoer;
+        const adres = `${location.origin}${location.pathname}?${naarAdres({
+            bedrag: i.depot, rente: i.rentePercent, maanden: i.duurMaanden, looptijd: i.looptijdJaren, vorm: i.vorm,
+            soort: i.soort === 'gelijk' ? null : i.soort, afslag: i.soort === 'lager' ? i.kortingDepotPercent : null,
+            stopt: i.vergoedingMaanden, patroon: i.patroon === 'gelijk' ? null : i.patroon,
+            woning: i.woning || null, woonlast: i.woonlast || null,
+        })}`;
+        try {
+            await navigator.clipboard.writeText(adres);
+            kopieermelding.textContent = 'Link gekopieerd. Je bedragen staan in de link zelf; wie hem krijgt, ziet dezelfde berekening.';
+        } catch {
+            kopieermelding.textContent = `Kopiëren lukte niet. Kopieer deze link zelf: ${adres}`;
+        }
+    });
 
     const koppelSchuif = (invoerveld, schuif) => {
         schuif.addEventListener('input', () => { invoerveld.value = schuif.value; reken(); });

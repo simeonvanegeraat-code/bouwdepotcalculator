@@ -84,6 +84,14 @@
  *   Tijdens de vertraging blijft het restant in depot staan en loopt de
  *   vergoeding daarover door. Dat is een aanname: bij een aantal aanbieders
  *   stopt de vergoeding of het depot zelf na een vaste termijn.
+ *
+ * EEN VERGOEDING DIE STOPT
+ *
+ *   `vergoedingMaanden` zegt na hoeveel maanden de geldverstrekker stopt met
+ *   vergoeden: in de maanden daarna is de vergoeding nul, ook als er nog geld
+ *   in depot staat. Zonder deze waarde (null of weggelaten) loopt de
+ *   vergoeding zolang er saldo is, zoals hierboven. Het depot zelf blijft
+ *   bestaan; wat er gebeurt als het depot afloopt, rekent dit model niet.
  */
 
 import { vergoedingOverMaand } from '../js/depotvergoeding.js';
@@ -239,7 +247,9 @@ function rekenMetRentepot(a, rentepotBijStart) {
         if (bouwdepot < 1e-6) bouwdepot = 0;
 
         const { rente, aflossing, betaling, restschuld } = schema[maand - 1];
-        const vergoeding = vergoedingOverMaand(begin, bouwdepot + rentepot, depotrente);
+        // Number.isFinite en geen ">= 0": null >= 0 is in JavaScript waar.
+        const vergoedingLoopt = !Number.isFinite(a.vergoedingMaanden) || maand <= a.vergoedingMaanden;
+        const vergoeding = vergoedingLoopt ? vergoedingOverMaand(begin, bouwdepot + rentepot, depotrente) : 0;
         const fase = maand <= oplevermaand ? 'bouw' : maand <= eindeOverlap ? 'overlap' : 'na';
 
         // Meefinancieren: de rente min de vergoeding komt uit het potje, aan

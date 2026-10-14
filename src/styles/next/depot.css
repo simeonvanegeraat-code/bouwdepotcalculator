@@ -1,0 +1,22 @@
+/*
+ * Bouwdepot berekenen: wat erbij komt bovenop werkruimte.css. Alles begint met dp-.
+ *
+ * Let op de volgorde: in de gebouwde site kan dit bestand vóór werkruimte.css
+ * staan. Een regel die een wr-klasse op hetzelfde element moet overstemmen,
+ * noemt die klasse mee.
+ */
+
+/* Links het formulier met daaronder "Nog te controleren", als één kolom. */
+.dp-links { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; align-content: start; min-width: 0; }
+.dp-links > .wr-invoer { grid-area: auto; }
+@media (min-width: 960px) { .dp-links { grid-area: invoer; gap: 1.25rem; } }
+
+.dp-controle { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; align-content: start; }
+.dp-controle h2 { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; }
+.dp-punt { display: grid; gap: 0.35rem; padding-top: 0.9rem; border-top: 1px solid var(--ui-line); }
+.dp-punt h3 { font-size: 1rem; font-weight: 600; }
+.dp-punt p { font-size: 0.9375rem; color: var(--ui-muted); }
+.dp-punt p strong { color: var(--ui-ink); font-weight: 600; }
+.dp-punt__acties { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; align-items: center; margin-top: 0.35rem; }
+.dp-punt__acties .wr-knop::after { content: '\2192'; margin-left: 0.5rem; }
+.dp-punt__acties a { color: var(--ui-forest); text-underline-offset: 0.3em; font-size: 0.9375rem; }

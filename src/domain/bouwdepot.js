@@ -19,8 +19,9 @@
  *               volgt uit het opnamepatroon (zie opnameTermijnen).
  *   Vergoeding  de rente die de geldverstrekker over het depot vergoedt:
  *               hypotheekrente min een afslag, over het gemiddelde van begin-
- *               en eindsaldo van de maand. Aangenomen is dat hij vergoedt
- *               zolang er saldo is; of en hoe lang staat in de voorwaarden.
+ *               en eindsaldo van de maand. Zonder vergoedingMaanden vergoedt
+ *               hij zolang er saldo is; met vergoedingMaanden stopt hij na dat
+ *               aantal maanden. Of en hoe lang staat in de voorwaarden.
  *   Woonlast    een huur of oude hypotheek die doorloopt zolang er verbouwd
  *               wordt, en stopt in de maand daarna.
  *
@@ -105,6 +106,7 @@ export function berekenDepot(invoer = {}) {
         renteMeefinancieren: false,
         termijnen: opnameTermijnen(a.patroon, a.duurMaanden),
         horizonMaanden: a.duurMaanden + MAANDEN_NA,
+        vergoedingMaanden: a.vergoedingMaanden ?? null,
     });
 
     const tijdens = t.regels.slice(0, a.duurMaanden);
