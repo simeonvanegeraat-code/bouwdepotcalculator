@@ -11,13 +11,13 @@ const MAX_PER_POST = 5000000;
 
 /**
  * Welke schermen er komen, in volgorde: wat ga je doen, dan per gekozen
- * categorie de bedragen, dan reserve, financiering en rente.
+ * categorie de bedragen, dan reserve, duur, financiering en rente.
  *
  * @param {string[]} categorieen  alle categorieën, in de volgorde van de pagina
  * @param {string[]} gekozen      wat de bezoeker heeft aangevinkt
  */
 export function schermvolgorde(categorieen, gekozen) {
-    return ['wat', ...categorieen.filter((c) => gekozen.includes(c)).map((c) => `cat-${c}`), 'reserve', 'geld', 'rente'];
+    return ['wat', ...categorieen.filter((c) => gekozen.includes(c)).map((c) => `cat-${c}`), 'reserve', 'duur', 'geld', 'rente'];
 }
 
 /** Het scherm na dit scherm, of 'klaar' na het laatste. */
@@ -67,6 +67,13 @@ export function controleerGeld({ hypotheek, waarde, eigen }) {
     if (waarde > 5000000) return 'Deze woningwaarde is hoger dan waar deze tool mee rekent; controleer het bedrag.';
     if (!getal(eigen) || eigen < 0) return 'Vul je eigen geld in, of laat het veld leeg als je alles leent.';
     if (eigen > 1000000) return 'Dit eigen geld is hoger dan waar deze tool mee rekent; controleer het bedrag.';
+    return '';
+}
+
+/** De duur van de verbouwing: hele maanden, van 1 tot 36. */
+export function controleerDuur(maanden) {
+    if (!getal(maanden) || !Number.isInteger(maanden) || maanden < 1) return 'Vul in hoeveel hele maanden de verbouwing duurt.';
+    if (maanden > 36) return 'Deze rekentool rekent met verbouwingen tot 36 maanden.';
     return '';
 }
 

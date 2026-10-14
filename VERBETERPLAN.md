@@ -36,7 +36,8 @@ Dit plan vervangt de volgorde in `ROADMAP.md` niet vanzelf. Die roadmap ging ove
 | Deelafbeelding | Live. Elke pagina deelt met `og-1200x630.png`; het vorige bestand was leeg |
 | Toetsenbord op de telefoon | Live. Na een schermwissel opent het toetsenbord niet vanzelf; Enter gaat naar het volgende veld |
 | Controle van de rekentools | Gedaan op 14 oktober: één situatie door alle rekenkernen. Ze spreken elkaar niet tegen; vastgelegd in `tests/consistentie.test.mjs`. Besluit: bouwrente en dubbele lasten blijven als losse ingang, renteverlies gaat later op in bouwdepot berekenen |
-| Bouwdepot berekenen | Klaar om live te gaan: een instelling voor een vergoeding die na een vast aantal maanden stopt (in de gedeelde rekenkern, dus ook beschikbaar voor nieuwbouw), "Nog te controleren", Excel en link kopiëren. Geen startscherm: wie via Google komt wil direct rekenen |
+| Bouwdepot berekenen | Live op 14 oktober: een instelling voor een vergoeding die na een vast aantal maanden stopt (in de gedeelde rekenkern, dus ook beschikbaar voor nieuwbouw), "Nog te controleren", Excel en link kopiëren. Geen startscherm: wie via Google komt wil direct rekenen |
+| Verbouwroute: tijdens de verbouwing | Klaar om live te gaan: de route vraagt de duur van de verbouwing en toont op het overzicht wat de extra lening per maand kost terwijl er verbouwd wordt, met dezelfde berekening als bouwdepot berekenen. De link naar bouwdepot berekenen neemt bedrag, rente en duur mee |
 | Printoverzicht | Hersteld: het was op zes rekentools kapot sinds de ombouw |
 | Schrijfregels | Vastgelegd in `CLAUDE.md`, sectie 9. Nog niet toegepast op de andere rekenpagina's |
 

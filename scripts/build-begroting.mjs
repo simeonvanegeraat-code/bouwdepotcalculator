@@ -198,6 +198,7 @@ ${veld('lr-totaal', 'Wat kost je verbouwing ongeveer?', '75000', 'Een ruwe schat
                         <!-- Zodra er een begroting is: waar het bedrag vandaan komt, en
                              de weg terug als de bezoeker zelf iets anders heeft getypt.
                              Het veld zelf blijft altijd invulbaar. -->
+${veld('input-verbouw-maanden', 'Hoe lang duurt de verbouwing?', '6', 'Van de eerste tot de laatste rekening uit het depot. Hiermee rekenen we wat je tijdens de verbouwing betaalt.', 'mnd', 'numeric', '')}
                         <p class="wr-hulp wr-volgt" id="lr-volg-rij" aria-live="polite" hidden><span id="lr-volg-tekst"></span> <button class="wr-tekstknop" type="button" id="lr-volg-knop" hidden>Gebruik dat bedrag</button></p>
                     </fieldset>
 
@@ -221,6 +222,27 @@ ${veld('lr-buiten-depot', 'Waarvan losse spullen en inrichting', '0', 'Het deel 
                     </div>
                 </form>
 ${CONTROLE}            </div>
+        </div>
+
+        <!-- Wat de extra lening per maand kost terwijl er verbouwd wordt. Dezelfde
+             berekening als bouwdepot-berekenen.html (berekenDepot in
+             src/domain/bouwdepot.js), met het bedrag dat binnen de woningwaarde
+             past. Gevuld door src/verbouwen/pagina.js. -->
+        <div class="wr-wrap wr-geen-print vb-tijdens" data-vb-tijdens hidden>
+            <section class="wr-paneel" aria-labelledby="vb-tijdens-kop">
+                <div class="wr-paneel__kop">
+                    <h2 id="vb-tijdens-kop">Wat betaal je per maand tijdens de verbouwing?</h2>
+                    <p class="wr-micro">Bruto, zonder hypotheekrenteaftrek</p>
+                </div>
+                <dl class="vb-tijdens__cijfers">
+                    <div><dt>Eerste maand</dt><dd class="tnum" data-vb-tijdens="eerste">&ndash;</dd></div>
+                    <div><dt>Laatste maand van de verbouwing</dt><dd class="tnum" data-vb-tijdens="laatste">&ndash;</dd></div>
+                    <div><dt>Daarna, als het depot leeg is</dt><dd class="tnum" data-vb-tijdens="daarna">&ndash;</dd></div>
+                </dl>
+                <p class="vb-tijdens__zin" data-vb-tijdens="zin"></p>
+                <div class="wr-grafiek" data-vb-tijdens="grafiek"></div>
+                <p class="vb-tijdens__verder"><a class="wr-knop wr-knop--klein" data-vb-tijdens="link" href="bouwdepot-berekenen.html">Maand voor maand, met je eigen instellingen</a></p>
+            </section>
         </div>
 
         <!-- De begroting per post. Volgorde in de HTML: posten, totaal. Op een

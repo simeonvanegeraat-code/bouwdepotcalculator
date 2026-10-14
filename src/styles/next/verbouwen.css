@@ -9,7 +9,19 @@
  */
 
 /* Tijdens het invullen is de rekentool weg: één ding tegelijk. */
-body[data-nb]:not([data-nb="klaar"]) :is(#leenruimte, .vb-begrotingkop) { display: none; }
+body[data-nb]:not([data-nb="klaar"]) :is(#leenruimte, .vb-begrotingkop, .vb-tijdens) { display: none; }
+
+/* --- Tijdens de verbouwing: drie bedragen, een zin en de grafiek --- */
+.vb-tijdens[hidden] { display: none; }
+.vb-tijdens { padding-top: 1.25rem; padding-bottom: clamp(1.5rem, 4vw, 2.5rem); }
+.vb-tijdens .wr-paneel { display: grid; gap: 1rem; }
+.vb-tijdens .wr-paneel__kop { margin-bottom: 0; }
+.vb-tijdens__cijfers { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: 0.75rem 1.5rem; margin: 0; }
+.vb-tijdens__cijfers dt { font-size: 0.875rem; color: var(--ui-muted); }
+.vb-tijdens__cijfers dd { margin: 0.15rem 0 0; font-size: 1.625rem; font-weight: 600; letter-spacing: -0.02em; color: var(--ui-forest); }
+.vb-tijdens__zin { max-width: 46rem; font-size: 0.9375rem; color: var(--ui-muted); }
+.vb-tijdens__verder .wr-knop::after { content: '\2192'; margin-left: 0.5rem; }
+.nb-veld + .vb-schuif { max-width: 18rem; margin-top: -0.6rem; }
 
 /* --- De doorsnede van het huis naast de vragen (scripts/verbouw-huis.mjs) --- */
 .nb-bouw.vb-huis svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }

@@ -34,6 +34,9 @@ import {
 } from '../js/getallen.js';
 import { berekenBegroting } from '../js/begrotingrekenen.js';
 import { berekenLeenruimte, maandlastExtraLening } from '../domain/verbouwing.js';
+import { berekenDepot } from '../domain/bouwdepot.js';
+import { tekenTijdlijn } from '../nieuwbouw/grafiek.js';
+import { naarAdres } from '../depot/adres.js';
 
 const SLEUTEL_BEGROTING = 'bouwdepot-begroting-v1';
 const SLEUTEL_LEENRUIMTE = 'bouwdepot-leenruimte-v1';
@@ -62,6 +65,12 @@ const GRENZEN = {
     'lr-hypotheek': BEDRAG('Vul je huidige hypotheek in, of nul als je die niet hebt.'),
     'lr-waarde': { ...BEDRAG('Vul de woningwaarde na verbouwing in.'), exclusiefNul: true, teLaag: 'Vul een woningwaarde boven de nul in.' },
     'lr-eigen-geld': BEDRAG('Vul je eigen geld in, of nul als je dat niet inzet.', 1000000),
+    'input-verbouw-maanden': {
+        lezer: leesGetal, min: 1, max: 36, exclusiefNul: true,
+        leeg: 'Vul in hoeveel maanden de verbouwing duurt.',
+        teLaag: 'Een verbouwing duurt minstens één maand.',
+        teHoog: 'Deze rekentool rekent met verbouwingen tot 36 maanden.',
+    },
     'input-interest': {
         lezer: leesPercentage, min: 0, max: 20, exclusiefNul: false,
         leeg: 'Vul een hypotheekrente in om de maandlast te schatten.',
@@ -137,7 +146,7 @@ function initVerbouwen() {
 
     const lr = {
         totaal: el('lr-totaal'), buitenDepot: el('lr-buiten-depot'), hypotheek: el('lr-hypotheek'),
-        waarde: el('lr-waarde'), eigenGeld: el('lr-eigen-geld'),
+        waarde: el('lr-waarde'), eigenGeld: el('lr-eigen-geld'), maanden: el('input-verbouw-maanden'),
     };
     const rente = el('input-interest');
     // Zolang de bezoeker het bedrag niet zelf heeft getypt, volgt het veld het
@@ -327,7 +336,11 @@ function initVerbouwen() {
 
         // Doorgeven aan de rekenpagina, zodat de reeks begroting -> maandlast doorloopt.
         const teLenen = check ? check.financierbaar : b.depotMetMarge;
-        el('naar-maandlast').href = teLenen > 0 ? `bouwdepot-berekenen.html?bedrag=${Math.round(teLenen)}` : 'bouwdepot-berekenen.html';
+        const duur = leesVeld(lr.maanden);
+        el('naar-maandlast').href = teLenen > 0
+            ? `bouwdepot-berekenen.html?${naarAdres({ bedrag: Math.round(teLenen), rente: check?.rentePct ?? null, maanden: duur === null ? null : Math.round(duur) })}`
+            : 'bouwdepot-berekenen.html';
+        werkTijdensBij(check, duur);
 
         bouwSpecificatie(ingevuld, b, margePct, check);
         if (herstelGedaan) bewaar();
@@ -336,6 +349,45 @@ function initVerbouwen() {
         document.dispatchEvent(new CustomEvent('verbouwen:berekend', {
             detail: { begroting: b, posten: ingevuld.map(({ naam, bedrag, vast, cat }) => ({ naam, bedrag, vast, cat })), check, margePct },
         }));
+    }
+
+    /* ------------------------------------------------- tijdens de verbouwing */
+
+    // Wat de extra lening per maand kost terwijl er verbouwd wordt: rente en
+    // aflossing over het hele bedrag, min de vergoeding over wat nog in depot
+    // staat. Geen eigen formule: berekenDepot, dezelfde als op
+    // bouwdepot-berekenen.html, met dezelfde 30 jaar annuïtair als hierboven.
+    const tijdens = Object.fromEntries(['eerste', 'laatste', 'daarna', 'zin', 'grafiek', 'link'].map((n) => [n, document.querySelector(`[data-vb-tijdens="${n}"]`)]));
+    const tijdensBlok = document.querySelector('[data-vb-tijdens]');
+    let tijdensGrafiek = null;
+    const tekenTijdens = () => { if (tijdensGrafiek && !tijdensBlok.hidden) tekenTijdlijn(tijdens.grafiek, tijdensGrafiek); };
+
+    function werkTijdensBij(check, duur) {
+        if (!check || !(check.financierbaar > 0) || duur === null) { tijdensBlok.hidden = true; tijdensGrafiek = null; return; }
+        const n = Math.round(duur);
+        const d = berekenDepot({ depot: check.financierbaar, rentePercent: check.rentePct, duurMaanden: n, looptijdJaren: LOOPTIJD_JAREN, vorm: 'annuiteit' });
+        const laatste = d.regels[n - 1];
+        tijdensBlok.hidden = false;
+        tijdens.eerste.textContent = euro.format(d.eerste.totaal);
+        tijdens.laatste.textContent = euro.format(laatste.totaal);
+        tijdens.daarna.textContent = euro.format(d.maandlastDaarna);
+        tijdens.zin.textContent = `Je leent ${euro.format(check.financierbaar)} extra en betaalt daar vanaf de eerste maand rente en aflossing over. Over wat nog in je depot staat krijg je vergoeding; daarom begin je laag. `
+            + `Gerekend met een vergoeding gelijk aan je hypotheekrente en gelijkmatige opnames over ${n === 1 ? '1 maand' : `${n} maanden`}. Wijkt dat af bij jouw bank, reken het dan verder uit met je eigen instellingen.`;
+        tijdens.link.href = `bouwdepot-berekenen.html?${naarAdres({ bedrag: Math.round(check.financierbaar), rente: check.rentePct, maanden: n })}`;
+        tijdensGrafiek = {
+            regels: d.regels, piek: d.piek, oplevermaand: n, eindeOverlap: n, merkTekst: 'verbouwing klaar',
+            omschrijving: `Staafgrafiek van de bruto maandlast van de extra lening over ${d.regels.length} maanden. ${tijdens.zin.textContent}`,
+        };
+        tekenTijdens();
+    }
+    if ('ResizeObserver' in window) {
+        let breedte = 0;
+        new ResizeObserver(([item]) => {
+            const nieuw = Math.round(item.contentRect.width);
+            if (nieuw === breedte) return;
+            breedte = nieuw;
+            tekenTijdens();
+        }).observe(tijdens.grafiek);
     }
 
     /** De waardetoets en de maandlast. Geeft null als de invoer niet klopt. */

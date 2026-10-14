@@ -111,6 +111,15 @@ ${categorieen}
                     ${knoppen()}
                 </form>
 
+                <form class="nb-scherm" data-scherm="duur" novalidate hidden>
+                    <p class="ui-opschrift">Planning</p>
+                    <h2>Hoe lang duurt de verbouwing?</h2>
+                    <p class="nb-uitleg">Van de eerste tot de laatste rekening. Zolang er geld in je depot staat, krijg je daar vergoeding over; dat drukt je maandlast tijdens de verbouwing.</p>
+                    ${bedragveld('vb-maanden', 'Duur van de verbouwing', '', { voor: '', na: 'maanden', plaats: '6' })}
+                    <input class="wr-schuif vb-schuif" type="range" id="vb-maanden-schuif" min="1" max="36" step="1" value="6" aria-label="Duur van de verbouwing in maanden">
+                    ${knoppen()}
+                </form>
+
                 <form class="nb-scherm" data-scherm="geld" novalidate hidden>
                     <p class="ui-opschrift">Financiering</p>
                     <h2>Hoe financier je het?</h2>

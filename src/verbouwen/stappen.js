@@ -16,7 +16,7 @@ import { euro, koppelBedragveld, koppelPercentageveld, leesGetal, leesPercentage
 import { maakSchermwissel } from '../js/schermwissel.js';
 import { opBankwissel } from '../js/bankkeuze.js';
 import {
-    controleerGeld, controleerPosten, controleerRente, controleerReserve, schermvolgorde, volgende, voortgang, vorige,
+    controleerDuur, controleerGeld, controleerPosten, controleerRente, controleerReserve, schermvolgorde, volgende, voortgang, vorige,
 } from './stappenlogica.js';
 
 function start() {
@@ -29,9 +29,9 @@ function start() {
     // De velden van de rekentool; de stappen schrijven hierheen.
     const hoofd = {
         post: (id) => el(`post-${id}`), reserve: el('in-onvoorzien'), hypotheek: el('lr-hypotheek'), waarde: el('lr-waarde'),
-        eigen: el('lr-eigen-geld'), rente: el('input-interest'), totaal: el('lr-totaal'),
+        eigen: el('lr-eigen-geld'), rente: el('input-interest'), totaal: el('lr-totaal'), maanden: el('input-verbouw-maanden'),
     };
-    const st = { reserve: el('vb-reserve'), hypotheek: el('vb-hypotheek'), waarde: el('vb-waarde'), eigen: el('vb-eigen'), rente: el('vb-rente') };
+    const st = { reserve: el('vb-reserve'), hypotheek: el('vb-hypotheek'), waarde: el('vb-waarde'), eigen: el('vb-eigen'), rente: el('vb-rente'), maanden: el('vb-maanden'), schuif: el('vb-maanden-schuif') };
     for (const v of [st.hypotheek, st.waarde, st.eigen]) koppelBedragveld(v);
     koppelPercentageveld(st.rente);
     const meld = (veld, soort = 'input') => veld.dispatchEvent(new Event(soort, { bubbles: true }));
@@ -99,6 +99,8 @@ function start() {
             tegel(formulier.dataset.scherm.slice(4)).checked = iets;
         }
         st.reserve.value = hoofd.reserve.value;
+        st.maanden.value = hoofd.maanden.value;
+        st.schuif.value = String(leesGetal(hoofd.maanden.value) ?? 6);
         werkHuisBij();
     }
 
@@ -125,6 +127,7 @@ function start() {
         const rijen = [
             ['Je verbouwing', b.aantal ? euro.format(b.totaal) : bedrag(hoofd.totaal), 'is-som'],
             ...(b.aantal ? [['waarvan uit het bouwdepot', euro.format(b.depotMetMarge)], ['waarvan uit eigen geld', euro.format(b.eigen)], ['Reserve voor onvoorzien', `${margePct}%`]] : []),
+            ['Duur van de verbouwing', `${hoofd.maanden.value.trim() || '–'} maanden`],
             ['Huidige hypotheek', bedrag(hoofd.hypotheek)],
             ['Woningwaarde na verbouwing', bedrag(hoofd.waarde)],
             ['Eigen geld', bedrag(hoofd.eigen)],
@@ -181,6 +184,11 @@ function start() {
             if (fout(formulier, controleerReserve(pct))) return;
             hoofd.reserve.value = String(pct);
             meld(hoofd.reserve);
+        } else if (scherm === 'duur') {
+            const n = st.maanden.value.trim() === '' ? 6 : leesGetal(st.maanden.value);
+            if (fout(formulier, controleerDuur(n))) return;
+            hoofd.maanden.value = String(n);
+            meld(hoofd.maanden);
         } else if (scherm === 'geld') {
             const w = { hypotheek: ofNul(st.hypotheek), waarde: leesGetal(st.waarde.value), eigen: ofNul(st.eigen) };
             if (fout(formulier, controleerGeld(w))) return;
@@ -200,6 +208,10 @@ function start() {
         zetOpen(false);
         toon(volgende(volgorde(), scherm));
     });
+
+    // De schuif en het veld van de duur volgen elkaar.
+    st.schuif.addEventListener('input', () => { st.maanden.value = st.schuif.value; });
+    st.maanden.addEventListener('input', () => { const n = leesGetal(st.maanden.value); if (n >= 1 && n <= 36) st.schuif.value = String(n); });
 
     // De reserve rekent mee terwijl je typt, zodat het totaal op het scherm klopt.
     st.reserve.addEventListener('input', () => {

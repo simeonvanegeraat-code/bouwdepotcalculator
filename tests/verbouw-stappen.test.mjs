@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 
 import {
-    controleerGeld, controleerPosten, controleerRente, controleerReserve, schermvolgorde, volgende, voortgang, vorige,
+    controleerDuur, controleerGeld, controleerPosten, controleerRente, controleerReserve, schermvolgorde, volgende, voortgang, vorige,
 } from '../src/verbouwen/stappenlogica.js';
 
 const posten = JSON.parse(readFileSync(new URL('../data/verbouwposten.json', import.meta.url), 'utf8'));
@@ -11,10 +11,10 @@ const html = readFileSync(new URL('../verbouwbegroting.html', import.meta.url), 
 const CATS = posten.categorieen.map((c) => c.id);
 
 test('alleen wat je aanvinkt krijgt een scherm, in de volgorde van de pagina', () => {
-    assert.deepEqual(schermvolgorde(CATS, ['afbouw', 'ruwbouw']), ['wat', 'cat-ruwbouw', 'cat-afbouw', 'reserve', 'geld', 'rente']);
-    assert.deepEqual(schermvolgorde(CATS, []), ['wat', 'reserve', 'geld', 'rente']);
-    assert.equal(schermvolgorde(CATS, CATS).length, CATS.length + 4);
-    assert.deepEqual(schermvolgorde(CATS, ['bestaat-niet']), ['wat', 'reserve', 'geld', 'rente']);
+    assert.deepEqual(schermvolgorde(CATS, ['afbouw', 'ruwbouw']), ['wat', 'cat-ruwbouw', 'cat-afbouw', 'reserve', 'duur', 'geld', 'rente']);
+    assert.deepEqual(schermvolgorde(CATS, []), ['wat', 'reserve', 'duur', 'geld', 'rente']);
+    assert.equal(schermvolgorde(CATS, CATS).length, CATS.length + 5);
+    assert.deepEqual(schermvolgorde(CATS, ['bestaat-niet']), ['wat', 'reserve', 'duur', 'geld', 'rente']);
 });
 
 test('volgende en vorige lopen van start tot klaar', () => {
@@ -50,6 +50,11 @@ test('reserve, financiering en rente houden de grenzen van de rekentool aan', ()
     assert.match(controleerGeld({ hypotheek: 0, waarde: 0, eigen: 0 }), /waard is/);
     assert.notEqual(controleerGeld({ hypotheek: -1, waarde: 400000, eigen: 0 }), '');
     assert.notEqual(controleerGeld({ hypotheek: 0, waarde: 400000, eigen: 1000001 }), '');
+    assert.equal(controleerDuur(1), '');
+    assert.equal(controleerDuur(36), '');
+    assert.notEqual(controleerDuur(37), '');
+    assert.notEqual(controleerDuur(4.5), '');
+    assert.notEqual(controleerDuur(null), '');
     assert.equal(controleerRente(0), '');
     assert.equal(controleerRente(3.9), '');
     assert.notEqual(controleerRente(null), '');
@@ -80,7 +85,7 @@ test('de pagina houdt haar adres, kop en ingangen', () => {
     assert.equal(kruimels.itemListElement.at(-1).name, zichtbaar);
     // Wie via het menu naar de leenruimte gaat, of een bedrag meekrijgt, slaat het startscherm over.
     assert.ok(html.includes("location.hash === '#leenruimte'") && html.includes(".has('bedrag')"));
-    for (const haak of ['data-vb-samen', 'data-vb-lijst', 'data-vb-waardepunt', 'data-vb-bankpunt', 'id="invoer"', 'id="begroting-posten"', 'id="lr-volg-knop"', 'id="lr-praktijkcase"']) {
+    for (const haak of ['data-vb-samen', 'data-vb-lijst', 'data-vb-waardepunt', 'data-vb-bankpunt', 'id="invoer"', 'id="begroting-posten"', 'id="lr-volg-knop"', 'id="lr-praktijkcase"', 'id="input-verbouw-maanden"', 'data-scherm="duur"', 'data-vb-tijdens="grafiek"', 'data-vb-tijdens="link"']) {
         assert.ok(html.includes(haak), haak);
     }
 });
