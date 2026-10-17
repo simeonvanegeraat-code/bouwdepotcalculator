@@ -291,7 +291,7 @@ function initRenteverlies() {
             if (tarief != null) veld.vergoeding.value = procent(tarief).replace('%', '');
             bankNoot.textContent = veld.model.value === 'opname'
                 ? `${bank.naam} rekent alleen rente over wat je hebt opgenomen.`
-                : `Ingevuld voor ${bank.naam} bij een verbouwing: vergoeding ${typeof duur === 'number' ? `${maanden(duur)} lang` : 'zonder gepubliceerde duur'}${tarief == null ? '. Het percentage publiceert deze aanbieder niet; vul dat uit je offerte in' : ''}. Je kunt elk veld aanpassen.`;
+                : `Ingevuld voor ${bank.naam} bij een verbouwing: vergoeding ${typeof duur === 'number' ? `${maanden(duur)} lang` : 'zonder gepubliceerde duur'}${tarief == null ? '. Het percentage publiceert deze aanbieder niet; vul dat uit je offerte in' : ''}.${bank.vergoeding.naVerlengingOnbekend ? ' Of de vergoeding doorloopt als je het depot verlengt, publiceert deze aanbieder niet.' : ''} Je kunt elk veld aanpassen.`;
         } else {
             bankNoot.textContent = '';
         }

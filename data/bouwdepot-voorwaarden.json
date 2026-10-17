@@ -1,7 +1,7 @@
 {
   "_toelichting": "Bouwdepotvoorwaarden per geldverstrekker. Elke waarde is overgenomen van de officiele publieke pagina van de aanbieder. Waar een aanbieder iets niet publiceert staat null met status 'niet-gepubliceerd' - nooit een schatting. Controleer voor publicatie; zie JURIDISCHE-CHECK.md.",
   "_versie": "0.1",
-  "_laatstBijgewerkt": "2026-08-19",
+  "_laatstBijgewerkt": "2026-10-14",
   "_veldUitleg": {
     "looptijdVerbouwMaanden": "Standaardlooptijd depot bij verbouwing bestaande woning",
     "looptijdNieuwbouwMaanden": "Standaardlooptijd depot bij nieuwbouw",
@@ -103,7 +103,7 @@
       "id": "rabobank",
       "naam": "Rabobank",
       "bron": "https://www.rabobank.nl/particulieren/hypotheek/hypotheekvormen-en-voorwaarden/hypotheekproducten/bouwdepot",
-      "gecontroleerd": "2026-09-30",
+      "gecontroleerd": "2026-10-14",
       "automatischTeControleren": false,
       "handcontroleReden": "De productpagina is JS-gerenderd en levert bij geautomatiseerd ophalen geen tekst. Alleen met de hand te controleren.",
       "looptijdVerbouwMaanden": 24,
@@ -133,9 +133,8 @@
       },
       "opnamemethode": "zelf-betalen",
       "maxPerOpname": {
-        "bedrag": null,
-        "status": "niet-van-toepassing",
-        "detail": "Er is geen declaratieproces met een maximumbedrag: je betaalt zelf vanuit het depot. In de praktijk geldt de overboeklimiet van je eigen rekening, en die stel je zelf in."
+        "bedrag": 5000,
+        "detail": "Er is geen declaratieproces: je betaalt zelf vanuit het depot. Rabobank noemt een grens van maximaal EUR 5.000 per keer. Die limiet kun je tijdelijk of blijvend verhogen; daarna wacht je 4 uur voordat je de overboeking kunt doen."
       },
       "minPerOpname": {
         "bedrag": null,
@@ -150,7 +149,7 @@
       "declarabel": "Alle kosten die nodig zijn voor bouw, verbouwing of verduurzaming: aannemer, architect, bouwmaterialen, keuken, badkamer. Niet: inboedel en spullen die je bij een verhuizing meeneemt, zoals gordijnen en meubels.",
       "restant": {
         "waarde": "Wordt standaard afgelost op de lening",
-        "detail": "Wil je het bedrag op je betaalrekening laten storten, dan is eerst een nieuwe inkomenstoets nodig via je adviseur."
+        "detail": "Wil je het bedrag op je betaalrekening laten storten, dan is eerst een nieuwe inkomenstoets nodig via je adviseur. Los je zo meer af dan zonder kosten mag, dan betaal je een vergoeding; die hangt af van je rente en je vergoedingsvrije ruimte."
       },
       "eigenArbeid": {
         "waarde": null,
@@ -160,12 +159,13 @@
         "Het depot wordt direct geopend bij het passeren; later openen of tussentijds verhogen is niet mogelijk.",
         "Het depot stopt automatisch als het saldo onder EUR 2.500 komt, als de (ver)bouw af is, of als de bouw anders verloopt dan afgesproken.",
         "Facturen hoef je niet vooraf in te dienen, maar Rabobank kan achteraf controleren.",
-        "Overboeken gaat via je eigen overboeklimiet in Online Bankieren of de app. Die limiet is een instelling van je rekening en geen depotvoorwaarde: je kunt hem zelf tijdelijk of blijvend verhogen, waarna een wachttijd geldt voordat de nieuwe limiet ingaat.",
-        "Mogelijk met zowel Basis- als Plusvoorwaarden en met alle rentevaste periodes."
+        "Overboeken gaat via Online Bankieren of de app, met een grens van EUR 5.000 per keer. Die limiet kun je zelf tijdelijk of blijvend verhogen, waarna je 4 uur wacht voordat de nieuwe limiet ingaat.",
+        "Mogelijk met zowel Basis- als Plusvoorwaarden en met alle rentevaste periodes.",
+        "Betaal je een deel van de bouw of verbouwing met eigen geld, dan gebruik je dat eerst en daarna pas het bouwdepot."
       ],
       "voorschieten": {
-        "waarde": "Niet nodig",
-        "detail": "Je betaalt rekeningen rechtstreeks vanuit het depot, dus voorschieten is niet aan de orde. Betaal je toch eerst zelf, vraag dan vooraf na of terugbetaling mogelijk is."
+        "waarde": "Kan, je maakt het daarna naar jezelf over",
+        "detail": "Heb je een rekening eerst vanaf je eigen rekening betaald, dan maak je het bedrag vanuit het bouwdepot over naar jezelf."
       },
       "declaratieEisen": [
         {
@@ -184,7 +184,7 @@
       "id": "ing",
       "naam": "ING",
       "bron": "https://www.ing.nl/particulier/hypotheek/jouw-hypotheek/bouwdepot",
-      "gecontroleerd": "2026-09-30",
+      "gecontroleerd": "2026-10-14",
       "automatischTeControleren": false,
       "handcontroleReden": "De productpagina blokkeert geautomatiseerd ophalen; de verbinding wordt verbroken. Alleen met de hand te controleren.",
       "looptijdVerbouwMaanden": 24,
@@ -193,7 +193,7 @@
         "verbouw": 12,
         "nieuwbouw": 12,
         "eenmalig": true,
-        "detail": "Aanvragen vanaf vier maanden voor de einddatum. Verzoek wordt binnen vijf werkdagen afgehandeld."
+        "detail": "Aanvragen vanaf vier maanden voor de einddatum. Verzoek wordt binnen vijf werkdagen afgehandeld. Is het depot al een keer verlengd, dan kan alleen nog een schriftelijk verzoek; ING noemt niet wanneer dat wordt toegekend."
       },
       "rentevergoeding": {
         "waarde": "Geen",
@@ -232,7 +232,7 @@
         "werkdagenDigitaal": 5,
         "status": "gepubliceerd"
       },
-      "declarabel": "Verbouwing van de woning zoals uitbouw of dakkapel, aanleg en inrichting van de tuin, vervanging van kozijnen, ramen en deuren, vloeren die onlosmakelijk met het huis verbonden zijn, ingebouwde verlichting, onderhoudsschilderwerk, op maat gemaakt zonnescherm, badkamer en keuken, asbestverwijdering en zonnepanelen. Voorwaarde bij verbouwing: de woning verbetert in kwaliteit en wordt meer waard, en de verbetering zit vast aan de woning. Niet: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting.",
+      "declarabel": "Verbouwing van de woning zoals uitbouw of dakkapel, aanleg, onderhoud en inrichting van de tuin, vervanging van kozijnen, ramen en deuren, vloeren die onlosmakelijk met het huis verbonden zijn, ingebouwde verlichting, onderhoudsschilderwerk, op maat gemaakt zonnescherm, badkamer en keuken, asbestverwijdering en zonnepanelen. Voorwaarde bij verbouwing: de woning verbetert in kwaliteit en wordt meer waard, en de verbetering zit vast aan de woning. Niet: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting.",
       "bewijsstuk": "Factuur of kassabon, goed leesbaar, in het Nederlands, Engels, Frans of Duits, met bedragen in euro's. Een offerte, orderbevestiging, koopovereenkomst of pro-formafactuur is niet voldoende. Alleen facturen met een datum na de offertedatum worden in behandeling genomen.",
       "restant": {
         "waarde": "Wordt afgelost op de hypotheek",
@@ -1005,18 +1005,17 @@
       "bronnen": [
         "https://www.allianz.nl/particulier/hypotheken/hypotheekvormen/annuitair.html"
       ],
-      "gecontroleerd": "2026-10-02",
+      "gecontroleerd": "2026-10-14",
       "looptijdVerbouwMaanden": 12,
       "looptijdNieuwbouwMaanden": 24,
       "verlengingMaanden": {
-        "verbouw": null,
-        "nieuwbouw": null,
-        "geenVerlengingGepubliceerd": true,
-        "detail": "Allianz noemt in zijn bouwdepotinformatie geen mogelijkheid tot verlenging en geen voorwaarden daarvoor. Vraag bij je adviseur na of er in je situatie iets mogelijk is."
+        "verbouw": 6,
+        "nieuwbouw": 6,
+        "detail": "Is de verbouwing niet af als de termijn verstreken is, dan kun je het depot nog met maximaal 6 maanden verlengen. Aanvragen per e-mail aan hypotheken@allianz.nl of via allianz.mijnleninginzicht.nl. De informatie gaat over verbouwen; voor nieuwbouw noemt Allianz geen afwijkende regel."
       },
       "rentevergoeding": {
         "waarde": "Ja, gelijk aan je hypotheekrente",
-        "detail": "Je ontvangt dezelfde vergoeding als de rente die je over de lening betaalt. Zodra je facturen indient ga je over dat bedrag hypotheekrente betalen, dus je maandlast stijgt naarmate de verbouwing vordert.",
+        "detail": "Je ontvangt dezelfde vergoeding als de rente die je over de lening betaalt. Zodra je facturen indient ga je over dat bedrag hypotheekrente betalen, dus je maandlast stijgt naarmate de verbouwing vordert. Of de vergoeding doorloopt als je het depot verlengt, publiceert Allianz niet.",
         "model": "beperkt-in-duur",
         "vergoedingMaanden": {
           "verbouw": 12,
@@ -1025,11 +1024,13 @@
         "tarief": {
           "verbouw": "gelijk-aan-hypotheekrente",
           "nieuwbouw": "gelijk-aan-hypotheekrente"
-        }
+        },
+        "vergoedingNaVerlengingOnbekend": true
       },
       "verlengingAanvragen": {
         "maandenVoorEinde": null,
-        "status": "niet-gepubliceerd"
+        "status": "niet-gepubliceerd",
+        "detail": "Allianz noemt geen termijn waarbinnen je de verlenging aanvraagt."
       },
       "opnamemethode": "declaratie",
       "maxPerOpname": {
@@ -1041,10 +1042,10 @@
         "status": "niet-gepubliceerd"
       },
       "doorlooptijdUitbetaling": {
-        "digitaal": null,
-        "post": null,
-        "werkdagenDigitaal": null,
-        "status": "niet-gepubliceerd"
+        "digitaal": "Binnen 7 werkdagen: 6 voor de beoordeling en na goedkeuring 1 voor de uitbetaling. Via allianz.mijnleninginzicht.nl gaat het sneller dan per e-mail.",
+        "post": "Per e-mail aan bouwdepot@allianz.nl, langzamer dan via het portaal",
+        "werkdagenDigitaal": 7,
+        "status": "gepubliceerd"
       },
       "declarabel": "Werk aan de woning zelf, zoals een keuken, badkamer of vloer, en de materialen die daarbij horen. Allianz noemt onder meer gehuurd gereedschap, verf en gipsplaten. Je kunt alleen declareren wat in je verbouwplan staat.",
       "restant": {
@@ -1069,13 +1070,22 @@
           "eis": "factuurouderdom",
           "waarde": "De factuurdatum moet na de hypotheekaanvraag liggen",
           "detail": "Ligt de datum op de factuur, rekening of kassabon voor de aanvraagdatum van de hypotheek, dan kan Allianz niet uitbetalen."
+        },
+        {
+          "eis": "taal-en-valuta",
+          "waarde": "NL, EN of DU",
+          "detail": "Facturen en bonnen moeten in het Nederlands, Engels of Duits zijn."
         }
       ],
       "bijzonderheden": [
         "Het afleveradres op de rekening moet het adres van het onderpand zijn.",
         "Op de rekening moeten bedrijfsnaam, adres, plaatsnaam, telefoonnummer, bankrekeningnummer en KvK-nummer staan, plus een omschrijving van wat er is gekocht of gedaan. Die omschrijving gebruikt Allianz om te bepalen of het werk de woningwaarde verhoogt.",
         "Je verbouwplan wijzigen kan via het online portaal, maar Allianz vraagt dan een nieuwe waardebepaling. Bij een hypotheek met NHG is een gewijzigd taxatierapport verplicht.",
-        "Allianz wijst erop dat de hypotheek verhogen tijdens de verbouwing vaak niet mogelijk is."
+        "Allianz wijst erop dat de hypotheek verhogen tijdens de verbouwing vaak niet mogelijk is.",
+        "Betaal je een deel van de verbouwing zelf, dan betaalt Allianz pas uit het depot als jouw deel betaald is. Dat toon je aan met rekeningen tot dat bedrag.",
+        "Declareer je werk dat niet in je verbouwplan staat, dan kan Allianz een verklaring van je taxateur vragen. Die kosten zijn voor jou.",
+        "Het depot is pas te gebruiken als Allianz de getekende hypotheekakte van de notaris heeft. Allianz maakt alleen over naar Nederlandse rekeningnummers.",
+        "Loop je achter met rente of aflossing, dan betaalt Allianz niets uit het depot."
       ]
     }
   ]

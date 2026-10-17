@@ -398,7 +398,7 @@ if (wortel) {
         // Alleen waarschuwen als er echt iets te verliezen is: geld in het depot
         // en weinig tijd. Een waarschuwing bij een leeg depot is ruis.
         const vergoeding = bank.vergoeding.maanden[soort];
-        const vergoedingStopt = typeof vergoeding === 'number' && bank.vergoeding.model === 'beperkt-in-duur' ? maandenErbij(start, vergoeding) : null;
+        const vergoedingStopt = typeof vergoeding === 'number' && bank.vergoeding.model === 'beperkt-in-duur' && !bank.vergoeding.naVerlengingOnbekend ? maandenErbij(start, vergoeding) : null;
         let tekst = '';
         if (saldo > 0 && resterend != null && resterend > 0 && resterend <= 4) {
             tekst = `Er staat nog ${euro.format(saldo)} in het depot en de standaardtermijn eindigt over minder dan vier maanden. Dit is het moment om te beslissen: bestellen en declareren, of verlenging aanvragen.`;

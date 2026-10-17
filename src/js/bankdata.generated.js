@@ -3,7 +3,7 @@
  * Bron: data/bouwdepot-voorwaarden.json
  * Opnieuw maken: node scripts/build-bankdata.mjs
  *
- * Laatst bijgewerkt volgens de bron: 2026-08-19
+ * Laatst bijgewerkt volgens de bron: 2026-10-14
  */
 
 export const BANKEN = [
@@ -30,6 +30,7 @@ export const BANKEN = [
       "samenvatting": "Ja, maar niet de hele verlenging",
       "detail": "Tijdens de standaardlooptijd ontvang je vergoeding. Verleng je, dan krijg je over de laatste 6 maanden geen rente meer. Bij nieuwbouw duurt de vergoeding maximaal 30 maanden, terwijl het depot tot 36 maanden kan lopen.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": false,
       "maanden": {
         "verbouw": 18,
         "nieuwbouw": 30
@@ -90,6 +91,7 @@ export const BANKEN = [
       "samenvatting": "Ja, gelijk aan je hypotheekrente bij aanvang",
       "detail": "De depotrente wijzigt niet, ook niet als je hypotheekrente wijzigt. De vergoeding loopt over de hele looptijd van 2 jaar, maar stopt zodra het depot daarna wordt verlengd.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": false,
       "maanden": {
         "verbouw": 24,
         "nieuwbouw": 24
@@ -107,10 +109,10 @@ export const BANKEN = [
     "opnamemethode": "zelf-betalen",
     "uitbetaling": "Direct - je betaalt zelf vanuit het depot via Online Bankieren of de Rabo App",
     "uitbetalingWerkdagen": 0,
-    "voorschieten": "Niet nodig",
+    "voorschieten": "Kan, je maakt het daarna naar jezelf over",
     "restant": {
       "waarde": "Wordt standaard afgelost op de lening",
-      "detail": "Wil je het bedrag op je betaalrekening laten storten, dan is eerst een nieuwe inkomenstoets nodig via je adviseur."
+      "detail": "Wil je het bedrag op je betaalrekening laten storten, dan is eerst een nieuwe inkomenstoets nodig via je adviseur. Los je zo meer af dan zonder kosten mag, dan betaal je een vergoeding; die hangt af van je rente en je vergoedingsvrije ruimte."
     },
     "eigenArbeid": null,
     "eisen": [
@@ -150,6 +152,7 @@ export const BANKEN = [
       "samenvatting": "Geen",
       "detail": "ING hanteert een afwijkend model: je betaalt alleen rente over het bedrag dat je al hebt opgenomen. Over het saldo dat nog in het depot staat betaal je geen rente en ontvang je ook geen rente. Voor de belastingaangifte vul je EUR 0,00 aan ontvangen rente in.",
       "model": "rente-alleen-over-opgenomen",
+      "naVerlengingOnbekend": false,
       "maanden": {
         "verbouw": 0,
         "nieuwbouw": 0
@@ -195,7 +198,7 @@ export const BANKEN = [
         "detail": "De woning moet in kwaliteit verbeteren en de verbetering moet vastzitten. Niet toegestaan: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting."
       }
     ],
-    "declarabel": "Verbouwing van de woning zoals uitbouw of dakkapel, aanleg en inrichting van de tuin, vervanging van kozijnen, ramen en deuren, vloeren die onlosmakelijk met het huis verbonden zijn, ingebouwde verlichting, onderhoudsschilderwerk, op maat gemaakt zonnescherm, badkamer en keuken, asbestverwijdering en zonnepanelen. Voorwaarde bij verbouwing: de woning verbetert in kwaliteit en wordt meer waard, en de verbetering zit vast aan de woning. Niet: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting."
+    "declarabel": "Verbouwing van de woning zoals uitbouw of dakkapel, aanleg, onderhoud en inrichting van de tuin, vervanging van kozijnen, ramen en deuren, vloeren die onlosmakelijk met het huis verbonden zijn, ingebouwde verlichting, onderhoudsschilderwerk, op maat gemaakt zonnescherm, badkamer en keuken, asbestverwijdering en zonnepanelen. Voorwaarde bij verbouwing: de woning verbetert in kwaliteit en wordt meer waard, en de verbetering zit vast aan de woning. Niet: gereedschap, raamdecoratie zoals gordijnen en jaloezieen, en losse verlichting."
   },
   {
     "id": "munt",
@@ -220,6 +223,7 @@ export const BANKEN = [
       "samenvatting": "Ja, maar beperkt in duur",
       "detail": "Bij bestaande bouw over de eerste 12 maanden. Bij nieuwbouw en energiebesparende maatregelen over de eerste 24 maanden.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": false,
       "maanden": {
         "verbouw": 12,
         "nieuwbouw": 24
@@ -275,6 +279,7 @@ export const BANKEN = [
       "samenvatting": "Ja, gelijk aan je hypotheekrente",
       "detail": "Bij meerdere leningdelen met verschillende rentes ontvang je een gewogen gemiddelde van die rentes. De vergoeding stopt na 18 maanden bij verbouwing van een bestaande woning en na 30 maanden bij nieuwbouw.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": false,
       "maanden": {
         "verbouw": 18,
         "nieuwbouw": 30
@@ -340,6 +345,7 @@ export const BANKEN = [
       "samenvatting": "Ja, maar verschilt per depotsoort",
       "detail": "Bij het nieuwbouwdepot is de vergoeding gelijk aan de gemiddelde rente die je over je hypotheek betaalt. Bij het verbouwdepot ligt de vergoeding 1% lager dan die gemiddelde hypotheekrente. De vergoeding loopt 24 maanden bij nieuwbouw en 12 maanden bij verbouwing, en wordt automatisch verrekend met je maandbedrag.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": false,
       "maanden": {
         "verbouw": 12,
         "nieuwbouw": 24
@@ -415,6 +421,7 @@ export const BANKEN = [
       "samenvatting": "Ja, maar hoogte en duur verschillen per hypotheekvorm",
       "detail": "Bij de Woon Hypotheek is de vergoeding gelijk aan je hypotheekrente en loopt die 12 maanden bij bestaande bouw. Bij nieuwbouw is dat 24 maanden voor hypotheekaanvragen vanaf 16 september 2024; voor aanvragen van daarvóór blijft het 12 maanden. Bij de Basis, Compact en Obvion Hypotheek ligt de vergoeding 1% lager en loopt die in beide gevallen 24 maanden.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": false,
       "maanden": {
         "verbouw": 12,
         "nieuwbouw": 24
@@ -475,6 +482,7 @@ export const BANKEN = [
       "samenvatting": "Ja, gelijk aan je hypotheekrente",
       "detail": "De vergoeding loopt over de hele looptijd, dus ook over een verlenging en daarmee tot 36 maanden. Daardoor betaal je per saldo alleen hypotheekrente over het geld dat al aan de bouw of verbouwing is uitgegeven. Bij de SNS Bespaarhypotheek wordt de depotrente maandelijks opnieuw bepaald op het gewogen gemiddelde van je hypotheekrentes.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": false,
       "maanden": {
         "verbouw": 36,
         "nieuwbouw": 36
@@ -540,6 +548,7 @@ export const BANKEN = [
       "samenvatting": "Ja, gelijk aan de gemiddelde rente over je lening",
       "detail": "De vergoeding is even hoog als de rente die je gemiddeld over je lening betaalt. Zij loopt over de standaardlooptijd; verleng je het depot, dan vervalt de vergoeding over die verlenging.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": false,
       "maanden": {
         "verbouw": 12,
         "nieuwbouw": 24
@@ -600,6 +609,7 @@ export const BANKEN = [
       "samenvatting": "Ja, gelijk aan je hypotheekrente",
       "detail": "De vergoeding is gelijk aan je hypotheekrente en wordt verrekend met de rente die je betaalt; je betaalt dus alleen rente over wat al is opgenomen. Het percentage wordt vastgezet als de akte passeert en tijdens de looptijd niet aangepast. ASN noemt geen moment waarop de vergoeding binnen de standaardlooptijd van 24 maanden stopt, en publiceert ook niet wat er met de vergoeding gebeurt als je verlengt. Uitzondering: bij de Bespaarhypotheek wordt het percentage elke maand opnieuw vastgesteld op het gewogen gemiddelde van je hypotheek.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": true,
       "maanden": {
         "verbouw": 24,
         "nieuwbouw": 24
@@ -655,6 +665,7 @@ export const BANKEN = [
       "samenvatting": "Ja, gelijk aan je hypotheekrente",
       "detail": "Het rentetarief van het bouwdepot is gelijk aan het tarief dat je voor de hypotheek betaalt. Argenta vermeldt uitdrukkelijk dat de vergoeding na verlenging vervalt.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": false,
       "maanden": {
         "verbouw": 24,
         "nieuwbouw": 24
@@ -710,6 +721,7 @@ export const BANKEN = [
       "samenvatting": "Ja, gelijk aan je hypotheekrente",
       "detail": "Je betaalt hypotheekrente over het hele depot en ontvangt vergoeding over wat er nog in staat, tegen hetzelfde percentage. Neem je geld op, dan daalt de vergoeding en stijgt je maandlast.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": false,
       "maanden": {
         "verbouw": 24,
         "nieuwbouw": 24
@@ -756,20 +768,21 @@ export const BANKEN = [
       "nieuwbouw": 24
     },
     "verlenging": {
-      "verbouw": null,
-      "nieuwbouw": null,
+      "verbouw": 6,
+      "nieuwbouw": 6,
       "eenmalig": null,
       "duurOnbekend": false,
-      "geen": true
+      "geen": false
     },
     "maximaal": {
-      "verbouw": 12,
-      "nieuwbouw": 24
+      "verbouw": 18,
+      "nieuwbouw": 30
     },
     "vergoeding": {
       "samenvatting": "Ja, gelijk aan je hypotheekrente",
-      "detail": "Je ontvangt dezelfde vergoeding als de rente die je over de lening betaalt. Zodra je facturen indient ga je over dat bedrag hypotheekrente betalen, dus je maandlast stijgt naarmate de verbouwing vordert.",
+      "detail": "Je ontvangt dezelfde vergoeding als de rente die je over de lening betaalt. Zodra je facturen indient ga je over dat bedrag hypotheekrente betalen, dus je maandlast stijgt naarmate de verbouwing vordert. Of de vergoeding doorloopt als je het depot verlengt, publiceert Allianz niet.",
       "model": "beperkt-in-duur",
+      "naVerlengingOnbekend": true,
       "maanden": {
         "verbouw": 12,
         "nieuwbouw": 24
@@ -782,11 +795,11 @@ export const BANKEN = [
     "verlengingAanvragen": {
       "maandenVoorEinde": null,
       "soort": null,
-      "detail": null
+      "detail": "Allianz noemt geen termijn waarbinnen je de verlenging aanvraagt."
     },
     "opnamemethode": "declaratie",
-    "uitbetaling": null,
-    "uitbetalingWerkdagen": null,
+    "uitbetaling": "Binnen 7 werkdagen: 6 voor de beoordeling en na goedkeuring 1 voor de uitbetaling. Via allianz.mijnleninginzicht.nl gaat het sneller dan per e-mail.",
+    "uitbetalingWerkdagen": 7,
     "voorschieten": null,
     "restant": {
       "waarde": "Wordt afgelost op de hypotheek",
@@ -803,10 +816,15 @@ export const BANKEN = [
         "eis": "factuurouderdom",
         "waarde": "De factuurdatum moet na de hypotheekaanvraag liggen",
         "detail": "Ligt de datum op de factuur, rekening of kassabon voor de aanvraagdatum van de hypotheek, dan kan Allianz niet uitbetalen."
+      },
+      {
+        "eis": "taal-en-valuta",
+        "waarde": "NL, EN of DU",
+        "detail": "Facturen en bonnen moeten in het Nederlands, Engels of Duits zijn."
       }
     ],
     "declarabel": "Werk aan de woning zelf, zoals een keuken, badkamer of vloer, en de materialen die daarbij horen. Allianz noemt onder meer gehuurd gereedschap, verf en gipsplaten. Je kunt alleen declareren wat in je verbouwplan staat."
   }
 ];
 
-export const BRON_BIJGEWERKT = "2026-08-19";
+export const BRON_BIJGEWERKT = "2026-10-14";

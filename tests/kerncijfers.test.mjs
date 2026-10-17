@@ -38,7 +38,9 @@ const zonderVergoeding = data.aanbieders.filter((a) => /^geen/i.test(a.renteverg
  */
 const vergoedingStoptEerder = data.aanbieders.filter((a) => {
     const v = a.rentevergoeding;
-    if (v?.model !== 'beperkt-in-duur') return false;
+    // Publiceert de aanbieder niet of de vergoeding in de verlenging doorloopt,
+    // dan telt hij niet mee: dat de vergoeding stopt is dan niet aangetoond.
+    if (v?.model !== 'beperkt-in-duur' || v.vergoedingNaVerlengingOnbekend) return false;
     const duur = v.vergoedingMaanden?.verbouw;
     const basis = a.looptijdVerbouwMaanden;
     const extra = a.verlengingMaanden?.verbouw;
@@ -90,9 +92,23 @@ test('de verbouwtermijn wordt overal gelijk genoemd', () => {
     const max = Math.max(...verbouwtermijnen);
     const bereik = new RegExp(`${min}\\s*(?:&ndash;|tot|-)\\s*${max}`);
 
-    for (const bestand of ['index.html', 'nieuwbouw.html', 'stappenplan.html', 'hypotheekrenteaftrek-gids.html']) {
-        const html = lees(bestand);
-        if (!/24|42/.test(html)) continue;
-        assert.match(html, bereik, `${bestand} noemt een ander bereik dan ${min}-${max} maanden`);
+    for (const bestand of ['index.html', 'stappenplan.html', 'hypotheekrenteaftrek-gids.html', 'over-ons.html']) {
+        assert.match(lees(bestand), bereik, `${bestand} noemt een ander bereik dan ${min}-${max} maanden`);
     }
+});
+
+test('de kern-cijfers op nieuwbouw.html komen overeen met de data', () => {
+    const termijnen = data.aanbieders
+        .map((a) => a.looptijdNieuwbouwMaanden + (typeof a.verlengingMaanden?.nieuwbouw === 'number' ? a.verlengingMaanden.nieuwbouw : 0));
+    const html = lees('nieuwbouw.html');
+    assert.match(html, new RegExp(`tnum">${Math.min(...termijnen)}&ndash;${Math.max(...termijnen)}<`), 'het nieuwbouwbereik');
+
+    const stopt = data.aanbieders.filter((a) => {
+        const v = a.rentevergoeding;
+        if (v?.model !== 'beperkt-in-duur' || v.vergoedingNaVerlengingOnbekend) return false;
+        const max = a.looptijdNieuwbouwMaanden + (typeof a.verlengingMaanden?.nieuwbouw === 'number' ? a.verlengingMaanden.nieuwbouw : 0);
+        return v.vergoedingMaanden?.nieuwbouw < max;
+    }).length;
+    const woord = ['nul', 'een', 'twee', 'drie', 'vier', 'vijf', 'zes', 'zeven', 'acht', 'negen', 'tien', 'elf', 'twaalf', 'dertien'][stopt];
+    assert.match(html, new RegExp(`Bij ${woord} van de dertien aanbieders stopt de depotvergoeding`), `bij ${stopt} aanbieders stopt de vergoeding eerder`);
 });

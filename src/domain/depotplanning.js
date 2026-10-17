@@ -65,16 +65,19 @@ export function gebeurtenissen(bank, start, soort) {
     } else if (typeof vergoeding === 'number') {
         const looptDoorNaStandaard = typeof looptijd === 'number' && vergoeding > looptijd;
         const stoptEerder = typeof langste === 'number' && vergoeding < langste;
+        const onbekend = stoptEerder && bank.vergoeding.naVerlengingOnbekend;
         let uitleg;
         if (!stoptEerder) {
             uitleg = 'De vergoeding loopt door tot het einde van je depot, ook als je verlengt.';
+        } else if (onbekend) {
+            uitleg = `Tot hier loopt de vergoeding zeker. Of ze doorloopt als je verlengt, publiceert ${bank.naam} niet; vraag dat na voordat je verlengt.`;
         } else if (looptDoorNaStandaard) {
             uitleg = `De vergoeding loopt ${vergoeding} maanden en dus door in de verlenging, maar niet tot het einde daarvan. Over de laatste ${langste - vergoeding} maanden betaal je wel rente en ontvang je niets meer.`;
         } else {
             uitleg = `Na ${vergoeding} maanden stopt de vergoeding, terwijl het depot tot ${langste} maanden kan lopen. Wat er daarna nog in staat kost je wel rente en levert niets meer op.`;
         }
         rij.push({
-            naam: 'Vergoeding stopt',
+            naam: onbekend ? 'Vergoeding zeker tot' : 'Vergoeding stopt',
             soort: 'vergoeding',
             datum: maandenErbij(start, vergoeding),
             uitleg,

@@ -113,7 +113,7 @@ function heeft(bank, eigenschap) {
         case 'vergoedingStoptEerder': {
             const m = bank.vergoeding.maanden.verbouw;
             const max = bank.maximaal.verbouw ?? bank.looptijd.verbouw;
-            return bank.vergoeding.model === 'beperkt-in-duur' && typeof m === 'number' && typeof max === 'number' && m < max;
+            return bank.vergoeding.model === 'beperkt-in-duur' && !bank.vergoeding.naVerlengingOnbekend && typeof m === 'number' && typeof max === 'number' && m < max;
         }
         case 'zelfBetalen': return bank.opnamemethode === 'zelf-betalen';
         case 'declaratie': return bank.opnamemethode === 'declaratie';

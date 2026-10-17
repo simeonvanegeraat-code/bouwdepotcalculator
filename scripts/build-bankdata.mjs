@@ -57,6 +57,9 @@ const banken = data.aanbieders.map((a) => {
       samenvatting: a.rentevergoeding?.waarde ?? null,
       detail: a.rentevergoeding?.detail ?? null,
       model: a.rentevergoeding?.model ?? null,
+      // De aanbieder publiceert niet of de vergoeding in de verlenging doorloopt.
+      // Dan mag geen tool zeggen dat ze stopt.
+      naVerlengingOnbekend: a.rentevergoeding?.vergoedingNaVerlengingOnbekend === true,
       maanden: {
         verbouw: a.rentevergoeding?.vergoedingMaanden?.verbouw ?? null,
         nieuwbouw: a.rentevergoeding?.vergoedingMaanden?.nieuwbouw ?? null,

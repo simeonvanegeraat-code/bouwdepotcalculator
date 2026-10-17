@@ -45,6 +45,17 @@ test('ABN AMRO, nieuwbouw: de vergoeding loopt door in de verlenging, maar niet 
     assert.match(op(rij, 'vergoeding').uitleg, /laatste 6 maanden/);
 });
 
+test('Allianz, verbouwing: 12 maanden plus 6 verlenging, en geen bewering over de vergoeding daarna', () => {
+    const rij = gebeurtenissen(bank('allianz'), new Date(2026, 0, 15), 'verbouw');
+    assert.equal(dag(op(rij, 'einde').datum), '2027-01-15');            // 12 maanden
+    assert.equal(dag(op(rij, 'uiterste').datum), '2027-07-15');         // + 6
+    const v = op(rij, 'vergoeding');
+    assert.equal(dag(v.datum), '2027-01-15');
+    assert.equal(v.naam, 'Vergoeding zeker tot');
+    assert.doesNotMatch(v.uitleg, /stopt/);
+    assert.match(v.uitleg, /publiceert Allianz niet/);
+});
+
 test('ING: geen vergoeding en dus geen datum daarvoor, wel een aanvraagvenster', () => {
     const rij = gebeurtenissen(bank('ing'), new Date(2026, 2, 1), 'verbouw');
     assert.equal(op(rij, 'vergoeding'), undefined);
