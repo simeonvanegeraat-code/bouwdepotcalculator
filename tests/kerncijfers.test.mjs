@@ -112,3 +112,12 @@ test('de kern-cijfers op nieuwbouw.html komen overeen met de data', () => {
     const woord = ['nul', 'een', 'twee', 'drie', 'vier', 'vijf', 'zes', 'zeven', 'acht', 'negen', 'tien', 'elf', 'twaalf', 'dertien'][stopt];
     assert.match(html, new RegExp(`Bij ${woord} van de dertien aanbieders stopt de depotvergoeding`), `bij ${stopt} aanbieders stopt de vergoeding eerder`);
 });
+
+test('elke declaratie-eis heeft een soort die de pagina\'s tonen', () => {
+    // 'factuurouderdom' stond in de data maar werd nergens getoond: bij vier
+    // aanbieders stond de ouderdomseis daardoor als niet gepubliceerd.
+    const bekend = ['soort-bewijs', 'vast-aan-woning', 'factuurgegevens', 'ouderdom', 'factuurdatum', 'taal-en-valuta', 'bestandsformaat'];
+    for (const a of data.aanbieders) {
+        for (const e of a.declaratieEisen || []) assert.ok(bekend.includes(e.eis), `${a.id}: onbekende eis "${e.eis}"`);
+    }
+});

@@ -129,7 +129,9 @@ export function gebeurtenissen(bank, start, soort) {
     if (aanvraag.maandenVoorEinde == null) {
         rij.push({
             naam: 'Verlengen regelen',
-            uitleg: aanvraag.detail
+            uitleg: aanvraag.automatisch
+                ? aanvraag.detail
+                : aanvraag.detail
                 ? `${aanvraag.detail} Zet zelf een herinnering ruim voor de einddatum.`
                 : `${bank.naam} publiceert niet hoeveel maanden voor de einddatum een verlenging geregeld moet zijn. Wacht er niet mee tot de laatste weken.`,
         });

@@ -56,6 +56,14 @@ test('Allianz, verbouwing: 12 maanden plus 6 verlenging, en geen bewering over d
     assert.match(v.uitleg, /publiceert Allianz niet/);
 });
 
+test('NN verlengt vanzelf: geen herinnering om te verlengen', () => {
+    const rij = gebeurtenissen(bank('nn'), new Date(2026, 0, 15), 'verbouw');
+    const regelen = rij.find((g) => g.naam === 'Verlengen regelen');
+    assert.match(regelen.uitleg, /automatisch/);
+    assert.doesNotMatch(regelen.uitleg, /herinnering/);
+    assert.equal(dag(op(rij, 'uiterste').datum), '2028-01-15');        // 12 + 12
+});
+
 test('ING: geen vergoeding en dus geen datum daarvoor, wel een aanvraagvenster', () => {
     const rij = gebeurtenissen(bank('ing'), new Date(2026, 2, 1), 'verbouw');
     assert.equal(op(rij, 'vergoeding'), undefined);

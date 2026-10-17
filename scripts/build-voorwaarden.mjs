@@ -148,6 +148,8 @@ function bewijsVeld(a) {
 /** Wanneer een verlenging geregeld moet zijn. */
 function verlengVeld(a) {
   const v = a.verlengingAanvragen || {};
+  // Verlengt de aanbieder vanzelf, dan valt er niets te regelen.
+  if (v.status === 'niet-van-toepassing') return { waarde: 'Niet nodig: gaat automatisch', detail: v.detail || null };
   if (typeof v.maandenVoorEinde !== 'number') {
     return { waarde: null, detail: v.detail || null };
   }
@@ -386,6 +388,7 @@ ${feit('Zelf voorschieten', a.voorschieten)}
 ${feit('Verlengen regelen', verlengVeld(a))}
 ${feit('Grens per opname', a.maxPerOpname)}
 ${feit('Restant bij beëindiging', a.restant)}
+${feit('Eigen arbeid', a.eigenArbeid)}
                     </dl>
                     <p class="ul-vgl__meer"><a href="${bestandsnaam(a)}">Alle voorwaarden van ${esc(a.naam)}<span aria-hidden="true"> &rarr;</span></a></p>
                 </article>`;
@@ -610,7 +613,9 @@ function bouwAanbieder(a) {
     // Het verschil tussen zelf mogen aanvragen en bericht krijgen is wezenlijk:
     // in het tweede geval hoeft de klant niets te onthouden, in het eerste wel.
     rij('Verlenging regelen',
-      a.verlengingAanvragen?.maandenVoorEinde == null
+      a.verlengingAanvragen?.status === 'niet-van-toepassing'
+        ? 'Niet nodig: gaat automatisch'
+        : a.verlengingAanvragen?.maandenVoorEinde == null
         ? LEEG
         : a.verlengingAanvragen.soort === 'bericht-van-bank'
           ? `Bericht van de aanbieder ${a.verlengingAanvragen.maandenVoorEinde} maanden voor de einddatum`
@@ -631,6 +636,7 @@ function bouwAanbieder(a) {
     rij('Vereist bewijsstuk', waarde(bewijsVeld(a)), bewijsVeld(a).detail),
     rij('Ouderdom van de factuur', waarde(eisVeld(a, 'ouderdom')), eisVeld(a, 'ouderdom').detail),
     rij('Wat u mag declareren', a.declarabel ? esc(a.declarabel) : LEEG),
+    rij('Eigen arbeid', waarde(a.eigenArbeid), a.eigenArbeid?.detail),
     rij('Restant bij beëindiging', waarde(a.restant), a.restant?.detail),
   ].filter(Boolean).join('\n');
 

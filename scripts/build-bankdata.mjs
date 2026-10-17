@@ -72,6 +72,7 @@ const banken = data.aanbieders.map((a) => {
     verlengingAanvragen: {
       maandenVoorEinde: a.verlengingAanvragen?.maandenVoorEinde ?? null,
       soort: a.verlengingAanvragen?.soort ?? null,
+      automatisch: a.verlengingAanvragen?.status === 'niet-van-toepassing',
       detail: a.verlengingAanvragen?.detail ?? null,
     },
     opnamemethode: a.opnamemethode ?? null,

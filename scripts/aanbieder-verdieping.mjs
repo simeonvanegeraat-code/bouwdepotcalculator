@@ -70,7 +70,7 @@ const VRAGEN = [
   [(a) => typeof a.verlengingMaanden?.verbouw !== 'number' && !a.verlengingMaanden?.mogelijkMaarDuurOnbekend,
     'Is verlengen in mijn situatie toch mogelijk, of stopt het depot op de einddatum?'],
   // Alleen als er iets te verlengen valt; anders spreekt de vraag de vorige tegen.
-  [(a) => a.verlengingAanvragen?.maandenVoorEinde == null && (typeof a.verlengingMaanden?.verbouw === 'number' || a.verlengingMaanden?.mogelijkMaarDuurOnbekend),
+  [(a) => a.verlengingAanvragen?.maandenVoorEinde == null && a.verlengingAanvragen?.status !== 'niet-van-toepassing' && (typeof a.verlengingMaanden?.verbouw === 'number' || a.verlengingMaanden?.mogelijkMaarDuurOnbekend),
     'Hoeveel maanden voor de einddatum moet ik een verlenging geregeld hebben?'],
   [(a) => !a.maxPerOpname || a.maxPerOpname.status === 'niet-gepubliceerd',
     'Is er een maximumbedrag per declaratie of per opname?'],
