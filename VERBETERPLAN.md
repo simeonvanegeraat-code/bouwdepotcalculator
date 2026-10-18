@@ -15,7 +15,7 @@ Dit plan vervangt de volgorde in `ROADMAP.md` niet vanzelf. Die roadmap ging ove
 | 0. Meten en beschermen | Grotendeels klaar | De positie van de homepage op "bouwdepot berekenen" volgen tot 25 oktober (0.3) en de vier pagina's "gevonden, niet geïndexeerd" opzoeken (0.5). Beide bij de eigenaar |
 | 1. "Bouwdepot berekenen" winnen | Klaar | Niets. 1.2 is vervallen: de homepage blijft zoals hij is; het voorstel blijft het noodplan als de positie zakt |
 | 2. Nieuwbouw naar de eerste pagina | Grotendeels klaar | 2.1 is live als route in stappen (zie hieronder). Open: een uitgewerkt voorbeeld met bedragen (2.2) en de pagina's bouwrente en dubbele lasten laten doorverwijzen naar het hele plan (2.3). 2.4, het eigen verhaal, is door de eigenaar afgewezen |
-| 3. "Hoeveel bouwdepot kan ik krijgen" | Open | Alles. Begint met de keuze van 3.2: eigen pagina of een sterker deel van de verbouwbegroting. `/leenruimte.html` komt nu direct bij de rekentool uit, zonder startscherm |
+| 3. "Hoeveel bouwdepot kan ik krijgen" | Gebouwd, nog niet live (17 oktober) | 3.1 en 3.2: `/leenruimte.html` is weer een eigen pagina, met inkomenstoets en waardetoets volgens de Trhk 2026 (zie het ontwikkelplan hieronder). Open: 3.3, en na livegang de positie volgen |
 | 4. Vertrouwen | Deels | 4.3 is gedaan: de privacy- en cookiepagina noemen alle lokale opslag. Open: "Over ons" (4.1), de juridische vraag over naam en adres (4.2) en de voettekst (4.4) |
 | 5. Bankdata beheersbaar houden | Open | Alles. De data is laatst met de hand gecontroleerd op 19 augustus 2026. De wekelijkse bronbewaking draait en commit zelf naar `main` |
 | 6. Kwaliteit | Open | Alles. 6.1 en 6.5 wegen zwaarder dan toen het plan werd geschreven: de 3D-bouwplaats laadt nu ook op de telefoon (138 kB gezipt, na het tonen van de pagina) |
@@ -149,6 +149,61 @@ De grootste groeikans, en het onderwerp waar de eigenaar zelf ervaring mee heeft
 | 3.1 | De leenruimte-tool een eigen, vindbare ingang geven | Ruim 400 vertoningen op "hoeveel bouwdepot kan ik krijgen" en varianten, positie 25. De tool bestaat, maar zit in de verbouwbegroting |
 | 3.2 | Beslissen: eigen pagina, of een sterker deel van de verbouwbegroting | Een eigen pagina betekent een eerdere samenvoeging terugdraaien (`leenruimte.html` verwijst nu door). Dat vraagt een bewuste SEO-keuze |
 | 3.3 | "Bouwdepot aanvragen" (550 vertoningen, positie 68) bekijken: kunnen wij daar iets uitrekenen of tonen, of is dit een vraag voor de bank? | Alleen oppakken als we er echt iets aan toevoegen |
+
+#### Ontwikkelplan fase 3 (17 oktober 2026)
+
+**Onderzoek.**
+- De zoekvragen zijn "hoeveel bouwdepot kan ik krijgen" (232 vertoningen, positie 25), "bouwdepot hoeveel" (105, positie 15) en "hoeveel bouwdepot kan je krijgen" (93, positie 32,5). `/leenruimte.html` had 143 vertoningen voordat het werd doorgestuurd.
+- De pagina's die nu bovenaan staan, rekenen niet zelf: ze noemen woningwaarde en inkomen en verwijzen naar een adviseur.
+- De huidige tool in de verbouwbegroting doet alleen de waardetoets. Op de eigenlijke vraag, "hoeveel kan ik lenen", geeft hij dus geen antwoord.
+
+**Wat de wet bepaalt.** Bron: Tijdelijke regeling hypothecair krediet, versie die geldt vanaf 1-1-2026, wetten.overheid.nl/BWBR0032503.
+
+- **Inkomenstoets (art. 3):**
+  - Toegestane jaarlast = toetsinkomen × percentage uit bijlage 1. Tabel 1 geldt onder de AOW-leeftijd, tabel 2 erboven.
+  - Bij twee aanvragers telt het gezamenlijke inkomen (lid 6).
+  - De last wordt berekend als annuïteit over 30 jaar, met maandelijks achteraf betalen.
+  - Toetsrente: bij een rentevaste periode van 10 jaar of langer de geoffreerde rente, anders de AFM-rente of de geoffreerde rente als die hoger is. De AFM-rente is minimaal 5%; in het vierde kwartaal van 2026 is ze 5%.
+  - Studieschuld: het termijnbedrag gaat gebruteerd van de last af (art. 3a, tabel met bruteringsfactoren).
+- **Wat een aanbieder buiten de last mag laten (art. 3 lid 8 en art. 4):**
+  - het bedrag bij het energielabel (€ 0 tot € 40.000);
+  - voor energiebesparende voorzieningen bij een bestaande woning nog eens € 20.000 (label E-G), € 15.000 (C-D) of € 10.000 (A-A++). Zonder label is dat € 10.000;
+  - voor een alleenstaande met meer dan € 30.000 toetsinkomen tot € 17.000.
+  - Het zijn bevoegdheden ("kan"), geen plichten.
+- **Waardetoets (art. 5):** maximaal 100% van de woningwaarde. Voor de kosten van energiebesparende voorzieningen mag het tot 106%.
+
+**Model.**
+- Maximale hypotheek op inkomen = contante waarde van de toegestane maandlast (30 jaar, toetsrente), plus de bedragen die buiten de last mogen blijven.
+- Maximale hypotheek op waarde = waarde na verbouwing, plus de energiebesparende kosten tot 106%.
+- Extra te lenen = het kleinste van de twee, min de huidige hypotheek, en nooit minder dan nul.
+- **Vereenvoudigingen, op de pagina benoemd:**
+  - het bestaande leningdeel telt ook als annuïteit over 30 jaar (lid 3 staat dat toe);
+  - andere leningen dan de studieschuld zitten er niet in;
+  - boven € 125.000 geldt het percentage van de laatste rij.
+
+**Pagina.**
+- **Adres:** `/leenruimte.html` komt terug als eigen pagina. Google kent het adres al, en het is de naam in het menu. De doorverwijzingen van `maximale-bouwdepot.html`, `eigen-geld-bouwdepot.html` en `?plan=haalbaarheid` gaan erheen.
+- **Kop en titel:**
+  - titel: "Hoeveel bouwdepot kan ik krijgen? Reken je leenruimte uit";
+  - H1: "Hoeveel bouwdepot kun je krijgen?".
+- **Opbouw:** een rekenpagina in de werkruimte-stijl, zonder startscherm.
+  - **Invoer in drie groepen:** inkomen, woning en hypotheek, verbouwing. Studieschuld en AOW staan onder "Meer".
+  - **Uitkomst:** het extra bedrag, welke toets de grens bepaalt, een balk met beide grenzen en de huidige hypotheek, en de extra maandlast.
+  - **"Zo is het gerekend":** elke stap met het percentage uit de wet.
+  - **Verder:** "Nog te controleren", Excel en "link kopiëren".
+- **Tekst onder de tool:**
+  - vier korte antwoorden op de gezochte vragen, met bedragen uit de rekenkern;
+  - één voorbehoud.
+- **De verbouwbegroting** houdt haar waardetoets als onderdeel van de route, en verwijst voor de inkomenstoets naar de nieuwe pagina.
+
+**Werk, in volgorde.**
+1. De tabellen uit de wettekst vastleggen in `src/domain/trhk-2026.js`, met bron en datum. Een test bewaakt de opbouw en controleert steekproeven.
+2. De rekenkern `src/domain/leenruimte.js`, met handberekende tests: nulgevallen, grenzen, partner, AOW, studieschuld, energielabel en 106%.
+3. Pagina, schermcode en stijl.
+4. Aansluiten:
+   - menu (`data/navigatie.json`), homepage, verbouwbegroting en bouwdepot berekenen;
+   - doorverwijzingen in `vercel.json`, Vite-ingang en sitemap.
+5. Controle in de browser op 375 en 1040 px, de build en het opleveringsrapport. Pas na akkoord live.
 
 ### Fase 4 — Vertrouwen (doorlopend, begint in week 1)
 

@@ -31,6 +31,7 @@ export default defineConfig({
         contact: resolve(__dirname, 'contact.html'),
         cookies: resolve(__dirname, 'cookies.html'),
         dubbeleLastenNieuwbouw: resolve(__dirname, 'dubbele-lasten-nieuwbouw.html'),
+        leenruimte: resolve(__dirname, 'leenruimte.html'),
         hypotheekrenteaftrekGids: resolve(__dirname, 'hypotheekrenteaftrek-gids.html'),
         main: resolve(__dirname, 'index.html'),
         nietGevonden: resolve(__dirname, '404.html'),

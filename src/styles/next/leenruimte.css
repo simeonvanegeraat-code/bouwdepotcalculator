@@ -1,0 +1,67 @@
+/*
+ * Leenruimte: wat erbij komt bovenop werkruimte.css en depot.css. Alles begint met lr-.
+ *
+ * Let op de volgorde: in de gebouwde site kan dit bestand vóór werkruimte.css
+ * staan. Een regel die een wr-klasse op hetzelfde element moet overstemmen,
+ * noemt die klasse mee.
+ */
+
+/* De ruimtebalk, in het donkere uitkomstpaneel. Links je huidige hypotheek
+   (ingekort, met een knik), dan wat je voor de verbouwing kunt lenen in de
+   accentkleur, wat je zelf betaalt als open vlak, en eventueel meer ruimte.
+   De twee grenzen zijn strepen; de grens die telt is vol, de andere gestippeld.
+   Posities zet src/leenruimte/pagina.js als left en width in procenten. */
+.lr-ruimte { margin-top: 1.5rem; }
+.lr-ruimte__balk { position: relative; height: 2.25rem; border-radius: 0.5rem; background: rgba(247, 245, 240, 0.08); }
+.lr-ruimte__balk > i { position: absolute; top: 0; bottom: 0; transition: left 0.3s ease, width 0.3s ease; }
+.lr-ruimte__huidig { left: 0; background: rgba(247, 245, 240, 0.28); border-radius: 0.5rem 0 0 0.5rem; }
+/* De knik: een schuine snede in de kleur van het paneel, rechts in het blok. */
+.lr-ruimte__balk.is-geknikt .lr-ruimte__huidig::after { content: ''; position: absolute; top: -2px; bottom: -2px; right: 18%; width: 0.4rem; background: var(--ui-forest); transform: skewX(-18deg); }
+.lr-ruimte__lenen { font-style: normal; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--ui-champagne); color: var(--ui-forest); font-size: 0.875rem; font-weight: 600; white-space: nowrap; }
+.lr-ruimte__zelf { border: 2px dashed rgba(247, 245, 240, 0.55); border-left: 0; border-radius: 0 0.5rem 0.5rem 0; }
+.lr-ruimte__over { background: rgba(207, 173, 125, 0.35); border-radius: 0 0.5rem 0.5rem 0; }
+.lr-ruimte__grens { position: absolute; top: -0.4rem; bottom: -0.4rem; width: 0; border-left: 2px dashed rgba(247, 245, 240, 0.6); transition: left 0.3s ease; }
+.lr-ruimte__grens.is-grens { border-left: 3px solid #F7F5F0; }
+
+.lr-legenda { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 0.35rem 2rem; margin-top: 1.1rem; font-size: 0.875rem; color: #D5E0D9; }
+.lr-legenda ul { display: grid; gap: 0.35rem; margin: 0; padding: 0; list-style: none; align-content: start; }
+.lr-legenda li { display: grid; grid-template-columns: 1rem minmax(0, 1fr) auto; align-items: center; gap: 0.6rem; }
+.lr-legenda li[hidden] { display: none; }
+.lr-legenda strong { font-weight: 500; color: #F7F5F0; }
+.lr-legenda i { width: 1rem; height: 0.75rem; border-radius: 0.2rem; }
+[data-lr-leg='huidig'] i { background: rgba(247, 245, 240, 0.28); }
+[data-lr-leg='lenen'] i { background: var(--ui-champagne); }
+[data-lr-leg='lenen'] span, [data-lr-leg='lenen'] strong { color: #F7F5F0; font-weight: 600; }
+[data-lr-leg='zelf'] i { border: 2px dashed rgba(247, 245, 240, 0.55); }
+[data-lr-leg='over'] i { background: rgba(207, 173, 125, 0.35); }
+[data-lr-leg='inkomen'] i, [data-lr-leg='waarde'] i { width: 0; height: 0.9rem; margin-left: 0.45rem; border-left: 2px dashed rgba(247, 245, 240, 0.6); border-radius: 0; }
+.lr-legenda li.is-grens i { border-left: 3px solid #F7F5F0; }
+.lr-legenda li.is-grens span { color: #F7F5F0; }
+
+/* Drie hoofdcijfers naast elkaar waar het past. */
+.wr-cijfers.lr-cijfers { grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); }
+
+/* Het raster: invoer links, de uitkomst rechts en in beeld tijdens het invullen;
+   "Zo is het gerekend" daaronder over de volle breedte. */
+@media (min-width: 960px) {
+    .wr-werk.lr-werk { grid-template-areas: 'invoer uitkomst' 'reken reken'; grid-template-rows: auto auto; }
+    /* Het omhulsel vult het hele vak naast het formulier; de uitkomst blijft
+       daarbinnen in beeld en stopt waar het formulier eindigt. In een grid zou
+       een meescrollend element anders over de rij eronder schuiven. */
+    .lr-rechts { grid-area: uitkomst; align-self: stretch; }
+    .lr-rechts > .wr-uitkomst { position: sticky; top: 1rem; }
+}
+
+/* Zo is het gerekend: twee kolommen stappen, elk eindigend in hun grens. */
+.wr-paneel.lr-reken { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; }
+@media (min-width: 960px) { .wr-paneel.lr-reken { grid-area: reken; } }
+.lr-stappen { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1.25rem clamp(1.5rem, 4vw, 3rem); }
+.lr-stappen h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.6rem; }
+.lr-stappen .wr-dl dt { color: var(--ui-muted); }
+.lr-stappen .wr-dl dd { text-align: right; }
+.lr-stappen .wr-dl dd strong { font-weight: 600; color: var(--ui-forest); }
+
+@media print {
+    .lr-rechts > .wr-uitkomst { position: static; }
+    .lr-legenda, .lr-legenda strong, .lr-legenda span { color: var(--ui-ink); }
+}

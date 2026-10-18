@@ -124,7 +124,7 @@ function initDepot() {
     // Oude links naar de haalbaarheidscheck, die nu op de verbouwpagina staat.
     // In productie vangt vercel.json dit af; dit is er voor de ontwikkelserver.
     if (params.get('plan') === 'haalbaarheid') {
-        window.location.replace('verbouwbegroting.html#leenruimte');
+        window.location.replace('leenruimte.html');
         return;
     }
 

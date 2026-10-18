@@ -129,7 +129,23 @@ import { drukAf } from './afdrukdocument.js';
         homeForfait: { label: 'Eigenwoningforfait', type: 'currency' },
         taxBenefitYearly: { label: 'Belastingvoordeel in jaar 1', type: 'currency' },
         oneTimeBenefit: { label: 'Eenmalig terug over financieringskosten', type: 'currency' },
-        allocatedTo: { label: 'Aftrek toegerekend aan', type: 'text' }
+        allocatedTo: { label: 'Aftrek toegerekend aan', type: 'text' },
+
+        // Leenruimte
+        fixedTenYears: { label: 'Rente 10 jaar of langer vast', type: 'boolean' },
+        renovationCost: { label: 'Kosten van de verbouwing', type: 'currency' },
+        energySavingCost: { label: 'Waarvan energiebesparend', type: 'currency' },
+        energyLabel: { label: 'Energielabel', type: 'text' },
+        studentDebtMonthly: { label: 'Studieschuld per maand', type: 'currency' },
+        testRate: { label: 'Toetsrente', type: 'percentage' },
+        financingPercentage: { label: 'Financieringslastpercentage', type: 'percentage' },
+        allowedMonthly: { label: 'Toegestane last per maand', type: 'currency' },
+        maxOnIncome: { label: 'Maximale hypotheek op inkomen', type: 'currency' },
+        maxOnValue: { label: 'Maximale hypotheek op woningwaarde', type: 'currency' },
+        maxMortgage: { label: 'Maximale hypotheek', type: 'currency' },
+        lenderAllowance: { label: 'Waarvan ruimte die de bank mag geven', type: 'currency' },
+        extraBorrowing: { label: 'Extra te lenen', type: 'currency' },
+        bindingLimit: { label: 'De grens komt uit', type: 'text' }
     };
 
     const INTERPRETATION_LABELS = {
