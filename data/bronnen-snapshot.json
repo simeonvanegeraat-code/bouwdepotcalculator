@@ -1,12 +1,13 @@
 {
-  "bijgewerkt": "2026-10-12",
+  "bijgewerkt": "2026-10-19",
   "bronnen": {
     "https://www.abnamro.nl/nl/prive/hypotheken/hypotheek-afsluiten/bouwdepot/voorwaarden-bouwdepot.html": {
-      "hash": "4474246d415ac96a",
-      "aantal": 17,
+      "hash": "6911a234f7dbef3e",
+      "aantal": 18,
       "zinnen": [
         "Bekijk de actie Bankrekening openen Inclusief betaalpas en online bankieren voor € 4,30 per maand.",
-        "Bekijk hoe je met slim sparen een hogere rente verdient Bekijk onze spaarrekeningen Een woonverzekering afsluiten Sluit vóór 12 oktober een woonverzekering af en ontvang het eerste jaar 20% korting op je premie Bereken direct je premie Geef je pensioen een vliegende start Open een pensioenrekening, doe dit jaar nog een eerste inleg en ontvang € 100 tot € 1.000 bonus.",
+        "Bekijk hoe je met slim sparen een hogere rente verdient Bekijk onze spaarrekeningen Een woonverzekering afsluiten Sluit vóór 1 februari 2027 een woonverzekering af en ontvang het eerste jaar 20% korting op je premie.",
+        "Bereken direct je premie Geef je pensioen een vliegende start Open een pensioenrekening, doe dit jaar nog een eerste inleg en ontvang € 100 tot € 1.000 bonus.",
         "Bij verlenging krijg je de laatste 6 maanden geen rente over het bouwdepot.",
         "Bouwdepot bij verbouw van een bestaande woning Looptijd is 18 maanden, met eenmalige verlenging van 6 maanden.",
         "Dan activeren we het bouwdepot binnen 5 werkdagen na ontvangst van de getekende hypotheekofferte.",
@@ -46,6 +47,34 @@
       "aantal": 2,
       "zinnen": [
         "Nota’s die zijn goedgekeurd worden binnen 5 werkdagen na ontvangst uitbetaald aan u of de aannemer (bij nieuwbouw).",
+        "Vind een adviseur bij u in de buurt Vul uw postcode in Zoek Veelgestelde vragen Bekijk Actuele rentetarieven Bekijk Hypotheekberekening in 30 seconden Bekijk Mijn situatie Ik wil een MUNT Hypotheek Ik wil mijn hypotheek oversluiten Ik heb een MUNT Hypotheek Ik ben adviseur Hypotheken & Rente Veelgestelde vragen Rente Hypotheekvormen Wat kan ik lenen?"
+      ]
+    },
+    "https://www.munthypotheken.nl/veelgestelde-vragen/bouwdepot/wat-is-de-rente-op-mijn-bouwdepot/": {
+      "hash": "2b3d2dd6e1e55de0",
+      "aantal": 4,
+      "zinnen": [
+        "Let op: Bij een depot voor energiebesparende voorzieningen en een nieuwbouwdepot krijgt u de eerste 24 maanden een rentevergoeding.",
+        "Rekenvoorbeeld: Leningdeel 1 € 100.000 x 6% = € 6.000; Leningdeel 2 € 50.000 x 5% = € 2.500; Totaal € 8.500; Gemiddeld rentepercentage € 8.500 / € 150.000 = 0,0566 oftewel 5,66 % gemiddeld gewogen rente.",
+        "U krijgt de eerste 12 maanden van de looptijd van het bouwdepot deze vergoeding.",
+        "Vind een adviseur bij u in de buurt Vul uw postcode in Zoek Veelgestelde vragen Bekijk Actuele rentetarieven Bekijk Hypotheekberekening in 30 seconden Bekijk Mijn situatie Ik wil een MUNT Hypotheek Ik wil mijn hypotheek oversluiten Ik heb een MUNT Hypotheek Ik ben adviseur Hypotheken & Rente Veelgestelde vragen Rente Hypotheekvormen Wat kan ik lenen?"
+      ]
+    },
+    "https://www.munthypotheken.nl/veelgestelde-vragen/bouwdepot/tips-voor-uw-bouwdepot/": {
+      "hash": "8c25f4d116358215",
+      "aantal": 4,
+      "zinnen": [
+        "De afdeling bouwdepots is van maandag tot en met vrijdag van 8.30 uur tot 17.30 uur bereikbaar op telefoonnummer 033-4546499 of via e-mailadres MuntBouwdepot@stater.nl .",
+        "Uitbetaling bouwdepot Als het saldo van uw bouwdepot onder €1.000,00 komt, maken wij het restant naar u over.",
+        "Vind een adviseur bij u in de buurt Vul uw postcode in Zoek Veelgestelde vragen Bekijk Actuele rentetarieven Bekijk Hypotheekberekening in 30 seconden Bekijk Mijn situatie Ik wil een MUNT Hypotheek Ik wil mijn hypotheek oversluiten Ik heb een MUNT Hypotheek Ik ben adviseur Hypotheken & Rente Veelgestelde vragen Rente Hypotheekvormen Wat kan ik lenen?",
+        "Voorschot Wij kunnen uit uw bouwdepot maximaal €2.500,00 als voorschot aan u uitbetalen."
+      ]
+    },
+    "https://www.munthypotheken.nl/veelgestelde-vragen/bouwdepot/de-ver-bouw-ing-is-afgerond-wat-gebeurt-er-met-gelden-die-nog-in-het-depot-zitten/": {
+      "hash": "cb99acc76932332e",
+      "aantal": 2,
+      "zinnen": [
+        "Een restantbedrag lager dan € 1.000 wordt bij beëindiging van het bouwdepot uitbetaald op uw bankrekening.",
         "Vind een adviseur bij u in de buurt Vul uw postcode in Zoek Veelgestelde vragen Bekijk Actuele rentetarieven Bekijk Hypotheekberekening in 30 seconden Bekijk Mijn situatie Ik wil een MUNT Hypotheek Ik wil mijn hypotheek oversluiten Ik heb een MUNT Hypotheek Ik ben adviseur Hypotheken & Rente Veelgestelde vragen Rente Hypotheekvormen Wat kan ik lenen?"
       ]
     },
@@ -221,11 +250,11 @@
       ]
     },
     "https://www.centraalbeheer.nl/hypotheek/klant/bouwdepot": {
-      "hash": "e3e82124b2373d2b",
+      "hash": "f7516cab8f740158",
       "aantal": 11,
       "zinnen": [
         "'&q=' : '#q=') + document.getElementsByClassName('js-site-header__search__input')[0].value; return false;\" cb-search=\"\" data-click-event-level=\"zoeken\"> Home Hypotheek Klant Mijn bouwdepot Mijn bouwdepot Regel het hier Met je bouwdepot betaal je de (ver)bouw of verduurzaming van jouw huis.",
-        "(055) 579 8100 Vanaf morgen weer van 8.00 uur tot 18.00 uur 3 tips voor een snelle betaling Wil je een factuur of kassabon uit je bouwdepot betalen?",
+        "(055) 579 8100 Tot 18.00 uur 3 tips voor een snelle betaling Wil je een factuur of kassabon uit je bouwdepot betalen?",
         "3 dingen die je moet weten over je bouwdepot: Het bouwdepot is bedoeld voor alles dat aan jouw huis vastzit.",
         "Als je alles volgens de spelregels instuurt, betalen wij binnen 6 werkdagen.",
         "Binnen je bouwdepot heb je 1 of meer rubrieken .",
