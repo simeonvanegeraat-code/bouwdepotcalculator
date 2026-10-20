@@ -8,16 +8,16 @@
  * geen ranglijst op kwaliteit, elke aanbieder met bronlink en controledatum,
  * onbekend blijft "niet gepubliceerd" en wordt nooit geschat.
  *
- * Ontwerp (zie ONTWERPPLAN.md): antwoord eerst. De vergelijking opent met wat
- * er te zien is, niet met een inleiding. Looptijden staan als balken op één
- * schaal, zodat je verschillen ziet in plaats van leest.
+ * Ontwerp: antwoord eerst. De vergelijking is één tabel met per aanbieder een
+ * tijdlijnbalk op één schaal: hoe lang het depot open kan staan en hoe lang de
+ * vergoeding loopt. Zie bouwHub() hieronder.
  *
  * Vormgeving: de pagina's gebruiken de nieuwe stijl (src/styles/next) en zeggen
  * "je". De teksten in de dataset en in dit script zijn met "u" geschreven; de
  * functie pagina() haalt alle zichtbare tekst door jij() (scripts/aanspreekvorm.mjs).
  * Nieuwe tekst in dit script mag dus in beide vormen staan, de uitvoer zegt "je".
- * Elke aanbieder draagt data-bank, zodat src/uitleg/declaratie.js de gekozen
- * geldverstrekker kan uitlichten.
+ * Elke rij draagt data-bank, zodat src/voorwaarden/pagina.js de gekozen
+ * geldverstrekker bovenaan kan zetten.
  *
  *   node scripts/build-voorwaarden.mjs
  */
@@ -31,6 +31,8 @@ import { verdieping } from './aanbieder-verdieping.mjs';
 // npm run build:voorwaarden vóór dit script en schrijft bankdata.generated.js.
 import { gebeurtenissen } from '../src/domain/depotplanning.js';
 import { BANKEN } from '../src/js/bankdata.generated.js';
+import { looptijd, vergoedingsduur, opnameModel } from '../src/domain/voorwaarden.js';
+import { balk, procent, SCHAAL } from '../src/js/voorwaarden-balk.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const data = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/bouwdepot-voorwaarden.json'), 'utf8'));
@@ -158,10 +160,6 @@ function verlengVeld(a) {
     : `Vanaf ${v.maandenVoorEinde} maanden voor de einddatum aan te vragen`;
   return { waarde: soort, detail: v.detail || null };
 }
-const tariefBerekenbaar = data.aanbieders.filter((a) =>
-  ['gelijk-aan-hypotheekrente', 'hypotheekrente-min-1'].includes(a.rentevergoeding?.tarief?.verbouw)
-).length;
-
 /**
  * Hoeveel maanden de vergoeding loopt, afgezet tegen de looptijd.
  *
@@ -232,53 +230,6 @@ function feit(label, veld, opties = {}) {
   return `                        <div class="ul-feit${opties.proza ? ' ul-feit--proza' : ''}"><dt>${esc(label)}</dt><dd${
     opties.gedempt ? ' class="ul-leeg"' : ''
   }>${inhoud}${detail}</dd></div>`;
-}
-
-/** Alle balken delen één schaal; anders zegt de lengte niets. */
-const SCHAAL = Math.max(
-  ...data.aanbieders.flatMap((a) => {
-    const v = a.verlengingMaanden || {};
-    return [totaal(a.looptijdVerbouwMaanden, v.verbouw), totaal(a.looptijdNieuwbouwMaanden, v.nieuwbouw)]
-      .filter(Boolean).map((t) => t.totaal);
-  })
-);
-
-/**
- * Eén looptijdbalk. Drie gevallen, en het onderscheid is wezenlijk:
- *
- *   1. Basis en verlenging bekend  -> massief plus gearceerd, totaal als getal
- *   2. Verlenging mogelijk, duur onbekend -> massief plus een open uiteinde, en
- *      "24 mnd +?" als waarde. Zonder die markering lijkt de basis het maximum,
- *      terwijl het werkelijke maximum hoger kan liggen.
- *   3. Geen verlenging gepubliceerd -> alleen de basis
- */
-function balk(label, basis, extra, duurOnbekend = false) {
-  if (typeof basis !== 'number') {
-    return `<div class="ul-balk"><span class="ul-balk__label">${label}</span><span class="ul-balk__spoor"></span><span class="ul-balk__waarde">${LEEG}</span></div>`;
-  }
-
-  const heeftVerlenging = typeof extra === 'number' && extra > 0;
-  const som = basis + (heeftVerlenging ? extra : 0);
-  const pctBasis = (basis / SCHAAL) * 100;
-  const pctExtra = heeftVerlenging ? (extra / SCHAAL) * 100 : 0;
-
-  let segmenten = `<span class="ul-balk__vul" style="width:${pctBasis.toFixed(1)}%"></span>`;
-  if (heeftVerlenging) {
-    segmenten += `<span class="ul-balk__vul ul-balk__vul--verlenging" style="width:${pctExtra.toFixed(1)}%"></span>`;
-  } else if (duurOnbekend) {
-    // Vaste, korte breedte: de duur is onbekend, dus de balk mag geen lengte suggereren.
-    segmenten += `<span class="ul-balk__vul ul-balk__vul--open" aria-hidden="true"></span>`;
-  }
-
-  const waarde = heeftVerlenging || !duurOnbekend
-    ? `${som} mnd`
-    : `${basis} mnd <span class="ul-balk__open-teken" title="verlenging mogelijk, duur niet gepubliceerd">+?</span>`;
-
-  return `<div class="ul-balk">
-                            <span class="ul-balk__label">${label}</span>
-                            <span class="ul-balk__spoor"><span class="ul-balk__stapel">${segmenten}</span></span>
-                            <span class="ul-balk__waarde">${waarde}</span>
-                        </div>`;
 }
 
 // ---------------------------------------------------------------- shell
@@ -361,21 +312,66 @@ const ldjson = (obj) => `    <script type="application/ld+json">
 
 // ---------------------------------------------------------------- hub
 
-function bouwHub() {
-  const items = data.aanbieders.map((a) => {
-    const v = a.verlengingMaanden || {};
-    const geenRente = /^geen/i.test(a.rentevergoeding?.waarde || '');
-    return `                <article class="ul-vgl__item" id="${a.id}" data-bank="${a.id}">
-                    <div class="ul-vgl__kop">
-                        <h3><a href="${bestandsnaam(a)}">${esc(a.naam)}</a></h3>
-                        ${controle(a)}
-                    </div>
+/**
+ * De vergelijking als één tabel met een tijdlijn per aanbieder.
+ *
+ * Alles staat in de HTML: de balk voor verbouwing, de feiten en de uitklap
+ * met alle voorwaarden. Zonder JavaScript is de uitklap gewoon open en werkt
+ * de pagina als naslag. src/voorwaarden/pagina.js voegt toe: wisselen naar
+ * nieuwbouw, filters, je eigen bouwduur als lijn door alle balken, en per
+ * aanbieder het renteverlies in de uitklap.
+ *
+ * De balk komt uit src/js/voorwaarden-balk.js, dezelfde module die de pagina
+ * gebruikt, zodat statisch en bewegend niet uit elkaar lopen.
+ */
+const BANK = Object.fromEntries(BANKEN.map((b) => [b.id, b]));
 
-                    <div class="ul-balken">
-${balk('Verbouwing', a.looptijdVerbouwMaanden, v.verbouw, v.mogelijkMaarDuurOnbekend)}
-${balk('Nieuwbouw', a.looptijdNieuwbouwMaanden, v.nieuwbouw, v.mogelijkMaarDuurOnbekend)}
-                    </div>
+function balkHtml(bank) {
+  const g = balk(bank, 'verbouw');
+  const lab = (l) => `<span class="ul-tl__lab" data-lang="${esc(l.lang)}" data-midden="${esc(l.midden)}" data-kort="${esc(l.kort)}">${esc(l.midden)}</span>`;
+  return `<div class="ul-tl__balk" aria-hidden="true">
+                            <div class="ul-tl__spoor">
+                                <span class="ul-tl__seg ul-tl__seg--met${g.kostNiets ? ' ul-tl__seg--kost-niets' : ''}" style="left:0%;width:${procent(g.met)}">${lab(g.labels.met)}</span>
+                                <span class="ul-tl__seg ul-tl__seg--zonder${g.onbekend ? ' ul-tl__seg--onbekend' : ''}" style="left:${procent(g.met)};width:${procent(g.rest)}">${lab(g.labels.rest)}</span>
+                                <span class="ul-tl__seg ul-tl__seg--open" style="left:${procent(g.eind)}"${g.open ? '' : ' hidden'}></span>
+                                <span class="ul-tl__tick" style="left:${procent(g.tick ?? 0)}"${g.tick == null ? ' hidden' : ''}></span>
+                                <span class="ul-tl__lijn" hidden></span>
+                                <span class="ul-tl__totaal" style="left:${g.open ? `calc(${procent(g.eind)} + 2.5rem)` : procent(g.eind)}">${esc(g.totaal)}</span>
+                            </div>
+                        </div>`;
+}
 
+/** Tekst die per soort verschilt: beide staan in de HTML, de pagina wisselt. */
+const perSoort = (verbouw, nieuwbouw) => (verbouw === nieuwbouw
+  ? verbouw
+  : `<span data-soort="verbouw">${verbouw}</span><span data-soort="nieuwbouw" hidden>${nieuwbouw}</span>`);
+
+function tariefKort(a, soort) {
+  const bank = BANK[a.id];
+  if (opnameModel(bank)) return 'Geen, maar ook geen rente over het saldo';
+  const t = a.rentevergoeding?.tarief?.[soort];
+  if (t === 'niet-gepubliceerd') return 'Ja, hoogte niet gepubliceerd';
+  if (t === 'verschilt-per-product') return 'Ja, hoogte verschilt per product';
+  return TARIEFTEKST[t] || LEEG;
+}
+
+function hubRij(a) {
+  const bank = BANK[a.id];
+  const v = balk(bank, 'verbouw');
+  const geenRente = /^geen/i.test(a.rentevergoeding?.waarde || '');
+  return `                <tr class="ul-tl__rij" id="${a.id}" data-bank="${a.id}">
+                    <th scope="row" class="ul-tl__naam"><a href="${bestandsnaam(a)}">${esc(a.naam)}</a><small class="ul-tl__looptijd">${esc(v.onderschrift)}</small></th>
+                    <td class="ul-tl__tijd" data-label="Hoe lang open">
+                        ${balkHtml(bank)}
+                        <span class="ul-tl__past" hidden></span>
+                        <span class="ui-alleen-lezer ul-tl__zin">${esc(v.zin)}</span>
+                    </td>
+                    <td data-label="Vergoeding over depot">${perSoort(tariefKort(a, 'verbouw'), tariefKort(a, 'nieuwbouw'))}</td>
+                    <td data-label="Opnemen">${waarde(opnameVeld(a))}<small>uitbetaling: ${waarde({ waarde: uitbetalingKort(bank) })}</small></td>
+                    <td class="ul-tl__knopcel"><button class="ul-tl__open" type="button" aria-expanded="true" aria-controls="detail-${a.id}" hidden><span aria-hidden="true">&minus;</span><span class="ui-alleen-lezer">Alle voorwaarden van ${esc(a.naam)}</span></button></td>
+                </tr>
+                <tr class="ul-tl__detail" id="detail-${a.id}" data-bank="${a.id}">
+                    <td colspan="5">
                     <dl class="ul-feiten">
 ${feit('Vergoeding over depot', a.rentevergoeding, { gedempt: geenRente })}
 ${feit('Hoogte van die vergoeding', tariefVeld(a))}
@@ -390,108 +386,120 @@ ${feit('Grens per opname', a.maxPerOpname)}
 ${feit('Restant bij beëindiging', a.restant)}
 ${feit('Eigen arbeid', a.eigenArbeid)}
                     </dl>
-                    <p class="ul-vgl__meer"><a href="${bestandsnaam(a)}">Alle voorwaarden van ${esc(a.naam)}<span aria-hidden="true"> &rarr;</span></a></p>
-                </article>`;
-  }).join('\n');
+                    <div class="ul-tl__reken" data-reken></div>
+                    <p class="ul-tl__voet"><a href="${bestandsnaam(a)}">Alle voorwaarden van ${esc(a.naam)}<span aria-hidden="true"> &rarr;</span></a>${controle(a)}</p>
+                    </td>
+                </tr>`;
+}
 
-  const sprong = data.aanbieders
-    .map((a) => `                    <li><a href="#${a.id}">${esc(a.naam)}</a></li>`).join('\n');
+function uitbetalingKort(bank) {
+  const d = bank.uitbetalingWerkdagen;
+  if (d === 0) return 'direct';
+  if (typeof d === 'number') return `${d} werkdagen`;
+  return null;
+}
+
+/** Antwoord eerst: de spreiding in looptijd en hoe vaak de vergoeding eerder stopt. */
+function antwoordZin(soort) {
+  const eindes = BANKEN.map((b) => looptijd(b, soort)).filter((l) => !l.open).map((l) => l.max);
+  const korter = BANKEN.filter((b) => vergoedingsduur(b, soort).stoptInVerlenging || vergoedingsduur(b, soort).gat > 0).length;
+  return `Bij ${soort === 'verbouw' ? 'een verbouwing' : 'nieuwbouw'} staat het depot <strong>${Math.min(...eindes)} tot ${Math.max(...eindes)} maanden</strong> open, verlenging inbegrepen. ` +
+    `Bij <strong>${korter} van de ${BANKEN.length}</strong> aanbieders stopt de vergoeding voordat het depot dicht moet: het lichte deel van de balk.`;
+}
+
+/**
+ * Wat bij (bijna) niemand gepubliceerd is, uit de data afgeleid. Een vaste zin
+ * veroudert: de vorige versie zei dat geen enkele aanbieder iets over eigen
+ * arbeid publiceert, terwijl Florius dat wel doet.
+ */
+function bevinding() {
+  const wel = (k) => data.aanbieders.filter((a) => !(a[k]?.status === 'niet-gepubliceerd' || (a[k]?.waarde == null && a[k]?.bedrag == null)));
+  const namen = (lijst) => lijst.map((a) => esc(a.naam)).join(' en ');
+  const min = wel('minPerOpname'), eigen = wel('eigenArbeid');
+  const zin1 = min.length
+    ? `Een <strong>minimumbedrag per opname</strong> noemt alleen ${namen(min)}`
+    : 'Geen enkele aanbieder noemt een <strong>minimumbedrag per opname</strong>';
+  const zin2 = eigen.length
+    ? `over <strong>eigen arbeid</strong> zegt alleen ${namen(eigen)} iets`
+    : 'niemand zegt of <strong>eigen arbeid</strong> declarabel is';
+  return `${zin1}, en ${zin2}. Wij vullen die gaten niet met een aanname: <strong>je moet dit schriftelijk navragen en het antwoord bewaren</strong>. De <a href="stappenplan.html#adviesgesprek">advieschecklist</a> heeft er vragen voor.`;
+}
+
+/** Bij hoeveel aanbieders de vergoeding uit je eigen rente volgt. */
+const tariefBerekenbaar = () => data.aanbieders.filter((a) =>
+  ['gelijk-aan-hypotheekrente', 'hypotheekrente-min-1'].includes(a.rentevergoeding?.tarief?.verbouw)).length;
+
+function bouwHub() {
+  const volgorde = [...data.aanbieders].sort((x, y) => x.naam.localeCompare(y.naam, 'nl'));
+  const controles = data.aanbieders.map((a) => a.gecontroleerd).sort();
+  const as = Array.from({ length: SCHAAL / 6 + 1 }, (_, i) => i * 6)
+    .map((m) => `<span style="left:${procent(m)}">${m}</span>`).join('');
 
   const inhoud = `    <main>
         <section class="wr-wrap wr-kop ul-kop" id="inhoud">
             %KRUIMEL%
             <h1>Bouwdepot voorwaarden vergelijken</h1>
-            <p class="wr-lead">Dezelfde productnaam, sterk uiteenlopende voorwaarden. Hoe lang u de tijd krijgt, of u rente ontvangt en wat als bewijsstuk telt, verschilt per bank.</p>
-            <p class="ui-opschrift">Eigen onderzoek &middot; ${data.aanbieders.length} geldverstrekkers</p>
+            <p class="wr-lead ul-tl__antwoord" data-antwoord><span data-soort="verbouw">${antwoordZin('verbouw')}</span><span data-soort="nieuwbouw" hidden>${antwoordZin('nieuwbouw')}</span></p>
+            <p class="ui-opschrift">${data.aanbieders.length} geldverstrekkers &middot; bij de bron gecontroleerd tussen ${datum(controles[0])} en ${datum(controles.at(-1))}</p>
+
+            <!-- De bediening werkt alleen met JavaScript en staat daarom pas
+                 zichtbaar als src/voorwaarden/pagina.js draait. -->
+            <form class="ul-tl__bediening wr-geen-print" id="bediening" onsubmit="return false" aria-label="Vergelijking aanpassen" hidden>
+                <fieldset class="ul-tl__schakel">
+                    <legend class="ui-alleen-lezer">Waar is het depot voor?</legend>
+                    <label><input type="radio" name="soort" value="verbouw" checked>Verbouwing</label>
+                    <label><input type="radio" name="soort" value="nieuwbouw">Nieuwbouw</label>
+                </fieldset>
+                <div class="wr-veld ul-tl__duur">
+                    <label for="tl-bouw">Hoe lang duurt je bouw? <span class="ul-tl__optioneel">optioneel</span></label>
+                    <div class="ul-tl__duurrij">
+                        <div class="wr-veld__in"><input type="text" id="tl-bouw" inputmode="numeric" autocomplete="off" placeholder="bijv. 15" aria-describedby="fout-tl-bouw"><span aria-hidden="true">mnd</span></div>
+                        <input class="wr-schuif" type="range" id="tl-schuif" min="1" max="48" step="1" value="15" aria-label="Bouwduur in maanden">
+                    </div>
+                    <span class="wr-veld__fout" id="fout-tl-bouw" role="alert"></span>
+                </div>
+                <div class="wr-veld">
+                    <label for="tl-opname">Zo wil ik betalen</label>
+                    <div class="wr-veld__in"><select id="tl-opname">
+                        <option value="">Maakt niet uit</option>
+                        <option value="declaratie">Declareren met bewijsstuk</option>
+                        <option value="zelf-betalen">Zelf betalen vanuit het depot</option>
+                    </select></div>
+                </div>
+                <label class="ul-tl__vink"><input type="checkbox" id="tl-kassabon">Kassabon telt als bewijs</label>
+            </form>
         </section>
 
-        <section class="wr-wrap wr-sectie wr-sectie--vervolg">
-${bouwKerncijfers()}
-        </section>
+        <section class="wr-wrap" id="aanbieders" aria-label="Alle aanbieders">
+            <div class="ul-tl__telling wr-geen-print" aria-live="polite"><span id="tl-telling"></span><button type="button" id="tl-wis" hidden>Wissen</button></div>
+            <div class="ul-kiezer ul-kiezer--los wr-geen-print" data-bankkeuze></div>
 
-        <section class="wr-wrap wr-sectie" id="aanbieders">
-                    <p class="ui-opschrift">De vergelijking</p>
-                    <h2>Alle aanbieders naast elkaar</h2>
-                    <p class="wr-lead ul-lead">De balken tonen de maximale looptijd inclusief verlenging, op dezelfde schaal. Het gearceerde deel is de verlenging.</p>
-
-                <!-- Wie zijn geldverstrekker kiest, ziet die bovenaan de lijst staan.
-                     Zonder keuze, of zonder JavaScript, staat alles er gewoon. -->
-                <div class="ul-kiezer ul-kiezer--los wr-geen-print" data-bankkeuze></div>
-
-                <nav class="ul-sprong wr-geen-print" aria-label="Direct naar een aanbieder">
-                    <ul>
-${sprong}
-                    </ul>
-                </nav>
-
-                <div class="ul-schaal" aria-hidden="true">
-                    <span></span>
-                    <span class="ul-schaal__as"><span>0</span><span>${Math.round(SCHAAL / 2)} mnd</span><span>${SCHAAL} mnd</span></span>
-                </div>
-
-                <div class="ul-legenda">
-                    <span><i class="ul-staal ul-staal--basis"></i>Standaardlooptijd</span>
-                    <span><i class="ul-staal ul-staal--verlenging"></i>Verlenging</span>
-                    <span><i class="ul-staal ul-staal--open"></i>Verlenging mogelijk, duur niet gepubliceerd</span>
-                </div>
-
-                <div class="ul-vgl" data-perbank>
-${items}
-                </div>
-
-                <p class="wr-voorbehoud">Klopt een gegeven niet meer? <a href="contact.html">Laat het weten</a> met een link naar de actuele voorwaarden.</p>
-        </section>
-
-        <section class="wr-wrap">
-${DISCLAIMER}
-        </section>
-
-        <section class="wr-wrap wr-sectie ul-sectie--na-melding">
-                    <p class="ui-opschrift">Waarom dit ertoe doet</p>
-                    <h2>Drie voorwaarden die uw verbouwing kunnen bepalen</h2>
-
-                <div class="wr-kolommen">
-                    <article>
-                        <h3>De looptijd is een harde grens</h3>
-                        <p>Loopt uw verbouwing uit voorbij de depottermijn, dan wordt het restant meestal afgelost op uw hypotheek. Het geld is niet weg, maar u kunt het niet meer voor de verbouwing gebruiken zonder nieuwe financiering. Verlenging is bij de meeste aanbieders eenmalig en moet vóór de einddatum worden aangevraagd. De <a href="depotplanner.html">depotplanner</a> rekent die datums voor u uit vanaf uw passeerdatum.</p>
-                    </article>
-                    <article>
-                        <h3>Niet iedereen betaalt rente over uw depot</h3>
-                        <p>De meeste aanbieders vergoeden rente over het bedrag dat nog in het depot staat, vaak gelijk aan uw hypotheekrente. Maar niet allemaal, en niet altijd de hele looptijd. Er bestaat ook een model waarbij u alleen rente betaalt over wat u al hebt opgenomen; dan is er geen vergoeding, maar ook geen renteverlies. Zie de <a href="renteverlies-bouwdepot.html">renteverliesberekening</a>.</p>
-                    </article>
-                    <article>
-                        <h3>Een bon is niet overal een factuur</h3>
-                        <p>Sommige aanbieders accepteren een kassabon, andere uitsluitend een factuur op naam met KvK- en btw-nummer. Offertes en pro-formafacturen worden vrijwel nergens geaccepteerd. Dat verschil bepaalt hoe u uw inkopen organiseert. Bekijk ook de <a href="stappenplan.html#fouten">veelgemaakte fouten bij declaraties</a>.</p>
-                    </article>
-                </div>
+            <div class="ul-tl__as ul-tl__as--smal" aria-hidden="true">${as}</div>
+            <table class="ul-tl">
+                <thead>
+                    <tr>
+                        <th scope="col">Aanbieder</th>
+                        <th scope="col" class="ul-tl__askop"><span class="ui-alleen-lezer">Hoe lang het depot open kan staan en hoe lang de vergoeding loopt, in maanden</span><span class="ul-tl__as" aria-hidden="true">${as}</span></th>
+                        <th scope="col">Vergoeding over depot</th>
+                        <th scope="col">Opnemen</th>
+                        <th scope="col"><span class="ui-alleen-lezer">Details</span></th>
+                    </tr>
+                </thead>
+                <tbody data-perbank>
+${volgorde.map(hubRij).join('\n')}
+                </tbody>
+            </table>
+            <p class="wr-voorbehoud ul-na-lijst">Donker: het depot staat open en je krijgt vergoeding over wat er nog in staat. Licht: het staat nog open, maar de vergoeding is gestopt. Gestreept: niet gepubliceerd of de vergoeding doorloopt. Het witte streepje is het einde van de standaardlooptijd. Klopt een gegeven niet meer? <a href="contact.html">Laat het weten</a> met een link naar de actuele voorwaarden.</p>
         </section>
 
         <section class="wr-wrap wr-sectie">
-                    <p class="ui-opschrift">Twee bewuste keuzes</p>
-                    <h2>Wat u hier niet vindt, en waarom</h2>
-
-                <div class="wr-kolommen ul-kolommen--breed">
-                    <article>
-                        <h3>Geen rentepercentages, wel de rekenregel</h3>
-                        <p>Wij publiceren geen hypotheekrentes. Een rente hangt af van de rentevastperiode, van de verhouding tussen uw lening en de woningwaarde en soms van het energielabel. Dat zijn tientallen waarden per aanbieder die wekelijks wijzigen, en een rente van twee dagen oud is simpelweg onjuist.</p>
-                        <p>Wat wel stabiel is, is de <strong>regel</strong> waarmee een aanbieder de depotvergoeding aan uw eigen hypotheekrente koppelt. Die staat hierboven per aanbieder: gelijk aan uw rente, een procentpunt lager, of geen vergoeding. Bij ${tariefBerekenbaar} van de ${data.aanbieders.length} aanbieders is de vergoeding daarmee uit te rekenen zodra u uw eigen rente invult, en dat doen de <a href="bouwdepot-berekenen.html#tijdens-de-bouw">maandlastberekening</a> en de <a href="renteverlies-bouwdepot.html">renteverliesberekening</a> ook. Die uitkomst gaat over uw eigen offerte in plaats van over een marktgemiddelde, en veroudert niet.</p>
-                    </article>
-                    <article>
-                        <h3>Wat geen enkele aanbieder publiceert</h3>
-                        <p>Drie gegevens ontbreken bij alle ${data.aanbieders.length}: het <strong>minimumbedrag per opname</strong>, de <strong>grens per opname</strong> bij aanbieders zonder declaratieproces, en of <strong>eigen arbeid</strong> declarabel is. Dat laatste is de meest gestelde vraag van wie zelf klust, en niemand geeft er publiek antwoord op.</p>
-                        <p>Wij vullen die gaten niet met een aanname. Ze staan hierboven als &quot;niet gepubliceerd&quot;, en dat is zelf het antwoord: <strong>u moet dit schriftelijk navragen en het antwoord bewaren</strong>. Een mondelinge toezegging helpt u niet als een declaratie later wordt afgewezen. De <a href="stappenplan.html#adviesgesprek">advieschecklist</a> heeft hier vragen voor staan.</p>
-                    </article>
-                </div>
-        </section>
-
-        <section class="wr-wrap wr-sectie ul-slot">
-                <p class="ui-opschrift">Verantwoording</p>
-                <h2>Hoe deze pagina tot stand komt</h2>
-                <div class="wr-proza">
-                <p>Elk gegeven komt uit de officiële, publiek toegankelijke voorwaarden van de betreffende aanbieder. De bron staat bij iedere aanbieder vermeld met de datum waarop die is geraadpleegd.</p>
-                <p>Waar een aanbieder iets niet publiceert, staat <em>niet gepubliceerd</em>. Er wordt niets geschat of afgeleid. Dat een aanbieder geen minimum declaratiebedrag noemt, is zelf bruikbare informatie.</p>
-                <p>Voorwaarden wijzigen. Deze pagina claimt daarom geen permanente actualiteit, maar vermeldt per aanbieder wanneer de gegevens voor het laatst zijn gecontroleerd. Lees ook de <a href="methodologie.html">volledige methodologie</a>.</p>
-                </div>
+            <h2>Wat geen enkele aanbieder publiceert</h2>
+            <div class="wr-proza ul-tl__bevinding">
+                <p>${bevinding()}</p>
+                <p>Elk gegeven op deze pagina komt uit de openbare voorwaarden van de aanbieder, met de datum van controle. Wat niet gepubliceerd is, staat er zo en wordt niet geschat. Zie de <a href="methodologie.html">methodologie</a>.</p>
+                <p>Wij publiceren geen hypotheekrentes: die wijzigen wekelijks en hangen af van je rentevaste periode en je lening. Wel de regel waarmee een aanbieder de vergoeding aan je eigen rente koppelt. Bij ${tariefBerekenbaar()} van de ${data.aanbieders.length} aanbieders is de vergoeding daarmee uit te rekenen: open een rij en vul je rente in.</p>
+            </div>
+${DISCLAIMER}
         </section>
     </main>`;
 
@@ -524,55 +532,8 @@ ${DISCLAIMER}
     kruimel: [{ naam: 'Voorwaarden vergelijken' }],
     inhoud,
     schema,
-    script: '/src/uitleg/declaratie.js',
+    script: '/src/voorwaarden/pagina.js',
   });
-}
-
-/** Antwoord eerst: wat je in de cijfers ziet, voordat de lijst begint. */
-function bouwKerncijfers() {
-  const spans = data.aanbieders
-    .map((a) => totaal(a.looptijdVerbouwMaanden, a.verlengingMaanden?.verbouw))
-    .filter((t) => t && t.zeker).map((t) => t.totaal);
-
-  const kaarten = [];
-
-  if (spans.length >= 2) {
-    const min = Math.min(...spans), max = Math.max(...spans);
-    if (max !== min) {
-      kaarten.push({
-        cijfer: `${min}&ndash;${max}`,
-        eenheid: 'maanden',
-        tekst: `Zoveel tijd krijgt u voor een verbouwing, inclusief verlenging. Een verschil van ${max - min} maanden tussen de ruimste en de krapste aanbieder.`,
-      });
-    }
-  }
-
-  const zonder = data.aanbieders.filter((a) => /^geen/i.test(a.rentevergoeding?.waarde || '')).length;
-  kaarten.push({
-    cijfer: `${data.aanbieders.length - zonder}<span class="kern__van">/${data.aanbieders.length}</span>`,
-    eenheid: 'betaalt depotrente',
-    tekst: zonder
-      ? `${zonder === 1 ? 'Eén aanbieder' : `${zonder} aanbieders`} vergoedt niets over het depotsaldo, maar rekent daar ook geen rente over.`
-      : 'Alle vergeleken aanbieders vergoeden rente over het saldo dat nog in het depot staat.',
-  });
-
-  const gaten = data.aanbieders.reduce(
-    (n, a) => n + ['maxPerOpname', 'minPerOpname', 'restant', 'eigenArbeid'].filter((k) => a[k]?.status === 'niet-gepubliceerd').length, 0);
-  if (gaten) {
-    kaarten.push({
-      cijfer: gaten,
-      eenheid: 'niet gepubliceerd',
-      tekst: 'Zoveel gegevens maken de aanbieders niet openbaar, vooral bedragen per declaratie en de regels rond eigen arbeid. Vraag die na vóór u tekent.',
-    });
-  }
-
-  return `            <div class="wr-kern">
-${kaarten.map((k) => `                <div>
-                    <p class="wr-kern__cijfer tnum">${k.cijfer}</p>
-                    <p class="wr-kern__eenheid">${k.eenheid}</p>
-                    <p class="wr-kern__tekst">${k.tekst}</p>
-                </div>`).join('\n')}
-            </div>`;
 }
 
 // ---------------------------------------------------------------- per aanbieder

@@ -54,15 +54,9 @@ export function opBankwissel(cb) {
  * De depotvergoeding in procenten, gegeven de hypotheekrente die de bezoeker
  * heeft ingevuld. Geeft null terug wanneer de aanbieder het niveau niet
  * publiceert; dan hoort de tool het ingevulde percentage te laten staan in
- * plaats van er een te verzinnen.
+ * plaats van er een te verzinnen. De regel zelf staat in de rekenkern.
  */
-export function vergoedingsTarief(bank, hypotheekrente, soort = 'verbouw') {
-    const tarief = bank?.vergoeding?.tarief?.[soort];
-    if (tarief === 'geen') return 0;
-    if (tarief === 'gelijk-aan-hypotheekrente') return hypotheekrente;
-    if (tarief === 'hypotheekrente-min-1') return Math.max(0, hypotheekrente - 1);
-    return null;
-}
+export { vergoedingsTarief } from '../domain/voorwaarden.js';
 
 /* ------------------------------------------------------------------ tekst */
 
