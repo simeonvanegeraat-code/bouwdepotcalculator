@@ -49,6 +49,8 @@ test('vergoedingsduur: het gat is de looptijd min de vergoede maanden', () => {
     assert.deepEqual(vergoedingsduur(aanbieder({ vm: 24, naVerlengingOnbekend: true }), 'verbouw'), { maanden: 24, gat: null, stoptInVerlenging: false });
     // Verlengingsduur onbekend, maar de vergoeding stopt er wel.
     assert.deepEqual(vergoedingsduur(aanbieder({ duurOnbekend: true, vm: 24 }), 'verbouw'), { maanden: 24, gat: null, stoptInVerlenging: true });
+    // Verschilt per hypotheekvorm: één getal geldt maar voor één product, dus geen duur.
+    assert.deepEqual(vergoedingsduur(aanbieder({ duurOnbekend: true, vm: 12, tarief: 'verschilt-per-product' }), 'verbouw'), { maanden: null, gat: null, stoptInVerlenging: false });
     // Rente alleen over het opgenomen deel: er valt niets te vergoeden.
     assert.deepEqual(vergoedingsduur(aanbieder({ model: 'rente-alleen-over-opgenomen', tarief: 'geen' }), 'verbouw'), { maanden: null, gat: 0, stoptInVerlenging: false });
 });

@@ -20,7 +20,8 @@ export const SCHAAL = Math.ceil(Math.max(...BANKEN.flatMap((b) => ['verbouw', 'n
 
 export function onderschrift(l) {
     if (l.open) return `${l.basis} mnd + verlenging, duur niet gepubliceerd`;
-    if (l.geen) return `${l.basis} mnd, geen verlenging`;
+    // "Geen verlenging" zou een bewering zijn; de aanbieder zegt er niets over.
+    if (l.geen) return `${l.basis} mnd, geen verlenging gepubliceerd`;
     return `${l.basis} mnd + ${l.verlenging} mnd verlenging`;
 }
 
@@ -33,14 +34,22 @@ export function balk(bank, soort) {
     const vd = vergoedingsduur(bank, soort);
     const eind = bekendEinde(l);
     const kostNiets = opnameModel(bank);
-    const met = kostNiets ? eind : Math.min(vd.maanden ?? eind, eind);
+    // Geen gepubliceerde duur (Obvion: verschilt per hypotheekvorm): de hele
+    // balk gestreept, zonder een maand te claimen.
+    const duurOnbekend = !kostNiets && vd.maanden == null;
+    const met = kostNiets ? eind : duurOnbekend ? 0 : Math.min(vd.maanden, eind);
     const rest = eind - met;
-    const onbekend = !kostNiets && Boolean(bank.vergoeding.naVerlengingOnbekend) && rest > 0;
+    const onbekend = duurOnbekend || (!kostNiets && Boolean(bank.vergoeding.naVerlengingOnbekend) && rest > 0);
+    const perProduct = bank.vergoeding.tarief?.[soort] === 'verschilt-per-product';
 
     const labelMet = kostNiets
         ? { lang: 'geen rente over het saldo', midden: 'geen rente over saldo', kort: 'geen rente' }
         : { lang: `vergoeding ${met} mnd`, midden: `${met} mnd vergoeding`, kort: `${met} mnd` };
-    const labelRest = onbekend
+    const labelRest = duurOnbekend
+        ? (perProduct
+            ? { lang: 'vergoeding verschilt per hypotheekvorm', midden: 'verschilt per product', kort: '?' }
+            : { lang: 'duur vergoeding niet gepubliceerd', midden: 'duur niet gepubliceerd', kort: '?' })
+        : onbekend
         ? { lang: `niet gepubliceerd, ${rest} mnd`, midden: `? ${rest} mnd`, kort: '?' }
         : { lang: `zonder vergoeding ${rest} mnd`, midden: `zonder ${rest} mnd`, kort: `${rest}` };
 
@@ -48,7 +57,8 @@ export function balk(bank, soort) {
     // de kleuren van de balk laten zien: hoe lang de vergoeding loopt.
     let zin = '';
     if (kostNiets) zin += 'Geen rente over wat nog in het depot staat, dus ook geen vergoeding.';
-    else if (vd.maanden == null) zin += 'Hoe lang de vergoeding loopt is niet gepubliceerd.';
+    else if (perProduct) zin += 'Hoogte en duur van de vergoeding verschillen per hypotheekvorm; zie de voorwaarden.';
+    else if (duurOnbekend) zin += 'Hoe lang de vergoeding loopt is niet gepubliceerd.';
     else if (rest === 0 && !l.open) zin += 'Vergoeding over de hele looptijd.';
     else if (onbekend) zin += `Vergoeding de eerste ${met} maanden; of die daarna doorloopt is niet gepubliceerd.`;
     else if (l.open) zin += `Vergoeding de eerste ${met} maanden, ${rest > 0 ? 'daarna niet en ook niet' : 'niet'} in de verlenging.`;

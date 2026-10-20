@@ -328,11 +328,11 @@ const BANK = Object.fromEntries(BANKEN.map((b) => [b.id, b]));
 
 function balkHtml(bank) {
   const g = balk(bank, 'verbouw');
-  const lab = (l) => `<span class="ul-tl__lab" data-lang="${esc(l.lang)}" data-midden="${esc(l.midden)}" data-kort="${esc(l.kort)}">${esc(l.midden)}</span>`;
+  const lab = (l, maanden) => `<span class="ul-tl__lab" data-lang="${esc(l.lang)}" data-midden="${esc(l.midden)}" data-kort="${esc(l.kort)}" data-maanden="${maanden}">${maanden > 0 ? esc(l.midden) : ""}</span>`;
   return `<div class="ul-tl__balk" aria-hidden="true">
                             <div class="ul-tl__spoor">
-                                <span class="ul-tl__seg ul-tl__seg--met${g.kostNiets ? ' ul-tl__seg--kost-niets' : ''}" style="left:0%;width:${procent(g.met)}">${lab(g.labels.met)}</span>
-                                <span class="ul-tl__seg ul-tl__seg--zonder${g.onbekend ? ' ul-tl__seg--onbekend' : ''}" style="left:${procent(g.met)};width:${procent(g.rest)}">${lab(g.labels.rest)}</span>
+                                <span class="ul-tl__seg ul-tl__seg--met${g.kostNiets ? ' ul-tl__seg--kost-niets' : ''}" style="left:0%;width:${procent(g.met)}">${lab(g.labels.met, g.met)}</span>
+                                <span class="ul-tl__seg ul-tl__seg--zonder${g.onbekend ? ' ul-tl__seg--onbekend' : ''}" style="left:${procent(g.met)};width:${procent(g.rest)}">${lab(g.labels.rest, g.rest)}</span>
                                 <span class="ul-tl__seg ul-tl__seg--open" style="left:${procent(g.eind)}"${g.open ? '' : ' hidden'}></span>
                                 <span class="ul-tl__tick" style="left:${procent(g.tick ?? 0)}"${g.tick == null ? ' hidden' : ''}></span>
                                 <span class="ul-tl__lijn" hidden></span>

@@ -57,6 +57,9 @@ export const opnameModel = (bank) => bank.vergoeding.model === 'rente-alleen-ove
 export function vergoedingsduur(bank, soort) {
     const l = looptijd(bank, soort);
     if (opnameModel(bank)) return { maanden: null, gat: 0, stoptInVerlenging: false };
+    // Verschilt de vergoeding per hypotheekvorm (Obvion), dan geldt één
+    // getal maar voor één product; we claimen dan geen duur.
+    if (bank.vergoeding.tarief?.[soort] === 'verschilt-per-product') return { maanden: null, gat: null, stoptInVerlenging: false };
     const vm = bank.vergoeding.maanden?.[soort];
     if (typeof vm !== 'number') return { maanden: null, gat: null, stoptInVerlenging: false };
     if (l.open) return { maanden: vm, gat: null, stoptInVerlenging: !bank.vergoeding.naVerlengingOnbekend };
