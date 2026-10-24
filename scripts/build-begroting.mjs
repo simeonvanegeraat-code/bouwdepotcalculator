@@ -15,7 +15,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { headerHtml } from './build-header.mjs';
+import { headerHtml, voetHtml } from './build-header.mjs';
 import { stappenHtml, SAMENVATTING, CONTROLE, POSTENLIJST } from './verbouw-stappen.mjs';
 import { maakXlsx } from '../src/js/xlsx.js';
 import { begrotingsblad } from '../src/verbouwen/begrotingsblad.js';
@@ -382,10 +382,7 @@ ${categorieen}
 
     <div class="wr-vast" id="wr-vast" role="status"><span>Totale verbouwkosten</span><strong class="tnum" id="wr-vast-bedrag"></strong></div>
 
-    <footer class="ui-voet wr-geen-print">
-        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="voorwaarden.html">Voorwaarden</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
-    </footer>
+${voetHtml('verbouwbegroting.html')}
 
     <script type="module" src="/src/verbouwen/pagina.js"></script>
     <script type="module" src="/src/verbouwen/stappen.js"></script>
