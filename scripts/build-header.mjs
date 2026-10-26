@@ -92,8 +92,40 @@ ${groepen}
     </header>`;
 }
 
+/**
+ * De voettekst, uit dezelfde bron. Hij stond met de hand in elke pagina en was
+ * in drie varianten uit elkaar gelopen: 26 van de 32 pagina's misten de link
+ * naar de gebruiksvoorwaarden.
+ *
+ * De 404-pagina krijgt links vanaf de root: Vercel toont haar op elk adres dat
+ * niet bestaat, ook een adres in een map, en daar wijst een relatieve link mis.
+ *
+ * @param {string} [bestand] de bestandsnaam van de pagina
+ */
+export function voetHtml(bestand = '') {
+    const voor = bestand === '404.html' ? '/' : '';
+    const links = NAV.voet.links.map((i) => `<a href="${voor}${esc(i.href)}">${esc(i.label)}</a>`).join('');
+    return `    <footer class="ui-voet">
+        <span>${esc(NAV.voet.tekst)}</span>
+        <nav aria-label="Over deze site">${links}</nav>
+    </footer>`;
+}
+
+/** Vervangt het blok dat met `begin` start en met `eind` sluit door `blok`, met de regeleindes van het bestand. */
+function vervang(html, begin, eind, blok, bestand) {
+    const start = html.indexOf(begin);
+    if (start < 0) { console.warn(`  overgeslagen, geen ${begin}: ${bestand}`); return html; }
+    const slot = html.indexOf(eind, start);
+    if (slot < 0) throw new Error(`geen sluitende ${eind} in ${bestand}`);
+
+    // Regeleindes per bestand aanhouden; de repo is gemengd LF en CRLF.
+    const nl = html.includes('\r\n') ? '\r\n' : '\n';
+    const regelStart = html.lastIndexOf('\n', start) + 1;
+    return html.slice(0, regelStart) + blok.split('\n').join(nl) + html.slice(slot + eind.length);
+}
+
 // Alleen uitvoeren als dit bestand zelf wordt gestart; de generatoren
-// importeren headerHtml() en schrijven hun eigen pagina.
+// importeren headerHtml() en voetHtml() en schrijven hun eigen pagina.
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
     const pagina = fs.readdirSync(ROOT).filter((f) => f.endsWith('.html'));
     let geschreven = 0;
@@ -102,20 +134,11 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
         const pad = path.join(ROOT, bestand);
         const html = fs.readFileSync(pad, 'utf8');
 
-        const start = html.indexOf('<header class="bs-kop');
-        if (start < 0) { console.warn(`  overgeslagen, geen header: ${bestand}`); continue; }
-        const eind = html.indexOf('</header>', start);
-        if (eind < 0) throw new Error(`geen sluitende </header> in ${bestand}`);
-
-        // Regeleindes per bestand aanhouden; de repo is gemengd LF en CRLF.
-        const nl = html.includes('\r\n') ? '\r\n' : '\n';
-        const regelStart = html.lastIndexOf('\n', start) + 1;
-        const nieuw = html.slice(0, regelStart)
-            + headerHtml(bestand).split('\n').join(nl)
-            + html.slice(eind + '</header>'.length);
+        let nieuw = vervang(html, '<header class="bs-kop', '</header>', headerHtml(bestand), bestand);
+        nieuw = vervang(nieuw, '<footer class="ui-voet', '</footer>', voetHtml(bestand), bestand);
 
         if (nieuw !== html) { fs.writeFileSync(pad, nieuw); geschreven++; }
     }
 
-    console.log(`Header geschreven in ${geschreven} van ${pagina.length} pagina's.`);
+    console.log(`Header en voettekst geschreven in ${geschreven} van ${pagina.length} pagina's.`);
 }

@@ -24,7 +24,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { headerHtml } from './build-header.mjs';
+import { headerHtml, voetHtml } from './build-header.mjs';
 import { jij } from './aanspreekvorm.mjs';
 import { verdieping } from './aanbieder-verdieping.mjs';
 // Dezelfde termijnregels als de depotplanner. build-bankdata.mjs draait in
@@ -290,10 +290,7 @@ ${headerHtml(bestand)}
 
 ${jijTekst(inhoud.replace('%KRUIMEL%', kruimelHtml(kruimel)))}
 
-    <footer class="ui-voet">
-        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
-    </footer>
+${voetHtml(bestand)}
 ${script ? `\n    <script type="module" src="${script}"></script>\n` : ''}${schema}
 </body>
 </html>
