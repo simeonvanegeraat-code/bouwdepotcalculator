@@ -21,6 +21,8 @@ body[data-nb]:not([data-nb="klaar"]) :is(.wr-werk, .wr-vast) { display: none !im
 body[data-nb]:not([data-nb="klaar"]):not([data-nb="start"]) [data-scherm="start"] { display: none; }
 /* Ook de lijst "Jouw invoer" verderop: die toont nog niets van jou. */
 body[data-nb]:not([data-nb="klaar"]) .nb-na-invoer { display: none; }
+/* Andersom het doorgerekende voorbeeld: op het overzicht staat je eigen grafiek. */
+body[data-nb="klaar"] .nb-vb { display: none; }
 
 /* --- Het toneel: links de bouwplaats, rechts de vraag --- */
 body[data-nb]:not([data-nb="klaar"]) .nb { display: grid; gap: 2rem; align-items: center; padding-top: clamp(0.5rem, 3vh, 2rem); padding-bottom: clamp(2rem, 6vh, 4rem); }

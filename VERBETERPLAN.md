@@ -1,6 +1,6 @@
 # Verbeterplan BouwdepotCalculator.nl
 
-**Datum:** 11 oktober 2026, stand bijgewerkt op 13 oktober 2026
+**Datum:** 11 oktober 2026, stand bijgewerkt op 21 oktober 2026
 **Status:** goedgekeurd door de eigenaar op 11 oktober 2026
 **Basis:** audit van de site, concurrentie-onderzoek, wijzigingsgeschiedenis van de bankdata en Search Console (9 juli t/m 8 oktober 2026)
 
@@ -8,18 +8,37 @@ Dit plan vervangt de volgorde in `ROADMAP.md` niet vanzelf. Die roadmap ging ove
 
 **De volgorde ligt niet vast.** De fasen hieronder zijn een voorkeursvolgorde, geen afspraak. De eigenaar kiest per keer wat er gebouwd wordt, ook als dat buiten de volgorde of buiten het plan valt; dat is tot nu toe ook zo gegaan. Wat wel vaststaat: na elk stuk werk wordt de tabel hieronder bijgewerkt, zodat dit document blijft kloppen met de site. Werk dat niet in een fase past, komt onder "Buiten de fasen gebouwd".
 
-## Stand op 13 oktober 2026
+## Stand op 21 oktober 2026
 
 | Fase | Stand | Wat er nog ligt |
 |---|---|---|
 | 0. Meten en beschermen | Grotendeels klaar | De positie van de homepage op "bouwdepot berekenen" volgen tot 25 oktober (0.3) en de vier pagina's "gevonden, niet geïndexeerd" opzoeken (0.5). Beide bij de eigenaar |
 | 1. "Bouwdepot berekenen" winnen | Klaar | Niets. 1.2 is vervallen: de homepage blijft zoals hij is; het voorstel blijft het noodplan als de positie zakt |
-| 2. Nieuwbouw naar de eerste pagina | Grotendeels klaar | 2.1 is live als route in stappen (zie hieronder). Open: een uitgewerkt voorbeeld met bedragen (2.2) en de pagina's bouwrente en dubbele lasten laten doorverwijzen naar het hele plan (2.3). 2.4, het eigen verhaal, is door de eigenaar afgewezen |
-| 3. "Hoeveel bouwdepot kan ik krijgen" | Gebouwd, nog niet live (17 oktober) | 3.1 en 3.2: `/leenruimte.html` is weer een eigen pagina, met inkomenstoets en waardetoets volgens de Trhk 2026 (zie het ontwikkelplan hieronder). Open: 3.3, en na livegang de positie volgen |
-| 4. Vertrouwen | Deels | 4.3 is gedaan: de privacy- en cookiepagina noemen alle lokale opslag. Open: "Over ons" (4.1), de juridische vraag over naam en adres (4.2) en de voettekst (4.4) |
-| 5. Bankdata beheersbaar houden | Open | Alles. De data is laatst met de hand gecontroleerd op 19 augustus 2026. De wekelijkse bronbewaking draait en commit zelf naar `main` |
-| 6. Kwaliteit | Open | Alles. 6.1 en 6.5 wegen zwaarder dan toen het plan werd geschreven: de 3D-bouwplaats laadt nu ook op de telefoon (138 kB gezipt, na het tonen van de pagina) |
-| 7. AdSense | Wacht | Pas opnieuw aanvragen als fase 1 en 2 geïndexeerd zijn en de klikken per dag aantoonbaar gestegen zijn |
+| 2. Nieuwbouw naar de eerste pagina | Gebouwd, nog niet live | 2.1 is live. 2.2 en 2.3 zijn gebouwd op `redesign/nieuwbouw-voorbeeld` (21 en 22 oktober): een doorgerekend voorbeeld op nieuwbouw.html, ook zichtbaar op het startscherm; een antwoord met bedragen bovenaan bouwrente en dubbele lasten; op dubbele lasten de drie voorbeelden naast elkaar. Daarna de positie volgen. 2.4 is door de eigenaar afgewezen |
+| 3. "Hoeveel bouwdepot kan ik krijgen" | Live (op productie gezien op 21 oktober) | Open: 3.3, en de positie volgen. In Search Console de URL-inspectie doen en indexering aanvragen: het adres was tot kort geleden een doorverwijzing |
+| 4. Vertrouwen | Deels | 4.3 gedaan. 4.4 gebouwd, nog niet live: de voettekst komt nu uit `data/navigatie.json`, overal gelijk en met de gebruiksvoorwaarden. De privacypagina noemt nu ook wat er in een gekopieerde link staat. Open: "Over ons" (4.1) en de juridische vraag over naam en adres (4.2) |
+| 5. Bankdata beheersbaar houden | Deels | Alle dertien aanbieders zijn op 14–17 oktober met de hand bij de bron gecontroleerd. 5.4 (aanbiederpagina's niet uitbreiden) is niet gevolgd: er kwamen vijf pagina's bij. Zie stap 3 hieronder |
+| 6. Kwaliteit | Deels | 6.4 gebouwd: `favicon.ico`. Gevonden en hersteld: op een telefoon verborg de compacte maandtabel de uitkomstkolom op renteverlies, hypotheekrenteaftrek, dubbele lasten en bouwrente. Open: 6.1, 6.2, 6.3, 6.5 |
+| 7. AdSense | Wacht | 7.2 gecontroleerd: de dialoog opent voor een Nederlandse bezoeker, maar de eerste laag heeft geen weigerknop. Door de eigenaar geparkeerd op 22 oktober; zie stap 4 hieronder |
+
+## Volgorde na de AdSense-analyse van 21 oktober 2026
+
+De vraag was of er pagina's, tools of vormgeving bij moeten na twee afwijzingen met "content van weinig waarde". Het antwoord: geen nieuwe pagina's en geen nieuwe tool. Twee dingen ontbreken op bestaande pagina's:
+
+- De nieuwbouwpagina's hebben geen doorgerekend voorbeeld dat je ziet zonder iets in te vullen, terwijl 447 van de 2.469 nieuwbouwvertoningen erom vragen.
+- 14 van de 32 pagina's (dertien aanbieders en de vergelijking) bestaan voor tweederde of meer uit tekst die elders op de site ook staat. Gemeten met reeksen van vijf woorden: 17–37% eigen tekst.
+
+Deze volgorde vervangt geen fase hierboven, maar zegt welke onderdelen eerst gaan.
+
+| Stap | Wat | Fase | Stand |
+|---|---|---|---|
+| 1 | Doorgerekend voorbeeld op nieuwbouw.html: grafiek, één uitgewerkte maand, maandtabel. Bewaakt door `tests/nieuwbouw-voorbeeld.test.mjs` | 2.2 | Gebouwd, niet live |
+| 2 | Bouwrente en dubbele lasten, voor "bouwrente berekenen" en "voorbeeld berekening dubbele lasten nieuwbouw". Niet hetzelfde patroon als stap 1: deze rekentools tonen bij binnenkomst al een uitkomst, dus een los voorbeeld zou die herhalen. Wel: het antwoord met bedragen bovenaan, de kosten van meefinancieren als bedrag, en de drie voorbeeldknoppen van dubbele lasten doorgerekend in één tabel. Bewaakt door `tests/bouwrente-voorbeeld.test.mjs` en `tests/dubbelelasten-voorbeeld.test.mjs` | 2.3 | Gebouwd, niet live |
+| 3 | Minder sjabloon: in `scripts/build-voorwaarden.mjs` de secties schrappen die op alle dertien aanbiederpagina's gelijk zijn ("Hoe dit zich verhoudt", "Rekenen met deze voorwaarden", "Zelf navragen"); "maand voor maand" vervangen door de tijdlijnrij van die bank. Renteverlies opgaan in bouwdepot berekenen met een 301 en een SEO-plan | 5.4, besluit 14 oktober | Open |
+| 4 | Randvoorwaarden. De eigenaar zet in AdSense de knop "Niet toestemmen" aan en kijkt of je na een keuze die keuze kunt wijzigen. Daarnaast de juridische vraag uit 4.2. Voettekst, favicon en privacyzin zijn gebouwd | 4.2, 4.4, 6.4, 7.2 | Deels. De weigerknop is op 22 oktober door de eigenaar geparkeerd; vóór een nieuwe AdSense-aanvraag oppakken |
+| 5 | Meten, dan pas aanvragen: Search Console-export zes weken na livegang van 1–3. Aanvragen als elke indexeerbare pagina een zoekvraag kan noemen en de nieuwbouwvragen richting pagina 1 bewegen | 7.3, 7.4 | Wacht |
+
+Bewust niet: een pagina voor "bouwdepot aanvragen" (positie 68; dat is de procedure van de bank), een fiscale rekentool voor het depotjaar (`renteaftrek.js` kent het depot niet; 204 vertoningen), en iets voor declareren of looptijd (samen ruim 200 vertoningen, al gedekt door declaratiegids, depotplanner en tijdlijn).
 
 ### Wat er in fase 1 en 2 live staat
 

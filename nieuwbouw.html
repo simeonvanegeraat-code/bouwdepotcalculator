@@ -553,7 +553,7 @@
                         <span class="wr-hulp" id="tabel-uitleg">Totaal is je hypotheek plus je huidige woonlast.</span>
                     </p>
                     <div class="wr-tabelrol" tabindex="0" role="region" aria-label="Maand voor maand, als tabel">
-                        <table class="wr-tabel" id="maandtabel">
+                        <table class="wr-tabel wr-tabel--maanden" id="maandtabel">
                             <thead>
                                 <tr>
                                     <th scope="col">Mnd</th>
@@ -583,6 +583,70 @@
         </div>
 
         <noscript><div class="wr-wrap"><p class="wr-melding">Deze rekentool heeft JavaScript nodig. De uitleg hieronder kun je zonder lezen.</p></div></noscript>
+
+        <!-- Het voorbeeld achter "bekijk eerst een voorbeeld", doorgerekend en
+             zonder klikken te lezen. De bedragen staan hier met de hand, zodat ze
+             er ook zonder JavaScript zijn; tests/nieuwbouw-voorbeeld.test.mjs
+             rekent ze na met src/domain/nieuwbouw.js. De grafiek tekent
+             src/nieuwbouw/voorbeeld.js uit dezelfde maandregels. Op het overzicht
+             met eigen cijfers staat deze sectie er niet (nieuwbouw.css). -->
+        <section class="wr-wrap wr-sectie nb-vb" id="voorbeeld" aria-labelledby="vb-kop">
+            <p class="ui-opschrift">Voorbeeld</p>
+            <h2 id="vb-kop">Een nieuwbouwwoning van &euro;&nbsp;500.000, maand voor maand</h2>
+            <p class="wr-lead">Grond van &euro;&nbsp;150.000 en een aanneemsom van &euro;&nbsp;350.000, helemaal geleend tegen 3,8%, met twaalf maanden bouw en &euro;&nbsp;1.200 huur. De zwaarste maand is de eerste na oplevering: <strong class="tnum" data-vb="piek">&euro;&nbsp;3.530</strong> bruto. Het depot is dan leeg, dus er komt geen vergoeding meer binnen, terwijl je huur nog doorloopt.</p>
+
+            <div class="wr-voorbeeld__grafiek">
+                <div class="wr-grafiek" id="vb-grafiek"></div>
+                <ul class="wr-legenda">
+                    <li><i class="wr-legenda__oud"></i>Huidige woonlast</li>
+                    <li><i class="wr-legenda__nieuw"></i>Nieuwe hypotheek, na depotvergoeding</li>
+                    <li><i class="wr-legenda__piek"></i>Hoogste maand</li>
+                </ul>
+            </div>
+
+            <div class="wr-voorbeeld__onder">
+                <div>
+                    <h3>Zo is bouwmaand 1 berekend</h3>
+                    <dl class="wr-dl wr-dl--voorbeeld" data-vb-som>
+                        <dt>Rente en aflossing over de hele lening van &euro;&nbsp;500.000</dt><dd class="tnum" data-vb="betaling">&euro;&nbsp;2.330</dd>
+                        <dt>Min de depotvergoeding: 3,8% over gemiddeld &euro;&nbsp;323.750 in depot</dt><dd class="tnum">&minus; <span data-vb="vergoeding">&euro;&nbsp;1.025</span></dd>
+                        <dt>Hypotheek na vergoeding</dt><dd class="tnum" data-vb="hypotheek">&euro;&nbsp;1.305</dd>
+                        <dt>Plus je huur</dt><dd class="tnum" data-vb="huur">&euro;&nbsp;1.200</dd>
+                        <dt><strong>Bruto in bouwmaand 1</strong></dt><dd class="tnum"><strong data-vb="start">&euro;&nbsp;2.505</strong></dd>
+                    </dl>
+                    <p class="wr-hulp">Gemiddeld, omdat de eerste termijn van &euro;&nbsp;52.500 het depot in die maand van &euro;&nbsp;350.000 naar &euro;&nbsp;297.500 haalt. Je betaalt dus vanaf de eerste maand over de hele lening, en krijgt vergoeding over wat de aannemer nog niet heeft gekregen.</p>
+                </div>
+                <div>
+                    <h3>Elke bouwtermijn verlaagt de vergoeding</h3>
+                    <div class="wr-tabelrol" tabindex="0" role="region" aria-label="Het voorbeeld maand voor maand, als tabel">
+                        <table class="wr-tabel wr-tabel--voorbeeld">
+                            <thead><tr><th scope="col">Maand</th><th scope="col">Nog in depot</th><th scope="col">Depot&shy;vergoeding</th><th scope="col">Bruto per maand</th></tr></thead>
+                            <tbody data-vb-tabel>
+                                <tr><td>1 <span class="wr-voorbeeld__wat">Ruwbouw begane grond, &euro;&nbsp;52.500</span></td><td>&euro;&nbsp;297.500</td><td>&euro;&nbsp;1.025</td><td>&euro;&nbsp;2.505</td></tr>
+                                <tr><td>2</td><td>&euro;&nbsp;297.500</td><td>&euro;&nbsp;942</td><td>&euro;&nbsp;2.588</td></tr>
+                                <tr><td>3 <span class="wr-voorbeeld__wat">Ruwbouw verdiepingen, &euro;&nbsp;70.000</span></td><td>&euro;&nbsp;227.500</td><td>&euro;&nbsp;831</td><td>&euro;&nbsp;2.699</td></tr>
+                                <tr><td>4</td><td>&euro;&nbsp;227.500</td><td>&euro;&nbsp;720</td><td>&euro;&nbsp;2.809</td></tr>
+                                <tr><td>5</td><td>&euro;&nbsp;227.500</td><td>&euro;&nbsp;720</td><td>&euro;&nbsp;2.809</td></tr>
+                                <tr><td>6 <span class="wr-voorbeeld__wat">Dak en gevelsluiting, &euro;&nbsp;70.000</span></td><td>&euro;&nbsp;157.500</td><td>&euro;&nbsp;610</td><td>&euro;&nbsp;2.920</td></tr>
+                                <tr><td>7</td><td>&euro;&nbsp;157.500</td><td>&euro;&nbsp;499</td><td>&euro;&nbsp;3.031</td></tr>
+                                <tr><td>8</td><td>&euro;&nbsp;157.500</td><td>&euro;&nbsp;499</td><td>&euro;&nbsp;3.031</td></tr>
+                                <tr><td>9 <span class="wr-voorbeeld__wat">Afbouw en installaties, &euro;&nbsp;87.500</span></td><td>&euro;&nbsp;70.000</td><td>&euro;&nbsp;360</td><td>&euro;&nbsp;3.170</td></tr>
+                                <tr><td>10</td><td>&euro;&nbsp;70.000</td><td>&euro;&nbsp;222</td><td>&euro;&nbsp;3.308</td></tr>
+                                <tr><td>11</td><td>&euro;&nbsp;70.000</td><td>&euro;&nbsp;222</td><td>&euro;&nbsp;3.308</td></tr>
+                                <tr><td>12 <span class="wr-voorbeeld__wat">Oplevering, &euro;&nbsp;70.000</span></td><td>&euro;&nbsp;0</td><td>&euro;&nbsp;111</td><td>&euro;&nbsp;3.419</td></tr>
+                                <tr class="is-piek"><td>13 <span class="wr-voorbeeld__wat">Huur loopt nog door, hoogste maand</span></td><td>&euro;&nbsp;0</td><td>&euro;&nbsp;0</td><td>&euro;&nbsp;3.530</td></tr>
+                                <tr data-fase="overlap"><td>14 <span class="wr-voorbeeld__wat">Huur loopt nog door</span></td><td>&euro;&nbsp;0</td><td>&euro;&nbsp;0</td><td>&euro;&nbsp;3.530</td></tr>
+                                <tr><td>15 <span class="wr-voorbeeld__wat">Alleen de nieuwe hypotheek</span></td><td>&euro;&nbsp;0</td><td>&euro;&nbsp;0</td><td>&euro;&nbsp;2.330</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="wr-hulp">Over de hele bouw betaal je <span class="tnum" data-vb="rente">&euro;&nbsp;18.842</span> rente; de depotvergoeding haalt daar <span class="tnum" data-vb="vergoedingtotaal">&euro;&nbsp;6.761</span> af.</p>
+                </div>
+            </div>
+
+            <p class="wr-voorbehoud" data-vb-aannames>Gerekend met 30 jaar annu&iuml;tair en het standaardschema van vijf termijnen (15, 20, 20, 25 en 20% van de aanneemsom). Een schema met grote termijnen vroeg in de bouw laat de last sneller oplopen; staat jouw schema in de aannemingsovereenkomst, vul het dan in de rekentool in. De vergoeding is hier gelijk aan de hypotheekrente en loopt door zolang er geld in depot staat; dat <a href="bouwdepot-voorwaarden-vergelijken.html">verschilt per geldverstrekker</a>. Bruto: hypotheekrenteaftrek hangt van je inkomen af, zie de <a href="hypotheekrenteaftrek-gids.html">belastingcalculator</a>.</p>
+            <p class="wr-knoppen wr-geen-print"><button class="wr-knop" type="button" data-nb-voorbeeld>Pas dit voorbeeld aan</button></p>
+        </section>
 
         <section class="wr-wrap wr-sectie" aria-labelledby="aannames-kop">
             <p class="ui-opschrift">Uitgangspunten</p>
@@ -615,29 +679,6 @@
                         <li>Meerdere leningdelen, renteherziening en extra aflossingen.</li>
                     </ul>
                 </div>
-            </div>
-        </section>
-
-        <section class="wr-wrap wr-sectie" id="uitleg">
-            <p class="ui-opschrift">Kort uitgelegd</p>
-            <h2>Waarom nieuwbouw anders rekent dan verbouwen</h2>
-            <div class="wr-kolommen">
-                <article>
-                    <h3>De last loopt op in plaats van vast te staan</h3>
-                    <p>Bij nieuwbouw staat aanvankelijk vrijwel de hele hypotheek in het depot. Je betaalt rente over het geheel, maar ontvangt daar vergoeding over. Naarmate de aannemer termijnen factureert, daalt het depot en dus de vergoeding. Je eigen last stijgt daardoor iedere maand.</p>
-                </article>
-                <article>
-                    <h3>De piek zit rond de oplevering</h3>
-                    <p>De zwaarste maanden vallen doorgaans rond de oplevering: het depot is dan leeg of bijna leeg, terwijl je vaak nog huur of een oude hypotheek betaalt. Precies die maanden bepalen of het financieel comfortabel blijft.</p>
-                </article>
-                <article>
-                    <h3>Het termijnschema doet ertoe</h3>
-                    <p>Een schema met grote termijnen vroeg in de bouw laat de last sneller oplopen dan een gelijkmatige verdeling. Staat je schema in de aannemingsovereenkomst, vul het dan in bij het termijnschema hierboven. Het schema waarmee we standaard rekenen is een voorbeeld, geen norm.</p>
-                </article>
-                <article>
-                    <h3>Dit is geen netto bedrag</h3>
-                    <p>De uitkomst is je last n&aacute; depotvergoeding, maar v&oacute;&oacute;r belasting. Hypotheekrenteaftrek is niet verwerkt, omdat die van je inkomen afhangt. Gebruik daarvoor de <a href="hypotheekrenteaftrek-gids.html">belastingcalculator</a>, en let bij nieuwbouw op de zesmaandenregeling.</p>
-                </article>
             </div>
         </section>
 
@@ -693,13 +734,14 @@
     <div class="wr-vast" id="wr-vast" role="status"><span>Zwaarste maand, bruto</span><strong class="tnum" id="wr-vast-bedrag"></strong></div>
 
     <footer class="ui-voet">
-        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
+        <span>© 2026 BouwdepotCalculator.nl — informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="voorwaarden.html">Gebruiksvoorwaarden</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
 
     <script type="module" src="/src/js/reporting.js"></script>
     <script type="module" src="/src/nieuwbouw/pagina.js"></script>
     <script type="module" src="/src/nieuwbouw/stappen.js"></script>
+    <script type="module" src="/src/nieuwbouw/voorbeeld.js"></script>
 
     <script type="application/ld+json">
     {
@@ -709,7 +751,7 @@
       "description": "Bereken het maandlastverloop van een nieuwbouwwoning: bouwtermijnen, depotvergoeding en tijdelijke dubbele lasten.",
       "author": { "@type": "Person", "name": "Simeon", "url": "https://www.bouwdepotcalculator.nl/over-ons.html" },
       "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl/" },
-      "dateModified": "2026-10-12",
+      "dateModified": "2026-10-21",
       "isAccessibleForFree": true,
       "mainEntityOfPage": "https://www.bouwdepotcalculator.nl/nieuwbouw.html"
     }

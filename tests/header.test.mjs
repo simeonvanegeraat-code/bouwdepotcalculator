@@ -140,3 +140,26 @@ test('elke rekenpagina staat in het menu', () => {
         assert.ok(inMenu.has(p), `${p} heeft een rekenformulier maar staat niet in het menu`);
     }
 });
+
+/** De voettekst van een pagina, met links vanaf de root gelijkgetrokken (de 404-pagina). */
+function voet(bestand) {
+    const html = fs.readFileSync(path.join(ROOT, bestand), 'utf8');
+    const start = html.indexOf('<footer class="ui-voet');
+    const eind = html.indexOf('</footer>', start);
+    assert.ok(start >= 0 && eind > start, `${bestand} heeft geen voettekst`);
+    return html.slice(start, eind).replace(/\r\n/g, '\n').replaceAll('href="/', 'href="');
+}
+
+test('elke pagina heeft dezelfde voettekst, met de gebruiksvoorwaarden erin', () => {
+    // Hij stond met de hand in elke pagina en was in drie varianten uit elkaar
+    // gelopen; 26 van de 32 pagina's misten de link naar de voorwaarden.
+    const eerste = voet(paginas[0]);
+    for (const p of paginas) {
+        assert.equal(voet(p), eerste, `${p} heeft een andere voettekst dan ${paginas[0]}; draai npm run build:header`);
+    }
+    for (const { href } of NAV.voet.links) {
+        assert.ok(eerste.includes(`href="${href}"`), `de voettekst mist ${href}`);
+        assert.ok(fs.existsSync(path.join(ROOT, href)), `de voettekst wijst naar ${href}, dat niet bestaat`);
+    }
+    assert.ok(NAV.voet.links.some((i) => i.href === 'voorwaarden.html'), 'de gebruiksvoorwaarden staan niet in de voettekst');
+});
