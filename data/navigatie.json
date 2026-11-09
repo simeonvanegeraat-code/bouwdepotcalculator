@@ -1,5 +1,17 @@
 {
-  "_toelichting": "De bron van de header. scripts/build-header.mjs schrijft hem in alle HTML-pagina's; de drie datageneratoren lezen dezelfde lijst. Een navigatiewijziging hoort hier te gebeuren en nergens anders. De groepen volgen de vier ingangen van de homepage: wat kost het, verbouwen, nieuwbouw, en een depot dat al loopt. Noem in een uitleg geen aantallen die uit de data komen; die verouderen hier ongemerkt.",
+  "_toelichting": "De bron van de header en de voettekst. scripts/build-header.mjs schrijft ze in alle HTML-pagina's; de drie datageneratoren lezen dezelfde lijst. Een navigatiewijziging hoort hier te gebeuren en nergens anders. De groepen volgen de vier ingangen van de homepage: wat kost het, verbouwen, nieuwbouw, en een depot dat al loopt. Noem in een uitleg geen aantallen die uit de data komen; die verouderen hier ongemerkt.",
+
+  "voet": {
+    "tekst": "© 2026 BouwdepotCalculator.nl — informatie, geen advies",
+    "links": [
+      { "label": "Methodologie", "href": "methodologie.html" },
+      { "label": "Privacy", "href": "privacy.html" },
+      { "label": "Cookies", "href": "cookies.html" },
+      { "label": "Gebruiksvoorwaarden", "href": "voorwaarden.html" },
+      { "label": "Over ons", "href": "over-ons.html" },
+      { "label": "Contact", "href": "contact.html" }
+    ]
+  },
 
   "hoofd": [
     { "label": "Voorwaarden per bank", "href": "bouwdepot-voorwaarden-vergelijken.html" },

@@ -166,7 +166,9 @@
         <div class="wr-wrap wr-kop">
             <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="nieuwbouw.html">Nieuwbouw</a> <span aria-hidden="true">&middot;</span> <span>Bouwrente</span></nav>
             <h1 id="reken-titel">Bouwrente bij nieuwbouw berekenen</h1>
-            <p class="wr-lead">De rente die de ontwikkelaar rekent over de grond en over bouwtermijnen die al vervallen zijn, vanaf de start van het project tot aan de notaris. Reken uit wat je bij het passeren afrekent, en wat het kost als je het meefinanciert.</p>
+            <!-- De bedragen met data-vb komen uit de standaardinvoer van
+                 src/domain/bouwrente.js; tests/bouwrente-voorbeeld.test.mjs rekent ze na. -->
+            <p class="wr-lead">Over <span data-vb="grond">&euro;&nbsp;100.000</span> grond betaal je bij 4% bouwrente <strong class="tnum" data-vb="permaand">&euro;&nbsp;333</strong> per maand. Passeer je na zes maanden, dan reken je bij de notaris <strong class="tnum" data-vb="totaal">&euro;&nbsp;2.000</strong> af. Bouwrente is de rente die de ontwikkelaar rekent over de grond en over bouwtermijnen die al vervallen zijn, tot aan de notaris.</p>
         </div>
 
         <!-- Volgorde in de HTML: uitkomst, invoer, verloop. Op een telefoon staat
@@ -344,7 +346,7 @@
                 </article>
                 <article>
                     <h3>Meefinancieren kost extra</h3>
-                    <p>Neem je de bouwrente op in de hypotheek, dan betaal je er jarenlang rente over. Bovendien kan meefinancieren gevolgen hebben voor de aftrek van de rente over dat deel van de lening. Laat dat nakijken voordat je kiest.</p>
+                    <p>Neem je de bouwrente op in de hypotheek, dan betaal je er dertig jaar rente over: <span data-vb="mee">&euro;&nbsp;2.000</span> meefinancieren tegen 3,8% kost <span class="tnum" data-vb="meemaand">&euro;&nbsp;9</span> per maand en <span class="tnum" data-vb="meerente">&euro;&nbsp;1.355</span> rente in totaal. Bovendien kan meefinancieren gevolgen hebben voor de aftrek van de rente over dat deel van de lening. Laat dat nakijken voordat je kiest.</p>
                 </article>
                 <article>
                     <h3>Vraag het bedrag op tijd op</h3>
@@ -375,8 +377,8 @@
     <div class="wr-vast" id="wr-vast" role="status"><span>Bouwrente tot de notaris</span><strong class="tnum" id="wr-vast-bedrag"></strong></div>
 
     <footer class="ui-voet">
-        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
+        <span>© 2026 BouwdepotCalculator.nl — informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="voorwaarden.html">Gebruiksvoorwaarden</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
 
     <script type="module" src="/src/js/reporting.js"></script>
@@ -390,7 +392,7 @@
       "description": "Indicatieve bouwrente over grond en vervallen bouwtermijnen in de periode voor het passeren van de akte, inclusief het effect van meefinancieren.",
       "author": { "@type": "Person", "name": "Simeon", "url": "https://www.bouwdepotcalculator.nl/over-ons.html" },
       "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl/" },
-      "dateModified": "2026-10-10",
+      "dateModified": "2026-10-22",
       "isAccessibleForFree": true,
       "mainEntityOfPage": "https://www.bouwdepotcalculator.nl/bouwrente-nieuwbouw.html"
     }

@@ -166,7 +166,9 @@
         <div class="wr-wrap wr-kop">
             <nav class="wr-kruimel" aria-label="Kruimelpad"><a href="/">Home</a> <span aria-hidden="true">&middot;</span> <a href="nieuwbouw.html">Nieuwbouw</a> <span aria-hidden="true">&middot;</span> <span>Dubbele lasten</span></nav>
             <h1 id="reken-titel">Dubbele lasten bij nieuwbouw: wat kost de overlap?</h1>
-            <p class="wr-lead">Tussen het passeren van de akte en het moment dat je oude woning weg is, betaal je vaak zowel je huidige woonlast als de nieuwe hypotheek. Reken uit wat dat per maand is, wat het bij elkaar kost, en wat er gebeurt als het uitloopt.</p>
+            <!-- De bedragen met data-vb komen uit de standaardinvoer van
+                 src/domain/dubbelelasten.js; tests/dubbelelasten-voorbeeld.test.mjs rekent ze na. -->
+            <p class="wr-lead">Met <span data-vb="huidig">&euro;&nbsp;1.100</span> huur, een nieuwe hypotheek van <span data-vb="nieuw">&euro;&nbsp;1.550</span> en <span data-vb="extra">&euro;&nbsp;100</span> aan extra lasten betaal je tijdens de overlap <strong class="tnum" data-vb="permaand">&euro;&nbsp;2.750</strong> per maand. Duurt die zes maanden, dan kost dat <strong class="tnum" data-vb="kost">&euro;&nbsp;9.900</strong> bovenop je huur. De overlap loopt van het passeren van de akte tot het moment dat je oude woning weg is.</p>
         </div>
 
         <!-- Volgorde in de HTML: uitkomst, invoer, verloop. Op een telefoon staat
@@ -318,6 +320,29 @@
 
         <noscript><div class="wr-wrap"><p class="wr-melding">Deze rekentool heeft JavaScript nodig. De uitleg hieronder kun je zonder lezen.</p></div></noscript>
 
+        <!-- De drie voorbeeldknoppen bij de rekentool, doorgerekend en naast
+             elkaar. De knoppen (data-voorbeeld) zijn de bron; de bedragen staan
+             hier met de hand, zodat ze er ook zonder JavaScript zijn, en
+             tests/dubbelelasten-voorbeeld.test.mjs rekent ze na met
+             src/domain/dubbelelasten.js. -->
+        <section class="wr-wrap wr-sectie" id="voorbeelden" aria-labelledby="vb-kop">
+            <p class="ui-opschrift">Voorbeelden</p>
+            <h2 id="vb-kop">Drie overlappen doorgerekend</h2>
+            <div class="wr-voorbeeld__blok">
+                <div class="wr-tabelrol" tabindex="0" role="region" aria-label="Drie voorbeelden als tabel">
+                    <table class="wr-tabel wr-tabel--voorbeeld">
+                        <thead><tr><th scope="col">Voorbeeld</th><th scope="col">Per maand tijdens de overlap</th><th scope="col">Bovenop je huidige woonlast, per maand</th><th scope="col">Wat de overlap kost</th></tr></thead>
+                        <tbody data-vb-tabel>
+                            <tr><td>Huur, 6 maanden <span class="wr-voorbeeld__wat">&euro;&nbsp;1.100 huur, &euro;&nbsp;1.550 nieuwe hypotheek, &euro;&nbsp;100 extra</span></td><td>&euro;&nbsp;2.750</td><td>&euro;&nbsp;1.650</td><td>&euro;&nbsp;9.900</td></tr>
+                            <tr><td>Koopwoning, 12 maanden <span class="wr-voorbeeld__wat">&euro;&nbsp;1.450 oude hypotheek, &euro;&nbsp;1.850 nieuwe hypotheek min &euro;&nbsp;300 depotvergoeding, &euro;&nbsp;150 extra</span></td><td>&euro;&nbsp;3.150</td><td>&euro;&nbsp;1.700</td><td>&euro;&nbsp;20.400</td></tr>
+                            <tr><td>Zware overlap, 9 maanden <span class="wr-voorbeeld__wat">&euro;&nbsp;1.600 oude hypotheek, &euro;&nbsp;2.100 nieuwe hypotheek, &euro;&nbsp;300 extra</span></td><td>&euro;&nbsp;4.000</td><td>&euro;&nbsp;2.400</td><td>&euro;&nbsp;21.600</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="wr-hulp" data-vb-conclusie>De duur weegt het zwaarst. De koopwoning kost per maand maar <span data-vb="verschil">&euro;&nbsp;50</span> meer bovenop je woonlast dan het huurvoorbeeld, dankzij de depotvergoeding, maar duurt twee keer zo lang en kost daardoor ruim twee keer zoveel. Dezelfde voorbeelden staan als knoppen bij de rekentool, met het verloop per maand.</p>
+            </div>
+        </section>
+
         <section class="wr-wrap wr-sectie" aria-labelledby="aannames-kop">
             <p class="ui-opschrift">Uitgangspunten</p>
             <h2 id="aannames-kop">Waarmee deze berekening wel en niet rekent</h2>
@@ -392,8 +417,8 @@
     <div class="wr-vast" id="wr-vast" role="status"><span>Per maand tijdens de overlap</span><strong class="tnum" id="wr-vast-bedrag"></strong></div>
 
     <footer class="ui-voet">
-        <span>&copy; 2026 BouwdepotCalculator.nl &mdash; informatie, geen advies</span>
-        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
+        <span>© 2026 BouwdepotCalculator.nl — informatie, geen advies</span>
+        <nav aria-label="Over deze site"><a href="methodologie.html">Methodologie</a><a href="privacy.html">Privacy</a><a href="cookies.html">Cookies</a><a href="voorwaarden.html">Gebruiksvoorwaarden</a><a href="over-ons.html">Over ons</a><a href="contact.html">Contact</a></nav>
     </footer>
 
     <script type="module" src="/src/js/reporting.js"></script>
@@ -407,7 +432,7 @@
       "description": "Wat je per maand kwijt bent als je tijdelijk zowel je huidige woonlast als de nieuwe hypotheek betaalt, en wat uitloop kost.",
       "author": { "@type": "Person", "name": "Simeon", "url": "https://www.bouwdepotcalculator.nl/over-ons.html" },
       "publisher": { "@type": "Organization", "name": "BouwdepotCalculator.nl", "url": "https://www.bouwdepotcalculator.nl/" },
-      "dateModified": "2026-10-10",
+      "dateModified": "2026-10-22",
       "isAccessibleForFree": true,
       "mainEntityOfPage": "https://www.bouwdepotcalculator.nl/dubbele-lasten-nieuwbouw.html"
     }
