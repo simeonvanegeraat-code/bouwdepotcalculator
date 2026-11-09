@@ -1,9 +1,9 @@
 {
-  "bijgewerkt": "2026-11-02",
+  "bijgewerkt": "2026-11-09",
   "bronnen": {
     "https://www.abnamro.nl/nl/prive/hypotheken/hypotheek-afsluiten/bouwdepot/voorwaarden-bouwdepot.html": {
-      "hash": "3c69798a85563901",
-      "aantal": 18,
+      "hash": "f1d137ff53f20e59",
+      "aantal": 20,
       "zinnen": [
         "Bekijk de actie Bankrekening openen Inclusief betaalpas en online bankieren voor € 4,30 per maand.",
         "Bekijk hoe je met slim sparen een hogere rente verdient Bekijk onze spaarrekeningen Een woonverzekering afsluiten Sluit vóór 1 februari 2027 een woonverzekering af en ontvang het eerste jaar 20% korting op je premie.",
@@ -11,16 +11,18 @@
         "Bouwdepot bij verbouw van een bestaande woning Looptijd is 24 maanden, met eenmalige verlenging van 12 maanden.",
         "Dan activeren we het bouwdepot binnen 5 werkdagen na ontvangst van de getekende hypotheekofferte.",
         "De nota/factuur is niet ouder dan 6 maanden.",
-        "Je kunt ook het formulier &#39;verlengen/beëindigen bouwdepot&#39; (PDF, 57 KB) gebruiken en aangeven dat de verbouwing klaar is.",
+        "Heb je een deel van je bouwdepot gereserveerd voor energiebesparende aanpassingen aan je woning en staat er minder dan € 7.500 in het bouwdepot?",
+        "Heb je geen deel van je bouwdepot gereserveerd voor energiebesparing en staat er minder dan €7.500 in het bouwdepot?",
+        "Je kunt ook het formulier &#39;verlengen/beëindigen bouwdepot&#39; (PDF, 129 KB) gebruiken en aangeven dat de verbouwing klaar is.",
         "Je mag maximaal €250.000 per declaratie indienen, maar je kunt meerdere declaraties achter elkaar doen.",
         "Na ontvangst van je declaratie duurt het meestal 5 werkdagen om deze te verwerken.",
         "Na ontvangst wordt je bouwdepot binnen 5 werkdagen actief.",
         "Nieuwbouw: Looptijd is 36 maanden, met eenmalige verlenging van 12 maanden.",
-        "Of vul het formulier &#39;verlengen/beëindigen bouwdepot&#39; (PDF, 57 KB) in om het bouwdepot met 12 maanden te verlengen.",
+        "Of vul het formulier &#39;verlengen/beëindigen bouwdepot&#39; (PDF, 129 KB) in om het bouwdepot met 12 maanden te verlengen.",
         "Postbus 547 3800 AM Amersfoort Hoe stop ik mijn bouwdepot?",
         "Rentevergoeding duurt 18 maanden.",
         "Rentevergoeding duurt maximaal 30 maanden.",
-        "Verlengen of beëindigen kan via &#39;Mijn Hypotheek&#39; in Internet Bankieren of met het formulier &#39;verlengen/beëindigen bouwdepot&#39; (PDF, 57 KB) Wil je je bouwdepot verlengen en maak je gebruik van renteaftrek (de tweejaarsregeling)?",
+        "Verlengen of beëindigen kan via &#39;Mijn Hypotheek&#39; in Internet Bankieren of met het formulier &#39;verlengen/beëindigen bouwdepot&#39; (PDF, 129 KB) Wil je je bouwdepot verlengen en maak je gebruik van renteaftrek (de tweejaarsregeling)?",
         "Via Internet Bankieren: Meestal binnen 5 werkdagen Via declaratieformulier: Meestal binnen 10 werkdagen Declaratieformulier voor een verbouwing of nieuwbouw Algemene vragen Wat is de looptijd en hoe verleng ik deze?",
         "Volg de status van je declaraties in &#39;Mijn Hypotheek&#39; via Internet Bankieren."
       ]
@@ -209,7 +211,7 @@
       ]
     },
     "https://www.asnbank.nl/hypotheek/mijn-asn-hypotheek/bouwdepot.html": {
-      "hash": "123703b6a398d2d3",
+      "hash": "b6fda4825f05de0d",
       "aantal": 15,
       "zinnen": [
         "Aanvragen bouwdepotdeclaratie ASN Hypotheek (pdf) 198,71 KB Voorwaarden declaraties bouwdepot Betaal je er energiebesparende, klimaatadaptieve of natuurinclusieve voorzieningen van?",
@@ -225,7 +227,7 @@
         "Klik hier voor het overzicht van de vergoedingen van het bouwdepot: Overzicht vergoedingen bouwdepot (pdf) 59,04 KB Energiebesparende maatregelen declareren Heb je een leningdeel speciaal voor het verduurzamen van je huis?",
         "Na een half jaar trek je in box 1 de ontvangen rente af van de betaalde rente.",
         "Onder voorwaarden is het bouwdepot daarna nog met 1 jaar te verlengen.",
-        "Open je ASN Bankrekening Sparen Sparen ASN Sparen ASN Jeugdsparen ASN Depositosparen Spaarrente Welke spaarrekening past bij jou Sparen met een vaste rente Profiteer van 2,85% rente op jaarbasis op een 1-jaarsdeposito bij ASN Bank.",
+        "Open je ASN Bankrekening Sparen Sparen ASN Sparen ASN Jeugdsparen ASN Depositosparen Spaarrente Welke spaarrekening past bij jou Tot 3,3% spaarrente op jaarbasis Open ASN Sparen en krijg 3 maanden 2% bonusrente op jaarbasis bovenop de gewone rente.",
         "Sinds 1 januari 2013 heb je alleen recht op renteaftrek als je bouwdepot aan een lineaire of annuïteitenhypotheek is gekoppeld die je in 30 jaar volledig aflost."
       ]
     },
@@ -266,6 +268,11 @@
         "Je mag de rente die je betaalt voor je bouwdepot tot maximaal 2 jaar aftrekken van de belasting.",
         "Staan er meerdere rubrieken op 1 factuur?"
       ]
+    },
+    "https://www.allianz.nl/content/dam/onemarketing/benelu/allianz-nl/local/5/500083-51.pdf": {
+      "hash": "e3b0c44298fc1c14",
+      "aantal": 0,
+      "zinnen": []
     }
   }
 }
